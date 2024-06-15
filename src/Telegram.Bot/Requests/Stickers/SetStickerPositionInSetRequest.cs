@@ -7,19 +7,20 @@ namespace Telegram.Bot.Requests;
 /// Use this method to move a sticker in a set created by the bot to a specific position.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetStickerPositionInSetRequest : RequestBase<bool>
 {
     /// <summary>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileId Sticker { get; init; }
 
     /// <summary>
     /// New sticker position in the set, zero-based
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int Position { get; init; }
 
     /// <summary>

@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -17,7 +15,7 @@ public class ChatBoostSourceTypeConverterTests
         Container container = new() { Type = kind };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(container);
+        string result = JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -31,7 +29,7 @@ public class ChatBoostSourceTypeConverterTests
         Container expectedResult = new() { Type = kind };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Container? result = JsonConvert.DeserializeObject<Container>(jsonData);
+        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -42,24 +40,24 @@ public class ChatBoostSourceTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Container? result = JsonConvert.DeserializeObject<Container>(jsonData);
+        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal((ChatBoostSourceType)0, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_ChatBoostSourceType()
+    public void Should_Throw_JsonException_For_Incorrect_ChatBoostSourceType()
     {
         Container container = new() { Type = (ChatBoostSourceType)int.MaxValue };
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(container));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class Container
     {
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public ChatBoostSourceType Type { get; init; }
     }
 }

@@ -9,11 +9,11 @@ namespace Telegram.Bot.Requests;
 /// chat for this to work and must have the <see cref="ChatAdministratorRights.CanManageTopics"/> administrator rights.
 /// The topic will be automatically closed if it was open. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class HideGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>

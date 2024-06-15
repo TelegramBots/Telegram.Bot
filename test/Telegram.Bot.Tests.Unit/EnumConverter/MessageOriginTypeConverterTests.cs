@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -18,7 +16,7 @@ public class MessageOriginTypeConverterTests
         MessageOrigin messageOrigin = new() { Type = messageOriginType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(messageOrigin);
+        string result = JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -33,7 +31,7 @@ public class MessageOriginTypeConverterTests
         MessageOrigin expectedResult = new() { Type = messageOriginType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        MessageOrigin? result = JsonConvert.DeserializeObject<MessageOrigin>(jsonData);
+        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -44,24 +42,23 @@ public class MessageOriginTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        MessageOrigin? result = JsonConvert.DeserializeObject<MessageOrigin>(jsonData);
+        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal((MessageOriginType)0, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_ChatMemberStatus()
+    public void Should_Throw_JsonException_For_Incorrect_ChatMemberStatus()
     {
         MessageOrigin messageOrigin = new() { Type = (MessageOriginType)int.MaxValue };
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(messageOrigin));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     class MessageOrigin
     {
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public MessageOriginType Type { get; init; }
     }
 }

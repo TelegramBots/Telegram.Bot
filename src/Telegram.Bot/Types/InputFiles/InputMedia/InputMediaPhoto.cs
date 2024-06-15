@@ -12,14 +12,22 @@ public class InputMediaPhoto :
     IAlbumInputMedia
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary>
     /// Optional. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasSpoiler { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
     /// Initializes a new photo media to send with an <see cref="InputFile"/>

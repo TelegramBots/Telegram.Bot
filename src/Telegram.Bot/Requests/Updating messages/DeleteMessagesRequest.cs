@@ -10,18 +10,19 @@ namespace Telegram.Bot.Requests;
 /// If some of the specified messages can't be found, they are skipped.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteMessagesRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifiers of 1-100 messages to delete. See <see cref="DeleteMessageRequest"/>
     /// for limitations on which messages can be deleted
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<int> MessageIds { get; init; }
 
     /// <summary>

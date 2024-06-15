@@ -34,5 +34,5 @@ public enum ChatMemberStatus
     /// <summary>
     /// A <see cref="User"/> who is restricted in the <see cref="Chat"/>
     /// </summary>
-    Restricted
+    Restricted,
 }

@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -11,17 +11,18 @@ namespace Telegram.Bot.Requests;
 /// an administrator in the supergroup or channel for this to work and must have the appropriate administrator
 /// rights. Returns <see langword="true"/> on success
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier of the target sender chat
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long SenderChatId { get; init; }
 
     /// <summary>
@@ -29,7 +30,8 @@ public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     /// less than 30 seconds from the current time they are considered to be banned forever.
     /// </summary>
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? UntilDate { get; set; }
 
     /// <summary>

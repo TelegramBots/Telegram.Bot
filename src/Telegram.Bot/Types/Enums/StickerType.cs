@@ -19,5 +19,5 @@ public enum StickerType
     /// <summary>
     /// Custom emoji
     /// </summary>
-    CustomEmoji
+    CustomEmoji,
 }

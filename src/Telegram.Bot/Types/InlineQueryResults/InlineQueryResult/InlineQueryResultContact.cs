@@ -8,53 +8,60 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// Alternatively, you can use <see cref="InlineQueryResultContact.InputMessageContent"/> to send
 /// a message with the specified content instead of the contact.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InlineQueryResultContact : InlineQueryResult
 {
     /// <summary>
     /// Type of the result, must be contact
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Contact;
 
     /// <summary>
     /// Contact's phone number
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PhoneNumber { get; init; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FirstName { get; init; }
 
     /// <summary>
     /// Optional. Contact's last name
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LastName { get; set; }
 
     /// <summary>
     /// Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Vcard { get; set; }
 
     /// <inheritdoc cref="Documentation.InputMessageContent" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <inheritdoc cref="Documentation.ThumbnailUrl" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
 
     /// <inheritdoc cref="Documentation.ThumbnailWidth" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailWidth { get; set; }
 
     /// <inheritdoc cref="Documentation.ThumbnailHeight" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailHeight { get; set; }
 
     /// <summary>

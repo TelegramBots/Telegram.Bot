@@ -12,43 +12,55 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send an animated emoji that will display a random value. On success,
 /// the sent <see cref="Message"/> is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SendDiceRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <inheritdoc />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BusinessConnectionId { get; set; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Emoji on which the dice throw animation is based. Defaults to <see cref="EmojiEnum.Dice"/>
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Emoji? Emoji { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DisableNotification { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
 
+    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MessageEffectId { get; set; }
+
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>

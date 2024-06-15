@@ -10,11 +10,11 @@ namespace Telegram.Bot.Requests;
 /// except other bots. If the chat is a group or a supergroup and no administrators were appointed,
 /// only the creator will be returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetChatAdministratorsRequest : RequestBase<ChatMember[]>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>

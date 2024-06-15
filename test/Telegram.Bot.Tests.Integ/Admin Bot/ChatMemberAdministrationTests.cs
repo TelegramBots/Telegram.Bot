@@ -509,7 +509,8 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         );
 
         await BotClient.BanChatMemberAsync(
-            new(){
+            new()
+            {
                 ChatId = _fixture.SupergroupChat.Id,
                 UserId = _classFixture.RegularMemberUserId,
                 UntilDate = DateTime.UtcNow.AddSeconds(banSeconds),

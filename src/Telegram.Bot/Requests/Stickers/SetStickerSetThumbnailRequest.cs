@@ -11,17 +11,18 @@ namespace Telegram.Bot.Requests;
 /// The format of the thumbnail file must match the format of the stickers in the set.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
@@ -35,13 +36,15 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// upload a new one using multipart/form-data. Animated and video sticker set thumbnails can't be uploaded
     /// via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Format of the thumbnail
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required StickerFormat Format { get; init; }
 
     /// <summary>

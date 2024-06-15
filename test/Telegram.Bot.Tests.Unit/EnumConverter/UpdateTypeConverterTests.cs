@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +13,7 @@ public class UpdateTypeConverterTests
     public void Should_Verify_All_UpdateType_Members()
     {
         List<string> updateTypeMembers = Enum
-            .GetNames<UpdateType>()
+            .GetNames(typeof(UpdateType))
             .OrderBy(x => x)
             .ToList();
         List<string> updateTypeDataMembers = new UpdateTypeData()
@@ -38,7 +36,7 @@ public class UpdateTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        string result = JsonConvert.SerializeObject(update);
+        string result = JsonSerializer.Serialize(update, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -53,7 +51,7 @@ public class UpdateTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
+        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -67,22 +65,22 @@ public class UpdateTypeConverterTests
             {"type":"{{int.MaxValue}}"}
             """;
 
-        Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
+        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(UpdateType.Unknown, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_UpdateType()
+    public void Should_Throw_JsonException_For_Incorrect_UpdateType()
     {
         Update update = new((UpdateType)int.MaxValue);
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(update));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(update, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    record Update([property: JsonProperty(Required = Required.Always)] UpdateType Type);
+
+    record Update([property: JsonRequired] UpdateType Type);
 
     private class UpdateTypeData : IEnumerable<object[]>
     {

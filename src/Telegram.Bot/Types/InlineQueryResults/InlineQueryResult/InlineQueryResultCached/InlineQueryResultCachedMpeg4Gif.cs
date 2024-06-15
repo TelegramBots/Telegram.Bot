@@ -11,41 +11,51 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// <see cref="InlineQueryResultCachedMpeg4Gif.InputMessageContent"/> to send a message with
 /// the specified content instead of the animation.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
 {
     /// <summary>
     /// Type of the result, must be mpeg4_gif
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Mpeg4Gif;
 
     /// <summary>
     /// A valid file identifier for the MP4 file
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Mpeg4FileId { get; init; }
 
     /// <summary>
     /// Optional. Title for the result
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <inheritdoc cref="Documentation.Caption" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <inheritdoc cref="Documentation.ParseMode" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ParseMode? ParseMode { get; set; }
 
     /// <inheritdoc cref="Documentation.CaptionEntities" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
+    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
+
     /// <inheritdoc cref="Documentation.InputMessageContent" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>

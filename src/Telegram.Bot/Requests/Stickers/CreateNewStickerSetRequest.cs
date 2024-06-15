@@ -13,11 +13,11 @@ namespace Telegram.Bot.Requests;
 /// The bot will be able to edit the sticker set thus created.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
@@ -26,19 +26,22 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// contain consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>.
     /// <i>&lt;bot_username&gt;</i> is case insensitive. 1-64 characters
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; init; }
 
     /// <summary>
     /// A list of 1-50 initial stickers to be added to the sticker set
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputSticker> Stickers { get; init; }
 
     /// <summary>
@@ -51,7 +54,8 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Type of stickers in the set.
     /// By default, a regular sticker set is created.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public StickerType? StickerType { get; set; }
 
     /// <summary>
@@ -60,7 +64,8 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// on chat photos, or another appropriate color based on context;
     /// for <see cref="StickerType.CustomEmoji">custom emoji</see> sticker sets only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? NeedsRepainting { get; set; }
 
     /// <summary>

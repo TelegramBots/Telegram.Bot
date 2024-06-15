@@ -10,47 +10,53 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// <see cref="InlineQueryResultVoice.InputMessageContent"/> to send a message with the specified
 /// content instead of the voice message.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InlineQueryResultVoice : InlineQueryResult
 {
     /// <summary>
     /// Type of the result, must be voice
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Voice;
 
     /// <summary>
     /// A valid URL for the voice recording
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string VoiceUrl { get; init; }
 
     /// <summary>
     /// Recording title
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; init; }
 
     /// <inheritdoc cref="Documentation.Caption" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <inheritdoc cref="Documentation.ParseMode" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ParseMode? ParseMode { get; set; }
 
     /// <inheritdoc cref="Documentation.CaptionEntities" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
     /// Optional. Recording duration in seconds
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VoiceDuration { get; set; }
 
     /// <inheritdoc cref="Documentation.InputMessageContent" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>

@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Telegram.Bot.Converters;
+using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Types;
 
@@ -104,11 +104,21 @@ public class ChatId : IEquatable<ChatId>
     public static implicit operator ChatId(string username) => new(username);
 
     /// <summary>
-    /// Convert a Chat Object to a <see cref="ChatId"/>
+    /// Convert a <see cref="Chat"/> object to a <see cref="ChatId"/>
     /// </summary>
     /// <param name="chat"></param>
     [return: NotNullIfNotNull(nameof(chat))]
     public static implicit operator ChatId?(Chat? chat) => chat is null ? null : new(chat.Id);
+
+    /// <summary>
+    /// Convert a <see cref="ChatFullInfo"/> Object to a <see cref="ChatId"/>
+    /// </summary>
+    /// <param name="chatFullInfo"></param>
+    [return: NotNullIfNotNull(nameof(chatFullInfo))]
+    public static implicit operator ChatId?(ChatFullInfo? chatFullInfo) =>
+        chatFullInfo is null
+            ? null
+            : new(chatFullInfo.Id);
 
     /// <summary>
     /// Compares two ChatId objects

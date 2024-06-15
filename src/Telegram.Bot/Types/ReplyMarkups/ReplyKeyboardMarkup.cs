@@ -7,20 +7,21 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 /// <summary>
 /// Represents a custom keyboard with reply options
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ReplyKeyboardMarkup : ReplyMarkupBase
 {
     /// <summary>
     /// Array of button rows, each represented by an Array of KeyboardButton objects
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; init; }
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 
     /// <summary>
     /// Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to
     /// <see langword="false"/>, in which case the custom keyboard can be hidden and opened with a keyboard icon.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsPersistent { get; set; }
 
     /// <summary>
@@ -28,7 +29,8 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     /// if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always
     /// of the same height as the app's standard keyboard.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ResizeKeyboard { get; set; }
 
     /// <summary>
@@ -36,13 +38,15 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     /// be available, but clients will automatically display the usual letter-keyboard in the chat – the user can
     /// press a special button in the input field to see the custom keyboard again. Defaults to false.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? OneTimeKeyboard { get; set; }
 
     /// <summary>
     /// Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? InputFieldPlaceholder { get; set; }
 
     /// <summary>

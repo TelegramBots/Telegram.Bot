@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -7,13 +8,18 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents the content of a media message to be sent
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+[CustomJsonPolymorphic("type")]
+[CustomJsonDerivedType(typeof(InputMediaAnimation), "animation")]
+[CustomJsonDerivedType(typeof(InputMediaAudio), "audio")]
+[CustomJsonDerivedType(typeof(InputMediaDocument), "document")]
+[CustomJsonDerivedType(typeof(InputMediaPhoto), "photo")]
+[CustomJsonDerivedType(typeof(InputMediaVideo), "video")]
 public abstract class InputMedia
 {
     /// <summary>
     /// Type of the media
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract InputMediaType Type { get; }
 
     /// <summary>
@@ -21,26 +27,30 @@ public abstract class InputMedia
     /// pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://&lt;file_attach_name&gt;"
     /// to upload a new one using multipart/form-data under &lt;file_attach_name%gt; name.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFile Media { get; init; }
 
     /// <summary>
     /// Optional. Caption of the photo to be sent, 0-1024 characters
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <summary>
     /// Optional. List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
     /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ParseMode? ParseMode { get; set; }
 
     /// <summary>

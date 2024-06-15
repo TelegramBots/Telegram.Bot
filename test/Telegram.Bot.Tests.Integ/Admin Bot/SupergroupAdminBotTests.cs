@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
@@ -65,7 +64,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
             Permissions = newDefaultPermissions,
         });
 
-        Chat supergroup = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo supergroup = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
         Assert.NotNull(supergroup.Permissions);
         Asserts.JsonEquals(newDefaultPermissions, supergroup.Permissions);
     }
@@ -159,12 +158,10 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     {
         Message pinnedMsg = classFixture.PinnedMessages.Last();
 
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
         Assert.NotNull(chat.PinnedMessage);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(pinnedMsg), JToken.FromObject(chat.PinnedMessage)
-        ));
+        Asserts.JsonEquals(pinnedMsg, chat.PinnedMessage);
     }
 
     [OrderedFact("Should unpin last chat message")]
@@ -176,15 +173,12 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
         // Wait for chat object to update on Telegram servers
         await Task.Delay(TimeSpan.FromSeconds(5));
 
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
     Message secondsFromEndPinnedMessage = classFixture.PinnedMessages[^2];
 
         Assert.NotNull(chat.PinnedMessage);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(secondsFromEndPinnedMessage),
-            JToken.FromObject(chat.PinnedMessage)
-        ));
+        Asserts.JsonEquals(secondsFromEndPinnedMessage, chat.PinnedMessage);
     }
 
     [OrderedFact("Should unpin first chat message")]
@@ -211,7 +205,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Chat_With_No_Pinned_Message()
     {
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
         Assert.Null(chat.PinnedMessage);
     }

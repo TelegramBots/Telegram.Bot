@@ -21,6 +21,11 @@ internal static class Documentation
     static readonly object CaptionEntities;
 
     /// <summary>
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
+    static readonly object ShowCaptionAboveMedia;
+
+    /// <summary>
     /// List of special entities that appear in message text, which can be specified instead of
     /// <see cref="Types.Enums.ParseMode"/>
     /// </summary>
@@ -81,4 +86,9 @@ internal static class Documentation
     /// Protects the contents of sent messages from forwarding and saving
     /// </summary>
     static readonly object ProtectContent;
+
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
+    private static readonly object MessageEffectId;
 }

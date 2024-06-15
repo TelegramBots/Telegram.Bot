@@ -32,6 +32,11 @@ internal static class Documentation
     static readonly object CaptionEntities;
 
     /// <summary>
+    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// </summary>
+    static readonly object ShowCaptionAboveMedia;
+
+    /// <summary>
     /// Location latitude in degrees
     /// </summary>
     static readonly object Latitude;

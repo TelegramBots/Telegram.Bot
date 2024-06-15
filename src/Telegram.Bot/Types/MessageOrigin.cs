@@ -1,5 +1,4 @@
-using Newtonsoft.Json.Converters;
-using Telegram.Bot.Converters;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -13,28 +12,32 @@ namespace Telegram.Bot.Types;
 /// <item><see cref="MessageOriginChannel"/></item>
 /// </list>
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-[JsonConverter(typeof(MessageOriginConverter))]
+[CustomJsonPolymorphic("type")]
+[CustomJsonDerivedType(typeof(MessageOriginUser), "user")]
+[CustomJsonDerivedType(typeof(MessageOriginHiddenUser), "hidden_user")]
+[CustomJsonDerivedType(typeof(MessageOriginChat), "chat")]
+[CustomJsonDerivedType(typeof(MessageOriginChannel), "channel")]
+// [CustomJsonDerivedType(typeof(FallbackUnsupportedMessageOrigin), UnknownCase = true)]
 public abstract class MessageOrigin
 {
     /// <summary>
     /// Type of the message origin
     /// </summary>
-    [JsonProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract MessageOriginType Type { get; }
 
     /// <summary>
     /// Date the message was sent originally
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public abstract DateTime Date { get; set; }
+    public DateTime Date { get; set; }
 }
 
 /// <summary>
 /// The message was originally sent by a known user.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class MessageOriginUser : MessageOrigin
 {
     /// <summary>
@@ -42,22 +45,17 @@ public class MessageOriginUser : MessageOrigin
     /// </summary>
     public override MessageOriginType Type => MessageOriginType.User;
 
-    /// <inheritdoc/>
-    [JsonProperty(Required = Required.Always)]
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; set; }
-
     /// <summary>
     /// User that sent the message originally
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User SenderUser { get; set; } = default!;
 }
 
 /// <summary>
 /// The message was originally sent by an unknown user.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class MessageOriginHiddenUser : MessageOrigin
 {
     /// <summary>
@@ -65,22 +63,17 @@ public class MessageOriginHiddenUser : MessageOrigin
     /// </summary>
     public override MessageOriginType Type => MessageOriginType.HiddenUser;
 
-    /// <inheritdoc/>
-    [JsonProperty(Required = Required.Always)]
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; set; }
-
     /// <summary>
     /// Name of the user that sent the message originally
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string SenderUserName { get; set; } = default!;
 }
 
 /// <summary>
 /// The message was originally sent on behalf of a chat to a group chat.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class MessageOriginChat : MessageOrigin
 {
     /// <summary>
@@ -88,29 +81,25 @@ public class MessageOriginChat : MessageOrigin
     /// </summary>
     public override MessageOriginType Type => MessageOriginType.Chat;
 
-    /// <inheritdoc/>
-    [JsonProperty(Required = Required.Always)]
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; set; }
-
     /// <summary>
     /// Chat that sent the message originally
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat SenderChat { get; set; } = default!;
 
     /// <summary>
     /// Optional. For messages originally sent by an anonymous chat administrator,
     /// original message author signature
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthorSignature { get; set; }
 }
 
 /// <summary>
 /// The message was originally sent to a channel chat.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class MessageOriginChannel : MessageOrigin
 {
     /// <summary>
@@ -118,26 +107,24 @@ public class MessageOriginChannel : MessageOrigin
     /// </summary>
     public override MessageOriginType Type => MessageOriginType.Channel;
 
-    /// <inheritdoc/>
-    [JsonProperty(Required = Required.Always)]
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; set; }
-
     /// <summary>
     /// Channel chat to which the message was originally sent
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Unique message identifier inside the chat
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 
     /// <summary>
     /// Optional. Signature of the original post author
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthorSignature { get; set; }
 }

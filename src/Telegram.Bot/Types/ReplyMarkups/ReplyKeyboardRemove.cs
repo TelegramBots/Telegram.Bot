@@ -6,7 +6,6 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 /// An exception is made for one-time keyboards that are hidden immediately after the user presses a button
 /// (see <see cref="ReplyKeyboardMarkup"/>).
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ReplyKeyboardRemove : ReplyMarkupBase
 {
     /// <summary>
@@ -14,6 +13,6 @@ public class ReplyKeyboardRemove : ReplyMarkupBase
     /// hide the keyboard from sight but keep it accessible, use '<see cref="ReplyKeyboardMarkup.OneTimeKeyboard"/>'
     /// in <see cref="ReplyKeyboardMarkup"/>)
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public bool RemoveKeyboard => true;
 }

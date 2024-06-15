@@ -8,77 +8,94 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to send point on the map. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SendLocationRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <inheritdoc />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BusinessConnectionId { get; set; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Latitude of the location
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of the location
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; init; }
 
     /// <summary>
     /// The radius of uncertainty for the location, measured in meters; 0-1500
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? HorizontalAccuracy { get; set; }
 
     /// <summary>
     /// Period in seconds for which the location will be updated, should be between 60 and 86400
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? LivePeriod { get; set; }
 
     /// <summary>
     /// For live locations, a direction in which the user is moving, in degrees.
     /// Must be between 1 and 360 if specified.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Heading { get; set; }
 
     /// <summary>
     /// For live locations, a maximum distance for proximity alerts about approaching another
     /// chat member, in meters. Must be between 1 and 100000 if specified.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ProximityAlertRadius { get; set; }
 
     /// <summary>
     /// Sends the message silently. Users will receive a notification with no sound.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DisableNotification { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
 
+    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MessageEffectId { get; set; }
+
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
     /// <summary>

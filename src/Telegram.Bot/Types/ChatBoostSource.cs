@@ -1,4 +1,4 @@
-using Telegram.Bot.Converters;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -11,21 +11,22 @@ namespace Telegram.Bot.Types;
 /// <item><see cref="ChatBoostSourceGiveaway"/></item>
 /// </list>
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-[JsonConverter(typeof(ChatBoostSourceConverter))]
+[CustomJsonPolymorphic("source")]
+[CustomJsonDerivedType(typeof(ChatBoostSourcePremium), "premium")]
+[CustomJsonDerivedType(typeof(ChatBoostSourceGiftCode), "gift_code")]
+[CustomJsonDerivedType(typeof(ChatBoostSourceGiveaway), "giveaway")]
 public abstract class ChatBoostSource
 {
     /// <summary>
     /// Source of the boost
     /// </summary>
-    [JsonProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract ChatBoostSourceType Source { get; }
 }
 
 /// <summary>
 /// The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ChatBoostSourcePremium : ChatBoostSource
 {
     /// <summary>
@@ -36,7 +37,8 @@ public class ChatBoostSourcePremium : ChatBoostSource
     /// <summary>
     /// User that boosted the chat
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 }
 
@@ -44,7 +46,6 @@ public class ChatBoostSourcePremium : ChatBoostSource
 /// The boost was obtained by the creation of Telegram Premium gift codes to boost a chat.
 /// Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ChatBoostSourceGiftCode : ChatBoostSource
 {
     /// <summary>
@@ -55,7 +56,8 @@ public class ChatBoostSourceGiftCode : ChatBoostSource
     /// <summary>
     /// User for which the gift code was created
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 }
 
@@ -63,7 +65,6 @@ public class ChatBoostSourceGiftCode : ChatBoostSource
 /// The boost was obtained by the creation of a Telegram Premium giveaway.
 /// This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ChatBoostSourceGiveaway : ChatBoostSource
 {
     /// <summary>
@@ -75,18 +76,21 @@ public class ChatBoostSourceGiveaway : ChatBoostSource
     /// Identifier of a message in the chat with the giveaway; the message could have been deleted already.
     /// May be 0 if the message isn't sent yet.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int GiveawayMessageId { get; set; }
 
     /// <summary>
     /// Optional. User that won the prize in the giveaway if any
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User? User { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the giveaway was completed, but there was no user to win the prize
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsUnclaimed { get; set; }
 }

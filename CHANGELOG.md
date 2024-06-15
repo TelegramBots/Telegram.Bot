@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 > [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)
 > [Bot API 7.1](https://core.telegram.org/bots/api#february-16-2024) (February 16, 2024)
 > [Bot API 7.2](https://core.telegram.org/bots/api#march-31-2024) (March 31, 2024)
+> [Bot API 7.3](https://core.telegram.org/bots/api#may-6-2024) (May 6, 2024)
+> [Bot Api 7.4](https://core.telegram.org/bots/api#may-28-2024) (May 28, 2024)
 
 ### Added
 
@@ -91,24 +93,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `Users` to class `UsersShared`
 - Properties `Title`, `Username` and `Photo` to class `ChatShared`
 - Property `CanConnectToBusiness` to class `User`
-- The following properties to clas `Chat`
-  - `Birthday`
-  - `BusinessIntro`
-  - `BusinessLocation`
-  - `BusinessOpeningHours`
-  - `PersonalChat`
-  - `AvailableReactions`
-  - `HasVisibleHistory`
-  - `UnrestrictBoostCount`
-  - `CustomEmojiStickerSetName`
-  - `AccentColorId`
-  - `BackgroundCustomEmojiId`
-  - `ProfileAccentColorId`
-  - `ProfileBackgroundCustomEmojiId`
+- Type `ChatFullRequest` which includes all the properties from `Chat`
 - The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
 - Enum `ReactionTypeKind`
 - Enum `ChatBoostSourceType`
-- The class `KnownReactionTypeEmoji` containing Emojis available for `ReactionTypeEmoji`.
+- The class `KnownReactionTypeEmoji` containing emojis available for `ReactionTypeEmoji`.
 - The classes `MessageReactionUpdated`, `MessageReactionCountUpdated` and `ReactionCount`.
 - New methods `ITelegramBotClient.SetMessageReactionAsync`, `ITelegramBotClient.GetUserChatBoostsAsync`, `ITelegramBotClient.DeleteMessagesAsync`, `ITelegramBotClient.ForwardMessagesAsync` and `ITelegramBotClient.CopyMessagesAsync`
 - The class `ExternalReplyInfo` containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
@@ -123,6 +112,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Enum `MessageOriginType`
 - Enum member `MessageType.BoostAdded`
 - Fields `Chat` and `Id` to type `Story`
+- Property `bool? ShowCaptionAboveMedia` to types:
+  - `CopyMessageRequest`
+  - `SendAnimationRequest`
+  - `SendPhotoRequest`
+  - `SendVideoRequest`
+  - `EditMessageCaptionRequest`
+  - `InlineQueryResultCachedGif`
+  - `InlineQueryResultCachedMpeg4Gif`
+  - `InlineQueryResultCachedPhoto`
+  - `InlineQueryResultCachedVideo`
+  - `InlineQueryResultGif`
+  - `InlineQueryResultMpeg4Gif`
+  - `InlineQueryResultPhoto`
+  - `InlineQueryResultVideo`
+  - `InputMediaAnimation`
+  - `InputMediaPhoto`
+  - `InputMediaVideo`
+  - `Message`
+- Property `int? LivePeriod` to types `EditMessageLiveLocationRequest` and `EditInlineMessageLiveLocationRequest`
+- Property `string? MessageEffectId` to types:
+  - `SendLocationRequest`
+  - `SendVenueRequest`
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendContactRequest`
+  - `SendDiceRequest`
+  - `SendDocumentRequest`
+  - `SendMediaGroupRequest`
+  - `SendMessageRequest`
+  - `SendPhotoRequest`
+  - `SendPollRequest`
+  - `SendVideoNoteRequest`
+  - `SendVideoRequest`
+  - `SendVoiceRequest`
+  - `SendGameRequest`
+  - `SendStickerRequest`
+- Properties `ParseMode? QuestionParseMode` and `IEnumerable<MessageEntity>? QuestionEntities` to type `SendPollRequest`
+- Request `RefundStarPaymentRequest` and the corresponding extensions method `ITelegramBotClient.RefundStarPaymentAsync` accepting the request
+- Type `BackgroundFill` and it's inheritors `BackgroundFillSolid`, `BackgroundFillGradient` and `BackgroundFillFreeformGradient`
+- Type `BackgroundType` and it's inheritors `BackgroundTypeFill`, `BackgroundTypeWallpaper`, `BackgroundTypePattern` and `BackgroundTypeChatTheme` 
+- Enums `BackgroundFillKind` and ``BackgroundTypeKind`
+- Type `ChatBackground`
+- Property `bool? ViaJoinRequest` to type `ChatMemberUpdated`
+- Enum member `ExpandableBlockquote` to enum `MessageEntityType`
+- Enum member `ChatBackgroundSet` to enum `MessageType`
+- Type `InputPollOption`
+- Property `string? EffectId` to type `Message`
+- Property `MessageEntity[]? QuestionEntities` to type `Poll`
+- Property `MessageEntity[]? TextEntities` to type `PollOptions`
 
 ### Changed
 - All required properties without setters marked as required using `required` keyword
@@ -182,10 +220,15 @@ and `ForwardDate` replaced with the field `ForwardOrigin` of type `MessageOrigin
 - Type of the property `PinnedMessage` of the class `Message` to `MaybeInaccessibleMessage`.
 - Property `StickerFormat` in the class `CreateNewStickerSetRequest` is marked as obsolete 
 - Property `UserIds` in the class `UsersShared` is marked as obsolete
+- `GetChatRequest` and subsequently methods `ITelegramBotClientExtensions.GetChatAsync` return type `ChatFullInfo` instead of `Chat`
+- Property `Options` type changed to `IEnumerable<InputPollOption>` in type `SendPollRequest` and the corresponding extension method `ITelegramBotClient.SendPollAsync` 
+- Property `ProviderToken` is made optional, and it's type is made nullable in types `SendInvoiceToken`, `CreateInvoiceLinkRequest` and `InputInvoiceMessageContent`
+- All extension method on `ITelegramBotClient` returning `Task<bool>` now return just `Task` since they will never return `false` in case of an error and throw an exception instead
 
 ### Removed
 - Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName`
   and `ForwardDate` from type `Message`
+- Most optional properties are removed from the type `Chat`, all of them are now in `ChatFullInfo` type
 
 ## [v20.0.0] - Unreleased
 

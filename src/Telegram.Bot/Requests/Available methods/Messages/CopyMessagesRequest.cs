@@ -14,48 +14,54 @@ namespace Telegram.Bot.Requests;
 /// to the original message. Album grouping is kept for copied messages.
 /// On success, an array of <see cref="MessageId"/> of the sent messages is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CopyMessagesRequest : RequestBase<MessageId[]>, IChatTargetable
 {
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the chat where the original messages were sent
     /// (or channel username in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId FromChatId { get; init; }
 
     /// <summary>
     /// Identifiers of 1-100 messages in the chat <see cref="FromChatId"/> to copy.
     /// The identifiers must be specified in a strictly increasing order.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<int> MessageIds { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DisableNotification { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
 
     /// <summary>
     /// Pass <see langword="true"/> to copy the messages without their captions
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RemoveCaption { get; set; }
 
     /// <summary>

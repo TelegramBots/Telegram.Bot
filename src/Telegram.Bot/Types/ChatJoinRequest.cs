@@ -1,23 +1,24 @@
-﻿using Newtonsoft.Json.Converters;
+﻿using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Represents a join request sent to a chat.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ChatJoinRequest
 {
     /// <summary>
     /// Chat to which the request was sent
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// User that sent the join request
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
     /// <summary>
@@ -27,25 +28,29 @@ public class ChatJoinRequest
     /// identifier. The bot can use this identifier for 24 hours to send messages until the join request is processed,
     /// assuming no other administrator contacted the user.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long UserChatId { get; set; }
 
     /// <summary>
     /// Date the request was sent
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }
 
     /// <summary>
     /// Optional. Bio of the user
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Bio { get; set; }
 
     /// <summary>
     /// Optional. Chat invite link that was used by the user to send the join request
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChatInviteLink? InviteLink { get; set; }
 }

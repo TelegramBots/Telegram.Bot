@@ -1,8 +1,7 @@
-using System;
 using System.IO;
-using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -15,7 +14,7 @@ public class InputFileSerializationTests
         using MemoryStream memoryStream = new();
         InputFileStream inputFile = new(memoryStream, fileName);
 
-        string serializedValue = JsonConvert.SerializeObject(inputFile);
+        string serializedValue = JsonSerializer.Serialize(inputFile, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(@$"""attach://{fileName}""", serializedValue);
     }
@@ -26,7 +25,7 @@ public class InputFileSerializationTests
         const string fileId = "This-is-a-file_id";
         InputFileId inputFileId = new(fileId);
 
-        string serializedValue = JsonConvert.SerializeObject(inputFileId);
+        string serializedValue = JsonSerializer.Serialize(inputFileId, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal($"\"{fileId}\"", serializedValue);
     }
@@ -37,7 +36,7 @@ public class InputFileSerializationTests
         Uri url = new("https://github.com/TelegramBots");
         InputFileUrl inputFileUrl = new(url);
 
-        string serializedValue = JsonConvert.SerializeObject(inputFileUrl);
+        string serializedValue = JsonSerializer.Serialize(inputFileUrl, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal($"\"{url}\"", serializedValue);
     }

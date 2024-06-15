@@ -1,11 +1,8 @@
-using System;
 using System.IO;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -17,20 +14,28 @@ public class InputStickerSerializationTests
         const string fileName = "myFile";
         InputFileStream inputFile = new(new MemoryStream(), fileName);
         string[] emojiList = ["🙂"];
-        InputSticker inputSticker = new(inputFile, emojiList);
+        InputSticker inputSticker = new()
+        {
+            Sticker = inputFile,
+            EmojiList = emojiList,
+            Format = StickerFormat.Static
+        };
 
-        string json = JsonConvert.SerializeObject(inputSticker);
-        JObject j = JObject.Parse(json);
+        string json = JsonSerializer.Serialize(inputSticker, JsonSerializerOptionsProvider.Options);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(3, j.Children().Count());
-        Assert.Equal($"attach://{fileName}", j["sticker"]);
+        Assert.Equal(3, j.Count);
+        Assert.Equal($"attach://{fileName}", (string?)j["sticker"]);
+        Assert.Equal("static", (string?)j["format"]);
 
-        JToken? je = j["emoji_list"];
+        JsonNode? je = j["emoji_list"];
         Assert.NotNull(je);
 
-        JArray jEmojiList = Assert.IsType<JArray>(je);
+        JsonArray jEmojiList = Assert.IsAssignableFrom<JsonArray>(je);
         Assert.Single(jEmojiList);
-        Assert.Equal("🙂", jEmojiList[0]);
+        Assert.Equal("🙂", (string?)jEmojiList[0]);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input sticker with input file id")]
@@ -39,20 +44,28 @@ public class InputStickerSerializationTests
         const string fileId = "This-is-a-file_id";
         InputFileId inputFileId = new(fileId);
         string[] emojiList = ["🙂"];
-        InputSticker inputStickerFileId = new(inputFileId, emojiList);
+        InputSticker inputStickerFileId = new()
+        {
+            Sticker = inputFileId,
+            EmojiList = emojiList,
+            Format = StickerFormat.Static,
+        };
 
-        string json = JsonConvert.SerializeObject(inputStickerFileId);
-        JObject j = JObject.Parse(json);
+        string json = JsonSerializer.Serialize(inputStickerFileId, JsonSerializerOptionsProvider.Options);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(3, j.Children().Count());
-        Assert.Equal("This-is-a-file_id", j["sticker"]);
+        Assert.Equal(3, j.Count);
+        Assert.Equal("This-is-a-file_id", (string?)j["sticker"]);
+        Assert.Equal("static", (string?)j["format"]);
 
-        JToken? je = j["emoji_list"];
+        JsonNode? je = j["emoji_list"];
         Assert.NotNull(je);
 
-        JArray jEmojiList = Assert.IsType<JArray>(je);
+        JsonArray jEmojiList = Assert.IsAssignableFrom<JsonArray>(je);
         Assert.Single(jEmojiList);
-        Assert.Equal("🙂", jEmojiList[0]);
+        Assert.Equal("🙂", (string?)jEmojiList[0]);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input sticker with input file URL")]
@@ -61,18 +74,26 @@ public class InputStickerSerializationTests
         Uri url = new("https://github.com/TelegramBots");
         InputFileUrl inputFileUrl = new(url);
         string[] emojiList = ["🙂"];
-        InputSticker inputStickerFileUrl = new(inputFileUrl, emojiList);
+        InputSticker inputStickerFileUrl = new()
+        {
+            Sticker = inputFileUrl,
+            EmojiList = emojiList,
+            Format = StickerFormat.Static,
+        };
 
-        string json = JsonConvert.SerializeObject(inputStickerFileUrl);
-        JObject j = JObject.Parse(json);
+        string json = JsonSerializer.Serialize(inputStickerFileUrl, JsonSerializerOptionsProvider.Options);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
 
-        Assert.Equal(3, j.Children().Count());
-        Assert.Equal("https://github.com/TelegramBots", j["sticker"]);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
+        Assert.Equal(3, j.Count);
+        Assert.Equal("https://github.com/TelegramBots", (string?)j["sticker"]);
+        Assert.Equal("static", (string?)j["format"]);
 
-        JToken? je = j["emoji_list"];
+        JsonNode? je = j["emoji_list"];
         Assert.NotNull(je);
-        JArray jEmojiList = Assert.IsType<JArray>(je);
+        JsonArray jEmojiList = Assert.IsAssignableFrom<JsonArray>(je);
         Assert.Single(jEmojiList);
-        Assert.Equal("🙂", jEmojiList[0]);
+        Assert.Equal("🙂", (string?)jEmojiList[0]);
     }
 }

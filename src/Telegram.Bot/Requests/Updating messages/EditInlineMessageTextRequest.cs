@@ -10,35 +10,40 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to edit text and game messages. On success <see langword="true"/> is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditInlineMessageTextRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; init; }
 
     /// <summary>
     /// New text of the message, 1-4096 characters after entities parsing
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; init; }
 
     /// <inheritdoc cref="Documentation.ParseMode"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ParseMode? ParseMode { get; set; }
 
     /// <inheritdoc cref="Documentation.Entities"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? Entities { get; set; }
 
     /// <summary>
     /// Link preview generation options for the message
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <inheritdoc cref="Documentation.ReplyMarkup"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>

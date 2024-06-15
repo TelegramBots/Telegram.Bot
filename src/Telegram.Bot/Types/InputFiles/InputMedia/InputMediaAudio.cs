@@ -7,36 +7,39 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// Represents an audio file to be treated as music to be sent.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InputMediaAudio :
     InputMedia,
     IInputMediaThumb,
     IAlbumInputMedia
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InputMediaType Type => InputMediaType.Audio;
 
     /// <inheritdoc />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Duration of the audio in seconds
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Duration { get; set; }
 
     /// <summary>
     /// Optional. Performer of the audio
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Performer { get; set; }
 
     /// <summary>
     /// Optional. Title of the audio
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary>

@@ -11,21 +11,23 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to send photos. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <inheritdoc />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BusinessConnectionId { get; set; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>
@@ -35,44 +37,63 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable, IBusi
     /// must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total.
     /// Width and height ratio must be at most 20
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFile Photo { get; init; }
 
     /// <summary>
     /// Photo caption (may also be used when resending photos by <see cref="InputFileId"/>),
     /// 0-1024 characters after entities parsing
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ParseMode"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ParseMode? ParseMode { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.CaptionEntities"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
+
+    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
     /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasSpoiler { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DisableNotification { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
 
+    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MessageEffectId { get; set; }
+
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
