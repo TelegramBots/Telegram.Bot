@@ -39,13 +39,21 @@ steps:
       -p:Version=$(releaseVersion)
       $(projectPath)
     displayName: Create release nuget package
+# Temporarily disable publishing artifacts to nuget.org
+#  - pwsh: >
+#      dotnet nuget push
+#      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
+#      --api-key $(NugetApiKey)
+#      --skip-duplicate
+#      --source https://api.nuget.org/v3/index.json
+#    displayName: Publish package to NuGet
   - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
-      --api-key $(NugetApiKey)
+      --api-key $(GithubPAT)
       --skip-duplicate
-      --source https://api.nuget.org/v3/index.json
-    displayName: Publish package to NuGet
+      --source https://nuget.pkg.github.com/TelegramBots/index.json
+    displayName: Publish package to Github NuGet feed
   - task: GitHubRelease@1
     inputs:
       action: create
