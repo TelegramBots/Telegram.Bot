@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -70,7 +69,7 @@ public class ReceiveAsyncTests
         }
         catch (Exception ex)
         {
-            Assert.IsType<InvalidOperationException>(ex);
+            Assert.IsAssignableFrom<InvalidOperationException>(ex);
             Assert.Contains("Oops", ex.Message);
         }
 
@@ -79,13 +78,13 @@ public class ReceiveAsyncTests
     }
 
     [Fact]
-    public async Task ThrowOutPendingUpdates()
+    public async Task ShouldDropPendingUpdates()
     {
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
 
         MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" },
+            Messages = ["foo-bar", "baz", "quux"],
             HandleNegativeOffset = true
         });
 
@@ -107,7 +106,7 @@ public class ReceiveAsyncTests
 
         await bot.ReceiveAsync(
             updateHandler,
-            new() { ThrowPendingUpdates = true },
+            new() { DropPendingUpdates = true },
             cancellationTokenSource.Token
         );
 

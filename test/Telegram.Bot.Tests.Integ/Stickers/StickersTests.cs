@@ -96,14 +96,18 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromFileId(classFixture.TestUploadedStaticStickerFile.FileId),
-                emojiList: classFixture.FirstEmojis
-            ),
-            new(
-                sticker: InputFile.FromStream(stream, "Static2.webp"),
-                emojiList: classFixture.SecondEmojis
-            ),
+            new()
+            {
+                Sticker = InputFile.FromFileId(classFixture.TestUploadedStaticStickerFile.FileId),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Static,
+            },
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "Static2.webp"),
+                EmojiList = classFixture.SecondEmojis,
+                Format = StickerFormat.Static,
+            },
         ];
 
         await BotClient.CreateNewStickerSetAsync(
@@ -113,7 +117,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticRegularStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Static,
                 StickerType = StickerType.Regular,
             }
         );
@@ -124,8 +127,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName }
         );
 
-        Assert.False(classFixture.TestStaticRegularStickerSet.IsAnimated);
-        Assert.False(classFixture.TestStaticRegularStickerSet.IsVideo);
         Assert.Equal(2, classFixture.TestStaticRegularStickerSet.Stickers.Length);
     }
 
@@ -139,14 +140,18 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         List<InputSticker> inputStickers = [
-            new(
-                sticker: InputFile.FromFileId(classFixture.TestUploadedAnimatedStickerFile.FileId),
-                emojiList: classFixture.FirstEmojis
-            ),
-            new(
-                sticker: InputFile.FromStream(stream, "Animated2.webp"),
-                emojiList: classFixture.SecondEmojis
-            ),
+            new()
+            {
+                Sticker = InputFile.FromFileId(classFixture.TestUploadedAnimatedStickerFile.FileId),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Animated,
+            },
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "Animated2.webp"),
+                EmojiList = classFixture.SecondEmojis,
+                Format = StickerFormat.Animated,
+            },
         ];
 
         await BotClient.CreateNewStickerSetAsync(
@@ -156,7 +161,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestAnimatedRegularStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Animated,
                 StickerType = StickerType.Regular,
             }
         );
@@ -167,8 +171,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName }
         );
 
-        Assert.True(classFixture.TestAnimatedRegularStickerSet.IsAnimated);
-        Assert.False(classFixture.TestAnimatedRegularStickerSet.IsVideo);
         Assert.Equal(2, classFixture.TestAnimatedRegularStickerSet.Stickers.Length);
     }
 
@@ -181,17 +183,21 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Constants.PathToFile.Sticker.Regular.VideoSecond
         );
 
-        List<InputSticker> inputStickers = [
-            new(
-                sticker: InputFile.FromFileId(classFixture.TestUploadedVideoStickerFile.FileId),
-                emojiList: classFixture.FirstEmojis
-            ),
-            new(
-                sticker: InputFile.FromStream(stream, "Video2.webp"),
-                emojiList: classFixture.SecondEmojis
-            ),
-        ];
 
+        List<InputSticker> inputStickers = [
+            new()
+            {
+                Sticker = InputFile.FromFileId(classFixture.TestUploadedVideoStickerFile.FileId),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Video,
+            },
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "Video2.webp"),
+                EmojiList = classFixture.SecondEmojis,
+                Format = StickerFormat.Video,
+            },
+        ];
         await BotClient.CreateNewStickerSetAsync(
             new()
             {
@@ -199,7 +205,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestVideoRegularStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Video,
                 StickerType = StickerType.Regular,
             }
         );
@@ -210,8 +215,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName }
         );
 
-        Assert.False(classFixture.TestVideoRegularStickerSet.IsAnimated);
-        Assert.True(classFixture.TestVideoRegularStickerSet.IsVideo);
         Assert.Equal(2, classFixture.TestVideoRegularStickerSet.Stickers.Length);
     }
     #endregion
@@ -226,8 +229,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
@@ -273,8 +274,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName }
         );
 
-        Assert.True(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
@@ -320,8 +319,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.True(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
@@ -347,6 +344,8 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         Assert.Equal(firstSticker.Height, stickerMessage.Sticker.Height);
         Assert.False(stickerMessage.Sticker.IsAnimated);
         Assert.True(stickerMessage.Sticker.IsVideo);
+        Assert.NotNull(firstSticker.Thumbnail);
+        Assert.NotNull(stickerMessage.Sticker.Thumbnail);
         Assert.Equal(firstSticker.Thumbnail.FileUniqueId, stickerMessage.Sticker.Thumbnail.FileUniqueId);
         Assert.Equal(firstSticker.Thumbnail.FileSize, stickerMessage.Sticker.Thumbnail.FileSize);
         Assert.Equal(firstSticker.Thumbnail.Width, stickerMessage.Sticker.Thumbnail.Width);
@@ -367,10 +366,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Constants.PathToFile.Sticker.Regular.StaticThird
         );
 
-        InputSticker inputSticker = new(
-            sticker: InputFile.FromStream(stream, "Static3.png"),
-            emojiList: classFixture.ThirdEmojis
-        );
+        InputSticker inputSticker = new()
+        {
+            Sticker = InputFile.FromStream(stream, "Static3.png"),
+            EmojiList = classFixture.ThirdEmojis,
+            Format = StickerFormat.Static,
+        };
 
         await BotClient.AddStickerToSetAsync(
             new()
@@ -387,8 +388,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
@@ -409,10 +408,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Constants.PathToFile.Sticker.Regular.AnimatedThird
         );
 
-        InputSticker inputSticker = new(
-            sticker: InputFile.FromStream(stream, "Animated3.tgs"),
-            emojiList: classFixture.ThirdEmojis
-        );
+        InputSticker inputSticker = new()
+        {
+            Sticker = InputFile.FromStream(stream, "Animated3.tgs"),
+            EmojiList = classFixture.ThirdEmojis,
+            Format = StickerFormat.Animated,
+        };
 
         await BotClient.AddStickerToSetAsync(
             new()
@@ -429,8 +430,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName }
         );
 
-        Assert.True(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
@@ -451,10 +450,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Constants.PathToFile.Sticker.Regular.VideoThird
         );
 
-        InputSticker inputSticker = new(
-            sticker: InputFile.FromStream(stream, "Video3.webm"),
-            emojiList: classFixture.ThirdEmojis
-        );
+        InputSticker inputSticker = new()
+        {
+            Sticker = InputFile.FromStream(stream, "Video3.webm"),
+            EmojiList = classFixture.ThirdEmojis,
+            Format = StickerFormat.Video,
+        };
 
         await BotClient.AddStickerToSetAsync(
             new()
@@ -471,8 +472,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.True(stickerSet.IsVideo);
         Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
@@ -658,6 +657,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticRegularStickerSetName,
                 UserId = classFixture.OwnerUserId,
                 Thumbnail = InputFile.FromStream(stream),
+                Format = StickerFormat.Static,
             }
         );
 
@@ -681,10 +681,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromFileId(classFixture.TestUploadedStaticStickerFile.FileId),
-                emojiList: classFixture.FirstEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromFileId(classFixture.TestUploadedStaticStickerFile.FileId),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
@@ -695,7 +697,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = "Invalid_Sticker_Set_Name",
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -713,10 +714,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromFileId(classFixture.TestUploadedStaticStickerFile.FileId),
-                emojiList: invalidEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromFileId(classFixture.TestUploadedStaticStickerFile.FileId),
+                EmojiList = invalidEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
@@ -727,7 +730,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = classFixture.TestStaticRegularStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -747,10 +749,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromStream(stream, "logo.png"),
-                emojiList: classFixture.FirstEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "logo.png"),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         //New name, because an exception might be thrown: Bad Request: sticker set name is already occupied
@@ -764,7 +768,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = newStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -782,10 +785,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromStream(stream, "apes.jpg"),
-                emojiList: classFixture.FirstEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "apes.jpg"),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
@@ -796,7 +801,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = classFixture.TestStaticRegularStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -815,10 +819,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromStream(stream, "ruby.png"),
-                emojiList: classFixture.FirstEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "ruby.png"),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         // Telegram for some reason does not return an error, so the test is skipped
@@ -830,7 +836,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = classFixture.TestStaticRegularStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -908,10 +913,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         List<InputSticker> inputStickers = [
-            new(
-                sticker: InputFile.FromStream(stream, "tux.png"),
-                emojiList: classFixture.SecondEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "tux.png"),
+                EmojiList = classFixture.SecondEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         await BotClient.CreateNewStickerSetAsync(
@@ -921,7 +928,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticMaskStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Static,
                 StickerType = StickerType.Mask,
             }
         );
@@ -933,8 +939,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.Mask, classFixture.TestStaticMaskStickerSet.StickerType);
-        Assert.False(classFixture.TestStaticMaskStickerSet.IsAnimated);
-        Assert.False(classFixture.TestStaticMaskStickerSet.IsVideo);
         Assert.Single(classFixture.TestStaticMaskStickerSet.Stickers);
     }
 
@@ -945,11 +949,11 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Vlc);
 
-        InputSticker inputSticker = new(
-            sticker: InputFile.FromStream(stream, "vlc.png"),
-            emojiList: classFixture.SecondEmojis
-        )
+        InputSticker inputSticker = new()
         {
+            Sticker = InputFile.FromStream(stream, "vlc.png"),
+            EmojiList = classFixture.SecondEmojis,
+            Format = StickerFormat.Static,
             MaskPosition = new()
             {
                 Point = MaskPositionPoint.Forehead,
@@ -973,8 +977,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.Mask, stickerSet.StickerType);
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker sticker = stickerSet.Stickers.Last();
@@ -1054,10 +1056,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         List<InputSticker> inputStickers =
         [
-            new(
-                sticker: InputFile.FromStream(stream, "Static1.png"),
-                emojiList: classFixture.FirstEmojis
-            )
+            new()
+            {
+                Sticker = InputFile.FromStream(stream, "Static1.png"),
+                EmojiList = classFixture.FirstEmojis,
+                Format = StickerFormat.Static,
+            }
         ];
 
         await BotClient.CreateNewStickerSetAsync(
@@ -1067,7 +1071,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticCustomEmojiStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Static,
                 StickerType = StickerType.CustomEmoji,
             }
         );
@@ -1079,8 +1082,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.CustomEmoji, classFixture.TestStaticCustomEmojiStickerSet.StickerType);
-        Assert.False(classFixture.TestStaticCustomEmojiStickerSet.IsAnimated);
-        Assert.False(classFixture.TestStaticCustomEmojiStickerSet.IsVideo);
         Assert.Single(classFixture.TestStaticCustomEmojiStickerSet.Stickers);
     }
 
@@ -1091,10 +1092,12 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.CustomEmoji.StaticSecond);
 
-        InputSticker inputSticker = new(
-            sticker: InputFile.FromStream(stream, "Static2.png"),
-            emojiList: classFixture.SecondEmojis
-        );
+        InputSticker inputSticker = new()
+        {
+            Sticker = InputFile.FromStream(stream, "Static2.png"),
+            EmojiList = classFixture.SecondEmojis,
+            Format = StickerFormat.Static,
+        };
 
         await BotClient.AddStickerToSetAsync(
             new()
@@ -1112,8 +1115,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.CustomEmoji, stickerSet.StickerType);
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker sticker = stickerSet.Stickers.Last();

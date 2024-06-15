@@ -1,4 +1,4 @@
-using Telegram.Bot.Converters;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -10,21 +10,21 @@ namespace Telegram.Bot.Types;
 /// <item><see cref="ReactionTypeCustomEmoji"/></item>
 /// </list>
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-[JsonConverter(typeof(ReactionTypeConverter))]
+[CustomJsonPolymorphic("type")]
+[CustomJsonDerivedType(typeof(ReactionTypeEmoji), "emoji")]
+[CustomJsonDerivedType(typeof(ReactionTypeCustomEmoji), "custom_emoji")]
 public abstract class ReactionType
 {
     /// <summary>
     /// Type of the reaction
     /// </summary>
-    [JsonProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract ReactionTypeKind Type { get; }
 }
 
 /// <summary>
 /// The reaction is based on an emoji.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ReactionTypeEmoji : ReactionType
 {
     /// <summary>
@@ -43,14 +43,14 @@ public class ReactionTypeEmoji : ReactionType
     /// <remarks>
     /// Available shortcuts: <see cref="Enums.KnownReactionTypeEmoji"/>
     /// </remarks>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Emoji { get; set; } = default!;
 }
 
 /// <summary>
 /// The reaction is based on an emoji.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ReactionTypeCustomEmoji : ReactionType
 {
     /// <summary>
@@ -61,6 +61,7 @@ public class ReactionTypeCustomEmoji : ReactionType
     /// <summary>
     /// Custom emoji identifier
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string CustomEmojiId { get; set; } = default!;
 }

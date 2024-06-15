@@ -9,11 +9,11 @@ namespace Telegram.Bot.Requests;
 /// the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator
 /// right in the supergroup. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>

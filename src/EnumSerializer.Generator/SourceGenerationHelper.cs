@@ -4,6 +4,23 @@ namespace EnumSerializer.Generator;
 
 internal static class SourceGenerationHelper
 {
+    internal const string JsonSerializerOptionsProviderTemplate =
+        """
+        using System.Collections.Generic;
+
+        namespace Telegram.Bot.Serialization;
+
+        public static partial class JsonSerializerOptionsProvider
+        {
+            static partial void AddGeneratedConverters(IList<JsonConverter> converters)
+            {
+                {{~ for enum in enums ~}}
+                converters.Add(new global::{{ if enum.namespace }}{{ enum.namespace }}.{{ end }}{{ enum.name }}Converter());
+                {{~ end ~}}
+            }
+        }
+        """;
+
     internal const string ConverterTemplate =
         """
         //------------------------------------------------------------------------------
@@ -17,49 +34,48 @@ internal static class SourceGenerationHelper
 
         #nullable enable
 
-        using System;
-        using Newtonsoft.Json;
-        using Newtonsoft.Json.Linq;
-        using System.Runtime.CompilerServices;
-
         {{~ if enum_namespace ~}}
         namespace {{ enum_namespace }};
         {{~ end ~}}
 
-        internal partial class {{ enum_name }}Converter : JsonConverter<{{ enum_name }}>
+        internal partial class {{ enum_name }}Converter : global::System.Text.Json.Serialization.JsonConverter<global::{{ enum_namespace }}.{{ enum_name }}>
         {
-            public override void WriteJson(JsonWriter writer, {{ enum_name }} value, JsonSerializer serializer) =>
-                writer.WriteValue(value switch
+            public override void Write(
+                global::System.Text.Json.Utf8JsonWriter writer,
+                global::{{ enum_namespace }}.{{ enum_name }} value,
+                global::System.Text.Json.JsonSerializerOptions options
+            ) =>
+                writer.WriteStringValue(value switch
                 {
                 {{~ for enum_member in enum_members ~}}
-                    {{ enum_name }}.{{enum_member.key}} => "{{ enum_member.value }}",
+                    global::{{ enum_namespace }}.{{ enum_name }}.{{enum_member.key}} => "{{ enum_member.value }}",
                 {{~ end ~}}
                 {{~ if has_unknown_member ~}}
-                    _ => throw new NotSupportedException(),
+                    _ => throw new global::System.Text.Json.JsonException(),
                 {{~ else ~}}
-                    ({{ enum_name }})0 => "unknown",
-                    _ => throw new NotSupportedException(),
+                    (global::{{ enum_namespace }}.{{ enum_name }})0 => "unknown",
+                    _ => throw new global::System.Text.Json.JsonException(),
                 {{~ end ~}}
                 });
 
-            public override {{ enum_name }} ReadJson(
-                JsonReader reader,
-                Type objectType,
-            {{ enum_name }} existingValue,
-                bool hasExistingValue,
-                JsonSerializer serializer
+            public override global::{{ enum_namespace }}.{{ enum_name }} Read(
+                ref global::System.Text.Json.Utf8JsonReader reader,
+                global::System.Type typeToConvert,
+                global::System.Text.Json.JsonSerializerOptions options
             ) =>
-                JToken.ReadFrom(reader).Value<string>() switch
-                {
-                {{~ for enum_member in enum_members ~}}
-                    "{{ enum_member.value }}" => {{ enum_name }}.{{ enum_member.key }},
-                {{~ end ~}}
-                {{~ if has_unknown_member ~}}
-                    _ => {{ enum_name }}.Unknown,
-                {{~ else ~}}
-                    _ => 0,
-                {{~ end ~}}
-                };
+                !global::System.Text.Json.JsonElement.TryParseValue(ref reader, out var element)
+                    ? (global::{{ enum_namespace }}.{{ enum_name }})0
+                    : element.Value.ToString() switch
+                    {
+                    {{~ for enum_member in enum_members ~}}
+                        "{{ enum_member.value }}" => global::{{ enum_namespace }}.{{ enum_name }}.{{ enum_member.key }},
+                    {{~ end ~}}
+                    {{~ if has_unknown_member ~}}
+                        _ => global::{{ enum_namespace }}.{{ enum_name }}.Unknown,
+                    {{~ else ~}}
+                        _ => 0,
+                    {{~ end ~}}
+                    };
         }
         """;
 
@@ -79,4 +95,7 @@ internal static class SourceGenerationHelper
 
         return result;
     }
+
+    internal static string GenerateOptionsProviderClass(Template template, IEnumerable<EnumInfo> enums)
+        => template.Render(new { Enums = enums });
 }

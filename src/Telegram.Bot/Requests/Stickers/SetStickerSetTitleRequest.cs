@@ -7,19 +7,20 @@ namespace Telegram.Bot.Requests;
 /// Use this method to set the title of a created sticker set.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetStickerSetTitleRequest : RequestBase<bool>
 {
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; init; }
 
     /// <summary>

@@ -1,5 +1,4 @@
 using System.IO;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -11,7 +10,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
     ChannelChatFixture _channelChatFixture;
     byte[] _oldChatPhoto;
 
-    public Chat Chat => _channelChatFixture.ChannelChat;
+    public ChatFullInfo Chat => _channelChatFixture.ChannelChat;
     public Message PinnedMessage { get; set; }
 
 

@@ -10,15 +10,16 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 /// Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will display
 /// <i>unsupported message</i>.
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
 public class InlineKeyboardMarkup : IReplyMarkup
 {
     /// <summary>
     /// Array of <see cref="InlineKeyboardButton"/> rows, each represented by an Array of
     /// <see cref="InlineKeyboardButton"/>.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; init; }
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/>
@@ -32,7 +33,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// <param name="inlineKeyboardButton">Keyboard button</param>
     [SetsRequiredMembers]
     public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
-        : this(new[] { inlineKeyboardButton })
+        : this([inlineKeyboardButton])
     { }
 
     /// <summary>
@@ -41,7 +42,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// <param name="inlineKeyboardRow">The inline keyboard row</param>
     [SetsRequiredMembers]
     public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow)
-        : this(new[] { inlineKeyboardRow })
+        : this([inlineKeyboardRow])
     { }
 
     /// <summary>

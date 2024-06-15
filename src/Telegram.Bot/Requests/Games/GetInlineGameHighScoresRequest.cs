@@ -14,15 +14,17 @@ namespace Telegram.Bot.Requests;
 /// on each side. Will also return the top three users if the user and his neighbors are not among them.
 /// Please note that this behavior is subject to change.
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
 public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; init; }
 
     /// <summary>

@@ -7,20 +7,21 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in
 /// the chat for this to work and must have the appropriate admin rights. Use the field
-/// <see cref="Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatRequest"/> requests to
+/// <see cref="ChatFullInfo.CanSetStickerSet"/> optionally returned in <see cref="GetChatRequest"/> requests to
 /// check if the bot can use this method. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Name of the sticker set to be set as the group sticker set
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string StickerSetName { get; init; }
 
     /// <summary>

@@ -1,35 +1,38 @@
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a boost removed from a chat.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ChatBoostRemoved
 {
     /// <summary>
     /// Chat which was boosted
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Unique identifier of the boost
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string BoostId { get; set; } = default!;
 
     /// <summary>
     /// Point in time when the boost was removed
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime RemoveDate { get; set; } = default!;
+    public DateTime RemoveDate { get; set; }
 
     /// <summary>
     /// Source of the removed boost
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatBoostSource Source { get; set; } = default!;
 }

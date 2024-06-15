@@ -1,0 +1,48 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - '.github'
+      - docs
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
+
+pr: none
+
+variables:
+  - template: variables.yml
+
+pool:
+  vmImage: $(vmImage)
+
+steps:
+  - task: UseDotNet@2
+    displayName: Install .NET sdk
+    inputs:
+      packageType: sdk
+      version: $(netSdkVersion)
+  - pwsh: >
+      dotnet build
+      --configuration $(buildConfiguration)
+      -p:Version=$(releaseVersion)
+      $(projectPath)
+    displayName: Build project with release version
+  - pwsh: >
+      dotnet pack
+      --no-build
+      --output "$(Build.ArtifactStagingDirectory)/packages"
+      --configuration $(buildConfiguration)
+      -p:Version=$(releaseVersion)
+      $(projectPath)
+    displayName: Create nuget package
+  - pwsh: >
+      dotnet nuget push
+      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
+      --api-key $(NugetFeedNugetApiKey)
+      --skip-duplicate
+      --source https://nuget.voids.site/v3/index.json
+    displayName: Publish package to NuGet

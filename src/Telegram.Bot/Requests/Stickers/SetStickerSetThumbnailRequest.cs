@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -10,17 +11,18 @@ namespace Telegram.Bot.Requests;
 /// The format of the thumbnail file must match the format of the stickers in the set.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
@@ -34,21 +36,31 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// upload a new one using multipart/form-data. Animated and video sticker set thumbnails can't be uploaded
     /// via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
+
+    /// <summary>
+    /// Format of the thumbnail
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required StickerFormat Format { get; init; }
 
     /// <summary>
     /// Initializes a new request with sticker and position
     /// </summary>
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
+    /// <param name="format">Format of the thumbnail</param>
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
-    public SetStickerSetThumbnailRequest(string name, long userId)
+    public SetStickerSetThumbnailRequest(string name, long userId, StickerFormat format)
         : this()
     {
         Name = name;
         UserId = userId;
+        Format = format;
     }
 
     /// <summary>

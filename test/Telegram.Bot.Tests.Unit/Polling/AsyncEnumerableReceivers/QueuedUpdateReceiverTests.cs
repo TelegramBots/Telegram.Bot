@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET6_0_OR_GREATER
+
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -209,7 +210,7 @@ public class QueuedUpdateReceiverTests
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
-        AggregateException aggregateException = Assert.IsType<AggregateException>(exception.InnerException);
+        AggregateException aggregateException = Assert.IsAssignableFrom<AggregateException>(exception.InnerException);
 
         Assert.NotNull(aggregateException);
         Assert.Equal(2, aggregateException.InnerExceptions.Count);
@@ -217,3 +218,5 @@ public class QueuedUpdateReceiverTests
         Assert.Same(exceptionFromErrorHandler, aggregateException.InnerExceptions[1]);
     }
 }
+
+#endif

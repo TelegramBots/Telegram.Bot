@@ -31,7 +31,7 @@ internal class RetryTelegramBotClient(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
-        ApiRequestException apiRequestException = default!;
+        RequestException apiRequestException = new RequestException("Should never been fired");
 
         for (var i = 0; i < options.RetryCount; i++)
         {

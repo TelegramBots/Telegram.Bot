@@ -5,13 +5,13 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents a dice with random value
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class Dice
 {
     /// <summary>
     /// Emoji on which the dice throw animation is based
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Emoji { get; set; } = default!;
     /// <summary>
     /// Value of the dice, 1-6 for <see cref="Telegram.Bot.Types.Enums.Emoji.Dice" /> (“🎲”),
@@ -19,6 +19,7 @@ public class Dice
     /// <see cref="Football" />("⚽"), and values 1-64 for <see cref="SlotMachine" /> ("🎰"). Defaults to
     /// <see cref="Telegram.Bot.Types.Enums.Emoji.Dice" /> (“🎲”)
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Value { get; set; }
 }

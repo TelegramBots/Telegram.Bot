@@ -21,11 +21,17 @@ namespace Telegram.Bot.Requests;
 /// amount of time to arrive.
 /// </para>
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
+
+public class SendChatActionRequest : RequestBase<bool>, IChatTargetable, IBusinessConnectable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
+    /// <inheritdoc />
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
@@ -40,13 +46,15 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
     /// <see cref="ChatAction.RecordVideoNote"/> or <see cref="ChatAction.UploadVideoNote"/> for
     /// <see cref="SendVideoNoteRequest">video notes</see>
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatAction Action { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread; supergroups only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>

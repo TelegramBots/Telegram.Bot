@@ -9,20 +9,21 @@ namespace Telegram.Bot.Requests;
 /// The sticker must belong to a sticker set created by the bot.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetStickerKeywordsRequest : RequestBase<bool>
 {
     /// <summary>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileId Sticker { get; init; }
 
     /// <summary>
-    /// Optional. A JSON-serialized list of 0-20 search keywords for the sticker
+    /// Optional. A list of 0-20 search keywords for the sticker
     /// with total length of up to 64 characters
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<string>? Keywords { get; set; }
 
     /// <summary>

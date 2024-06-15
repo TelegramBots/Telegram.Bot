@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -52,17 +53,17 @@ public class SendingVenueMessageTests(TestsFixture fixture)
         string json =
             $$"""
             {
-                chat_id: "{{fixture.SupergroupChat.Id}}",
-                latitude: 48.204296,
-                longitude: 16.365514,
-                title: "Burggarten",
-                address: "Opernring",
-                foursquare_id: "4b7ff7c3f964a5208d4730e3",
-                foursquare_type: "parks_outdoors/park"
+                "chat_id": "{{fixture.SupergroupChat.Id}}",
+                "latitude": 48.204296,
+                "longitude": 16.365514,
+                "title": "Burggarten",
+                "address": "Opernring",
+                "foursquare_id": "4b7ff7c3f964a5208d4730e3",
+                "foursquare_type": "parks_outdoors/park"
             }
             """;
 
-        SendVenueRequest request = JsonConvert.DeserializeObject<SendVenueRequest>(json);
+        SendVenueRequest request = JsonSerializer.Deserialize<SendVenueRequest>(json, JsonSerializerOptionsProvider.Options);
 
         Message message = await BotClient.MakeRequestAsync(request);
 

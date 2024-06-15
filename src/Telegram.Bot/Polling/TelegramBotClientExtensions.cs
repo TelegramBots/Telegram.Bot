@@ -15,7 +15,7 @@ internal static class TelegramBotClientExtensions
     /// <returns>
     /// Update ID of the last <see cref="Update"/> increased by 1 if there were any
     /// </returns>
-    internal static async Task<int> ThrowOutPendingUpdatesAsync(
+    internal static async Task<int> DropPendingUpdatesAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default)
     {

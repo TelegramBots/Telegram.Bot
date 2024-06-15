@@ -21,24 +21,26 @@ namespace Telegram.Bot.Requests;
 /// </list>
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <summary>
-    /// A JSON-serialized object with information about the added sticker.
+    /// An object with information about the added sticker.
     /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputSticker Sticker { get; init; }
 
     /// <summary>
@@ -51,7 +53,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Sticker set name
     /// </param>
     /// <param name="sticker">
-    /// A JSON-serialized object with information about the added sticker.
+    /// An object with information about the added sticker.
     /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </param>
     [SetsRequiredMembers]

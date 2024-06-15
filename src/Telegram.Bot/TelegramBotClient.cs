@@ -93,7 +93,7 @@ public class TelegramBotClient : ITelegramBotClient
 #pragma warning disable CA2000
         var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
-            Content = request.ToHttpContent()
+            Content = request.ToHttpContent(),
         };
 #pragma warning restore CA2000
 
@@ -140,7 +140,8 @@ public class TelegramBotClient : ITelegramBotClient
                     guard: response =>
                         response.ErrorCode == default ||
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                        response.Description is null
+                        response.Description is null,
+                    cancellationToken
                 )
                 .ConfigureAwait(false);
 
@@ -150,7 +151,8 @@ public class TelegramBotClient : ITelegramBotClient
         var apiResponse = await httpResponse
             .DeserializeContentAsync<ApiResponse<TResponse>>(
                 guard: response => !response.Ok ||
-                                   response.Result is null
+                                   response.Result is null,
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -236,7 +238,8 @@ public class TelegramBotClient : ITelegramBotClient
                     guard: response =>
                         response.ErrorCode == default ||
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                        response.Description is null
+                        response.Description is null,
+                    cancellationToken
                 )
                 .ConfigureAwait(false);
 
@@ -285,7 +288,7 @@ public class TelegramBotClient : ITelegramBotClient
                         completionOption: HttpCompletionOption.ResponseHeadersRead,
                         cancellationToken: cancellationToken
                     )
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                    .ConfigureAwait(false);
             }
             catch (TaskCanceledException exception)
             {

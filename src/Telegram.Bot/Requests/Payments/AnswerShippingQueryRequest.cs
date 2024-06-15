@@ -11,26 +11,28 @@ namespace Telegram.Bot.Requests;
 /// <see cref="Types.Update"/> with a <see cref="Types.Update.ShippingQuery"/> field to the
 /// bot. Use this method to reply to shipping queries. On success, <see langword="true"/> is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class AnswerShippingQueryRequest : RequestBase<bool>
 {
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ShippingQueryId { get; init; }
 
     /// <summary>
     /// Specify <see langword="true"/> if delivery to the specified address is possible and <see langword="false"/>
     /// if there are any problems (for example, if delivery to the specified address is not possible)
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required bool Ok { get; init; }
 
     /// <summary>
     /// Required if <see cref="Ok"/> is <see langword="true"/>. An array of available shipping options.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ShippingOption>? ShippingOptions { get; init; }
 
     /// <summary>
@@ -38,7 +40,8 @@ public class AnswerShippingQueryRequest : RequestBase<bool>
     /// why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address
     /// is unavailable'). Telegram will display this message to the user.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ErrorMessage { get; set; }
 
     /// <summary>
@@ -59,7 +62,7 @@ public class AnswerShippingQueryRequest : RequestBase<bool>
     /// Initializes a new successful answerShippingQuery request with shipping options
     /// </summary>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="shippingOptions">A JSON-serialized array of available shipping options</param>
+    /// <param name="shippingOptions">An array of available shipping options</param>
     [SetsRequiredMembers]
     public AnswerShippingQueryRequest(
         string shippingQueryId,

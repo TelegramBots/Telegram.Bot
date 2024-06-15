@@ -7,44 +7,49 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// Represents the content of a location message to be sent as the result of an
 /// <see cref="InlineQuery">inline query</see>.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InputLocationMessageContent : InputMessageContent
 {
     /// <summary>
     /// Latitude of the location in degrees
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of the location in degrees
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; init; }
 
     /// <summary>
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public float? HorizontalAccuracy { get; set; }
 
     /// <summary>
     /// Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? LivePeriod { get; set; }
 
     /// <summary>
     /// Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Heading { get; set; }
 
     /// <summary>
     /// Optional. Maximum distance for proximity alerts about approaching another chat member,
     /// in meters. For sent live locations only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ProximityAlertRadius { get; set; }
 
     /// <summary>

@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -10,21 +10,23 @@ namespace Telegram.Bot.Requests;
 /// supergroup for this to work and must have the appropriate admin rights. Pass <see langword="true"/>
 /// for all permissions to lift restrictions from a user. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
     /// New user permissions
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatPermissions Permissions { get; init; }
 
     /// <summary>
@@ -37,7 +39,8 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
     /// <see cref="ChatPermissions.CanSendMessages"/> permission.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseIndependentChatPermissions { get; set; }
 
     /// <summary>
@@ -46,7 +49,8 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     /// be restricted forever.
     /// </summary>
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? UntilDate { get; set; }
 
     /// <summary>

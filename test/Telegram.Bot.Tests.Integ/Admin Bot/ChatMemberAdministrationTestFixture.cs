@@ -10,16 +10,16 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 public class ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
     : IAsyncLifetime
 {
-    public Chat RegularMemberChat { get; private set; }
+    public ChatFullInfo RegularMemberChat { get; private set; }
     public long RegularMemberUserId { get; private set; }
     public string RegularMemberUserName { get; private set; }
     public string GroupInviteLink { get; set; }
     public ChatInviteLink ChatInviteLink { get; set; }
     public ChatJoinRequest ChatJoinRequest { get; set; }
 
-    static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
+    static async Task<ChatFullInfo> GetChat(TestsFixture testsFixture, string collectionName)
     {
-        Chat chat;
+        ChatFullInfo chat;
 
         if (testsFixture.Configuration.RegularGroupMemberId is {} userId)
         {

@@ -1,4 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -7,6 +9,8 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents a file that is already stored somewhere on the Telegram servers
 /// </summary>
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
 public class InputFileId : InputFile
 {
     /// <inheritdoc/>
