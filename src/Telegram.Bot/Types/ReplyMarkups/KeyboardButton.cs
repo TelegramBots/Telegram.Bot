@@ -13,7 +13,7 @@ public class KeyboardButton : IKeyboardButton
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
     /// <summary>
     /// Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users

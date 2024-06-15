@@ -14,7 +14,7 @@ public class KeyboardButtonRequestChat
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int RequestId { get; init; }
+    public required int RequestId { get; set; }
 
     /// <summary>
     /// Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/>
@@ -22,7 +22,7 @@ public class KeyboardButtonRequestChat
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required bool ChatIsChannel { get; init; }
+    public required bool ChatIsChannel { get; set; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request a forum supergroup, pass <see langword="false" /> to

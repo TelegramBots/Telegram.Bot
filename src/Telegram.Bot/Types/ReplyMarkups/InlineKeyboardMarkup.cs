@@ -19,7 +19,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; init; }
+    public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/>

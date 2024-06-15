@@ -14,7 +14,7 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; init; }
+    public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 
     /// <summary>
     /// Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to

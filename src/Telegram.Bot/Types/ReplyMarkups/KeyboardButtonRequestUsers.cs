@@ -14,7 +14,7 @@ public class KeyboardButtonRequestUsers
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int RequestId { get; init; }
+    public required int RequestId { get; set; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request bots, pass <see langword="false" /> to request regular users.

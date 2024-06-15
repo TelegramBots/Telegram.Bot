@@ -10,7 +10,7 @@ public class InlineKeyboardButton : IKeyboardButton
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
     /// <summary>
     /// Optional. HTTP or tg:// URL to be opened when the button is pressed.
