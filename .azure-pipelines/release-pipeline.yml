@@ -58,7 +58,7 @@ steps:
     inputs:
       action: create
       target: $(Build.SourceVersion)
-      tagSource: manual
+      tagSource: userSpecifiedTag
       tag: v$(releaseVersion)
       tagPattern: v$(releaseVersion)
       title: v$(releaseVersion)
