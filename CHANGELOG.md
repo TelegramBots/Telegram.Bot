@@ -223,6 +223,7 @@ and `ForwardDate` replaced with the field `ForwardOrigin` of type `MessageOrigin
 - `GetChatRequest` and subsequently methods `ITelegramBotClientExtensions.GetChatAsync` return type `ChatFullInfo` instead of `Chat`
 - Property `Options` type changed to `IEnumerable<InputPollOption>` in type `SendPollRequest` and the corresponding extension method `ITelegramBotClient.SendPollAsync` 
 - Property `ProviderToken` is made optional, and it's type is made nullable in types `SendInvoiceToken`, `CreateInvoiceLinkRequest` and `InputInvoiceMessageContent`
+- All extension method on `ITelegramBotClient` returning `Task<bool>` now return just `Task` since they will never return `false` in case of an error and throw an exception instead
 
 ### Removed
 - Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName`

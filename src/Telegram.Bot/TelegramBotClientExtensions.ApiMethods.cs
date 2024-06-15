@@ -2811,7 +2811,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     [Obsolete("Use the overload that accepts the corresponding request class")]
-    public static async Task<bool> ApproveChatJoinRequest(
+    public static async Task ApproveChatJoinRequest(
         this ITelegramBotClient botClient,
         ChatId chatId,
         long userId,
@@ -2843,7 +2843,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     [Obsolete("Use the overload that accepts the corresponding request class")]
-    public static async Task<bool> DeclineChatJoinRequest(
+    public static async Task DeclineChatJoinRequest(
         this ITelegramBotClient botClient,
         ChatId chatId,
         long userId,
