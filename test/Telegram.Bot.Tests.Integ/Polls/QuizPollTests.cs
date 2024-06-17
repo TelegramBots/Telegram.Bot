@@ -16,8 +16,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
     ITelegramBotClient BotClient => Fixture.BotClient;
 
     [OrderedFact(
-        "Should send public quiz poll",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should send public quiz poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Public_Quiz_Poll()
     {
@@ -65,8 +64,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
     }
 
     [OrderedFact(
-        "Should receive a poll answer update",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should receive a poll answer update")]
     public async Task Should_Receive_Poll_Answer_Update()
     {
         await Fixture.SendTestInstructionsAsync(
@@ -95,8 +93,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
     }
 
     [OrderedFact(
-        "Should stop quiz poll",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should stop quiz poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
     public async Task Should_Stop_Quiz_Poll()
     {

@@ -17,8 +17,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClass
     ITelegramBotClient BotClient => Fixture.BotClient;
 
     [OrderedFact(
-        "Should send a poll",
-        Skip = "Fails on CI server for some reason, the resulting poll is public")]
+        "Should send a poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Poll()
     {
@@ -53,8 +52,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClass
     }
 
     [OrderedFact(
-        "Should receive a poll update",
-        Skip = "Fails on CI server for some reason, the resulting poll is public")]
+        "Should receive a poll update")]
     public async Task Should_Receive_Poll_State_Update()
     {
         string pollId = classFixture.PollMessage.Poll!.Id;
@@ -69,8 +67,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClass
     }
 
     [OrderedFact(
-        "Should stop the poll",
-        Skip = "Fails on CI server for some reason, the resulting poll is public")]
+        "Should stop the poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
     public async Task Should_Stop_Poll()
     {

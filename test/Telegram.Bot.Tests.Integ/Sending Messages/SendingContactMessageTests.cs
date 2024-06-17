@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -71,6 +71,6 @@ public class SendingContactMessageTests(TestsFixture fixture)
 
         Assert.Equal(MessageType.Contact, message.Type);
         Assert.NotNull(message.Contact);
-        Assert.Equal(vcard, message.Contact.Vcard);
+        Assert.Equal(vcard.Replace("\r\n", "\n"), message.Contact.Vcard);
     }
 }
