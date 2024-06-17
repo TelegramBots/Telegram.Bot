@@ -1,7 +1,5 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Telegram.Bot.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>

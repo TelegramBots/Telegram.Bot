@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 // ReSharper disable CheckNamespace

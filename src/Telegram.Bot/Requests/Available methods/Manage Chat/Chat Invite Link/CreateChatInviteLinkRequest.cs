@@ -1,7 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Serialization;
-
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 

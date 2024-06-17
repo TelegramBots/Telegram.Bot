@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
 

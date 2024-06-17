@@ -1,5 +1,3 @@
-﻿using Telegram.Bot.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>
