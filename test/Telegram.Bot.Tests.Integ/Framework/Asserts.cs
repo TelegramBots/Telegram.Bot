@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Telegram.Bot.Serialization;
@@ -59,6 +59,7 @@ public static class Asserts
             actual: actual,
             excludeFields:
             [
+                "can_connect_to_business",
                 "can_join_groups",
                 "can_read_all_group_messages",
                 "supports_inline_queries"
