@@ -55,7 +55,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
             new()
             {
                 ChatId = fixture.SupergroupChat.Id,
-                Photo = InputFile.FromFileId(fileId),
+                Photo = fileId,
             }
         );
 

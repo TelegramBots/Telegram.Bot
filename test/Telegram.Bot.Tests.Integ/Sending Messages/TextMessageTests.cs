@@ -245,6 +245,57 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
         );
     }
 
+    [OrderedFact("Should send text message with manual entities")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+    public async Task Should_Send_Manual_Entities()
+    {
+        const string url = "https://telegram.org/";
+        string botUrl = $"tg://user?id={testsFixture.BotUser.Id}";
+        Dictionary<MessageEntityType, string> entityValueMappings = new()
+        {
+            {MessageEntityType.Bold, "bold"},
+            {MessageEntityType.Italic, "italic"},
+            {MessageEntityType.TextLink, $"inline url to Telegram\\.org"},
+            {
+                MessageEntityType.TextMention,
+                testsFixture.BotUser.GetSafeUsername()
+            },
+            {MessageEntityType.Code, @"inline ""fixed-width code"""},
+            {MessageEntityType.Pre, "fixed-width code block"},
+            {MessageEntityType.Strikethrough, "strikethrough"},
+            {MessageEntityType.Underline, "underline"},
+            {MessageEntityType.Spoiler, "spoiler"},
+        };
+        int offset = 0;
+        IEnumerable<MessageEntity> entities = entityValueMappings.Select(kvp =>
+        {
+            MessageEntity entity = new() { Type = kvp.Key, Offset = offset, Length = kvp.Value.Length };
+            if (entity.Type == MessageEntityType.TextLink) entity.Url = url;
+            if (entity.Type == MessageEntityType.TextMention) entity.User = testsFixture.BotUser;
+            if (entity.Type == MessageEntityType.Pre) entity.Language = "pre-formatted";
+            offset += kvp.Value.Length + 1;
+            return entity;
+        }).ToList();
+        Message message = await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = testsFixture.SupergroupChat.Id,
+                Text = string.Join("\n", entityValueMappings.Values),
+                Entities = entities,
+                ParseMode = ParseMode.None,
+                LinkPreviewOptions = new() { IsDisabled = true },
+            }
+        );
+
+        Assert.NotNull(message.Entities);
+        Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
+        Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
+        Asserts.UsersEqual(
+            testsFixture.BotUser,
+            message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User
+        );
+    }
+
     [OrderedFact("Should send a message with protected content")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Message_With_Protected_Content()

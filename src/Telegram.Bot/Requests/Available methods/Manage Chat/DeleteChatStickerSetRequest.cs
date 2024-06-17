@@ -7,7 +7,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator
 /// in the chat for this to work and must have the appropriate admin rights. Use the field
-/// <see cref="Types.Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatRequest"/>
+/// <see cref="Types.ChatFullInfo.CanSetStickerSet"/> optionally returned in <see cref="GetChatRequest"/>
 /// requests to check if the bot can use this method. Returns <see langword="true"/> on success.
 /// </summary>
 public class DeleteChatStickerSetRequest : RequestBase<bool>, IChatTargetable

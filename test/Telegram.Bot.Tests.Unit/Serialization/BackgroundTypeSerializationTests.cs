@@ -163,7 +163,7 @@ public class BackgroundTypeSerializationTests
         Assert.Null(pattern.Document.FileName);
         Assert.Null(pattern.Document.Thumbnail);
         Assert.Null(pattern.Document.MimeType);
-        Assert.Equal(BackgroundFillKind.Solid, pattern.Fill.Type);
+        Assert.Equal(BackgroundFillType.Solid, pattern.Fill.Type);
         Assert.IsAssignableFrom<BackgroundFillSolid>(pattern.Fill);
     }
 

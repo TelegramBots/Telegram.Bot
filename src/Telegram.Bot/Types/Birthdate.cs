@@ -1,9 +1,9 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>
 ///
 /// </summary>
-public class Birthday
+public class Birthdate
 {
     /// <summary>
     /// Day of the user's birth; 1-31

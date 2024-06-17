@@ -58,4 +58,10 @@ public abstract class InputFile
     /// <param name="fileId">An ID of a file</param>
     /// <returns>An instance of <see cref="InputFileId"/></returns>
     public static InputFileId FromFileId(string fileId) => new(fileId.ThrowIfNull());
+
+    /// <summary>Implicit operator, same as <see cref="InputFile.FromStream"/></summary>
+    public static implicit operator InputFile(Stream stream) => FromStream(stream);
+
+    /// <summary>Implicit operator, same as <see cref="InputFile.FromString"/></summary>
+    public static implicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);
 }

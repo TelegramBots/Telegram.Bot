@@ -12,17 +12,22 @@ public class MessageTypeConverterTests
     [Fact]
     public void Should_Verify_All_MessageType_Members()
     {
-        List<string> messageTypeMembers = Enum
+        HashSet<MessageType> messageTypeValues = Enum
+            .GetValues<MessageType>()
+            .OrderBy(x => x)
+            .ToHashSet();
+        HashSet<string> messageTypeMembers = Enum
             .GetNames(typeof(MessageType))
             .OrderBy(x => x)
-            .ToList();
-        List<string> messageTypeDataMembers = new MessageTypeData()
+            .ToHashSet();
+        HashSet<string> messageTypeDataMembers = new MessageTypeData()
             .Select(x => Enum.GetName(typeof(MessageType), x[0]))
             .OrderBy(x => x)
-            .ToList()!;
+            .ToHashSet()!;
 
-        Assert.Equal(messageTypeMembers.Count, messageTypeDataMembers.Count);
-        Assert.Equal(messageTypeMembers, messageTypeDataMembers);
+        Assert.Equal(messageTypeValues.Count, messageTypeDataMembers.Count);
+        Assert.True(messageTypeMembers.Count >= messageTypeDataMembers.Count);
+        Assert.Subset(messageTypeMembers, messageTypeDataMembers);
     }
 
     [Theory]
@@ -117,7 +122,6 @@ public class MessageTypeConverterTests
             yield return [MessageType.PinnedMessage, "pinned_message"];
             yield return [MessageType.Invoice, "invoice"];
             yield return [MessageType.SuccessfulPayment, "successful_payment"];
-            yield return [MessageType.UserShared, "user_shared"];
             yield return [MessageType.UsersShared, "users_shared"];
             yield return [MessageType.ChatShared, "chat_shared"];
             yield return [MessageType.ConnectedWebsite, "connected_website"];

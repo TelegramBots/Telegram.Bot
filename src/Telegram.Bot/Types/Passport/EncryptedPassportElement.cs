@@ -17,7 +17,7 @@ public class EncryptedPassportElement
 
     /// <summary>
     /// Optional. Base64-encoded encrypted Telegram Passport element data provided by the user, available for
-    /// <see cref="PersonalDetails"/>, <see cref="Passport"/>, <see cref="DriverLicence"/>,
+    /// <see cref="PersonalDetails"/>, <see cref="Passport"/>, <see cref="DriverLicense"/>,
     /// <see cref="IdentityCard"/>, <see cref="InternalPassport"/> and <see cref="Address"/>
     /// types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
@@ -51,7 +51,7 @@ public class EncryptedPassportElement
 
     /// <summary>
     /// Optional. Encrypted file with the front side of the document, provided by the user. Available for
-    /// <see cref="Passport"/>, <see cref="DriverLicence"/>, <see cref="IdentityCard"/> and
+    /// <see cref="Passport"/>, <see cref="DriverLicense"/>, <see cref="IdentityCard"/> and
     /// <see cref="InternalPassport"/>. The file can be decrypted and verified using the accompanying
     /// <see cref="EncryptedCredentials"/>.
     /// </summary>
@@ -61,7 +61,7 @@ public class EncryptedPassportElement
 
     /// <summary>
     /// Optional. Encrypted file with the reverse side of the document, provided by the user. Available for
-    /// <see cref="DriverLicence"/> and <see cref="IdentityCard"/>. The file can be decrypted and verified using
+    /// <see cref="DriverLicense"/> and <see cref="IdentityCard"/>. The file can be decrypted and verified using
     /// the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
@@ -70,7 +70,7 @@ public class EncryptedPassportElement
 
     /// <summary>
     /// Optional. Encrypted file with the selfie of the user holding a document, provided by the user;
-    /// available for <see cref="Passport"/>, <see cref="DriverLicence"/>, <see cref="IdentityCard"/> and
+    /// available for <see cref="Passport"/>, <see cref="DriverLicense"/>, <see cref="IdentityCard"/> and
     /// <see cref="InternalPassport"/>. The file can be decrypted and verified using the accompanying
     /// <see cref="EncryptedCredentials"/>.
     /// </summary>
@@ -80,7 +80,7 @@ public class EncryptedPassportElement
 
     /// <summary>
     /// Optional. Array of encrypted files with translated versions of documents provided by the user.
-    /// Available if requested for <see cref="Passport"/>, <see cref="DriverLicence"/>,
+    /// Available if requested for <see cref="Passport"/>, <see cref="DriverLicense"/>,
     /// <see cref="IdentityCard"/>, <see cref="InternalPassport"/>, <see cref="UtilityBill"/>,
     /// <see cref="BankStatement"/>, <see cref="RentalAgreement"/>, <see cref="PassportRegistration"/> and
     /// <see cref="TemporaryRegistration"/> types. Files can be decrypted and verified using the accompanying

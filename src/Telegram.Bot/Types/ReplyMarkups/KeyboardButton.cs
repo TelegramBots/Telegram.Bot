@@ -24,15 +24,6 @@ public class KeyboardButton : IKeyboardButton
     public KeyboardButtonRequestUsers? RequestUsers { get; set; }
 
     /// <summary>
-    /// Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users
-    /// will be sent to the bot in a "<see cref="UsersShared"/>" service message. Available in private chats only.
-    /// </summary>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete($"This property is deprecated, use {nameof(RequestUsers)} instead")]
-    public KeyboardButtonRequestUser? RequestUser { get; set; }
-
-    /// <summary>
     /// Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
     /// its identifier to the bot in a “chat_shared” service message. Available in private chats only.
     /// </summary>
@@ -139,16 +130,6 @@ public class KeyboardButton : IKeyboardButton
     /// <returns></returns>
     public static KeyboardButton WithRequestUsers(string text, KeyboardButtonRequestUsers requestUsers) =>
         new(text) { RequestUsers = requestUsers };
-
-    /// <summary>
-    /// Generate a keyboard button to request user info
-    /// </summary>
-    /// <param name="text">Button's text</param>
-    /// <param name="requestUser">Criteria used to request a suitable user</param>
-    /// <returns></returns>
-    [Obsolete($"This method is deprecated, use {nameof(WithRequestUsers)} instead")]
-    public static KeyboardButton WithRequestUser(string text, KeyboardButtonRequestUser requestUser) =>
-        new(text) { RequestUser = requestUser };
 
     /// <summary>
     /// Generate a keyboard button to request users

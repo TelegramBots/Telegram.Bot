@@ -50,7 +50,7 @@ internal static class SourceGenerationHelper
                 {{~ for enum_member in enum_members ~}}
                     global::{{ enum_namespace }}.{{ enum_name }}.{{enum_member.key}} => "{{ enum_member.value }}",
                 {{~ end ~}}
-                {{~ if has_unknown_member ~}}
+                {{~ if unknown_member ~}}
                     _ => throw new global::System.Text.Json.JsonException(),
                 {{~ else ~}}
                     (global::{{ enum_namespace }}.{{ enum_name }})0 => "unknown",
@@ -70,8 +70,8 @@ internal static class SourceGenerationHelper
                     {{~ for enum_member in enum_members ~}}
                         "{{ enum_member.value }}" => global::{{ enum_namespace }}.{{ enum_name }}.{{ enum_member.key }},
                     {{~ end ~}}
-                    {{~ if has_unknown_member ~}}
-                        _ => global::{{ enum_namespace }}.{{ enum_name }}.Unknown,
+                    {{~ if unknown_member ~}}
+                        _ => global::{{ enum_namespace }}.{{ enum_name }}.{{ unknown_member }},
                     {{~ else ~}}
                         _ => 0,
                     {{~ end ~}}
@@ -81,16 +81,17 @@ internal static class SourceGenerationHelper
 
     internal static string GenerateConverterClass(Template template, EnumInfo enumToGenerate)
     {
-        var hasUnknownMember = enumToGenerate.Members.Any(
+        var unknownMember = enumToGenerate.Members.FirstOrDefault(
             e => string.Equals(e.Value, "Unknown", StringComparison.OrdinalIgnoreCase)
-        );
+            || string.Equals(e.Value, "None", StringComparison.OrdinalIgnoreCase)
+        ).Key;
 
         var result = template.Render(new
         {
             EnumNamespace = enumToGenerate.Namespace,
             EnumName = enumToGenerate.Name,
             EnumMembers = enumToGenerate.Members,
-            HasUnknownMember = hasUnknownMember,
+            UnknownMember = unknownMember,
         });
 
         return result;

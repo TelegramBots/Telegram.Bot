@@ -12,7 +12,7 @@ public class ParseModeConverterTests
     [InlineData(ParseMode.Markdown, "Markdown")]
     [InlineData(ParseMode.Html, "Html")]
     [InlineData(ParseMode.MarkdownV2, "MarkdownV2")]
-    [InlineData((ParseMode)0, "unknown")]
+    [InlineData(ParseMode.None, "None")]
     public void Should_Convert_ParseMode_To_String(ParseMode parseMode, string value)
     {
         SendMessageRequest sendMessageRequest = new() { ParseMode = parseMode };
@@ -27,7 +27,7 @@ public class ParseModeConverterTests
     [InlineData(ParseMode.Markdown, "Markdown")]
     [InlineData(ParseMode.Html, "Html")]
     [InlineData(ParseMode.MarkdownV2, "MarkdownV2")]
-    [InlineData((ParseMode)0, "unknown")]
+    [InlineData(ParseMode.None, "None")]
     public void Should_Convert_String_To_ParseMode(ParseMode parseMode, string value)
     {
         SendMessageRequest expectedResult = new() { ParseMode = parseMode };

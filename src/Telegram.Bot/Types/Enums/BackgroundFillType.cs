@@ -1,10 +1,10 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// Represents different types of background fills.
 /// </summary>
-[JsonConverter(typeof(BackgroundFillKindConverter))]
-public enum BackgroundFillKind
+[JsonConverter(typeof(BackgroundFillTypeConverter))]
+public enum BackgroundFillType
 {
     /// <summary>
     /// A solid fill background.

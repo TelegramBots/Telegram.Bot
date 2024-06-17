@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 /// <summary>
 /// Represents a custom keyboard with reply options
 /// </summary>
-public class ReplyKeyboardMarkup : ReplyMarkupBase
+public class ReplyKeyboardMarkup : IReplyMarkup
 {
     /// <summary>
     /// Array of button rows, each represented by an Array of KeyboardButton objects
@@ -48,6 +48,13 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? InputFieldPlaceholder { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the <em>text</em> of the <see cref="Message"/> object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.<br/><br/><em>Example:</em> A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool Selective { get; set; }
 
     /// <summary>
     /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>

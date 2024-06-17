@@ -19,7 +19,7 @@ public enum EncryptedPassportElementType
     /// <summary>
     /// Driver licence
     /// </summary>
-    DriverLicence,
+    DriverLicense,
 
     /// <summary>
     /// Identity card
@@ -69,5 +69,5 @@ public enum EncryptedPassportElementType
     /// <summary>
     /// Email
     /// </summary>
-    Email
+    Email,
 }

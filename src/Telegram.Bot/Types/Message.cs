@@ -533,14 +533,6 @@ public class Message : MaybeInaccessibleMessage
     public UsersShared? UsersShared { get; set; }
 
     /// <summary>
-    /// Optional. Service message: a user was shared with the bot
-    /// </summary>
-    [Obsolete($"This property is deprecated, use property {nameof(UsersShared)}")]
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public UserShared? UserShared { get; set; }
-
-    /// <summary>
     /// Optional. Service message: a chat was shared with the bot
     /// </summary>
     [JsonInclude]
@@ -744,7 +736,6 @@ public class Message : MaybeInaccessibleMessage
             { Invoice: not null }                       => MessageType.Invoice,
             { SuccessfulPayment: not null }             => MessageType.SuccessfulPayment,
             { UsersShared: not null }                   => MessageType.UsersShared,
-            { UserShared: not null }                    => MessageType.UserShared,
             { ChatShared: not null }                    => MessageType.ChatShared,
             { ConnectedWebsite: not null }              => MessageType.ConnectedWebsite,
             { WriteAccessAllowed: not null }            => MessageType.WriteAccessAllowed,

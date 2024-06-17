@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Serialization;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -21,5 +21,67 @@ public abstract class BackgroundFill
     /// Type of the background fill
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract BackgroundFillKind Type { get; }
+    public abstract BackgroundFillType Type { get; }
+}
+
+/// <summary>
+/// The background is filled using the selected color
+/// </summary>
+public class BackgroundFillSolid : BackgroundFill
+{
+    /// <inheritdoc />
+    public override BackgroundFillType Type => BackgroundFillType.Solid;
+
+    /// <summary>
+    /// The color of the background fill in the RGB24 format
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required int Color { get; set; }
+}
+
+/// <summary>
+/// The background is a gradient fill
+/// </summary>
+public class BackgroundFillGradient : BackgroundFill
+{
+    /// <inheritdoc />
+    public override BackgroundFillType Type => BackgroundFillType.Gradient;
+
+    /// <summary>
+    /// Top color of the gradient in the RGB24 format
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required int TopColor { get; set; }
+
+    /// <summary>
+    /// Bottom color of the gradient in the RGB24 format
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required int BottomColor { get; set; }
+
+    /// <summary>
+    /// Clockwise rotation angle of the background fill in degrees; 0-359
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required int RotationAngle { get; set; }
+}
+
+/// <summary>
+/// The background is a freeform gradient that rotates after every message in the chat
+/// </summary>
+public class BackgroundFillFreeformGradient : BackgroundFill
+{
+    /// <inheritdoc />
+    public override BackgroundFillType Type => BackgroundFillType.FreeformGradient;
+
+    /// <summary>
+    /// A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required int[] Colors { get; set; }
 }
