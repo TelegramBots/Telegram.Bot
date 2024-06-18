@@ -18,10 +18,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long ChatId { get; init; }
-
-    /// <inheritdoc />
-    ChatId IChatTargetable.ChatId => ChatId;
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -258,7 +255,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
     public SendInvoiceRequest(
-        long chatId,
+        ChatId chatId,
         string title,
         string description,
         string payload,
@@ -296,7 +293,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
     public SendInvoiceRequest(
-        long chatId,
+        ChatId chatId,
         string title,
         string description,
         string payload,

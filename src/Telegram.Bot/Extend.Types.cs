@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 
@@ -101,7 +102,7 @@ namespace Telegram.Bot.Types
         /// <summary>Implicit operator ReactionTypeEmoji from string</summary>
         public static implicit operator ReactionType(string emoji) => new ReactionTypeEmoji { Emoji = emoji };
         /// <summary>Implicit operator ReactionTypeCustomEmoji from long customEmojiId</summary>
-        public static implicit operator ReactionType(long customEmojiId) => new ReactionTypeCustomEmoji { CustomEmojiId = customEmojiId.ToString() };
+        public static implicit operator ReactionType(long customEmojiId) => new ReactionTypeCustomEmoji { CustomEmojiId = customEmojiId.ToString(CultureInfo.InvariantCulture) };
     }
 
     public partial class LinkPreviewOptions

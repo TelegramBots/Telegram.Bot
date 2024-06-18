@@ -45,7 +45,7 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public float? HorizontalAccuracy { get; set; }
+    public double? HorizontalAccuracy { get; set; }
 
     /// <summary>
     /// Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.

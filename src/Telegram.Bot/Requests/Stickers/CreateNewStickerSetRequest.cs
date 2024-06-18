@@ -45,12 +45,6 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     public required IEnumerable<InputSticker> Stickers { get; init; }
 
     /// <summary>
-    /// Format of stickers in the set.
-    /// </summary>
-    [Obsolete("This property is no longer recognised by Telegram")]
-    public StickerFormat StickerFormat { get; init; }
-
-    /// <summary>
     /// Type of stickers in the set.
     /// By default, a regular sticker set is created.
     /// </summary>
@@ -86,24 +80,19 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// <param name="stickers">
     /// A list of 1-50 initial stickers to be added to the sticker set
     /// </param>
-    /// <param name="stickerFormat">
-    /// Format of stickers in the set.
-    /// </param>
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
     public CreateNewStickerSetRequest(
         long userId,
         string name,
         string title,
-        IEnumerable<InputSticker> stickers,
-        StickerFormat stickerFormat)
+        IEnumerable<InputSticker> stickers)
         : this()
     {
         UserId = userId;
         Name = name;
         Title = title;
         Stickers = stickers;
-        StickerFormat = stickerFormat;
     }
 
     /// <summary>
