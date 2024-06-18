@@ -43,14 +43,7 @@ public class EditMessageMediaTests(TestsFixture fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = iqUpdate.InlineQuery.Id,
-                Results = inlineQueryResults,
-                CacheTime = 0,
-            }
-        );
+        await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -63,16 +56,13 @@ public class EditMessageMediaTests(TestsFixture fixture)
         // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
         // either an URL or the file_id of a previously uploaded media.
         InputFileUrl inputFileUrl = InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3");
-        await BotClient.EditInlineMessageMediaAsync(
-            new()
+        await BotClient.EditMessageMediaAsync(
+            inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+            media: new InputMediaAudio
             {
-                InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId,
-                Media = new InputMediaAudio
-                {
-                    Media = inputFileUrl,
-                    Caption = "**Audio** in `.mp3` format",
-                    ParseMode = ParseMode.Markdown,
-                },
+                Media = inputFileUrl,
+                Caption = "**Audio** in `.mp3` format",
+                ParseMode = ParseMode.Markdown,
             }
         );
     }
@@ -86,15 +76,12 @@ public class EditMessageMediaTests(TestsFixture fixture)
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
         Message gifMessage = await BotClient.SendDocumentAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                Document = InputFile.FromStream(stream, "Earth.gif"),
-                Caption = "`file_id` of this GIF will be used",
-                ParseMode = ParseMode.Markdown,
-                ReplyMarkup = (InlineKeyboardMarkup) InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start Inline Query"),
-            }
+            chatId: fixture.SupergroupChat,
+            document: InputFile.FromStream(stream, "Earth.gif"),
+            caption: "`file_id` of this GIF will be used",
+            parseMode: ParseMode.Markdown,
+            replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                .WithSwitchInlineQueryCurrentChat("Start Inline Query")
         );
 
         Assert.NotNull(gifMessage.Document);
@@ -117,14 +104,7 @@ public class EditMessageMediaTests(TestsFixture fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = iqUpdate.InlineQuery.Id,
-                Results = inlineQueryResults,
-                CacheTime = 0,
-            }
-        );
+        await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -136,12 +116,9 @@ public class EditMessageMediaTests(TestsFixture fixture)
         // Change the YouTube video for an animation. Note that, in the case of an inline message, the new media
         // should be either an URL or the file_id of a previously uploaded media.
         // Also, animation thumbnail cannot be uploaded for an inline message.
-        await BotClient.EditInlineMessageMediaAsync(
-            new()
-            {
-                InlineMessageId =  cqUpdate.CallbackQuery.InlineMessageId,
-                Media =  new InputMediaAnimation { Media = InputFile.FromFileId(animationFileId) },
-            }
+        await BotClient.EditMessageMediaAsync(
+            inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+            media: new InputMediaAnimation { Media = InputFile.FromFileId(animationFileId) }
         );
     }
 }

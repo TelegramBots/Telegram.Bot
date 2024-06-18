@@ -174,7 +174,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest(query!.Id)
+            preCheckoutQueryId: query!.Id
         );
 
         PreliminaryInvoice preliminaryInvoice = paymentsBuilder.GetPreliminaryInvoice();
@@ -253,7 +253,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest(query!.Id)
+            preCheckoutQueryId: query!.Id
         );
 
         Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
@@ -316,7 +316,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest(query!.Id)
+            preCheckoutQueryId: query!.Id
         );
 
         Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
@@ -425,12 +425,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest()
-            {
-                PreCheckoutQueryId = query!.Id,
-                ErrorMessage = "Sorry, we couldn't process the transaction. Please, contact our support.",
-                Ok = false,
-            }
+            preCheckoutQueryId: query!.Id,
+            errorMessage: "Sorry, we couldn't process the transaction. Please, contact our support."
         );
     }
 
@@ -528,12 +524,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Assert.Equal("Bad Request: SHIPPING_ID_DUPLICATE", exception.Message);
 
         await fixture.BotClient.AnswerShippingQueryAsync(
-            new()
-            {
-                Ok = false,
-                ShippingQueryId = shippingUpdate.ShippingQuery.Id,
-                ErrorMessage = "✅ Test Passed",
-            }
+            shippingQueryId: shippingUpdate.ShippingQuery.Id,
+            errorMessage: "✅ Test Passed"
         );
     }
 

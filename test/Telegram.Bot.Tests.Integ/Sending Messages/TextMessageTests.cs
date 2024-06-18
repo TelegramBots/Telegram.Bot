@@ -22,12 +22,9 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Text_Message()
     {
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = "Hello world!",
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: "Hello world!"
         );
 
         Assert.Equal("Hello world!", message.Text);
@@ -48,12 +45,9 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
     {
         string text = $"Hello members of channel {classFixture.ChannelChatId}";
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = classFixture.ChannelChatId,
-                Text = text,
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: classFixture.ChannelChatId,
+            text: text
         );
 
         Assert.Equal(text, message.Text);
@@ -66,21 +60,15 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ForwardMessage)]
     public async Task Should_Forward_Message()
     {
-        Message message1 = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat,
-                Text = "➡️ Message to be forwared ⬅️",
-            }
+        Message message1 = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat,
+            text: "➡️ Message to be forwared ⬅️"
         );
 
         Message message2 = await BotClient.ForwardMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat,
-                FromChatId = testsFixture.SupergroupChat,
-                MessageId = message1.MessageId,
-            }
+            chatId: testsFixture.SupergroupChat,
+            fromChatId: testsFixture.SupergroupChat,
+            messageId: message1.MessageId
         );
 
         MessageOriginUser forwardOrigin = (MessageOriginUser)message2.ForwardOrigin;
@@ -108,14 +96,11 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
             {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
         };
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = string.Join("\n", entityValueMappings.Values),
-                ParseMode = ParseMode.Markdown,
-                LinkPreviewOptions = new() { IsDisabled = true },
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: string.Join("\n", entityValueMappings.Values),
+            parseMode: ParseMode.Markdown,
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -150,14 +135,11 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
             (MessageEntityType.Spoiler, "<tg-spoiler>spoiler</tg-spoiler>"),
         ];
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
-                ParseMode = ParseMode.Html,
-                LinkPreviewOptions = new() { IsDisabled = true },
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
+            parseMode: ParseMode.Html,
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -188,12 +170,9 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
             (MessageEntityType.BotCommand, $"/test@{testsFixture.BotUser.Username}"),
         ];
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
         );
 
         Assert.NotNull(message.Entities);
@@ -226,14 +205,11 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
             {MessageEntityType.Spoiler, "||spoiler||"},
         };
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = string.Join("\n", entityValueMappings.Values),
-                ParseMode = ParseMode.MarkdownV2,
-                LinkPreviewOptions = new() { IsDisabled = true },
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: string.Join("\n", entityValueMappings.Values),
+            parseMode: ParseMode.MarkdownV2,
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -276,15 +252,12 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
             offset += kvp.Value.Length + 1;
             return entity;
         }).ToList();
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = string.Join("\n", entityValueMappings.Values),
-                Entities = entities,
-                ParseMode = ParseMode.None,
-                LinkPreviewOptions = new() { IsDisabled = true },
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: string.Join("\n", entityValueMappings.Values),
+            entities: entities,
+            parseMode: ParseMode.None,
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -300,13 +273,10 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Message_With_Protected_Content()
     {
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = "This content is protected!",
-                ProtectContent = true,
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: "This content is protected!",
+            protectContent: true
         );
 
         Assert.Equal("This content is protected!", message.Text);
@@ -322,29 +292,23 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
         Asserts.UsersEqual(testsFixture.BotUser, message.From);
     }
 
-    [OrderedFact("Should send a message with protected content")]
+    [OrderedFact("Should throw when forwarding a protected message")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Receive_Error_Trying_Forward_A_Message__With_Protected_Content()
     {
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Text = "This content is protected!",
-                ProtectContent = true,
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat.Id,
+            text: "This content is protected!",
+            protectContent: true
         );
 
         Assert.True(message.HasProtectedContent);
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
             async () => await BotClient.ForwardMessageAsync(
-                new()
-                {
-                    FromChatId = testsFixture.SupergroupChat.Id,
-                    ChatId = testsFixture.SupergroupChat.Id,
-                    MessageId = message.MessageId,
-                }
+                fromChatId: testsFixture.SupergroupChat.Id,
+                chatId: testsFixture.SupergroupChat.Id,
+                messageId: message.MessageId
             )
         );
 

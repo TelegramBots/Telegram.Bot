@@ -20,11 +20,8 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
     public async Task Should_Send_Game()
     {
         Message gameMessage = await BotClient.SendGameAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                GameShortName = classFixture.GameShortName,
-            }
+            chatId: fixture.SupergroupChat.Id,
+            gameShortName: classFixture.GameShortName
         );
 
         Assert.Equal(MessageType.Game, gameMessage.Type);
@@ -46,14 +43,12 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
     public async Task Should_Send_Game_With_ReplyMarkup()
     {
         Message gameMessage = await BotClient.SendGameAsync(
-            new()
+            chatId: fixture.SupergroupChat.Id,
+            gameShortName: classFixture.GameShortName,
+            replyMarkup: new[]
             {
-                ChatId = fixture.SupergroupChat.Id,
-                GameShortName = classFixture.GameShortName,
-                ReplyMarkup = new([
-                    InlineKeyboardButton.WithCallbackGame(text: "Play"),
-                    InlineKeyboardButton.WithCallbackData(textAndCallbackData: "Second button")
-                ]),
+                InlineKeyboardButton.WithCallbackGame(text: "Play"),
+                InlineKeyboardButton.WithCallbackData(textAndCallbackData: "Second button")
             }
         );
 
@@ -73,12 +68,9 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
     public async Task Should_Get_High_Scores()
     {
         GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
-            new()
-            {
-                UserId = classFixture.Player.Id,
-                ChatId = fixture.SupergroupChat.Id,
-                MessageId = classFixture.GameMessage.MessageId,
-            }
+            userId: classFixture.Player.Id,
+            chatId: fixture.SupergroupChat.Id,
+            messageId: classFixture.GameMessage.MessageId
         );
 
         Assert.All(highScores, hs => Assert.True(hs.Position > 0));
@@ -109,13 +101,10 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
         );
 
         Message gameMessage = await BotClient.SetGameScoreAsync(
-            new()
-            {
-                UserId = playerId,
-                Score = newScore,
-                ChatId = fixture.SupergroupChat.Id,
-                MessageId = classFixture.GameMessage.MessageId,
-            }
+            userId: playerId,
+            score: newScore,
+            chatId: fixture.SupergroupChat.Id,
+            messageId: classFixture.GameMessage.MessageId
         );
 
         Assert.Equal(classFixture.GameMessage.MessageId, gameMessage.MessageId);
@@ -123,12 +112,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
         // update the high scores cache
         await Task.Delay(1_000);
         classFixture.HighScores = await BotClient.GetGameHighScoresAsync(
-            new()
-            {
-                UserId = playerId,
-                ChatId = fixture.SupergroupChat.Id,
-                MessageId = gameMessage.MessageId,
-            }
+            playerId, fixture.SupergroupChat.Id, gameMessage.MessageId
         );
     }
 
@@ -145,14 +129,11 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
         );
 
         Message gameMessage = await BotClient.SetGameScoreAsync(
-            new()
-            {
-                UserId = playerId,
-                Score = newScore,
-                ChatId = fixture.SupergroupChat.Id,
-                MessageId = classFixture.GameMessage.MessageId,
-                Force = true,
-            }
+            userId: playerId,
+            score: newScore,
+            chatId: fixture.SupergroupChat.Id,
+            messageId: classFixture.GameMessage.MessageId,
+            force: true
         );
 
         Assert.Equal(MessageType.Game, gameMessage.Type);

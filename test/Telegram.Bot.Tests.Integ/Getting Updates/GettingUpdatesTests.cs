@@ -58,7 +58,7 @@ public class GettingUpdatesTests(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Get_Bot_User()
     {
-        User botUser = await BotClient.GetMeAsync(new GetMeRequest());
+        User botUser = await BotClient.GetMeAsync();
 
         Assert.NotNull(botUser);
         Assert.NotNull(botUser.Username);

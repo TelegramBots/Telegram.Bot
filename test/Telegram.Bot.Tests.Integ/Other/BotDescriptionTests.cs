@@ -22,10 +22,7 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         string description = "Test bot description";
 
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = description,
-            }
+            description: description
         );
     }
 
@@ -36,15 +33,12 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         const string description = "Test bot description";
 
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = description,
-            }
+            description: description
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotDescription currentDescription = await fixture.BotClient.GetMyDescriptionAsync(new GetMyDescriptionRequest());
+        BotDescription currentDescription = await fixture.BotClient.GetMyDescriptionAsync();
 
         Assert.NotNull(currentDescription);
         Assert.Equal(description, currentDescription.Description);
@@ -57,27 +51,21 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         string description = "Test bot description";
 
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = description,
-            }
+            description: description
         );
 
-        BotDescription setDescription = await fixture.BotClient.GetMyDescriptionAsync(new GetMyDescriptionRequest());
+        BotDescription setDescription = await fixture.BotClient.GetMyDescriptionAsync();
 
         Assert.NotNull(setDescription);
         Assert.Equal(description, setDescription.Description);
 
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = string.Empty,
-            }
+            description: ""
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotDescription currentDescription = await fixture.BotClient.GetMyDescriptionAsync(new GetMyDescriptionRequest());
+        BotDescription currentDescription = await fixture.BotClient.GetMyDescriptionAsync();
 
         Assert.NotNull(currentDescription.Description);
         Assert.Empty(currentDescription.Description);
@@ -92,21 +80,13 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         _languageCode = "ru";
 
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = description,
-                LanguageCode = _languageCode,
-            }
+            description: description,
+            languageCode: _languageCode
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotDescription newDescription = await fixture.BotClient.GetMyDescriptionAsync(
-            new GetMyDescriptionRequest
-            {
-                LanguageCode = _languageCode
-            }
-        );
+        BotDescription newDescription = await fixture.BotClient.GetMyDescriptionAsync(languageCode: _languageCode);
 
         Assert.NotNull(newDescription);
         Assert.Equal(description, newDescription.Description);
@@ -117,18 +97,12 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
     public async Task DisposeAsync()
     {
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = string.Empty,
-            }
+            description: ""
         );
 
         await BotClient.SetMyDescriptionAsync(
-            new SetMyDescriptionRequest
-            {
-                Description = string.Empty,
-                LanguageCode = _languageCode,
-            }
+            description: "",
+            languageCode: _languageCode
         );
     }
 }

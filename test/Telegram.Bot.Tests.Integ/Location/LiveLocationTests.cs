@@ -30,13 +30,10 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
         const float lonBerlin = 13.4050f;
 
         Message message = await BotClient.SendLocationAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Latitude = latBerlin,
-                Longitude = lonBerlin,
-                LivePeriod = 60,
-            }
+            chatId: fixture.SupergroupChat.Id,
+            latitude: latBerlin,
+            longitude: lonBerlin,
+            livePeriod: 60
         );
 
         Assert.Equal(MessageType.Location, message.Type);
@@ -62,13 +59,10 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
             await Task.Delay(1_500);
 
             editedMessage = await BotClient.EditMessageLiveLocationAsync(
-                new()
-                {
-                    ChatId = LocationMessage.Chat.Id,
-                    MessageId = LocationMessage.MessageId,
-                    Latitude = newLocation.Latitude,
-                    Longitude = newLocation.Longitude,
-                }
+                chatId: LocationMessage.Chat.Id,
+                messageId: LocationMessage.MessageId,
+                latitude: newLocation.Latitude,
+                longitude: newLocation.Longitude
             );
 
             Assert.Equal(MessageType.Location, editedMessage.Type);
@@ -85,11 +79,8 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
     public async Task Should_Stop_Live_Location()
     {
         Message message = await BotClient.StopMessageLiveLocationAsync(
-            new StopMessageLiveLocationRequest
-            {
-                ChatId = LocationMessage.Chat,
-                MessageId = LocationMessage.MessageId,
-            }
+            chatId: LocationMessage.Chat,
+            messageId: LocationMessage.MessageId
         );
 
         Assert.Equal(LocationMessage.MessageId, message.MessageId);

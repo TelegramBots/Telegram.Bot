@@ -26,20 +26,17 @@ public class DeleteMessageTests(TestsFixture fixture)
         Update queryUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         await BotClient.AnswerInlineQueryAsync(
-             new()
-             {
-                 InlineQueryId = queryUpdate.InlineQuery!.Id,
-                 Results = new[]
-                 {
-                     new InlineQueryResultArticle
-                     {
-                         Id = "article-to-delete",
-                         Title = "Telegram Bot API",
-                         InputMessageContent = new InputTextMessageContent { MessageText = "https://www.telegram.org/"},
-                     }
-                 },
-                 CacheTime = 0,
-             }
+            inlineQueryId: queryUpdate.InlineQuery!.Id,
+            results: new[]
+            {
+                new InlineQueryResultArticle
+                {
+                    Id = "article-to-delete",
+                    Title = "Telegram Bot API",
+                    InputMessageContent = new InputTextMessageContent { MessageText = "https://www.telegram.org/"},
+                }
+            },
+            cacheTime: 0
         );
 
         (Update messageUpdate, _) =
@@ -51,11 +48,8 @@ public class DeleteMessageTests(TestsFixture fixture)
         await Task.Delay(1_000);
 
         await BotClient.DeleteMessageAsync(
-            new()
-            {
-                ChatId = messageUpdate.Message!.Chat.Id,
-                MessageId = messageUpdate.Message.MessageId,
-            }
+            chatId: messageUpdate.Message!.Chat.Id,
+            messageId: messageUpdate.Message.MessageId
         );
     }
 }

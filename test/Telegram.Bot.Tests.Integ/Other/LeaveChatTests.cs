@@ -18,10 +18,7 @@ public class LeaveChatTests(TestsFixture fixture)
     {
         // ToDo: Exception when leaving private chat
         await BotClient.LeaveChatAsync(
-            new LeaveChatRequest
-            {
-                ChatId = fixture.SupergroupChat,
-            }
+            chatId: fixture.SupergroupChat
         );
     }
 }

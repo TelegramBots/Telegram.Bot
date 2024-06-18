@@ -21,15 +21,12 @@ public class SendingVideoMessageTests(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
         {
             message = await BotClient.SendVideoAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    Video = InputFile.FromStream(stream, "moon-landing.mp4"),
-                    Duration = 104,
-                    Width = 320,
-                    Height = 240,
-                    Caption = "Moon Landing",
-                }
+                chatId: fixture.SupergroupChat.Id,
+                video: InputFile.FromStream(stream, "moon-landing.mp4"),
+                duration: 104,
+                width: 320,
+                height: 240,
+                caption: "Moon Landing"
             );
         }
 
@@ -61,13 +58,10 @@ public class SendingVideoMessageTests(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
         {
             message = await BotClient.SendVideoNoteAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    VideoNote = InputFile.FromStream(stream),
-                    Duration = 28,
-                    Length = 240,
-                }
+                chatId: fixture.SupergroupChat.Id,
+                videoNote: InputFile.FromStream(stream),
+                duration: 28,
+                length: 240
             );
         }
 
@@ -97,12 +91,9 @@ public class SendingVideoMessageTests(TestsFixture fixture)
                     )
         {
             message = await BotClient.SendVideoAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat,
-                    Video = InputFile.FromStream(stream1),
-                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
-                }
+                chatId: fixture.SupergroupChat,
+                video: InputFile.FromStream(stream1),
+                thumbnail: InputFile.FromStream(stream2, "thumb.jpg")
             );
         }
 
@@ -127,12 +118,9 @@ public class SendingVideoMessageTests(TestsFixture fixture)
                     )
         {
             message = await BotClient.SendVideoNoteAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    VideoNote = InputFile.FromStream(stream1),
-                    Thumbnail = InputFile.FromStream(stream2, "thumbnail.jpg"),
-                }
+                chatId: fixture.SupergroupChat.Id,
+                videoNote: InputFile.FromStream(stream1),
+                thumbnail: InputFile.FromStream(stream2, "thumbnail.jpg")
             );
         }
 

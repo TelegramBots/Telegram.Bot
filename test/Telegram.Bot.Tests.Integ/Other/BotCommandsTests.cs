@@ -36,11 +36,8 @@ public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
         _scope = BotCommandScope.Default();
 
         await BotClient.SetMyCommandsAsync(
-            new SetMyCommandsRequest
-            {
-                Commands = commands,
-                Scope = _scope,
-            }
+            commands: commands,
+            scope: _scope
         );
     }
 
@@ -65,16 +62,13 @@ public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
         _scope = BotCommandScope.Default();
 
         await fixture.BotClient.SetMyCommandsAsync(
-            new SetMyCommandsRequest
-            {
-                Commands = commands,
-                Scope = _scope,
-            }
+            commands: commands,
+            scope: _scope
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotCommand[] currentCommands = await fixture.BotClient.GetMyCommandsAsync(new GetMyCommandsRequest());
+        BotCommand[] currentCommands = await fixture.BotClient.GetMyCommandsAsync();
 
         Assert.Equal(2, currentCommands.Length);
         Asserts.JsonEquals(commands, currentCommands);
@@ -102,23 +96,20 @@ public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
         _scope = BotCommandScope.Default();
 
         await BotClient.SetMyCommandsAsync(
-            new SetMyCommandsRequest
-            {
-                Commands = commands,
-                Scope = _scope,
-            }
+            commands: commands,
+            scope: _scope
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotCommand[] setCommands = await BotClient.GetMyCommandsAsync(new GetMyCommandsRequest());
+        BotCommand[] setCommands = await BotClient.GetMyCommandsAsync();
 
         Assert.NotNull(setCommands);
         Asserts.JsonEquals(commands, setCommands);
 
-        await BotClient.DeleteMyCommandsAsync(new DeleteMyCommandsRequest { Scope = _scope});
+        await BotClient.DeleteMyCommandsAsync(scope: _scope);
 
-        BotCommand[] currentCommands = await BotClient.GetMyCommandsAsync(new GetMyCommandsRequest { Scope = _scope });
+        BotCommand[] currentCommands = await BotClient.GetMyCommandsAsync(scope: _scope);
 
         Assert.NotNull(currentCommands);
         Assert.Empty(currentCommands);
@@ -145,21 +136,18 @@ public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
         _scope = BotCommandScope.AllGroupChats();
 
         await BotClient.SetMyCommandsAsync(
-            new SetMyCommandsRequest
-            {
-                Commands = commands,
-                Scope = _scope,
-            }
+            commands: commands,
+            scope: _scope
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotCommand[] newCommands = await BotClient.GetMyCommandsAsync(new GetMyCommandsRequest { Scope = _scope });
+        BotCommand[] newCommands = await BotClient.GetMyCommandsAsync(scope: _scope);
 
         Asserts.JsonEquals(commands, newCommands);
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
     public async Task DisposeAsync() =>
-        await fixture.BotClient.DeleteMyCommandsAsync(new DeleteMyCommandsRequest { Scope = _scope });
+        await fixture.BotClient.DeleteMyCommandsAsync(scope: _scope);
 }

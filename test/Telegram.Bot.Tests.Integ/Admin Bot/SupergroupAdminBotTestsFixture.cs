@@ -25,9 +25,7 @@ public class SupergroupAdminBotTestsFixture : AsyncLifetimeFixture
         AddLifetime(
             initializer: async () =>
             {
-                ChatFullInfo chat = await TestsFixture.BotClient.GetChatAsync(
-                    new GetChatRequest { ChatId = TestsFixture.SupergroupChat }
-                );
+                ChatFullInfo chat = await TestsFixture.BotClient.GetChatAsync(TestsFixture.SupergroupChat);
 
                 // Save existing chat photo as byte[] to restore it later because Bot API 4.4+ invalidates old
                 // file_ids after changing chat photo
@@ -49,32 +47,24 @@ public class SupergroupAdminBotTestsFixture : AsyncLifetimeFixture
                 {
                     await using MemoryStream photoStream = new(_oldChatPhoto);
                     await TestsFixture.BotClient.SetChatPhotoAsync(
-                        new()
-                        {
-                            ChatId = Chat.Id,
-                            Photo = InputFile.FromStream(photoStream),
-                        }
+                        chatId: Chat.Id,
+                        photo: InputFile.FromStream(photoStream)
                     );
                 }
 
                 // Reset original default permissions
                 await TestsFixture.BotClient.SetChatPermissionsAsync(
-                    new()
-                    {
-                        ChatId = TestsFixture.SupergroupChat,
-                        Permissions = _existingDefaultPermissions!,
-                    }
+                    TestsFixture.SupergroupChat,
+                    _existingDefaultPermissions!
+
                 );
 
                 // Revoke invite link created during the test run
                 if (ChatInviteLink is not null)
                 {
                     await TestsFixture.BotClient.RevokeChatInviteLinkAsync(
-                        new()
-                        {
-                            ChatId = TestsFixture.SupergroupChat,
-                            InviteLink = ChatInviteLink.InviteLink,
-                        }
+                        chatId: TestsFixture.SupergroupChat,
+                        inviteLink: ChatInviteLink.InviteLink
                     );
                 }
             }

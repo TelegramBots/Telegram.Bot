@@ -22,7 +22,7 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         const string shortDescription = "Test bot short description";
 
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest { ShortDescription = shortDescription }
+            shortDescription: shortDescription
         );
     }
 
@@ -33,12 +33,12 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         const string shortDescription = "Test bot short description";
 
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest { ShortDescription = shortDescription }
+            shortDescription: shortDescription
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotShortDescription currentShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync(new GetMyShortDescriptionRequest());
+        BotShortDescription currentShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(currentShortDescription);
         Assert.Equal(shortDescription, currentShortDescription.ShortDescription);
@@ -51,22 +51,22 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         const string shortDescription = "Test bot short description";
 
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest { ShortDescription = shortDescription }
+            shortDescription: shortDescription
         );
 
-        BotShortDescription setShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync(new GetMyShortDescriptionRequest());
+        BotShortDescription setShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(setShortDescription);
         Assert.Equal(shortDescription, setShortDescription.ShortDescription);
 
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest { ShortDescription = "" }
+            shortDescription: ""
         );
 
         // Test fails receiving old description without a delay
         await Task.Delay(TimeSpan.FromSeconds(20));
 
-        BotShortDescription currentShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync(new GetMyShortDescriptionRequest());
+        BotShortDescription currentShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(currentShortDescription.ShortDescription);
         Assert.Empty(currentShortDescription.ShortDescription);
@@ -81,18 +81,13 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         _languageCode = "ru";
 
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest
-            {
-                ShortDescription = shortDescription,
-                LanguageCode = _languageCode,
-            }
+            shortDescription: shortDescription,
+            languageCode: _languageCode
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotShortDescription newDescription = await fixture.BotClient.GetMyShortDescriptionAsync(
-            new GetMyShortDescriptionRequest {LanguageCode = _languageCode}
-        );
+        BotShortDescription newDescription = await fixture.BotClient.GetMyShortDescriptionAsync(languageCode: _languageCode);
 
         Assert.NotNull(newDescription);
         Assert.Equal(shortDescription, newDescription.ShortDescription);
@@ -103,15 +98,12 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
     public async Task DisposeAsync()
     {
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest { ShortDescription = ""
-         });
+            shortDescription: ""
+        );
 
         await BotClient.SetMyShortDescriptionAsync(
-            new SetMyShortDescriptionRequest
-            {
-                ShortDescription = "",
-                LanguageCode = _languageCode
-            }
+            shortDescription: "",
+            languageCode: _languageCode
         );
     }
 }

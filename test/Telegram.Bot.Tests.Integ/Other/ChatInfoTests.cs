@@ -22,10 +22,7 @@ public class ChatInfoTests(TestsFixture fixture)
         ChatFullInfo supergroupChat = fixture.SupergroupChat;
 
         ChatFullInfo chat = await BotClient.GetChatAsync(
-            new GetChatRequest
-            {
-                ChatId = supergroupChat,
-            }
+            chatId: supergroupChat.Id
         );
 
         Assert.Equal(ChatType.Supergroup, chat.Type);
@@ -49,11 +46,8 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Get_Bot_Chat_Member()
     {
         ChatMember memberBot = await BotClient.GetChatMemberAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                UserId = fixture.BotUser.Id,
-            }
+            chatId: fixture.SupergroupChat.Id,
+            userId: fixture.BotUser.Id
         );
 
         Assert.Equal(ChatMemberStatus.Administrator, memberBot.Status);
@@ -78,10 +72,7 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Get_Chat_Admins()
     {
         ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
-            new GetChatAdministratorsRequest
-            {
-                ChatId = fixture.SupergroupChat.Id,
-            }
+            chatId: fixture.SupergroupChat.Id
         );
 
         ChatMember memberCreator = Assert.Single(chatAdmins, admin => admin.Status == ChatMemberStatus.Creator);
@@ -104,16 +95,14 @@ public class ChatInfoTests(TestsFixture fixture)
             /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
              * for a regular user, "User ID" is the same number as "Private Chat ID".
              */
-            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
-                new GetChatAdministratorsRequest { ChatId = fixture.SupergroupChat.Id }
-            );
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(fixture.SupergroupChat);
             privateChatId = chatAdmins
                 .Single(member => member.Status == ChatMemberStatus.Creator)
                 .User.Id;
         }
 
         ChatFullInfo chat = await BotClient.GetChatAsync(
-            new GetChatRequest { ChatId = privateChatId, }
+            chatId: privateChatId
         );
 
         Assert.Equal(ChatType.Private, chat.Type);
@@ -139,7 +128,7 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Get_Chat_Members_Count()
     {
         int membersCount = await BotClient.GetChatMemberCountAsync(
-             new GetChatMemberCountRequest {ChatId = fixture.SupergroupChat.Id}
+            chatId: fixture.SupergroupChat.Id
         );
 
         Assert.True(2 <= membersCount); // at least, Bot and the Creator
@@ -154,11 +143,8 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Send_Chat_Action()
     {
         await BotClient.SendChatActionAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Action = ChatAction.RecordVoice,
-            }
+            chatId: fixture.SupergroupChat.Id,
+            chatAction: ChatAction.RecordVoice
         );
 
         await Task.Delay(5_000);

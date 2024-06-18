@@ -18,13 +18,7 @@ public class ApiExceptionsTests2(TestsFixture fixture)
     public async Task Should_Throw_Exception_ChatNotFoundException()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendMessageAsync(
-                new()
-                {
-                    ChatId = 0,
-                    Text = "test",
-                }
-            )
+            BotClient.SendTextMessageAsync(0, "test")
         );
 
         Assert.Equal(400, e.ErrorCode);
@@ -35,13 +29,7 @@ public class ApiExceptionsTests2(TestsFixture fixture)
     public async Task Should_Throw_Exception_UserNotFoundException()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.PromoteChatMemberAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    UserId = 123456,
-                }
-            )
+            BotClient.PromoteChatMemberAsync(fixture.SupergroupChat.Id, 123456)
         );
 
         Assert.Equal(400, e.ErrorCode);
@@ -58,13 +46,10 @@ public class ApiExceptionsTests2(TestsFixture fixture)
         });
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendMessageAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    Text = "You should never see this message",
-                    ReplyMarkup = replyMarkup,
-                }
+            BotClient.SendTextMessageAsync(
+                chatId: fixture.SupergroupChat.Id,
+                text: "You should never see this message",
+                replyMarkup: replyMarkup
             )
         );
 
@@ -77,22 +62,16 @@ public class ApiExceptionsTests2(TestsFixture fixture)
     public async Task Should_Throw_Exception_MessageIsNotModifiedException()
     {
         const string messageTextToModify = "Message text to modify";
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Text = messageTextToModify,
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: fixture.SupergroupChat.Id,
+            text: messageTextToModify
         );
 
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.EditMessageTextAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    MessageId = message.MessageId,
-                    Text = messageTextToModify,
-                }
+                chatId: fixture.SupergroupChat.Id,
+                messageId: message.MessageId,
+                text: messageTextToModify
             )
         );
 

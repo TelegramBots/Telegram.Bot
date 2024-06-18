@@ -23,7 +23,7 @@ public class ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
 
         if (testsFixture.Configuration.RegularGroupMemberId is {} userId)
         {
-            chat = await testsFixture.BotClient.GetChatAsync(new GetChatRequest {ChatId = userId});
+            chat = await testsFixture.BotClient.GetChatAsync(userId);
         }
         else
         {
