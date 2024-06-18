@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Represents a location to which a chat is connected.
 /// </summary>
-public class ChatLocation
+public partial class ChatLocation
 {
     /// <summary>
     /// The location to which the supergroup is connected. Can't be a live location.

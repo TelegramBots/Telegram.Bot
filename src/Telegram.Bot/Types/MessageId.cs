@@ -1,15 +1,12 @@
-using JetBrains.Annotations;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents a messageId.
+/// This object represents a unique message identifier.
 /// </summary>
-[PublicAPI]
-public class MessageId
+public partial class MessageId
 {
     /// <summary>
-    /// Message identifier in the chat specified in <see cref="Requests.CopyMessageRequest.FromChatId"/>
+    /// Unique message identifier
     /// </summary>
     [JsonPropertyName("message_id")]
     [JsonRequired]

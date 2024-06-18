@@ -1,10 +1,9 @@
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a forum topic.
 /// </summary>
-public class ForumTopic
+public partial class ForumTopic
 {
     /// <summary>
     /// Unique identifier of the forum topic
@@ -25,10 +24,10 @@ public class ForumTopic
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public Color IconColor { get; set; }
+    public int IconColor { get; set; }
 
     /// <summary>
-    /// Optional. Unique identifier of the custom emoji shown as the topic icon
+    /// <em>Optional</em>. Unique identifier of the custom emoji shown as the topic icon
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -67,8 +67,8 @@ public class ChatInfoTests(TestsFixture fixture)
         Assert.True(administrator.CanPinMessages);
         Assert.False(administrator.CanBeEdited);
         // Channels only
-        Assert.Null(administrator.CanPostMessages);
-        Assert.Null(administrator.CanEditMessages);
+        Assert.False(administrator.CanPostMessages);
+        Assert.False(administrator.CanEditMessages);
 
         Asserts.UsersEqual(fixture.BotUser, memberBot.User);
     }
@@ -131,7 +131,7 @@ public class ChatInfoTests(TestsFixture fixture)
         Assert.Null(chat.InviteLink);
         Assert.Null(chat.PinnedMessage);
         Assert.Null(chat.StickerSetName);
-        Assert.Null(chat.CanSetStickerSet);
+        Assert.False(chat.CanSetStickerSet);
     }
 
     [OrderedFact("Should get chat members count")]

@@ -544,7 +544,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         InlineKeyboardMarkup replyMarkup = new(
         [
             [
-                InlineKeyboardButton.WithPayment("Pay this invoice"),
+                InlineKeyboardButton.WithPay("Pay this invoice"),
                 InlineKeyboardButton.WithUrl("Repository", "https://github.com/TelegramBots/Telegram.Bot")
             ],
             [InlineKeyboardButton.WithCallbackData("Some other button")]

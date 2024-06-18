@@ -1,72 +1,70 @@
-using System.Diagnostics.CodeAnalysis;
-
-namespace Telegram.Bot.Types.ReplyMarkups;
+﻿namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
-/// This object defines the criteria used to request a suitable user. The identifier of the selected user will be
-/// shared with the bot when the corresponding button is pressed.
+/// This object defines the criteria used to request suitable users. Information about the selected users will be shared with the bot when the corresponding button is pressed. <a href="https://core.telegram.org/bots/features#chat-and-user-selection">More about requesting users »</a>
 /// </summary>
-public class KeyboardButtonRequestUsers
+public partial class KeyboardButtonRequestUsers
 {
     /// <summary>
-    /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object.
-    /// Must be unique within the message
+    /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object. Must be unique within the message
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int RequestId { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true" /> to request bots, pass <see langword="false" /> to request regular users.
-    /// If not specified, no additional restrictions are applied.
+    /// <em>Optional</em>. Pass <see langword="true"/> to request bots, pass <see langword="false"/> to request regular users. If not specified, no additional restrictions are applied.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UserIsBot { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true" /> to request premium users, pass <see langword="false" /> to request non-premium users.
-    /// If not specified, no additional restrictions are applied.
+    /// <em>Optional</em>. Pass <see langword="true"/> to request premium users, pass <see langword="false"/> to request non-premium users. If not specified, no additional restrictions are applied.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UserIsPremium { get; set; }
 
     /// <summary>
-    /// Optional. The maximum number of users to be selected; 1-10. Defaults to 1.
+    /// <em>Optional</em>. The maximum number of users to be selected; 1-10. Defaults to 1.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MaxQuantity { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true" /> to request the users' first and last name
+    /// <em>Optional</em>. Pass <see langword="true"/> to request the users' first and last names
     /// </summary>
-    public bool? RequestName { get; set; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool RequestName { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true" /> to request the users' username
+    /// <em>Optional</em>. Pass <see langword="true"/> to request the users' usernames
     /// </summary>
-    public bool? RequestUsername { get; set; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool RequestUsername { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true" /> to request the users' photo
+    /// <em>Optional</em>. Pass <see langword="true"/> to request the users' photos
     /// </summary>
-    public bool? RequestPhoto { get; set; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool RequestPhoto { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KeyboardButtonRequestUsers"/> class with requestId
+    /// Initializes an instance of <see cref="KeyboardButtonRequestUsers"/>
     /// </summary>
-    /// <param name="requestId">
-    /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object.
-    /// Must be unique within the message
-    /// </param>
+    /// <param name="requestId">Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object. Must be unique within the message</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    public KeyboardButtonRequestUsers(int requestId)
-        => RequestId = requestId;
+    public KeyboardButtonRequestUsers(int requestId) => RequestId = requestId;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KeyboardButtonRequestUsers"/> class
+    /// Instantiates a new <see cref="KeyboardButtonRequestUsers"/>
     /// </summary>
-    public KeyboardButtonRequestUsers() {}
+    public KeyboardButtonRequestUsers()
+    { }
 }

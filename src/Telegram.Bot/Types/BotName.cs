@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents the bot's name.
 /// </summary>
-public class BotName
+public partial class BotName
 {
     /// <summary>
     /// The bot's name

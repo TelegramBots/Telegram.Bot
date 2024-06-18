@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents reaction changes on a message with anonymous reactions.
 /// </summary>
-public class MessageReactionCountUpdated
+public partial class MessageReactionCountUpdated
 {
     /// <summary>
     /// The chat containing the message

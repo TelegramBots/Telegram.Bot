@@ -1,37 +1,30 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object describes the source of a chat boost. It can be one of
-/// <list type="bullet">
-/// <item><see cref="ChatBoostSourcePremium"/></item>
-/// <item><see cref="ChatBoostSourceGiftCode"/></item>
-/// <item><see cref="ChatBoostSourceGiveaway"/></item>
-/// </list>
+/// This object describes the source of a chat boost. It can be one of<br/><see cref="ChatBoostSourcePremium"/>, <see cref="ChatBoostSourceGiftCode"/>, <see cref="ChatBoostSourceGiveaway"/>
 /// </summary>
 [CustomJsonPolymorphic("source")]
 [CustomJsonDerivedType(typeof(ChatBoostSourcePremium), "premium")]
 [CustomJsonDerivedType(typeof(ChatBoostSourceGiftCode), "gift_code")]
 [CustomJsonDerivedType(typeof(ChatBoostSourceGiveaway), "giveaway")]
-public abstract class ChatBoostSource
+public abstract partial class ChatBoostSource
 {
     /// <summary>
     /// Source of the boost
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract ChatBoostSourceType Source { get; }
+    public abstract Enums.ChatBoostSourceType Source { get; }
 }
 
 /// <summary>
 /// The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
 /// </summary>
-public class ChatBoostSourcePremium : ChatBoostSource
+public partial class ChatBoostSourcePremium : ChatBoostSource
 {
     /// <summary>
-    /// Source of the boost, always "premium"
+    /// Source of the boost, always <see cref="Enums.ChatBoostSourceType.Premium"/>
     /// </summary>
-    public override ChatBoostSourceType Source => ChatBoostSourceType.Premium;
+    public override Enums.ChatBoostSourceType Source => Enums.ChatBoostSourceType.Premium;
 
     /// <summary>
     /// User that boosted the chat
@@ -42,15 +35,14 @@ public class ChatBoostSourcePremium : ChatBoostSource
 }
 
 /// <summary>
-/// The boost was obtained by the creation of Telegram Premium gift codes to boost a chat.
-/// Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
+/// The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// </summary>
-public class ChatBoostSourceGiftCode : ChatBoostSource
+public partial class ChatBoostSourceGiftCode : ChatBoostSource
 {
     /// <summary>
-    /// Source of the boost, always "gift_code"
+    /// Source of the boost, always <see cref="Enums.ChatBoostSourceType.GiftCode"/>
     /// </summary>
-    public override ChatBoostSourceType Source => ChatBoostSourceType.GiftCode;
+    public override Enums.ChatBoostSourceType Source => Enums.ChatBoostSourceType.GiftCode;
 
     /// <summary>
     /// User for which the gift code was created
@@ -61,35 +53,33 @@ public class ChatBoostSourceGiftCode : ChatBoostSource
 }
 
 /// <summary>
-/// The boost was obtained by the creation of a Telegram Premium giveaway.
-/// This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
+/// The boost was obtained by the creation of a Telegram Premium giveaway. This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// </summary>
-public class ChatBoostSourceGiveaway : ChatBoostSource
+public partial class ChatBoostSourceGiveaway : ChatBoostSource
 {
     /// <summary>
-    /// Source of the boost, always "giveaway"
+    /// Source of the boost, always <see cref="Enums.ChatBoostSourceType.Giveaway"/>
     /// </summary>
-    public override ChatBoostSourceType Source => ChatBoostSourceType.Giveaway;
+    public override Enums.ChatBoostSourceType Source => Enums.ChatBoostSourceType.Giveaway;
 
     /// <summary>
-    /// Identifier of a message in the chat with the giveaway; the message could have been deleted already.
-    /// May be 0 if the message isn't sent yet.
+    /// Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int GiveawayMessageId { get; set; }
 
     /// <summary>
-    /// Optional. User that won the prize in the giveaway if any
+    /// <em>Optional</em>. User that won the prize in the giveaway if any
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User? User { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the giveaway was completed, but there was no user to win the prize
+    /// <em>Optional</em>. <see langword="true"/>, if the giveaway was completed, but there was no user to win the prize
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? IsUnclaimed { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool IsUnclaimed { get; set; }
 }

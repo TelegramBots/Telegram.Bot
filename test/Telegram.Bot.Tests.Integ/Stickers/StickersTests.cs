@@ -882,7 +882,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         await BotClient.DeleteStickerSetAsync(new DeleteStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName });
         await BotClient.DeleteStickerSetAsync(new DeleteStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName });
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         ApiRequestException staticException = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.GetStickerSetAsync(new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName })
@@ -983,7 +983,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.NotNull(sticker.MaskPosition);
         Assert.Equal(MaskPositionPoint.Forehead, sticker.MaskPosition.Point);
-        Assert.Equal(.8f, sticker.MaskPosition.Scale);
+        Assert.Equal(.8, sticker.MaskPosition.Scale);
     }
 
     [OrderedFact("Should set mask position for first sticker")]
@@ -993,7 +993,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         MaskPosition newMaskPosition = new()
         {
             Point = MaskPositionPoint.Chin,
-            Scale = .42f
+            Scale = .42
         };
 
         StickerSet stickerSet = await BotClient.GetStickerSetAsync(

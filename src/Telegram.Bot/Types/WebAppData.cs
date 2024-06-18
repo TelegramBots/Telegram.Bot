@@ -1,9 +1,9 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// Contains data sent from a <a href="https://core.telegram.org/bots/webapps"></a>Web App to the bot.
+/// Describes data sent from a <a href="https://core.telegram.org/bots/webapps">Web App</a> to the bot.
 /// </summary>
-public class WebAppData
+public partial class WebAppData
 {
     /// <summary>
     /// The data. Be aware that a bad client can send arbitrary data in this field.
@@ -13,8 +13,7 @@ public class WebAppData
     public string Data { get; set; } = default!;
 
     /// <summary>
-    /// Text of the web_app keyboard button, from which the Web App was opened. Be aware that a bad client can
-    /// send arbitrary data in this field.
+    /// Text of the <em>WebApp</em> keyboard button from which the Web App was opened. Be aware that a bad client can send arbitrary data in this field.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

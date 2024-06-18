@@ -3,7 +3,7 @@
 /// <summary>
 /// This object is received when messages are deleted from a connected business account.
 /// </summary>
-public class BusinessMessagesDeleted
+public partial class BusinessMessagesDeleted
 {
     /// <summary>
     /// Unique identifier of the business connection
@@ -20,7 +20,7 @@ public class BusinessMessagesDeleted
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
-    /// List of identifiers of deleted messages in the chat of the business account
+    /// The list of identifiers of deleted messages in the chat of the business account
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

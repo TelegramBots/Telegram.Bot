@@ -1,61 +1,47 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object describes the type of a reaction. Currently, it can be one of
-/// <list type="bullet">
-/// <item><see cref="ReactionTypeEmoji"/></item>
-/// <item><see cref="ReactionTypeCustomEmoji"/></item>
-/// </list>
+/// This object describes the type of a reaction. Currently, it can be one of<br/><see cref="ReactionTypeEmoji"/>, <see cref="ReactionTypeCustomEmoji"/>
 /// </summary>
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(ReactionTypeEmoji), "emoji")]
 [CustomJsonDerivedType(typeof(ReactionTypeCustomEmoji), "custom_emoji")]
-public abstract class ReactionType
+public abstract partial class ReactionType
 {
     /// <summary>
     /// Type of the reaction
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract ReactionTypeKind Type { get; }
+    public abstract Enums.ReactionTypeKind Type { get; }
 }
 
 /// <summary>
 /// The reaction is based on an emoji.
 /// </summary>
-public class ReactionTypeEmoji : ReactionType
+public partial class ReactionTypeEmoji : ReactionType
 {
     /// <summary>
-    /// Type of the reaction, always "emoji"
+    /// Type of the reaction, always <see cref="Enums.ReactionTypeKind.Emoji"/>
     /// </summary>
-    public override ReactionTypeKind Type => ReactionTypeKind.Emoji;
+    public override Enums.ReactionTypeKind Type => Enums.ReactionTypeKind.Emoji;
 
     /// <summary>
-    /// Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁",
-    /// "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱",
-    /// "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨",
-    /// "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃",
-    /// "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒",
-    /// "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
+    /// Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
     /// </summary>
-    /// <remarks>
-    /// Available shortcuts: <see cref="Enums.KnownReactionTypeEmoji"/>
-    /// </remarks>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Emoji { get; set; } = default!;
 }
 
 /// <summary>
-/// The reaction is based on an emoji.
+/// The reaction is based on a custom emoji.
 /// </summary>
-public class ReactionTypeCustomEmoji : ReactionType
+public partial class ReactionTypeCustomEmoji : ReactionType
 {
     /// <summary>
-    /// Type of the reaction, always "custom_emoji"
+    /// Type of the reaction, always <see cref="Enums.ReactionTypeKind.CustomEmoji"/>
     /// </summary>
-    public override ReactionTypeKind Type => ReactionTypeKind.CustomEmoji;
+    public override Enums.ReactionTypeKind Type => Enums.ReactionTypeKind.CustomEmoji;
 
     /// <summary>
     /// Custom emoji identifier

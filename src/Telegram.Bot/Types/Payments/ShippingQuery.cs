@@ -3,7 +3,7 @@
 /// <summary>
 /// This object contains information about an incoming shipping query.
 /// </summary>
-public class ShippingQuery
+public partial class ShippingQuery
 {
     /// <summary>
     /// Unique query identifier

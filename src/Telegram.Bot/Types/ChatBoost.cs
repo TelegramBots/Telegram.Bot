@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object contains information about a chat boost.
 /// </summary>
-public class ChatBoost
+public partial class ChatBoost
 {
     /// <summary>
     /// Unique identifier of the boost
@@ -33,5 +33,5 @@ public class ChatBoost
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public ChatBoostSource Source  { get; set; } = default!;
+    public ChatBoostSource Source { get; set; } = default!;
 }

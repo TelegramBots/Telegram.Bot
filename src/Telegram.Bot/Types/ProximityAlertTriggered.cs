@@ -1,10 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// Represents the content of a service message, sent whenever a user in the chat triggers a proximity alert set
-/// by another user.
+/// This object represents the content of a service message, sent whenever a user in the chat triggers a proximity alert set by another user.
 /// </summary>
-public class ProximityAlertTriggered
+public partial class ProximityAlertTriggered
 {
     /// <summary>
     /// User that triggered the alert

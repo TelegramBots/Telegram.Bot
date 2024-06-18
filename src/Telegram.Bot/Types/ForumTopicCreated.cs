@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a service message about a new forum topic created in the chat.
 /// </summary>
-public class ForumTopicCreated
+public partial class ForumTopicCreated
 {
     /// <summary>
     /// Name of the topic
@@ -20,7 +20,7 @@ public class ForumTopicCreated
     public int IconColor { get; set; }
 
     /// <summary>
-    /// Optional. Unique identifier of the custom emoji shown as the topic icon
+    /// <em>Optional</em>. Unique identifier of the custom emoji shown as the topic icon
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

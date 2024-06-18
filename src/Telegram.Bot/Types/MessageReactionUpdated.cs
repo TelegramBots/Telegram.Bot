@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a change of a reaction on a message performed by a user.
 /// </summary>
-public class MessageReactionUpdated
+public partial class MessageReactionUpdated
 {
     /// <summary>
     /// The chat containing the message the user reacted to
@@ -20,14 +20,14 @@ public class MessageReactionUpdated
     public int MessageId { get; set; }
 
     /// <summary>
-    /// Optional.The user that changed the reaction, if the user isn't anonymous
+    /// <em>Optional</em>. The user that changed the reaction, if the user isn't anonymous
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User? User { get; set; }
 
     /// <summary>
-    /// Optional.The chat on behalf of which the reaction was changed, if the user is anonymous
+    /// <em>Optional</em>. The chat on behalf of which the reaction was changed, if the user is anonymous
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

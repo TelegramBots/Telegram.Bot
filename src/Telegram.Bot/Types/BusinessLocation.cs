@@ -1,9 +1,9 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-///
+/// Contains information about the location of a Telegram Business account.
 /// </summary>
-public class BusinessLocation
+public partial class BusinessLocation
 {
     /// <summary>
     /// Address of the business
@@ -13,7 +13,7 @@ public class BusinessLocation
     public string Address { get; set; } = default!;
 
     /// <summary>
-    /// Optional. Location of the business
+    /// <em>Optional</em>. Location of the business
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

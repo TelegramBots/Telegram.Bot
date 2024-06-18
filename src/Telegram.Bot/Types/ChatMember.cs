@@ -1,24 +1,22 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object contains information about one member of the chat.
+/// This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:<br/><see cref="ChatMemberOwner"/>, <see cref="ChatMemberAdministrator"/>, <see cref="ChatMemberMember"/>, <see cref="ChatMemberRestricted"/>, <see cref="ChatMemberLeft"/>, <see cref="ChatMemberBanned"/>
 /// </summary>
 [CustomJsonPolymorphic("status")]
-[CustomJsonDerivedType(typeof(ChatMemberAdministrator), "administrator")]
-[CustomJsonDerivedType(typeof(ChatMemberBanned), "kicked")]
-[CustomJsonDerivedType(typeof(ChatMemberLeft), "left")]
-[CustomJsonDerivedType(typeof(ChatMemberMember), "member")]
 [CustomJsonDerivedType(typeof(ChatMemberOwner), "creator")]
+[CustomJsonDerivedType(typeof(ChatMemberAdministrator), "administrator")]
+[CustomJsonDerivedType(typeof(ChatMemberMember), "member")]
 [CustomJsonDerivedType(typeof(ChatMemberRestricted), "restricted")]
-public abstract class ChatMember
+[CustomJsonDerivedType(typeof(ChatMemberLeft), "left")]
+[CustomJsonDerivedType(typeof(ChatMemberBanned), "kicked")]
+public abstract partial class ChatMember
 {
     /// <summary>
-    /// The member's status in the chat.
+    /// The member's status in the chat
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract ChatMemberStatus Status { get; }
+    public abstract Enums.ChatMemberStatus Status { get; }
 
     /// <summary>
     /// Information about the user
@@ -29,155 +27,141 @@ public abstract class ChatMember
 }
 
 /// <summary>
-/// Represents a <see cref="ChatMember"/> that owns the chat and has all administrator privileges
+/// Represents a <see cref="ChatMember">chat member</see> that owns the chat and has all administrator privileges.
 /// </summary>
-public class ChatMemberOwner : ChatMember
+public partial class ChatMemberOwner : ChatMember
 {
-    /// <inheritdoc />
-    public override ChatMemberStatus Status => ChatMemberStatus.Creator;
-
     /// <summary>
-    /// Custom title for this user
+    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Creator"/>
     /// </summary>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? CustomTitle { get; set; }
+    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Creator;
 
     /// <summary>
     /// <see langword="true"/>, if the user's presence in the chat is hidden
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsAnonymous { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. Custom title for this user
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? CustomTitle { get; set; }
 }
 
 /// <summary>
-/// Represents a <see cref="ChatMember"/> that has some additional privileges
+/// Represents a <see cref="ChatMember">chat member</see> that has some additional privileges.
 /// </summary>
-public class ChatMemberAdministrator : ChatMember
+public partial class ChatMemberAdministrator : ChatMember
 {
-    /// <inheritdoc />
-    public override ChatMemberStatus Status => ChatMemberStatus.Administrator;
+    /// <summary>
+    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Administrator"/>
+    /// </summary>
+    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Administrator;
 
     /// <summary>
     /// <see langword="true"/>, if the bot is allowed to edit administrator privileges of that user
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanBeEdited { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the user's presence in the chat is hidden
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsAnonymous { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message statistics
-    /// in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
-    /// Implied by any other administrator privilege
+    /// <see langword="true"/>, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanManageChat { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the administrator can delete messages of other users
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanDeleteMessages { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanManageVideoChats { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the administrator can restrict, ban or unban chat members
+    /// <see langword="true"/>, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanRestrictMembers { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or
-    /// demote administrators that he has promoted, directly or indirectly (promoted by administrators that
-    /// were appointed by the user)
+    /// <see langword="true"/>, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanPromoteMembers { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the administrator can change the chat title, photo and other settings
+    /// <see langword="true"/>, if the user is allowed to change the chat title, photo and other settings
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanChangeInfo { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the administrator can invite new users to the chat
+    /// <see langword="true"/>, if the user is allowed to invite new users to the chat
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanInviteUsers { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the administrator can post in the channel, channels only
+    /// <see langword="true"/>, if the administrator can post stories to the chat
     /// </summary>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanPostMessages { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanPostStories { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the administrator can edit messages of other users, channels only
+    /// <see langword="true"/>, if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
     /// </summary>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanEditMessages { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanEditStories { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the administrator can pin messages, supergroups only
+    /// <see langword="true"/>, if the administrator can delete stories posted by other users
     /// </summary>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanPinMessages { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanDeleteStories { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the administrator can post stories in the channel; channels only
+    /// <em>Optional</em>. <see langword="true"/>, if the administrator can post messages in the channel, or access channel statistics; for channels only
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanPostStories { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanPostMessages { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the administrator can edit stories posted by other users; channels only
+    /// <em>Optional</em>. <see langword="true"/>, if the administrator can edit messages of other users and can pin messages; for channels only
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanEditStories { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanEditMessages { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the administrator can delete stories posted by other users; channels only
+    /// <em>Optional</em>. <see langword="true"/>, if the user is allowed to pin messages; for groups and supergroups only
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanDeleteStories { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanPinMessages { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics;
-    /// supergroups only
+    /// <em>Optional</em>. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanManageTopics { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanManageTopics { get; set; }
 
     /// <summary>
-    /// Optional. Custom title for this user
+    /// <em>Optional</em>. Custom title for this user
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -185,160 +169,151 @@ public class ChatMemberAdministrator : ChatMember
 }
 
 /// <summary>
-/// Represents a <see cref="ChatMember"/> that has no additional privileges or restrictions.
+/// Represents a <see cref="ChatMember">chat member</see> that has no additional privileges or restrictions.
 /// </summary>
-public class ChatMemberMember : ChatMember
+public partial class ChatMemberMember : ChatMember
 {
-    /// <inheritdoc />
-    public override ChatMemberStatus Status => ChatMemberStatus.Member;
+    /// <summary>
+    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Member"/>
+    /// </summary>
+    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Member;
 }
 
 /// <summary>
-/// Represents a <see cref="ChatMember"/> that is under certain restrictions in the chat. Supergroups only.
+/// Represents a <see cref="ChatMember">chat member</see> that is under certain restrictions in the chat. Supergroups only.
 /// </summary>
-public class ChatMemberRestricted : ChatMember
+public partial class ChatMemberRestricted : ChatMember
 {
-    /// <inheritdoc />
-    public override ChatMemberStatus Status => ChatMemberStatus.Restricted;
+    /// <summary>
+    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Restricted"/>
+    /// </summary>
+    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Restricted;
 
     /// <summary>
     /// <see langword="true"/>, if the user is a member of the chat at the moment of the request
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsMember { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the user can change the chat title, photo and other settings
+    /// <see langword="true"/>, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public bool CanChangeInfo { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the user can invite new users to the chat
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public bool CanInviteUsers { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the user can pin messages, supergroups only
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public bool CanPinMessages { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the user can send text messages, contacts, locations and venues
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendMessages { get; set; }
 
     /// <summary>
-    /// <see langword="true" />, if the user is allowed to send audios
+    /// <see langword="true"/>, if the user is allowed to send audios
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendAudios { get; set; }
 
     /// <summary>
-    /// <see langword="true" />, if the user is allowed to send documents
+    /// <see langword="true"/>, if the user is allowed to send documents
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendDocuments { get; set; }
 
     /// <summary>
-    /// <see langword="true" />, if the user is allowed to send photos
+    /// <see langword="true"/>, if the user is allowed to send photos
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendPhotos { get; set; }
 
     /// <summary>
-    /// <see langword="true" />, if the user is allowed to send videos
+    /// <see langword="true"/>, if the user is allowed to send videos
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendVideos { get; set; }
 
     /// <summary>
-    /// <see langword="true" />, if the user is allowed to send video notes
+    /// <see langword="true"/>, if the user is allowed to send video notes
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendVideoNotes { get; set; }
 
     /// <summary>
-    /// <see langword="true" />, if the user is allowed to send voice notes
+    /// <see langword="true"/>, if the user is allowed to send voice notes
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendVoiceNotes { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the user is allowed to send polls
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendPolls { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the user is allowed to send animations, games, stickers and use inline bots
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanSendOtherMessages { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the user is allowed to add web page previews to their messages
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanAddWebPagePreviews { get; set; }
 
     /// <summary>
-    /// Date when restrictions will be lifted for this user, UTC time
+    /// <see langword="true"/>, if the user is allowed to change the chat title, photo and other settings
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanChangeInfo { get; set; }
+
+    /// <summary>
+    /// <see langword="true"/>, if the user is allowed to invite new users to the chat
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanInviteUsers { get; set; }
+
+    /// <summary>
+    /// <see langword="true"/>, if the user is allowed to pin messages
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanPinMessages { get; set; }
+
+    /// <summary>
+    /// <see langword="true"/>, if the user is allowed to create forum topics
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CanManageTopics { get; set; }
+
+    /// <summary>
+    /// Date when restrictions will be lifted for this user, in UTC. If unset, then the user is restricted forever
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
+}
+
+/// <summary>
+/// Represents a <see cref="ChatMember">chat member</see> that isn't currently a member of the chat, but may join it themselves.
+/// </summary>
+public partial class ChatMemberLeft : ChatMember
+{
+    /// <summary>
+    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Left"/>
+    /// </summary>
+    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Left;
+}
+
+/// <summary>
+/// Represents a <see cref="ChatMember">chat member</see> that was banned in the chat and can't return to the chat or view chat messages.
+/// </summary>
+public partial class ChatMemberBanned : ChatMember
+{
+    /// <summary>
+    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Kicked"/>
+    /// </summary>
+    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Kicked;
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the user is allowed to create forum topics
-    /// supergroups only
+    /// Date when restrictions will be lifted for this user, in UTC. If unset, then the user is banned forever
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CanManageTopics { get; set; }
-}
-
-/// <summary>
-/// Represents a <see cref="ChatMember"/> that isn't currently a member of the chat, but may join it themselves
-/// </summary>
-public class ChatMemberLeft : ChatMember
-{
-    /// <inheritdoc />
-    public override ChatMemberStatus Status => ChatMemberStatus.Left;
-}
-
-/// <summary>
-/// Represents a <see cref="ChatMember"/> that was banned in the chat and can't return to the chat
-/// or view chat messages
-/// </summary>
-public class ChatMemberBanned : ChatMember
-{
-    /// <inheritdoc />
-    public override ChatMemberStatus Status => ChatMemberStatus.Kicked;
-
-    /// <summary>
-    /// Date when restrictions will be lifted for this user, UTC time
-    /// </summary>
     [JsonConverter(typeof(BanTimeConverter))]
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? UntilDate { get; set; }
 }

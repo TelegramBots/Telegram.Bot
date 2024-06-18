@@ -1,97 +1,75 @@
-using static Telegram.Bot.Types.Passport.EncryptedPassportElementType;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Types.Passport;
+﻿namespace Telegram.Bot.Types.Passport;
 
 /// <summary>
-/// Contains information about documents or other Telegram Passport elements shared with the bot by the user.
+/// Describes documents or other Telegram Passport elements shared with the bot by the user.
 /// </summary>
-public class EncryptedPassportElement
+public partial class EncryptedPassportElement
 {
     /// <summary>
-    /// Element type. One of <see cref="EncryptedPassportElementType"/>
+    /// Element type. One of <see cref="EncryptedPassportElementType.PersonalDetails">PersonalDetails</see>, <see cref="EncryptedPassportElementType.Passport">Passport</see>, <see cref="EncryptedPassportElementType.DriverLicense">DriverLicense</see>, <see cref="EncryptedPassportElementType.IdentityCard">IdentityCard</see>, <see cref="EncryptedPassportElementType.InternalPassport">InternalPassport</see>, <see cref="EncryptedPassportElementType.Address">Address</see>, <see cref="EncryptedPassportElementType.UtilityBill">UtilityBill</see>, <see cref="EncryptedPassportElementType.BankStatement">BankStatement</see>, <see cref="EncryptedPassportElementType.RentalAgreement">RentalAgreement</see>, <see cref="EncryptedPassportElementType.PassportRegistration">PassportRegistration</see>, <see cref="EncryptedPassportElementType.TemporaryRegistration">TemporaryRegistration</see>, <see cref="EncryptedPassportElementType.PhoneNumber">PhoneNumber</see>, <see cref="EncryptedPassportElementType.Email">Email</see>.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public EncryptedPassportElementType Type { get; set; }
 
     /// <summary>
-    /// Optional. Base64-encoded encrypted Telegram Passport element data provided by the user, available for
-    /// <see cref="PersonalDetails"/>, <see cref="Passport"/>, <see cref="DriverLicense"/>,
-    /// <see cref="IdentityCard"/>, <see cref="InternalPassport"/> and <see cref="Address"/>
-    /// types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
+    /// <em>Optional</em>. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for “PersonalDetails”, “passport”, “DriverLicense”, “IdentityCard”, “InternalPassport” and “address” types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Data { get; set; }
 
     /// <summary>
-    /// Optional. User's verified phone number, available only for <see cref="PhoneNumber"/> type.
+    /// <em>Optional</em>. User's verified phone number; available only for “<see cref="PhoneNumber">PhoneNumber</see>” type
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? PhoneNumber { get; set; }
 
     /// <summary>
-    /// Optional. User's verified email address, available only for <see cref="Email"/> type.
+    /// <em>Optional</em>. User's verified email address; available only for “email” type
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Email { get; set; }
 
     /// <summary>
-    /// Optional. Array of encrypted files with documents provided by the user, available for
-    /// <see cref="UtilityBill"/>, <see cref="BankStatement"/>, <see cref="RentalAgreement"/>,
-    /// <see cref="PassportRegistration"/> and <see cref="TemporaryRegistration"/> types.
-    /// Files can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
+    /// <em>Optional</em>. Array of encrypted files with documents provided by the user; available only for “UtilityBill”, “BankStatement”, “RentalAgreement”, “PassportRegistration” and “TemporaryRegistration” types. Files can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PassportFile[]? Files { get; set; }
 
     /// <summary>
-    /// Optional. Encrypted file with the front side of the document, provided by the user. Available for
-    /// <see cref="Passport"/>, <see cref="DriverLicense"/>, <see cref="IdentityCard"/> and
-    /// <see cref="InternalPassport"/>. The file can be decrypted and verified using the accompanying
-    /// <see cref="EncryptedCredentials"/>.
+    /// <em>Optional</em>. Encrypted file with the front side of the document, provided by the user; available only for “passport”, “DriverLicense”, “IdentityCard” and “InternalPassport”. The file can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PassportFile? FrontSide { get; set; }
 
     /// <summary>
-    /// Optional. Encrypted file with the reverse side of the document, provided by the user. Available for
-    /// <see cref="DriverLicense"/> and <see cref="IdentityCard"/>. The file can be decrypted and verified using
-    /// the accompanying <see cref="EncryptedCredentials"/>.
+    /// <em>Optional</em>. Encrypted file with the reverse side of the document, provided by the user; available only for “DriverLicense” and “IdentityCard”. The file can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PassportFile? ReverseSide { get; set; }
 
     /// <summary>
-    /// Optional. Encrypted file with the selfie of the user holding a document, provided by the user;
-    /// available for <see cref="Passport"/>, <see cref="DriverLicense"/>, <see cref="IdentityCard"/> and
-    /// <see cref="InternalPassport"/>. The file can be decrypted and verified using the accompanying
-    /// <see cref="EncryptedCredentials"/>.
+    /// <em>Optional</em>. Encrypted file with the selfie of the user holding a document, provided by the user; available if requested for “passport”, “DriverLicense”, “IdentityCard” and “InternalPassport”. The file can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PassportFile? Selfie { get; set; }
 
     /// <summary>
-    /// Optional. Array of encrypted files with translated versions of documents provided by the user.
-    /// Available if requested for <see cref="Passport"/>, <see cref="DriverLicense"/>,
-    /// <see cref="IdentityCard"/>, <see cref="InternalPassport"/>, <see cref="UtilityBill"/>,
-    /// <see cref="BankStatement"/>, <see cref="RentalAgreement"/>, <see cref="PassportRegistration"/> and
-    /// <see cref="TemporaryRegistration"/> types. Files can be decrypted and verified using the accompanying
-    /// <see cref="EncryptedCredentials"/>.
+    /// <em>Optional</em>. Array of encrypted files with translated versions of documents provided by the user; available if requested for “passport”, “DriverLicense”, “IdentityCard”, “InternalPassport”, “UtilityBill”, “BankStatement”, “RentalAgreement”, “PassportRegistration” and “TemporaryRegistration” types. Files can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PassportFile[]? Translation { get; set; }
 
     /// <summary>
-    /// Base64-encoded element hash for using in PassportElementErrorUnspecified
+    /// Base64-encoded element hash for using in <see cref="PassportElementErrorUnspecified"/>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

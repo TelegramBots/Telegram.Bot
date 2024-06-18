@@ -3,7 +3,7 @@
 /// <summary>
 /// This object represent a user's profile pictures.
 /// </summary>
-public class UserProfilePhotos
+public partial class UserProfilePhotos
 {
     /// <summary>
     /// Total number of profile pictures the target user has

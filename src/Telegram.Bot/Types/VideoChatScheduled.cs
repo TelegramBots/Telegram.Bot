@@ -3,10 +3,10 @@
 /// <summary>
 /// This object represents a service message about a video chat scheduled in the chat.
 /// </summary>
-public class VideoChatScheduled
+public partial class VideoChatScheduled
 {
     /// <summary>
-    /// Point in time when the voice chat is supposed to be started by a chat administrator
+    /// Point in time when the video chat is supposed to be started by a chat administrator
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

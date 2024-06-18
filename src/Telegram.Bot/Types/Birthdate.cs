@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-///
+/// Describes the birthdate of a user.
 /// </summary>
-public class Birthdate
+public partial class Birthdate
 {
     /// <summary>
     /// Day of the user's birth; 1-31
@@ -20,7 +20,7 @@ public class Birthdate
     public int Month { get; set; }
 
     /// <summary>
-    /// Optional. Year of the user's birth
+    /// <em>Optional</em>. Year of the user's birth
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

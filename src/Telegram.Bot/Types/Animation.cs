@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
 /// </summary>
-public class Animation : FileBase
+public partial class Animation : FileBase
 {
     /// <summary>
     /// Video width as defined by sender
@@ -27,21 +27,21 @@ public class Animation : FileBase
     public int Duration { get; set; }
 
     /// <summary>
-    /// Optional. Animation thumbnail as defined by sender
+    /// <em>Optional</em>. Animation thumbnail as defined by sender
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Original animation filename as defined by sender
+    /// <em>Optional</em>. Original animation filename as defined by sender
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FileName { get; set; }
 
     /// <summary>
-    /// Optional. MIME type of the file as defined by sender
+    /// <em>Optional</em>. MIME type of the file as defined by sender
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

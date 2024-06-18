@@ -1,29 +1,20 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object describes the origin of a message. It can be one of
-/// <list type="bullet">
-/// <item><see cref="MessageOriginUser"/></item>
-/// <item><see cref="MessageOriginHiddenUser"/></item>
-/// <item><see cref="MessageOriginChat"/></item>
-/// <item><see cref="MessageOriginChannel"/></item>
-/// </list>
+/// This object describes the origin of a message. It can be one of<br/><see cref="MessageOriginUser"/>, <see cref="MessageOriginHiddenUser"/>, <see cref="MessageOriginChat"/>, <see cref="MessageOriginChannel"/>
 /// </summary>
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(MessageOriginUser), "user")]
 [CustomJsonDerivedType(typeof(MessageOriginHiddenUser), "hidden_user")]
 [CustomJsonDerivedType(typeof(MessageOriginChat), "chat")]
 [CustomJsonDerivedType(typeof(MessageOriginChannel), "channel")]
-// [CustomJsonDerivedType(typeof(FallbackUnsupportedMessageOrigin), UnknownCase = true)]
-public abstract class MessageOrigin
+public abstract partial class MessageOrigin
 {
     /// <summary>
     /// Type of the message origin
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract MessageOriginType Type { get; }
+    public abstract Enums.MessageOriginType Type { get; }
 
     /// <summary>
     /// Date the message was sent originally
@@ -37,12 +28,12 @@ public abstract class MessageOrigin
 /// <summary>
 /// The message was originally sent by a known user.
 /// </summary>
-public class MessageOriginUser : MessageOrigin
+public partial class MessageOriginUser : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="MessageOriginType.User"/>
+    /// Type of the message origin, always <see cref="Enums.MessageOriginType.User"/>
     /// </summary>
-    public override MessageOriginType Type => MessageOriginType.User;
+    public override Enums.MessageOriginType Type => Enums.MessageOriginType.User;
 
     /// <summary>
     /// User that sent the message originally
@@ -55,12 +46,12 @@ public class MessageOriginUser : MessageOrigin
 /// <summary>
 /// The message was originally sent by an unknown user.
 /// </summary>
-public class MessageOriginHiddenUser : MessageOrigin
+public partial class MessageOriginHiddenUser : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="MessageOriginType.HiddenUser"/>
+    /// Type of the message origin, always <see cref="Enums.MessageOriginType.HiddenUser"/>
     /// </summary>
-    public override MessageOriginType Type => MessageOriginType.HiddenUser;
+    public override Enums.MessageOriginType Type => Enums.MessageOriginType.HiddenUser;
 
     /// <summary>
     /// Name of the user that sent the message originally
@@ -73,12 +64,12 @@ public class MessageOriginHiddenUser : MessageOrigin
 /// <summary>
 /// The message was originally sent on behalf of a chat to a group chat.
 /// </summary>
-public class MessageOriginChat : MessageOrigin
+public partial class MessageOriginChat : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="MessageOriginType.Chat"/>
+    /// Type of the message origin, always <see cref="Enums.MessageOriginType.Chat"/>
     /// </summary>
-    public override MessageOriginType Type => MessageOriginType.Chat;
+    public override Enums.MessageOriginType Type => Enums.MessageOriginType.Chat;
 
     /// <summary>
     /// Chat that sent the message originally
@@ -88,8 +79,7 @@ public class MessageOriginChat : MessageOrigin
     public Chat SenderChat { get; set; } = default!;
 
     /// <summary>
-    /// Optional. For messages originally sent by an anonymous chat administrator,
-    /// original message author signature
+    /// <em>Optional</em>. For messages originally sent by an anonymous chat administrator, original message author signature
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -99,12 +89,12 @@ public class MessageOriginChat : MessageOrigin
 /// <summary>
 /// The message was originally sent to a channel chat.
 /// </summary>
-public class MessageOriginChannel : MessageOrigin
+public partial class MessageOriginChannel : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="MessageOriginType.Channel"/>
+    /// Type of the message origin, always <see cref="Enums.MessageOriginType.Channel"/>
     /// </summary>
-    public override MessageOriginType Type => MessageOriginType.Channel;
+    public override Enums.MessageOriginType Type => Enums.MessageOriginType.Channel;
 
     /// <summary>
     /// Channel chat to which the message was originally sent
@@ -121,7 +111,7 @@ public class MessageOriginChannel : MessageOrigin
     public int MessageId { get; set; }
 
     /// <summary>
-    /// Optional. Signature of the original post author
+    /// <em>Optional</em>. Signature of the original post author
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

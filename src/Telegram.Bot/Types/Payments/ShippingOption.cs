@@ -3,7 +3,7 @@
 /// <summary>
 /// This object represents one shipping option.
 /// </summary>
-public class ShippingOption
+public partial class ShippingOption
 {
     /// <summary>
     /// Shipping option identifier

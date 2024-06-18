@@ -1,13 +1,9 @@
-using Telegram.Bot.Types.Enums;
-using static Telegram.Bot.Types.Enums.ChatType;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents an incoming inline query. When the user sends an empty query, your bot could return
-/// some default or trending results.
+/// This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
 /// </summary>
-public class InlineQuery
+public partial class InlineQuery
 {
     /// <summary>
     /// Unique identifier for this query
@@ -38,17 +34,14 @@ public class InlineQuery
     public string Offset { get; set; } = default!;
 
     /// <summary>
-    /// Optional. Type of the chat, from which the inline query was sent. Can be either  <see cref="Sender"/> for
-    /// a private chat with the inline query sender, <see cref="Private"/>, <see cref="Group"/>,
-    /// <see cref="Supergroup"/>, or <see cref="Channel"/>. The chat type should be always known for requests
-    /// sent from official clients and most third-party clients, unless the request was sent from a secret chat
+    /// <em>Optional</em>. Type of the chat from which the inline query was sent. Can be either <see cref="Enums.ChatType.Sender">Sender</see> for a private chat with the inline query sender, <see cref="Enums.ChatType.Private">Private</see>, <see cref="Enums.ChatType.Group">Group</see>, <see cref="Enums.ChatType.Supergroup">Supergroup</see>, or <see cref="Enums.ChatType.Channel">Channel</see>. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ChatType? ChatType { get; set; }
+    public Enums.ChatType? ChatType { get; set; }
 
     /// <summary>
-    /// Optional. Sender location, only for bots that request user location
+    /// <em>Optional</em>. Sender location, only for bots that request user location
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

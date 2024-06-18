@@ -1,34 +1,28 @@
-using System.Diagnostics.CodeAnalysis;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// Contains information about a <a href="https://core.telegram.org/bots/webapps ">Web App</a>
+/// Describes a <a href="https://core.telegram.org/bots/webapps">Web App</a>.
 /// </summary>
-public class WebAppInfo
+public partial class WebAppInfo
 {
     /// <summary>
-    /// An HTTPS URL of a Web App to be opened with additional data as specified in
-    /// <a href="https://core.telegram.org/bots/webapps#initializing-web-apps">Initializing Web Apps</a>
+    /// An HTTPS URL of a Web App to be opened with additional data as specified in <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">Initializing Web Apps</a>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Url { get; init; }
+    public required string Url { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WebAppInfo"/> class with url
+    /// Initializes an instance of <see cref="WebAppInfo"/>
     /// </summary>
-    /// <param name="url">
-    /// An HTTPS URL of a Web App to be opened with additional data as specified in
-    /// <a href="https://core.telegram.org/bots/webapps#initializing-web-apps">Initializing Web Apps</a>
-    /// </param>
+    /// <param name="url">An HTTPS URL of a Web App to be opened with additional data as specified in <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">Initializing Web Apps</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    public WebAppInfo(string url)
-        => Url = url;
+    public WebAppInfo(string url) => Url = url;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WebAppInfo"/> class
+    /// Instantiates a new <see cref="WebAppInfo"/>
     /// </summary>
     public WebAppInfo()
-    {}
+    { }
 }

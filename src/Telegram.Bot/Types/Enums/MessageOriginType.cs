@@ -1,28 +1,28 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
-/// Message origin type
+/// Type of the message origin
 /// </summary>
 [JsonConverter(typeof(MessageOriginTypeConverter))]
 public enum MessageOriginType
 {
     /// <summary>
-    /// Message origin is from a user
+    /// The message was originally sent by a known user.<br/><br/><i>(<see cref="MessageOrigin"/> can be cast into <see cref="MessageOriginUser"/>)</i>
     /// </summary>
     User = 1,
 
     /// <summary>
-    /// Message origin is from a hidden user
+    /// The message was originally sent by an unknown user.<br/><br/><i>(<see cref="MessageOrigin"/> can be cast into <see cref="MessageOriginHiddenUser"/>)</i>
     /// </summary>
     HiddenUser,
 
     /// <summary>
-    /// Message origin is a chat
+    /// The message was originally sent on behalf of a chat to a group chat.<br/><br/><i>(<see cref="MessageOrigin"/> can be cast into <see cref="MessageOriginChat"/>)</i>
     /// </summary>
     Chat,
 
     /// <summary>
-    /// Message origin is a channel
+    /// The message was originally sent to a channel chat.<br/><br/><i>(<see cref="MessageOrigin"/> can be cast into <see cref="MessageOriginChannel"/>)</i>
     /// </summary>
     Channel,
 }

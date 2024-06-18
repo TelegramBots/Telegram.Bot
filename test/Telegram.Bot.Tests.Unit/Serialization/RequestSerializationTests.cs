@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
@@ -80,9 +81,9 @@ public class RequestSerializationTests
         Assert.Equal(1004, request.ReplyParameters.MessageId);
         Assert.Null(request.ReplyParameters.ChatId);
         Assert.Null(request.ReplyParameters.QuoteEntities);
-        Assert.Null(request.ReplyParameters.AllowSendingWithoutReply);
+        Assert.False(request.ReplyParameters.AllowSendingWithoutReply);
         Assert.Null(request.ReplyParameters.QuotePosition);
-        Assert.Null(request.ReplyParameters.QuoteParseMode);
+        Assert.Equal(ParseMode.None, request.ReplyParameters.QuoteParseMode);
         Assert.False(j.ContainsKey("reply_to_message_id"));
 
         JsonNode? node = j["reply_parameters"];
@@ -111,9 +112,9 @@ public class RequestSerializationTests
         Assert.NotNull(request.LinkPreviewOptions);
         Assert.True(request.LinkPreviewOptions.IsDisabled);
         Assert.Null(request.LinkPreviewOptions.Url);
-        Assert.Null(request.LinkPreviewOptions.PreferLargeMedia);
-        Assert.Null(request.LinkPreviewOptions.PreferSmallMedia);
-        Assert.Null(request.LinkPreviewOptions.ShowAboveText);
+        Assert.False(request.LinkPreviewOptions.PreferLargeMedia);
+        Assert.False(request.LinkPreviewOptions.PreferSmallMedia);
+        Assert.False(request.LinkPreviewOptions.ShowAboveText);
         Assert.False(j.ContainsKey("disable_web_page_preview"));
 
         JsonNode? node = j["link_preview_options"];

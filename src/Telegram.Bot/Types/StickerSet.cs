@@ -1,12 +1,9 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a sticker set.
-/// <a href="https://core.telegram.org/bots/api#stickerset"/>
 /// </summary>
-public class StickerSet
+public partial class StickerSet
 {
     /// <summary>
     /// Sticker set name
@@ -23,26 +20,11 @@ public class StickerSet
     public string Title { get; set; } = default!;
 
     /// <summary>
-    /// Type of stickers in the set
+    /// Type of stickers in the set, currently one of <see cref="Enums.StickerType.Regular">Regular</see>, <see cref="Enums.StickerType.Mask">Mask</see>, <see cref="Enums.StickerType.CustomEmoji">CustomEmoji</see>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public StickerType StickerType { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Animated">animated stickers</see>
-    /// </summary>
-
-    [JsonIgnore]
-    [Obsolete("This field is no longer sent by Bot API")]
-    public bool IsAnimated { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Video">video stickers</see>
-    /// </summary>
-    [JsonIgnore]
-    [Obsolete("This field is no longer sent by Bot API")]
-    public bool IsVideo { get; set; }
+    public Enums.StickerType StickerType { get; set; }
 
     /// <summary>
     /// List of all set stickers
@@ -52,7 +34,7 @@ public class StickerSet
     public Sticker[] Stickers { get; set; } = default!;
 
     /// <summary>
-    /// Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
+    /// <em>Optional</em>. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

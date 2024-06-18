@@ -51,7 +51,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
                 ChatId = fixture.SupergroupChat.Id,
                 GameShortName = classFixture.GameShortName,
                 ReplyMarkup = new([
-                    InlineKeyboardButton.WithCallBackGame(text: "Play"),
+                    InlineKeyboardButton.WithCallbackGame(text: "Play"),
                     InlineKeyboardButton.WithCallbackData(textAndCallbackData: "Second button")
                 ]),
             }

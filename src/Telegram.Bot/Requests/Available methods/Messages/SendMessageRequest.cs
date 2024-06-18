@@ -103,9 +103,9 @@ public class SendMessageRequest : RequestBase<Message>, IChatTargetable, IBusine
     /// </summary>
     [Obsolete($"This property is deprecated, use {nameof(LinkPreviewOptions)} instead")]
     [JsonIgnore]
-    public bool? DisableWebPagePreview
+    public bool DisableWebPagePreview
     {
-        get => LinkPreviewOptions?.IsDisabled;
+        get => LinkPreviewOptions?.IsDisabled ?? false;
         set
         {
             LinkPreviewOptions ??= new();

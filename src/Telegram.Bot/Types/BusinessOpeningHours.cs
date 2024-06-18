@@ -1,9 +1,9 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-///
+/// Describes the opening hours of a business.
 /// </summary>
-public class BusinessOpeningHours
+public partial class BusinessOpeningHours
 {
     /// <summary>
     /// Unique name of the time zone for which the opening hours are defined
@@ -13,7 +13,7 @@ public class BusinessOpeningHours
     public string TimeZoneName { get; set; } = default!;
 
     /// <summary>
-    /// Array of List of time intervals describing business opening hours
+    /// List of time intervals describing business opening hours
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

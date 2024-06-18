@@ -1,35 +1,23 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Types.InlineQueryResults;
+﻿namespace Telegram.Bot.Types.InlineQueryResults;
 
 /// <summary>
-/// Base Class for inline results send in response to an <see cref="InlineQuery"/>
+/// This object represents one result of an inline query. Telegram clients currently support results of the following 20 types:<br/><see cref="InlineQueryResultCachedAudio"/>, <see cref="InlineQueryResultCachedDocument"/>, <see cref="InlineQueryResultCachedGif"/>, <see cref="InlineQueryResultCachedMpeg4Gif"/>, <see cref="InlineQueryResultCachedPhoto"/>, <see cref="InlineQueryResultCachedSticker"/>, <see cref="InlineQueryResultCachedVideo"/>, <see cref="InlineQueryResultCachedVoice"/>, <see cref="InlineQueryResultArticle"/>, <see cref="InlineQueryResultAudio"/>, <see cref="InlineQueryResultContact"/>, <see cref="InlineQueryResultGame"/>, <see cref="InlineQueryResultDocument"/>, <see cref="InlineQueryResultGif"/>, <see cref="InlineQueryResultLocation"/>, <see cref="InlineQueryResultMpeg4Gif"/>, <see cref="InlineQueryResultPhoto"/>, <see cref="InlineQueryResultVenue"/>, <see cref="InlineQueryResultVideo"/>, <see cref="InlineQueryResultVoice"/><br/><b>Note:</b> All URLs passed in inline query results will be available to end users and therefore must be assumed to be <b>public</b>.
 /// </summary>
 [CustomJsonPolymorphic("type")]
-[CustomJsonDerivedType(typeof(InlineQueryResultArticle))]
-[CustomJsonDerivedType(typeof(InlineQueryResultAudio))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedAudio))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedDocument))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedGif))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedMpeg4Gif))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedPhoto))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedSticker))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedVideo))]
-[CustomJsonDerivedType(typeof(InlineQueryResultCachedVoice))]
-[CustomJsonDerivedType(typeof(InlineQueryResultContact))]
-[CustomJsonDerivedType(typeof(InlineQueryResultDocument))]
-[CustomJsonDerivedType(typeof(InlineQueryResultGame))]
-[CustomJsonDerivedType(typeof(InlineQueryResultGif))]
-[CustomJsonDerivedType(typeof(InlineQueryResultLocation))]
-[CustomJsonDerivedType(typeof(InlineQueryResultMpeg4Gif))]
-[CustomJsonDerivedType(typeof(InlineQueryResultPhoto))]
-[CustomJsonDerivedType(typeof(InlineQueryResultVenue))]
-[CustomJsonDerivedType(typeof(InlineQueryResultVideo))]
-[CustomJsonDerivedType(typeof(InlineQueryResultVoice))]
-public abstract class InlineQueryResult
+[CustomJsonDerivedType(typeof(InlineQueryResultArticle), "article")]
+[CustomJsonDerivedType(typeof(InlineQueryResultAudio), "audio")]
+[CustomJsonDerivedType(typeof(InlineQueryResultContact), "contact")]
+[CustomJsonDerivedType(typeof(InlineQueryResultGame), "game")]
+[CustomJsonDerivedType(typeof(InlineQueryResultDocument), "document")]
+[CustomJsonDerivedType(typeof(InlineQueryResultGif), "gif")]
+[CustomJsonDerivedType(typeof(InlineQueryResultLocation), "location")]
+[CustomJsonDerivedType(typeof(InlineQueryResultMpeg4Gif), "mpeg4_gif")]
+[CustomJsonDerivedType(typeof(InlineQueryResultPhoto), "photo")]
+[CustomJsonDerivedType(typeof(InlineQueryResultVenue), "venue")]
+[CustomJsonDerivedType(typeof(InlineQueryResultVideo), "video")]
+[CustomJsonDerivedType(typeof(InlineQueryResultVoice), "voice")]
+[CustomJsonDerivedType(typeof(InlineQueryResultCachedSticker), "sticker")]
+public abstract partial class InlineQueryResult
 {
     /// <summary>
     /// Type of the result
@@ -38,29 +26,29 @@ public abstract class InlineQueryResult
     public abstract InlineQueryResultType Type { get; }
 
     /// <summary>
-    /// Unique identifier for this result, 1-64 Bytes
+    /// Unique identifier for this result, 1-64 bytes
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Id { get; init; }
+    public required string Id { get; set; }
 
     /// <summary>
-    /// Optional. Inline keyboard attached to the message
+    /// <em>Optional</em>. <a href="https://core.telegram.org/bots/features#inline-keyboards">Inline keyboard</a> attached to the message
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+    public ReplyMarkups.InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResult"/>
     /// </summary>
-    /// <param name="id">Unique identifier for this result, 1-64 Bytes</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     protected InlineQueryResult(string id) => Id = id;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResult"/>
     /// </summary>
     protected InlineQueryResult()
     { }
@@ -69,12 +57,11 @@ public abstract class InlineQueryResult
 /// <summary>
 /// Represents a link to an article or web page.
 /// </summary>
-public class InlineQueryResultArticle : InlineQueryResult
+public partial class InlineQueryResultArticle : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be article
+    /// Type of the result, always <see cref="InlineQueryResultType.Article"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Article;
 
     /// <summary>
@@ -82,59 +69,65 @@ public class InlineQueryResultArticle : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
     /// <summary>
     /// Content of the message to be sent
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InputMessageContent InputMessageContent { get; init; }
+    public required InputMessageContent InputMessageContent { get; set; }
 
     /// <summary>
-    /// Optional. URL of the result.
+    /// <em>Optional</em>. URL of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/>, if you don't want the URL to be shown in the message.
+    /// <em>Optional</em>. Pass <see langword="true"/> if you don't want the URL to be shown in the message
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HideUrl { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool HideUrl { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result.
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
+    /// <summary>
+    /// <em>Optional</em>. Url of the thumbnail for the result
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailWidth" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail width
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailWidth { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailHeight" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail height
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailHeight { get; set; }
 
     /// <summary>
-    /// Initializes a new <see cref="InlineQueryResultArticle"/> object
+    /// Initializes an instance of <see cref="InlineQueryResultArticle"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="title">Title of the result</param>
     /// <param name="inputMessageContent">Content of the message to be sent</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
         : base(id)
     {
@@ -143,98 +136,107 @@ public class InlineQueryResultArticle : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new <see cref="InlineQueryResultArticle"/> object
+    /// Instantiates a new <see cref="InlineQueryResultArticle"/>
     /// </summary>
     public InlineQueryResultArticle()
     { }
 }
 
 /// <summary>
-/// Represents a link to a photo. By default, this photo will be sent by the user with optional caption.
-/// Alternatively, you can use <see cref="InlineQueryResultPhoto.InputMessageContent"/> to send a message
-/// with the specified content instead of the photo.
+/// Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the photo.
 /// </summary>
-public class InlineQueryResultPhoto : InlineQueryResult
+public partial class InlineQueryResultPhoto : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be photo
+    /// Type of the result, always <see cref="InlineQueryResultType.Photo"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Photo;
 
     /// <summary>
-    /// A valid URL of the photo. Photo must be in <b>jpeg</b> format. Photo size must not exceed 5MB
+    /// A valid URL of the photo. Photo must be in <b>JPEG</b> format. Photo size must not exceed 5MB
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string PhotoUrl { get; init; }
-
-    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string ThumbnailUrl { get; init; }
+    public required string PhotoUrl { get; set; }
 
     /// <summary>
-    /// Optional. Width of the photo
+    /// URL of the thumbnail for the photo
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string ThumbnailUrl { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. Width of the photo
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? PhotoWidth { get; set; }
 
     /// <summary>
-    /// Optional. Height of the photo
+    /// <em>Optional</em>. Height of the photo
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? PhotoHeight { get; set; }
 
     /// <summary>
-    /// Optional. Title for the result
+    /// <em>Optional</em>. Title for the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the photo to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the photo caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the photo
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query representing a link to a photo
+    /// Initializes an instance of <see cref="InlineQueryResultPhoto"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
-    /// <param name="thumbnailUrl">Optional. Url of the thumbnail for the result.</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="photoUrl">A valid URL of the photo. Photo must be in <b>JPEG</b> format. Photo size must not exceed 5MB</param>
+    /// <param name="thumbnailUrl">URL of the thumbnail for the photo</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultPhoto(string id, string photoUrl, string thumbnailUrl)
         : base(id)
     {
@@ -243,24 +245,20 @@ public class InlineQueryResultPhoto : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query representing a link to a photo
+    /// Instantiates a new <see cref="InlineQueryResultPhoto"/>
     /// </summary>
     public InlineQueryResultPhoto()
     { }
 }
 
 /// <summary>
-/// Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the
-/// user with optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultGif.InputMessageContent"/> to send a message with the
-/// specified content instead of the animation.
+/// Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the animation.
 /// </summary>
-public class InlineQueryResultGif : InlineQueryResult
+public partial class InlineQueryResultGif : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be GIF
+    /// Type of the result, always <see cref="InlineQueryResultType.Gif"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Gif;
 
     /// <summary>
@@ -268,24 +266,24 @@ public class InlineQueryResultGif : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string GifUrl { get; init; }
+    public required string GifUrl { get; set; }
 
     /// <summary>
-    /// Optional. Width of the GIF.
+    /// <em>Optional</em>. Width of the GIF
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? GifWidth { get; set; }
 
     /// <summary>
-    /// Optional. Height of the GIF.
+    /// <em>Optional</em>. Height of the GIF
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? GifHeight { get; set; }
 
     /// <summary>
-    /// Optional. Duration of the GIF.
+    /// <em>Optional</em>. Duration of the GIF in seconds
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -296,56 +294,65 @@ public class InlineQueryResultGif : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string ThumbnailUrl { get; init; }
+    public required string ThumbnailUrl { get; set; }
 
     /// <summary>
-    /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”,
-    /// or “video/mp4”. Defaults to “image/jpeg”
+    /// <em>Optional</em>. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailMimeType { get; set; }
 
     /// <summary>
-    /// Optional. Title for the result
+    /// <em>Optional</em>. Title for the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the GIF animation
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultGif"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="gifUrl">Width of the GIF</param>
-    /// <param name="thumbnailUrl">Url of the thumbnail for the result.</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="gifUrl">A valid URL for the GIF file. File size must not exceed 1MB</param>
+    /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl)
         : base(id)
     {
@@ -354,49 +361,45 @@ public class InlineQueryResultGif : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultGif"/>
     /// </summary>
     public InlineQueryResultGif()
     { }
 }
 
 /// <summary>
-/// Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this
-/// animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultMpeg4Gif.InputMessageContent"/> to send a message with the specified
-/// content instead of the animation.
+/// Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the animation.
 /// </summary>
-public class InlineQueryResultMpeg4Gif : InlineQueryResult
+public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be mpeg4_gif
+    /// Type of the result, always <see cref="InlineQueryResultType.Mpeg4Gif"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Mpeg4Gif;
 
     /// <summary>
-    /// A valid URL for the MP4 file. File size must not exceed 1MB
+    /// A valid URL for the MPEG4 file. File size must not exceed 1MB
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Mpeg4Url { get; init; }
+    public required string Mpeg4Url { get; set; }
 
     /// <summary>
-    /// Optional. Video width
+    /// <em>Optional</em>. Video width
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Mpeg4Width { get; set; }
 
     /// <summary>
-    /// Optional. Video height
+    /// <em>Optional</em>. Video height
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Mpeg4Height { get; set; }
 
     /// <summary>
-    /// Optional. Video duration
+    /// <em>Optional</em>. Video duration in seconds
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -407,58 +410,65 @@ public class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string ThumbnailUrl { get; init; }
+    public required string ThumbnailUrl { get; set; }
 
     /// <summary>
-    /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”,
-    /// or “video/mp4”. Defaults to “image/jpeg”
+    /// <em>Optional</em>. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailMimeType { get; set; }
 
     /// <summary>
-    /// Optional. Title for the result
+    /// <em>Optional</em>. Title for the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the video animation
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultMpeg4Gif"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
-    /// <param name="thumbnailUrl">Url of the thumbnail for the result.</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="mpeg4Url">A valid URL for the MPEG4 file. File size must not exceed 1MB</param>
+    /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl)
         : base(id)
     {
@@ -467,29 +477,23 @@ public class InlineQueryResultMpeg4Gif : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultMpeg4Gif"/>
     /// </summary>
     public InlineQueryResultMpeg4Gif()
     { }
 }
 
 /// <summary>
-/// Represents a link to a page containing an embedded video player or a video file. By default, this
-/// video file will be sent by the user with an optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultVideo.InputMessageContent"/> to send a message with the specified
-/// content instead of the video.
+/// Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the video.
 /// </summary>
 /// <remarks>
-/// If an <see cref="InlineQueryResultVideo"/> message contains an embedded video (e.g., YouTube),
-/// you <b>must</b> replace its content using <see cref="InlineQueryResultVideo.InputMessageContent"/>.
+/// If an InlineQueryResultVideo message contains an embedded video (e.g., YouTube), you <b>must</b> replace its content using <see cref="InputMessageContent">InputMessageContent</see>.
 /// </remarks>
-
-public class InlineQueryResultVideo : InlineQueryResult
+public partial class InlineQueryResultVideo : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be video
+    /// Type of the result, always <see cref="InlineQueryResultType.Video"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Video;
 
     /// <summary>
@@ -497,132 +501,127 @@ public class InlineQueryResultVideo : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string VideoUrl { get; init; }
+    public required string VideoUrl { get; set; }
 
     /// <summary>
-    /// Mime type of the content of video url, “text/html” or “video/mp4”
+    /// MIME type of the content of the video URL, “text/html” or “video/mp4”
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string MimeType { get; init; }
+    public required string MimeType { get; set; }
 
     /// <summary>
-    /// URL of the thumbnail (jpeg only) for the video
+    /// URL of the thumbnail (JPEG only) for the video
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string ThumbnailUrl { get; init; }
+    public required string ThumbnailUrl { get; set; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the video to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the video caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
-    /// Optional. Video width
+    /// <em>Optional</em>. Video width
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VideoWidth { get; set; }
 
     /// <summary>
-    /// Optional. Video height
+    /// <em>Optional</em>. Video height
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VideoHeight { get; set; }
 
     /// <summary>
-    /// Optional. Video duration in seconds
+    /// <em>Optional</em>. Video duration in seconds
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VideoDuration { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Optional. Content of the message to be sent instead of the video. This field is
-    /// <b>required</b> if <see cref="InlineQueryResultVideo"/> is used to send an
-    /// HTML-page as a result (e.g., a YouTube video).
+    /// <em>Optional</em>. Content of the message to be sent instead of the video. This field is <b>required</b> if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultVideo"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="videoUrl">A valid URL for the embedded video player</param>
-    /// <param name="thumbnailUrl">Url of the thumbnail for the result</param>
-    /// <param name="title">Title of the result</param>
-    /// <param name="inputMessageContent">
-    /// Content of the message to be sent instead of the video. This field is <b>required</b> if
-    /// <see cref="InlineQueryResultVideo"/> is used to send an HTML-page as a result
-    /// (e.g., a YouTube video).
-    /// </param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="videoUrl">A valid URL for the embedded video player or video file</param>
+    /// <param name="thumbnailUrl">URL of the thumbnail (JPEG only) for the video</param>
+    /// <param name="title">Title for the result</param>
+    /// <param name="inputMessageContent"><em>Optional</em>. Content of the message to be sent instead of the video. This field is <b>required</b> if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
-    public InlineQueryResultVideo(
-        string id,
-        string videoUrl,
-        string thumbnailUrl,
-        string title,
-        InputMessageContent? inputMessageContent = default) : base(id)
+    public InlineQueryResultVideo(string id, string videoUrl, string thumbnailUrl, string title, InputMessageContent? inputMessageContent = default)
+        : base(id)
     {
         VideoUrl = videoUrl;
-        MimeType = inputMessageContent is null ? "video/mp4" : "text/html";
         ThumbnailUrl = thumbnailUrl;
         Title = title;
         InputMessageContent = inputMessageContent;
+        MimeType = inputMessageContent is null ? "video/mp4" : "text/html";
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultVideo"/>
     /// </summary>
     public InlineQueryResultVideo()
     { }
 }
 
 /// <summary>
-/// Represents a link to an MP3 audio file. By default, this audio file will be sent by the user.
-/// Alternatively, you can use <see cref="InlineQueryResultAudio.InputMessageContent"/> to send
-/// a message with the specified content instead of the audio.
+/// Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the audio.
 /// </summary>
-public class InlineQueryResultAudio : InlineQueryResult
+public partial class InlineQueryResultAudio : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be audio
+    /// Type of the result, always <see cref="InlineQueryResultType.Audio"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Audio;
 
     /// <summary>
@@ -630,57 +629,65 @@ public class InlineQueryResultAudio : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string AudioUrl { get; init; }
+    public required string AudioUrl { get; set; }
 
     /// <summary>
     /// Title
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the audio caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
-    /// Optional. Performer
+    /// <em>Optional</em>. Performer
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Performer { get; set; }
 
     /// <summary>
-    /// Optional. Audio duration in seconds
+    /// <em>Optional</em>. Audio duration in seconds
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? AudioDuration { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the audio
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultAudio"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="audioUrl">A valid URL for the audio file</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="title">Title</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultAudio(string id, string audioUrl, string title)
         : base(id)
     {
@@ -689,24 +696,20 @@ public class InlineQueryResultAudio : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultAudio"/>
     /// </summary>
     public InlineQueryResultAudio()
     { }
 }
 
 /// <summary>
-/// Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this
-/// voice recording will be sent by the user. Alternatively, you can use
-/// <see cref="InlineQueryResultVoice.InputMessageContent"/> to send a message with the specified
-/// content instead of the voice message.
+/// Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the the voice message.
 /// </summary>
-public class InlineQueryResultVoice : InlineQueryResult
+public partial class InlineQueryResultVoice : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be voice
+    /// Type of the result, always <see cref="InlineQueryResultType.Voice"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Voice;
 
     /// <summary>
@@ -714,50 +717,58 @@ public class InlineQueryResultVoice : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string VoiceUrl { get; init; }
+    public required string VoiceUrl { get; set; }
 
     /// <summary>
     /// Recording title
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the voice message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
-    /// Optional. Recording duration in seconds
+    /// <em>Optional</em>. Recording duration in seconds
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VoiceDuration { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the voice recording
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultVoice"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="voiceUrl">A valid URL for the voice recording</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="title">Recording title</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultVoice(string id, string voiceUrl, string title)
         : base(id)
     {
@@ -766,100 +777,108 @@ public class InlineQueryResultVoice : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultVoice"/>
     /// </summary>
     public InlineQueryResultVoice()
     { }
 }
 
 /// <summary>
-/// Represents a link to a file. By default, this file will be sent by the user with an optional caption.
-/// Alternatively, you can use <see cref="InlineQueryResultDocument.InputMessageContent"/> to send
-/// a message with the specified content instead of the file. Currently, only .PDF and .ZIP files
-/// can be sent using this method.
+/// Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the file. Currently, only <b>.PDF</b> and <b>.ZIP</b> files can be sent using this method.
 /// </summary>
-public class InlineQueryResultDocument : InlineQueryResult
+public partial class InlineQueryResultDocument : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be document
+    /// Type of the result, always <see cref="InlineQueryResultType.Document"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Document;
-
-    /// <summary>
-    /// Title for the result
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
-
-    /// <inheritdoc cref="Documentation.Caption" />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Caption { get; set; }
-
-    /// <inheritdoc cref="Documentation.ParseMode" />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
-
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
     /// A valid URL for the file
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string DocumentUrl { get; init; }
+    public required string DocumentUrl { get; set; }
 
     /// <summary>
-    /// Mime type of the content of the file, either “application/pdf” or “application/zip”
+    /// Title for the result
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string MimeType { get; init; }
+    public required string Title { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result
+    /// <em>Optional</em>. Caption of the document to be sent, 0-1024 characters after entities parsing
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Caption { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the document caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MessageEntity[]? CaptionEntities { get; set; }
+
+    /// <summary>
+    /// MIME type of the content of the file, either “application/pdf” or “application/zip”
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string MimeType { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the file
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
+    /// <summary>
+    /// <em>Optional</em>. URL of the thumbnail (JPEG only) for the file
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailWidth" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail width
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailWidth { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailHeight" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail height
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailHeight { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultDocument"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="documentUrl">A valid URL for the file</param>
-    /// <param name="title">Title of the result</param>
-    /// <param name="mimeType">
-    /// Mime type of the content of the file, either “application/pdf” or “application/zip”
-    /// </param>
+    /// <param name="title">Title for the result</param>
+    /// <param name="mimeType">MIME type of the content of the file, either “application/pdf” or “application/zip”</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
         : base(id)
     {
@@ -869,101 +888,108 @@ public class InlineQueryResultDocument : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultDocument"/>
     /// </summary>
     public InlineQueryResultDocument()
     { }
 }
 
 /// <summary>
-/// Represents a location on a map. By default, the location will be sent by the user. Alternatively,
-/// you can use <see cref="InlineQueryResultLocation.InputMessageContent"/> to send a message with
-/// the specified content instead of the location.
+/// Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the location.
 /// </summary>
-public class InlineQueryResultLocation : InlineQueryResult
+public partial class InlineQueryResultLocation : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be location
+    /// Type of the result, always <see cref="InlineQueryResultType.Location"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Location;
 
-    /// <inheritdoc cref="Documentation.Latitude" />
+    /// <summary>
+    /// Location latitude in degrees
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Latitude { get; init; }
+    public required double Latitude { get; set; }
 
-    /// <inheritdoc cref="Documentation.Longitude" />
+    /// <summary>
+    /// Location longitude in degrees
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Longitude { get; init; }
+    public required double Longitude { get; set; }
 
     /// <summary>
     /// Location title
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
     /// <summary>
-    /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
+    /// <em>Optional</em>. The radius of uncertainty for the location, measured in meters; 0-1500
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public float? HorizontalAccuracy { get; set; }
+    public double? HorizontalAccuracy { get; set; }
 
     /// <summary>
-    /// Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
+    /// <em>Optional</em>. Period in seconds during which the location can be updated, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? LivePeriod { get; set; }
 
     /// <summary>
-    /// Optional. For live locations, a direction in which the user is moving, in degrees.
-    /// Must be between 1 and 360 if specified.
+    /// <em>Optional</em>. For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Heading { get; set; }
 
     /// <summary>
-    /// Optional. For live locations, a maximum distance for proximity alerts about approaching
-    /// another chat member, in meters. Must be between 1 and 100000 if specified.
+    /// <em>Optional</em>. For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ProximityAlertRadius { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the location
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
+    /// <summary>
+    /// <em>Optional</em>. Url of the thumbnail for the result
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailWidth" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail width
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailWidth { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailHeight" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail height
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailHeight { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultLocation"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="latitude">Latitude of the location in degrees</param>
-    /// <param name="longitude">Longitude of the location in degrees</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="latitude">Location latitude in degrees</param>
+    /// <param name="longitude">Location longitude in degrees</param>
+    /// <param name="title">Location title</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultLocation(string id, double latitude, double longitude, string title)
         : base(id)
     {
@@ -973,115 +999,118 @@ public class InlineQueryResultLocation : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultLocation"/>
     /// </summary>
     public InlineQueryResultLocation()
     { }
 }
 
 /// <summary>
-/// Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use
-/// <see cref="InlineQueryResultVenue.InputMessageContent"/> to send a message with the specified
-/// content instead of the venue.
+/// Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the venue.
 /// </summary>
-public class InlineQueryResultVenue : InlineQueryResult
+public partial class InlineQueryResultVenue : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be venue
+    /// Type of the result, always <see cref="InlineQueryResultType.Venue"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Venue;
 
-    /// <inheritdoc cref="Documentation.Latitude" />
+    /// <summary>
+    /// Latitude of the venue location in degrees
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Latitude { get; init; }
+    public required double Latitude { get; set; }
 
-    /// <inheritdoc cref="Documentation.Longitude" />
+    /// <summary>
+    /// Longitude of the venue location in degrees
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Longitude { get; init; }
+    public required double Longitude { get; set; }
 
     /// <summary>
     /// Title of the venue
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Address { get; init; }
+    public required string Address { get; set; }
 
     /// <summary>
-    /// Optional. Foursquare identifier of the venue if known
+    /// <em>Optional</em>. Foursquare identifier of the venue if known
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FoursquareId { get; set; }
 
     /// <summary>
-    /// Optional. Foursquare type of the venue. (For example, "arts_entertainment/default",
-    /// "arts_entertainment/aquarium" or "food/icecream".)
+    /// <em>Optional</em>. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FoursquareType { get; set; }
 
     /// <summary>
-    /// Google Places identifier of the venue
+    /// <em>Optional</em>. Google Places identifier of the venue
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GooglePlaceId { get; set; }
 
     /// <summary>
-    /// Google Places type of the venue.
-    /// <a href="https://developers.google.com/places/web-service/supported_types"/>
+    /// <em>Optional</em>. Google Places type of the venue. (See <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>.)
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GooglePlaceType { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the venue
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
+    /// <summary>
+    /// <em>Optional</em>. Url of the thumbnail for the result
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailWidth" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail width
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailWidth { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailHeight" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail height
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailHeight { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultVenue"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="latitude">Latitude of the location in degrees</param>
-    /// <param name="longitude">Longitude of the location in degrees</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="latitude">Latitude of the venue location in degrees</param>
+    /// <param name="longitude">Longitude of the venue location in degrees</param>
+    /// <param name="title">Title of the venue</param>
     /// <param name="address">Address of the venue</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
-    public InlineQueryResultVenue(
-        string id,
-        double latitude,
-        double longitude,
-        string title,
-        string address) : base(id)
+    public InlineQueryResultVenue(string id, double latitude, double longitude, string title, string address)
+        : base(id)
     {
         Latitude = latitude;
         Longitude = longitude;
@@ -1090,23 +1119,20 @@ public class InlineQueryResultVenue : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultVenue"/>
     /// </summary>
     public InlineQueryResultVenue()
     { }
 }
 
 /// <summary>
-/// Represents a contact with a phone number. By default, this contact will be sent by the user.
-/// Alternatively, you can use <see cref="InlineQueryResultContact.InputMessageContent"/> to send
-/// a message with the specified content instead of the contact.
+/// Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the contact.
 /// </summary>
-public class InlineQueryResultContact : InlineQueryResult
+public partial class InlineQueryResultContact : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be contact
+    /// Type of the result, always <see cref="InlineQueryResultType.Contact"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Contact;
 
     /// <summary>
@@ -1114,57 +1140,65 @@ public class InlineQueryResultContact : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string PhoneNumber { get; init; }
+    public required string PhoneNumber { get; set; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string FirstName { get; init; }
+    public required string FirstName { get; set; }
 
     /// <summary>
-    /// Optional. Contact's last name
+    /// <em>Optional</em>. Contact's last name
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
+    /// <em>Optional</em>. Additional data about the contact in the form of a <a href="https://en.wikipedia.org/wiki/VCard">vCard</a>, 0-2048 bytes
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Vcard { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the contact
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
+    /// <summary>
+    /// <em>Optional</em>. Url of the thumbnail for the result
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailWidth" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail width
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailWidth { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbnailHeight" />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail height
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ThumbnailHeight { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultContact"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultContact(string id, string phoneNumber, string firstName)
         : base(id)
     {
@@ -1173,21 +1207,20 @@ public class InlineQueryResultContact : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultContact"/>
     /// </summary>
     public InlineQueryResultContact()
     { }
 }
 
 /// <summary>
-/// Represents a <see cref="Game"/>.
+/// Represents a <a href="https://core.telegram.org/bots/api#games">Game</a>.
 /// </summary>
-public class InlineQueryResultGame : InlineQueryResult
+public partial class InlineQueryResultGame : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be game
+    /// Type of the result, always <see cref="InlineQueryResultType.Game"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Game;
 
     /// <summary>
@@ -1195,40 +1228,33 @@ public class InlineQueryResultGame : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string GameShortName { get; init; }
+    public required string GameShortName { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultGame"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="gameShortName">Short name of the game</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultGame(string id, string gameShortName)
-        : base(id)
-    {
-        GameShortName = gameShortName;
-    }
+        : base(id) => GameShortName = gameShortName;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultGame"/>
     /// </summary>
     public InlineQueryResultGame()
     { }
 }
 
 /// <summary>
-/// Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent
-/// by the user with an optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedPhoto.InputMessageContent"/> to send a message with the
-/// specified content instead of the photo.
+/// Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the photo.
 /// </summary>
-public class InlineQueryResultCachedPhoto : InlineQueryResult
+public partial class InlineQueryResultCachedPhoto : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be photo
+    /// Type of the result, always <see cref="InlineQueryResultType.Photo"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Photo;
 
     /// <summary>
@@ -1236,79 +1262,82 @@ public class InlineQueryResultCachedPhoto : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string PhotoFileId { get; init; }
+    public required string PhotoFileId { get; set; }
 
     /// <summary>
-    /// Optional. Title for the result
+    /// <em>Optional</em>. Title for the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the photo to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the photo caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the photo
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedPhoto"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="photoFileId">A valid file identifier of the photo</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedPhoto(string id, string photoFileId)
-        : base(id)
-    {
-        PhotoFileId = photoFileId;
-    }
+        : base(id) => PhotoFileId = photoFileId;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedPhoto"/>
     /// </summary>
     public InlineQueryResultCachedPhoto()
     { }
 }
 
 /// <summary>
-/// Represents a link to an animated GIF file stored on the Telegram servers. By default, this
-/// animated GIF file will be sent by the user with an optional caption. Alternatively, you can
-/// use <see cref="InlineQueryResultCachedGif.InputMessageContent"/> to send a message with
-/// specified content instead of the animation.
+/// Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with specified content instead of the animation.
 /// </summary>
-public class InlineQueryResultCachedGif : InlineQueryResult
+public partial class InlineQueryResultCachedGif : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be GIF
+    /// Type of the result, always <see cref="InlineQueryResultType.Gif"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Gif;
 
     /// <summary>
@@ -1316,147 +1345,151 @@ public class InlineQueryResultCachedGif : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string GifFileId { get; init; }
+    public required string GifFileId { get; set; }
 
     /// <summary>
-    /// Optional. Title for the result
+    /// <em>Optional</em>. Title for the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the GIF animation
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedGif"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="gifFileId">A valid file identifier for the GIF file</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedGif(string id, string gifFileId)
-        : base(id)
-    {
-        GifFileId = gifFileId;
-    }
+        : base(id) => GifFileId = gifFileId;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedGif"/>
     /// </summary>
     public InlineQueryResultCachedGif()
     { }
 }
 
 /// <summary>
-/// Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the
-/// Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an
-/// optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedMpeg4Gif.InputMessageContent"/> to send a message with
-/// the specified content instead of the animation.
+/// Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the animation.
 /// </summary>
-public class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
+public partial class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be mpeg4_gif
+    /// Type of the result, always <see cref="InlineQueryResultType.Mpeg4Gif"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Mpeg4Gif;
 
     /// <summary>
-    /// A valid file identifier for the MP4 file
+    /// A valid file identifier for the MPEG4 file
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Mpeg4FileId { get; init; }
+    public required string Mpeg4FileId { get; set; }
 
     /// <summary>
-    /// Optional. Title for the result
+    /// <em>Optional</em>. Title for the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the video animation
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedMpeg4Gif"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="mpeg4FileId">A valid file identifier for the MP4 file</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="mpeg4FileId">A valid file identifier for the MPEG4 file</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId)
-        : base(id)
-    {
-        Mpeg4FileId = mpeg4FileId;
-    }
+        : base(id) => Mpeg4FileId = mpeg4FileId;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedMpeg4Gif"/>
     /// </summary>
     public InlineQueryResultCachedMpeg4Gif()
     { }
 }
 
-
 /// <summary>
-/// Represents a link to a sticker stored on the Telegram servers. By default, this sticker will
-/// be sent by the user. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedSticker.InputMessageContent"/> to send a message with
-/// the specified content instead of the sticker.
+/// Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the sticker.
 /// </summary>
-public class InlineQueryResultCachedSticker : InlineQueryResult
+public partial class InlineQueryResultCachedSticker : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be sticker
+    /// Type of the result, always <see cref="InlineQueryResultType.Sticker"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Sticker;
 
     /// <summary>
@@ -1464,96 +1497,99 @@ public class InlineQueryResultCachedSticker : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string StickerFileId { get; init; }
+    public required string StickerFileId { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the sticker
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedSticker"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="stickerFileId">A valid file identifier of the sticker</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedSticker(string id, string stickerFileId)
-        : base(id)
-    {
-        StickerFileId = stickerFileId;
-    }
+        : base(id) => StickerFileId = stickerFileId;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedSticker"/>
     /// </summary>
     public InlineQueryResultCachedSticker()
     { }
 }
 
 /// <summary>
-/// Represents a link to a file stored on the Telegram servers. By default, this file will be sent
-/// by the user with an optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedDocument.InputMessageContent"/> to send a message with the
-/// specified content instead of the file.
+/// Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the file.
 /// </summary>
-public class InlineQueryResultCachedDocument : InlineQueryResult
+public partial class InlineQueryResultCachedDocument : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be document
+    /// Type of the result, always <see cref="InlineQueryResultType.Document"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Document;
-
-    /// <summary>
-    /// Title for the result
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
 
     /// <summary>
     /// A valid file identifier for the file
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string DocumentFileId { get; init; }
+    public required string DocumentFileId { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result
+    /// Title for the result
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string Title { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the document to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the document caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the file
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedDocument"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="documentFileId">A valid file identifier for the file</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="title">Title for the result</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedDocument(string id, string documentFileId, string title)
         : base(id)
     {
@@ -1562,24 +1598,20 @@ public class InlineQueryResultCachedDocument : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedDocument"/>
     /// </summary>
     public InlineQueryResultCachedDocument()
     { }
 }
 
 /// <summary>
-/// Represents a link to a video file stored on the Telegram servers. By default, this video file will
-/// be sent by the user with an optional caption. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedVideo.InputMessageContent"/> to send a message with
-/// the specified content instead of the video.
+/// Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the video.
 /// </summary>
-public class InlineQueryResultCachedVideo : InlineQueryResult
+public partial class InlineQueryResultCachedVideo : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be video
+    /// Type of the result, always <see cref="InlineQueryResultType.Video"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Video;
 
     /// <summary>
@@ -1587,55 +1619,65 @@ public class InlineQueryResultCachedVideo : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string VideoFileId { get; init; }
+    public required string VideoFileId { get; set; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
     /// <summary>
-    /// Optional. Short description of the result
+    /// <em>Optional</em>. Short description of the result
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption of the video to be sent, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the video caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <summary>
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the video
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedVideo"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="videoFileId">A valid file identifier for the video file</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="title">Title for the result</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedVideo(string id, string videoFileId, string title)
         : base(id)
     {
@@ -1644,24 +1686,20 @@ public class InlineQueryResultCachedVideo : InlineQueryResult
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedVideo"/>
     /// </summary>
     public InlineQueryResultCachedVideo()
     { }
 }
 
 /// <summary>
-/// Represents a link to a voice message stored on the Telegram servers. By default, this voice
-/// message will be sent by the user. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedVoice.InputMessageContent"/> to send a message
-/// with the specified content instead of the voice message.
+/// Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the voice message.
 /// </summary>
-public class InlineQueryResultCachedVoice : InlineQueryResult
+public partial class InlineQueryResultCachedVoice : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be voice
+    /// Type of the result, always <see cref="InlineQueryResultType.Voice"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Voice;
 
     /// <summary>
@@ -1669,69 +1707,73 @@ public class InlineQueryResultCachedVoice : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string VoiceFileId { get; init; }
+    public required string VoiceFileId { get; set; }
 
     /// <summary>
     /// Voice message title
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the voice message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the voice message
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedVoice"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
-    /// <param name="fileId">A valid file identifier for the voice message</param>
-    /// <param name="title">Title of the result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
+    /// <param name="voiceFileId">A valid file identifier for the voice message</param>
+    /// <param name="title">Voice message title</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
-    public InlineQueryResultCachedVoice(string id, string fileId, string title)
+    public InlineQueryResultCachedVoice(string id, string voiceFileId, string title)
         : base(id)
     {
-        VoiceFileId = fileId;
+        VoiceFileId = voiceFileId;
         Title = title;
     }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedVoice"/>
     /// </summary>
     public InlineQueryResultCachedVoice()
     { }
 }
 
 /// <summary>
-/// Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio
-/// file will be sent by the user. Alternatively, you can use
-/// <see cref="InlineQueryResultCachedAudio.InputMessageContent"/> to send a message with the
-/// specified content instead of the audio.
+/// Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the audio.
 /// </summary>
-public class InlineQueryResultCachedAudio : InlineQueryResult
+public partial class InlineQueryResultCachedAudio : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be audio
+    /// Type of the result, always <see cref="InlineQueryResultType.Audio"/>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Audio;
 
     /// <summary>
@@ -1739,43 +1781,48 @@ public class InlineQueryResultCachedAudio : InlineQueryResult
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string AudioFileId { get; init; }
+    public required string AudioFileId { get; set; }
 
-    /// <inheritdoc cref="Documentation.Caption" />
+    /// <summary>
+    /// <em>Optional</em>. Caption, 0-1024 characters after entities parsing
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode" />
+    /// <summary>
+    /// <em>Optional</em>. Mode for parsing entities in the audio caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities" />
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.InputMessageContent" />
+    /// <summary>
+    /// <em>Optional</em>. Content of the message to be sent instead of the audio
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Initializes an instance of <see cref="InlineQueryResultCachedAudio"/>
     /// </summary>
-    /// <param name="id">Unique identifier of this result</param>
+    /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="audioFileId">A valid file identifier for the audio file</param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedAudio(string id, string audioFileId)
-        : base(id)
-    {
-        AudioFileId = audioFileId;
-    }
+        : base(id) => AudioFileId = audioFileId;
 
     /// <summary>
-    /// Initializes a new inline query result
+    /// Instantiates a new <see cref="InlineQueryResultCachedAudio"/>
     /// </summary>
     public InlineQueryResultCachedAudio()
     { }

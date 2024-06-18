@@ -1,73 +1,73 @@
-namespace Telegram.Bot.Types.Passport;
+﻿namespace Telegram.Bot.Types.Passport;
 
 /// <summary>
-/// <see cref="EncryptedPassportElement"/> element type
+/// <see cref="EncryptedPassportElement"/>: Element type. One of <see cref="PersonalDetails">PersonalDetails</see>, <see cref="Passport">Passport</see>, <see cref="DriverLicense">DriverLicense</see>, <see cref="IdentityCard">IdentityCard</see>, <see cref="InternalPassport">InternalPassport</see>, <see cref="Address">Address</see>, <see cref="UtilityBill">UtilityBill</see>, <see cref="BankStatement">BankStatement</see>, <see cref="RentalAgreement">RentalAgreement</see>, <see cref="PassportRegistration">PassportRegistration</see>, <see cref="TemporaryRegistration">TemporaryRegistration</see>, <see cref="PhoneNumber">PhoneNumber</see>, <see cref="Email">Email</see>.
 /// </summary>
 [JsonConverter(typeof(EncryptedPassportElementTypeConverter))]
 public enum EncryptedPassportElementType
 {
     /// <summary>
-    /// Personal details
+    /// “PersonalDetails” type
     /// </summary>
     PersonalDetails = 1,
 
     /// <summary>
-    /// Passport
+    /// “passport” type
     /// </summary>
     Passport,
 
     /// <summary>
-    /// Driver licence
+    /// “DriverLicense” type
     /// </summary>
     DriverLicense,
 
     /// <summary>
-    /// Identity card
+    /// “IdentityCard” type
     /// </summary>
     IdentityCard,
 
     /// <summary>
-    /// Internal passport
+    /// “InternalPassport” type
     /// </summary>
     InternalPassport,
 
     /// <summary>
-    /// Address
+    /// “address” type
     /// </summary>
     Address,
 
     /// <summary>
-    /// Utility bill
+    /// “UtilityBill” type
     /// </summary>
     UtilityBill,
 
     /// <summary>
-    /// Bank statement
+    /// “BankStatement” type
     /// </summary>
     BankStatement,
 
     /// <summary>
-    /// Rental agreement
+    /// “RentalAgreement” type
     /// </summary>
     RentalAgreement,
 
     /// <summary>
-    /// Passport registration
+    /// “PassportRegistration” type
     /// </summary>
     PassportRegistration,
 
     /// <summary>
-    /// Temporary registration
+    /// “TemporaryRegistration” type
     /// </summary>
     TemporaryRegistration,
 
     /// <summary>
-    /// Phone number
+    /// “PhoneNumber” type
     /// </summary>
     PhoneNumber,
 
     /// <summary>
-    /// Email
+    /// “email” type
     /// </summary>
     Email,
 }

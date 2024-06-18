@@ -1,9 +1,7 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents the scope to which bot commands are applied
+/// This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported:<br/><see cref="BotCommandScopeDefault"/>, <see cref="BotCommandScopeAllPrivateChats"/>, <see cref="BotCommandScopeAllGroupChats"/>, <see cref="BotCommandScopeAllChatAdministrators"/>, <see cref="BotCommandScopeChat"/>, <see cref="BotCommandScopeChatAdministrators"/>, <see cref="BotCommandScopeChatMember"/>
 /// </summary>
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(BotCommandScopeDefault), "default")]
@@ -13,136 +11,107 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(BotCommandScopeChat), "chat")]
 [CustomJsonDerivedType(typeof(BotCommandScopeChatAdministrators), "chat_administrators")]
 [CustomJsonDerivedType(typeof(BotCommandScopeChatMember), "chat_member")]
-public abstract class BotCommandScope
+public abstract partial class BotCommandScope
 {
     /// <summary>
     /// Scope type
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract BotCommandScopeType Type { get; }
-
-    /// <summary>
-    /// Create a default <see cref="BotCommandScope"/> instance
-    /// </summary>
-    /// <returns></returns>
-    public static BotCommandScopeDefault Default() => new();
-
-    /// <summary>
-    /// Create a <see cref="BotCommandScope"/> instance for all private chats
-    /// </summary>
-    /// <returns></returns>
-    public static BotCommandScopeAllPrivateChats AllPrivateChats() => new();
-
-    /// <summary>
-    /// Create a <see cref="BotCommandScope"/> instance for all group chats
-    /// </summary>
-    public static BotCommandScopeAllGroupChats AllGroupChats() => new();
-
-    /// <summary>
-    /// Create a <see cref="BotCommandScope"/> instance for all chat administrators
-    /// </summary>
-    public static BotCommandScopeAllChatAdministrators AllChatAdministrators() =>
-        new();
-
-    /// <summary>
-    /// Create a <see cref="BotCommandScope"/> instance for a specific <see cref="Chat"/>
-    /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
-    /// </param>
-    public static BotCommandScopeChat Chat(ChatId chatId) => new() { ChatId = chatId };
-
-    /// <summary>
-    /// Create a <see cref="BotCommandScope"/> instance for a specific member in a specific <see cref="Chat"/>
-    /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
-    /// </param>
-    public static BotCommandScopeChatAdministrators ChatAdministrators(ChatId chatId) =>
-        new() { ChatId = chatId };
-
-    /// <summary>
-    /// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering a specific member of a group or supergroup chat.
-    /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
-    /// </param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    public static BotCommandScopeChatMember ChatMember(ChatId chatId, long userId) =>
-        new() { ChatId = chatId, UserId = userId };
+    public abstract Enums.BotCommandScopeType Type { get; }
 }
 
-/// <inheritdoc cref="BotCommandScopeType.Default"/>
-public class BotCommandScopeDefault : BotCommandScope
+/// <summary>
+/// Represents the default <see cref="BotCommandScope">scope</see> of bot commands. Default commands are used if no commands with a <a href="https://core.telegram.org/bots/api#determining-list-of-commands">narrower scope</a> are specified for the user.
+/// </summary>
+public partial class BotCommandScopeDefault : BotCommandScope
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override BotCommandScopeType Type => BotCommandScopeType.Default;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.Default"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.Default;
 }
 
-/// <inheritdoc cref="BotCommandScopeType.AllPrivateChats"/>
-public class BotCommandScopeAllPrivateChats : BotCommandScope
+/// <summary>
+/// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering all private chats.
+/// </summary>
+public partial class BotCommandScopeAllPrivateChats : BotCommandScope
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override BotCommandScopeType Type => BotCommandScopeType.AllPrivateChats;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.AllPrivateChats"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.AllPrivateChats;
 }
 
-/// <inheritdoc cref="BotCommandScopeType.AllGroupChats"/>
-public class BotCommandScopeAllGroupChats : BotCommandScope
+/// <summary>
+/// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering all group and supergroup chats.
+/// </summary>
+public partial class BotCommandScopeAllGroupChats : BotCommandScope
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override BotCommandScopeType Type => BotCommandScopeType.AllGroupChats;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.AllGroupChats"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.AllGroupChats;
 }
 
-/// <inheritdoc cref="BotCommandScopeType.AllChatAdministrators"/>
-public class BotCommandScopeAllChatAdministrators : BotCommandScope
+/// <summary>
+/// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering all group and supergroup chat administrators.
+/// </summary>
+public partial class BotCommandScopeAllChatAdministrators : BotCommandScope
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override BotCommandScopeType Type => BotCommandScopeType.AllChatAdministrators;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.AllChatAdministrators"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.AllChatAdministrators;
 }
 
-/// <inheritdoc cref="BotCommandScopeType.Chat"/>
-public class BotCommandScopeChat : BotCommandScope
+/// <summary>
+/// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering a specific chat.
+/// </summary>
+public partial class BotCommandScopeChat : BotCommandScope
 {
-    /// <inheritdoc />
-    public override BotCommandScopeType Type => BotCommandScopeType.Chat;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.Chat"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.Chat;
 
     /// <summary>
-    /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
-    /// (in the format @supergroupusername)
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
+    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
 
-/// <inheritdoc cref="BotCommandScopeType.ChatAdministrators"/>
-public class BotCommandScopeChatAdministrators : BotCommandScope
+/// <summary>
+/// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering all administrators of a specific group or supergroup chat.
+/// </summary>
+public partial class BotCommandScopeChatAdministrators : BotCommandScope
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override BotCommandScopeType Type => BotCommandScopeType.ChatAdministrators;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.ChatAdministrators"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.ChatAdministrators;
 
     /// <summary>
-    /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
-    /// (in the format @supergroupusername)
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
+    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
 
-/// <inheritdoc cref="BotCommandScopeType.ChatMember"/>
-public class BotCommandScopeChatMember : BotCommandScope
+/// <summary>
+/// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering a specific member of a group or supergroup chat.
+/// </summary>
+public partial class BotCommandScopeChatMember : BotCommandScope
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override BotCommandScopeType Type => BotCommandScopeType.ChatMember;
+    /// <summary>
+    /// Scope type, always <see cref="Enums.BotCommandScopeType.ChatMember"/>
+    /// </summary>
+    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.ChatMember;
 
     /// <summary>
-    /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
-    /// (in the format @supergroupusername)
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

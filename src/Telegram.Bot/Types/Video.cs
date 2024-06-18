@@ -1,9 +1,9 @@
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a video file.
 /// </summary>
-public class Video : FileBase
+public partial class Video : FileBase
 {
     /// <summary>
     /// Video width as defined by sender
@@ -27,21 +27,21 @@ public class Video : FileBase
     public int Duration { get; set; }
 
     /// <summary>
-    /// Optional. Video thumbnail
+    /// <em>Optional</em>. Video thumbnail
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Original filename as defined by sender
+    /// <em>Optional</em>. Original filename as defined by sender
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FileName { get; set; }
 
     /// <summary>
-    /// Optional. Mime type of a file as defined by sender
+    /// <em>Optional</em>. MIME type of the file as defined by sender
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -1,185 +1,179 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Types.Enums;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents the content of a media message to be sent
+/// This object represents the content of a media message to be sent. It should be one of<br/><see cref="InputMediaAnimation"/>, <see cref="InputMediaDocument"/>, <see cref="InputMediaAudio"/>, <see cref="InputMediaPhoto"/>, <see cref="InputMediaVideo"/>
 /// </summary>
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(InputMediaAnimation), "animation")]
-[CustomJsonDerivedType(typeof(InputMediaAudio), "audio")]
 [CustomJsonDerivedType(typeof(InputMediaDocument), "document")]
+[CustomJsonDerivedType(typeof(InputMediaAudio), "audio")]
 [CustomJsonDerivedType(typeof(InputMediaPhoto), "photo")]
 [CustomJsonDerivedType(typeof(InputMediaVideo), "video")]
-public abstract class InputMedia
+public abstract partial class InputMedia
 {
     /// <summary>
-    /// Type of the media
+    /// Type of the result
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract InputMediaType Type { get; }
+    public abstract Enums.InputMediaType Type { get; }
 
     /// <summary>
-    /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
-    /// pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://&lt;file_attach_name&gt;"
-    /// to upload a new one using multipart/form-data under &lt;file_attach_name%gt; name.
+    /// File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InputFile Media { get; init; }
+    public required InputFile Media { get; set; }
 
     /// <summary>
-    /// Optional. Caption of the photo to be sent, 0-1024 characters
+    /// <em>Optional</em>. Caption of the InputMedia to be sent, 0-1024 characters after entities parsing
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <summary>
-    /// Optional. List of special entities that appear in the caption, which can be specified instead
-    /// of <see cref="ParseMode"/>
+    /// <em>Optional</em>. Mode for parsing entities in the InputMedia caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Enums.ParseMode ParseMode { get; set; }
+
+    /// <summary>
+    /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
-    /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
+    /// Initializes an instance of <see cref="InputMedia"/>
     /// </summary>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
-
-    /// <summary>
-    /// Initialize an object
-    /// </summary>
-    /// <param name="media">File to send</param>
+    /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     protected InputMedia(InputFile media) => Media = media;
 
     /// <summary>
-    /// Initialize an object
+    /// Instantiates a new <see cref="InputMedia"/>
     /// </summary>
     protected InputMedia()
     { }
 }
 
 /// <summary>
-/// Represents a photo to be sent
+/// Represents a photo to be sent.
 /// </summary>
-public class InputMediaPhoto :
-    InputMedia,
-    IAlbumInputMedia
+public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override InputMediaType Type => InputMediaType.Photo;
+    /// <summary>
+    /// Type of the result, always <see cref="Enums.InputMediaType.Photo"/>
+    /// </summary>
+    public override Enums.InputMediaType Type => Enums.InputMediaType.Photo;
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HasSpoiler { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// <em>Optional</em>. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool HasSpoiler { get; set; }
 
     /// <summary>
-    /// Initializes a new photo media to send with an <see cref="InputFile"/>
+    /// Initializes an instance of <see cref="InputMediaPhoto"/>
     /// </summary>
-    /// <param name="media">File to send</param>
+    /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InputMediaPhoto(InputFile media)
         : base(media)
-    { }
+    {
+    }
 
     /// <summary>
-    /// Initializes a new photo media to send with an <see cref="InputFile"/>
+    /// Instantiates a new <see cref="InputMediaPhoto"/>
     /// </summary>
     public InputMediaPhoto()
     { }
 }
 
 /// <summary>
-/// Represents a video to be sent
+/// Represents a video to be sent.
 /// </summary>
-public class InputMediaVideo :
-    InputMedia,
-    IInputMediaThumb,
-    IAlbumInputMedia
+public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInputMedia
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override InputMediaType Type => InputMediaType.Video;
+    /// <summary>
+    /// Type of the result, always <see cref="Enums.InputMediaType.Video"/>
+    /// </summary>
+    public override Enums.InputMediaType Type => Enums.InputMediaType.Video;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Video width
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Width { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
-    /// Optional. Video height
+    /// <em>Optional</em>. Video width
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Height { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Width { get; set; }
 
     /// <summary>
-    /// Optional. Video duration
+    /// <em>Optional</em>. Video height
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Duration { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Height { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if the uploaded video is suitable for streaming
+    /// <em>Optional</em>. Video duration in seconds
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? SupportsStreaming { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Duration { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
+    /// <em>Optional</em>. Pass <see langword="true"/> if the uploaded video is suitable for streaming
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HasSpoiler { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool SupportsStreaming { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// <em>Optional</em>. Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool HasSpoiler { get; set; }
 
     /// <summary>
-    /// Initializes a new video media to send with an <see cref="InputFile"/>
+    /// Initializes an instance of <see cref="InputMediaVideo"/>
     /// </summary>
-    /// <param name="media">File to send</param>
+    /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InputMediaVideo(InputFile media)
         : base(media)
-    { }
+    {
+    }
 
     /// <summary>
-    /// Initializes a new video media to send with an <see cref="InputFile"/>
+    /// Instantiates a new <see cref="InputMediaVideo"/>
     /// </summary>
     public InputMediaVideo()
     { }
@@ -188,66 +182,68 @@ public class InputMediaVideo :
 /// <summary>
 /// Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
 /// </summary>
-public class InputMediaAnimation :
-    InputMedia,
-    IInputMediaThumb
+public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override InputMediaType Type => InputMediaType.Animation;
+    /// <summary>
+    /// Type of the result, always <see cref="Enums.InputMediaType.Animation"/>
+    /// </summary>
+    public override Enums.InputMediaType Type => Enums.InputMediaType.Animation;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Animation width
+    /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Width { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
-    /// Optional. Animation height
+    /// <em>Optional</em>. Animation width
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Height { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Width { get; set; }
 
     /// <summary>
-    /// Optional. Animation duration
+    /// <em>Optional</em>. Animation height
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Duration { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Height { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/>, if the animation needs to be covered with a spoiler animation
+    /// <em>Optional</em>. Animation duration in seconds
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HasSpoiler { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Duration { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// <em>Optional</em>. Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool HasSpoiler { get; set; }
 
     /// <summary>
-    /// Initializes a new animation media to send with an <see cref="InputFile"/>
+    /// Initializes an instance of <see cref="InputMediaAnimation"/>
     /// </summary>
-    /// <param name="media">File to send</param>
+    /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InputMediaAnimation(InputFile media)
         : base(media)
-    { }
+    {
+    }
 
     /// <summary>
-    /// Initializes a new animation media to send with an <see cref="InputFile"/>
+    /// Instantiates a new <see cref="InputMediaAnimation"/>
     /// </summary>
     public InputMediaAnimation()
     { }
@@ -256,95 +252,96 @@ public class InputMediaAnimation :
 /// <summary>
 /// Represents an audio file to be treated as music to be sent.
 /// </summary>
-public class InputMediaAudio :
-    InputMedia,
-    IInputMediaThumb,
-    IAlbumInputMedia
+public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInputMedia
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override InputMediaType Type => InputMediaType.Audio;
+    /// <summary>
+    /// Type of the result, always <see cref="Enums.InputMediaType.Audio"/>
+    /// </summary>
+    public override Enums.InputMediaType Type => Enums.InputMediaType.Audio;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Duration of the audio in seconds
+    /// <em>Optional</em>. Duration of the audio in seconds
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Duration { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int Duration { get; set; }
 
     /// <summary>
-    /// Optional. Performer of the audio
+    /// <em>Optional</em>. Performer of the audio
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Performer { get; set; }
 
     /// <summary>
-    /// Optional. Title of the audio
+    /// <em>Optional</em>. Title of the audio
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary>
-    /// Initializes a new audio media to send with an <see cref="InputFile"/>
+    /// Initializes an instance of <see cref="InputMediaAudio"/>
     /// </summary>
-    /// <param name="media">File to send</param>
+    /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InputMediaAudio(InputFile media)
         : base(media)
-    { }
+    {
+    }
 
     /// <summary>
-    /// Initializes a new audio media to send with an <see cref="InputFile"/>
+    /// Instantiates a new <see cref="InputMediaAudio"/>
     /// </summary>
     public InputMediaAudio()
     { }
 }
 
 /// <summary>
-/// Represents a general file to be sent
+/// Represents a general file to be sent.
 /// </summary>
-public class InputMediaDocument :
-    InputMedia,
-    IInputMediaThumb,
-    IAlbumInputMedia
+public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumInputMedia
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override InputMediaType Type => InputMediaType.Document;
+    /// <summary>
+    /// Type of the result, always <see cref="Enums.InputMediaType.Document"/>
+    /// </summary>
+    public override Enums.InputMediaType Type => Enums.InputMediaType.Document;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Disables automatic server-side content type detection for files uploaded using
-    /// multipart/form-data. Always true, if the document is sent as part of an album.
+    /// <em>Optional</em>. Disables automatic server-side content type detection for files uploaded using <see cref="InputFileStream"/>. Always <see langword="true"/>, if the document is sent as part of an album.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableContentTypeDetection { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableContentTypeDetection { get; set; }
 
     /// <summary>
-    /// Initializes a new document media to send with an <see cref="InputMedia"/>
+    /// Initializes an instance of <see cref="InputMediaDocument"/>
     /// </summary>
-    /// <param name="media">File to send</param>
+    /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    [JsonConstructor]
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
     public InputMediaDocument(InputFile media)
         : base(media)
-    { }
+    {
+    }
 
     /// <summary>
-    /// Initializes a new document media to send with an <see cref="InputMedia"/>
+    /// Instantiates a new <see cref="InputMediaDocument"/>
     /// </summary>
     public InputMediaDocument()
     { }
