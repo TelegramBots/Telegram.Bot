@@ -1,39 +1,35 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to stop updating a live location message before <see cref="Types.Location.LivePeriod"/> expires.
-/// On success <see langword="true"/> is returned.
+/// Use this method to stop updating a live location message before <em>LivePeriod</em> expires.<para>Returns: </para>
 /// </summary>
-public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
+public partial class StopInlineMessageLiveLocationRequest : RequestBase<bool>
 {
-    /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
+    /// <summary>
+    /// Identifier of the inline message
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string InlineMessageId { get; init; }
+    public required string InlineMessageId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
+    /// <summary>
+    /// An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new request with inlineMessageId
+    /// Initializes an instance of <see cref="StopInlineMessageLiveLocationRequest"/>
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public StopInlineMessageLiveLocationRequest(string inlineMessageId)
-        : this()
-    {
-        InlineMessageId = inlineMessageId;
-    }
+        : this() => InlineMessageId = inlineMessageId;
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="StopInlineMessageLiveLocationRequest"/>
     /// </summary>
     public StopInlineMessageLiveLocationRequest()
         : base("stopMessageLiveLocation")

@@ -1,54 +1,42 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to change the list of the bot’s commands. See
-/// <a href="https://core.telegram.org/bots#commands"/> for more details about bot commands.
-/// Returns <see langword="true"/> on success
+/// Use this method to change the list of the bot's commands. See <a href="https://core.telegram.org/bots/features#commands">this manual</a> for more details about bot commands.<para>Returns: </para>
 /// </summary>
-public class SetMyCommandsRequest : RequestBase<bool>
+public partial class SetMyCommandsRequest : RequestBase<bool>
 {
     /// <summary>
-    /// A list of bot commands to be set as the list of the bot’s commands.
-    /// At most 100 commands can be specified.
+    /// A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<BotCommand> Commands { get; init; }
+    public required IEnumerable<BotCommand> Commands { get; set; }
 
     /// <summary>
-    /// An object, describing scope of users for which the commands are relevant.
-    /// Defaults to <see cref="BotCommandScopeDefault"/>.
+    /// An object, describing scope of users for which the commands are relevant. Defaults to <see cref="BotCommandScopeDefault"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BotCommandScope? Scope { get; set; }
 
     /// <summary>
-    /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users
-    /// from the given <see cref="Scope"/>, for whose language there are no dedicated commands
+    /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LanguageCode { get; set; }
 
     /// <summary>
-    /// Initializes a new request with commands
+    /// Initializes an instance of <see cref="SetMyCommandsRequest"/>
     /// </summary>
-    /// <param name="commands">A list of bot commands to be set</param>
-    [SetsRequiredMembers]
+    /// <param name="commands">A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetMyCommandsRequest(IEnumerable<BotCommand> commands)
-        : this()
-    {
-        Commands = commands;
-    }
+        : this() => Commands = commands;
 
     /// <summary>
-    /// Initializes a new request with commands
+    /// Instantiates a new <see cref="SetMyCommandsRequest"/>
     /// </summary>
     public SetMyCommandsRequest()
         : base("setMyCommands")

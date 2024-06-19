@@ -443,3 +443,116 @@ namespace Telegram.Bot.Types
         }
     }
 }
+
+namespace Telegram.Bot.Requests
+{
+    public partial class SendMediaGroupRequest
+    {
+        /// <inheritdoc />
+        public override HttpContent ToHttpContent()
+        {
+            var multipartContent = GenerateMultipartFormDataContent();
+
+            foreach (var mediaItem in Media)
+            {
+                if (mediaItem is InputMedia { Media: InputFileStream file })
+                {
+                    multipartContent.AddContentIfInputFile(file, file.FileName!);
+                }
+
+                if (mediaItem is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
+                {
+                    multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
+                }
+            }
+
+            return multipartContent;
+        }
+    }
+
+    public partial class SendPollRequest
+    {
+        /// <summary>
+        /// Initializes an instance of <see cref="SendPollRequest"/>
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="question">Poll question, 1-300 characters</param>
+        /// <param name="options">A list of 2-10 answer options</param>
+        [SetsRequiredMembers]
+        [Obsolete("Use parameterless constructor with required properties")]
+        public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
+            : this(chatId, question, options.Select(o => (InputPollOption)o))
+        { }
+    }
+
+    public partial class CreateNewStickerSetRequest
+    {
+        /// <inheritdoc/>
+        public override HttpContent ToHttpContent()
+        {
+            var multipartContent = GenerateMultipartFormDataContent();
+
+            foreach (var inputSticker in Stickers)
+            {
+                if (inputSticker is { Sticker: InputFileStream file })
+                {
+                    multipartContent.AddContentIfInputFile(file, file.FileName!);
+                }
+            }
+
+            return multipartContent;
+        }
+    }
+
+    public partial class EditInlineMessageMediaRequest
+    {
+        /// <inheritdoc />
+        public override HttpContent? ToHttpContent()
+        {
+            if (Media.Media.FileType is not FileType.Stream &&
+                Media is not IInputMediaThumb { Thumbnail.FileType: FileType.Stream })
+            {
+                return base.ToHttpContent();
+            }
+
+            var multipartContent = GenerateMultipartFormDataContent();
+
+            if (Media.Media is InputFileStream file)
+            {
+                multipartContent.AddContentIfInputFile(file, file.FileName!);
+            }
+            if (Media is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
+            {
+                multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
+            }
+
+            return multipartContent;
+        }
+    }
+
+    public partial class EditMessageMediaRequest
+    {
+        /// <inheritdoc />
+        public override HttpContent? ToHttpContent()
+        {
+            if (Media.Media.FileType is not FileType.Stream &&
+                Media is not IInputMediaThumb { Thumbnail.FileType: FileType.Stream })
+            {
+                return base.ToHttpContent();
+            }
+
+            var multipartContent = GenerateMultipartFormDataContent();
+
+            if (Media.Media is InputFileStream file)
+            {
+                multipartContent.AddContentIfInputFile(file, file.FileName!);
+            }
+            if (Media is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
+            {
+                multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
+            }
+
+            return multipartContent;
+        }
+    }
+}

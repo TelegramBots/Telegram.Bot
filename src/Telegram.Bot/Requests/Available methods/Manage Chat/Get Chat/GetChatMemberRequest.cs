@@ -1,35 +1,31 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get information about a member of a chat. Returns a <see cref="ChatMember"/>
-/// object on success.
+/// Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat.<para>Returns: A <see cref="ChatMember"/> object on success.</para>
 /// </summary>
-public class GetChatMemberRequest : RequestBase<ChatMember>, IChatTargetable, IUserTargetable
+public partial class GetChatMemberRequest : RequestBase<ChatMember>, IChatTargetable, IUserTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
-
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and userId
+    /// Unique identifier of the target user
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target supergroup or channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required long UserId { get; set; }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="GetChatMemberRequest"/>
+    /// </summary>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     /// <param name="userId">Unique identifier of the target user</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public GetChatMemberRequest(ChatId chatId, long userId)
         : this()
     {
@@ -38,9 +34,8 @@ public class GetChatMemberRequest : RequestBase<ChatMember>, IChatTargetable, IU
     }
 
     /// <summary>
-    /// Initializes a new request with chatId and userId
+    /// Instantiates a new <see cref="GetChatMemberRequest"/>
     /// </summary>
-    [JsonConstructor]
     public GetChatMemberRequest()
         : base("getChatMember")
     { }

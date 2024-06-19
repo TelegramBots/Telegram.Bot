@@ -1,39 +1,31 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request to unban a previously banned channel chat in a supergroup or channel. The bot must be an
-/// administrator for this to work and must have the appropriate administrator rights. Returns <see langword="true"/>
-/// on success
+/// Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights.<para>Returns: </para>
 /// </summary>
-public class UnbanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
+public partial class UnbanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier of the target sender chat
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long SenderChatId { get; init; }
+    public required long SenderChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and senderChatId
+    /// Initializes an instance of <see cref="UnbanChatSenderChatRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    /// </param>
-    /// <param name="senderChatId">
-    /// Unique identifier of the target sender chat
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="senderChatId">Unique identifier of the target sender chat</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public UnbanChatSenderChatRequest(ChatId chatId, long senderChatId)
         : this()
     {
@@ -42,7 +34,7 @@ public class UnbanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="UnbanChatSenderChatRequest"/>
     /// </summary>
     public UnbanChatSenderChatRequest()
         : base("unbanChatSenderChat")

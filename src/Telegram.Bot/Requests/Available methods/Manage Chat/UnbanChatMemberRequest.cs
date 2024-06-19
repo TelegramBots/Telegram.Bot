@@ -1,45 +1,38 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to unban a previously banned user in a supergroup or channel. The user will
-/// <b>not</b> return to the group or channel automatically, but will be able to join via link,
-/// etc. The bot must be an administrator for this to work. By default, this method guarantees
-/// that after the call the user is not a member of the chat, but will be able to join it.
-/// So if the user is a member of the chat they will also be <b>removed</b> from the chat.
-/// If you don't want this, use the parameter <see cref="OnlyIfBanned"/>. Returns <see langword="true"/> on success.
+/// Use this method to unban a previously banned user in a supergroup or channel. The user will <b>not</b> return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be <b>removed</b> from the chat. If you don't want this, use the parameter <paramref name="onlyIfBanned"/>.<para>Returns: </para>
 /// </summary>
-public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier of the target user
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
+    public required long UserId { get; set; }
 
     /// <summary>
     /// Do nothing if the user is not banned
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? OnlyIfBanned { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool OnlyIfBanned { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and userId
+    /// Initializes an instance of <see cref="UnbanChatMemberRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     /// <param name="userId">Unique identifier of the target user</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public UnbanChatMemberRequest(ChatId chatId, long userId)
         : this()
     {
@@ -48,7 +41,7 @@ public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserT
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="UnbanChatMemberRequest"/>
     /// </summary>
     public UnbanChatMemberRequest()
         : base("unbanChatMember")

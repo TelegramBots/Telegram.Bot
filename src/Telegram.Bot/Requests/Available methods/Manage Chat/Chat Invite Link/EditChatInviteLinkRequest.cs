@@ -1,26 +1,23 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator
-/// in the chat for this to work and must have the appropriate admin rights. Returns the edited invite
-/// link as a <see cref="Types.ChatInviteLink"/> object.
+/// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: The edited invite link as a <see cref="ChatInviteLink"/> object.</para>
 /// </summary>
-public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTargetable
+public partial class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// The invite link to edit
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string InviteLink { get; init; }
+    public required string InviteLink { get; set; }
 
     /// <summary>
     /// Invite link name; 0-32 characters
@@ -32,36 +29,32 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
     /// <summary>
     /// Point in time when the link will expire
     /// </summary>
-    [JsonConverter(typeof(UnixDateTimeConverter))]
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? ExpireDate { get; set; }
 
     /// <summary>
-    ///	Maximum number of users that can be members of the chat simultaneously after joining the
-    /// chat via this invite link; 1-99999
+    /// The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MemberLimit { get; set; }
 
     /// <summary>
-    /// Set to <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators.
-    /// If <see langword="true"/>, <see cref="MemberLimit"/> can't be specified
+    /// <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <paramref name="memberLimit"/> can't be specified
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CreatesJoinRequest { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool CreatesJoinRequest { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and inviteLink
+    /// Initializes an instance of <see cref="EditChatInviteLinkRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="inviteLink">The invite link to edit</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public EditChatInviteLinkRequest(ChatId chatId, string inviteLink)
         : this()
     {
@@ -70,7 +63,7 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="EditChatInviteLinkRequest"/>
     /// </summary>
     public EditChatInviteLinkRequest()
         : base("editChatInviteLink")

@@ -1,40 +1,29 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get up to date information about the chat (current name of the user for
-/// one-on-one conversations, current username of a user, group or channel, etc.).
-/// Returns a <see cref="Chat"/> object on success.
+/// Use this method to get up-to-date information about the chat.<para>Returns: A <see cref="ChatFullInfo"/> object on success.</para>
 /// </summary>
-public class GetChatRequest : RequestBase<ChatFullInfo>, IChatTargetable
+public partial class GetChatRequest : RequestBase<ChatFullInfo>, IChatTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [JsonConverter(typeof(ChatIdConverter))]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Initializes an instance of <see cref="GetChatRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target supergroup or channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public GetChatRequest(ChatId chatId)
-        : this()
-    {
-        ChatId = chatId;
-    }
+        : this() => ChatId = chatId;
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Instantiates a new <see cref="GetChatRequest"/>
     /// </summary>
-    [JsonConstructor]
     public GetChatRequest()
         : base("getChat")
     { }

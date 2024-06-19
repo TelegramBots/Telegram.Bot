@@ -1,53 +1,39 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using File = Telegram.Bot.Types.File;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to upload a file with a sticker for later use in the
-/// <see cref="CreateNewStickerSetRequest"/> and <see cref="AddStickerToSetRequest"/>
-/// methods (the file can be used multiple times).
-/// Returns the uploaded <see cref="File"/> on success.
+/// Use this method to upload a file with a sticker for later use in the <see cref="TelegramBotClientExtensions.CreateNewStickerSetAsync">CreateNewStickerSet</see>, <see cref="TelegramBotClientExtensions.AddStickerToSetAsync">AddStickerToSet</see>, or <see cref="TelegramBotClientExtensions.ReplaceStickerInSetAsync">ReplaceStickerInSet</see> methods (the file can be used multiple times).<para>Returns: The uploaded <see cref="File"/> on success.</para>
 /// </summary>
-public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
+public partial class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
-
     /// <summary>
-    /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InputFileStream Sticker { get; init; }
-
-    /// <summary>
-    /// Format of the sticker
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required StickerFormat StickerFormat { get; init; }
-
-    /// <summary>
-    /// Initializes a new request with userId, sticker and stickerFormat
-    /// </summary>
-    /// <param name="userId">
     /// User identifier of sticker file owner
-    /// </param>
-    /// <param name="sticker">
-    /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
-    /// </param>
-    /// <param name="stickerFormat">
-    /// Format of the sticker
-    /// </param>
-    [SetsRequiredMembers]
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required long UserId { get; set; }
+
+    /// <summary>
+    /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See <a href="https://core.telegram.org/stickers">https://core.telegram.org/stickers</a> for technical requirements. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required InputFileStream Sticker { get; set; }
+
+    /// <summary>
+    /// Format of the sticker, must be one of “static”, “animated”, “video”
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required StickerFormat StickerFormat { get; set; }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="UploadStickerFileRequest"/>
+    /// </summary>
+    /// <param name="userId">User identifier of sticker file owner</param>
+    /// <param name="sticker">A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See <a href="https://core.telegram.org/stickers">https://core.telegram.org/stickers</a> for technical requirements. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    /// <param name="stickerFormat">Format of the sticker, must be one of “static”, “animated”, “video”</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public UploadStickerFileRequest(long userId, InputFileStream sticker, StickerFormat stickerFormat)
         : this()
     {
@@ -57,7 +43,7 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="UploadStickerFileRequest"/>
     /// </summary>
     public UploadStickerFileRequest()
         : base("uploadStickerFile")
@@ -65,5 +51,5 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()
-        => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: Sticker);
+        => ToMultipartFormDataContent("sticker", Sticker);
 }

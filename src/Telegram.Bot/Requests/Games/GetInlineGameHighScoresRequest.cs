@@ -1,39 +1,34 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get data for high score tables. Will return the score of the specified user
-/// and several of their neighbors in a game. On success, returns an Array of
-/// <see cref="GameHighScore"/> objects.
+/// Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game.<para>Returns: An Array of <see cref="GameHighScore"/> objects.</para>
 /// </summary>
 /// <remarks>
-/// This method will currently return scores for the target user, plus two of their closest neighbors
-/// on each side. Will also return the top three users if the user and his neighbors are not among them.
-/// Please note that this behavior is subject to change.
+/// This method will currently return scores for the target user, plus two of their closest neighbors on each side. Will also return the top three users if the user and their neighbors are not among them. Please note that this behavior is subject to change.
 /// </remarks>
-
-public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUserTargetable
+public partial class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUserTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Target user id
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string InlineMessageId { get; init; }
+    public required long UserId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with userId and inlineMessageId
+    /// Identifier of the inline message
     /// </summary>
-    /// <param name="userId">User identifier</param>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string InlineMessageId { get; set; }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="GetInlineGameHighScoresRequest"/>
+    /// </summary>
+    /// <param name="userId">Target user id</param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public GetInlineGameHighScoresRequest(long userId, string inlineMessageId)
         : this()
     {
@@ -42,7 +37,7 @@ public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUse
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="GetInlineGameHighScoresRequest"/>
     /// </summary>
     public GetInlineGameHighScoresRequest()
         : base("getGameHighScores")

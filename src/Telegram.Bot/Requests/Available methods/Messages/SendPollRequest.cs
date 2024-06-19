@@ -1,27 +1,30 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
-// ReSharper disable CheckNamespace
-
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send a native poll. On success, the sent <see cref="Message"/> is returned.
+/// Use this method to send a native poll.<para>Returns: The sent <see cref="Message"/> is returned.</para>
 /// </summary>
-public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
-    /// <inheritdoc />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BusinessConnectionId { get; set; }
-
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
+
+    /// <summary>
+    /// Poll question, 1-300 characters
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string Question { get; set; }
+
+    /// <summary>
+    /// A list of 2-10 answer options
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required IEnumerable<InputPollOption> Options { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -31,34 +34,18 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     public int? MessageThreadId { get; set; }
 
     /// <summary>
-    /// Poll question, 1-300 characters
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Question { get; init; }
-
-    /// <summary>
-    /// Mode for parsing entities in the question. See formatting options for more details.
-    /// Currently, only custom emoji entities are allowed
+    /// Mode for parsing entities in the question. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Currently, only custom emoji entities are allowed
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? QuestionParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ParseMode QuestionParseMode { get; set; }
 
     /// <summary>
-    /// A list of special entities that appear in the poll question.
-    /// It can be specified instead of <see cref="QuestionParseMode"/>
+    /// A list of special entities that appear in the poll question. It can be specified instead of <paramref name="questionParseMode"/>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? QuestionEntities { get; set; }
-
-    /// <summary>
-    /// A list of answer options, 2-10 strings 1-100 characters each
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<InputPollOption> Options { get; init; }
 
     /// <summary>
     /// <see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/>
@@ -68,19 +55,18 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     public bool? IsAnonymous { get; set; }
 
     /// <summary>
-    /// Poll type, defaults to <see cref="PollType.Regular"/>
+    /// Poll type, “quiz” or “regular”, defaults to “regular”
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PollType? Type { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to
-    /// <see langword="false"/>
+    /// <see langword="true"/>, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to <see langword="false"/>
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? AllowsMultipleAnswers { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool AllowsMultipleAnswers { get; set; }
 
     /// <summary>
     /// 0-based identifier of the correct answer option, required for polls in quiz mode
@@ -90,109 +76,98 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     public int? CorrectOptionId { get; set; }
 
     /// <summary>
-    /// Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a
-    /// quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
+    /// Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Explanation { get; set; }
 
     /// <summary>
-    /// Mode for parsing entities in the explanation. See
-    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a>
-    /// for more details.
+    /// Mode for parsing entities in the explanation. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ExplanationParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ParseMode ExplanationParseMode { get; set; }
 
     /// <summary>
-    /// List of special entities that appear in the poll explanation, which can be specified instead
-    /// of <see cref="ParseMode"/>
+    /// A list of special entities that appear in the poll explanation. It can be specified instead of <paramref name="explanationParseMode"/>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? ExplanationEntities { get; set; }
 
     /// <summary>
-    /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used
-    /// together with <see cref="CloseDate"/>.
+    /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <paramref name="closeDate"/>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? OpenPeriod { get; set; }
 
     /// <summary>
-    /// Point in time when the poll will be automatically closed. Must be at least 5 and no more
-    /// than 600 seconds in the future. Can't be used together with <see cref="OpenPeriod"/>.
+    /// Point in time when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with <paramref name="openPeriod"/>.
     /// </summary>
-    [JsonConverter(typeof(UnixDateTimeConverter))]
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? CloseDate { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/>, if the poll needs to be immediately closed. This can be useful for poll preview.
+    /// Pass <see langword="true"/> if the poll needs to be immediately closed. This can be useful for poll preview.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? IsClosed { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool IsClosed { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
+    /// <summary>
+    /// Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent message from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MessageEffectId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
-    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
-    [JsonIgnore]
-    public int? ReplyToMessageId
-    {
-        get => ReplyParameters?.MessageId;
-        set
-        {
-            if (value is null)
-            {
-                ReplyParameters = null;
-            }
-            else
-            {
-                ReplyParameters ??= new();
-                ReplyParameters.MessageId = value.Value;
-            }
-        }
-    }
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId, question and <see cref="PollOption"/>
+    /// Initializes an instance of <see cref="SendPollRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="question">Poll question, 1-300 characters</param>
-    /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
-    [SetsRequiredMembers]
+    /// <param name="options">A list of 2-10 answer options</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SendPollRequest(ChatId chatId, string question, IEnumerable<InputPollOption> options)
         : this()
     {
@@ -202,25 +177,7 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     }
 
     /// <summary>
-    /// Initializes a new request with chatId, question and <see cref="PollOption"/>
-    /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="question">Poll question, 1-300 characters</param>
-    /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
-    [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
-    public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
-        : this()
-    {
-        ChatId = chatId;
-        Question = question;
-        Options = options.Select(option => new InputPollOption(option));
-    }
-
-    /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SendPollRequest"/>
     /// </summary>
     public SendPollRequest()
         : base("sendPoll")

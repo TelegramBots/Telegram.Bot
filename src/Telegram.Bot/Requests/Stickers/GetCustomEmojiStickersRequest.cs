@@ -1,38 +1,28 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get information about custom emoji stickers by their identifiers.
-/// Returns an Array of <see cref="Sticker"/> objects.
+/// Use this method to get information about custom emoji stickers by their identifiers.<para>Returns: An Array of <see cref="Sticker"/> objects.</para>
 /// </summary>
-public class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
+public partial class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
 {
     /// <summary>
-    /// List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
+    /// A list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<string> CustomEmojiIds { get; init; }
+    public required IEnumerable<string> CustomEmojiIds { get; set; }
 
     /// <summary>
-    /// Initializes a new request with name
+    /// Initializes an instance of <see cref="GetCustomEmojiStickersRequest"/>
     /// </summary>
-    /// <param name="customEmojiIds">
-    /// List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="customEmojiIds">A list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public GetCustomEmojiStickersRequest(IEnumerable<string> customEmojiIds)
-        : this()
-    {
-        CustomEmojiIds = customEmojiIds;
-    }
+        : this() => CustomEmojiIds = customEmojiIds;
 
     /// <summary>
-    /// Initializes a new request with name
+    /// Instantiates a new <see cref="GetCustomEmojiStickersRequest"/>
     /// </summary>
     public GetCustomEmojiStickersRequest()
         : base("getCustomEmojiStickers")

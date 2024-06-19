@@ -60,7 +60,7 @@ public class SendingContactMessageTests(TestsFixture fixture)
             chatId: fixture.SupergroupChat,
             phoneNumber: "+11115551212",
             firstName: "Forrest",
-            vCard: vcard
+            vcard: vcard
         );
 
         Assert.Equal(MessageType.Contact, message.Type);

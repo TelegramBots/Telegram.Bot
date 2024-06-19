@@ -1,55 +1,46 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups
-/// and channels, the user will not be able to return to the chat on their own using invite links,
-/// etc., unless <see cref="UnbanChatMemberRequest">unbanned</see> first. The bot must be an
-/// administrator in the chat for this to work and must have the appropriate admin rights.
-/// Returns <see langword="true"/> on success.
+/// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="TelegramBotClientExtensions.UnbanChatMemberAsync">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: </para>
 /// </summary>
-public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
-
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Date when the user will be unbanned. If user is banned for more than 366 days or less
-    /// than 30 seconds from the current time they are considered to be banned forever.
-    /// Applied for supergroups and channels only.
+    /// Unique identifier of the target user
     /// </summary>
-    [JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required long UserId { get; set; }
+
+    /// <summary>
+    /// Date when the user will be unbanned, in UTC. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed. If
-    /// <see langword="false"/>, the user will be able to see messages in the group that were sent before
-    /// the user was removed. Always <see langword="true"/> for supergroups and channels.
+    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed. If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was removed. Always <see langword="true"/> for supergroups and channels.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? RevokeMessages { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool RevokeMessages { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and userId
+    /// Initializes an instance of <see cref="BanChatMemberRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     /// <param name="userId">Unique identifier of the target user</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public BanChatMemberRequest(ChatId chatId, long userId)
         : this()
     {
@@ -58,9 +49,8 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="BanChatMemberRequest"/>
     /// </summary>
-    [JsonConstructor]
     public BanChatMemberRequest()
         : base("banChatMember")
     { }

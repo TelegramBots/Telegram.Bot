@@ -1,48 +1,31 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request to ban a channel chat in a supergroup or a channel. The owner of the chat will not be able
-/// to send messages and join live streams on behalf of the chat, unless it is unbanned first. The bot must be
-/// an administrator in the supergroup or channel for this to work and must have the appropriate administrator
-/// rights. Returns <see langword="true"/> on success
+/// Use this method to ban a channel chat in a supergroup or a channel. Until the chat is <see cref="TelegramBotClientExtensions.UnbanChatSenderChatAsync">unbanned</see>, the owner of the banned chat won't be able to send messages on behalf of <b>any of their channels</b>. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.<para>Returns: </para>
 /// </summary>
-public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
+public partial class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier of the target sender chat
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long SenderChatId { get; init; }
+    public required long SenderChatId { get; set; }
 
     /// <summary>
-    /// Date when the sender chat will be unbanned, unix time. If the chat is banned for more than 366 days or
-    /// less than 30 seconds from the current time they are considered to be banned forever.
+    /// Initializes an instance of <see cref="BanChatSenderChatRequest"/>
     /// </summary>
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DateTime? UntilDate { get; set; }
-
-    /// <summary>
-    /// Initializes a new request with chatId and senderChatId
-    /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    /// </param>
-    /// <param name="senderChatId">
-    /// Unique identifier of the target sender chat
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="senderChatId">Unique identifier of the target sender chat</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public BanChatSenderChatRequest(ChatId chatId, long senderChatId)
         : this()
     {
@@ -51,7 +34,7 @@ public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="BanChatSenderChatRequest"/>
     /// </summary>
     public BanChatSenderChatRequest()
         : base("banChatSenderChat")

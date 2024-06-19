@@ -1,35 +1,34 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit text and game messages. On success <see langword="true"/> is returned.
+/// Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.<para>Returns: </para>
 /// </summary>
-public class EditInlineMessageTextRequest : RequestBase<bool>
+public partial class EditInlineMessageTextRequest : RequestBase<bool>
 {
-    /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
+    /// <summary>
+    /// Identifier of the inline message
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string InlineMessageId { get; init; }
+    public required string InlineMessageId { get; set; }
 
     /// <summary>
     /// New text of the message, 1-4096 characters after entities parsing
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode"/>
+    /// <summary>
+    /// Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.Entities"/>
+    /// <summary>
+    /// A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? Entities { get; set; }
@@ -41,33 +40,20 @@ public class EditInlineMessageTextRequest : RequestBase<bool>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
-    /// <inheritdoc cref="Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Disables link previews for links in this message
-    /// </summary>
-    [Obsolete($"This property is deprecated, use {nameof(LinkPreviewOptions)} instead")]
-    [JsonIgnore]
-    public bool DisableWebPagePreview
-    {
-        get => LinkPreviewOptions?.IsDisabled ?? false;
-        set
-        {
-            LinkPreviewOptions ??= new();
-            LinkPreviewOptions.IsDisabled = value;
-        }
-    }
-
-    /// <summary>
-    /// Initializes a new request with inlineMessageId and new text
+    /// Initializes an instance of <see cref="EditInlineMessageTextRequest"/>
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public EditInlineMessageTextRequest(string inlineMessageId, string text)
         : this()
     {
@@ -76,7 +62,7 @@ public class EditInlineMessageTextRequest : RequestBase<bool>
     }
 
     /// <summary>
-    /// Initializes a new request with inlineMessageId and new text
+    /// Instantiates a new <see cref="EditInlineMessageTextRequest"/>
     /// </summary>
     public EditInlineMessageTextRequest()
         : base("editMessageText")

@@ -817,7 +817,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             name: classFixture.TestVideoRegularStickerSetName
         );
 
-        await Task.Delay(2_000);
+        await Task.Delay(2_500);
 
         ApiRequestException staticException = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.GetStickerSetAsync(

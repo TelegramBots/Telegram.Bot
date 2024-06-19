@@ -1,44 +1,39 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
-/// Returns <see langword="true"/> on success.
+/// Use this method to set a custom title for an administrator in a supergroup promoted by the bot.<para>Returns: </para>
 /// </summary>
-public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier of the target user
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
+    public required long UserId { get; set; }
 
     /// <summary>
     /// New custom title for the administrator; 0-16 characters, emoji are not allowed
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string CustomTitle { get; init; }
+    public required string CustomTitle { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId, userId and customTitle
+    /// Initializes an instance of <see cref="SetChatAdministratorCustomTitleRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="customTitle">
-    /// New custom title for the administrator; 0-16 characters, emoji are not allowed
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="customTitle">New custom title for the administrator; 0-16 characters, emoji are not allowed</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetChatAdministratorCustomTitleRequest(ChatId chatId, long userId, string customTitle)
         : this()
     {
@@ -48,7 +43,7 @@ public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTa
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SetChatAdministratorCustomTitleRequest"/>
     /// </summary>
     public SetChatAdministratorCustomTitleRequest()
         : base("setChatAdministratorCustomTitle")

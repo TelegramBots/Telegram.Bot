@@ -1,51 +1,38 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to set default chat permissions for all members. The bot must be an administrator
-/// in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
-/// Returns <see langword="true"/> on success.
+/// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the <em>CanRestrictMembers</em> administrator rights.<para>Returns: </para>
 /// </summary>
-public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
+public partial class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
-
     /// <summary>
-    /// New default chat permissions
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatPermissions Permissions { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
-    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
-    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
-    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
-    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
-    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
-    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
-    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// An object for new default chat permissions
+    /// </summary>
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required ChatPermissions Permissions { get; set; }
+
+    /// <summary>
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the <em>CanSendOtherMessages</em> and <em>CanAddWebPagePreviews</em> permissions will imply the <em>CanSendMessages</em>, <em>CanSendAudios</em>, <em>CanSendDocuments</em>, <em>CanSendPhotos</em>, <em>CanSendVideos</em>, <em>CanSendVideoNotes</em>, and <em>CanSendVoiceNotes</em> permissions; the <em>CanSendPolls</em> permission will imply the <em>CanSendMessages</em> permission.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? UseIndependentChatPermissions { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool UseIndependentChatPermissions { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and new default permissions
+    /// Initializes an instance of <see cref="SetChatPermissionsRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="permissions">New default chat permissions</param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
+    /// <param name="permissions">An object for new default chat permissions</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetChatPermissionsRequest(ChatId chatId, ChatPermissions permissions)
         : this()
     {
@@ -54,7 +41,7 @@ public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request with chatId and new default permissions
+    /// Instantiates a new <see cref="SetChatPermissionsRequest"/>
     /// </summary>
     public SetChatPermissionsRequest()
         : base("setChatPermissions")

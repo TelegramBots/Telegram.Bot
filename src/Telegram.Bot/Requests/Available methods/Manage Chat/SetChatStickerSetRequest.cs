@@ -1,38 +1,31 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in
-/// the chat for this to work and must have the appropriate admin rights. Use the field
-/// <see cref="ChatFullInfo.CanSetStickerSet"/> optionally returned in <see cref="GetChatRequest"/> requests to
-/// check if the bot can use this method. Returns <see langword="true"/> on success.
+/// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field <em>CanSetStickerSet</em> optionally returned in <see cref="TelegramBotClientExtensions.GetChatAsync">GetChat</see> requests to check if the bot can use this method.<para>Returns: </para>
 /// </summary>
-public class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetable
+public partial class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Name of the sticker set to be set as the group sticker set
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string StickerSetName { get; init; }
+    public required string StickerSetName { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and new stickerSetName
+    /// Initializes an instance of <see cref="SetChatStickerSetRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="stickerSetName">Name of the sticker set to be set as the group sticker set</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetChatStickerSetRequest(ChatId chatId, string stickerSetName)
         : this()
     {
@@ -41,7 +34,7 @@ public class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SetChatStickerSetRequest"/>
     /// </summary>
     public SetChatStickerSetRequest()
         : base("setChatStickerSet")

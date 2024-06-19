@@ -144,7 +144,7 @@ public class ChatInfoTests(TestsFixture fixture)
     {
         await BotClient.SendChatActionAsync(
             chatId: fixture.SupergroupChat.Id,
-            chatAction: ChatAction.RecordVoice
+            action: ChatAction.RecordVoice
         );
 
         await Task.Delay(5_000);

@@ -1,11 +1,9 @@
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get the current bot name for the given user language.
-/// Returns <see cref="BotName"/> on success.
+/// Use this method to get the current bot name for the given user language.<para>Returns: <see cref="BotName"/> on success.</para>
 /// </summary>
-public class GetMyNameRequest : RequestBase<BotName>
+public partial class GetMyNameRequest : RequestBase<BotName>
 {
     /// <summary>
     /// A two-letter ISO 639-1 language code or an empty string
@@ -15,7 +13,7 @@ public class GetMyNameRequest : RequestBase<BotName>
     public string? LanguageCode { get; set; }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="GetMyNameRequest"/>
     /// </summary>
     public GetMyNameRequest()
         : base("getMyName")

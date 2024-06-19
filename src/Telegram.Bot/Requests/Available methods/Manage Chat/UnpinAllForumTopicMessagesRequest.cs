@@ -1,35 +1,31 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat
-/// for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator rights,
-/// unless it is the creator of the topic. Returns <see langword="true"/> on success.
+/// Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the <em>CanPinMessages</em> administrator right in the supergroup.<para>Returns: </para>
 /// </summary>
-public class UnpinAllForumTopicMessagesRequest : RequestBase<bool>, IChatTargetable
+public partial class UnpinAllForumTopicMessagesRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread of the forum topic
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageThreadId { get; init; }
+    public required int MessageThreadId { get; set; }
 
     /// <summary>
-    /// Initializes a new request
+    /// Initializes an instance of <see cref="UnpinAllForumTopicMessagesRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public UnpinAllForumTopicMessagesRequest(ChatId chatId, int messageThreadId)
         : this()
     {
@@ -38,7 +34,7 @@ public class UnpinAllForumTopicMessagesRequest : RequestBase<bool>, IChatTargeta
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="UnpinAllForumTopicMessagesRequest"/>
     /// </summary>
     public UnpinAllForumTopicMessagesRequest()
         : base("unpinAllForumTopicMessages")
