@@ -27,7 +27,7 @@ public partial class EditInlineMessageTextRequest : RequestBase<bool>
     public ParseMode ParseMode { get; set; }
 
     /// <summary>
-    /// A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/>
+    /// A list of special entities that appear in message text, which can be specified instead of <see cref="ParseMode">ParseMode</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

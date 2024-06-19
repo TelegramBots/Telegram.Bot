@@ -35,7 +35,7 @@ public partial class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, 
     public int? MemberLimit { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <paramref name="memberLimit"/> can't be specified
+    /// <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <see cref="MemberLimit">MemberLimit</see> can't be specified
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

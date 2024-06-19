@@ -41,7 +41,7 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     public ParseMode QuestionParseMode { get; set; }
 
     /// <summary>
-    /// A list of special entities that appear in the poll question. It can be specified instead of <paramref name="questionParseMode"/>
+    /// A list of special entities that appear in the poll question. It can be specified instead of <see cref="QuestionParseMode">QuestionParseMode</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -90,21 +90,21 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     public ParseMode ExplanationParseMode { get; set; }
 
     /// <summary>
-    /// A list of special entities that appear in the poll explanation. It can be specified instead of <paramref name="explanationParseMode"/>
+    /// A list of special entities that appear in the poll explanation. It can be specified instead of <see cref="ExplanationParseMode">ExplanationParseMode</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? ExplanationEntities { get; set; }
 
     /// <summary>
-    /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <paramref name="closeDate"/>.
+    /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <see cref="CloseDate">CloseDate</see>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? OpenPeriod { get; set; }
 
     /// <summary>
-    /// Point in time when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with <paramref name="openPeriod"/>.
+    /// Point in time when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with <see cref="OpenPeriod">OpenPeriod</see>.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

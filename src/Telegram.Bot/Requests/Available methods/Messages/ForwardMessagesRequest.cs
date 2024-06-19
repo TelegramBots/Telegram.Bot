@@ -20,7 +20,7 @@ public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTar
     public required ChatId FromChatId { get; set; }
 
     /// <summary>
-    /// A list of 1-100 identifiers of messages in the chat <paramref name="fromChatId"/> to forward. The identifiers must be specified in a strictly increasing order.
+    /// A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to forward. The identifiers must be specified in a strictly increasing order.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -52,7 +52,7 @@ public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTar
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or channel username in the format <c>@channelusername</c>)</param>
-    /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <paramref name="fromChatId"/> to forward. The identifiers must be specified in a strictly increasing order.</param>
+    /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to forward. The identifiers must be specified in a strictly increasing order.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
     public ForwardMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds)

@@ -20,7 +20,7 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     public required ChatId FromChatId { get; set; }
 
     /// <summary>
-    /// Message identifier in the chat specified in <paramref name="fromChatId"/>
+    /// Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -48,7 +48,7 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     public ParseMode ParseMode { get; set; }
 
     /// <summary>
-    /// A list of special entities that appear in the new caption, which can be specified instead of <paramref name="parseMode"/>
+    /// A list of special entities that appear in the new caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -94,7 +94,7 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Message identifier in the chat specified in <paramref name="fromChatId"/></param>
+    /// <param name="messageId">Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
     public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)

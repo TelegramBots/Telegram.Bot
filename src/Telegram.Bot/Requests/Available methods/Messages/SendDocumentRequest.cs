@@ -51,7 +51,7 @@ public partial class SendDocumentRequest : FileRequestBase<Message>, IChatTarget
     public ParseMode ParseMode { get; set; }
 
     /// <summary>
-    /// A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/>
+    /// A list of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

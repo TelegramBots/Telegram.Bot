@@ -4,7 +4,7 @@
 /// Use this method to set the score of the specified user in a game message.<para>Returns: </para>
 /// </summary>
 /// <remarks>
-/// Returns an error, if the new score is not greater than the user's current score in the chat and <paramref name="force"/> is <em>False</em>.
+/// Returns an error, if the new score is not greater than the user's current score in the chat and <see cref="Force">Force</see> is <em>False</em>.
 /// </remarks>
 public partial class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable
 {
