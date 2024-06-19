@@ -143,7 +143,7 @@ public partial class ExternalReplyInfo
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Payments.Invoice? Invoice { get; set; }
+    public Invoice? Invoice { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. Message is a shared location, information about the location

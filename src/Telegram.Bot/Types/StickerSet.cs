@@ -20,11 +20,11 @@ public partial class StickerSet
     public string Title { get; set; } = default!;
 
     /// <summary>
-    /// Type of stickers in the set, currently one of <see cref="Enums.StickerType.Regular">Regular</see>, <see cref="Enums.StickerType.Mask">Mask</see>, <see cref="Enums.StickerType.CustomEmoji">CustomEmoji</see>
+    /// Type of stickers in the set, currently one of <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, <see cref="StickerType.CustomEmoji">CustomEmoji</see>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public Enums.StickerType StickerType { get; set; }
+    public StickerType StickerType { get; set; }
 
     /// <summary>
     /// List of all set stickers

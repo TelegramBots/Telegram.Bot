@@ -55,7 +55,7 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     public bool? IsAnonymous { get; set; }
 
     /// <summary>
-    /// Poll type, “quiz” or “regular”, defaults to “regular”
+    /// Poll type, <see cref="PollType.Quiz">Quiz</see> or <see cref="PollType.Regular">Regular</see>, defaults to <see cref="PollType.Regular">Regular</see>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

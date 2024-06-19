@@ -28,7 +28,7 @@ public partial class InputTextMessageContent : InputMessageContent
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in message text, which can be specified instead of <see cref="ParseMode">ParseMode</see>

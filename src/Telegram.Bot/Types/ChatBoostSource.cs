@@ -13,7 +13,7 @@ public abstract partial class ChatBoostSource
     /// Source of the boost
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.ChatBoostSourceType Source { get; }
+    public abstract ChatBoostSourceType Source { get; }
 }
 
 /// <summary>
@@ -22,9 +22,9 @@ public abstract partial class ChatBoostSource
 public partial class ChatBoostSourcePremium : ChatBoostSource
 {
     /// <summary>
-    /// Source of the boost, always <see cref="Enums.ChatBoostSourceType.Premium"/>
+    /// Source of the boost, always <see cref="ChatBoostSourceType.Premium"/>
     /// </summary>
-    public override Enums.ChatBoostSourceType Source => Enums.ChatBoostSourceType.Premium;
+    public override ChatBoostSourceType Source => ChatBoostSourceType.Premium;
 
     /// <summary>
     /// User that boosted the chat
@@ -40,9 +40,9 @@ public partial class ChatBoostSourcePremium : ChatBoostSource
 public partial class ChatBoostSourceGiftCode : ChatBoostSource
 {
     /// <summary>
-    /// Source of the boost, always <see cref="Enums.ChatBoostSourceType.GiftCode"/>
+    /// Source of the boost, always <see cref="ChatBoostSourceType.GiftCode"/>
     /// </summary>
-    public override Enums.ChatBoostSourceType Source => Enums.ChatBoostSourceType.GiftCode;
+    public override ChatBoostSourceType Source => ChatBoostSourceType.GiftCode;
 
     /// <summary>
     /// User for which the gift code was created
@@ -58,9 +58,9 @@ public partial class ChatBoostSourceGiftCode : ChatBoostSource
 public partial class ChatBoostSourceGiveaway : ChatBoostSource
 {
     /// <summary>
-    /// Source of the boost, always <see cref="Enums.ChatBoostSourceType.Giveaway"/>
+    /// Source of the boost, always <see cref="ChatBoostSourceType.Giveaway"/>
     /// </summary>
-    public override Enums.ChatBoostSourceType Source => Enums.ChatBoostSourceType.Giveaway;
+    public override ChatBoostSourceType Source => ChatBoostSourceType.Giveaway;
 
     /// <summary>
     /// Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.

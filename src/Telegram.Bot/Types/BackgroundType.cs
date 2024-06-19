@@ -14,7 +14,7 @@ public abstract partial class BackgroundType
     /// Type of the background
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.BackgroundTypeKind Type { get; }
+    public abstract BackgroundTypeKind Type { get; }
 }
 
 /// <summary>
@@ -23,9 +23,9 @@ public abstract partial class BackgroundType
 public partial class BackgroundTypeFill : BackgroundType
 {
     /// <summary>
-    /// Type of the background, always <see cref="Enums.BackgroundTypeKind.Fill"/>
+    /// Type of the background, always <see cref="BackgroundTypeKind.Fill"/>
     /// </summary>
-    public override Enums.BackgroundTypeKind Type => Enums.BackgroundTypeKind.Fill;
+    public override BackgroundTypeKind Type => BackgroundTypeKind.Fill;
 
     /// <summary>
     /// The background fill
@@ -48,9 +48,9 @@ public partial class BackgroundTypeFill : BackgroundType
 public partial class BackgroundTypeWallpaper : BackgroundType
 {
     /// <summary>
-    /// Type of the background, always <see cref="Enums.BackgroundTypeKind.Wallpaper"/>
+    /// Type of the background, always <see cref="BackgroundTypeKind.Wallpaper"/>
     /// </summary>
-    public override Enums.BackgroundTypeKind Type => Enums.BackgroundTypeKind.Wallpaper;
+    public override BackgroundTypeKind Type => BackgroundTypeKind.Wallpaper;
 
     /// <summary>
     /// Document with the wallpaper
@@ -87,9 +87,9 @@ public partial class BackgroundTypeWallpaper : BackgroundType
 public partial class BackgroundTypePattern : BackgroundType
 {
     /// <summary>
-    /// Type of the background, always <see cref="Enums.BackgroundTypeKind.Pattern"/>
+    /// Type of the background, always <see cref="BackgroundTypeKind.Pattern"/>
     /// </summary>
-    public override Enums.BackgroundTypeKind Type => Enums.BackgroundTypeKind.Pattern;
+    public override BackgroundTypeKind Type => BackgroundTypeKind.Pattern;
 
     /// <summary>
     /// Document with the pattern
@@ -133,9 +133,9 @@ public partial class BackgroundTypePattern : BackgroundType
 public partial class BackgroundTypeChatTheme : BackgroundType
 {
     /// <summary>
-    /// Type of the background, always <see cref="Enums.BackgroundTypeKind.ChatTheme"/>
+    /// Type of the background, always <see cref="BackgroundTypeKind.ChatTheme"/>
     /// </summary>
-    public override Enums.BackgroundTypeKind Type => Enums.BackgroundTypeKind.ChatTheme;
+    public override BackgroundTypeKind Type => BackgroundTypeKind.ChatTheme;
 
     /// <summary>
     /// Name of the chat theme, which is usually an emoji

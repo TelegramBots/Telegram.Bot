@@ -6,11 +6,11 @@
 public partial class Sticker : FileBase
 {
     /// <summary>
-    /// Type of the sticker, currently one of <see cref="Enums.StickerType.Regular">Regular</see>, <see cref="Enums.StickerType.Mask">Mask</see>, <see cref="Enums.StickerType.CustomEmoji">CustomEmoji</see>. The type of the sticker is independent from its format, which is determined by the fields <see cref="IsAnimated">IsAnimated</see> and <see cref="IsVideo">IsVideo</see>.
+    /// Type of the sticker, currently one of <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, <see cref="StickerType.CustomEmoji">CustomEmoji</see>. The type of the sticker is independent from its format, which is determined by the fields <see cref="IsAnimated">IsAnimated</see> and <see cref="IsVideo">IsVideo</see>.
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public Enums.StickerType Type { get; set; }
+    public StickerType Type { get; set; }
 
     /// <summary>
     /// Sticker width

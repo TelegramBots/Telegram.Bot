@@ -34,7 +34,7 @@ public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTa
     public required IEnumerable<InputSticker> Stickers { get; set; }
 
     /// <summary>
-    /// Type of stickers in the set, pass “regular”, “mask”, or “CustomEmoji”. By default, a regular sticker set is created.
+    /// Type of stickers in the set, pass <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, or <see cref="StickerType.CustomEmoji">CustomEmoji</see>. By default, a regular sticker set is created.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

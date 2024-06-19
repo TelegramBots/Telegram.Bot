@@ -37,7 +37,7 @@ public abstract partial class InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ReplyMarkups.InlineKeyboardMarkup? ReplyMarkup { get; set; }
+    public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="InlineQueryResult"/>
@@ -206,7 +206,7 @@ public partial class InlineQueryResultPhoto : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -322,7 +322,7 @@ public partial class InlineQueryResultGif : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -438,7 +438,7 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -536,7 +536,7 @@ public partial class InlineQueryResultVideo : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -650,7 +650,7 @@ public partial class InlineQueryResultAudio : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -738,7 +738,7 @@ public partial class InlineQueryResultVoice : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -819,7 +819,7 @@ public partial class InlineQueryResultDocument : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1290,7 +1290,7 @@ public partial class InlineQueryResultCachedPhoto : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1366,7 +1366,7 @@ public partial class InlineQueryResultCachedGif : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1442,7 +1442,7 @@ public partial class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1566,7 +1566,7 @@ public partial class InlineQueryResultCachedDocument : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1647,7 +1647,7 @@ public partial class InlineQueryResultCachedVideo : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1728,7 +1728,7 @@ public partial class InlineQueryResultCachedVoice : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -1795,7 +1795,7 @@ public partial class InlineQueryResultCachedAudio : InlineQueryResult
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>

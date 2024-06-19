@@ -15,7 +15,7 @@ public abstract partial class InputMedia
     /// Type of the result
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.InputMediaType Type { get; }
+    public abstract InputMediaType Type { get; }
 
     /// <summary>
     /// File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
@@ -36,7 +36,7 @@ public abstract partial class InputMedia
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode ParseMode { get; set; }
+    public ParseMode ParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
@@ -66,9 +66,9 @@ public abstract partial class InputMedia
 public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
 {
     /// <summary>
-    /// Type of the result, always <see cref="Enums.InputMediaType.Photo"/>
+    /// Type of the result, always <see cref="InputMediaType.Photo"/>
     /// </summary>
-    public override Enums.InputMediaType Type => Enums.InputMediaType.Photo;
+    public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary>
     /// <em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media
@@ -108,9 +108,9 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
 public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInputMedia
 {
     /// <summary>
-    /// Type of the result, always <see cref="Enums.InputMediaType.Video"/>
+    /// Type of the result, always <see cref="InputMediaType.Video"/>
     /// </summary>
-    public override Enums.InputMediaType Type => Enums.InputMediaType.Video;
+    public override InputMediaType Type => InputMediaType.Video;
 
     /// <summary>
     /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
@@ -185,9 +185,9 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
 public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
 {
     /// <summary>
-    /// Type of the result, always <see cref="Enums.InputMediaType.Animation"/>
+    /// Type of the result, always <see cref="InputMediaType.Animation"/>
     /// </summary>
-    public override Enums.InputMediaType Type => Enums.InputMediaType.Animation;
+    public override InputMediaType Type => InputMediaType.Animation;
 
     /// <summary>
     /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
@@ -255,9 +255,9 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
 public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInputMedia
 {
     /// <summary>
-    /// Type of the result, always <see cref="Enums.InputMediaType.Audio"/>
+    /// Type of the result, always <see cref="InputMediaType.Audio"/>
     /// </summary>
-    public override Enums.InputMediaType Type => Enums.InputMediaType.Audio;
+    public override InputMediaType Type => InputMediaType.Audio;
 
     /// <summary>
     /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
@@ -311,9 +311,9 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
 public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumInputMedia
 {
     /// <summary>
-    /// Type of the result, always <see cref="Enums.InputMediaType.Document"/>
+    /// Type of the result, always <see cref="InputMediaType.Document"/>
     /// </summary>
-    public override Enums.InputMediaType Type => Enums.InputMediaType.Document;
+    public override InputMediaType Type => InputMediaType.Document;
 
     /// <summary>
     /// <em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>

@@ -13,7 +13,7 @@ public abstract partial class MenuButton
     /// Type of the button
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.MenuButtonType Type { get; }
+    public abstract MenuButtonType Type { get; }
 }
 
 /// <summary>
@@ -22,9 +22,9 @@ public abstract partial class MenuButton
 public partial class MenuButtonCommands : MenuButton
 {
     /// <summary>
-    /// Type of the button, always <see cref="Enums.MenuButtonType.Commands"/>
+    /// Type of the button, always <see cref="MenuButtonType.Commands"/>
     /// </summary>
-    public override Enums.MenuButtonType Type => Enums.MenuButtonType.Commands;
+    public override MenuButtonType Type => MenuButtonType.Commands;
 }
 
 /// <summary>
@@ -33,9 +33,9 @@ public partial class MenuButtonCommands : MenuButton
 public partial class MenuButtonWebApp : MenuButton
 {
     /// <summary>
-    /// Type of the button, always <see cref="Enums.MenuButtonType.WebApp"/>
+    /// Type of the button, always <see cref="MenuButtonType.WebApp"/>
     /// </summary>
-    public override Enums.MenuButtonType Type => Enums.MenuButtonType.WebApp;
+    public override MenuButtonType Type => MenuButtonType.WebApp;
 
     /// <summary>
     /// Text on the button
@@ -58,7 +58,7 @@ public partial class MenuButtonWebApp : MenuButton
 public partial class MenuButtonDefault : MenuButton
 {
     /// <summary>
-    /// Type of the button, always <see cref="Enums.MenuButtonType.Default"/>
+    /// Type of the button, always <see cref="MenuButtonType.Default"/>
     /// </summary>
-    public override Enums.MenuButtonType Type => Enums.MenuButtonType.Default;
+    public override MenuButtonType Type => MenuButtonType.Default;
 }

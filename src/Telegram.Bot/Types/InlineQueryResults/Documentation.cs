@@ -32,7 +32,7 @@ internal static class Documentation
     static readonly object CaptionEntities;
 
     /// <summary>
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// <inheritdoc cref="ShowCaptionAboveMedia" />
     /// </summary>
     static readonly object ShowCaptionAboveMedia;
 

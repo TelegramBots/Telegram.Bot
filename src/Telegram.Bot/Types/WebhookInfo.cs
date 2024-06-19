@@ -67,5 +67,5 @@ public partial class WebhookInfo
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Enums.UpdateType[]? AllowedUpdates { get; set; }
+    public UpdateType[]? AllowedUpdates { get; set; }
 }

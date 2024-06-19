@@ -109,14 +109,14 @@ public partial class Update
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Payments.ShippingQuery? ShippingQuery { get; set; }
+    public ShippingQuery? ShippingQuery { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. New incoming pre-checkout query. Contains full information about checkout
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Payments.PreCheckoutQuery? PreCheckoutQuery { get; set; }
+    public PreCheckoutQuery? PreCheckoutQuery { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot
@@ -168,36 +168,36 @@ public partial class Update
     public ChatBoostRemoved? RemovedChatBoost { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="Enums.UpdateType">type</see> of the <see cref="Update"/>
+    /// Gets the <see cref="UpdateType">type</see> of the <see cref="Update"/>
     /// </summary>
     /// <value>
-    /// The <see cref="Enums.UpdateType">type</see> of the <see cref="Update"/>
+    /// The <see cref="UpdateType">type</see> of the <see cref="Update"/>
     /// </value>
     [JsonIgnore]
-    public Enums.UpdateType Type => this switch
+    public UpdateType Type => this switch
     {
-        { Message: not null }                 => Enums.UpdateType.Message,
-        { EditedMessage: not null }           => Enums.UpdateType.EditedMessage,
-        { ChannelPost: not null }             => Enums.UpdateType.ChannelPost,
-        { EditedChannelPost: not null }       => Enums.UpdateType.EditedChannelPost,
-        { BusinessConnection: not null }      => Enums.UpdateType.BusinessConnection,
-        { BusinessMessage: not null }         => Enums.UpdateType.BusinessMessage,
-        { EditedBusinessMessage: not null }   => Enums.UpdateType.EditedBusinessMessage,
-        { DeletedBusinessMessages: not null } => Enums.UpdateType.DeletedBusinessMessages,
-        { MessageReaction: not null }         => Enums.UpdateType.MessageReaction,
-        { MessageReactionCount: not null }    => Enums.UpdateType.MessageReactionCount,
-        { InlineQuery: not null }             => Enums.UpdateType.InlineQuery,
-        { ChosenInlineResult: not null }      => Enums.UpdateType.ChosenInlineResult,
-        { CallbackQuery: not null }           => Enums.UpdateType.CallbackQuery,
-        { ShippingQuery: not null }           => Enums.UpdateType.ShippingQuery,
-        { PreCheckoutQuery: not null }        => Enums.UpdateType.PreCheckoutQuery,
-        { Poll: not null }                    => Enums.UpdateType.Poll,
-        { PollAnswer: not null }              => Enums.UpdateType.PollAnswer,
-        { MyChatMember: not null }            => Enums.UpdateType.MyChatMember,
-        { ChatMember: not null }              => Enums.UpdateType.ChatMember,
-        { ChatJoinRequest: not null }         => Enums.UpdateType.ChatJoinRequest,
-        { ChatBoost: not null }               => Enums.UpdateType.ChatBoost,
-        { RemovedChatBoost: not null }        => Enums.UpdateType.RemovedChatBoost,
-        _                                     => Enums.UpdateType.Unknown
+        { Message: not null }                 => UpdateType.Message,
+        { EditedMessage: not null }           => UpdateType.EditedMessage,
+        { ChannelPost: not null }             => UpdateType.ChannelPost,
+        { EditedChannelPost: not null }       => UpdateType.EditedChannelPost,
+        { BusinessConnection: not null }      => UpdateType.BusinessConnection,
+        { BusinessMessage: not null }         => UpdateType.BusinessMessage,
+        { EditedBusinessMessage: not null }   => UpdateType.EditedBusinessMessage,
+        { DeletedBusinessMessages: not null } => UpdateType.DeletedBusinessMessages,
+        { MessageReaction: not null }         => UpdateType.MessageReaction,
+        { MessageReactionCount: not null }    => UpdateType.MessageReactionCount,
+        { InlineQuery: not null }             => UpdateType.InlineQuery,
+        { ChosenInlineResult: not null }      => UpdateType.ChosenInlineResult,
+        { CallbackQuery: not null }           => UpdateType.CallbackQuery,
+        { ShippingQuery: not null }           => UpdateType.ShippingQuery,
+        { PreCheckoutQuery: not null }        => UpdateType.PreCheckoutQuery,
+        { Poll: not null }                    => UpdateType.Poll,
+        { PollAnswer: not null }              => UpdateType.PollAnswer,
+        { MyChatMember: not null }            => UpdateType.MyChatMember,
+        { ChatMember: not null }              => UpdateType.ChatMember,
+        { ChatJoinRequest: not null }         => UpdateType.ChatJoinRequest,
+        { ChatBoost: not null }               => UpdateType.ChatBoost,
+        { RemovedChatBoost: not null }        => UpdateType.RemovedChatBoost,
+        _                                     => UpdateType.Unknown
     };
 }

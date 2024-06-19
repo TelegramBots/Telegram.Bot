@@ -17,7 +17,7 @@ public partial class InputPollOption
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode TextParseMode { get; set; }
+    public ParseMode TextParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. A list of special entities that appear in the poll option text. It can be specified instead of <see cref="TextParseMode">TextParseMode</see>

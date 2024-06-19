@@ -12,7 +12,7 @@ public abstract partial class ReactionType
     /// Type of the reaction
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.ReactionTypeKind Type { get; }
+    public abstract ReactionTypeKind Type { get; }
 }
 
 /// <summary>
@@ -21,9 +21,9 @@ public abstract partial class ReactionType
 public partial class ReactionTypeEmoji : ReactionType
 {
     /// <summary>
-    /// Type of the reaction, always <see cref="Enums.ReactionTypeKind.Emoji"/>
+    /// Type of the reaction, always <see cref="ReactionTypeKind.Emoji"/>
     /// </summary>
-    public override Enums.ReactionTypeKind Type => Enums.ReactionTypeKind.Emoji;
+    public override ReactionTypeKind Type => ReactionTypeKind.Emoji;
 
     /// <summary>
     /// Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
@@ -39,9 +39,9 @@ public partial class ReactionTypeEmoji : ReactionType
 public partial class ReactionTypeCustomEmoji : ReactionType
 {
     /// <summary>
-    /// Type of the reaction, always <see cref="Enums.ReactionTypeKind.CustomEmoji"/>
+    /// Type of the reaction, always <see cref="ReactionTypeKind.CustomEmoji"/>
     /// </summary>
-    public override Enums.ReactionTypeKind Type => Enums.ReactionTypeKind.CustomEmoji;
+    public override ReactionTypeKind Type => ReactionTypeKind.CustomEmoji;
 
     /// <summary>
     /// Custom emoji identifier

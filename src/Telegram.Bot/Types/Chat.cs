@@ -13,11 +13,11 @@ public partial class Chat
     public long Id { get; set; }
 
     /// <summary>
-    /// Type of the chat, can be either <see cref="Enums.ChatType.Private">Private</see>, <see cref="Enums.ChatType.Group">Group</see>, <see cref="Enums.ChatType.Supergroup">Supergroup</see> or <see cref="Enums.ChatType.Channel">Channel</see>
+    /// Type of the chat, can be either <see cref="ChatType.Private">Private</see>, <see cref="ChatType.Group">Group</see>, <see cref="ChatType.Supergroup">Supergroup</see> or <see cref="ChatType.Channel">Channel</see>
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public Enums.ChatType Type { get; set; }
+    public ChatType Type { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. Title, for supergroups, channels and group chats

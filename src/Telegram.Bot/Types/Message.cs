@@ -411,14 +411,14 @@ public partial class Message
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Payments.Invoice? Invoice { get; set; }
+    public Invoice? Invoice { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. Message is a service message about a successful payment, information about the payment. <a href="https://core.telegram.org/bots/api#payments">More about payments »</a>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Payments.SuccessfulPayment? SuccessfulPayment { get; set; }
+    public SuccessfulPayment? SuccessfulPayment { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. Service message: users were shared with the bot
@@ -453,7 +453,7 @@ public partial class Message
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Passport.PassportData? PassportData { get; set; }
+    public PassportData? PassportData { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
@@ -586,70 +586,70 @@ public partial class Message
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ReplyMarkups.InlineKeyboardMarkup? ReplyMarkup { get; set; }
+    public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="Enums.MessageType">type</see> of the <see cref="Message"/>
+    /// Gets the <see cref="MessageType">type</see> of the <see cref="Message"/>
     /// </summary>
     /// <value>
-    /// The <see cref="Enums.MessageType">type</see> of the <see cref="Message"/>
+    /// The <see cref="MessageType">type</see> of the <see cref="Message"/>
     /// </value>
     [JsonIgnore]
-    public Enums.MessageType Type => this switch
+    public MessageType Type => this switch
     {
-        { Text: not null }                              => Enums.MessageType.Text,
-        { Animation: not null }                         => Enums.MessageType.Animation,
-        { Audio: not null }                             => Enums.MessageType.Audio,
-        { Document: not null }                          => Enums.MessageType.Document,
-        { Photo: not null }                             => Enums.MessageType.Photo,
-        { Sticker: not null }                           => Enums.MessageType.Sticker,
-        { Story: not null }                             => Enums.MessageType.Story,
-        { Video: not null }                             => Enums.MessageType.Video,
-        { VideoNote: not null }                         => Enums.MessageType.VideoNote,
-        { Voice: not null }                             => Enums.MessageType.Voice,
-        { Contact: not null }                           => Enums.MessageType.Contact,
-        { Dice: not null }                              => Enums.MessageType.Dice,
-        { Game: not null }                              => Enums.MessageType.Game,
-        { Poll: not null }                              => Enums.MessageType.Poll,
-        { Venue: not null }                             => Enums.MessageType.Venue,
-        { Location: not null }                          => Enums.MessageType.Location,
-        { NewChatMembers: not null }                    => Enums.MessageType.NewChatMembers,
-        { LeftChatMember: not null }                    => Enums.MessageType.LeftChatMember,
-        { NewChatTitle: not null }                      => Enums.MessageType.NewChatTitle,
-        { NewChatPhoto: not null }                      => Enums.MessageType.NewChatPhoto,
-        { DeleteChatPhoto: not null }                   => Enums.MessageType.DeleteChatPhoto,
-        { GroupChatCreated: not null }                  => Enums.MessageType.GroupChatCreated,
-        { SupergroupChatCreated: not null }             => Enums.MessageType.SupergroupChatCreated,
-        { ChannelChatCreated: not null }                => Enums.MessageType.ChannelChatCreated,
-        { MessageAutoDeleteTimerChanged: not null }     => Enums.MessageType.MessageAutoDeleteTimerChanged,
-        { MigrateToChatId: not null }                   => Enums.MessageType.MigrateToChatId,
-        { MigrateFromChatId: not null }                 => Enums.MessageType.MigrateFromChatId,
-        { PinnedMessage: not null }                     => Enums.MessageType.PinnedMessage,
-        { Invoice: not null }                           => Enums.MessageType.Invoice,
-        { SuccessfulPayment: not null }                 => Enums.MessageType.SuccessfulPayment,
-        { UsersShared: not null }                       => Enums.MessageType.UsersShared,
-        { ChatShared: not null }                        => Enums.MessageType.ChatShared,
-        { ConnectedWebsite: not null }                  => Enums.MessageType.ConnectedWebsite,
-        { WriteAccessAllowed: not null }                => Enums.MessageType.WriteAccessAllowed,
-        { PassportData: not null }                      => Enums.MessageType.PassportData,
-        { ProximityAlertTriggered: not null }           => Enums.MessageType.ProximityAlertTriggered,
-        { BoostAdded: not null }                        => Enums.MessageType.BoostAdded,
-        { ChatBackgroundSet: not null }                 => Enums.MessageType.ChatBackgroundSet,
-        { ForumTopicCreated: not null }                 => Enums.MessageType.ForumTopicCreated,
-        { ForumTopicEdited: not null }                  => Enums.MessageType.ForumTopicEdited,
-        { ForumTopicClosed: not null }                  => Enums.MessageType.ForumTopicClosed,
-        { ForumTopicReopened: not null }                => Enums.MessageType.ForumTopicReopened,
-        { GeneralForumTopicHidden: not null }           => Enums.MessageType.GeneralForumTopicHidden,
-        { GeneralForumTopicUnhidden: not null }         => Enums.MessageType.GeneralForumTopicUnhidden,
-        { GiveawayCreated: not null }                   => Enums.MessageType.GiveawayCreated,
-        { Giveaway: not null }                          => Enums.MessageType.Giveaway,
-        { GiveawayWinners: not null }                   => Enums.MessageType.GiveawayWinners,
-        { GiveawayCompleted: not null }                 => Enums.MessageType.GiveawayCompleted,
-        { VideoChatScheduled: not null }                => Enums.MessageType.VideoChatScheduled,
-        { VideoChatStarted: not null }                  => Enums.MessageType.VideoChatStarted,
-        { VideoChatEnded: not null }                    => Enums.MessageType.VideoChatEnded,
-        { VideoChatParticipantsInvited: not null }      => Enums.MessageType.VideoChatParticipantsInvited,
-        { WebAppData: not null }                        => Enums.MessageType.WebAppData,
-        _                                               => Enums.MessageType.Unknown
+        { Text: not null }                              => MessageType.Text,
+        { Animation: not null }                         => MessageType.Animation,
+        { Audio: not null }                             => MessageType.Audio,
+        { Document: not null }                          => MessageType.Document,
+        { Photo: not null }                             => MessageType.Photo,
+        { Sticker: not null }                           => MessageType.Sticker,
+        { Story: not null }                             => MessageType.Story,
+        { Video: not null }                             => MessageType.Video,
+        { VideoNote: not null }                         => MessageType.VideoNote,
+        { Voice: not null }                             => MessageType.Voice,
+        { Contact: not null }                           => MessageType.Contact,
+        { Dice: not null }                              => MessageType.Dice,
+        { Game: not null }                              => MessageType.Game,
+        { Poll: not null }                              => MessageType.Poll,
+        { Venue: not null }                             => MessageType.Venue,
+        { Location: not null }                          => MessageType.Location,
+        { NewChatMembers: not null }                    => MessageType.NewChatMembers,
+        { LeftChatMember: not null }                    => MessageType.LeftChatMember,
+        { NewChatTitle: not null }                      => MessageType.NewChatTitle,
+        { NewChatPhoto: not null }                      => MessageType.NewChatPhoto,
+        { DeleteChatPhoto: not null }                   => MessageType.DeleteChatPhoto,
+        { GroupChatCreated: not null }                  => MessageType.GroupChatCreated,
+        { SupergroupChatCreated: not null }             => MessageType.SupergroupChatCreated,
+        { ChannelChatCreated: not null }                => MessageType.ChannelChatCreated,
+        { MessageAutoDeleteTimerChanged: not null }     => MessageType.MessageAutoDeleteTimerChanged,
+        { MigrateToChatId: not null }                   => MessageType.MigrateToChatId,
+        { MigrateFromChatId: not null }                 => MessageType.MigrateFromChatId,
+        { PinnedMessage: not null }                     => MessageType.PinnedMessage,
+        { Invoice: not null }                           => MessageType.Invoice,
+        { SuccessfulPayment: not null }                 => MessageType.SuccessfulPayment,
+        { UsersShared: not null }                       => MessageType.UsersShared,
+        { ChatShared: not null }                        => MessageType.ChatShared,
+        { ConnectedWebsite: not null }                  => MessageType.ConnectedWebsite,
+        { WriteAccessAllowed: not null }                => MessageType.WriteAccessAllowed,
+        { PassportData: not null }                      => MessageType.PassportData,
+        { ProximityAlertTriggered: not null }           => MessageType.ProximityAlertTriggered,
+        { BoostAdded: not null }                        => MessageType.BoostAdded,
+        { ChatBackgroundSet: not null }                 => MessageType.ChatBackgroundSet,
+        { ForumTopicCreated: not null }                 => MessageType.ForumTopicCreated,
+        { ForumTopicEdited: not null }                  => MessageType.ForumTopicEdited,
+        { ForumTopicClosed: not null }                  => MessageType.ForumTopicClosed,
+        { ForumTopicReopened: not null }                => MessageType.ForumTopicReopened,
+        { GeneralForumTopicHidden: not null }           => MessageType.GeneralForumTopicHidden,
+        { GeneralForumTopicUnhidden: not null }         => MessageType.GeneralForumTopicUnhidden,
+        { GiveawayCreated: not null }                   => MessageType.GiveawayCreated,
+        { Giveaway: not null }                          => MessageType.Giveaway,
+        { GiveawayWinners: not null }                   => MessageType.GiveawayWinners,
+        { GiveawayCompleted: not null }                 => MessageType.GiveawayCompleted,
+        { VideoChatScheduled: not null }                => MessageType.VideoChatScheduled,
+        { VideoChatStarted: not null }                  => MessageType.VideoChatStarted,
+        { VideoChatEnded: not null }                    => MessageType.VideoChatEnded,
+        { VideoChatParticipantsInvited: not null }      => MessageType.VideoChatParticipantsInvited,
+        { WebAppData: not null }                        => MessageType.WebAppData,
+        _                                               => MessageType.Unknown
     };
 }

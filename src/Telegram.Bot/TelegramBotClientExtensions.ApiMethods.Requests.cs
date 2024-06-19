@@ -153,7 +153,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <remarks>
     /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or
-    /// <see cref="TelegramBotClientExtensions.GetInfoAndDownloadFileAsync"/> methods to download the file
+    /// <see cref="GetInfoAndDownloadFileAsync"/> methods to download the file
     /// </remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="request">Request parameters</param>
@@ -1967,7 +1967,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
     /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
-    /// specified URL, containing an <see cref="Types.Update"/>. In case of
+    /// specified URL, containing an <see cref="Update"/>. In case of
     /// an unsuccessful request, we will give up after a reasonable amount of attempts.
     /// Returns <see langword="true"/> on success.
     /// <para>
@@ -2220,9 +2220,9 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to
-    /// calling <see cref="DeleteStickerFromSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.DeleteStickerFromSetRequest,System.Threading.CancellationToken)"/>,
-    /// then <see cref="AddStickerToSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.AddStickerToSetRequest,System.Threading.CancellationToken)"/>,
-    /// then <see cref="SetStickerPositionInSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.SetStickerPositionInSetRequest,System.Threading.CancellationToken)"/>.
+    /// calling <see cref="DeleteStickerFromSetAsync(ITelegramBotClient,DeleteStickerFromSetRequest,CancellationToken)"/>,
+    /// then <see cref="AddStickerToSetAsync(ITelegramBotClient,AddStickerToSetRequest,CancellationToken)"/>,
+    /// then <see cref="SetStickerPositionInSetAsync(ITelegramBotClient,SetStickerPositionInSetRequest,CancellationToken)"/>.
     /// Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>

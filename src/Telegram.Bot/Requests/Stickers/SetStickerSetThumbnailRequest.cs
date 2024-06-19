@@ -20,7 +20,7 @@ public partial class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUse
     public required long UserId { get; set; }
 
     /// <summary>
-    /// Format of the thumbnail, must be one of “static” for a <b>.WEBP</b> or <b>.PNG</b> image, “animated” for a <b>.TGS</b> animation, or “video” for a <b>WEBM</b> video
+    /// Format of the thumbnail, must be one of <see cref="StickerFormat.Static">Static</see> for a <b>.WEBP</b> or <b>.PNG</b> image, <see cref="StickerFormat.Animated">Animated</see> for a <b>.TGS</b> animation, or <see cref="StickerFormat.Video">Video</see> for a <b>WEBM</b> video
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -38,7 +38,7 @@ public partial class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUse
     /// </summary>
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
-    /// <param name="format">Format of the thumbnail, must be one of “static” for a <b>.WEBP</b> or <b>.PNG</b> image, “animated” for a <b>.TGS</b> animation, or “video” for a <b>WEBM</b> video</param>
+    /// <param name="format">Format of the thumbnail, must be one of <see cref="StickerFormat.Static">Static</see> for a <b>.WEBP</b> or <b>.PNG</b> image, <see cref="StickerFormat.Animated">Animated</see> for a <b>.TGS</b> animation, or <see cref="StickerFormat.Video">Video</see> for a <b>WEBM</b> video</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
     public SetStickerSetThumbnailRequest(string name, long userId, StickerFormat format)

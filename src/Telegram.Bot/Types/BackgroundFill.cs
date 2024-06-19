@@ -13,7 +13,7 @@ public abstract partial class BackgroundFill
     /// Type of the background fill
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.BackgroundFillType Type { get; }
+    public abstract BackgroundFillType Type { get; }
 }
 
 /// <summary>
@@ -22,9 +22,9 @@ public abstract partial class BackgroundFill
 public partial class BackgroundFillSolid : BackgroundFill
 {
     /// <summary>
-    /// Type of the background fill, always <see cref="Enums.BackgroundFillType.Solid"/>
+    /// Type of the background fill, always <see cref="BackgroundFillType.Solid"/>
     /// </summary>
-    public override Enums.BackgroundFillType Type => Enums.BackgroundFillType.Solid;
+    public override BackgroundFillType Type => BackgroundFillType.Solid;
 
     /// <summary>
     /// The color of the background fill in the RGB24 format
@@ -40,9 +40,9 @@ public partial class BackgroundFillSolid : BackgroundFill
 public partial class BackgroundFillGradient : BackgroundFill
 {
     /// <summary>
-    /// Type of the background fill, always <see cref="Enums.BackgroundFillType.Gradient"/>
+    /// Type of the background fill, always <see cref="BackgroundFillType.Gradient"/>
     /// </summary>
-    public override Enums.BackgroundFillType Type => Enums.BackgroundFillType.Gradient;
+    public override BackgroundFillType Type => BackgroundFillType.Gradient;
 
     /// <summary>
     /// Top color of the gradient in the RGB24 format
@@ -72,9 +72,9 @@ public partial class BackgroundFillGradient : BackgroundFill
 public partial class BackgroundFillFreeformGradient : BackgroundFill
 {
     /// <summary>
-    /// Type of the background fill, always <see cref="Enums.BackgroundFillType.FreeformGradient"/>
+    /// Type of the background fill, always <see cref="BackgroundFillType.FreeformGradient"/>
     /// </summary>
-    public override Enums.BackgroundFillType Type => Enums.BackgroundFillType.FreeformGradient;
+    public override BackgroundFillType Type => BackgroundFillType.FreeformGradient;
 
     /// <summary>
     /// A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format

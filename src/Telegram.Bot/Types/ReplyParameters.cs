@@ -38,7 +38,7 @@ public partial class ReplyParameters
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Enums.ParseMode QuoteParseMode { get; set; }
+    public ParseMode QuoteParseMode { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. A list of special entities that appear in the quote. It can be specified instead of <see cref="QuoteParseMode">QuoteParseMode</see>.

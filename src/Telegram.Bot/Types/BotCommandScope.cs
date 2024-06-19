@@ -17,7 +17,7 @@ public abstract partial class BotCommandScope
     /// Scope type
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.BotCommandScopeType Type { get; }
+    public abstract BotCommandScopeType Type { get; }
 }
 
 /// <summary>
@@ -26,9 +26,9 @@ public abstract partial class BotCommandScope
 public partial class BotCommandScopeDefault : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.Default"/>
+    /// Scope type, always <see cref="BotCommandScopeType.Default"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.Default;
+    public override BotCommandScopeType Type => BotCommandScopeType.Default;
 }
 
 /// <summary>
@@ -37,9 +37,9 @@ public partial class BotCommandScopeDefault : BotCommandScope
 public partial class BotCommandScopeAllPrivateChats : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.AllPrivateChats"/>
+    /// Scope type, always <see cref="BotCommandScopeType.AllPrivateChats"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.AllPrivateChats;
+    public override BotCommandScopeType Type => BotCommandScopeType.AllPrivateChats;
 }
 
 /// <summary>
@@ -48,9 +48,9 @@ public partial class BotCommandScopeAllPrivateChats : BotCommandScope
 public partial class BotCommandScopeAllGroupChats : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.AllGroupChats"/>
+    /// Scope type, always <see cref="BotCommandScopeType.AllGroupChats"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.AllGroupChats;
+    public override BotCommandScopeType Type => BotCommandScopeType.AllGroupChats;
 }
 
 /// <summary>
@@ -59,9 +59,9 @@ public partial class BotCommandScopeAllGroupChats : BotCommandScope
 public partial class BotCommandScopeAllChatAdministrators : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.AllChatAdministrators"/>
+    /// Scope type, always <see cref="BotCommandScopeType.AllChatAdministrators"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.AllChatAdministrators;
+    public override BotCommandScopeType Type => BotCommandScopeType.AllChatAdministrators;
 }
 
 /// <summary>
@@ -70,9 +70,9 @@ public partial class BotCommandScopeAllChatAdministrators : BotCommandScope
 public partial class BotCommandScopeChat : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.Chat"/>
+    /// Scope type, always <see cref="BotCommandScopeType.Chat"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.Chat;
+    public override BotCommandScopeType Type => BotCommandScopeType.Chat;
 
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
@@ -88,9 +88,9 @@ public partial class BotCommandScopeChat : BotCommandScope
 public partial class BotCommandScopeChatAdministrators : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.ChatAdministrators"/>
+    /// Scope type, always <see cref="BotCommandScopeType.ChatAdministrators"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.ChatAdministrators;
+    public override BotCommandScopeType Type => BotCommandScopeType.ChatAdministrators;
 
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
@@ -106,9 +106,9 @@ public partial class BotCommandScopeChatAdministrators : BotCommandScope
 public partial class BotCommandScopeChatMember : BotCommandScope
 {
     /// <summary>
-    /// Scope type, always <see cref="Enums.BotCommandScopeType.ChatMember"/>
+    /// Scope type, always <see cref="BotCommandScopeType.ChatMember"/>
     /// </summary>
-    public override Enums.BotCommandScopeType Type => Enums.BotCommandScopeType.ChatMember;
+    public override BotCommandScopeType Type => BotCommandScopeType.ChatMember;
 
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)

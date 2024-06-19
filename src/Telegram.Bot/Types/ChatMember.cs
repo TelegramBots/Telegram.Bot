@@ -16,7 +16,7 @@ public abstract partial class ChatMember
     /// The member's status in the chat
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.ChatMemberStatus Status { get; }
+    public abstract ChatMemberStatus Status { get; }
 
     /// <summary>
     /// Information about the user
@@ -32,9 +32,9 @@ public abstract partial class ChatMember
 public partial class ChatMemberOwner : ChatMember
 {
     /// <summary>
-    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Creator"/>
+    /// The member's status in the chat, always <see cref="ChatMemberStatus.Creator"/>
     /// </summary>
-    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Creator;
+    public override ChatMemberStatus Status => ChatMemberStatus.Creator;
 
     /// <summary>
     /// <see langword="true"/>, if the user's presence in the chat is hidden
@@ -56,9 +56,9 @@ public partial class ChatMemberOwner : ChatMember
 public partial class ChatMemberAdministrator : ChatMember
 {
     /// <summary>
-    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Administrator"/>
+    /// The member's status in the chat, always <see cref="ChatMemberStatus.Administrator"/>
     /// </summary>
-    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Administrator;
+    public override ChatMemberStatus Status => ChatMemberStatus.Administrator;
 
     /// <summary>
     /// <see langword="true"/>, if the bot is allowed to edit administrator privileges of that user
@@ -174,9 +174,9 @@ public partial class ChatMemberAdministrator : ChatMember
 public partial class ChatMemberMember : ChatMember
 {
     /// <summary>
-    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Member"/>
+    /// The member's status in the chat, always <see cref="ChatMemberStatus.Member"/>
     /// </summary>
-    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Member;
+    public override ChatMemberStatus Status => ChatMemberStatus.Member;
 }
 
 /// <summary>
@@ -185,9 +185,9 @@ public partial class ChatMemberMember : ChatMember
 public partial class ChatMemberRestricted : ChatMember
 {
     /// <summary>
-    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Restricted"/>
+    /// The member's status in the chat, always <see cref="ChatMemberStatus.Restricted"/>
     /// </summary>
-    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Restricted;
+    public override ChatMemberStatus Status => ChatMemberStatus.Restricted;
 
     /// <summary>
     /// <see langword="true"/>, if the user is a member of the chat at the moment of the request
@@ -294,9 +294,9 @@ public partial class ChatMemberRestricted : ChatMember
 public partial class ChatMemberLeft : ChatMember
 {
     /// <summary>
-    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Left"/>
+    /// The member's status in the chat, always <see cref="ChatMemberStatus.Left"/>
     /// </summary>
-    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Left;
+    public override ChatMemberStatus Status => ChatMemberStatus.Left;
 }
 
 /// <summary>
@@ -305,9 +305,9 @@ public partial class ChatMemberLeft : ChatMember
 public partial class ChatMemberBanned : ChatMember
 {
     /// <summary>
-    /// The member's status in the chat, always <see cref="Enums.ChatMemberStatus.Kicked"/>
+    /// The member's status in the chat, always <see cref="ChatMemberStatus.Kicked"/>
     /// </summary>
-    public override Enums.ChatMemberStatus Status => Enums.ChatMemberStatus.Kicked;
+    public override ChatMemberStatus Status => ChatMemberStatus.Kicked;
 
     /// <summary>
     /// Date when restrictions will be lifted for this user, in UTC. If unset, then the user is banned forever

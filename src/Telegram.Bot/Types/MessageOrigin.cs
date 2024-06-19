@@ -14,7 +14,7 @@ public abstract partial class MessageOrigin
     /// Type of the message origin
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public abstract Enums.MessageOriginType Type { get; }
+    public abstract MessageOriginType Type { get; }
 
     /// <summary>
     /// Date the message was sent originally
@@ -31,9 +31,9 @@ public abstract partial class MessageOrigin
 public partial class MessageOriginUser : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="Enums.MessageOriginType.User"/>
+    /// Type of the message origin, always <see cref="MessageOriginType.User"/>
     /// </summary>
-    public override Enums.MessageOriginType Type => Enums.MessageOriginType.User;
+    public override MessageOriginType Type => MessageOriginType.User;
 
     /// <summary>
     /// User that sent the message originally
@@ -49,9 +49,9 @@ public partial class MessageOriginUser : MessageOrigin
 public partial class MessageOriginHiddenUser : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="Enums.MessageOriginType.HiddenUser"/>
+    /// Type of the message origin, always <see cref="MessageOriginType.HiddenUser"/>
     /// </summary>
-    public override Enums.MessageOriginType Type => Enums.MessageOriginType.HiddenUser;
+    public override MessageOriginType Type => MessageOriginType.HiddenUser;
 
     /// <summary>
     /// Name of the user that sent the message originally
@@ -67,9 +67,9 @@ public partial class MessageOriginHiddenUser : MessageOrigin
 public partial class MessageOriginChat : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="Enums.MessageOriginType.Chat"/>
+    /// Type of the message origin, always <see cref="MessageOriginType.Chat"/>
     /// </summary>
-    public override Enums.MessageOriginType Type => Enums.MessageOriginType.Chat;
+    public override MessageOriginType Type => MessageOriginType.Chat;
 
     /// <summary>
     /// Chat that sent the message originally
@@ -92,9 +92,9 @@ public partial class MessageOriginChat : MessageOrigin
 public partial class MessageOriginChannel : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always <see cref="Enums.MessageOriginType.Channel"/>
+    /// Type of the message origin, always <see cref="MessageOriginType.Channel"/>
     /// </summary>
-    public override Enums.MessageOriginType Type => Enums.MessageOriginType.Channel;
+    public override MessageOriginType Type => MessageOriginType.Channel;
 
     /// <summary>
     /// Channel chat to which the message was originally sent
