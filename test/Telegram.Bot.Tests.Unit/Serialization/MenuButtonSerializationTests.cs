@@ -25,7 +25,7 @@ public class MenuButtonSerializationTests
 
         MenuButtonWebApp webAppButton = Assert.IsAssignableFrom<MenuButtonWebApp>(menuButton);
 
-        Assert.Equal(MenuButtonType.WebApp, menuButton.Type);
+        Assert.Equal(MenuButtonType.WebApp, menuButton!.Type);
         Assert.NotNull(webAppButton.Text);
         Assert.Equal("Test text", webAppButton.Text);
         Assert.NotNull(webAppButton.WebApp);

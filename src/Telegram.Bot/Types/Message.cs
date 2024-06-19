@@ -270,8 +270,8 @@ public partial class Message
     /// <em>Optional</em>. <see langword="true"/>, if the caption must be shown above the message media
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
     /// <em>Optional</em>. <see langword="true"/>, if the message media is covered by a spoiler animation

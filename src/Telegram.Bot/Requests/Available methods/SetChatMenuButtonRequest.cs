@@ -3,7 +3,7 @@
 /// <summary>
 /// Use this method to change the bot's menu button in a private chat, or the default menu button.<para>Returns: </para>
 /// </summary>
-public partial class SetChatMenuButtonRequest : RequestBase<bool>, IChatTargetable
+public partial class SetChatMenuButtonRequest : RequestBase<bool>
 {
     /// <summary>
     /// Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
@@ -25,7 +25,4 @@ public partial class SetChatMenuButtonRequest : RequestBase<bool>, IChatTargetab
     public SetChatMenuButtonRequest()
         : base("setChatMenuButton")
     { }
-
-    /// <inheritdoc />
-    ChatId IChatTargetable.ChatId => ChatId;
 }

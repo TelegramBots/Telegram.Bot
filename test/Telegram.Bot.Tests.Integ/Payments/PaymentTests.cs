@@ -309,7 +309,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
         int totalAmount = paymentsBuilder.GetTotalAmount();
 
-        int[] suggestedTips = {100, 150, 200};
+        int[] suggestedTips = [100, 150, 200];
         int[] totalAmountWithTip = suggestedTips.Select(_ => _ + totalAmount).ToArray();
 
         Assert.Contains(totalAmountWithTip, _ => _ == successfulPayment!.TotalAmount);
