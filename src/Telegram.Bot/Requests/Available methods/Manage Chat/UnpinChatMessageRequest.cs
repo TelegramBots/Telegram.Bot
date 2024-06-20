@@ -1,47 +1,34 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to remove a message from the list of pinned messages in a chat. If the chat is not
-/// a private chat, the bot must be an administrator in the chat for this to work and must have the
-/// '<see cref="ChatMemberAdministrator.CanPinMessages"/>' admin right in a supergroup or
-/// '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel.
-/// Returns <see langword="true"/> on success.
+/// Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.<para>Returns: </para>
 /// </summary>
-public class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetable
+public partial class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Identifier of a message to unpin. If not specified, the most recent pinned message
-    /// (by sending date) will be unpinned.
+    /// Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Initializes an instance of <see cref="UnpinChatMessageRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public UnpinChatMessageRequest(ChatId chatId)
-        : this()
-    {
-        ChatId = chatId;
-    }
+        : this() => ChatId = chatId;
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="UnpinChatMessageRequest"/>
     /// </summary>
     public UnpinChatMessageRequest()
         : base("unpinChatMessage")

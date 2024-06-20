@@ -22,12 +22,9 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClass
     public async Task Should_Send_Poll()
     {
         Message message = await BotClient.SendPollAsync(
-            new()
-            {
-                ChatId = Fixture.SupergroupChat,
-                Question = "Who shot first?",
-                Options = [new("Han Solo"), new("Greedo"), new("I don't care")],
-            }
+            chatId: Fixture.SupergroupChat,
+            question: "Who shot first?",
+            options: ["Han Solo", "Greedo", "I don't care"]
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -72,11 +69,8 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClass
     public async Task Should_Stop_Poll()
     {
         Poll poll = await BotClient.StopPollAsync(
-            new()
-            {
-                ChatId = classFixture.PollMessage.Chat,
-                MessageId = classFixture.PollMessage.MessageId,
-            }
+            chatId: classFixture.PollMessage.Chat,
+            messageId: classFixture.PollMessage.MessageId
         );
 
         Assert.Equal(classFixture.PollMessage.Poll!.Id, poll.Id);
@@ -89,12 +83,9 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClass
     {
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.SendPollAsync(
-                new()
-                {
-                    ChatId = Fixture.SupergroupChat,
-                    Question = "You should never see this poll",
-                    Options = [new("The only poll option")],
-                }
+                chatId: Fixture.SupergroupChat,
+                question: "You should never see this poll",
+                options: ["The only poll option"]
             )
         );
 

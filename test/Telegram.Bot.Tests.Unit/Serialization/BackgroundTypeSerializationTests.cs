@@ -15,7 +15,12 @@ public class BackgroundTypeSerializationTests
             """
             {
               "type": "fill",
-              "dark_theme_dimming": 54
+              "dark_theme_dimming": 54,
+              "fill":
+              {
+                "type": "solid",
+                "color": 123456
+              }
             }
             """;
 
@@ -26,6 +31,8 @@ public class BackgroundTypeSerializationTests
         Assert.NotNull(deserialized);
         BackgroundTypeFill fill = Assert.IsAssignableFrom<BackgroundTypeFill>(deserialized);
         Assert.Equal(54, fill.DarkThemeDimming);
+        BackgroundFillSolid fillSolid = Assert.IsAssignableFrom<BackgroundFillSolid>(fill.Fill);
+        Assert.Equal(123456, fillSolid.Color);
     }
 
     [Fact]
@@ -34,6 +41,7 @@ public class BackgroundTypeSerializationTests
         BackgroundTypeFill value = new()
         {
             DarkThemeDimming = 43,
+            Fill = new BackgroundFillSolid { Color = 123456 },
         };
 
         string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
@@ -42,9 +50,11 @@ public class BackgroundTypeSerializationTests
         Assert.NotNull(root);
 
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Equal(2, j.Count);
+        Assert.Equal(3, j.Count);
         Assert.Equal("fill", (string?)j["type"]);
         Assert.Equal(43, (int?)j["dark_theme_dimming"]);
+        Assert.Equal("solid", (string?)j["fill"]?["type"]);
+        Assert.Equal(123456, (int?)j["fill"]?["color"]);
     }
 
     [Fact]
@@ -108,10 +118,10 @@ public class BackgroundTypeSerializationTests
         Assert.NotNull(root);
 
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Equal(5, j.Count);
+        Assert.Equal(4, j.Count);
         Assert.Equal("wallpaper", (string?)j["type"]);
         Assert.Equal(43, (int?)j["dark_theme_dimming"]);
-        Assert.Equal(false, (bool?)j["is_blurred"]);
+        Assert.Null((bool?)j["is_blurred"]);
         Assert.Equal(true, (bool?)j["is_moving"]);
         Assert.NotNull(j["document"]);
 
@@ -163,7 +173,7 @@ public class BackgroundTypeSerializationTests
         Assert.Null(pattern.Document.FileName);
         Assert.Null(pattern.Document.Thumbnail);
         Assert.Null(pattern.Document.MimeType);
-        Assert.Equal(BackgroundFillKind.Solid, pattern.Fill.Type);
+        Assert.Equal(BackgroundFillType.Solid, pattern.Fill.Type);
         Assert.IsAssignableFrom<BackgroundFillSolid>(pattern.Fill);
     }
 
@@ -193,10 +203,10 @@ public class BackgroundTypeSerializationTests
         Assert.NotNull(root);
 
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Equal(6, j.Count);
+        Assert.Equal(5, j.Count);
         Assert.Equal("pattern", (string?)j["type"]);
         Assert.Equal(43, (int?)j["intensity"]);
-        Assert.Equal(false, (bool?)j["is_inverted"]);
+        Assert.Null((bool?)j["is_inverted"]);
         Assert.Equal(true, (bool?)j["is_moving"]);
         Assert.NotNull(j["document"]);
 

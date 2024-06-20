@@ -1,37 +1,29 @@
-using System.Diagnostics.CodeAnalysis;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to move a sticker in a set created by the bot to a specific position.
-/// Returns <see langword="true"/> on success.
+/// Use this method to move a sticker in a set created by the bot to a specific position.<para>Returns: </para>
 /// </summary>
-public class SetStickerPositionInSetRequest : RequestBase<bool>
+public partial class SetStickerPositionInSetRequest : RequestBase<bool>
 {
     /// <summary>
-    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// File identifier of the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InputFileId Sticker { get; init; }
+    public required InputFileId Sticker { get; set; }
 
     /// <summary>
     /// New sticker position in the set, zero-based
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int Position { get; init; }
+    public required int Position { get; set; }
 
     /// <summary>
-    /// Initializes a new request with sticker and position
+    /// Initializes an instance of <see cref="SetStickerPositionInSetRequest"/>
     /// </summary>
-    /// <param name="sticker">
-    /// <see cref="InputFileId">File identifier</see> of the sticker
-    /// </param>
+    /// <param name="sticker">File identifier of the sticker</param>
     /// <param name="position">New sticker position in the set, zero-based</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetStickerPositionInSetRequest(InputFileId sticker, int position)
         : this()
     {
@@ -40,7 +32,7 @@ public class SetStickerPositionInSetRequest : RequestBase<bool>
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SetStickerPositionInSetRequest"/>
     /// </summary>
     public SetStickerPositionInSetRequest()
         : base("setStickerPositionInSet")

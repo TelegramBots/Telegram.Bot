@@ -20,13 +20,10 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture) : IClas
     public async Task Should_Send_Self_Closing_Poll_Anonymous_Poll_By_Period()
     {
         Message message = await BotClient.SendPollAsync(
-            new()
-            {
-                ChatId = Fixture.SupergroupChat,
-                Question = "Who shot first?",
-                Options = [new("Han Solo"), new("Greedo"), new("I don't care")],
-                OpenPeriod = 6,
-            }
+            chatId: Fixture.SupergroupChat,
+            question: "Who shot first?",
+            options: ["Han Solo", "Greedo", "I don't care"],
+            openPeriod: 6
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -78,13 +75,10 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture) : IClas
         DateTime closeDate = DateTime.UtcNow.AddSeconds(8);
 
         Message message = await BotClient.SendPollAsync(
-            new()
-            {
-                ChatId = Fixture.SupergroupChat,
-                Question = "Who shot first?",
-                Options = [new("Han Solo"), new("Greedo"), new("I don't care")],
-                CloseDate = closeDate,
-            }
+            chatId: Fixture.SupergroupChat,
+            question: "Who shot first?",
+            options: ["Han Solo", "Greedo", "I don't care"],
+            closeDate: closeDate
         );
 
         Assert.Equal(MessageType.Poll, message.Type);

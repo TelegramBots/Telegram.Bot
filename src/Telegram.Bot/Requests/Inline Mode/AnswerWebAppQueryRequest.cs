@@ -1,37 +1,29 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Types.InlineQueryResults;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to set the result of an interaction with a
-/// <a href="https://core.telegram.org/bots/webapps">Web App</a> and send a corresponding message on behalf of the
-/// user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/> object is returned.
+/// Use this method to set the result of an interaction with a <a href="https://core.telegram.org/bots/webapps">Web App</a> and send a corresponding message on behalf of the user to the chat from which the query originated.<para>Returns: A <see cref="SentWebAppMessage"/> object is returned.</para>
 /// </summary>
-public class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
+public partial class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
 {
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string WebAppQueryId { get; init; }
+    public required string WebAppQueryId { get; set; }
 
     /// <summary>
     /// An object describing the message to be sent
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InlineQueryResult Result { get; init; }
+    public required InlineQueryResult Result { get; set; }
 
     /// <summary>
-    /// Initializes a new request with <see cref="WebAppQueryId"/> and a <see cref="InlineQueryResult"/>
+    /// Initializes an instance of <see cref="AnswerWebAppQueryRequest"/>
     /// </summary>
     /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
     /// <param name="result">An object describing the message to be sent</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public AnswerWebAppQueryRequest(string webAppQueryId, InlineQueryResult result)
         : this()
     {
@@ -40,7 +32,7 @@ public class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="AnswerWebAppQueryRequest"/>
     /// </summary>
     public AnswerWebAppQueryRequest()
         : base("answerWebAppQuery")

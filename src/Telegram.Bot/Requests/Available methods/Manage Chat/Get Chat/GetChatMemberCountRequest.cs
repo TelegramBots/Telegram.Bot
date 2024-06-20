@@ -1,38 +1,28 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get the number of members in a chat. Returns <c>int</c> on success.
+/// Use this method to get the number of members in a chat.<para>Returns: <em>Int</em> on success.</para>
 /// </summary>
-public class GetChatMemberCountRequest : RequestBase<int>, IChatTargetable
+public partial class GetChatMemberCountRequest : RequestBase<int>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Initializes an instance of <see cref="GetChatMemberCountRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target supergroup or channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public GetChatMemberCountRequest(ChatId chatId)
-        : this()
-    {
-        ChatId = chatId;
-    }
+        : this() => ChatId = chatId;
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Instantiates a new <see cref="GetChatMemberCountRequest"/>
     /// </summary>
-    [JsonConstructor]
     public GetChatMemberCountRequest()
         : base("getChatMemberCount")
     { }

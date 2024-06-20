@@ -1,28 +1,21 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using Telegram.Bot.Extensions;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>,
-/// Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method
-/// to send video messages. On success, the sent <see cref="Message"/> is returned.
+/// As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages.<para>Returns: The sent <see cref="Message"/> is returned.</para>
 /// </summary>
-public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
-    /// <inheritdoc />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BusinessConnectionId { get; set; }
-
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
+
+    /// <summary>
+    /// Video note to send. Pass a FileId as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending video notes by a URL is currently unsupported
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required InputFile VideoNote { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -30,15 +23,6 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, I
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
-
-    /// <summary>
-    /// Video note to send. Pass a <see cref="InputFileId"/> as String to send a video
-    /// note that exists on the Telegram servers (recommended) or upload a new video using
-    /// multipart/form-data. Sending video notes by a URL is currently unsupported
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InputFile VideoNote { get; init; }
 
     /// <summary>
     /// Duration of sent video in seconds
@@ -54,69 +38,62 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, I
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Length { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
+    /// <summary>
+    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
+    /// <summary>
+    /// Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent message from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MessageEffectId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
-    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
-    [JsonIgnore]
-    public int? ReplyToMessageId
-    {
-        get => ReplyParameters?.MessageId;
-        set
-        {
-            if (value is null)
-            {
-                ReplyParameters = null;
-            }
-            else
-            {
-                ReplyParameters ??= new();
-                ReplyParameters.MessageId = value.Value;
-            }
-        }
-    }
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and videoNote
+    /// Initializes an instance of <see cref="SendVideoNoteRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="videoNote">
-    /// Video note to send. Pass a <see cref="InputFileId"/> as String to send a video
-    /// note that exists on the Telegram servers (recommended) or upload a new video using
-    /// multipart/form-data. Sending video notes by a URL is currently unsupported
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="videoNote">Video note to send. Pass a FileId as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending video notes by a URL is currently unsupported</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SendVideoNoteRequest(ChatId chatId, InputFile videoNote)
         : this()
     {
@@ -125,15 +102,15 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, I
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SendVideoNoteRequest"/>
     /// </summary>
     public SendVideoNoteRequest()
         : base("sendVideoNote")
     { }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent() =>
-        VideoNote is InputFileStream || Thumbnail is InputFileStream
+    public override HttpContent? ToHttpContent()
+        => VideoNote is InputFileStream || Thumbnail is InputFileStream
             ? GenerateMultipartFormDataContent("video_note", "thumbnail")
                 .AddContentIfInputFile(media: VideoNote, name: "video_note")
                 .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")

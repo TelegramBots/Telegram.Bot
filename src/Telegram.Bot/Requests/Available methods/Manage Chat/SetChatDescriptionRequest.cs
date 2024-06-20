@@ -1,45 +1,34 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to change the description of a group, a supergroup or a channel.
-/// The bot must be an administrator in the chat for this to work and must have the
-/// appropriate admin rights. Returns <see langword="true"/> on success.
+/// Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: </para>
 /// </summary>
-public class SetChatDescriptionRequest : RequestBase<bool>, IChatTargetable
+public partial class SetChatDescriptionRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// New chat Description, 0-255 characters
+    /// New chat description, 0-255 characters
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Initializes an instance of <see cref="SetChatDescriptionRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetChatDescriptionRequest(ChatId chatId)
-        : this()
-    {
-        ChatId = chatId;
-    }
+        : this() => ChatId = chatId;
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SetChatDescriptionRequest"/>
     /// </summary>
     public SetChatDescriptionRequest()
         : base("setChatDescription")

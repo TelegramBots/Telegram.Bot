@@ -1,49 +1,29 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to delete a message, including service messages, with the following limitations:
-/// <list type="bullet">
-/// <item>A message can only be deleted if it was sent less than 48 hours ago</item>
-/// <item>A dice message in a private chat can only be deleted if it was sent more than 24 hours ago</item>
-/// <item>Bots can delete outgoing messages in private chats, groups, and supergroups</item>
-/// <item>Bots can delete incoming messages in private chats</item>
-/// <item>Bots granted can_post_messages permissions can delete outgoing messages in channels</item>
-/// <item>If the bot is an administrator of a group, it can delete any message there</item>
-/// <item>
-/// If the bot has can_delete_messages permission in a supergroup or a channel,
-/// it can delete any message there
-/// </item>
-/// </list>
-/// Returns <see langword="true"/> on success.
+/// Use this method to delete a message, including service messages, with the following limitations:<br/>- A message can only be deleted if it was sent less than 48 hours ago.<br/>- Service messages about a supergroup, channel, or forum topic creation can't be deleted.<br/>- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.<br/>- Bots can delete outgoing messages in private chats, groups, and supergroups.<br/>- Bots can delete incoming messages in private chats.<br/>- Bots granted <em>CanPostMessages</em> permissions can delete outgoing messages in channels.<br/>- If the bot is an administrator of a group, it can delete any message there.<br/>- If the bot has <em>CanDeleteMessages</em> permission in a supergroup or a channel, it can delete any message there.<br/>Returns <em>True</em> on success.<para>Returns: </para>
 /// </summary>
-public class DeleteMessageRequest : RequestBase<bool>, IChatTargetable
+public partial class DeleteMessageRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the message to delete
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
+    public required int MessageId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageId
+    /// Initializes an instance of <see cref="DeleteMessageRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message to delete</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public DeleteMessageRequest(ChatId chatId, int messageId)
         : this()
     {
@@ -52,7 +32,7 @@ public class DeleteMessageRequest : RequestBase<bool>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="DeleteMessageRequest"/>
     /// </summary>
     public DeleteMessageRequest()
         : base("deleteMessage")

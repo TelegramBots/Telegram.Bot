@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
@@ -58,68 +59,5 @@ public class RequestSerializationTests
         Assert.Equal("Test link name", (string?)j["name"]);
         Assert.Equal(123, (long?)j["member_limit"]);
         Assert.Equal(true, (bool?)j["creates_join_request"]);
-    }
-
-    [Fact]
-    public async Task Should_Ignore_Obsolete_ReplyToMessageId_Property()
-    {
-        SendMessageRequest request = new()
-        {
-            ChatId = 123,
-            Text = "Test",
-            ReplyToMessageId = 1004,
-        };
-
-        HttpContent httpContent = request.ToHttpContent()!;
-
-        string stringContent = await httpContent.ReadAsStringAsync();
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(stringContent));
-
-        Assert.Equal(1004, request.ReplyToMessageId);
-        Assert.NotNull(request.ReplyParameters);
-        Assert.Equal(1004, request.ReplyParameters.MessageId);
-        Assert.Null(request.ReplyParameters.ChatId);
-        Assert.Null(request.ReplyParameters.QuoteEntities);
-        Assert.Null(request.ReplyParameters.AllowSendingWithoutReply);
-        Assert.Null(request.ReplyParameters.QuotePosition);
-        Assert.Null(request.ReplyParameters.QuoteParseMode);
-        Assert.False(j.ContainsKey("reply_to_message_id"));
-
-        JsonNode? node = j["reply_parameters"];
-        Assert.NotNull(node);
-        JsonObject jrp = Assert.IsAssignableFrom<JsonObject>(node);
-        Assert.NotNull(jrp);
-        Assert.Equal(1004, (long?)jrp["message_id"]);
-    }
-
-    [Fact]
-    public async Task Should_Ignore_Obsolete_DisableWebPagePreview_Property()
-    {
-        SendMessageRequest request = new()
-        {
-            ChatId = 123,
-            Text = "Test",
-            DisableWebPagePreview = true,
-        };
-
-        HttpContent httpContent = request.ToHttpContent()!;
-
-        string stringContent = await httpContent.ReadAsStringAsync();
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(stringContent));
-
-        Assert.True(request.DisableWebPagePreview);
-        Assert.NotNull(request.LinkPreviewOptions);
-        Assert.True(request.LinkPreviewOptions.IsDisabled);
-        Assert.Null(request.LinkPreviewOptions.Url);
-        Assert.Null(request.LinkPreviewOptions.PreferLargeMedia);
-        Assert.Null(request.LinkPreviewOptions.PreferSmallMedia);
-        Assert.Null(request.LinkPreviewOptions.ShowAboveText);
-        Assert.False(j.ContainsKey("disable_web_page_preview"));
-
-        JsonNode? node = j["link_preview_options"];
-        Assert.NotNull(node);
-        JsonObject jlpo = Assert.IsAssignableFrom<JsonObject>(node);
-        Assert.NotNull(jlpo);
-        Assert.Equal(true, (bool?)jlpo["is_disabled"]);
     }
 }

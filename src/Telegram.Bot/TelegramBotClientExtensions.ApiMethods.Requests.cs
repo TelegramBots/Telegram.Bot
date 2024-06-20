@@ -30,6 +30,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task AnswerCallbackQueryAsync(
         this ITelegramBotClient botClient,
         AnswerCallbackQueryRequest request,
@@ -50,6 +51,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteMyCommandsAsync(
         this ITelegramBotClient botClient,
         DeleteMyCommandsRequest request,
@@ -71,6 +73,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns Array of <see cref="BotCommand"/> on success. If commands aren't set, an empty list is returned
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<BotCommand[]> GetMyCommandsAsync(
         this ITelegramBotClient botClient,
         GetMyCommandsRequest request,
@@ -89,6 +92,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetMyCommandsAsync(
         this ITelegramBotClient botClient,
         SetMyCommandsRequest request,
@@ -110,6 +114,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns <see cref="BotDescription"/> on success.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<BotDescription> GetMyDescriptionAsync(
         this ITelegramBotClient botClient,
         GetMyDescriptionRequest request,
@@ -128,6 +133,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetMyDescriptionAsync(
         this ITelegramBotClient botClient,
         SetMyDescriptionRequest request,
@@ -147,7 +153,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <remarks>
     /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or
-    /// <see cref="TelegramBotClientExtensions.GetInfoAndDownloadFileAsync"/> methods to download the file
+    /// <see cref="GetInfoAndDownloadFileAsync"/> methods to download the file
     /// </remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="request">Request parameters</param>
@@ -155,6 +161,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, a <see cref="File"/> object is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<File> GetFileAsync(
         this ITelegramBotClient botClient,
         GetFileRequest request,
@@ -200,6 +207,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="UserProfilePhotos"/> object</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<UserProfilePhotos> GetUserProfilePhotosAsync(
         this ITelegramBotClient botClient,
         GetUserProfilePhotosRequest request,
@@ -219,6 +227,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns><see cref="MenuButton"/> set for the given chat id or a default one</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<MenuButton> GetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         GetChatMenuButtonRequest request,
@@ -237,6 +246,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns basic information about the bot in form of a <see cref="User"/> object.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<User> GetMeAsync(
         this ITelegramBotClient botClient,
         GetMeRequest request,
@@ -255,6 +265,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Default or channel <see cref="ChatAdministratorRights"/> </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         GetMyDefaultAdministratorRightsRequest request,
@@ -275,6 +286,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns <see cref="BotName"/> on success.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<BotName> GetMyNameAsync(
         this ITelegramBotClient botClient,
         GetMyNameRequest request,
@@ -294,6 +306,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="UserChatBoosts"/> object.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<UserChatBoosts> GetUserChatBoostsAsync(
         this ITelegramBotClient botClient,
         GetUserChatBoostsRequest request,
@@ -312,6 +325,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="BusinessConnection"/> object.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<BusinessConnection> GetBusinessConnectionAsync(
         this ITelegramBotClient botClient,
         GetBusinessConnectionRequest request,
@@ -331,6 +345,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task CloseAsync(
         this ITelegramBotClient botClient,
         CloseRequest request,
@@ -351,6 +366,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task LogOutAsync(
         this ITelegramBotClient botClient,
         LogOutRequest request,
@@ -372,6 +388,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task BanChatMemberAsync(
         this ITelegramBotClient botClient,
         BanChatMemberRequest request,
@@ -389,6 +406,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns></returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task BanChatSenderChatAsync(
         this ITelegramBotClient botClient,
         BanChatSenderChatRequest request,
@@ -408,6 +426,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task ApproveChatJoinRequestAsync(
         this ITelegramBotClient botClient,
         ApproveChatJoinRequest request,
@@ -429,6 +448,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the new invite link as <see cref="ChatInviteLink"/> object.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatInviteLink> CreateChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         CreateChatInviteLinkRequest request,
@@ -448,6 +468,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeclineChatJoinRequestAsync(
         this ITelegramBotClient botClient,
         DeclineChatJoinRequest request,
@@ -467,6 +488,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the edited invite link as a <see cref="ChatInviteLink"/> object.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatInviteLink> EditChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         EditChatInviteLinkRequest request,
@@ -486,6 +508,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<string> ExportChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ExportChatInviteLinkRequest request,
@@ -506,6 +529,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the revoked invite link as <see cref="ChatInviteLink"/> object.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatInviteLink> RevokeChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         RevokeChatInviteLinkRequest request,
@@ -525,6 +549,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task CloseForumTopicAsync(
         this ITelegramBotClient botClient,
         CloseForumTopicRequest request,
@@ -544,6 +569,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task CloseGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         CloseGeneralForumTopicRequest request,
@@ -566,6 +592,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns information about the created topic as a <see cref="ForumTopic"/> object.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ForumTopic> CreateForumTopicAsync(
         this ITelegramBotClient botClient,
         CreateForumTopicRequest request,
@@ -584,6 +611,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteChatPhotoAsync(
         this ITelegramBotClient botClient,
         DeleteChatPhotoRequest request,
@@ -605,6 +633,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteChatStickerSetAsync(
         this ITelegramBotClient botClient,
         DeleteChatStickerSetRequest request,
@@ -625,6 +654,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteForumTopicAsync(
         this ITelegramBotClient botClient,
         DeleteForumTopicRequest request,
@@ -644,6 +674,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditForumTopicAsync(
         this ITelegramBotClient botClient,
         EditForumTopicRequest request,
@@ -663,6 +694,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         EditGeneralForumTopicRequest request,
@@ -685,6 +717,7 @@ public static partial class TelegramBotClientExtensions
     /// administrators except other bots. If the chat is a group or a supergroup and no administrators were
     /// appointed, only the creator will be returned
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatMember[]> GetChatAdministratorsAsync(
         this ITelegramBotClient botClient,
         GetChatAdministratorsRequest request,
@@ -703,6 +736,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns <see cref="int"/> on success.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<int> GetChatMemberCountAsync(
         this ITelegramBotClient botClient,
         GetChatMemberCountRequest request,
@@ -721,6 +755,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="ChatMember"/> object on success.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatMember> GetChatMemberAsync(
         this ITelegramBotClient botClient,
         GetChatMemberRequest request,
@@ -740,6 +775,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="Chat"/> object on success.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<ChatFullInfo> GetChatAsync(
         this ITelegramBotClient botClient,
         GetChatRequest request,
@@ -759,6 +795,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task HideGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         HideGeneralForumTopicRequest request,
@@ -776,6 +813,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task LeaveChatAsync(
         this ITelegramBotClient botClient,
         LeaveChatRequest request,
@@ -793,6 +831,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns></returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task PinChatMessageAsync(
         this ITelegramBotClient botClient,
         PinChatMessageRequest request,
@@ -812,6 +851,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task PromoteChatMemberAsync(
         this ITelegramBotClient botClient,
         PromoteChatMemberRequest request,
@@ -831,6 +871,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task ReopenForumTopicAsync(
         this ITelegramBotClient botClient,
         ReopenForumTopicRequest request,
@@ -851,6 +892,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task ReopenGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ReopenGeneralForumTopicRequest request,
@@ -870,6 +912,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task RestrictChatMemberAsync(
         this ITelegramBotClient botClient,
         RestrictChatMemberRequest request,
@@ -887,6 +930,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatAdministratorCustomTitleAsync(
         this ITelegramBotClient botClient,
         SetChatAdministratorCustomTitleRequest request,
@@ -905,6 +949,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatDescriptionAsync(
         this ITelegramBotClient botClient,
         SetChatDescriptionRequest request,
@@ -924,6 +969,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatPermissionsAsync(
         this ITelegramBotClient botClient,
         SetChatPermissionsRequest request,
@@ -942,6 +988,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatPhotoAsync(
         this ITelegramBotClient botClient,
         SetChatPhotoRequest request,
@@ -963,6 +1010,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatStickerSetAsync(
         this ITelegramBotClient botClient,
         SetChatStickerSetRequest request,
@@ -981,6 +1029,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatTitleAsync(
         this ITelegramBotClient botClient,
         SetChatTitleRequest request,
@@ -1003,6 +1052,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnbanChatMemberAsync(
         this ITelegramBotClient botClient,
         UnbanChatMemberRequest request,
@@ -1022,6 +1072,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnbanChatSenderChatAsync(
         this ITelegramBotClient botClient,
         UnbanChatSenderChatRequest request,
@@ -1041,6 +1092,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnhideGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         UnhideGeneralForumTopicRequest request,
@@ -1061,6 +1113,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnpinAllChatMessagesAsync(
         this ITelegramBotClient botClient,
         UnpinAllChatMessagesRequest request,
@@ -1080,6 +1133,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnpinAllForumTopicMessagesAsync(
         this ITelegramBotClient botClient,
         UnpinAllForumTopicMessagesRequest request,
@@ -1099,6 +1153,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnpinAllGeneralForumTopicMessagesAsync(
         this ITelegramBotClient botClient,
         UnpinAllGeneralForumTopicMessagesRequest request,
@@ -1119,6 +1174,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task UnpinChatMessageAsync(
         this ITelegramBotClient botClient,
         UnpinChatMessageRequest request,
@@ -1140,6 +1196,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the <see cref="MessageId"/> of the sent message on success.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<MessageId> CopyMessageAsync(
         this ITelegramBotClient botClient,
         CopyMessageRequest request,
@@ -1164,6 +1221,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, an array of <see cref="MessageId"/> of the sent messages is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<MessageId[]> CopyMessagesAsync(
         this ITelegramBotClient botClient,
         CopyMessagesRequest request,
@@ -1182,6 +1240,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> ForwardMessageAsync(
         this ITelegramBotClient botClient,
         ForwardMessageRequest request,
@@ -1202,6 +1261,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, an array of <see cref="MessageId"/> of the sent messages is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<MessageId[]> ForwardMessagesAsync(
         this ITelegramBotClient botClient,
         ForwardMessagesRequest request,
@@ -1221,6 +1281,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditInlineMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageLiveLocationRequest request,
@@ -1241,6 +1302,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         EditMessageLiveLocationRequest request,
@@ -1259,6 +1321,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendLocationAsync(
         this ITelegramBotClient botClient,
         SendLocationRequest request,
@@ -1278,6 +1341,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
     /// <a href="https://core.telegram.org/bots/api#sendvenue"/>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendVenueAsync(
         this ITelegramBotClient botClient,
         SendVenueRequest request,
@@ -1296,6 +1360,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task StopInlineMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         StopInlineMessageLiveLocationRequest request,
@@ -1315,6 +1380,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         StopMessageLiveLocationRequest request,
@@ -1334,6 +1400,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendAnimationAsync(
         this ITelegramBotClient botClient,
         SendAnimationRequest request,
@@ -1354,6 +1421,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendAudioAsync(
         this ITelegramBotClient botClient,
         SendAudioRequest request,
@@ -1385,6 +1453,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SendChatActionAsync(
         this ITelegramBotClient botClient,
         SendChatActionRequest request,
@@ -1403,6 +1472,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendContactAsync(
         this ITelegramBotClient botClient,
         SendContactRequest request,
@@ -1421,6 +1491,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendDiceAsync(
         this ITelegramBotClient botClient,
         SendDiceRequest request,
@@ -1440,6 +1511,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendDocumentAsync(
         this ITelegramBotClient botClient,
         SendDocumentRequest request,
@@ -1459,6 +1531,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, an array of <see cref="Message"/>s that were sent is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message[]> SendMediaGroupAsync(
         this ITelegramBotClient botClient,
         SendMediaGroupRequest request,
@@ -1477,6 +1550,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendMessageAsync(
         this ITelegramBotClient botClient,
         SendMessageRequest request,
@@ -1495,6 +1569,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendPhotoAsync(
         this ITelegramBotClient botClient,
         SendPhotoRequest request,
@@ -1513,6 +1588,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendPollAsync(
         this ITelegramBotClient botClient,
         SendPollRequest request,
@@ -1532,6 +1608,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendVideoNoteAsync(
         this ITelegramBotClient botClient,
         SendVideoNoteRequest request,
@@ -1552,6 +1629,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendVideoAsync(
         this ITelegramBotClient botClient,
         SendVideoRequest request,
@@ -1573,6 +1651,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendVoiceAsync(
         this ITelegramBotClient botClient,
         SendVoiceRequest request,
@@ -1592,6 +1671,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetMessageReactionAsync(
         this ITelegramBotClient botClient,
         SetMessageReactionRequest request,
@@ -1609,6 +1689,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         SetChatMenuButtonRequest request,
@@ -1628,6 +1709,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         SetMyDefaultAdministratorRightsRequest request,
@@ -1645,6 +1727,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetMyNameAsync(
         this ITelegramBotClient botClient,
         SetMyNameRequest request,
@@ -1666,6 +1749,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns <see cref="BotShortDescription"/> on success.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<BotShortDescription> GetMyShortDescriptionAsync(
         this ITelegramBotClient botClient,
         GetMyShortDescriptionRequest request,
@@ -1685,6 +1769,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns></returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetMyShortDescriptionAsync(
         this ITelegramBotClient botClient,
         SetMyShortDescriptionRequest request,
@@ -1709,6 +1794,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<GameHighScore[]> GetGameHighScoresAsync(
         this ITelegramBotClient botClient,
         GetGameHighScoresRequest request,
@@ -1733,6 +1819,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<GameHighScore[]> GetInlineGameHighScoresAsync(
         this ITelegramBotClient botClient,
         GetInlineGameHighScoresRequest request,
@@ -1751,6 +1838,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendGameAsync(
         this ITelegramBotClient botClient,
         SendGameRequest request,
@@ -1772,6 +1860,7 @@ public static partial class TelegramBotClientExtensions
     /// On success returns the edited <see cref="Message"/>. Returns an error, if the new score is not greater
     /// than the user's current score in the chat and <see cref="SetGameScoreRequest.Force"/> is <see langword="false"/>
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SetGameScoreAsync(
         this ITelegramBotClient botClient,
         SetGameScoreRequest request,
@@ -1793,6 +1882,7 @@ public static partial class TelegramBotClientExtensions
     /// Returns an error, if the new score is not greater than the user's current score in the chat and
     /// <see cref="SetGameScoreRequest.Force"/> is <see langword="false"/>
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetInlineGameScoreAsync(
         this ITelegramBotClient botClient,
         SetInlineGameScoreRequest request,
@@ -1812,6 +1902,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns <see langword="true"/> on success</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteWebhookAsync(
         this ITelegramBotClient botClient,
         DeleteWebhookRequest request,
@@ -1840,6 +1931,7 @@ public static partial class TelegramBotClientExtensions
     /// </list>
     /// </remarks>
     /// <returns>An Array of <see cref="Update"/> objects is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Update[]> GetUpdatesAsync(
         this ITelegramBotClient botClient,
         GetUpdatesRequest request,
@@ -1862,6 +1954,7 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/>, will return an object
     /// with the <see cref="WebhookInfo.Url"/> field empty.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<WebhookInfo> GetWebhookInfoAsync(
         this ITelegramBotClient botClient,
         GetWebhookInfoRequest request,
@@ -1874,7 +1967,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
     /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
-    /// specified URL, containing an <see cref="Types.Update"/>. In case of
+    /// specified URL, containing an <see cref="Update"/>. In case of
     /// an unsuccessful request, we will give up after a reasonable amount of attempts.
     /// Returns <see langword="true"/> on success.
     /// <para>
@@ -1907,6 +2000,7 @@ public static partial class TelegramBotClientExtensions
     /// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
     /// </remarks>
 
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetWebhookAsync(
         this ITelegramBotClient botClient,
         SetWebhookRequest request,
@@ -1927,6 +2021,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task AnswerInlineQueryAsync(
         this ITelegramBotClient botClient,
         AnswerInlineQueryRequest request,
@@ -1946,6 +2041,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<SentWebAppMessage> AnswerWebAppQueryAsync(
         this ITelegramBotClient botClient,
         AnswerWebAppQueryRequest request,
@@ -1969,6 +2065,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns <see langword="true"/> on success.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task AnswerPreCheckoutQueryAsync(
         this ITelegramBotClient botClient,
         AnswerPreCheckoutQueryRequest request,
@@ -1987,6 +2084,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns <see langword="true"/> on success</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task RefundStarPaymentAsync(
         this ITelegramBotClient botClient,
         RefundStarPaymentRequest request,
@@ -2006,6 +2104,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task AnswerShippingQueryAsync(
         this ITelegramBotClient botClient,
         AnswerShippingQueryRequest request,
@@ -2024,6 +2123,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<string> CreateInvoiceLinkAsync(
         this ITelegramBotClient botClient,
         CreateInvoiceLinkRequest request,
@@ -2042,6 +2142,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendInvoiceAsync(
         this ITelegramBotClient botClient,
         SendInvoiceRequest request,
@@ -2071,6 +2172,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task AddStickerToSetAsync(
         this ITelegramBotClient botClient,
         AddStickerToSetRequest request,
@@ -2088,6 +2190,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task CreateNewStickerSetAsync(
         this ITelegramBotClient botClient,
         CreateNewStickerSetRequest request,
@@ -2105,6 +2208,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteStickerFromSetAsync(
         this ITelegramBotClient botClient,
         DeleteStickerFromSetRequest request,
@@ -2116,9 +2220,9 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to
-    /// calling <see cref="DeleteStickerFromSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.DeleteStickerFromSetRequest,System.Threading.CancellationToken)"/>,
-    /// then <see cref="AddStickerToSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.AddStickerToSetRequest,System.Threading.CancellationToken)"/>,
-    /// then <see cref="SetStickerPositionInSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.SetStickerPositionInSetRequest,System.Threading.CancellationToken)"/>.
+    /// calling <see cref="DeleteStickerFromSetAsync(ITelegramBotClient,DeleteStickerFromSetRequest,CancellationToken)"/>,
+    /// then <see cref="AddStickerToSetAsync(ITelegramBotClient,AddStickerToSetRequest,CancellationToken)"/>,
+    /// then <see cref="SetStickerPositionInSetAsync(ITelegramBotClient,SetStickerPositionInSetRequest,CancellationToken)"/>.
     /// Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2126,6 +2230,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task ReplaceStickerInSetAsync(
         this ITelegramBotClient botClient,
         ReplaceStickerInSetRequest request,
@@ -2143,6 +2248,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteStickerSetAsync(
         this ITelegramBotClient botClient,
         DeleteStickerSetRequest request,
@@ -2162,6 +2268,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, a <see cref="StickerSet"/> object is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Sticker[]> GetCustomEmojiStickersAsync(
         this ITelegramBotClient botClient,
         GetCustomEmojiStickersRequest request,
@@ -2180,6 +2287,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns an Array of <see cref="Sticker"/> objects.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Sticker[]> GetForumTopicIconStickersAsync(
         this ITelegramBotClient botClient,
         GetForumTopicIconStickersRequest request,
@@ -2200,6 +2308,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// On success, a <see cref="StickerSet"/> object is returned.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<StickerSet> GetStickerSetAsync(
         this ITelegramBotClient botClient,
         GetStickerSetRequest request,
@@ -2220,6 +2329,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// On success, the sent <see cref="Message"/> is returned.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> SendStickerAsync(
         this ITelegramBotClient botClient,
         SendStickerRequest request,
@@ -2237,6 +2347,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetCustomEmojiStickerSetThumbnailAsync(
         this ITelegramBotClient botClient,
         SetCustomEmojiStickerSetThumbnailRequest request,
@@ -2255,6 +2366,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetStickerEmojiListAsync(
         this ITelegramBotClient botClient,
         SetStickerEmojiListRequest request,
@@ -2273,6 +2385,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetStickerKeywordsAsync(
         this ITelegramBotClient botClient,
         SetStickerKeywordsRequest request,
@@ -2291,6 +2404,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetStickerMaskPositionAsync(
         this ITelegramBotClient botClient,
         SetStickerMaskPositionRequest request,
@@ -2308,6 +2422,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetStickerPositionInSetAsync(
         this ITelegramBotClient botClient,
         SetStickerPositionInSetRequest request,
@@ -2327,6 +2442,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetStickerSetThumbnailAsync(
         this ITelegramBotClient botClient,
         SetStickerSetThumbnailRequest request,
@@ -2344,6 +2460,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task SetStickerSetTitleAsync(
         this ITelegramBotClient botClient,
         SetStickerSetTitleRequest request,
@@ -2366,6 +2483,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns the uploaded <see cref="File"/> on success.
     /// </returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<File> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         UploadStickerFileRequest request,
@@ -2394,6 +2512,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteMessageAsync(
         this ITelegramBotClient botClient,
         DeleteMessageRequest request,
@@ -2412,6 +2531,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task DeleteMessagesAsync(
         this ITelegramBotClient botClient,
         DeleteMessagesRequest request,
@@ -2429,6 +2549,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditInlineMessageCaptionAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageCaptionRequest request,
@@ -2449,6 +2570,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditInlineMessageMediaAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageMediaRequest request,
@@ -2466,6 +2588,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditInlineMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageReplyMarkupRequest request,
@@ -2483,6 +2606,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task EditInlineMessageTextAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageTextRequest request,
@@ -2501,6 +2625,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
         EditMessageCaptionRequest request,
@@ -2522,6 +2647,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         EditMessageMediaRequest request,
@@ -2540,6 +2666,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         EditMessageReplyMarkupRequest request,
@@ -2558,6 +2685,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Message> EditMessageTextAsync(
         this ITelegramBotClient botClient,
         EditMessageTextRequest request,
@@ -2576,6 +2704,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the stopped <see cref="Poll"/> with the final results is returned.</returns>
+    [Obsolete("Use MakeRequestAsync, or the overload that takes individual parameters")]
     public static async Task<Poll> StopPollAsync(
         this ITelegramBotClient botClient,
         StopPollRequest request,

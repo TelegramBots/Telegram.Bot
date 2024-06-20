@@ -30,18 +30,16 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
 
         const string resultId = "game";
         await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = queryUpdate.InlineQuery!.Id,
-                Results = [
-                    new InlineQueryResultGame
-                    {
-                        Id = resultId,
-                        GameShortName = classFixture.GameShortName,
-                    }
-                ],
-                CacheTime = 0
-            }
+            inlineQueryId: queryUpdate.InlineQuery!.Id,
+            results:
+            [
+                new InlineQueryResultGame
+                {
+                    Id = resultId,
+                    GameShortName = classFixture.GameShortName,
+                }
+            ],
+            cacheTime: 0
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -63,12 +61,9 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
     public async Task Should_Get_High_Scores_Inline_Message()
     {
-        GameHighScore[] highScores = await BotClient.GetInlineGameHighScoresAsync(
-            new()
-            {
-                UserId = classFixture.Player.Id,
-                InlineMessageId = classFixture.InlineGameMessageId,
-            }
+        GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
+            userId: classFixture.Player.Id,
+            inlineMessageId: classFixture.InlineGameMessageId
         );
 
         Assert.All(highScores, _ => Assert.True(_.Position > 0));
@@ -90,13 +85,10 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
             $"Changing score from {oldScore} to {newScore} for {classFixture.Player.Username!.Replace("_", @"\_")}."
         );
 
-        await BotClient.SetInlineGameScoreAsync(
-            new()
-            {
-                UserId = playerId,
-                Score = newScore,
-                InlineMessageId = classFixture.InlineGameMessageId,
-            }
+        await BotClient.SetGameScoreAsync(
+            userId: playerId,
+            score: newScore,
+            inlineMessageId: classFixture.InlineGameMessageId
         );
     }
 
@@ -113,11 +105,8 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
         Assert.True(cqUpdate.CallbackQuery?.IsGameQuery);
 
         await BotClient.AnswerCallbackQueryAsync(
-            new AnswerCallbackQueryRequest
-            {
-                CallbackQueryId = cqUpdate.CallbackQuery!.Id,
-                Url = "https://tbot.xyz/lumber/",
-            }
+            callbackQueryId: cqUpdate.CallbackQuery!.Id,
+            url: "https://tbot.xyz/lumber/"
         );
     }
 }

@@ -1,33 +1,33 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
-/// Type of the input media
+/// Type of the result
 /// </summary>
 [JsonConverter(typeof(InputMediaTypeConverter))]
 public enum InputMediaType
 {
     /// <summary>
-    /// Photo
+    /// Represents a photo to be sent.<br/><br/><i>(<see cref="InputMedia"/> can be cast into <see cref="InputMediaPhoto"/>)</i>
     /// </summary>
     Photo = 1,
 
     /// <summary>
-    /// Video
+    /// Represents a video to be sent.<br/><br/><i>(<see cref="InputMedia"/> can be cast into <see cref="InputMediaVideo"/>)</i>
     /// </summary>
     Video,
 
     /// <summary>
-    /// Animation
+    /// Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.<br/><br/><i>(<see cref="InputMedia"/> can be cast into <see cref="InputMediaAnimation"/>)</i>
     /// </summary>
     Animation,
 
     /// <summary>
-    /// Audio
+    /// Represents an audio file to be treated as music to be sent.<br/><br/><i>(<see cref="InputMedia"/> can be cast into <see cref="InputMediaAudio"/>)</i>
     /// </summary>
     Audio,
 
     /// <summary>
-    /// Document
+    /// Represents a general file to be sent.<br/><br/><i>(<see cref="InputMedia"/> can be cast into <see cref="InputMediaDocument"/>)</i>
     /// </summary>
     Document,
 }

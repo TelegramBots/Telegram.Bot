@@ -2,8 +2,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
-using Telegram.Bot.Serialization;
-
 namespace Telegram.Bot.Requests;
 
 /// <summary>

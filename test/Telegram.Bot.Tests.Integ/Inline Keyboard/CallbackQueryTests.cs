@@ -24,25 +24,22 @@ public class CallbackQueryTests(TestsFixture fixture)
     {
         string callbackQueryData = 'a' + new Random().Next(5_000).ToString();
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: fixture.SupergroupChat.Id,
+            text: "Please click on *OK* button.",
+            parseMode: ParseMode.Markdown,
+            replyMarkup: new InlineKeyboardMarkup(new[]
             {
-                ChatId = fixture.SupergroupChat.Id,
-                Text = "Please click on *OK* button.",
-                ParseMode = ParseMode.Markdown,
-                ReplyMarkup = new InlineKeyboardMarkup([InlineKeyboardButton.WithCallbackData("OK", callbackQueryData)]),
-            }
+                InlineKeyboardButton.WithCallbackData("OK", callbackQueryData)
+            })
         );
 
         Update responseUpdate = await fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
         CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
         await BotClient.AnswerCallbackQueryAsync(
-            new AnswerCallbackQueryRequest
-            {
-                CallbackQueryId = callbackQuery!.Id,
-                Text = "You clicked on OK",
-            }
+            callbackQueryId: callbackQuery!.Id,
+            text: "You clicked on OK"
         );
 
         Assert.Equal(UpdateType.CallbackQuery, responseUpdate.Type);
@@ -64,28 +61,22 @@ public class CallbackQueryTests(TestsFixture fixture)
     {
         string callbackQueryData = $"b{new Random().Next(5_000)}";
 
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Text = "Please click on *Notify* button.",
-                ParseMode = ParseMode.Markdown,
-                ReplyMarkup = new InlineKeyboardMarkup(
-                    InlineKeyboardButton.WithCallbackData("Notify", callbackQueryData)
-                ),
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: fixture.SupergroupChat.Id,
+            text: "Please click on *Notify* button.",
+            parseMode: ParseMode.Markdown,
+            replyMarkup: new InlineKeyboardMarkup(
+                InlineKeyboardButton.WithCallbackData("Notify", callbackQueryData)
+            )
         );
 
         Update responseUpdate = await fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
         CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
         await BotClient.AnswerCallbackQueryAsync(
-            new AnswerCallbackQueryRequest
-            {
-                CallbackQueryId = responseUpdate.CallbackQuery!.Id,
-                Text = "Got it!",
-                ShowAlert = true,
-            }
+            callbackQueryId: responseUpdate.CallbackQuery!.Id,
+            text: "Got it!",
+            showAlert: true
         );
 
         Assert.Equal(UpdateType.CallbackQuery, responseUpdate.Type);

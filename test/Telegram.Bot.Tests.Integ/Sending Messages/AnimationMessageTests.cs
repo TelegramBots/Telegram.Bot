@@ -22,17 +22,14 @@ public class AnimationMessageTests(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
             message = await BotClient.SendAnimationAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    Animation = InputFile.FromStream(stream),
-                    Duration = 4,
-                    Width = 400,
-                    Height = 400,
-                    Thumbnail = null,
-                    Caption = "<b>Rotating</b> <i>Earth</i>",
-                    ParseMode = ParseMode.Html,
-                }
+                chatId: fixture.SupergroupChat.Id,
+                animation: InputFile.FromStream(stream),
+                duration: 4,
+                width: 400,
+                height: 400,
+                thumbnail: null,
+                caption: "<b>Rotating</b> <i>Earth</i>",
+                parseMode: ParseMode.Html
             );
         }
 
@@ -72,12 +69,9 @@ public class AnimationMessageTests(TestsFixture fixture)
                     )
         {
             message = await BotClient.SendAnimationAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat,
-                    Animation = InputFile.FromStream(stream1, "earth.gif"),
-                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
-                }
+                chatId: fixture.SupergroupChat,
+                animation: InputFile.FromStream(stream1, "earth.gif"),
+                thumbnail: InputFile.FromStream(stream2, "thumb.jpg")
             );
         }
 

@@ -27,23 +27,20 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
                     )
         {
             messages = await BotClient.SendMediaGroupAsync(
-                new()
-                {
-                    ChatId = testsFixture.SupergroupChat.Id,
-                    Media = [
-                        new InputMediaPhoto
-                        {
-                            Media = InputFile.FromStream(stream1, "logo.png"),
-                            Caption = "Logo",
-                        },
-                        new InputMediaPhoto
-                        {
-                            Media = InputFile.FromStream(stream2, "bot.gif"),
-                            Caption = "Bot",
-                        },
-                    ],
-                    DisableNotification = true,
-                }
+                chatId: testsFixture.SupergroupChat.Id,
+                media: [
+                    new InputMediaPhoto
+                    {
+                        Media = InputFile.FromStream(stream1, "logo.png"),
+                        Caption = "Logo",
+                    },
+                    new InputMediaPhoto
+                    {
+                        Media = InputFile.FromStream(stream2, "bot.gif"),
+                        Caption = "Bot",
+                    },
+                ],
+                disableNotification: true
             );
         }
 
@@ -70,15 +67,12 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
             .ToArray();
 
         Message[] messages = await BotClient.SendMediaGroupAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Media = [
-                    new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[0])},
-                    new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[1])},
-                    new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[0])},
-                ]
-            }
+            chatId: testsFixture.SupergroupChat.Id,
+            media: [
+                new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[0])},
+                new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[1])},
+                new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[0])},
+            ]
         );
 
         Assert.Equal(3, messages.Length);
@@ -93,15 +87,12 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
         int replyToMessageId = classFixture.Entities.First().MessageId;
 
         Message[] messages = await BotClient.SendMediaGroupAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Media = [
-                    new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")},
-                    new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")},
-                ],
-                ReplyParameters = new() { MessageId = replyToMessageId }
-            }
+            chatId: testsFixture.SupergroupChat.Id,
+            media: [
+                new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")},
+                new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")},
+            ],
+            replyParameters: new() { MessageId = replyToMessageId }
         );
 
         Assert.Equal(2, messages.Length);
@@ -126,30 +117,27 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
                     )
         {
             messages = await BotClient.SendMediaGroupAsync(
-                new()
-                {
-                    ChatId = testsFixture.SupergroupChat.Id,
-                    Media = [
-                        new InputMediaVideo
-                        {
-                            Media = InputFile.FromStream(stream0, "GoldenRatio.mp4"),
-                            Caption = "Golden Ratio",
-                            Height = 240,
-                            Width = 240,
-                            Duration = 28,
-                        },
-                        new InputMediaVideo
-                        {
-                            Media = InputFile.FromStream(stream1, "MoonLanding.mp4"),
-                            Caption = "Moon Landing"
-                        },
-                        new InputMediaPhoto
-                        {
-                            Media = InputFile.FromStream(stream2, "bot.gif"),
-                            Caption = "Bot"
-                        },
-                    ],
-                }
+                chatId: testsFixture.SupergroupChat.Id,
+                media: [
+                    new InputMediaVideo
+                    {
+                        Media = InputFile.FromStream(stream0, "GoldenRatio.mp4"),
+                        Caption = "Golden Ratio",
+                        Height = 240,
+                        Width = 240,
+                        Duration = 28,
+                    },
+                    new InputMediaVideo
+                    {
+                        Media = InputFile.FromStream(stream1, "MoonLanding.mp4"),
+                        Caption = "Moon Landing"
+                    },
+                    new InputMediaPhoto
+                    {
+                        Media = InputFile.FromStream(stream2, "bot.gif"),
+                        Caption = "Bot"
+                    },
+                ]
             );
         }
 
@@ -184,25 +172,23 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
             stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
             stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
 
+
         Message[] messages = await BotClient.SendMediaGroupAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Media = [
-                    new InputMediaPhoto
-                    {
-                        Media = InputFile.FromStream(stream1, "logo.png"),
-                        Caption = "*Logo*",
-                        ParseMode = ParseMode.Markdown
-                    },
-                    new InputMediaPhoto
-                    {
-                        Media = InputFile.FromStream(stream2, "bot.gif"),
-                        Caption = "_Bot_",
-                        ParseMode = ParseMode.Markdown
-                    },
-                ],
-            }
+            chatId: testsFixture.SupergroupChat.Id,
+            media: [
+                new InputMediaPhoto
+                {
+                    Media = InputFile.FromStream(stream1, "logo.png"),
+                    Caption = "*Logo*",
+                    ParseMode = ParseMode.Markdown
+                },
+                new InputMediaPhoto
+                {
+                    Media = InputFile.FromStream(stream2, "bot.gif"),
+                    Caption = "_Bot_",
+                    ParseMode = ParseMode.Markdown
+                },
+            ]
         );
 
         Message message1 = messages[0];
@@ -230,22 +216,19 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
             stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
 
         Message[] messages = await BotClient.SendMediaGroupAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat.Id,
-                Media = [
-                    new InputMediaVideo
-                    {
-                        Media = InputFile.FromStream(stream1, "GoldenRatio.mp4"),
-                        Thumbnail = InputFile.FromStream(stream2, "thumbnail.jpg"),
-                        SupportsStreaming = true,
-                    },
-                    new InputMediaPhoto
-                    {
-                        Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
-                    },
-                ],
-            }
+            chatId: testsFixture.SupergroupChat.Id,
+            media: [
+                new InputMediaVideo
+                {
+                    Media = InputFile.FromStream(stream1, "GoldenRatio.mp4"),
+                    Thumbnail = InputFile.FromStream(stream2, "thumbnail.jpg"),
+                    SupportsStreaming = true,
+                },
+                new InputMediaPhoto
+                {
+                    Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+                },
+            ]
         );
 
         Assert.Equal(MessageType.Video, messages[0].Type);

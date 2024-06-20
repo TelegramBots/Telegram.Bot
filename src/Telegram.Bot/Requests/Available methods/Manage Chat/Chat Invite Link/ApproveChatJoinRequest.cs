@@ -1,37 +1,29 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request to approve a chat join request. The bot must be an administrator in the chat for this to
-/// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
-/// Returns <see langword="true"/> on success.
+/// Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the <em>CanInviteUsers</em> administrator right.<para>Returns: </para>
 /// </summary>
-public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
-    /// <inheritdoc/>
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
+    public required long UserId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and userId
+    /// Initializes an instance of <see cref="ApproveChatJoinRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="userId">Unique identifier of the target user</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public ApproveChatJoinRequest(ChatId chatId, long userId)
         : this()
     {
@@ -40,7 +32,7 @@ public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserT
     }
 
     /// <summary>
-    /// Initializes a new request with chatId and userId
+    /// Instantiates a new <see cref="ApproveChatJoinRequest"/>
     /// </summary>
     public ApproveChatJoinRequest()
         : base("approveChatJoinRequest")

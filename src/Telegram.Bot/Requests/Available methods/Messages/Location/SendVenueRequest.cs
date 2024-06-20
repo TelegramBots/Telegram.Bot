@@ -1,24 +1,39 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send information about a venue. On success, the sent <see cref="Message"/> is returned.
+/// Use this method to send information about a venue.<para>Returns: The sent <see cref="Message"/> is returned.</para>
 /// </summary>
-public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
-    /// <inheritdoc />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BusinessConnectionId { get; set; }
-
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
+
+    /// <summary>
+    /// Latitude of the venue
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required double Latitude { get; set; }
+
+    /// <summary>
+    /// Longitude of the venue
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required double Longitude { get; set; }
+
+    /// <summary>
+    /// Name of the venue
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string Title { get; set; }
+
+    /// <summary>
+    /// Address of the venue
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string Address { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -28,34 +43,6 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusiness
     public int? MessageThreadId { get; set; }
 
     /// <summary>
-    /// Latitude of the venue
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Latitude { get; init; }
-
-    /// <summary>
-    /// Longitude of the venue
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Longitude { get; init; }
-
-    /// <summary>
-    /// Name of the venue
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
-
-    /// <summary>
-    /// Address of the venue
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Address { get; init; }
-
-    /// <summary>
     /// Foursquare identifier of the venue
     /// </summary>
     [JsonInclude]
@@ -63,8 +50,7 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusiness
     public string? FoursquareId { get; set; }
 
     /// <summary>
-    /// Foursquare type of the venue, if known. (For example, “arts_entertainment/default”,
-    /// “arts_entertainment/aquarium” or “food/icecream”.)
+    /// Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -78,56 +64,66 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusiness
     public string? GooglePlaceId { get; set; }
 
     /// <summary>
-    /// Google Places type of the venue.
-    /// (See <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>.)
+    /// Google Places type of the venue. (See <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>.)
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GooglePlaceType { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
+    /// <summary>
+    /// Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent message from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MessageEffectId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId, location, venue title and address
+    /// Unique identifier of the business connection on behalf of which the message will be sent
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="SendVenueRequest"/>
+    /// </summary>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="latitude">Latitude of the venue</param>
     /// <param name="longitude">Longitude of the venue</param>
     /// <param name="title">Name of the venue</param>
     /// <param name="address">Address of the venue</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
-    public SendVenueRequest(
-        ChatId chatId,
-        double latitude,
-        double longitude,
-        string title,
-        string address) : this()
+    [SetsRequiredMembers]
+    public SendVenueRequest(ChatId chatId, double latitude, double longitude, string title, string address)
+        : this()
     {
         ChatId = chatId;
         Latitude = latitude;
@@ -137,8 +133,9 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusiness
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SendVenueRequest"/>
     /// </summary>
-    public SendVenueRequest() : base("sendVenue")
+    public SendVenueRequest()
+        : base("sendVenue")
     { }
 }

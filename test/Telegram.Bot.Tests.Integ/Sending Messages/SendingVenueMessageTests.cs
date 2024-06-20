@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Serialization;
@@ -26,15 +26,12 @@ public class SendingVenueMessageTests(TestsFixture fixture)
         const string foursquareId = "4cc6222106c25481d7a4a047";
 
         Message message = await BotClient.SendVenueAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                Latitude = lat,
-                Longitude = lon,
-                Title = title,
-                Address = address,
-                FoursquareId = foursquareId,
-            }
+            chatId: fixture.SupergroupChat,
+            latitude: lat,
+            longitude: lon,
+            title: title,
+            address: address,
+            foursquareId: foursquareId
         );
 
         Assert.Equal(MessageType.Venue, message.Type);

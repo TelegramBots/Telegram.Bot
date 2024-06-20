@@ -21,15 +21,12 @@ public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixtur
     public async Task Should_Send_Non_Anonymous_Poll_With_Multiple_Answers()
     {
         Message message = await Fixture.BotClient.SendPollAsync(
-            new()
-            {
-                ChatId = Fixture.SupergroupChat,
-                Question = "Pick your team",
-                Options = [new("Aragorn"), new("Galadriel"), new("Frodo")],
-                IsAnonymous = false,
-                Type = PollType.Regular,
-                AllowsMultipleAnswers = true,
-            }
+            chatId: Fixture.SupergroupChat,
+            question: "Pick your team",
+            options: ["Aragorn", "Galadriel", "Frodo"],
+            isAnonymous: false,
+            type: PollType.Regular,
+            allowsMultipleAnswers: true
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -90,11 +87,8 @@ public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixtur
         await Task.Delay(TimeSpan.FromSeconds(5));
 
         Poll closedPoll = await BotClient.StopPollAsync(
-            new()
-            {
-                ChatId = classFixture.OriginalPollMessage.Chat,
-                MessageId = classFixture.OriginalPollMessage.MessageId,
-            }
+            chatId: classFixture.OriginalPollMessage.Chat,
+            messageId: classFixture.OriginalPollMessage.MessageId
         );
 
         Assert.Equal(classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);

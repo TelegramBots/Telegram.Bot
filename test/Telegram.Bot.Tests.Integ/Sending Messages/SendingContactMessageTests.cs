@@ -21,13 +21,10 @@ public class SendingContactMessageTests(TestsFixture fixture)
         const string lastName = "Solo";
 
         Message message = await BotClient.SendContactAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                PhoneNumber = phoneNumber,
-                FirstName = firstName,
-                LastName = lastName,
-            }
+            chatId: fixture.SupergroupChat,
+            phoneNumber: phoneNumber,
+            firstName: firstName,
+            lastName: lastName
         );
 
         Assert.Equal(MessageType.Contact, message.Type);
@@ -60,13 +57,10 @@ public class SendingContactMessageTests(TestsFixture fixture)
             """;
 
         Message message = await BotClient.SendContactAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                PhoneNumber = "+11115551212",
-                FirstName = "Forrest",
-                Vcard = vcard,
-            }
+            chatId: fixture.SupergroupChat,
+            phoneNumber: "+11115551212",
+            firstName: "Forrest",
+            vcard: vcard
         );
 
         Assert.Equal(MessageType.Contact, message.Type);

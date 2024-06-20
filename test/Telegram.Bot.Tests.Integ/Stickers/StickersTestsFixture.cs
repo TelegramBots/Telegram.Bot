@@ -76,16 +76,13 @@ public class StickersTestsFixture(TestsFixture testsFixture) : AsyncLifetimeFixt
             );
 
             const string cqData = "sticker_tests:owner";
-            Message cqMessage = await testsFixture.BotClient.SendMessageAsync(
-                new()
-                {
-                    ChatId = testsFixture.SupergroupChat,
-                    Text = $"{testsFixture.UpdateReceiver.GetTesters()}\nUse the following button to become Sticker Set Owner",
-                    ReplyParameters = new() { MessageId = notificationMessage.MessageId },
-                    ReplyMarkup = new InlineKeyboardMarkup(
-                        InlineKeyboardButton.WithCallbackData("I am the Owner!", cqData)
-                    ),
-                }
+            Message cqMessage = await testsFixture.BotClient.SendTextMessageAsync(
+                chatId: testsFixture.SupergroupChat,
+                text: $"{testsFixture.UpdateReceiver.GetTesters()}\nUse the following button to become Sticker Set Owner",
+                replyParameters: new() { MessageId = notificationMessage.MessageId },
+                replyMarkup: new InlineKeyboardMarkup(
+                    InlineKeyboardButton.WithCallbackData("I am the Owner!", cqData)
+                )
             );
 
             Update cqUpdate = await testsFixture.UpdateReceiver

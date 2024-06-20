@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using JetBrains.Annotations;
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -21,7 +20,7 @@ public class InputFileStream : InputFile
     /// <summary>
     /// File content to upload
     /// </summary>
-    public required Stream Content { get; init; }
+    public required Stream Content { get; set; }
 
     /// <summary>
     /// Name of a file to upload using multipart/form-data
@@ -44,4 +43,7 @@ public class InputFileStream : InputFile
     /// </summary>
     public InputFileStream()
     { }
+
+    /// <summary>Implicit operator, same as <see cref="InputFileStream(Stream,string)"/> without given filename</summary>
+    public static implicit operator InputFileStream(Stream stream) => new(stream);
 }

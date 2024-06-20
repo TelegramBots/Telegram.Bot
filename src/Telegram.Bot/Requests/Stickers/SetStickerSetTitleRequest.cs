@@ -1,39 +1,29 @@
-using System.Diagnostics.CodeAnalysis;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to set the title of a created sticker set.
-/// Returns <see langword="true"/> on success.
+/// Use this method to set the title of a created sticker set.<para>Returns: </para>
 /// </summary>
-public class SetStickerSetTitleRequest : RequestBase<bool>
+public partial class SetStickerSetTitleRequest : RequestBase<bool>
 {
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Name { get; init; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
     /// <summary>
-    /// Initializes a new request with name and title
+    /// Initializes an instance of <see cref="SetStickerSetTitleRequest"/>
     /// </summary>
-    /// <param name="name">
-    /// Sticker set name
-    /// </param>
-    /// <param name="title">
-    /// Sticker set title, 1-64 characters
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="name">Sticker set name</param>
+    /// <param name="title">Sticker set title, 1-64 characters</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetStickerSetTitleRequest(string name, string title)
         : this()
     {
@@ -42,7 +32,7 @@ public class SetStickerSetTitleRequest : RequestBase<bool>
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SetStickerSetTitleRequest"/>
     /// </summary>
     public SetStickerSetTitleRequest()
         : base("setStickerSetTitle")

@@ -1,40 +1,30 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit live location messages. A location can be edited until its
-/// <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to
-/// <see cref="StopInlineMessageLiveLocationRequest"/>. On success <see langword="true"/> is returned.
+/// Use this method to edit live location messages. A location can be edited until its <see cref="LivePeriod">LivePeriod</see> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocationAsync">StopMessageLiveLocation</see>.<para>Returns: </para>
 /// </summary>
-public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
+public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>
 {
-    /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
-    [JsonRequired]
+    /// <summary>
+    /// Identifier of the inline message
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string InlineMessageId { get; init; }
+    public required string InlineMessageId { get; set; }
 
     /// <summary>
     /// Latitude of new location
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Latitude { get; init; }
+    public required double Latitude { get; set; }
 
     /// <summary>
     /// Longitude of new location
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required double Longitude { get; init; }
+    public required double Longitude { get; set; }
 
     /// <summary>
-    /// New period in seconds during which the location can be updated, starting from the message send date.
-    /// If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed
-    /// the current live_period by more than a day, and the live location expiration date must remain within the next
-    /// 90 days. If not specified, then <see cref="LivePeriod"/> remains unchanged.
+    /// New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current <see cref="LivePeriod">LivePeriod</see> by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then <see cref="LivePeriod">LivePeriod</see> remains unchanged
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -45,7 +35,7 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public float? HorizontalAccuracy { get; set; }
+    public double? HorizontalAccuracy { get; set; }
 
     /// <summary>
     /// Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
@@ -55,26 +45,27 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     public int? Heading { get; set; }
 
     /// <summary>
-    /// Maximum distance for proximity alerts about approaching another chat member, in meters. Must be
-    /// between 1 and 100000 if specified.
+    /// The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ProximityAlertRadius { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new request with inlineMessageId, latitude and longitude
+    /// Initializes an instance of <see cref="EditInlineMessageLiveLocationRequest"/>
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public EditInlineMessageLiveLocationRequest(string inlineMessageId, double latitude, double longitude)
         : this()
     {
@@ -84,7 +75,7 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="EditInlineMessageLiveLocationRequest"/>
     /// </summary>
     public EditInlineMessageLiveLocationRequest()
         : base("editMessageLiveLocation")

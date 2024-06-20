@@ -29,13 +29,10 @@ public class EditMessageContentTests2(TestsFixture fixture)
         ];
         string messageText = $"{originalMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
-        Message originalMessage = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Text = messageText,
-                ParseMode = ParseMode.Html,
-            }
+        Message originalMessage = await BotClient.SendTextMessageAsync(
+            chatId: fixture.SupergroupChat.Id,
+            text: messageText,
+            parseMode: ParseMode.Html
         );
 
         await Task.Delay(1_000);
@@ -44,13 +41,10 @@ public class EditMessageContentTests2(TestsFixture fixture)
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
         Message editedMessage = await BotClient.EditMessageTextAsync(
-            new()
-            {
-                ChatId = originalMessage.Chat.Id,
-                MessageId = originalMessage.MessageId,
-                Text = messageText,
-                ParseMode = ParseMode.Html,
-            }
+            chatId: originalMessage.Chat.Id,
+            messageId: originalMessage.MessageId,
+            text: messageText,
+            parseMode: ParseMode.Html
         );
 
         Assert.NotNull(editedMessage.Text);
@@ -71,24 +65,18 @@ public class EditMessageContentTests2(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
     public async Task Should_Edit_Message_Markup()
     {
-        Message message = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Text = "Inline keyboard will be updated shortly",
-                ReplyMarkup = (InlineKeyboardMarkup)"Original markup",
-            }
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: fixture.SupergroupChat.Id,
+            text: "Inline keyboard will be updated shortly",
+            replyMarkup: (InlineKeyboardMarkup)"Original markup"
         );
 
         await Task.Delay(1_000);
 
         Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
-            new EditMessageReplyMarkupRequest
-            {
-                ChatId = message.Chat.Id,
-                MessageId = message.MessageId,
-                ReplyMarkup = "Edited 👍",
-            }
+            chatId: message.Chat.Id,
+            messageId: message.MessageId,
+            replyMarkup: "Edited 👍"
         );
 
         Assert.Equal(message.MessageId, editedMessage.MessageId);
@@ -106,12 +94,9 @@ public class EditMessageContentTests2(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
         {
             originalMessage = await BotClient.SendPhotoAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    Photo = InputFile.FromStream(stream),
-                    Caption = "Message caption will be updated shortly",
-                }
+                chatId: fixture.SupergroupChat.Id,
+                photo: InputFile.FromStream(stream),
+                caption: "Message caption will be updated shortly"
             );
         }
 
@@ -122,13 +107,10 @@ public class EditMessageContentTests2(TestsFixture fixture)
         string caption = $"{captionPrefix} {captionEntity.Value}";
 
         Message editedMessage = await BotClient.EditMessageCaptionAsync(
-            new()
-            {
-                ChatId = originalMessage.Chat.Id,
-                MessageId = originalMessage.MessageId,
-                Caption = caption,
-                ParseMode = ParseMode.Markdown,
-            }
+            chatId: originalMessage.Chat.Id,
+            messageId: originalMessage.MessageId,
+            caption: caption,
+            parseMode: ParseMode.Markdown
         );
 
         Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);

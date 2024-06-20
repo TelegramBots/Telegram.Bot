@@ -26,15 +26,12 @@ public class AudioMessageTests(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
             message = await BotClient.SendAudioAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat,
-                    Audio = InputFile.FromStream(stream, "Jackson F Smith - Cantina Rag.mp3"),
-                    Title = title,
-                    Performer = performer,
-                    Caption = caption,
-                    Duration = duration,
-                }
+                chatId: fixture.SupergroupChat,
+                audio: InputFile.FromStream(stream, "Jackson F Smith - Cantina Rag.mp3"),
+                title: title,
+                performer: performer,
+                caption: caption,
+                duration: duration
             );
         }
 
@@ -63,12 +60,9 @@ public class AudioMessageTests(TestsFixture fixture)
                     )
         {
             message = await BotClient.SendAudioAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat,
-                    Audio = InputFile.FromStream(stream1, "Ask Again - A State of Despair.mp3"),
-                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
-                }
+                chatId: fixture.SupergroupChat,
+                audio: InputFile.FromStream(stream1, "Ask Again - A State of Despair.mp3"),
+                thumbnail: InputFile.FromStream(stream2, "thumb.jpg")
             );
         }
 
@@ -92,13 +86,10 @@ public class AudioMessageTests(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
             message = await BotClient.SendVoiceAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat,
-                    Voice = InputFile.FromStream(stream),
-                    Caption = caption,
-                    Duration = duration,
-                }
+                chatId: fixture.SupergroupChat,
+                voice: InputFile.FromStream(stream),
+                caption: caption,
+                duration: duration
             );
         }
 

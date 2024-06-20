@@ -47,9 +47,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             .ToChat(chatId: classFixture.PrivateChat.Id);
 
         PreliminaryInvoice preliminaryInvoice = paymentsBuilder.GetPreliminaryInvoice();
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        Message message = await BotClient.MakeRequestAsync(requestRequest);
+        Message message = await paymentsBuilder.MakeInvoiceRequest(BotClient);
         Invoice invoice = message.Invoice;
 
         Assert.Equal(MessageType.Invoice, message.Type);
@@ -98,17 +97,13 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         string instruction = FormatInstructionWithCurrency($"Click on *Pay {totalCostWithoutShippingCost:C}* and send your shipping address.");
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        await BotClient.MakeRequestAsync(requestRequest);
+        await paymentsBuilder.MakeInvoiceRequest(BotClient);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
-        AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
+        await paymentsBuilder.MakeShippingQueryRequest(BotClient,
             shippingQueryId: shippingUpdate.ShippingQuery!.Id
         );
-
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
 
         Assert.Equal(UpdateType.ShippingQuery, shippingUpdate.Type);
         Assert.Equal("<my-payload>", shippingUpdate.ShippingQuery.InvoicePayload);
@@ -158,23 +153,19 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        await BotClient.MakeRequestAsync(requestRequest);
+        await paymentsBuilder.MakeInvoiceRequest(BotClient);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
-        AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
+        await paymentsBuilder.MakeShippingQueryRequest(BotClient,
             shippingQueryId: shippingUpdate.ShippingQuery!.Id
         );
-
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
 
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest(query!.Id)
+            query!.Id
         );
 
         PreliminaryInvoice preliminaryInvoice = paymentsBuilder.GetPreliminaryInvoice();
@@ -237,23 +228,19 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        Message invoiceMessage = await BotClient.MakeRequestAsync(requestRequest);
+        Message invoiceMessage = await paymentsBuilder.MakeInvoiceRequest(BotClient);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
-        AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
+        await paymentsBuilder.MakeShippingQueryRequest(BotClient,
             shippingQueryId: shippingUpdate.ShippingQuery!.Id
         );
-
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
 
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest(query!.Id)
+            query!.Id
         );
 
         Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
@@ -310,20 +297,19 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-        Message invoiceMessage = await BotClient.MakeRequestAsync(requestRequest);
+        Message invoiceMessage = await paymentsBuilder.MakeInvoiceRequest(BotClient);
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest(query!.Id)
+            query!.Id
         );
 
         Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
         SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
         int totalAmount = paymentsBuilder.GetTotalAmount();
 
-        int[] suggestedTips = {100, 150, 200};
+        int[] suggestedTips = [100, 150, 200];
         int[] totalAmountWithTip = suggestedTips.Select(_ => _ + totalAmount).ToArray();
 
         Assert.Contains(totalAmountWithTip, _ => _ == successfulPayment!.TotalAmount);
@@ -371,18 +357,14 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        await BotClient.MakeRequestAsync(requestRequest);
+        await paymentsBuilder.MakeInvoiceRequest(BotClient);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
-        AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
+        await paymentsBuilder.MakeShippingQueryRequest(BotClient,
             shippingQueryId: shippingUpdate.ShippingQuery!.Id,
             errorMessage: "Sorry, but we don't ship to your contry."
         );
-
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
     }
 
     [OrderedFact("Should send invoice for no shipment option, and reply pre-checkout query with an error.")]
@@ -417,20 +399,14 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        await BotClient.MakeRequestAsync(requestRequest);
+        await paymentsBuilder.MakeInvoiceRequest(BotClient);
 
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
         await fixture.BotClient.AnswerPreCheckoutQueryAsync(
-            new AnswerPreCheckoutQueryRequest()
-            {
-                PreCheckoutQueryId = query!.Id,
-                ErrorMessage = "Sorry, we couldn't process the transaction. Please, contact our support.",
-                Ok = false,
-            }
+            preCheckoutQueryId: query!.Id,
+            errorMessage: "Sorry, we couldn't process the transaction. Please, contact our support."
         );
     }
 
@@ -457,10 +433,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             .WithPaymentProviderToken(classFixture.PaymentProviderToken)
             .ToChat(classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
-            async () => await BotClient.MakeRequestAsync(requestRequest)
+            async () => await paymentsBuilder.MakeInvoiceRequest(BotClient)
         );
 
         Assert.Equal(400, exception.ErrorCode);
@@ -510,30 +484,21 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        await BotClient.MakeRequestAsync(requestRequest);
+        await paymentsBuilder.MakeInvoiceRequest(BotClient);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
-        AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
-            shippingQueryId: shippingUpdate.ShippingQuery!.Id
-        );
-
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
-            async () => await BotClient.MakeRequestAsync(shippingQueryRequest)
-        );
+            async () => await paymentsBuilder.MakeShippingQueryRequest(BotClient,
+            shippingQueryId: shippingUpdate.ShippingQuery!.Id
+        ));
 
         Assert.Equal(400, exception.ErrorCode);
         Assert.Equal("Bad Request: SHIPPING_ID_DUPLICATE", exception.Message);
 
         await fixture.BotClient.AnswerShippingQueryAsync(
-            new()
-            {
-                Ok = false,
-                ShippingQueryId = shippingUpdate.ShippingQuery.Id,
-                ErrorMessage = "✅ Test Passed",
-            }
+            shippingQueryId: shippingUpdate.ShippingQuery.Id,
+            errorMessage: "✅ Test Passed"
         );
     }
 
@@ -544,7 +509,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         InlineKeyboardMarkup replyMarkup = new(
         [
             [
-                InlineKeyboardButton.WithPayment("Pay this invoice"),
+                InlineKeyboardButton.WithPay("Pay this invoice"),
                 InlineKeyboardButton.WithUrl("Repository", "https://github.com/TelegramBots/Telegram.Bot")
             ],
             [InlineKeyboardButton.WithCallbackData("Some other button")]
@@ -569,9 +534,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             .WithPaymentProviderToken(classFixture.PaymentProviderToken)
             .ToChat(classFixture.PrivateChat.Id);
 
-        SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-
-        await BotClient.MakeRequestAsync(requestRequest);
+        await paymentsBuilder.MakeInvoiceRequest(BotClient);
     }
 
     async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default)

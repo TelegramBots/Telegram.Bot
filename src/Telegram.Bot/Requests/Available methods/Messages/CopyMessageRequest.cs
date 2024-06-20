@@ -1,28 +1,27 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied.
-/// The method is analogous to the method <see cref="ForwardMessageRequest"/>, but the copied message
-/// doesn't have a link to the original message. Returns the <see cref="Types.MessageId"/> of the
-/// sent <see cref="Message"/> on success.
+/// Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessageAsync">ForwardMessage</see>, but the copied message doesn't have a link to the original message.<para>Returns: The <see cref="MessageId"/> of the sent message on success.</para>
 /// </summary>
-public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
-
+public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
 {
     /// <summary>
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
+
+    /// <summary>
+    /// Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required ChatId FromChatId { get; set; }
+
+    /// <summary>
+    /// Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see>
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required int MessageId { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -32,98 +31,69 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     public int? MessageThreadId { get; set; }
 
     /// <summary>
-    /// Unique identifier for the chat where the original message was sent
-    /// (or channel username in the format <c>@channelusername</c>)
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId FromChatId { get; init; }
-
-    /// <summary>
-    /// Message identifier in the chat specified in <see cref="FromChatId"/>
-    /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
-
-    /// <summary>
-    /// New caption for media, 0-1024 characters after entities parsing.
-    /// If not specified, the original caption is kept
+    /// New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ParseMode"/>
+    /// <summary>
+    /// Mode for parsing entities in the new caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.CaptionEntities"/>
+    /// <summary>
+    /// A list of special entities that appear in the new caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia"/>
+    /// <summary>
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
+    /// <summary>
+    /// Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent message from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
-    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
-    [JsonIgnore]
-    public int? ReplyToMessageId
-    {
-        get => ReplyParameters?.MessageId;
-        set
-        {
-            if (value is null)
-            {
-                ReplyParameters = null;
-            }
-            else
-            {
-                ReplyParameters ??= new();
-                ReplyParameters.MessageId = value.Value;
-            }
-        }
-    }
-
     /// <summary>
-    /// Initializes a new request with chatId, fromChatId and messageId
+    /// Initializes an instance of <see cref="CopyMessageRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="fromChatId">
-    /// Unique identifier for the chat where the original message was sent
-    /// (or channel username in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="messageId">
-    /// Message identifier in the chat specified in <see cref="FromChatId"/>
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)</param>
+    /// <param name="messageId">Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see></param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
         : this()
     {
@@ -133,7 +103,7 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="CopyMessageRequest"/>
     /// </summary>
     public CopyMessageRequest()
         : base("copyMessage")

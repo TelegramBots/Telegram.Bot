@@ -56,14 +56,7 @@ public class EditMessageContentTests(TestsFixture fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = inlineQUpdate.InlineQuery.Id,
-                Results = inlineQueryResults,
-                CacheTime = 0,
-            }
-        );
+        await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -76,13 +69,10 @@ public class EditMessageContentTests(TestsFixture fixture)
         const string modifiedMessagePrefix = "✌ modified 👌\n";
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
-        await BotClient.EditInlineMessageTextAsync(
-            new()
-            {
-                InlineMessageId = callbackQUpdate.CallbackQuery.InlineMessageId,
-                Text = messageText,
-                ParseMode = ParseMode.Html,
-            }
+        await BotClient.EditMessageTextAsync(
+            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+            text: messageText,
+            parseMode: ParseMode.Html
         );
     }
 
@@ -124,14 +114,7 @@ public class EditMessageContentTests(TestsFixture fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = inlineQUpdate.InlineQuery.Id,
-                Results = inlineQueryResults,
-                CacheTime = 0,
-            }
-        );
+        await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -141,12 +124,9 @@ public class EditMessageContentTests(TestsFixture fixture)
         Assert.NotNull(callbackQUpdate.CallbackQuery);
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
-        await BotClient.EditInlineMessageReplyMarkupAsync(
-            new()
-            {
-                InlineMessageId = callbackQUpdate.CallbackQuery.InlineMessageId,
-                ReplyMarkup = "✌ Edited 👌",
-            }
+        await BotClient.EditMessageReplyMarkupAsync(
+            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+            replyMarkup: "✌ Edited 👌"
         );
     }
 
@@ -184,14 +164,7 @@ public class EditMessageContentTests(TestsFixture fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = inlineQUpdate.InlineQuery.Id,
-                Results = inlineQueryResults,
-                CacheTime = 0,
-            }
-        );
+        await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -201,13 +174,10 @@ public class EditMessageContentTests(TestsFixture fixture)
         Assert.NotNull(callbackQUpdate.CallbackQuery);
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
-        await BotClient.EditInlineMessageCaptionAsync(
-            new()
-            {
-                InlineMessageId = callbackQUpdate.CallbackQuery.InlineMessageId,
-                Caption = "_Caption is edited_ 👌",
-                ParseMode = ParseMode.Markdown,
-            }
+        await BotClient.EditMessageCaptionAsync(
+            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+            caption: "_Caption is edited_ 👌",
+            parseMode: ParseMode.Markdown
         );
     }
 }

@@ -1,39 +1,27 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat,
-/// the bot must be an administrator in the chat for this to work and must have the
-/// '<see cref="ChatMemberAdministrator.CanPinMessages"/>' admin right in a supergroup or
-/// '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel.
-/// Returns <see langword="true"/> on success.
+/// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.<para>Returns: </para>
 /// </summary>
-public class UnpinAllChatMessagesRequest : RequestBase<bool>, IChatTargetable
+public partial class UnpinAllChatMessagesRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
-
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
-    public UnpinAllChatMessagesRequest(ChatId chatId)
-        : this()
-    {
-        ChatId = chatId;
-    }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId
+    /// Initializes an instance of <see cref="UnpinAllChatMessagesRequest"/>
+    /// </summary>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
+    public UnpinAllChatMessagesRequest(ChatId chatId)
+        : this() => ChatId = chatId;
+
+    /// <summary>
+    /// Instantiates a new <see cref="UnpinAllChatMessagesRequest"/>
     /// </summary>
     public UnpinAllChatMessagesRequest()
         : base("unpinAllChatMessages")

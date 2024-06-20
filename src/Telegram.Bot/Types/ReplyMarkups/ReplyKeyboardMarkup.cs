@@ -1,114 +1,62 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-
-namespace Telegram.Bot.Types.ReplyMarkups;
+﻿namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
-/// Represents a custom keyboard with reply options
+/// This object represents a <a href="https://core.telegram.org/bots/features#keyboards">custom keyboard</a> with reply options (see <a href="https://core.telegram.org/bots/features#keyboards">Introduction to bots</a> for details and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
 /// </summary>
-public class ReplyKeyboardMarkup : ReplyMarkupBase
+public partial class ReplyKeyboardMarkup : IReplyMarkup
 {
     /// <summary>
-    /// Array of button rows, each represented by an Array of KeyboardButton objects
+    /// Array of button rows, each represented by an Array of <see cref="KeyboardButton"/> objects
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 
     /// <summary>
-    /// Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to
-    /// <see langword="false"/>, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+    /// <em>Optional</em>. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to <see langword="false"/>, in which case the custom keyboard can be hidden and opened with a keyboard icon.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? IsPersistent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool IsPersistent { get; set; }
 
     /// <summary>
-    /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller
-    /// if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always
-    /// of the same height as the app's standard keyboard.
+    /// <em>Optional</em>. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to <see langword="false"/>, in which case the custom keyboard is always of the same height as the app's standard keyboard.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ResizeKeyboard { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ResizeKeyboard { get; set; }
 
     /// <summary>
-    /// Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still
-    /// be available, but clients will automatically display the usual letter-keyboard in the chat – the user can
-    /// press a special button in the input field to see the custom keyboard again. Defaults to false.
+    /// <em>Optional</em>. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to <see langword="false"/>.
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? OneTimeKeyboard { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool OneTimeKeyboard { get; set; }
 
     /// <summary>
-    /// Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+    /// <em>Optional</em>. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? InputFieldPlaceholder { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
+    /// <em>Optional</em>. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the <em>text</em> of the <see cref="Message"/> object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.<br/><br/><em>Example:</em> A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool Selective { get; set; }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="ReplyKeyboardMarkup"/>
+    /// </summary>
+    /// <param name="keyboard">Array of button rows, each represented by an Array of <see cref="KeyboardButton"/> objects</param>
+    [JsonConstructor]
+    [SetsRequiredMembers]
+    public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard) => Keyboard = keyboard;
+
+    /// <summary>
+    /// Instantiates a new <see cref="ReplyKeyboardMarkup"/>
     /// </summary>
     public ReplyKeyboardMarkup()
     { }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/> with one button
-    /// </summary>
-    /// <param name="button">Button on keyboard</param>
-    [SetsRequiredMembers]
-    public ReplyKeyboardMarkup(KeyboardButton button)
-        : this([button])
-    { }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
-    /// </summary>
-    /// <param name="keyboardRow">The keyboard row.</param>
-    [SetsRequiredMembers]
-    public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow)
-        : this([keyboardRow])
-    { }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ReplyKeyboardMarkup"/> class.
-    /// </summary>
-    /// <param name="keyboard">The keyboard.</param>
-    [SetsRequiredMembers]
-    [JsonConstructor]
-    public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard)
-        => Keyboard = keyboard;
-
-    /// <summary>
-    /// Generates a reply keyboard markup with one button
-    /// </summary>
-    /// <param name="text">Button's text</param>
-    public static implicit operator ReplyKeyboardMarkup?(string? text) =>
-        text is null
-            ? default
-            : new([new KeyboardButton(text)]);
-
-    /// <summary>
-    /// Generates a reply keyboard markup with multiple buttons on one row
-    /// </summary>
-    /// <param name="texts">Texts of buttons</param>
-    public static implicit operator ReplyKeyboardMarkup?(string[]? texts) =>
-        texts is null
-            ? default
-            : new[] { texts };
-
-    /// <summary>
-    /// Generates a reply keyboard markup with multiple buttons
-    /// </summary>
-    /// <param name="textsItems">Texts of buttons</param>
-    public static implicit operator ReplyKeyboardMarkup?(string[][]? textsItems) =>
-        textsItems is null
-            ? default
-            : new ReplyKeyboardMarkup(
-                textsItems.Select(texts =>
-                    texts.Select(t => new KeyboardButton(t))
-                ));
 }

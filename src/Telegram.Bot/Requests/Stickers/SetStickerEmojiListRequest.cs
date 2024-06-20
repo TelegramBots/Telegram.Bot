@@ -1,41 +1,29 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to change the list of emoji assigned to a regular or custom emoji sticker.
-/// The sticker must belong to a sticker set created by the bot.
-/// Returns <see langword="true"/> on success.
+/// Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.<para>Returns: </para>
 /// </summary>
-public class SetStickerEmojiListRequest : RequestBase<bool>
+public partial class SetStickerEmojiListRequest : RequestBase<bool>
 {
     /// <summary>
-    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// File identifier of the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required InputFileId Sticker { get; init; }
+    public required InputFileId Sticker { get; set; }
 
     /// <summary>
     /// A list of 1-20 emoji associated with the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<string> EmojiList { get; init; }
+    public required IEnumerable<string> EmojiList { get; set; }
 
     /// <summary>
-    /// Initializes a new request with sticker and emojiList
+    /// Initializes an instance of <see cref="SetStickerEmojiListRequest"/>
     /// </summary>
-    /// <param name="sticker">
-    /// <see cref="InputFileId">File identifier</see> of the sticker
-    /// </param>
-    /// <param name="emojiList">
-    /// A list of 1-20 emoji associated with the sticker
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="sticker">File identifier of the sticker</param>
+    /// <param name="emojiList">A list of 1-20 emoji associated with the sticker</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList)
         : this()
     {
@@ -44,7 +32,7 @@ public class SetStickerEmojiListRequest : RequestBase<bool>
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SetStickerEmojiListRequest"/>
     /// </summary>
     public SetStickerEmojiListRequest()
         : base("setStickerEmojiList")

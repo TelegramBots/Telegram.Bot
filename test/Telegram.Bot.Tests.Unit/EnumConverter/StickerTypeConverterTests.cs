@@ -12,10 +12,9 @@ public class StickerTypeConverterTests
     [Fact]
     public void Should_Verify_All_StickerType_Members()
     {
-        List<string> stickerTypeMembers = Enum
+        List<string> stickerTypeMembers = [.. Enum
             .GetNames(typeof(StickerType))
-            .OrderBy(x => x)
-            .ToList();
+            .OrderBy(x => x)];
         List<string> stickerTypeDataMembers = new StickerTypeData()
             .Select(x => Enum.GetName(typeof(StickerType), x[0]))
             .OrderBy(x => x)

@@ -32,22 +32,20 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
         Location newYork = new() { Latitude = 40.7128f, Longitude = -74.0060f };
 
         await BotClient.AnswerInlineQueryAsync(
-            new()
-            {
-                InlineQueryId = iqUpdate.InlineQuery!.Id,
-                CacheTime = 0,
-                Results = [
-                    new InlineQueryResultLocation
-                    {
-                        Id = "live-location",
-                        Latitude = newYork.Latitude,
-                        Longitude = newYork.Longitude,
-                        Title = "Live Locations Test",
-                        LivePeriod = 60,
-                        ReplyMarkup = InlineKeyboardButton.WithCallbackData("Start live locations", callbackQueryData)
-                    }
-                ],
-            }
+            inlineQueryId: iqUpdate.InlineQuery!.Id,
+            cacheTime: 0,
+            results:
+            [
+                new InlineQueryResultLocation
+                {
+                    Id = "live-location",
+                    Latitude = newYork.Latitude,
+                    Longitude = newYork.Longitude,
+                    Title = "Live Locations Test",
+                    LivePeriod = 60,
+                    ReplyMarkup = InlineKeyboardButton.WithCallbackData("Start live locations", callbackQueryData)
+                }
+            ]
         );
 
         classFixture.CallbackQueryData = callbackQueryData;
@@ -64,14 +62,11 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
 
         Location beijing = new() { Latitude = 39.9042f, Longitude = 116.4074f };
 
-        await BotClient.EditInlineMessageLiveLocationAsync(
-            new()
-            {
-                InlineMessageId = cqUpdate.CallbackQuery!.InlineMessageId!,
-                Latitude = beijing.Latitude,
-                Longitude = beijing.Longitude,
-                ReplyMarkup = InlineKeyboardMarkup.Empty(),
-            }
+        await BotClient.EditMessageLiveLocationAsync(
+            inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
+            latitude: beijing.Latitude,
+            longitude: beijing.Longitude,
+            replyMarkup: InlineKeyboardMarkup.Empty()
         );
 
         classFixture.InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId;
@@ -81,11 +76,8 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
     public async Task Should_Stop_Inline_Message_Live_Location()
     {
-        await BotClient.StopInlineMessageLiveLocationAsync(
-            new()
-            {
-                InlineMessageId = classFixture.InlineMessageId,
-            }
+        await BotClient.StopMessageLiveLocationAsync(
+            inlineMessageId: classFixture.InlineMessageId
         );
     }
 
