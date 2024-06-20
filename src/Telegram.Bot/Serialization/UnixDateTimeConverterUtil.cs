@@ -24,10 +24,15 @@ internal static class UnixDateTimeConverterUtil
 
     internal static void Write(Utf8JsonWriter writer, DateTime value)
     {
-        long seconds = (long)(value.ToUniversalTime() - UnixEpoch).TotalSeconds;
-        if (seconds >= 0)
-            writer.WriteNumberValue(seconds);
+        if (value == default)
+            writer.WriteNumberValue(0L);
         else
-            throw new JsonException("Cannot convert date value that is before Unix epoch of 00:00:00 UTC on 1 January 1970.");
+        {
+            long seconds = (long)(value.ToUniversalTime() - UnixEpoch).TotalSeconds;
+            if (seconds >= 0)
+                writer.WriteNumberValue(seconds);
+            else
+                throw new JsonException("Cannot convert date value that is before Unix epoch of 00:00:00 UTC on 1 January 1970.");
+        }
     }
 }
