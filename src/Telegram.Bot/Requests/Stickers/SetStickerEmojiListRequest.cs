@@ -8,14 +8,12 @@ public partial class SetStickerEmojiListRequest : RequestBase<bool>
     /// <summary>
     /// File identifier of the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileId Sticker { get; set; }
 
     /// <summary>
     /// A list of 1-20 emoji associated with the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<string> EmojiList { get; set; }
 

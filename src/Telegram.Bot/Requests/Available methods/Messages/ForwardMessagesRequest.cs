@@ -8,21 +8,18 @@ public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTar
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier for the chat where the original messages were sent (or channel username in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId FromChatId { get; set; }
 
     /// <summary>
     /// A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to forward. The identifiers must be specified in a strictly increasing order.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<int> MessageIds { get; set; }
 

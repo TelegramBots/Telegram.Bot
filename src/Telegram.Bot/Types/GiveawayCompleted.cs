@@ -8,7 +8,6 @@ public partial class GiveawayCompleted
     /// <summary>
     /// Number of winners in the giveaway
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int WinnerCount { get; set; }
 

@@ -8,7 +8,6 @@ public partial class SharedUser
     /// <summary>
     /// Identifier of the shared user. The bot may not have access to the user and could be unable to use this identifier, unless the user is already known to the bot by some other means.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long UserId { get; set; }
 

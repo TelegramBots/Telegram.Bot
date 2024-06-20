@@ -8,14 +8,12 @@ public partial class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetab
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier of the target sender chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long SenderChatId { get; set; }
 

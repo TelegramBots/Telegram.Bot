@@ -8,7 +8,6 @@ public partial class VideoChatEnded
     /// <summary>
     /// Video chat duration in seconds
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Duration { get; set; }
 }

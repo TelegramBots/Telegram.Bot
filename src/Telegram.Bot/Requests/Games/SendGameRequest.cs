@@ -8,14 +8,12 @@ public partial class SendGameRequest : RequestBase<Message>, IChatTargetable, IB
     /// <summary>
     /// Unique identifier for the target chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
     /// <summary>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via <a href="https://t.me/botfather">@BotFather</a>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GameShortName { get; set; }
 

@@ -8,21 +8,18 @@ public partial class AddStickerToSetRequest : FileRequestBase<bool>, IUserTarget
     /// <summary>
     /// User identifier of sticker set owner
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 
     /// <summary>
     /// An object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputSticker Sticker { get; set; }
 

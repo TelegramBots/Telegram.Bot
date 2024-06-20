@@ -8,7 +8,6 @@ public partial class MessageAutoDeleteTimerChanged
     /// <summary>
     /// New auto-delete time for messages in the chat; in seconds
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageAutoDeleteTime { get; set; }
 }

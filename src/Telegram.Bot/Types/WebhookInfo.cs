@@ -8,7 +8,6 @@ public partial class WebhookInfo
     /// <summary>
     /// Webhook URL, may be empty if webhook is not set up
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Url { get; set; } = default!;
 
@@ -21,7 +20,6 @@ public partial class WebhookInfo
     /// <summary>
     /// Number of updates awaiting delivery
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int PendingUpdateCount { get; set; }
 

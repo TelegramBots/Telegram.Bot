@@ -8,14 +8,12 @@ public partial class ChosenInlineResult
     /// <summary>
     /// The unique identifier for the result that was chosen
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ResultId { get; set; } = default!;
 
     /// <summary>
     /// The user that chose the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
@@ -36,7 +34,6 @@ public partial class ChosenInlineResult
     /// <summary>
     /// The query that was used to obtain the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Query { get; set; } = default!;
 }

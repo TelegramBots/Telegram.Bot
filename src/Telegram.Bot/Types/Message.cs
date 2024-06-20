@@ -8,7 +8,6 @@ public partial class Message
     /// <summary>
     /// Unique message identifier inside this chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 
@@ -50,7 +49,6 @@ public partial class Message
     /// <summary>
     /// Date the message was sent. It is always a valid date.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }
@@ -65,7 +63,6 @@ public partial class Message
     /// <summary>
     /// Chat the message belongs to
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 

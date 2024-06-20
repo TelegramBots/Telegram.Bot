@@ -8,14 +8,12 @@ public partial class PhotoSize : FileBase
     /// <summary>
     /// Photo width
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Width { get; set; }
 
     /// <summary>
     /// Photo height
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Height { get; set; }
 }

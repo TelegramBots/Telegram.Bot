@@ -8,14 +8,12 @@ public partial class EditInlineMessageMediaRequest : FileRequestBase<bool>
     /// <summary>
     /// Identifier of the inline message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 
     /// <summary>
     /// An object for a new media content of the message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputMedia Media { get; set; }
 

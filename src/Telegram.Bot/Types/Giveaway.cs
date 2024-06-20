@@ -8,14 +8,12 @@ public partial class Giveaway
     /// <summary>
     /// The list of chats which the user must join to participate in the giveaway
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat[] Chats { get; set; } = default!;
 
     /// <summary>
     /// Point in time when winners of the giveaway will be selected
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime WinnersSelectionDate { get; set; }
@@ -23,7 +21,6 @@ public partial class Giveaway
     /// <summary>
     /// The number of users which are supposed to be selected as winners of the giveaway
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int WinnerCount { get; set; }
 

@@ -8,7 +8,6 @@ public partial class DeleteStickerFromSetRequest : RequestBase<bool>
     /// <summary>
     /// File identifier of the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileId Sticker { get; set; }
 

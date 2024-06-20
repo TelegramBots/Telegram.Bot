@@ -8,21 +8,18 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId FromChatId { get; set; }
 
     /// <summary>
     /// Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see>
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 

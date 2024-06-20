@@ -29,7 +29,6 @@ public partial class ChatBoostSourcePremium : ChatBoostSource
     /// <summary>
     /// User that boosted the chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 }
@@ -47,7 +46,6 @@ public partial class ChatBoostSourceGiftCode : ChatBoostSource
     /// <summary>
     /// User for which the gift code was created
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 }
@@ -65,7 +63,6 @@ public partial class ChatBoostSourceGiveaway : ChatBoostSource
     /// <summary>
     /// Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int GiveawayMessageId { get; set; }
 

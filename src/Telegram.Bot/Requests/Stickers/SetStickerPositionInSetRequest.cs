@@ -8,14 +8,12 @@ public partial class SetStickerPositionInSetRequest : RequestBase<bool>
     /// <summary>
     /// File identifier of the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileId Sticker { get; set; }
 
     /// <summary>
     /// New sticker position in the set, zero-based
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int Position { get; set; }
 

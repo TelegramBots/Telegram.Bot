@@ -11,7 +11,6 @@ public partial class SetWebhookRequest : FileRequestBase<bool>
     /// <summary>
     /// HTTPS URL to send updates to. Use an empty string to remove webhook integration
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Url { get; set; }
 

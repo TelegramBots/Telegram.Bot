@@ -8,21 +8,18 @@ public partial class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUse
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 
     /// <summary>
     /// User identifier of the sticker set owner
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// Format of the thumbnail, must be one of <see cref="StickerFormat.Static">Static</see> for a <b>.WEBP</b> or <b>.PNG</b> image, <see cref="StickerFormat.Animated">Animated</see> for a <b>.TGS</b> animation, or <see cref="StickerFormat.Video">Video</see> for a <b>WEBM</b> video
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required StickerFormat Format { get; set; }
 

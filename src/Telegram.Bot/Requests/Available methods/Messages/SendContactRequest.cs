@@ -8,21 +8,18 @@ public partial class SendContactRequest : RequestBase<Message>, IChatTargetable,
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Contact's phone number
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PhoneNumber { get; set; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FirstName { get; set; }
 

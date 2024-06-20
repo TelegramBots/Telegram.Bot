@@ -8,14 +8,12 @@ public partial class GetUserChatBoostsRequest : RequestBase<UserChatBoosts>, ICh
     /// <summary>
     /// Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 

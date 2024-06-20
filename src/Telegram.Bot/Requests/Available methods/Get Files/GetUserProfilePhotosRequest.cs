@@ -8,7 +8,6 @@ public partial class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 

@@ -8,14 +8,12 @@ public partial class SetPassportDataErrorsRequest : RequestBase<bool>, IUserTarg
     /// <summary>
     /// User identifier
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// A array describing the errors
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<PassportElementError> Errors { get; set; }
 

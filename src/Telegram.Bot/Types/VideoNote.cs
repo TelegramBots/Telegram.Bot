@@ -8,14 +8,12 @@ public partial class VideoNote : FileBase
     /// <summary>
     /// Video width and height (diameter of the video message) as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Length { get; set; }
 
     /// <summary>
     /// Duration of the video in seconds as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Duration { get; set; }
 

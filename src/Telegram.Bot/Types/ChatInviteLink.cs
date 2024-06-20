@@ -8,14 +8,12 @@ public partial class ChatInviteLink
     /// <summary>
     /// The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string InviteLink { get; set; } = default!;
 
     /// <summary>
     /// Creator of the link
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User Creator { get; set; } = default!;
 

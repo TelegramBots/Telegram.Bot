@@ -8,7 +8,6 @@ public partial class PassportFile : FileBase
     /// <summary>
     /// DateTime when the file was uploaded
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime FileDate { get; set; }

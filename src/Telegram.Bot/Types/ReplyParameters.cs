@@ -8,7 +8,6 @@ public partial class ReplyParameters
     /// <summary>
     /// Identifier of the message that will be replied to in the current chat, or in the chat <see cref="ChatId">ChatId</see> if it is specified
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 

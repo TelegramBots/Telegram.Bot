@@ -11,7 +11,6 @@ public partial class AnswerCallbackQueryRequest : RequestBase<bool>
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string CallbackQueryId { get; set; }
 

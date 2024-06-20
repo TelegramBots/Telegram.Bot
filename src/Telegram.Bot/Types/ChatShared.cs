@@ -8,14 +8,12 @@ public partial class ChatShared
     /// <summary>
     /// Identifier of the request
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int RequestId { get; set; }
 
     /// <summary>
     /// Identifier of the shared chat. The bot may not have access to the chat and could be unable to use this identifier, unless the chat is already known to the bot by some other means.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long ChatId { get; set; }
 

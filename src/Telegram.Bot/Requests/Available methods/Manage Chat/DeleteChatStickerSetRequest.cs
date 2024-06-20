@@ -8,7 +8,6 @@ public partial class DeleteChatStickerSetRequest : RequestBase<bool>, IChatTarge
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 

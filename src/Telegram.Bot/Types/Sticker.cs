@@ -8,21 +8,18 @@ public partial class Sticker : FileBase
     /// <summary>
     /// Type of the sticker, currently one of <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, <see cref="StickerType.CustomEmoji">CustomEmoji</see>. The type of the sticker is independent from its format, which is determined by the fields <see cref="IsAnimated">IsAnimated</see> and <see cref="IsVideo">IsVideo</see>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public StickerType Type { get; set; }
 
     /// <summary>
     /// Sticker width
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Width { get; set; }
 
     /// <summary>
     /// Sticker height
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Height { get; set; }
 

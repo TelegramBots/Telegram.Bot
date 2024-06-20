@@ -8,7 +8,6 @@ public partial class GetStickerSetRequest : RequestBase<StickerSet>
     /// <summary>
     /// Name of the sticker set
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 

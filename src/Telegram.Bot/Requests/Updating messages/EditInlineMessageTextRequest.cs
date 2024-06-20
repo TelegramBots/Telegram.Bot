@@ -8,14 +8,12 @@ public partial class EditInlineMessageTextRequest : RequestBase<bool>
     /// <summary>
     /// Identifier of the inline message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 
     /// <summary>
     /// New text of the message, 1-4096 characters after entities parsing
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
 

@@ -8,7 +8,6 @@ public partial class EncryptedPassportElement
     /// <summary>
     /// Element type. One of <see cref="EncryptedPassportElementType.PersonalDetails">PersonalDetails</see>, <see cref="EncryptedPassportElementType.Passport">Passport</see>, <see cref="EncryptedPassportElementType.DriverLicense">DriverLicense</see>, <see cref="EncryptedPassportElementType.IdentityCard">IdentityCard</see>, <see cref="EncryptedPassportElementType.InternalPassport">InternalPassport</see>, <see cref="EncryptedPassportElementType.Address">Address</see>, <see cref="EncryptedPassportElementType.UtilityBill">UtilityBill</see>, <see cref="EncryptedPassportElementType.BankStatement">BankStatement</see>, <see cref="EncryptedPassportElementType.RentalAgreement">RentalAgreement</see>, <see cref="EncryptedPassportElementType.PassportRegistration">PassportRegistration</see>, <see cref="EncryptedPassportElementType.TemporaryRegistration">TemporaryRegistration</see>, <see cref="EncryptedPassportElementType.PhoneNumber">PhoneNumber</see>, <see cref="EncryptedPassportElementType.Email">Email</see>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public EncryptedPassportElementType Type { get; set; }
 
@@ -71,7 +70,6 @@ public partial class EncryptedPassportElement
     /// <summary>
     /// Base64-encoded element hash for using in <see cref="PassportElementErrorUnspecified"/>
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Hash { get; set; } = default!;
 }

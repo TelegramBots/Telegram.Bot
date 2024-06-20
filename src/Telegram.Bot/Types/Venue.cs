@@ -8,21 +8,18 @@ public partial class Venue
     /// <summary>
     /// Venue location. Can't be a live location
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Location Location { get; set; } = default!;
 
     /// <summary>
     /// Name of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Title { get; set; } = default!;
 
     /// <summary>
     /// Address of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Address { get; set; } = default!;
 

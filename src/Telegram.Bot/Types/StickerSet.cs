@@ -8,28 +8,24 @@ public partial class StickerSet
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Name { get; set; } = default!;
 
     /// <summary>
     /// Sticker set title
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Title { get; set; } = default!;
 
     /// <summary>
     /// Type of stickers in the set, currently one of <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, <see cref="StickerType.CustomEmoji">CustomEmoji</see>
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public StickerType StickerType { get; set; }
 
     /// <summary>
     /// List of all set stickers
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Sticker[] Stickers { get; set; } = default!;
 

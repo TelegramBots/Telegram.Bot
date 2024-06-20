@@ -21,7 +21,6 @@ public abstract partial class ChatMember
     /// <summary>
     /// Information about the user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 }

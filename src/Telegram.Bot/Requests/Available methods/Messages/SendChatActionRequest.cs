@@ -11,14 +11,12 @@ public partial class SendChatActionRequest : RequestBase<bool>, IChatTargetable,
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive: <em>typing</em> for <a href="https://core.telegram.org/bots/api#sendmessage">text messages</a>, <em>UploadPhoto</em> for <see cref="TelegramBotClientExtensions.SendPhotoAsync">photos</see>, <em>RecordVideo</em> or <em>UploadVideo</em> for <see cref="TelegramBotClientExtensions.SendVideoAsync">videos</see>, <em>RecordVoice</em> or <em>UploadVoice</em> for <see cref="TelegramBotClientExtensions.SendVoiceAsync">voice notes</see>, <em>UploadDocument</em> for <see cref="TelegramBotClientExtensions.SendDocumentAsync">general files</see>, <em>ChooseSticker</em> for <see cref="TelegramBotClientExtensions.SendStickerAsync">stickers</see>, <em>FindLocation</em> for <see cref="TelegramBotClientExtensions.SendLocationAsync">location data</see>, <em>RecordVideoNote</em> or <em>UploadVideoNote</em> for <see cref="TelegramBotClientExtensions.SendVideoNoteAsync">video notes</see>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatAction Action { get; set; }
 

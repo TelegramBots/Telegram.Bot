@@ -8,7 +8,6 @@ public partial class StopInlineMessageLiveLocationRequest : RequestBase<bool>
     /// <summary>
     /// Identifier of the inline message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 

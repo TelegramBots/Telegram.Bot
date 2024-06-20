@@ -8,14 +8,12 @@ public partial class AnswerShippingQueryRequest : RequestBase<bool>
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ShippingQueryId { get; set; }
 
     /// <summary>
     /// Specify <see langword="true"/> if everything is alright at this stage and the bot is ready to proceed.<br/> Use <see langword="false"/> and fill <see cref="ErrorMessage"/> if there are any problems.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required bool Ok { get; set; }
 

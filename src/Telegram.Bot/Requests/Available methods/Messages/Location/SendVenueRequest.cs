@@ -8,35 +8,30 @@ public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, I
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Latitude of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; set; }
 
     /// <summary>
     /// Longitude of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 
     /// <summary>
     /// Name of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Address { get; set; }
 

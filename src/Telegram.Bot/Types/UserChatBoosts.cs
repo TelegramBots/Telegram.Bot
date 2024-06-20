@@ -8,7 +8,6 @@ public partial class UserChatBoosts
     /// <summary>
     /// The list of boosts added to the chat by the user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatBoost[] Boosts { get; set; } = default!;
 }

@@ -8,28 +8,24 @@ public partial class BusinessConnection
     /// <summary>
     /// Unique identifier of the business connection
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Id { get; set; } = default!;
 
     /// <summary>
     /// Business account user that created the business connection
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 
     /// <summary>
     /// Identifier of a private chat with the user who created the business connection.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long UserChatId { get; set; }
 
     /// <summary>
     /// Date the connection was established
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }

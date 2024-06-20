@@ -8,28 +8,24 @@ public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTa
     /// <summary>
     /// User identifier of created sticker set owner
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <em>animals</em>). Can contain only English letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in <c>"_by_&lt;BotUsername&gt;"</c>. <c>&lt;BotUsername&gt;</c> is case insensitive. 1-64 characters.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
     /// <summary>
     /// A list of 1-50 initial stickers to be added to the sticker set
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputSticker> Stickers { get; set; }
 

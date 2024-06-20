@@ -8,7 +8,6 @@ public partial class InlineKeyboardMarkup : IReplyMarkup
     /// <summary>
     /// Array of button rows, each represented by an Array of <see cref="InlineKeyboardButton"/> objects
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; set; }
 

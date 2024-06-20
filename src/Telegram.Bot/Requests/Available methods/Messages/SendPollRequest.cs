@@ -8,21 +8,18 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Poll question, 1-300 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Question { get; set; }
 
     /// <summary>
     /// A list of 2-10 answer options
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputPollOption> Options { get; set; }
 

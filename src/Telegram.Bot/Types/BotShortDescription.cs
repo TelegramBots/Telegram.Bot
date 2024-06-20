@@ -8,7 +8,6 @@ public partial class BotShortDescription
     /// <summary>
     /// The bot's short description
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ShortDescription { get; set; } = default!;
 }

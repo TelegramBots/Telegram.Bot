@@ -8,7 +8,6 @@ public partial class VideoChatParticipantsInvited
     /// <summary>
     /// New members that were invited to the video chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User[] Users { get; set; } = default!;
 }

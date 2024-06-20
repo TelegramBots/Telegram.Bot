@@ -8,21 +8,18 @@ public partial class Video : FileBase
     /// <summary>
     /// Video width as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Width { get; set; }
 
     /// <summary>
     /// Video height as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Height { get; set; }
 
     /// <summary>
     /// Duration of the video in seconds as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Duration { get; set; }
 

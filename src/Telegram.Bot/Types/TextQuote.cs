@@ -8,7 +8,6 @@ public partial class TextQuote
     /// <summary>
     /// Text of the quoted part of a message that is replied to by the given message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Text { get; set; } = default!;
 
@@ -22,7 +21,6 @@ public partial class TextQuote
     /// <summary>
     /// Approximate quote position in the original message in UTF-16 code units as specified by the sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Position { get; set; }
 

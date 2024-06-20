@@ -8,7 +8,6 @@ public partial class ReplyKeyboardMarkup : IReplyMarkup
     /// <summary>
     /// Array of button rows, each represented by an Array of <see cref="KeyboardButton"/> objects
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 

@@ -8,14 +8,12 @@ public partial class SetStickerSetTitleRequest : RequestBase<bool>
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 

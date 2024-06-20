@@ -8,14 +8,12 @@ public partial class Poll
     /// <summary>
     /// Unique poll identifier
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Id { get; set; } = default!;
 
     /// <summary>
     /// Poll question, 1-300 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Question { get; set; } = default!;
 
@@ -29,14 +27,12 @@ public partial class Poll
     /// <summary>
     /// List of poll options
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public PollOption[] Options { get; set; } = default!;
 
     /// <summary>
     /// Total number of users that voted in the poll
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TotalVoterCount { get; set; }
 
@@ -55,7 +51,6 @@ public partial class Poll
     /// <summary>
     /// Poll type, currently can be “regular” or “quiz”
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Type { get; set; } = default!;
 

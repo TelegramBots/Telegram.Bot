@@ -8,14 +8,12 @@ public partial class ReactionCount
     /// <summary>
     /// Type of the reaction
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ReactionType Type { get; set; } = default!;
 
     /// <summary>
     /// Number of times the reaction was added
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TotalCount { get; set; }
 }

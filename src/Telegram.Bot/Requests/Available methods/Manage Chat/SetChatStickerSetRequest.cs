@@ -8,14 +8,12 @@ public partial class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetab
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Name of the sticker set to be set as the group sticker set
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string StickerSetName { get; set; }
 

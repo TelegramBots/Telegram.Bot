@@ -11,14 +11,12 @@ public partial class CallbackQuery
     /// <summary>
     /// Unique identifier for this query
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Id { get; set; } = default!;
 
     /// <summary>
     /// Sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
@@ -39,7 +37,6 @@ public partial class CallbackQuery
     /// <summary>
     /// Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in <a href="https://core.telegram.org/bots/api#games">games</a>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ChatInstance { get; set; } = default!;
 

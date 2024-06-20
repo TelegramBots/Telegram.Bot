@@ -8,7 +8,6 @@ public partial class VideoChatScheduled
     /// <summary>
     /// Point in time when the video chat is supposed to be started by a chat administrator
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime StartDate { get; set; }

@@ -8,7 +8,6 @@ public partial class User
     /// <summary>
     /// Unique identifier for this user or bot.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long Id { get; set; }
 
@@ -21,7 +20,6 @@ public partial class User
     /// <summary>
     /// User's or bot's first name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FirstName { get; set; } = default!;
 

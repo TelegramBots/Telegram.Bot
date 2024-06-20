@@ -8,21 +8,18 @@ public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargeta
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// An object for new user permissions
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatPermissions Permissions { get; set; }
 

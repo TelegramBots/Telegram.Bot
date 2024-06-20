@@ -24,14 +24,12 @@ public abstract partial class PassportElementError
     /// <summary>
     /// Type of element of the user's Telegram Passport which has the issue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public EncryptedPassportElementType Type { get; set; }
 
     /// <summary>
     /// Error message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Message { get; set; } = default!;
 }
@@ -49,14 +47,12 @@ public partial class PassportElementErrorDataField : PassportElementError
     /// <summary>
     /// Name of the data field which has the error
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FieldName { get; set; } = default!;
 
     /// <summary>
     /// Base64-encoded data hash
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string DataHash { get; set; } = default!;
 }
@@ -74,7 +70,6 @@ public partial class PassportElementErrorFrontSide : PassportElementError
     /// <summary>
     /// Base64-encoded hash of the file with the front side of the document
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -92,7 +87,6 @@ public partial class PassportElementErrorReverseSide : PassportElementError
     /// <summary>
     /// Base64-encoded hash of the file with the reverse side of the document
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -110,7 +104,6 @@ public partial class PassportElementErrorSelfie : PassportElementError
     /// <summary>
     /// Base64-encoded hash of the file with the selfie
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -128,7 +121,6 @@ public partial class PassportElementErrorFile : PassportElementError
     /// <summary>
     /// Base64-encoded file hash
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -146,7 +138,6 @@ public partial class PassportElementErrorFiles : PassportElementError
     /// <summary>
     /// List of base64-encoded file hashes
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string[] FileHashes { get; set; } = default!;
 }
@@ -164,7 +155,6 @@ public partial class PassportElementErrorTranslationFile : PassportElementError
     /// <summary>
     /// Base64-encoded file hash
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -182,7 +172,6 @@ public partial class PassportElementErrorTranslationFiles : PassportElementError
     /// <summary>
     /// List of base64-encoded file hashes
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string[] FileHashes { get; set; } = default!;
 }
@@ -200,7 +189,6 @@ public partial class PassportElementErrorUnspecified : PassportElementError
     /// <summary>
     /// Base64-encoded element hash
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ElementHash { get; set; } = default!;
 }

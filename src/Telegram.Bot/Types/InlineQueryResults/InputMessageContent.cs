@@ -19,7 +19,6 @@ public partial class InputTextMessageContent : InputMessageContent
     /// <summary>
     /// Text of the message to be sent, 1-4096 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string MessageText { get; set; }
 
@@ -67,14 +66,12 @@ public partial class InputLocationMessageContent : InputMessageContent
     /// <summary>
     /// Latitude of the location in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; set; }
 
     /// <summary>
     /// Longitude of the location in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 
@@ -134,28 +131,24 @@ public partial class InputVenueMessageContent : InputMessageContent
     /// <summary>
     /// Latitude of the venue in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; set; }
 
     /// <summary>
     /// Longitude of the venue in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 
     /// <summary>
     /// Name of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Address { get; set; }
 
@@ -219,14 +212,12 @@ public partial class InputContactMessageContent : InputMessageContent
     /// <summary>
     /// Contact's phone number
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PhoneNumber { get; set; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FirstName { get; set; }
 
@@ -272,21 +263,18 @@ public partial class InputInvoiceMessageContent : InputMessageContent
     /// <summary>
     /// Product name, 1-32 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
     /// <summary>
     /// Product description, 1-255 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Description { get; set; }
 
     /// <summary>
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Payload { get; set; }
 
@@ -300,14 +288,12 @@ public partial class InputInvoiceMessageContent : InputMessageContent
     /// <summary>
     /// Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Currency { get; set; }
 
     /// <summary>
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<LabeledPrice> Prices { get; set; }
 

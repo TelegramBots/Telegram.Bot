@@ -8,7 +8,6 @@ public partial class SetMyCommandsRequest : RequestBase<bool>
     /// <summary>
     /// A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<BotCommand> Commands { get; set; }
 

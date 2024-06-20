@@ -8,7 +8,6 @@ public partial class BotName
     /// <summary>
     /// The bot's name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Name { get; set; } = default!;
 }

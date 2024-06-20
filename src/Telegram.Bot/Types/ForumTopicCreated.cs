@@ -8,14 +8,12 @@ public partial class ForumTopicCreated
     /// <summary>
     /// Name of the topic
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Name { get; set; } = default!;
 
     /// <summary>
     /// Color of the topic icon in RGB format
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int IconColor { get; set; }
 

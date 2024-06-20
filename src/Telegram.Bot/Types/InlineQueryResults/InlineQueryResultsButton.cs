@@ -8,7 +8,6 @@ public partial class InlineQueryResultsButton
     /// <summary>
     /// Label text on the button
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
 

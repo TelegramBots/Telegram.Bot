@@ -8,21 +8,18 @@ public partial class ChatMemberUpdated
     /// <summary>
     /// Chat the user belongs to
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Performer of the action, which resulted in the change
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
     /// <summary>
     /// Date the change was done
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }
@@ -30,14 +27,12 @@ public partial class ChatMemberUpdated
     /// <summary>
     /// Previous information about the chat member
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatMember OldChatMember { get; set; } = default!;
 
     /// <summary>
     /// New information about the chat member
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatMember NewChatMember { get; set; } = default!;
 

@@ -8,7 +8,6 @@ public partial class KeyboardButtonRequestUsers
     /// <summary>
     /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object. Must be unique within the message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int RequestId { get; set; }
 

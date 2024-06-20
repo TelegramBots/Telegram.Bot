@@ -8,21 +8,18 @@ public partial class GiveawayWinners
     /// <summary>
     /// The chat that created the giveaway
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Identifier of the message with the giveaway in the chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int GiveawayMessageId { get; set; }
 
     /// <summary>
     /// Point in time when winners of the giveaway were selected
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime WinnersSelectionDate { get; set; }
@@ -30,14 +27,12 @@ public partial class GiveawayWinners
     /// <summary>
     /// Total number of winners in the giveaway
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int WinnerCount { get; set; }
 
     /// <summary>
     /// List of up to 100 winners of the giveaway
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User[] Winners { get; set; } = default!;
 

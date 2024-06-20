@@ -8,7 +8,6 @@ public partial class BusinessLocation
     /// <summary>
     /// Address of the business
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Address { get; set; } = default!;
 

@@ -19,7 +19,6 @@ public abstract partial class MessageOrigin
     /// <summary>
     /// Date the message was sent originally
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }
@@ -38,7 +37,6 @@ public partial class MessageOriginUser : MessageOrigin
     /// <summary>
     /// User that sent the message originally
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User SenderUser { get; set; } = default!;
 }
@@ -56,7 +54,6 @@ public partial class MessageOriginHiddenUser : MessageOrigin
     /// <summary>
     /// Name of the user that sent the message originally
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string SenderUserName { get; set; } = default!;
 }
@@ -74,7 +71,6 @@ public partial class MessageOriginChat : MessageOrigin
     /// <summary>
     /// Chat that sent the message originally
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat SenderChat { get; set; } = default!;
 
@@ -99,14 +95,12 @@ public partial class MessageOriginChannel : MessageOrigin
     /// <summary>
     /// Channel chat to which the message was originally sent
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Unique message identifier inside the chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 

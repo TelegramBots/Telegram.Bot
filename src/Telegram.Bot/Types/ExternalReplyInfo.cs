@@ -8,7 +8,6 @@ public partial class ExternalReplyInfo
     /// <summary>
     /// Origin of the message replied to by the given message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public MessageOrigin Origin { get; set; } = default!;
 

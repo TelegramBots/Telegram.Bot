@@ -8,7 +8,6 @@ public partial class GetFileRequest : RequestBase<File>
     /// <summary>
     /// File identifier to get information about
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FileId { get; set; }
 

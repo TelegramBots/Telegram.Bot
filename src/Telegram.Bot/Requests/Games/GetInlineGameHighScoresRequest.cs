@@ -11,14 +11,12 @@ public partial class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[
     /// <summary>
     /// Target user id
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// Identifier of the inline message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 

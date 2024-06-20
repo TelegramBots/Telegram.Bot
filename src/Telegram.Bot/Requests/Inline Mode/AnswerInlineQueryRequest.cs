@@ -8,14 +8,12 @@ public partial class AnswerInlineQueryRequest : RequestBase<bool>
     /// <summary>
     /// Unique identifier for the answered query
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineQueryId { get; set; }
 
     /// <summary>
     /// A array of results for the inline query
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InlineQueryResult> Results { get; set; }
 

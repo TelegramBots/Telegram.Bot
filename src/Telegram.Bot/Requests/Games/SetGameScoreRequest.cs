@@ -11,28 +11,24 @@ public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable
     /// <summary>
     /// User identifier
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// New score, must be non-negative
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int Score { get; set; }
 
     /// <summary>
     /// Unique identifier for the target chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the sent message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 

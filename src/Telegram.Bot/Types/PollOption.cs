@@ -8,7 +8,6 @@ public partial class PollOption
     /// <summary>
     /// Option text, 1-100 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Text { get; set; } = default!;
 
@@ -22,7 +21,6 @@ public partial class PollOption
     /// <summary>
     /// Number of users that voted for this option
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int VoterCount { get; set; }
 }

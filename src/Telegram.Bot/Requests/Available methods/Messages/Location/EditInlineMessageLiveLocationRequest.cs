@@ -8,21 +8,18 @@ public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     /// <summary>
     /// Identifier of the inline message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 
     /// <summary>
     /// Latitude of new location
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; set; }
 
     /// <summary>
     /// Longitude of new location
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 

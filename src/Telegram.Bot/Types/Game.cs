@@ -8,21 +8,18 @@ public partial class Game
     /// <summary>
     /// Title of the game
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Title { get; set; } = default!;
 
     /// <summary>
     /// Description of the game
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Description { get; set; } = default!;
 
     /// <summary>
     /// Photo that will be displayed in the game message in chats.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public PhotoSize[] Photo { get; set; } = default!;
 

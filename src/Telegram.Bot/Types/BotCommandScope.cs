@@ -77,7 +77,6 @@ public partial class BotCommandScopeChat : BotCommandScope
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
@@ -95,7 +94,6 @@ public partial class BotCommandScopeChatAdministrators : BotCommandScope
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
@@ -113,14 +111,12 @@ public partial class BotCommandScopeChatMember : BotCommandScope
     /// <summary>
     /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long UserId { get; set; }
 }

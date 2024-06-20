@@ -9,7 +9,6 @@ public partial class MessageId
     /// Unique message identifier
     /// </summary>
     [JsonPropertyName("message_id")]
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Id { get; set; }
 }

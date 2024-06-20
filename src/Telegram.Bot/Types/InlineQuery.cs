@@ -8,28 +8,24 @@ public partial class InlineQuery
     /// <summary>
     /// Unique identifier for this query
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Id { get; set; } = default!;
 
     /// <summary>
     /// Sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
     /// <summary>
     /// Text of the query (up to 256 characters)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Query { get; set; } = default!;
 
     /// <summary>
     /// Offset of the results to be returned, can be controlled by the bot
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Offset { get; set; } = default!;
 

@@ -8,14 +8,12 @@ public partial class Chat
     /// <summary>
     /// Unique identifier for this chat.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long Id { get; set; }
 
     /// <summary>
     /// Type of the chat, can be either <see cref="ChatType.Private">Private</see>, <see cref="ChatType.Group">Group</see>, <see cref="ChatType.Supergroup">Supergroup</see> or <see cref="ChatType.Channel">Channel</see>
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatType Type { get; set; }
 
@@ -63,14 +61,12 @@ public partial class ChatFullInfo : Chat
     /// <summary>
     /// Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See <a href="https://core.telegram.org/bots/api#accent-colors">accent colors</a> for more details.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int AccentColorId { get; set; }
 
     /// <summary>
     /// The maximum number of reactions that can be set on a message in the chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MaxReactionCount { get; set; }
 

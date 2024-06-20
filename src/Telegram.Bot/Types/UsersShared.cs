@@ -8,14 +8,12 @@ public partial class UsersShared
     /// <summary>
     /// Identifier of the request
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int RequestId { get; set; }
 
     /// <summary>
     /// Information about users shared with the bot.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public SharedUser[] Users { get; set; } = default!;
 }

@@ -8,7 +8,6 @@ public partial class DeleteStickerSetRequest : RequestBase<bool>
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 

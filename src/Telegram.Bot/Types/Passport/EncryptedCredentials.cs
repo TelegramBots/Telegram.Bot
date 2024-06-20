@@ -8,21 +8,18 @@ public partial class EncryptedCredentials
     /// <summary>
     /// Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for <see cref="EncryptedPassportElement"/> decryption and authentication
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Data { get; set; } = default!;
 
     /// <summary>
     /// Base64-encoded data hash for data authentication
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Hash { get; set; } = default!;
 
     /// <summary>
     /// Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Secret { get; set; } = default!;
 }

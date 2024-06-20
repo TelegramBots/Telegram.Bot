@@ -8,14 +8,12 @@ public partial class RefundStarPaymentRequest : RequestBase<bool>, IUserTargetab
     /// <summary>
     /// Identifier of the user whose payment will be refunded
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// Telegram payment identifier
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string TelegramPaymentChargeId { get; set; }
 

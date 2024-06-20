@@ -8,14 +8,12 @@ public partial class Location
     /// <summary>
     /// Latitude as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public double Latitude { get; set; }
 
     /// <summary>
     /// Longitude as defined by sender
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public double Longitude { get; set; }
 

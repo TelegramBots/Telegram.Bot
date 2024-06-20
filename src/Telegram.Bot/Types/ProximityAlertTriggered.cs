@@ -8,21 +8,18 @@ public partial class ProximityAlertTriggered
     /// <summary>
     /// User that triggered the alert
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User Traveler { get; set; } = default!;
 
     /// <summary>
     /// User that set the alert
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User Watcher { get; set; } = default!;
 
     /// <summary>
     /// The distance between the users
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Distance { get; set; }
 }

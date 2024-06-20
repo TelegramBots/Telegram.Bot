@@ -28,7 +28,6 @@ public abstract partial class InlineQueryResult
     /// <summary>
     /// Unique identifier for this result, 1-64 bytes
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Id { get; set; }
 
@@ -67,14 +66,12 @@ public partial class InlineQueryResultArticle : InlineQueryResult
     /// <summary>
     /// Title of the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
     /// <summary>
     /// Content of the message to be sent
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputMessageContent InputMessageContent { get; set; }
 
@@ -155,14 +152,12 @@ public partial class InlineQueryResultPhoto : InlineQueryResult
     /// <summary>
     /// A valid URL of the photo. Photo must be in <b>JPEG</b> format. Photo size must not exceed 5MB
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PhotoUrl { get; set; }
 
     /// <summary>
     /// URL of the thumbnail for the photo
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ThumbnailUrl { get; set; }
 
@@ -264,7 +259,6 @@ public partial class InlineQueryResultGif : InlineQueryResult
     /// <summary>
     /// A valid URL for the GIF file. File size must not exceed 1MB
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GifUrl { get; set; }
 
@@ -292,7 +286,6 @@ public partial class InlineQueryResultGif : InlineQueryResult
     /// <summary>
     /// URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ThumbnailUrl { get; set; }
 
@@ -380,7 +373,6 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// <summary>
     /// A valid URL for the MPEG4 file. File size must not exceed 1MB
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Mpeg4Url { get; set; }
 
@@ -408,7 +400,6 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// <summary>
     /// URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ThumbnailUrl { get; set; }
 
@@ -499,28 +490,24 @@ public partial class InlineQueryResultVideo : InlineQueryResult
     /// <summary>
     /// A valid URL for the embedded video player or video file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string VideoUrl { get; set; }
 
     /// <summary>
     /// MIME type of the content of the video URL, “text/html” or “video/mp4”
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string MimeType { get; set; }
 
     /// <summary>
     /// URL of the thumbnail (JPEG only) for the video
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ThumbnailUrl { get; set; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -627,14 +614,12 @@ public partial class InlineQueryResultAudio : InlineQueryResult
     /// <summary>
     /// A valid URL for the audio file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string AudioUrl { get; set; }
 
     /// <summary>
     /// Title
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -715,14 +700,12 @@ public partial class InlineQueryResultVoice : InlineQueryResult
     /// <summary>
     /// A valid URL for the voice recording
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string VoiceUrl { get; set; }
 
     /// <summary>
     /// Recording title
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -796,14 +779,12 @@ public partial class InlineQueryResultDocument : InlineQueryResult
     /// <summary>
     /// A valid URL for the file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string DocumentUrl { get; set; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -831,7 +812,6 @@ public partial class InlineQueryResultDocument : InlineQueryResult
     /// <summary>
     /// MIME type of the content of the file, either “application/pdf” or “application/zip”
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string MimeType { get; set; }
 
@@ -907,21 +887,18 @@ public partial class InlineQueryResultLocation : InlineQueryResult
     /// <summary>
     /// Location latitude in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; set; }
 
     /// <summary>
     /// Location longitude in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 
     /// <summary>
     /// Location title
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -1018,28 +995,24 @@ public partial class InlineQueryResultVenue : InlineQueryResult
     /// <summary>
     /// Latitude of the venue location in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Latitude { get; set; }
 
     /// <summary>
     /// Longitude of the venue location in degrees
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 
     /// <summary>
     /// Title of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Address { get; set; }
 
@@ -1138,14 +1111,12 @@ public partial class InlineQueryResultContact : InlineQueryResult
     /// <summary>
     /// Contact's phone number
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PhoneNumber { get; set; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FirstName { get; set; }
 
@@ -1226,7 +1197,6 @@ public partial class InlineQueryResultGame : InlineQueryResult
     /// <summary>
     /// Short name of the game
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GameShortName { get; set; }
 
@@ -1260,7 +1230,6 @@ public partial class InlineQueryResultCachedPhoto : InlineQueryResult
     /// <summary>
     /// A valid file identifier of the photo
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PhotoFileId { get; set; }
 
@@ -1343,7 +1312,6 @@ public partial class InlineQueryResultCachedGif : InlineQueryResult
     /// <summary>
     /// A valid file identifier for the GIF file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GifFileId { get; set; }
 
@@ -1419,7 +1387,6 @@ public partial class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
     /// <summary>
     /// A valid file identifier for the MPEG4 file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Mpeg4FileId { get; set; }
 
@@ -1495,7 +1462,6 @@ public partial class InlineQueryResultCachedSticker : InlineQueryResult
     /// <summary>
     /// A valid file identifier of the sticker
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string StickerFileId { get; set; }
 
@@ -1536,14 +1502,12 @@ public partial class InlineQueryResultCachedDocument : InlineQueryResult
     /// <summary>
     /// A valid file identifier for the file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string DocumentFileId { get; set; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -1617,14 +1581,12 @@ public partial class InlineQueryResultCachedVideo : InlineQueryResult
     /// <summary>
     /// A valid file identifier for the video file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string VideoFileId { get; set; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -1705,14 +1667,12 @@ public partial class InlineQueryResultCachedVoice : InlineQueryResult
     /// <summary>
     /// A valid file identifier for the voice message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string VoiceFileId { get; set; }
 
     /// <summary>
     /// Voice message title
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
@@ -1779,7 +1739,6 @@ public partial class InlineQueryResultCachedAudio : InlineQueryResult
     /// <summary>
     /// A valid file identifier for the audio file
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string AudioFileId { get; set; }
 

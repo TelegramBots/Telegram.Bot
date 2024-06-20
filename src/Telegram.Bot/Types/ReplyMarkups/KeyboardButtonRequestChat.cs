@@ -8,7 +8,6 @@ public partial class KeyboardButtonRequestChat
     /// <summary>
     /// Signed 32-bit identifier of the request, which will be received back in the <see cref="ChatShared"/> object. Must be unique within the message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int RequestId { get; set; }
 

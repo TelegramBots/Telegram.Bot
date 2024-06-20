@@ -8,7 +8,6 @@ public partial class GetBusinessConnectionRequest : RequestBase<BusinessConnecti
     /// <summary>
     /// Unique identifier of the business connection
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string BusinessConnectionId { get; set; }
 

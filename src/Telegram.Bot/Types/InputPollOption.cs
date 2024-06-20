@@ -8,7 +8,6 @@ public partial class InputPollOption
     /// <summary>
     /// Option text, 1-100 characters
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
 

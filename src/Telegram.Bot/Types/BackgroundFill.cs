@@ -29,7 +29,6 @@ public partial class BackgroundFillSolid : BackgroundFill
     /// <summary>
     /// The color of the background fill in the RGB24 format
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Color { get; set; }
 }
@@ -47,21 +46,18 @@ public partial class BackgroundFillGradient : BackgroundFill
     /// <summary>
     /// Top color of the gradient in the RGB24 format
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TopColor { get; set; }
 
     /// <summary>
     /// Bottom color of the gradient in the RGB24 format
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int BottomColor { get; set; }
 
     /// <summary>
     /// Clockwise rotation angle of the background fill in degrees; 0-359
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int RotationAngle { get; set; }
 }
@@ -79,7 +75,6 @@ public partial class BackgroundFillFreeformGradient : BackgroundFill
     /// <summary>
     /// A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int[] Colors { get; set; } = default!;
 }

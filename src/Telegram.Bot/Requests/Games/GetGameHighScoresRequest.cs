@@ -11,21 +11,18 @@ public partial class GetGameHighScoresRequest : RequestBase<GameHighScore[]>, IC
     /// <summary>
     /// Target user id
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>
     /// Unique identifier for the target chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the sent message
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 

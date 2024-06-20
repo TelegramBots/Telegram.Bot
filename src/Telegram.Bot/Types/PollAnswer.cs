@@ -8,7 +8,6 @@ public partial class PollAnswer
     /// <summary>
     /// Unique poll identifier
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string PollId { get; set; } = default!;
 
@@ -29,7 +28,6 @@ public partial class PollAnswer
     /// <summary>
     /// 0-based identifiers of chosen answer options. May be empty if the vote was retracted.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int[] OptionIds { get; set; } = default!;
 }

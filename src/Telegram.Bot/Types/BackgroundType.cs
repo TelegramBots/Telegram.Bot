@@ -30,14 +30,12 @@ public partial class BackgroundTypeFill : BackgroundType
     /// <summary>
     /// The background fill
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public BackgroundFill Fill { get; set; } = default!;
 
     /// <summary>
     /// Dimming of the background in dark themes, as a percentage; 0-100
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int DarkThemeDimming { get; set; }
 }
@@ -55,14 +53,12 @@ public partial class BackgroundTypeWallpaper : BackgroundType
     /// <summary>
     /// Document with the wallpaper
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Document Document { get; set; } = default!;
 
     /// <summary>
     /// Dimming of the background in dark themes, as a percentage; 0-100
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int DarkThemeDimming { get; set; }
 
@@ -94,21 +90,18 @@ public partial class BackgroundTypePattern : BackgroundType
     /// <summary>
     /// Document with the pattern
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Document Document { get; set; } = default!;
 
     /// <summary>
     /// The background fill that is combined with the pattern
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public BackgroundFill Fill { get; set; } = default!;
 
     /// <summary>
     /// Intensity of the pattern when it is shown above the filled background; 0-100
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Intensity { get; set; }
 
@@ -140,7 +133,6 @@ public partial class BackgroundTypeChatTheme : BackgroundType
     /// <summary>
     /// Name of the chat theme, which is usually an emoji
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ThemeName { get; set; } = default!;
 }
@@ -153,7 +145,6 @@ public partial class ChatBackground
     /// <summary>
     /// Type of the background
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public BackgroundType Type { get; set; } = default!;
 }

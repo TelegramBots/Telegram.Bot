@@ -8,7 +8,6 @@ public partial class ChatBoostAdded
     /// <summary>
     /// Number of boosts added by the user
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int BoostCount { get; set; }
 }

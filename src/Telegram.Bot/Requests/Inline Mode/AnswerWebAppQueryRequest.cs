@@ -8,14 +8,12 @@ public partial class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string WebAppQueryId { get; set; }
 
     /// <summary>
     /// An object describing the message to be sent
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InlineQueryResult Result { get; set; }
 
