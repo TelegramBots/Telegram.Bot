@@ -2206,7 +2206,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         string name,
-        Color? iconColor = default,
+        int? iconColor = default,
         string? iconCustomEmojiId = default,
         CancellationToken cancellationToken = default
     ) =>

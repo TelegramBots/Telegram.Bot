@@ -24,7 +24,7 @@ public partial class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTar
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Color? IconColor { get; set; }
+    public int? IconColor { get; set; }
 
     /// <summary>
     /// Unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickersAsync">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers.
