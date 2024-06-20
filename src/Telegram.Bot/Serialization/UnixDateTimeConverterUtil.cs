@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Serialization;
+namespace Telegram.Bot.Serialization;
 
 internal static class UnixDateTimeConverterUtil
 {
@@ -15,6 +15,7 @@ internal static class UnixDateTimeConverterUtil
     internal static DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var seconds = reader.GetInt64();
+        if (seconds == 0) return default; // easier to test than 1/1/1970
         if (seconds < 0)
             throw new JsonException($"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {typeToConvert:CultureInfo.InvariantCulture}.");
 
