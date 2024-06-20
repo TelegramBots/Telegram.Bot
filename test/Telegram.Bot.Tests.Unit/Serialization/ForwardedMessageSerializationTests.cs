@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
@@ -341,7 +341,7 @@ public class ForwardedMessageSerializationTests
         Assert.NotNull(update);
         Assert.Equal(UpdateType.ChatMember, update.Type);
         Assert.NotNull(update.ChatMember);
-        ChatMemberBanned oldChatMember = Assert.IsAssignableFrom<ChatMemberBanned>(update.ChatMember.OldChatMember);
-        ChatMemberBanned newChatMember = Assert.IsAssignableFrom<ChatMemberBanned>(update.ChatMember.NewChatMember);
+        Assert.IsAssignableFrom<ChatMemberBanned>(update.ChatMember.OldChatMember);
+        Assert.IsAssignableFrom<ChatMemberBanned>(update.ChatMember.NewChatMember);
     }
 }

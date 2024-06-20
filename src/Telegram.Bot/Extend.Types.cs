@@ -418,7 +418,7 @@ namespace Telegram.Bot.Types
         public partial class KeyboardButtonPollType
         {
             /// <summary>implicit from string</summary>
-            public static implicit operator KeyboardButtonPollType(string type) => new() { Type = type };
+            public static implicit operator KeyboardButtonPollType(string? type) => new() { Type = type };
         }
     }
 

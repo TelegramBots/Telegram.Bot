@@ -21,6 +21,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+### Rationalization of the library
+
+These changes are aimed at making your life simpler and should not break existing code and instead ease the migration from previous versions:
+
+- `ReplyParameters`: just pass an `int` when you just want to reply to a message  
+_(so the new replyParameters: parameter behaves the same as the old replyToMessageId: parameter)_
+- `LinkPreviewOptions`: just pass a `bool` (true) to disable link preview  
+_(so the new linkPreviewOptions: parameter behaves the same as the old disableWebPagePreview: parameter)_
+- `InputFile`: just pass a `string`/`Stream` for file_id/url/stream content _(as was possible in previous versions of Telegram.Bot)_
+- `InputMedia*`: just pass an `InputFile` when you don't need to associate caption or such
+- `MessageId`: auto-converts to/from `int` (and also from `Message`)
+- `ReactionType`: just pass a `string` when you want to send an emoji
+- `ReactionType`: just pass a `long` when you want to send a custom emoji (id)
+- Some other obvious implicit conversion operators for structures containing a single property
+- No more enforcing `init;` properties, so you can adjust the content of fields as you wish or modify a structure returned by the API _(before passing it back to the API if you want)_
+- Not using the annoying `MaybeInaccessibleMessage`, you would just get a `Message` of type Unknown with Date==default if inaccessible
+- Removed many [Obsolete] tags for things that still simplify your code
+- Turned many `bool?` into normal `bool` (`false` is the same as `null`)
+- Turned `ParseMode?` back into `ParseMode` (using `default` or `ParseMode.None` when unset)
+- Restored some `MessageType` enum value that were removed (renamed) recently (easier compatibility)
+- Recently added methods based on request structures are now obsolete and will be removed soon. Favor parameter-based methods instead.  
+If you already changed your code to use these structures and don't want to switch back, you can still use the `MakeRequestAsync` method to send them.
+
 ## [Unreleased]
 
 > [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)
