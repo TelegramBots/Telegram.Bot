@@ -1,28 +1,21 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using Telegram.Bot.Extensions;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send a group of photos, videos, documents or audios as an album. Documents and
-/// audio files can be only grouped in an album with messages of the same type. On success, an array
-/// of <see cref="Message"/>s that were sent is returned.
+/// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.<para>Returns: An array of <see cref="Message">Messages</see> that were sent is returned.</para>
 /// </summary>
-public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable, IBusinessConnectable
+public partial class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable, IBusinessConnectable
 {
-    /// <inheritdoc />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BusinessConnectionId { get; set; }
-
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
+
+    /// <summary>
+    /// A array describing messages to be sent, must include 2-10 items
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required IEnumerable<IAlbumInputMedia> Media { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -32,62 +25,47 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     public int? MessageThreadId { get; set; }
 
     /// <summary>
-    /// An array describing messages to be sent, must include 2-10 items
+    /// Sends messages <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<IAlbumInputMedia> Media { get; init; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent messages from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MessageEffectId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
-    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
-    [JsonIgnore]
-    public int? ReplyToMessageId
-    {
-        get => ReplyParameters?.MessageId;
-        set
-        {
-            if (value is null)
-            {
-                ReplyParameters = null;
-            }
-            else
-            {
-                ReplyParameters ??= new();
-                ReplyParameters.MessageId = value.Value;
-            }
-        }
-    }
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
-    /// Initializes a request with chatId and media
+    /// Initializes an instance of <see cref="SendMediaGroupRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="media">An array describing messages to be sent, must include 2-10 items</param>
-    [SetsRequiredMembers]
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="media">A array describing messages to be sent, must include 2-10 items</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media)
         : this()
     {
@@ -96,30 +74,9 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a request
+    /// Instantiates a new <see cref="SendMediaGroupRequest"/>
     /// </summary>
     public SendMediaGroupRequest()
         : base("sendMediaGroup")
     { }
-
-    /// <inheritdoc />
-    public override HttpContent ToHttpContent()
-    {
-        var multipartContent = GenerateMultipartFormDataContent();
-
-        foreach (var mediaItem in Media)
-        {
-            if (mediaItem is InputMedia { Media: InputFileStream file })
-            {
-                multipartContent.AddContentIfInputFile(file, file.FileName!);
-            }
-
-            if (mediaItem is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
-            {
-                multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
-            }
-        }
-
-        return multipartContent;
-    }
 }

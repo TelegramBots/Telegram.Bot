@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -11,19 +12,19 @@ namespace Telegram.Bot.Tests.Integ.Payments;
 
 public class PaymentsBuilder
 {
-    readonly List<ShippingOption> _shippingOptions = new();
+    readonly List<ShippingOption> _shippingOptions = [];
     Product? _product;
     string? _currency;
     string? _startParameter;
     string? _payload;
     long? _chatId;
-    bool? _needName;
-    bool? _needEmail;
-    bool? _needShippingAddress;
-    bool? _needPhoneNumber;
-    bool? _isFlexible;
-    bool? _sendEmailToProvider;
-    bool? _sendPhoneNumberToProvider;
+    bool _needName;
+    bool _needEmail;
+    bool _needShippingAddress;
+    bool _needPhoneNumber;
+    bool _isFlexible;
+    bool _sendEmailToProvider;
+    bool _sendPhoneNumberToProvider;
     string? _providerData;
     InlineKeyboardMarkup? _replyMarkup;
     string? _paymentsProviderToken;
@@ -149,7 +150,7 @@ public class PaymentsBuilder
         if (_maxTipAmount is not null && suggestedTipAmounts.Any(tip => tip < _maxTipAmount))
             throw new ArgumentException("Suggested tips must not be greater than max tip amount");
 
-        _suggestedTipAmounts = suggestedTipAmounts.OrderBy(tip => tip).ToArray();
+        _suggestedTipAmounts = [.. suggestedTipAmounts.OrderBy(tip => tip)];
 
         return this;
     }
@@ -169,7 +170,7 @@ public class PaymentsBuilder
         };
     }
 
-    public Shipping GetShippingOptions() => new(_shippingOptions.ToArray());
+    public Shipping GetShippingOptions() => new([.. _shippingOptions]);
 
     public int GetTotalAmount() =>
         (_product?.ProductPrices.Sum(price => price.Amount) ?? 0) +
@@ -177,7 +178,7 @@ public class PaymentsBuilder
 
     public int GetTotalAmountWithoutShippingCost() => _product?.ProductPrices.Sum(price => price.Amount) ?? 0;
 
-    public SendInvoiceRequest BuildInvoiceRequest()
+    public async Task<Types.Message> MakeInvoiceRequest(ITelegramBotClient botClient)
     {
         ArgumentNullException.ThrowIfNull(_product);
         ArgumentException.ThrowIfNullOrWhiteSpace(_paymentsProviderToken);
@@ -185,42 +186,40 @@ public class PaymentsBuilder
         ArgumentException.ThrowIfNullOrWhiteSpace(_currency);
         ArgumentException.ThrowIfNullOrWhiteSpace(_payload);
 
-        return new()
-        {
-            ChatId = _chatId.Value,
-            Title = _product.Title,
-            Description = _product.Description,
-            Payload = _payload,
-            ProviderToken = _paymentsProviderToken,
-            Currency = _currency,
-            Prices = _product.ProductPrices,
-            PhotoUrl = _product.PhotoUrl,
-            PhotoWidth = _product.PhotoWidth,
-            PhotoHeight = _product.PhotoHeight,
-            NeedShippingAddress = _needShippingAddress,
-            IsFlexible = _isFlexible,
-            NeedName = _needName,
-            NeedEmail = _needEmail,
-            NeedPhoneNumber = _needPhoneNumber,
-            SendEmailToProvider = _sendEmailToProvider,
-            SendPhoneNumberToProvider = _sendPhoneNumberToProvider,
-            StartParameter = _startParameter,
-            ProviderData = _providerData,
-            ReplyMarkup = _replyMarkup,
-            MaxTipAmount = _maxTipAmount,
-            SuggestedTipAmounts = _suggestedTipAmounts
-        };
+        return await botClient.SendInvoiceAsync(
+            chatId: _chatId.Value,
+            title: _product.Title,
+            description: _product.Description,
+            payload: _payload,
+            providerToken: _paymentsProviderToken,
+            currency: _currency,
+            prices: _product.ProductPrices,
+            photoUrl: _product.PhotoUrl,
+            photoWidth: _product.PhotoWidth,
+            photoHeight: _product.PhotoHeight,
+            needShippingAddress: _needShippingAddress,
+            isFlexible: _isFlexible,
+            needName: _needName,
+            needEmail: _needEmail,
+            needPhoneNumber: _needPhoneNumber,
+            sendEmailToProvider: _sendEmailToProvider,
+            sendPhoneNumberToProvider: _sendPhoneNumberToProvider,
+            startParameter: _startParameter,
+            providerData: _providerData,
+            replyMarkup: _replyMarkup,
+            maxTipAmount: _maxTipAmount,
+            suggestedTipAmounts: _suggestedTipAmounts
+        );
     }
 
-    public AnswerShippingQueryRequest BuildShippingQueryRequest(string shippingQueryId, string? errorMessage = default)
+    public async Task MakeShippingQueryRequest(ITelegramBotClient botClient, string shippingQueryId, string? errorMessage = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(shippingQueryId);
 
-        AnswerShippingQueryRequest shippingQueryRequest = errorMessage is null
-            ? new(shippingQueryId, _shippingOptions)
-            : new(shippingQueryId, errorMessage);
-
-        return shippingQueryRequest;
+        if (errorMessage is null)
+            await botClient.AnswerShippingQueryAsync(shippingQueryId, _shippingOptions);
+        else
+            await botClient.AnswerShippingQueryAsync(shippingQueryId, errorMessage);
     }
 
     public PaymentsBuilder WithProduct(Action<ProductBuilder> builder)
@@ -247,7 +246,7 @@ public class PaymentsBuilder
     {
         string? _id;
         string? _title;
-        readonly List<LabeledPrice> _shippingPrices = new();
+        readonly List<LabeledPrice> _shippingPrices = [];
 
         public ShippingOptionsBuilder WithId(string id)
         {
@@ -278,8 +277,8 @@ public class PaymentsBuilder
             {
                 Id = _id ?? throw new InvalidOperationException("Id is null"),
                 Title = _title ?? throw new InvalidOperationException("Title is null"),
-                Prices = _shippingPrices.Any()
-                    ? _shippingPrices.ToArray()
+                Prices = _shippingPrices.Count != 0
+                    ? [.. _shippingPrices]
                     : throw new InvalidOperationException("Shipping prices are empty")
             };
     }
@@ -291,7 +290,7 @@ public class PaymentsBuilder
         string? _photoUrl;
         int _photoWidth;
         int _photoHeight;
-        readonly List<LabeledPrice> _productPrices = new();
+        readonly List<LabeledPrice> _productPrices = [];
 
         public ProductBuilder WithTitle(string title)
         {
@@ -336,7 +335,7 @@ public class PaymentsBuilder
                 PhotoUrl = _photoUrl,
                 PhotoHeight = _photoHeight,
                 PhotoWidth = _photoWidth,
-                ProductPrices = _productPrices.Any()
+                ProductPrices = _productPrices.Count != 0
                     ? _productPrices.ToArray()
                     : throw new InvalidOperationException("Prices are empty")
             };

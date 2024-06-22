@@ -1,12 +1,9 @@
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get the current list of the bot’s commands for the given <see cref="Scope">scope</see>
-/// and <see cref="LanguageCode">user language</see>. Returns Array of <see cref="BotCommand"/> on success.
-/// If commands aren't set, an empty list is returned.
+/// Use this method to get the current list of the bot's commands for the given scope and user language.<para>Returns: An Array of <see cref="BotCommand"/> objects. If commands aren't set, an empty list is returned.</para>
 /// </summary>
-public class GetMyCommandsRequest : RequestBase<BotCommand[]>
+public partial class GetMyCommandsRequest : RequestBase<BotCommand[]>
 {
     /// <summary>
     /// An object, describing scope of users. Defaults to <see cref="BotCommandScopeDefault"/>.
@@ -23,7 +20,7 @@ public class GetMyCommandsRequest : RequestBase<BotCommand[]>
     public string? LanguageCode { get; set; }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="GetMyCommandsRequest"/>
     /// </summary>
     public GetMyCommandsRequest()
         : base("getMyCommands")

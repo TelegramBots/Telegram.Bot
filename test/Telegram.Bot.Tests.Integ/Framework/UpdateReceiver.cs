@@ -38,11 +38,8 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
             while (!cancellationToken.IsCancellationRequested)
             {
                 var updates = await botClient.GetUpdatesAsync(
-                    new()
-                    {
-                        Offset = offset,
-                        AllowedUpdates = Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown)
-                    },
+                    offset: offset,
+                    allowedUpdates: Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown),
                     cancellationToken: cancellationToken
                 );
 
@@ -212,11 +209,9 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
         params UpdateType[] types)
     {
         var updates = await botClient.GetUpdatesAsync(
-            new() {
-                Offset = offset,
-                Timeout = 120,
-                AllowedUpdates = types,
-            },
+            offset: offset,
+            timeout: 120,
+            allowedUpdates: types,
             cancellationToken: cancellationToken
         );
 

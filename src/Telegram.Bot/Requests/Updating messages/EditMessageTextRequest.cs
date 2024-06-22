@@ -1,42 +1,38 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit text and game messages. On success the edited <see cref="Message"/> is returned.
+/// Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.<para>Returns: The edited <see cref="Message"/> is returned</para>
 /// </summary>
-public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
+public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
+    public required int MessageId { get; set; }
 
     /// <summary>
     /// New text of the message, 1-4096 characters after entities parsing
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode"/>
+    /// <summary>
+    /// Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.Entities"/>
+    /// <summary>
+    /// A list of special entities that appear in message text, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? Entities { get; set; }
@@ -48,37 +44,21 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
-    /// <inheritdoc cref="Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Disables link previews for links in this message
+    /// Initializes an instance of <see cref="EditMessageTextRequest"/>
     /// </summary>
-    [Obsolete($"This property is deprecated, use {nameof(LinkPreviewOptions)} instead")]
-    [JsonIgnore]
-    public bool? DisableWebPagePreview
-    {
-        get => LinkPreviewOptions?.IsDisabled;
-        set
-        {
-            LinkPreviewOptions ??= new();
-            LinkPreviewOptions.IsDisabled = value;
-        }
-    }
-
-    /// <summary>
-    /// Initializes a new request with chatId, messageId and text
-    /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public EditMessageTextRequest(ChatId chatId, int messageId, string text)
         : this()
     {
@@ -88,7 +68,7 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="EditMessageTextRequest"/>
     /// </summary>
     public EditMessageTextRequest()
         : base("editMessageText")

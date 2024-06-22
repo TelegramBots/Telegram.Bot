@@ -1,101 +1,86 @@
-using Telegram.Bot.Types.Enums;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a sticker.
-/// <a href="https://core.telegram.org/bots/api#sticker"/>
 /// </summary>
-public class Sticker : FileBase
+public partial class Sticker : FileBase
 {
     /// <summary>
-    /// Type of the sticker. The type of the sticker is independent from its format,
-    /// which is determined by the fields <see cref="IsAnimated"/> and <see cref="IsVideo"/>.
+    /// Type of the sticker, currently one of <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, <see cref="StickerType.CustomEmoji">CustomEmoji</see>. The type of the sticker is independent from its format, which is determined by the fields <see cref="IsAnimated">IsAnimated</see> and <see cref="IsVideo">IsVideo</see>.
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public StickerType Type { get; set; }
 
     /// <summary>
     /// Sticker width
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Width { get; set; }
 
     /// <summary>
     /// Sticker height
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Height { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the sticker is <see cref="StickerFormat.Animated">animated</see>
+    /// <see langword="true"/>, if the sticker is <a href="https://telegram.org/blog/animated-stickers">animated</a>
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsAnimated { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the sticker is a <see cref="StickerFormat.Video">video sticker</see>
+    /// <see langword="true"/>, if the sticker is a <a href="https://telegram.org/blog/video-stickers-better-reactions">video sticker</a>
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsVideo { get; set; }
 
     /// <summary>
-    /// Optional. Sticker thumbnail in the .WEBP or .JPG format
+    /// <em>Optional</em>. Sticker thumbnail in the .WEBP or .JPG format
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
-    /// Optional. Emoji associated with the sticker
+    /// <em>Optional</em>. Emoji associated with the sticker
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Emoji { get; set; }
 
     /// <summary>
-    /// Optional. Name of the sticker set to which the sticker belongs
+    /// <em>Optional</em>. Name of the sticker set to which the sticker belongs
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SetName { get; set; }
 
     /// <summary>
-    /// Optional. For premium <see cref="StickerType.Regular">regular</see> stickers,
-    /// premium animation for the sticker
+    /// <em>Optional</em>. For premium regular stickers, premium animation for the sticker
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public File? PremiumAnimation { get; set; }
 
     /// <summary>
-    /// Optional. For <see cref="StickerType.Mask">mask</see> stickers,
-    /// the position where the mask should be placed
+    /// <em>Optional</em>. For mask stickers, the position where the mask should be placed
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MaskPosition? MaskPosition { get; set; }
 
     /// <summary>
-    /// Optional. For <see cref="StickerType.CustomEmoji">custom emoji</see> stickers,
-    /// unique identifier of the custom emoji
+    /// <em>Optional</em>. For custom emoji stickers, unique identifier of the custom emoji
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CustomEmojiId { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the sticker must be repainted to a text color
-    /// in <see cref="Message">messages</see>, the color of the Telegram Premium badge in emoji
-    /// status, white color on <see cref="ChatPhoto">chat photos</see>, or another appropriate
-    /// color in other places
+    /// <em>Optional</em>. <see langword="true"/>, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places
     /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? NeedsRepainting { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool NeedsRepainting { get; set; }
 }

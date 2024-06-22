@@ -24,12 +24,9 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
             originalMessage = await BotClient.SendVideoAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat,
-                    Video = InputFile.FromStream(stream),
-                    Caption = "This message will be edited shortly",
-                }
+                chatId: fixture.SupergroupChat,
+                video: InputFile.FromStream(stream),
+                caption: "This message will be edited shortly"
             );
         }
 
@@ -40,16 +37,13 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
         {
             editedMessage = await BotClient.EditMessageMediaAsync(
-                new()
+                chatId: originalMessage.Chat,
+                messageId: originalMessage.MessageId,
+                media: new InputMediaDocument
                 {
-                    ChatId = originalMessage.Chat,
-                    MessageId = originalMessage.MessageId,
-                    Media = new InputMediaDocument
-                    {
-                        Media = InputFile.FromStream(stream, "public-key.pem.txt"),
-                        Caption = "**Public** key in `.pem` format",
-                        ParseMode = ParseMode.Markdown,
-                    },
+                    Media = InputFile.FromStream(stream, "public-key.pem.txt"),
+                    Caption = "**Public** key in `.pem` format",
+                    ParseMode = ParseMode.Markdown,
                 }
             );
         }
@@ -69,24 +63,18 @@ public class EditMessageMediaTests2(TestsFixture fixture)
     {
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
         Message gifMessage = await BotClient.SendDocumentAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                Document = InputFile.FromUri(new Uri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")),
-                Caption = "`file_id` of this GIF will be used",
-            }
+            chatId: fixture.SupergroupChat,
+            document: InputFile.FromUri(new Uri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")),
+            caption: "`file_id` of this GIF will be used"
         );
 
         Assert.NotNull(gifMessage.Document);
 
         // Send a photo to chat. This media will be changed later in test.
         Message originalMessage = await BotClient.SendPhotoAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                Photo = InputFile.FromUri(new Uri("https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")),
-                Caption = "This message will be edited shortly",
-            }
+            chatId: fixture.SupergroupChat,
+            photo: InputFile.FromUri(new Uri("https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")),
+            caption: "This message will be edited shortly"
         );
 
         await Task.Delay(500);
@@ -94,18 +82,15 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
         await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         Message editedMessage = await BotClient.EditMessageMediaAsync(
-            new()
+            chatId: originalMessage.Chat,
+            messageId: originalMessage.MessageId,
+            media: new InputMediaAnimation
             {
-                ChatId = originalMessage.Chat,
-                MessageId = originalMessage.MessageId,
-                Media = new InputMediaAnimation
-                {
-                    Media = InputFile.FromFileId(gifMessage.Document.FileId),
-                    Thumbnail = InputFile.FromStream(thumbStream, "thumb.jpg"),
-                    Duration = 4,
-                    Height = 320,
-                    Width = 320,
-                }
+                Media = InputFile.FromFileId(gifMessage.Document.FileId),
+                Thumbnail = InputFile.FromStream(thumbStream, "thumb.jpg"),
+                Duration = 4,
+                Height = 320,
+                Width = 320,
             }
         );
 

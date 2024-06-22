@@ -1,38 +1,27 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send phone contacts. On success, the sent <see cref="Message"/> is returned.
+/// Use this method to send phone contacts.<para>Returns: The sent <see cref="Message"/> is returned.</para>
 /// </summary>
-public class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
-    /// <inheritdoc />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BusinessConnectionId { get; set; }
-
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Contact's phone number
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string PhoneNumber { get; init; }
+    public required string PhoneNumber { get; set; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string FirstName { get; init; }
+    public required string FirstName { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -49,67 +38,62 @@ public class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusine
     public string? LastName { get; set; }
 
     /// <summary>
-    /// Additional data about the contact in the form of a vCard, 0-2048 bytes
+    /// Additional data about the contact in the form of a <a href="https://en.wikipedia.org/wiki/VCard">vCard</a>, 0-2048 bytes
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Vcard { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
+    /// <summary>
+    /// Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent message from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MessageEffectId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
+    /// <summary>
+    /// Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
-    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
-    [JsonIgnore]
-    public int? ReplyToMessageId
-    {
-        get => ReplyParameters?.MessageId;
-        set
-        {
-            if (value is null)
-            {
-                ReplyParameters = null;
-            }
-            else
-            {
-                ReplyParameters ??= new();
-                ReplyParameters.MessageId = value.Value;
-            }
-        }
-    }
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId, phoneNumber and firstName
+    /// Initializes an instance of <see cref="SendContactRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SendContactRequest(ChatId chatId, string phoneNumber, string firstName)
         : this()
     {
@@ -119,7 +103,7 @@ public class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusine
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SendContactRequest"/>
     /// </summary>
     public SendContactRequest()
         : base("sendContact")

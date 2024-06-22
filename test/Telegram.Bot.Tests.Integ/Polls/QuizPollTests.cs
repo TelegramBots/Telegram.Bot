@@ -16,23 +16,19 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
     ITelegramBotClient BotClient => Fixture.BotClient;
 
     [OrderedFact(
-        "Should send public quiz poll",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should send public quiz poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Public_Quiz_Poll()
     {
         Message message = await Fixture.BotClient.SendPollAsync(
-            new()
-            {
-                ChatId = Fixture.SupergroupChat,
-                Question = "How many silmarils were made in J. R. R. Tolkiens's Silmarillion?",
-                Options = [new("One"), new("Ten"), new("Three")],
-                IsAnonymous = false,
-                Type = PollType.Quiz,
-                CorrectOptionId = 2, // "Three",
-                Explanation = "Three [silmarils](https://en.wikipedia.org/wiki/Silmarils) were made",
-                ExplanationParseMode = ParseMode.MarkdownV2,
-            }
+            chatId: Fixture.SupergroupChat,
+            question: "How many silmarils were made in J. R. R. Tolkiens's Silmarillion?",
+            options: ["One", "Ten", "Three"],
+            isAnonymous: false,
+            type: PollType.Quiz,
+            correctOptionId: 2, // "Three",
+            explanation: "Three [silmarils](https://en.wikipedia.org/wiki/Silmarils) were made",
+            explanationParseMode: ParseMode.MarkdownV2
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -65,8 +61,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
     }
 
     [OrderedFact(
-        "Should receive a poll answer update",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should receive a poll answer update")]
     public async Task Should_Receive_Poll_Answer_Update()
     {
         await Fixture.SendTestInstructionsAsync(
@@ -95,8 +90,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
     }
 
     [OrderedFact(
-        "Should stop quiz poll",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should stop quiz poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
     public async Task Should_Stop_Quiz_Poll()
     {
@@ -105,11 +99,8 @@ public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<Qu
         await Task.Delay(TimeSpan.FromSeconds(5));
 
         Poll closedPoll = await BotClient.StopPollAsync(
-            new()
-            {
-                ChatId = classFixture.OriginalPollMessage.Chat,
-                MessageId = classFixture.OriginalPollMessage.MessageId,
-            }
+            chatId: classFixture.OriginalPollMessage.Chat,
+            messageId: classFixture.OriginalPollMessage.MessageId
         );
 
         Assert.Equal(classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);

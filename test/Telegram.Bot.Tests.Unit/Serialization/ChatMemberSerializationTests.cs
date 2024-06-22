@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
@@ -31,7 +31,7 @@ public class ChatMemberSerializationTests
 
         ChatMemberOwner owner = Assert.IsAssignableFrom<ChatMemberOwner>(chatMember);
 
-        Assert.Equal(ChatMemberStatus.Creator, chatMember.Status);
+        Assert.Equal(ChatMemberStatus.Creator, chatMember!.Status);
         Assert.True(owner.IsAnonymous);
         Assert.Equal("custom test title", owner.CustomTitle);
         Assert.NotNull(chatMember.User);

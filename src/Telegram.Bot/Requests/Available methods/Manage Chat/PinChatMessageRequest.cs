@@ -1,44 +1,36 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to add a message to the list of pinned messages in a chat. If the chat is not a
-/// private chat, the bot must be an administrator in the chat for this to work and must have the
-/// '<see cref="ChatPermissions.CanPinMessages"/>' admin right in a supergroup or
-/// '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel.
-/// Returns <see langword="true"/> on success.
+/// Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.<para>Returns: </para>
 /// </summary>
-public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
+public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Identifier of a message to pin
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    public required int MessageId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageId
+    /// Pass <see langword="true"/> if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="PinChatMessageRequest"/>
+    /// </summary>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of a message to pin</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public PinChatMessageRequest(ChatId chatId, int messageId)
         : this()
     {
@@ -47,7 +39,7 @@ public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageId
+    /// Instantiates a new <see cref="PinChatMessageRequest"/>
     /// </summary>
     public PinChatMessageRequest()
         : base("pinChatMessage")

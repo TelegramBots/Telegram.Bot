@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Telegram.Bot.Serialization;
 
@@ -27,7 +27,6 @@ public static partial class JsonSerializerOptionsProvider
     {
         options.Converters.Add(new UnixDateTimeConverter());
         options.Converters.Add(new BanTimeConverter());
-        options.Converters.Add(new ColorConverter());
         options.Converters.Add(new InputFileConverter());
         options.Converters.Add(new ChatIdConverter());
         options.Converters.Add(new PolymorphicJsonConverterFactory());

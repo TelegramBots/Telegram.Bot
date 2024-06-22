@@ -71,11 +71,11 @@ public class DocumentSerializationTests
         JsonNode? fromNode = j["from"];
         Assert.NotNull(fromNode);
         JsonObject user = Assert.IsAssignableFrom<JsonObject>(fromNode);
-        Assert.Equal(4, user.Count);
+        Assert.Equal(3, user.Count);
         Assert.Equal(123_456_789, (long?)user["id"]);
         Assert.Equal("TelegramBots", (string?)user["first_name"]);
         Assert.Equal("Telegram_Bots", (string?)user["username"]);
-        Assert.Equal(false, (bool?)user["is_bot"]);
+        Assert.Null((bool?)user["is_bot"]);
 
         JsonNode? chatNode = j["chat"];
         Assert.NotNull(chatNode);

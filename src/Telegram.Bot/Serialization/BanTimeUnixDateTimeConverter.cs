@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Serialization;
+namespace Telegram.Bot.Serialization;
 
 internal class BanTimeConverter : JsonConverter<DateTime?>
 {
@@ -18,7 +18,7 @@ internal class BanTimeConverter : JsonConverter<DateTime?>
 
         return value is 0L
             ? null
-            : UnixDateTimeConverterUtil.Read(ref reader, typeToConvert, options);
+            : UnixDateTimeConverterUtil.Read(ref reader, typeToConvert);
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
@@ -26,6 +26,6 @@ internal class BanTimeConverter : JsonConverter<DateTime?>
         if (value is null || value.Value == default)
             writer.WriteNumberValue(0);
         else
-            UnixDateTimeConverterUtil.Write(writer, value.Value, options);
+            UnixDateTimeConverterUtil.Write(writer, value.Value);
     }
 }

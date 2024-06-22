@@ -17,11 +17,8 @@ public class GamesExceptionTests(TestsFixture fixture)
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.SendGameAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    GameShortName = "my game",
-                }
+                chatId: fixture.SupergroupChat.Id,
+                gameShortName: "my game"
             )
         );
 
@@ -34,11 +31,8 @@ public class GamesExceptionTests(TestsFixture fixture)
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.SendGameAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    GameShortName = "",
-                }
+                chatId: fixture.SupergroupChat.Id,
+                gameShortName: ""
             )
         );
 
@@ -51,11 +45,8 @@ public class GamesExceptionTests(TestsFixture fixture)
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.SendGameAsync(
-                new()
-                {
-                    ChatId = fixture.SupergroupChat.Id,
-                    GameShortName = "non_existing_game",
-                }
+                chatId: fixture.SupergroupChat.Id,
+                gameShortName: "non_existing_game"
             )
         );
 

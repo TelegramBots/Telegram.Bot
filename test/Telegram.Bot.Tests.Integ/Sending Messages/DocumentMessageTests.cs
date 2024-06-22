@@ -19,12 +19,9 @@ public class SendingDocumentMessageTests(TestsFixture fixture)
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Document = new InputFileStream(content: stream, fileName: "HAMLET.pdf"),
-                Caption = "The Tragedy of Hamlet,\nPrince of Denmark",
-            }
+            chatId: fixture.SupergroupChat.Id,
+            document: InputFile.FromStream(stream, "HAMLET.pdf"),
+            caption: "The Tragedy of Hamlet,\nPrince of Denmark"
         );
 
         Assert.Equal(MessageType.Document, message.Type);
@@ -46,12 +43,9 @@ public class SendingDocumentMessageTests(TestsFixture fixture)
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Document = new InputFileStream(content: stream, fileName: "هملت.pdf"),
-                Caption = "تراژدی هملت\nشاهزاده دانمارک",
-            }
+            chatId: fixture.SupergroupChat.Id,
+            document: InputFile.FromStream(stream, "هملت.pdf"),
+            caption: "تراژدی هملت\nشاهزاده دانمارک"
         );
 
         Assert.Equal(MessageType.Document, message.Type);
@@ -74,12 +68,9 @@ public class SendingDocumentMessageTests(TestsFixture fixture)
             thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak);
 
         Message message = await BotClient.SendDocumentAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat,
-                Document = InputFile.FromStream(documentStream, "Hamlet.pdf"),
-                Thumbnail = InputFile.FromStream(thumbStream, "thumb.jpg"),
-            }
+            chatId: fixture.SupergroupChat,
+            document: InputFile.FromStream(documentStream, "Hamlet.pdf"),
+            thumbnail: InputFile.FromStream(thumbStream, "thumb.jpg")
         );
 
         Assert.NotNull(message.Document);

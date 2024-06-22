@@ -96,12 +96,14 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 : enumSymbol.ContainingNamespace.ToString();
 
             var enumMembers = enumSymbol.GetMembers();
+            var values = new HashSet<int>();
             var members = new List<KeyValuePair<string, string>>(enumMembers.Length);
 
             foreach (var member in enumMembers)
             {
                 if (member is not IFieldSymbol field
-                    || field.ConstantValue is null)
+                    || field.ConstantValue is not int iValue
+                    || !values.Add(iValue))
                 {
                     continue;
                 }

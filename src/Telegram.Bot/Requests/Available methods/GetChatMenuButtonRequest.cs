@@ -1,22 +1,19 @@
-﻿// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get the current value of the bot’s menu button in a private chat, or the default menu button.
-/// Returns <see cref="MenuButton"/> on success.
+/// Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.<para>Returns: <see cref="MenuButton"/> on success.</para>
 /// </summary>
-public class GetChatMenuButtonRequest : RequestBase<MenuButton>
+public partial class GetChatMenuButtonRequest : RequestBase<MenuButton>
 {
     /// <summary>
-    /// Optional. Unique identifier for the target private chat. If not specified, default bot’s menu button
-    /// will be changed
+    /// Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? ChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="GetChatMenuButtonRequest"/>
     /// </summary>
     public GetChatMenuButtonRequest()
         : base("getChatMenuButton")

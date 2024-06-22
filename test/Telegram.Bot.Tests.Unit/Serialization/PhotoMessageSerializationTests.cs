@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -156,11 +156,11 @@ public class PhotoMessageSerializationTests
         Assert.NotNull(fromNode);
         JsonObject jFrom = Assert.IsAssignableFrom<JsonObject>(fromNode);
         Assert.NotNull(jFrom);
-        Assert.Equal(4, jFrom.Count);
+        Assert.Equal(3, jFrom.Count);
         Assert.Equal(1234567, (long?)jFrom["id"]);
         Assert.Equal("Telegram_Bots", (string?)jFrom["first_name"]);
         Assert.Equal("TelegramBots", (string?)jFrom["username"]);
-        Assert.Equal(false, (bool?)jFrom["is_bot"]);
+        Assert.Null((bool?)jFrom["is_bot"]);
 
         JsonNode? photoNode = j["photo"];
         Assert.NotNull(photoNode);

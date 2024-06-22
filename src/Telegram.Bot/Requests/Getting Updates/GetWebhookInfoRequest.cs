@@ -1,15 +1,12 @@
-﻿// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get current webhook status. Requires no parameters. On success, returns
-/// a <see cref="WebhookInfo"/> object. If the bot is using <see cref="GetUpdatesRequest"/>,
-/// will return an object with the <see cref="WebhookInfo.Url"/> field empty.
+/// Use this method to get current webhook status.<para>Returns: A <see cref="WebhookInfo"/> object. If the bot is using <see cref="TelegramBotClientExtensions.GetUpdatesAsync">GetUpdates</see>, will return an object with the <em>url</em> field empty.</para>
 /// </summary>
-public class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
+public partial class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
 {
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="GetWebhookInfoRequest"/>
     /// </summary>
     public GetWebhookInfoRequest()
         : base("getWebhookInfo")

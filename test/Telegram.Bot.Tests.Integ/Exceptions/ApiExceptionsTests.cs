@@ -32,12 +32,9 @@ public class ApiExceptionsTests(TestsFixture fixture)
         //MessageOriginHiddenUser hiddenUser = (MessageOriginHiddenUser)forwardedMessageUpdate.Message!.ForwardOrigin;
 
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(async () =>
-            await BotClient.SendMessageAsync(
-                new()
-                {
-                    ChatId = int.MaxValue,
-                    Text = "Error!",
-                }
+            await BotClient.SendTextMessageAsync(
+                int.MaxValue,
+                $"Error!"
             )
         );
 

@@ -1,68 +1,51 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Serialization;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to restrict a user in a supergroup. The bot must be an administrator in the
-/// supergroup for this to work and must have the appropriate admin rights. Pass <see langword="true"/>
-/// for all permissions to lift restrictions from a user. Returns <see langword="true"/> on success.
+/// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass <em>True</em> for all permissions to lift restrictions from a user.<para>Returns: </para>
 /// </summary>
-public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
-
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
-
     /// <summary>
-    /// New user permissions
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatPermissions Permissions { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
-    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
-    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
-    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
-    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
-    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
-    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
-    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// Unique identifier of the target user
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required long UserId { get; set; }
+
+    /// <summary>
+    /// An object for new user permissions
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required ChatPermissions Permissions { get; set; }
+
+    /// <summary>
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the <em>CanSendOtherMessages</em> and <em>CanAddWebPagePreviews</em> permissions will imply the <em>CanSendMessages</em>, <em>CanSendAudios</em>, <em>CanSendDocuments</em>, <em>CanSendPhotos</em>, <em>CanSendVideos</em>, <em>CanSendVideoNotes</em>, and <em>CanSendVoiceNotes</em> permissions; the <em>CanSendPolls</em> permission will imply the <em>CanSendMessages</em> permission.
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool UseIndependentChatPermissions { get; set; }
+
+    /// <summary>
+    /// Date when restrictions will be lifted for the user, in UTC. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? UseIndependentChatPermissions { get; set; }
-
-    /// <summary>
-    /// Date when restrictions will be lifted for the user, unix time. If user is restricted for
-    /// more than 366 days or less than 30 seconds from the current time, they are considered to
-    /// be restricted forever.
-    /// </summary>
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId, userId and new user permissions
+    /// Initializes an instance of <see cref="RestrictChatMemberRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="permissions">New user permissions</param>
-    [SetsRequiredMembers]
+    /// <param name="permissions">An object for new user permissions</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions)
         : this()
     {
@@ -72,7 +55,7 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="RestrictChatMemberRequest"/>
     /// </summary>
     public RestrictChatMemberRequest()
         : base("restrictChatMember")

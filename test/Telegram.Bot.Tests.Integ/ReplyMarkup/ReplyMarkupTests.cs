@@ -16,13 +16,10 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Force_Reply()
     {
-        await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat,
-                Text = "Message with force_reply",
-                ReplyMarkup = new ForceReplyMarkup(),
-            }
+        await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat,
+            text: "Message with force_reply",
+            replyMarkup: new ForceReplyMarkup()
         );
     }
 
@@ -42,13 +39,10 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
             ResizeKeyboard = true,
         };
 
-        await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat,
-                Text = "Message with 3x3 keyboard",
-                ReplyMarkup = replyMarkup,
-            }
+        await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat,
+            text: "Message with 3x3 keyboard",
+            replyMarkup: replyMarkup
         );
     }
 
@@ -56,13 +50,10 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Remove_Reply_Keyboard()
     {
-        await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat,
-                Text = "Message to remove keyboard",
-                ReplyMarkup = new ReplyKeyboardRemove(),
-            }
+        await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat,
+            text: "Message to remove keyboard",
+            replyMarkup: new ReplyKeyboardRemove()
         );
     }
 
@@ -87,13 +78,10 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
 
         InlineKeyboardMarkup replyMarkup = new(keyboard);
 
-        Message sentMessage = await BotClient.SendMessageAsync(
-            new()
-            {
-                ChatId = testsFixture.SupergroupChat,
-                Text = "Message with inline keyboard markup",
-                ReplyMarkup = replyMarkup,
-            }
+        Message sentMessage = await BotClient.SendTextMessageAsync(
+            chatId: testsFixture.SupergroupChat,
+            text: "Message with inline keyboard markup",
+            replyMarkup: replyMarkup
         );
 
         Asserts.JsonEquals(replyMarkup, sentMessage.ReplyMarkup);

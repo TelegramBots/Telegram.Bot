@@ -1,29 +1,21 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send a game. On success, the sent <see cref="Message"/> is returned.
+/// Use this method to send a game.<para>Returns: The sent <see cref="Message"/> is returned.</para>
 /// </summary>
-public class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
-    /// <inheritdoc />
-    [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BusinessConnectionId { get; set; }
-
     /// <summary>
     /// Unique identifier for the target chat
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long ChatId { get; init; }
+    public required long ChatId { get; set; }
 
-    /// <inheritdoc />
-    ChatId IChatTargetable.ChatId => ChatId;
+    /// <summary>
+    /// Short name of the game, serves as the unique identifier for the game. Set up your games via <a href="https://t.me/botfather">@BotFather</a>.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string GameShortName { get; set; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -33,68 +25,54 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     public int? MessageThreadId { get; set; }
 
     /// <summary>
-    /// Short name of the game, serves as the unique identifier for the game. Set up your games
-    /// via <a href="https://t.me/botfather">@BotFather</a>
+    /// Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string GameShortName { get; init; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DisableNotification { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableNotification { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+    /// <summary>
+    /// Protects the contents of the sent message from forwarding and saving
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ProtectContent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    /// <summary>
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MessageEffectId { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
+    /// <summary>
+    /// Description of the message to reply to
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReplyParameters? ReplyParameters { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
+    /// <summary>
+    /// An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>. If empty, one 'Play GameTitle' button will be shown. If not empty, the first button must launch the game.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
-    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
-    [JsonIgnore]
-    public int? ReplyToMessageId
-    {
-        get => ReplyParameters?.MessageId;
-        set
-        {
-            if (value is null)
-            {
-                ReplyParameters = null;
-            }
-            else
-            {
-                ReplyParameters ??= new();
-                ReplyParameters.MessageId = value.Value;
-            }
-        }
-    }
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and gameShortName
+    /// Initializes an instance of <see cref="SendGameRequest"/>
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat</param>
-    /// <param name="gameShortName">
-    /// Short name of the game, serves as the unique identifier for the game. Set up your games via
-    /// <a href="https://t.me/botfather">@BotFather</a>
-    /// </param>
-    [SetsRequiredMembers]
+    /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game. Set up your games via <a href="https://t.me/botfather">@BotFather</a>.</param>
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public SendGameRequest(long chatId, string gameShortName)
         : this()
     {
@@ -103,9 +81,12 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="SendGameRequest"/>
     /// </summary>
     public SendGameRequest()
         : base("sendGame")
     { }
+
+    /// <inheritdoc />
+    ChatId IChatTargetable.ChatId => ChatId;
 }

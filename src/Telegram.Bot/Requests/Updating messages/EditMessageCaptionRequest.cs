@@ -1,28 +1,21 @@
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit captions of messages. On success the edited <see cref="Message"/> is returned.
+/// Use this method to edit captions of messages.<para>Returns: The edited <see cref="Message"/> is returned</para>
 /// </summary>
-public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
+public partial class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
+    public required int MessageId { get; set; }
 
     /// <summary>
     /// New caption of the message, 0-1024 characters after entities parsing
@@ -31,35 +24,41 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
-    /// <inheritdoc cref="Documentation.ParseMode"/>
+    /// <summary>
+    /// Mode for parsing entities in the message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ParseMode? ParseMode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ParseMode ParseMode { get; set; }
 
-    /// <inheritdoc cref="Documentation.CaptionEntities"/>
+    /// <summary>
+    /// A list of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see>
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
-    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia"/>
+    /// <summary>
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+    /// </summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? ShowCaptionAboveMedia { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ShowCaptionAboveMedia { get; set; }
 
-    /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
+    /// <summary>
+    /// An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageIdn
+    /// Initializes an instance of <see cref="EditMessageCaptionRequest"/>
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message to edit</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public EditMessageCaptionRequest(ChatId chatId, int messageId)
         : this()
     {
@@ -68,7 +67,7 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageIdn
+    /// Instantiates a new <see cref="EditMessageCaptionRequest"/>
     /// </summary>
     public EditMessageCaptionRequest()
         : base("editMessageCaption")

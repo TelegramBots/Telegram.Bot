@@ -1,28 +1,28 @@
-namespace Telegram.Bot.Types.Enums;
+﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
-/// The type of an <see cref="Update"/>
+/// The type of <see cref="Update"/>
 /// </summary>
 [JsonConverter(typeof(UpdateTypeConverter))]
 public enum UpdateType
 {
     /// <summary>
-    /// Update Type is unknown
+    /// <see cref="Update"/> type is unknown
     /// </summary>
     Unknown = 0,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a <see cref="Update.Message"/>.
+    /// The <see cref="Update"/> contains a <see cref="Update.Message"/>
     /// </summary>
     Message,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Update.InlineQuery"/>.
+    /// The <see cref="Update"/> contains an <see cref="Update.InlineQuery"/>
     /// </summary>
     InlineQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a <see cref="Update.ChosenInlineResult"/>.
+    /// The <see cref="Update"/> contains a <see cref="Update.ChosenInlineResult"/>
     /// </summary>
     ChosenInlineResult,
 
@@ -32,7 +32,7 @@ public enum UpdateType
     CallbackQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains <see cref="Update.EditedMessage"/>
+    /// The <see cref="Update"/> contains an <see cref="Update.EditedMessage"/>
     /// </summary>
     EditedMessage,
 
@@ -42,7 +42,7 @@ public enum UpdateType
     ChannelPost,
 
     /// <summary>
-    /// The <see cref="Update"/> contains <see cref="Update.EditedChannelPost"/>
+    /// The <see cref="Update"/> contains an <see cref="Update.EditedChannelPost"/>
     /// </summary>
     EditedChannelPost,
 
@@ -112,7 +112,7 @@ public enum UpdateType
     BusinessMessage,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a <see cref="Update.EditedBusinessMessage"/>
+    /// The <see cref="Update"/> contains an <see cref="Update.EditedBusinessMessage"/>
     /// </summary>
     EditedBusinessMessage,
 

@@ -66,7 +66,7 @@
       <Pack>true</Pack>
       <PackagePath>/</PackagePath>
     </None>
-    <None Include="../../README.md" Pack="true" PackagePath="/"/>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <!-- Make build deterministic only in CI environment to make local development easier with non-trimmed paths -->
@@ -78,6 +78,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">

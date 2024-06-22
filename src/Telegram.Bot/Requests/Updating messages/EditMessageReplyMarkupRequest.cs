@@ -1,43 +1,36 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit only the reply markup of messages. On success the edited
-/// <see cref="Message"/> is returned.
+/// Use this method to edit only the reply markup of messages.<para>Returns: The edited <see cref="Message"/> is returned</para>
 /// </summary>
-public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetable
+public partial class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
+    public required int MessageId { get; set; }
 
-    /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
+    /// <summary>
+    /// An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageId
+    /// Initializes an instance of <see cref="EditMessageReplyMarkupRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message to edit</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public EditMessageReplyMarkupRequest(ChatId chatId, int messageId)
         : this()
     {
@@ -46,7 +39,7 @@ public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetab
     }
 
     /// <summary>
-    /// Initializes a new request with chatId and messageId
+    /// Instantiates a new <see cref="EditMessageReplyMarkupRequest"/>
     /// </summary>
     public EditMessageReplyMarkupRequest()
         : base("editMessageReplyMarkup")

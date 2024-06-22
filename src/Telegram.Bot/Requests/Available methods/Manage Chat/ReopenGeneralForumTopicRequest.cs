@@ -1,32 +1,27 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator
-/// in the chat for this to work and must have the <see cref="ChatAdministratorRights.CanManageTopics"/> administrator
-/// rights. The topic will be automatically unhidden if it was hidden. Returns <see langword="true"/> on success.
+/// Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights. The topic will be automatically unhidden if it was hidden.<para>Returns: </para>
 /// </summary>
-public class ReopenGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
+public partial class ReopenGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
-
     /// <summary>
-    /// Initializes a new request
+    /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
     /// </summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
-    [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required properties")]
-    public ReopenGeneralForumTopicRequest(ChatId chatId) : this()
-        => ChatId = chatId;
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
-    /// Initializes a new request
+    /// Initializes an instance of <see cref="ReopenGeneralForumTopicRequest"/>
+    /// </summary>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
+    [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
+    public ReopenGeneralForumTopicRequest(ChatId chatId)
+        : this() => ChatId = chatId;
+
+    /// <summary>
+    /// Instantiates a new <see cref="ReopenGeneralForumTopicRequest"/>
     /// </summary>
     public ReopenGeneralForumTopicRequest()
         : base("reopenGeneralForumTopic")

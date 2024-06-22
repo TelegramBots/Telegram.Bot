@@ -16,21 +16,17 @@ public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixtur
     ITelegramBotClient BotClient => Fixture.BotClient;
 
     [OrderedFact(
-        "Should send public poll with multiple answers",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should send public poll with multiple answers")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Non_Anonymous_Poll_With_Multiple_Answers()
     {
         Message message = await Fixture.BotClient.SendPollAsync(
-            new()
-            {
-                ChatId = Fixture.SupergroupChat,
-                Question = "Pick your team",
-                Options = [new("Aragorn"), new("Galadriel"), new("Frodo")],
-                IsAnonymous = false,
-                Type = PollType.Regular,
-                AllowsMultipleAnswers = true,
-            }
+            chatId: Fixture.SupergroupChat,
+            question: "Pick your team",
+            options: ["Aragorn", "Galadriel", "Frodo"],
+            isAnonymous: false,
+            type: PollType.Regular,
+            allowsMultipleAnswers: true
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -55,8 +51,7 @@ public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixtur
     }
 
     [OrderedFact(
-        "Should receive a poll answer update",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should receive a poll answer update")]
     public async Task Should_Receive_Poll_Answer_Update()
     {
         await Fixture.SendTestInstructionsAsync(
@@ -83,8 +78,7 @@ public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixtur
     }
 
     [OrderedFact(
-        "Should stop non-anonymous the poll",
-        Skip = "Poll tests fail too often for unknown reasons")]
+        "Should stop non-anonymous the poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
     public async Task Should_Stop_Non_Anonymous_Poll()
     {
@@ -93,11 +87,8 @@ public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixtur
         await Task.Delay(TimeSpan.FromSeconds(5));
 
         Poll closedPoll = await BotClient.StopPollAsync(
-            new()
-            {
-                ChatId = classFixture.OriginalPollMessage.Chat,
-                MessageId = classFixture.OriginalPollMessage.MessageId,
-            }
+            chatId: classFixture.OriginalPollMessage.Chat,
+            messageId: classFixture.OriginalPollMessage.MessageId
         );
 
         Assert.Equal(classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);

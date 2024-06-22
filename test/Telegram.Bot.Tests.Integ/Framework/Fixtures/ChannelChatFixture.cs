@@ -36,7 +36,7 @@ public class ChannelChatFixture : AsyncLifetimeFixture
     {
         var chatId = _testsFixture.Configuration.ChannelChatId;
         if (chatId is not null)
-            return await _testsFixture.BotClient.GetChatAsync(new GetChatRequest {ChatId = chatId.Value});
+            return await _testsFixture.BotClient.GetChatAsync(chatId.Value);
 
         await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 

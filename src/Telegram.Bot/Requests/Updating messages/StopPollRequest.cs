@@ -1,44 +1,36 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.ReplyMarkups;
-
-// ReSharper disable CheckNamespace
-
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to stop a poll which was sent by the bot. On success, the stopped <see cref="Poll"/>
-/// with the final results is returned.
+/// Use this method to stop a poll which was sent by the bot.<para>Returns: The stopped <see cref="Poll"/> is returned.</para>
 /// </summary>
-public class StopPollRequest : RequestBase<Poll>, IChatTargetable
+public partial class StopPollRequest : RequestBase<Poll>, IChatTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; init; }
+    public required ChatId ChatId { get; set; }
 
     /// <summary>
     /// Identifier of the original message with the poll
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int MessageId { get; init; }
+    public required int MessageId { get; set; }
 
-    /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
+    /// <summary>
+    /// An object for a new message <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.
+    /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
-    /// Initializes a new request with chatId, messageId
+    /// Initializes an instance of <see cref="StopPollRequest"/>
     /// </summary>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel (in the format
-    /// <c>@channelusername</c>)
-    /// </param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the original message with the poll</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public StopPollRequest(ChatId chatId, int messageId)
         : this()
     {
@@ -47,7 +39,7 @@ public class StopPollRequest : RequestBase<Poll>, IChatTargetable
     }
 
     /// <summary>
-    /// Initializes a new request
+    /// Instantiates a new <see cref="StopPollRequest"/>
     /// </summary>
     public StopPollRequest()
         : base("stopPoll")

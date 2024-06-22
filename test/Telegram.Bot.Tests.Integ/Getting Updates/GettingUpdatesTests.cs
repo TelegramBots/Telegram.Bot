@@ -30,14 +30,16 @@ public class GettingUpdatesTests(TestsFixture fixture)
     public async Task Should_Fail_Test_Api_Token()
     {
         ITelegramBotClient botClient = new TelegramBotClient(options: new("0:1this_is_an-invalid-token_for_tests"));
+        bool result = await botClient.TestApiAsync();
 
-        ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            botClient.TestApiAsync()
-        );
+        Assert.False(result);
 
-        Assert.IsType<ApiRequestException>(exception);
-        Assert.Equal(404, exception.ErrorCode);
-        Assert.Equal("Not Found", exception.Message);
+        //ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
+        //    botClient.TestApiAsync()
+        //);
+        //Assert.IsType<ApiRequestException>(exception);
+        //Assert.Equal(404, exception.ErrorCode);
+        //Assert.Equal("Not Found", exception.Message);
     }
 
     [OrderedFact("Should fail API Token test with invalid token")]
@@ -56,7 +58,7 @@ public class GettingUpdatesTests(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Get_Bot_User()
     {
-        User botUser = await BotClient.GetMeAsync(new GetMeRequest());
+        User botUser = await BotClient.GetMeAsync();
 
         Assert.NotNull(botUser);
         Assert.NotNull(botUser.Username);

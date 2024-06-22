@@ -25,12 +25,9 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
         Message message = await BotClient.SendPhotoAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Photo = InputFile.FromStream(stream),
-                Caption = "👆 This is a\nTelegram Bot",
-            }
+            chatId: fixture.SupergroupChat.Id,
+            photo: InputFile.FromStream(stream),
+            caption: "👆 This is a\nTelegram Bot"
         );
 
         Assert.Equal(MessageType.Photo, message.Type);
@@ -52,11 +49,8 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
         string fileId = classFixture.Entity.Photo!.First().FileId;
 
         Message message = await BotClient.SendPhotoAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Photo = InputFile.FromFileId(fileId),
-            }
+            chatId: fixture.SupergroupChat.Id,
+            photo: fileId
         );
 
         // Apparently file ids of photos no longer remain the same when sending them
@@ -84,12 +78,9 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
 
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         Message message = await BotClient.SendPhotoAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Photo = InputFile.FromStream(stream),
-                Caption = string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
-            }
+            chatId: fixture.SupergroupChat.Id,
+            photo: InputFile.FromStream(stream),
+            caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
         );
 
         Assert.NotNull(message.CaptionEntities);
@@ -113,13 +104,10 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
 
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         Message message = await BotClient.SendPhotoAsync(
-            new()
-            {
-                ChatId = fixture.SupergroupChat.Id,
-                Photo = InputFile.FromStream(stream),
-                Caption = string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity)),
-                ParseMode = ParseMode.Markdown,
-            }
+            chatId: fixture.SupergroupChat.Id,
+            photo: InputFile.FromStream(stream),
+            caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity)),
+            parseMode: ParseMode.Markdown
         );
 
         Assert.NotNull(message.CaptionEntities);

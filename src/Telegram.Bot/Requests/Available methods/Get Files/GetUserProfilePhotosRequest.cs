@@ -1,48 +1,41 @@
-using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Requests.Abstractions;
-
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get a list of profile pictures for a user. Returns a
-/// <see cref="UserProfilePhotos"/> object.
+/// Use this method to get a list of profile pictures for a user.<para>Returns: A <see cref="UserProfilePhotos"/> object.</para>
 /// </summary>
-public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUserTargetable
+public partial class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUserTargetable
 {
-    /// <inheritdoc />
-    [JsonRequired]
+    /// <summary>
+    /// Unique identifier of the target user
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; init; }
+    public required long UserId { get; set; }
 
     /// <summary>
-    /// Sequential number of the first photo to be returned. By default, all photos are returned
+    /// Sequential number of the first photo to be returned. By default, all photos are returned.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Offset { get; set; }
 
     /// <summary>
-    /// Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100
+    /// Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// Initializes a new request with userId
+    /// Initializes an instance of <see cref="GetUserProfilePhotosRequest"/>
     /// </summary>
     /// <param name="userId">Unique identifier of the target user</param>
-    [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
+    [SetsRequiredMembers]
     public GetUserProfilePhotosRequest(long userId)
-        : this()
-    {
-        UserId = userId;
-    }
+        : this() => UserId = userId;
 
     /// <summary>
-    /// Initializes a new request with userId
+    /// Instantiates a new <see cref="GetUserProfilePhotosRequest"/>
     /// </summary>
     public GetUserProfilePhotosRequest()
         : base("getUserProfilePhotos")
