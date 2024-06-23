@@ -20,7 +20,6 @@ public partial class StickerSet
     public Sticker[] Stickers { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize? Thumbnail { get; set; }
 }

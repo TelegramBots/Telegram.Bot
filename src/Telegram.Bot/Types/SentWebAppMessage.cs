@@ -4,7 +4,6 @@
 public partial class SentWebAppMessage
 {
     /// <summary><em>Optional</em>. Identifier of the sent inline message. Available only if there is an <see cref="InlineKeyboardMarkup">inline keyboard</see> attached to the message.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? InlineMessageId { get; set; }
 }

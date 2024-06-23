@@ -48,22 +48,18 @@ public partial class ChatAdministratorRights
     public bool CanDeleteStories { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can post messages in the channel, or access channel statistics; for channels only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanPostMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can edit messages of other users and can pin messages; for channels only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanEditMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to pin messages; for groups and supergroups only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanPinMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanManageTopics { get; set; }
 }

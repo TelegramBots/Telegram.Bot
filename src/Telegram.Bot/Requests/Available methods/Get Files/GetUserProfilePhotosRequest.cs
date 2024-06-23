@@ -8,12 +8,10 @@ public partial class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos
     public required long UserId { get; set; }
 
     /// <summary>Sequential number of the first photo to be returned. By default, all photos are returned.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Offset { get; set; }
 
     /// <summary>Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Limit { get; set; }
 

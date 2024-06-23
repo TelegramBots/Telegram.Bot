@@ -12,7 +12,6 @@ public abstract partial class FileBase
     public string FileUniqueId { get; set; } = default!;
 
     /// <summary><em>Optional</em>. File size in bytes.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? FileSize { get; set; }
 }

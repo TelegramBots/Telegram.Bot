@@ -8,7 +8,6 @@ public partial class SetStickerKeywordsRequest : RequestBase<bool>
     public required InputFileId Sticker { get; set; }
 
     /// <summary>A list of 0-20 search keywords for the sticker with total length of up to 64 characters</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<string>? Keywords { get; set; }
 

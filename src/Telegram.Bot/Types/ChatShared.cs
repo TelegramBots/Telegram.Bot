@@ -12,17 +12,14 @@ public partial class ChatShared
     public long ChatId { get; set; }
 
     /// <summary><em>Optional</em>. Title of the chat, if the title was requested by the bot.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary><em>Optional</em>. Username of the chat, if the username was requested by the bot and available.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Username { get; set; }
 
     /// <summary><em>Optional</em>. Available sizes of the chat photo, if the photo was requested by the bot</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize[]? Photo { get; set; }
 }

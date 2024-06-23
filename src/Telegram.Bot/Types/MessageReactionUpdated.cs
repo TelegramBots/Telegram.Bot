@@ -12,12 +12,10 @@ public partial class MessageReactionUpdated
     public int MessageId { get; set; }
 
     /// <summary><em>Optional</em>. The user that changed the reaction, if the user isn't anonymous</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User? User { get; set; }
 
     /// <summary><em>Optional</em>. The chat on behalf of which the reaction was changed, if the user is anonymous</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Chat? ActorChat { get; set; }
 

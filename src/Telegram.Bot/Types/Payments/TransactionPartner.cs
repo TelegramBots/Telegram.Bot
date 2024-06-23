@@ -19,7 +19,6 @@ public partial class TransactionPartnerFragment : TransactionPartner
     public override TransactionPartnerType Type => TransactionPartnerType.Fragment;
 
     /// <summary><em>Optional</em>. State of the transaction if the transaction is outgoing</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public RevenueWithdrawalState? WithdrawalState { get; set; }
 }

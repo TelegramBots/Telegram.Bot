@@ -30,7 +30,6 @@ public partial class ChatMemberOwner : ChatMember
     public bool IsAnonymous { get; set; }
 
     /// <summary><em>Optional</em>. Custom title for this user</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CustomTitle { get; set; }
 }
@@ -90,27 +89,22 @@ public partial class ChatMemberAdministrator : ChatMember
     public bool CanDeleteStories { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can post messages in the channel, or access channel statistics; for channels only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanPostMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can edit messages of other users and can pin messages; for channels only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanEditMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to pin messages; for groups and supergroups only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanPinMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanManageTopics { get; set; }
 
     /// <summary><em>Optional</em>. Custom title for this user</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CustomTitle { get; set; }
 }
@@ -189,7 +183,6 @@ public partial class ChatMemberRestricted : ChatMember
     public bool CanManageTopics { get; set; }
 
     /// <summary>Date when restrictions will be lifted for this user, in UTC. If unset, then the user is restricted forever</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
@@ -209,7 +202,6 @@ public partial class ChatMemberBanned : ChatMember
     public override ChatMemberStatus Status => ChatMemberStatus.Kicked;
 
     /// <summary>Date when restrictions will be lifted for this user, in UTC. If unset, then the user is banned forever</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }

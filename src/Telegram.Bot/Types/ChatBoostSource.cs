@@ -45,12 +45,10 @@ public partial class ChatBoostSourceGiveaway : ChatBoostSource
     public int GiveawayMessageId { get; set; }
 
     /// <summary><em>Optional</em>. User that won the prize in the giveaway if any</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User? User { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the giveaway was completed, but there was no user to win the prize</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsUnclaimed { get; set; }
 }

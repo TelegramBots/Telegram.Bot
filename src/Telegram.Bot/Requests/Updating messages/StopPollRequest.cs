@@ -12,12 +12,10 @@ public partial class StopPollRequest : RequestBase<Poll>, IChatTargetable, IBusi
     public required int MessageId { get; set; }
 
     /// <summary>An object for a new message <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BusinessConnectionId { get; set; }
 

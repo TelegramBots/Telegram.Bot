@@ -16,34 +16,28 @@ public partial class WebhookInfo
     public int PendingUpdateCount { get; set; }
 
     /// <summary><em>Optional</em>. Currently used webhook IP address</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? IpAddress { get; set; }
 
     /// <summary><em>Optional</em>. DateTime for the most recent error that happened when trying to deliver an update via webhook</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? LastErrorDate { get; set; }
 
     /// <summary><em>Optional</em>. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LastErrorMessage { get; set; }
 
     /// <summary><em>Optional</em>. DateTime of the most recent error that happened when trying to synchronize available updates with Telegram datacenters</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? LastSynchronizationErrorDate { get; set; }
 
     /// <summary><em>Optional</em>. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MaxConnections { get; set; }
 
     /// <summary><em>Optional</em>. A list of update types the bot is subscribed to. Defaults to all update types except <em>ChatMember</em></summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public UpdateType[]? AllowedUpdates { get; set; }
 }

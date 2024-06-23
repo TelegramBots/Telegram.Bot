@@ -12,7 +12,6 @@ public partial class VideoNote : FileBase
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Video thumbnail</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize? Thumbnail { get; set; }
 }

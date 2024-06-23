@@ -12,47 +12,38 @@ public partial class KeyboardButtonRequestChat
     public required bool ChatIsChannel { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request a forum supergroup, pass <see langword="false"/> to request a non-forum chat. If not specified, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ChatIsForum { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request a supergroup or a channel with a username, pass <see langword="false"/> to request a chat without a username. If not specified, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ChatHasUsername { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request a chat owned by the user. Otherwise, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ChatIsCreated { get; set; }
 
     /// <summary><em>Optional</em>. An object listing the required administrator rights of the user in the chat. The rights must be a superset of <see cref="BotAdministratorRights">BotAdministratorRights</see>. If not specified, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChatAdministratorRights? UserAdministratorRights { get; set; }
 
     /// <summary><em>Optional</em>. An object listing the required administrator rights of the bot in the chat. The rights must be a subset of <see cref="UserAdministratorRights">UserAdministratorRights</see>. If not specified, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChatAdministratorRights? BotAdministratorRights { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool BotIsMember { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the chat's title</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestTitle { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the chat's username</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestUsername { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the chat's photo</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestPhoto { get; set; }
 

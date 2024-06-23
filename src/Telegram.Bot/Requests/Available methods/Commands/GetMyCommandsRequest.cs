@@ -4,12 +4,10 @@
 public partial class GetMyCommandsRequest : RequestBase<BotCommand[]>
 {
     /// <summary>An object, describing scope of users. Defaults to <see cref="BotCommandScopeDefault"/>.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BotCommandScope? Scope { get; set; }
 
     /// <summary>A two-letter ISO 639-1 language code or an empty string</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LanguageCode { get; set; }
 

@@ -4,7 +4,6 @@
 public partial class GetMyDefaultAdministratorRightsRequest : RequestBase<ChatAdministratorRights>
 {
     /// <summary>Pass <see langword="true"/> to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ForChannels { get; set; }
 

@@ -12,13 +12,11 @@ public partial class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, 
     public required long UserId { get; set; }
 
     /// <summary>Date when the user will be unbanned, in UTC. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
 
     /// <summary>Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed. If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was removed. Always <see langword="true"/> for supergroups and channels.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RevokeMessages { get; set; }
 

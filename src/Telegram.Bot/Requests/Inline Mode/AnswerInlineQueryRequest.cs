@@ -12,22 +12,18 @@ public partial class AnswerInlineQueryRequest : RequestBase<bool>
     public required IEnumerable<InlineQueryResult> Results { get; set; }
 
     /// <summary>The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? CacheTime { get; set; }
 
     /// <summary>Pass <see langword="true"/> if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsPersonal { get; set; }
 
     /// <summary>Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? NextOffset { get; set; }
 
     /// <summary>An object describing a button to be shown above inline query results</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineQueryResultsButton? Button { get; set; }
 

@@ -8,32 +8,26 @@ public partial class KeyboardButton : IKeyboardButton
     public required string Text { get; set; }
 
     /// <summary><em>Optional.</em> If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public KeyboardButtonRequestUsers? RequestUsers { get; set; }
 
     /// <summary><em>Optional.</em> If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public KeyboardButtonRequestChat? RequestChat { get; set; }
 
     /// <summary><em>Optional</em>. If <see langword="true"/>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestContact { get; set; }
 
     /// <summary><em>Optional</em>. If <see langword="true"/>, the user's current location will be sent when the button is pressed. Available in private chats only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestLocation { get; set; }
 
     /// <summary><em>Optional</em>. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public KeyboardButtonPollType? RequestPoll { get; set; }
 
     /// <summary><em>Optional</em>. If specified, the described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebAppInfo? WebApp { get; set; }
 

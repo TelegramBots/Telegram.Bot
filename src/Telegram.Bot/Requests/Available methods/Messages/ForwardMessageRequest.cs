@@ -16,17 +16,14 @@ public partial class ForwardMessageRequest : RequestBase<Message>, IChatTargetab
     public required int MessageId { get; set; }
 
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DisableNotification { get; set; }
 
     /// <summary>Protects the contents of the forwarded message from forwarding and saving</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ProtectContent { get; set; }
 

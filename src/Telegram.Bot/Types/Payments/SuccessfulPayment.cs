@@ -16,12 +16,10 @@ public partial class SuccessfulPayment
     public string InvoicePayload { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Identifier of the shipping option chosen by the user</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ShippingOptionId { get; set; }
 
     /// <summary><em>Optional</em>. Order information provided by the user</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OrderInfo? OrderInfo { get; set; }
 

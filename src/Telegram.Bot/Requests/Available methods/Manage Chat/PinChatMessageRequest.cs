@@ -12,7 +12,6 @@ public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
     public required int MessageId { get; set; }
 
     /// <summary>Pass <see langword="true"/> if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DisableNotification { get; set; }
 

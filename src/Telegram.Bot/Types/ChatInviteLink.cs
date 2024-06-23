@@ -24,23 +24,19 @@ public partial class ChatInviteLink
     public bool IsRevoked { get; set; }
 
     /// <summary><em>Optional</em>. Invite link name</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
 
     /// <summary><em>Optional</em>. Point in time when the link will expire or has been expired</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? ExpireDate { get; set; }
 
     /// <summary><em>Optional</em>. The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MemberLimit { get; set; }
 
     /// <summary><em>Optional</em>. Number of pending join requests created using this link</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? PendingJoinRequestCount { get; set; }
 }

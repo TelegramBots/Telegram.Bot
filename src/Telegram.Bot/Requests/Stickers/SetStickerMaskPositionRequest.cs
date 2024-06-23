@@ -8,7 +8,6 @@ public partial class SetStickerMaskPositionRequest : RequestBase<bool>
     public required InputFileId Sticker { get; set; }
 
     /// <summary>An object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MaskPosition? MaskPosition { get; set; }
 

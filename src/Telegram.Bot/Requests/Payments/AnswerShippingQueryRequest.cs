@@ -12,12 +12,10 @@ public partial class AnswerShippingQueryRequest : RequestBase<bool>
     public required bool Ok { get; set; }
 
     /// <summary>A array of available shipping options.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ShippingOption>? ShippingOptions { get; set; }
 
     /// <summary>Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ErrorMessage { get; set; }
 

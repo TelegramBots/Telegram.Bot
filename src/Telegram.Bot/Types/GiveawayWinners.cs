@@ -25,32 +25,26 @@ public partial class GiveawayWinners
     public User[] Winners { get; set; } = default!;
 
     /// <summary><em>Optional</em>. The number of other chats the user had to join in order to be eligible for the giveaway</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? AdditionalChatCount { get; set; }
 
     /// <summary><em>Optional</em>. The number of months the Telegram Premium subscription won from the giveaway will be active for</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? PremiumSubscriptionMonthCount { get; set; }
 
     /// <summary><em>Optional</em>. Number of undistributed prizes</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? UnclaimedPrizeCount { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if only users who had joined the chats after the giveaway started were eligible to win</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool OnlyNewMembers { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the giveaway was canceled because the payment for it was refunded</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool WasRefunded { get; set; }
 
     /// <summary><em>Optional</em>. Description of additional giveaway prize</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? PrizeDescription { get; set; }
 }

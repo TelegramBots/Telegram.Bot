@@ -8,32 +8,26 @@ public partial class KeyboardButtonRequestUsers
     public required int RequestId { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request bots, pass <see langword="false"/> to request regular users. If not specified, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UserIsBot { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request premium users, pass <see langword="false"/> to request non-premium users. If not specified, no additional restrictions are applied.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UserIsPremium { get; set; }
 
     /// <summary><em>Optional</em>. The maximum number of users to be selected; 1-10. Defaults to 1.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MaxQuantity { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the users' first and last names</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestName { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the users' usernames</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestUsername { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the users' photos</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RequestPhoto { get; set; }
 

@@ -5,7 +5,6 @@
 public partial class File : FileBase
 {
     /// <summary><em>Optional</em>. File path. Use <see cref="TelegramBotClient.DownloadFileAsync"/> to get the file.</summary>
-    [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FilePath { get; set; }
 }
