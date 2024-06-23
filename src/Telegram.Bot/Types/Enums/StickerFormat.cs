@@ -6,10 +6,8 @@ public enum StickerFormat
 {
     /// <summary>“static” format</summary>
     Static = 1,
-
     /// <summary>“animated” format</summary>
     Animated,
-
     /// <summary>“video” format</summary>
     Video,
 }

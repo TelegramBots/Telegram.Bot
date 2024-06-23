@@ -6,10 +6,8 @@ public enum StickerType
 {
     /// <summary>“regular” type</summary>
     Regular = 1,
-
     /// <summary>“mask” type</summary>
     Mask,
-
     /// <summary>“CustomEmoji” type</summary>
     CustomEmoji,
 }

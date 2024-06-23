@@ -6,13 +6,10 @@ public enum MaskPositionPoint
 {
     /// <summary>“forehead” point</summary>
     Forehead = 1,
-
     /// <summary>“eyes” point</summary>
     Eyes,
-
     /// <summary>“mouth” point</summary>
     Mouth,
-
     /// <summary>“chin” point</summary>
     Chin,
 }
