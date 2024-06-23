@@ -24,7 +24,6 @@ public partial class ReplyKeyboardMarkup : IReplyMarkup
 
     /// <summary>Initializes an instance of <see cref="ReplyKeyboardMarkup"/></summary>
     /// <param name="keyboard">Array of button rows, each represented by an Array of <see cref="KeyboardButton"/> objects</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard) => Keyboard = keyboard;
 

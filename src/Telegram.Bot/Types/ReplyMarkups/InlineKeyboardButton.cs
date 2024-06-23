@@ -36,7 +36,6 @@ public partial class InlineKeyboardButton : IKeyboardButton
 
     /// <summary>Initializes an instance of <see cref="InlineKeyboardButton"/></summary>
     /// <param name="text">Label text on the button</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineKeyboardButton(string text) => Text = text;
 

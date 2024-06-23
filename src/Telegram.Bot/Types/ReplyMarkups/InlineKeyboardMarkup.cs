@@ -9,7 +9,6 @@ public partial class InlineKeyboardMarkup : IReplyMarkup
 
     /// <summary>Initializes an instance of <see cref="InlineKeyboardMarkup"/></summary>
     /// <param name="inlineKeyboard">Array of button rows, each represented by an Array of <see cref="InlineKeyboardButton"/> objects</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineKeyboardMarkup(IEnumerable<IEnumerable<InlineKeyboardButton>> inlineKeyboard) => InlineKeyboard = inlineKeyboard;
 

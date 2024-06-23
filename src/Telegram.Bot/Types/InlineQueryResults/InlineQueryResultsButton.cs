@@ -15,7 +15,6 @@ public partial class InlineQueryResultsButton
 
     /// <summary>Initializes an instance of <see cref="InlineQueryResultsButton"/></summary>
     /// <param name="text">Label text on the button</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultsButton(string text) => Text = text;
 

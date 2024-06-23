@@ -30,7 +30,6 @@ public abstract partial class InlineQueryResult
 
     /// <summary>Initializes an instance of <see cref="InlineQueryResult"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     protected InlineQueryResult(string id) => Id = id;
 
@@ -74,7 +73,6 @@ public partial class InlineQueryResultArticle : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="title">Title of the result</param>
     /// <param name="inputMessageContent">Content of the message to be sent</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent) : base(id)
     {
@@ -131,7 +129,6 @@ public partial class InlineQueryResultPhoto : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="photoUrl">A valid URL of the photo. Photo must be in <b>JPEG</b> format. Photo size must not exceed 5MB</param>
     /// <param name="thumbnailUrl">URL of the thumbnail for the photo</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultPhoto(string id, string photoUrl, string thumbnailUrl) : base(id)
     {
@@ -191,7 +188,6 @@ public partial class InlineQueryResultGif : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="gifUrl">A valid URL for the GIF file. File size must not exceed 1MB</param>
     /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl) : base(id)
     {
@@ -251,7 +247,6 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="mpeg4Url">A valid URL for the MPEG4 file. File size must not exceed 1MB</param>
     /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl) : base(id)
     {
@@ -319,7 +314,6 @@ public partial class InlineQueryResultVideo : InlineQueryResult
     /// <param name="thumbnailUrl">URL of the thumbnail (JPEG only) for the video</param>
     /// <param name="title">Title for the result</param>
     /// <param name="inputMessageContent"><em>Optional</em>. Content of the message to be sent instead of the video. This field is <b>required</b> if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultVideo(string id, string videoUrl, string thumbnailUrl, string title, InputMessageContent? inputMessageContent = default) : base(id)
     {
@@ -370,7 +364,6 @@ public partial class InlineQueryResultAudio : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="audioUrl">A valid URL for the audio file</param>
     /// <param name="title">Title</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultAudio(string id, string audioUrl, string title) : base(id)
     {
@@ -415,7 +408,6 @@ public partial class InlineQueryResultVoice : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="voiceUrl">A valid URL for the voice recording</param>
     /// <param name="title">Recording title</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultVoice(string id, string voiceUrl, string title) : base(id)
     {
@@ -474,7 +466,6 @@ public partial class InlineQueryResultDocument : InlineQueryResult
     /// <param name="documentUrl">A valid URL for the file</param>
     /// <param name="title">Title for the result</param>
     /// <param name="mimeType">MIME type of the content of the file, either “application/pdf” or “application/zip”</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType) : base(id)
     {
@@ -534,7 +525,6 @@ public partial class InlineQueryResultLocation : InlineQueryResult
     /// <param name="latitude">Location latitude in degrees</param>
     /// <param name="longitude">Location longitude in degrees</param>
     /// <param name="title">Location title</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultLocation(string id, double latitude, double longitude, string title) : base(id)
     {
@@ -599,7 +589,6 @@ public partial class InlineQueryResultVenue : InlineQueryResult
     /// <param name="longitude">Longitude of the venue location in degrees</param>
     /// <param name="title">Title of the venue</param>
     /// <param name="address">Address of the venue</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultVenue(string id, double latitude, double longitude, string title, string address) : base(id)
     {
@@ -649,7 +638,6 @@ public partial class InlineQueryResultContact : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultContact(string id, string phoneNumber, string firstName) : base(id)
     {
@@ -674,7 +662,6 @@ public partial class InlineQueryResultGame : InlineQueryResult
     /// <summary>Initializes an instance of <see cref="InlineQueryResultGame"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="gameShortName">Short name of the game</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultGame(string id, string gameShortName) : base(id) => GameShortName = gameShortName;
 
@@ -716,7 +703,6 @@ public partial class InlineQueryResultCachedPhoto : InlineQueryResult
     /// <summary>Initializes an instance of <see cref="InlineQueryResultCachedPhoto"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="photoFileId">A valid file identifier of the photo</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedPhoto(string id, string photoFileId) : base(id) => PhotoFileId = photoFileId;
 
@@ -755,7 +741,6 @@ public partial class InlineQueryResultCachedGif : InlineQueryResult
     /// <summary>Initializes an instance of <see cref="InlineQueryResultCachedGif"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="gifFileId">A valid file identifier for the GIF file</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedGif(string id, string gifFileId) : base(id) => GifFileId = gifFileId;
 
@@ -794,7 +779,6 @@ public partial class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
     /// <summary>Initializes an instance of <see cref="InlineQueryResultCachedMpeg4Gif"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="mpeg4FileId">A valid file identifier for the MPEG4 file</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId) : base(id) => Mpeg4FileId = mpeg4FileId;
 
@@ -818,7 +802,6 @@ public partial class InlineQueryResultCachedSticker : InlineQueryResult
     /// <summary>Initializes an instance of <see cref="InlineQueryResultCachedSticker"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="stickerFileId">A valid file identifier of the sticker</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedSticker(string id, string stickerFileId) : base(id) => StickerFileId = stickerFileId;
 
@@ -859,7 +842,6 @@ public partial class InlineQueryResultCachedDocument : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="documentFileId">A valid file identifier for the file</param>
     /// <param name="title">Title for the result</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedDocument(string id, string documentFileId, string title) : base(id)
     {
@@ -907,7 +889,6 @@ public partial class InlineQueryResultCachedVideo : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="videoFileId">A valid file identifier for the video file</param>
     /// <param name="title">Title for the result</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedVideo(string id, string videoFileId, string title) : base(id)
     {
@@ -949,7 +930,6 @@ public partial class InlineQueryResultCachedVoice : InlineQueryResult
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="voiceFileId">A valid file identifier for the voice message</param>
     /// <param name="title">Voice message title</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedVoice(string id, string voiceFileId, string title) : base(id)
     {
@@ -986,7 +966,6 @@ public partial class InlineQueryResultCachedAudio : InlineQueryResult
     /// <summary>Initializes an instance of <see cref="InlineQueryResultCachedAudio"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
     /// <param name="audioFileId">A valid file identifier for the audio file</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InlineQueryResultCachedAudio(string id, string audioFileId) : base(id) => AudioFileId = audioFileId;
 

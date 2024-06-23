@@ -27,7 +27,6 @@ public partial class KeyboardButtonRequestUsers
 
     /// <summary>Initializes an instance of <see cref="KeyboardButtonRequestUsers"/></summary>
     /// <param name="requestId">Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object. Must be unique within the message</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public KeyboardButtonRequestUsers(int requestId) => RequestId = requestId;
 

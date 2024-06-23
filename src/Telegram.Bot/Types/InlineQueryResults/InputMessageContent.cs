@@ -27,7 +27,6 @@ public partial class InputTextMessageContent : InputMessageContent
 
     /// <summary>Initializes an instance of <see cref="InputTextMessageContent"/></summary>
     /// <param name="messageText">Text of the message to be sent, 1-4096 characters</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InputTextMessageContent(string messageText) => MessageText = messageText;
 
@@ -61,7 +60,6 @@ public partial class InputLocationMessageContent : InputMessageContent
     /// <summary>Initializes an instance of <see cref="InputLocationMessageContent"/></summary>
     /// <param name="latitude">Latitude of the location in degrees</param>
     /// <param name="longitude">Longitude of the location in degrees</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InputLocationMessageContent(double latitude, double longitude)
     {
@@ -109,7 +107,6 @@ public partial class InputVenueMessageContent : InputMessageContent
     /// <param name="longitude">Longitude of the venue in degrees</param>
     /// <param name="title">Name of the venue</param>
     /// <param name="address">Address of the venue</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InputVenueMessageContent(double latitude, double longitude, string title, string address)
     {
@@ -143,7 +140,6 @@ public partial class InputContactMessageContent : InputMessageContent
     /// <summary>Initializes an instance of <see cref="InputContactMessageContent"/></summary>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InputContactMessageContent(string phoneNumber, string firstName)
     {
@@ -229,7 +225,6 @@ public partial class InputInvoiceMessageContent : InputMessageContent
     /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
     /// <param name="currency">Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InputInvoiceMessageContent(string title, string description, string payload, string currency, IEnumerable<LabeledPrice> prices)
     {

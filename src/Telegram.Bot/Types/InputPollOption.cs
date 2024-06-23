@@ -15,7 +15,6 @@ public partial class InputPollOption
 
     /// <summary>Initializes an instance of <see cref="InputPollOption"/></summary>
     /// <param name="text">Option text, 1-100 characters</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public InputPollOption(string text) => Text = text;
 

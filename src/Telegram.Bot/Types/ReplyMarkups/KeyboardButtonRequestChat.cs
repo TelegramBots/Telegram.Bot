@@ -40,7 +40,6 @@ public partial class KeyboardButtonRequestChat
     /// <summary>Initializes an instance of <see cref="KeyboardButtonRequestChat"/></summary>
     /// <param name="requestId">Signed 32-bit identifier of the request, which will be received back in the <see cref="ChatShared"/> object. Must be unique within the message</param>
     /// <param name="chatIsChannel">Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public KeyboardButtonRequestChat(int requestId, bool chatIsChannel)
     {

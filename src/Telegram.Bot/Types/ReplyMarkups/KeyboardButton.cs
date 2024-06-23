@@ -27,7 +27,6 @@ public partial class KeyboardButton : IKeyboardButton
 
     /// <summary>Initializes an instance of <see cref="KeyboardButton"/></summary>
     /// <param name="text">Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed</param>
-    [JsonConstructor]
     [SetsRequiredMembers]
     public KeyboardButton(string text) => Text = text;
 
