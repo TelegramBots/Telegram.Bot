@@ -51,7 +51,6 @@ public partial class MessageOriginChat : MessageOrigin
     public Chat SenderChat { get; set; } = default!;
 
     /// <summary><em>Optional</em>. For messages originally sent by an anonymous chat administrator, original message author signature</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthorSignature { get; set; }
 }
 
@@ -70,6 +69,5 @@ public partial class MessageOriginChannel : MessageOrigin
     public int MessageId { get; set; }
 
     /// <summary><em>Optional</em>. Signature of the original post author</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthorSignature { get; set; }
 }

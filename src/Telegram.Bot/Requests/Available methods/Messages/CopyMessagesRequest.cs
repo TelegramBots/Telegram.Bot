@@ -16,19 +16,15 @@ public partial class CopyMessagesRequest : RequestBase<MessageId[]>, IChatTarget
     public required IEnumerable<int> MessageIds { get; set; }
 
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>Sends the messages <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DisableNotification { get; set; }
 
     /// <summary>Protects the contents of the sent messages from forwarding and saving</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ProtectContent { get; set; }
 
     /// <summary>Pass <see langword="true"/> to copy the messages without their captions</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RemoveCaption { get; set; }
 
     /// <summary>Initializes an instance of <see cref="CopyMessagesRequest"/></summary>

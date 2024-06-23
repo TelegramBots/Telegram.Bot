@@ -12,7 +12,6 @@ public partial class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable
     public required long UserId { get; set; }
 
     /// <summary>Do nothing if the user is not banned</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool OnlyIfBanned { get; set; }
 
     /// <summary>Initializes an instance of <see cref="UnbanChatMemberRequest"/></summary>

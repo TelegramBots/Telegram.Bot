@@ -4,7 +4,6 @@
 public partial class DeleteWebhookRequest : RequestBase<bool>
 {
     /// <summary>Pass <see langword="true"/> to drop all pending updates</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DropPendingUpdates { get; set; }
 
     /// <summary>Instantiates a new <see cref="DeleteWebhookRequest"/></summary>

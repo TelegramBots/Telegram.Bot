@@ -4,7 +4,6 @@
 public partial class GetChatMenuButtonRequest : RequestBase<MenuButton>
 {
     /// <summary>Unique identifier for the target private chat. If not specified, default bot's menu button will be returned</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? ChatId { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetChatMenuButtonRequest"/></summary>

@@ -8,20 +8,16 @@ public partial class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, 
     public required ChatId ChatId { get; set; }
 
     /// <summary>Invite link name; 0-32 characters</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
 
     /// <summary>Point in time when the link will expire</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? ExpireDate { get; set; }
 
     /// <summary>The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MemberLimit { get; set; }
 
     /// <summary><see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <see cref="MemberLimit">MemberLimit</see> can't be specified</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CreatesJoinRequest { get; set; }
 
     /// <summary>Initializes an instance of <see cref="CreateChatInviteLinkRequest"/></summary>

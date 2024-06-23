@@ -4,11 +4,9 @@
 public partial class SetMyShortDescriptionRequest : RequestBase<bool>
 {
     /// <summary>New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ShortDescription { get; set; }
 
     /// <summary>A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="SetMyShortDescriptionRequest"/></summary>

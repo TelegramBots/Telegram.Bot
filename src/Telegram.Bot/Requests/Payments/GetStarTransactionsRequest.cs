@@ -4,11 +4,9 @@
 public partial class GetStarTransactionsRequest : RequestBase<StarTransactions>
 {
     /// <summary>Number of transactions to skip in the response</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Offset { get; set; }
 
     /// <summary>The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Limit { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetStarTransactionsRequest"/></summary>

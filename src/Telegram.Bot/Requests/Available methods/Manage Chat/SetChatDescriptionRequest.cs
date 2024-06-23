@@ -8,7 +8,6 @@ public partial class SetChatDescriptionRequest : RequestBase<bool>, IChatTargeta
     public required ChatId ChatId { get; set; }
 
     /// <summary>New chat description, 0-255 characters</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
     /// <summary>Initializes an instance of <see cref="SetChatDescriptionRequest"/></summary>

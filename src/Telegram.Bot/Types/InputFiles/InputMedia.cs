@@ -18,15 +18,12 @@ public abstract partial class InputMedia
     public required InputFile Media { get; set; }
 
     /// <summary><em>Optional</em>. Caption of the InputMedia to be sent, 0-1024 characters after entities parsing</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <summary><em>Optional</em>. Mode for parsing entities in the InputMedia caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ParseMode ParseMode { get; set; }
 
     /// <summary><em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMedia"/></summary>
@@ -47,11 +44,9 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
     public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool HasSpoiler { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaPhoto"/></summary>
@@ -75,31 +70,24 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     public override InputMediaType Type => InputMediaType.Video;
 
     /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary><em>Optional</em>. Video width</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Width { get; set; }
 
     /// <summary><em>Optional</em>. Video height</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Height { get; set; }
 
     /// <summary><em>Optional</em>. Video duration in seconds</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the uploaded video is suitable for streaming</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool SupportsStreaming { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the video needs to be covered with a spoiler animation</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool HasSpoiler { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaVideo"/></summary>
@@ -123,27 +111,21 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     public override InputMediaType Type => InputMediaType.Animation;
 
     /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary><em>Optional</em>. Animation width</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Width { get; set; }
 
     /// <summary><em>Optional</em>. Animation height</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Height { get; set; }
 
     /// <summary><em>Optional</em>. Animation duration in seconds</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool HasSpoiler { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaAnimation"/></summary>
@@ -167,19 +149,15 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
     public override InputMediaType Type => InputMediaType.Audio;
 
     /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Duration of the audio in seconds</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Performer of the audio</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Performer { get; set; }
 
     /// <summary><em>Optional</em>. Title of the audio</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaAudio"/></summary>
@@ -203,11 +181,9 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
     public override InputMediaType Type => InputMediaType.Document;
 
     /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Disables automatic server-side content type detection for files uploaded using <see cref="InputFileStream"/>. Always <see langword="true"/>, if the document is sent as part of an album.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DisableContentTypeDetection { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaDocument"/></summary>

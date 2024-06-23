@@ -25,14 +25,11 @@ public partial class ChatMemberUpdated
     public ChatMember NewChatMember { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChatInviteLink? InviteLink { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the user joined the chat after sending a direct join request without using an invite link and being approved by an administrator</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ViaJoinRequest { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the user joined the chat via a chat folder invite link</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ViaChatFolderInviteLink { get; set; }
 }

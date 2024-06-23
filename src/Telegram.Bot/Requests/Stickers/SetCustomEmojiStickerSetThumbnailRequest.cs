@@ -8,7 +8,6 @@ public partial class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool
     public required string Name { get; set; }
 
     /// <summary>Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CustomEmojiId { get; set; }
 
     /// <summary>Initializes an instance of <see cref="SetCustomEmojiStickerSetThumbnailRequest"/></summary>

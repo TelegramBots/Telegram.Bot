@@ -12,11 +12,9 @@ public partial class ChosenInlineResult
     public User From { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Sender location, only for bots that require user location</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Location? Location { get; set; }
 
     /// <summary><em>Optional</em>. Identifier of the sent inline message. Available only if there is an <see cref="InlineKeyboardMarkup">inline keyboard</see> attached to the message. Will be also received in <see cref="CallbackQuery">callback queries</see> and can be used to <a href="https://core.telegram.org/bots/api#updating-messages">edit</a> the message.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? InlineMessageId { get; set; }
 
     /// <summary>The query that was used to obtain the result</summary>

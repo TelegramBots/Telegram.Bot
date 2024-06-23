@@ -4,14 +4,11 @@
 public partial class WriteAccessAllowed
 {
     /// <summary><em>Optional</em>. <see langword="true"/>, if the access was granted after the user accepted an explicit request from a Web App sent by the method <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">requestWriteAccess</a></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool FromRequest { get; set; }
 
     /// <summary><em>Optional</em>. Name of the Web App, if the access was granted when the Web App was launched from a link</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? WebAppName { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the access was granted when the bot was added to the attachment or side menu</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool FromAttachmentMenu { get; set; }
 }

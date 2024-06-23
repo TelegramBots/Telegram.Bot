@@ -12,10 +12,9 @@ public class UpdateTypeConverterTests
     [Fact]
     public void Should_Verify_All_UpdateType_Members()
     {
-        List<string> updateTypeMembers = Enum
+        List<string> updateTypeMembers = [.. Enum
             .GetNames(typeof(UpdateType))
-            .OrderBy(x => x)
-            .ToList();
+            .OrderBy(x => x)];
         List<string> updateTypeDataMembers = new UpdateTypeData()
             .Select(x => Enum.GetName(typeof(UpdateType), x[0]))
             .OrderBy(x => x)
@@ -31,7 +30,7 @@ public class UpdateTypeConverterTests
     public void Should_Convert_UpdateType_To_String(UpdateType updateType, string value)
     {
         Update update = new(updateType);
-        string expectedResult =
+        string expectedResult = updateType == 0? "{}" :
             $$"""
             {"type":"{{value}}"}
             """;

@@ -21,10 +21,8 @@ public partial class BusinessConnection
     public DateTime Date { get; set; }
 
     /// <summary><see langword="true"/>, if the bot can act on behalf of the business account in chats that were active in the last 24 hours</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool CanReply { get; set; }
 
     /// <summary><see langword="true"/>, if the connection is active</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsEnabled { get; set; }
 }

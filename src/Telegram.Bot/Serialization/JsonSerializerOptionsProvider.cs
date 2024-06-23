@@ -31,7 +31,7 @@ public static partial class JsonSerializerOptionsProvider
         options.Converters.Add(new ChatIdConverter());
         options.Converters.Add(new PolymorphicJsonConverterFactory());
         options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
-        options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
         options.UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip;
     }
 

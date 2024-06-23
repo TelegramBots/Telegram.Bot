@@ -12,6 +12,5 @@ public partial class Birthdate
     public int Month { get; set; }
 
     /// <summary><em>Optional</em>. Year of the user's birth</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Year { get; set; }
 }

@@ -8,7 +8,6 @@ public partial class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetabl
     public required ChatId ChatId { get; set; }
 
     /// <summary>Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageId { get; set; }
 
     /// <summary>Initializes an instance of <see cref="UnpinChatMessageRequest"/></summary>

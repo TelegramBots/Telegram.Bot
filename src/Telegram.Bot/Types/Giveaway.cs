@@ -17,22 +17,17 @@ public partial class Giveaway
     public int WinnerCount { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if only users who join the chats after the giveaway started should be eligible to win</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool OnlyNewMembers { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the list of giveaway winners will be visible to everyone</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool HasPublicWinners { get; set; }
 
     /// <summary><em>Optional</em>. Description of additional giveaway prize</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? PrizeDescription { get; set; }
 
     /// <summary><em>Optional</em>. A list of two-letter <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> country codes indicating the countries from which eligible users for the giveaway must come. If empty, then all users can participate in the giveaway. Users with a phone number that was bought on Fragment can always participate in giveaways.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string[]? CountryCodes { get; set; }
 
     /// <summary><em>Optional</em>. The number of months the Telegram Premium subscription won from the giveaway will be active for</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? PremiumSubscriptionMonthCount { get; set; }
 }

@@ -16,11 +16,9 @@ public partial class InputSticker
     public required IEnumerable<string> EmojiList { get; set; }
 
     /// <summary><em>Optional</em>. Position where the mask should be placed on faces. For “mask” stickers only.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MaskPosition? MaskPosition { get; set; }
 
     /// <summary><em>Optional</em>. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “CustomEmoji” stickers only.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<string>? Keywords { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputSticker"/></summary>

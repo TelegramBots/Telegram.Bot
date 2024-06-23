@@ -16,6 +16,5 @@ public partial class ForumTopic
     public int IconColor { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the custom emoji shown as the topic icon</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? IconCustomEmojiId { get; set; }
 }

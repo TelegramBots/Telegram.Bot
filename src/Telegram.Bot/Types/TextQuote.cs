@@ -8,7 +8,6 @@ public partial class TextQuote
     public string Text { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Special entities that appear in the quote. Currently, only <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, and <em>CustomEmoji</em> entities are kept in quotes.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? Entities { get; set; }
 
     /// <summary>Approximate quote position in the original message in UTF-16 code units as specified by the sender</summary>
@@ -16,6 +15,5 @@ public partial class TextQuote
     public int Position { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsManual { get; set; }
 }

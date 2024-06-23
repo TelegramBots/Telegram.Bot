@@ -16,7 +16,7 @@ public class ParseModeConverterTests
     public void Should_Convert_ParseMode_To_String(ParseMode parseMode, string value)
     {
         SendMessageRequest sendMessageRequest = new() { ParseMode = parseMode };
-        string expectedResult = @$"{{""parse_mode"":""{value}""}}";
+        string expectedResult = parseMode == 0 ? "{}" : @$"{{""parse_mode"":""{value}""}}";
 
         string result = JsonSerializer.Serialize(sendMessageRequest, JsonSerializerOptionsProvider.Options);
 

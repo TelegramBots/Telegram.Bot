@@ -20,11 +20,9 @@ public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTa
     public required IEnumerable<InputSticker> Stickers { get; set; }
 
     /// <summary>Type of stickers in the set, pass <see cref="StickerType.Regular">Regular</see>, <see cref="StickerType.Mask">Mask</see>, or <see cref="StickerType.CustomEmoji">CustomEmoji</see>. By default, a regular sticker set is created.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public StickerType? StickerType { get; set; }
 
     /// <summary>Pass <see langword="true"/> if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool NeedsRepainting { get; set; }
 
     /// <summary>Initializes an instance of <see cref="CreateNewStickerSetRequest"/></summary>

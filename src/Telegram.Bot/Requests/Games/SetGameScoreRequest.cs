@@ -21,11 +21,9 @@ public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable
     public required int MessageId { get; set; }
 
     /// <summary>Pass <see langword="true"/> if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool Force { get; set; }
 
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DisableEditMessage { get; set; }
 
     /// <summary>Initializes an instance of <see cref="SetGameScoreRequest"/></summary>

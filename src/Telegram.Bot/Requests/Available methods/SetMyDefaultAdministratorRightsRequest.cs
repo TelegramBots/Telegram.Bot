@@ -4,11 +4,9 @@
 public partial class SetMyDefaultAdministratorRightsRequest : RequestBase<bool>
 {
     /// <summary>An object describing new default administrator rights. If not specified, the default administrator rights will be cleared.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChatAdministratorRights? Rights { get; set; }
 
     /// <summary>Pass <see langword="true"/> to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool ForChannels { get; set; }
 
     /// <summary>Instantiates a new <see cref="SetMyDefaultAdministratorRightsRequest"/></summary>

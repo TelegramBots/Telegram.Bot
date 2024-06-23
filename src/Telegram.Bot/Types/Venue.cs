@@ -16,18 +16,14 @@ public partial class Venue
     public string Address { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Foursquare identifier of the venue</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FoursquareId { get; set; }
 
     /// <summary><em>Optional</em>. Foursquare type of the venue. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FoursquareType { get; set; }
 
     /// <summary><em>Optional</em>. Google Places identifier of the venue</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GooglePlaceId { get; set; }
 
     /// <summary><em>Optional</em>. Google Places type of the venue. (See <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>.)</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GooglePlaceType { get; set; }
 }

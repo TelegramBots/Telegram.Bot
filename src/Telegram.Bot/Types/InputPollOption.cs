@@ -8,11 +8,9 @@ public partial class InputPollOption
     public required string Text { get; set; }
 
     /// <summary><em>Optional</em>. Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Currently, only custom emoji entities are allowed</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ParseMode TextParseMode { get; set; }
 
     /// <summary><em>Optional</em>. A list of special entities that appear in the poll option text. It can be specified instead of <see cref="TextParseMode">TextParseMode</see></summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? TextEntities { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputPollOption"/></summary>

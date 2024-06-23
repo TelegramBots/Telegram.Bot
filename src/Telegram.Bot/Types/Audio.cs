@@ -8,22 +8,17 @@ public partial class Audio : FileBase
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Performer of the audio as defined by sender or by audio tags</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Performer { get; set; }
 
     /// <summary><em>Optional</em>. Title of the audio as defined by sender or by audio tags</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary><em>Optional</em>. Original filename as defined by sender</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FileName { get; set; }
 
     /// <summary><em>Optional</em>. MIME type of the file as defined by sender</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? MimeType { get; set; }
 
     /// <summary><em>Optional</em>. Thumbnail of the album cover to which the music file belongs</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize? Thumbnail { get; set; }
 }

@@ -12,11 +12,9 @@ public partial class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     public required int MessageThreadId { get; set; }
 
     /// <summary>New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
 
     /// <summary>New unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickersAsync">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? IconCustomEmojiId { get; set; }
 
     /// <summary>Initializes an instance of <see cref="EditForumTopicRequest"/></summary>

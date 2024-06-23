@@ -8,10 +8,8 @@ public partial class GiveawayCompleted
     public int WinnerCount { get; set; }
 
     /// <summary><em>Optional</em>. Number of undistributed prizes</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? UnclaimedPrizeCount { get; set; }
 
     /// <summary><em>Optional</em>. Message with the giveaway that was completed, if it wasn't deleted</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Message? GiveawayMessage { get; set; }
 }

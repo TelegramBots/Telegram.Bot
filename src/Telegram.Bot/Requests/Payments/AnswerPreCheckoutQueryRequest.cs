@@ -12,7 +12,6 @@ public partial class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     public required bool Ok { get; set; }
 
     /// <summary>Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ErrorMessage { get; set; }
 
     /// <summary>Initializes an instance of <see cref="AnswerPreCheckoutQueryRequest"/></summary>

@@ -21,10 +21,8 @@ public partial class ChatJoinRequest
     public DateTime Date { get; set; }
 
     /// <summary><em>Optional</em>. Bio of the user.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Bio { get; set; }
 
     /// <summary><em>Optional</em>. Chat invite link that was used by the user to send the join request</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChatInviteLink? InviteLink { get; set; }
 }

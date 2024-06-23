@@ -8,7 +8,6 @@ public partial class ShippingAddress
     public string CountryCode { get; set; } = default!;
 
     /// <summary>State, if applicable</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? State { get; set; }
 
     /// <summary>City</summary>

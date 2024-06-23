@@ -4,7 +4,6 @@
 public partial class GetMyDescriptionRequest : RequestBase<BotDescription>
 {
     /// <summary>A two-letter ISO 639-1 language code or an empty string</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetMyDescriptionRequest"/></summary>

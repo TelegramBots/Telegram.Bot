@@ -12,11 +12,9 @@ public partial class SetMessageReactionRequest : RequestBase<bool>, IChatTargeta
     public required int MessageId { get; set; }
 
     /// <summary>A list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ReactionType>? Reaction { get; set; }
 
     /// <summary>Pass <see langword="true"/> to set the reaction with a big animation</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IsBig { get; set; }
 
     /// <summary>Initializes an instance of <see cref="SetMessageReactionRequest"/></summary>

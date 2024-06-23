@@ -13,11 +13,9 @@ public partial class SendChatActionRequest : RequestBase<bool>, IChatTargetable,
     public required ChatAction Action { get; set; }
 
     /// <summary>Unique identifier for the target message thread; for supergroups only</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>Unique identifier of the business connection on behalf of which the action will be sent</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BusinessConnectionId { get; set; }
 
     /// <summary>Initializes an instance of <see cref="SendChatActionRequest"/></summary>
