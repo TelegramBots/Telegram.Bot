@@ -3,7 +3,7 @@
 /// <summary>
 /// Use this method to edit only the reply markup of messages.<para>Returns: </para>
 /// </summary>
-public partial class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
+public partial class EditInlineMessageReplyMarkupRequest : RequestBase<bool>, IBusinessConnectable
 {
     /// <summary>
     /// Identifier of the inline message
@@ -17,6 +17,13 @@ public partial class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="EditInlineMessageReplyMarkupRequest"/>

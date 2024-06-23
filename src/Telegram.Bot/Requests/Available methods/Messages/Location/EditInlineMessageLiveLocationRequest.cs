@@ -3,7 +3,7 @@
 /// <summary>
 /// Use this method to edit live location messages. A location can be edited until its <see cref="LivePeriod">LivePeriod</see> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocationAsync">StopMessageLiveLocation</see>.<para>Returns: </para>
 /// </summary>
-public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>
+public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>, IBusinessConnectable
 {
     /// <summary>
     /// Identifier of the inline message
@@ -57,6 +57,13 @@ public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="EditInlineMessageLiveLocationRequest"/>

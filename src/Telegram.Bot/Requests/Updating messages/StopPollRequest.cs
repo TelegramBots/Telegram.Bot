@@ -3,7 +3,7 @@
 /// <summary>
 /// Use this method to stop a poll which was sent by the bot.<para>Returns: The stopped <see cref="Poll"/> is returned.</para>
 /// </summary>
-public partial class StopPollRequest : RequestBase<Poll>, IChatTargetable
+public partial class StopPollRequest : RequestBase<Poll>, IChatTargetable, IBusinessConnectable
 {
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
@@ -23,6 +23,13 @@ public partial class StopPollRequest : RequestBase<Poll>, IChatTargetable
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="StopPollRequest"/>
