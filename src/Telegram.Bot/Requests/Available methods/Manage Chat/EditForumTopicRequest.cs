@@ -22,15 +22,12 @@ public partial class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditForumTopicRequest(ChatId chatId, int messageThreadId)
-        : this()
+    public EditForumTopicRequest(ChatId chatId, int messageThreadId) : this()
     {
         ChatId = chatId;
         MessageThreadId = messageThreadId;
     }
 
     /// <summary>Instantiates a new <see cref="EditForumTopicRequest"/></summary>
-    public EditForumTopicRequest()
-        : base("editForumTopic")
-    { }
+    public EditForumTopicRequest() : base("editForumTopic") { }
 }

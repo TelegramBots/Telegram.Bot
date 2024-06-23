@@ -4,7 +4,5 @@
 public partial class LogOutRequest : ParameterlessRequest<bool>
 {
     /// <summary>Instantiates a new <see cref="LogOutRequest"/></summary>
-    public LogOutRequest()
-        : base("logOut")
-    { }
+    public LogOutRequest() : base("logOut") { }
 }

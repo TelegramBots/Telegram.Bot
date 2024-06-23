@@ -22,15 +22,12 @@ public partial class EditMessageReplyMarkupRequest : RequestBase<Message>, IChat
     /// <param name="messageId">Identifier of the message to edit</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditMessageReplyMarkupRequest(ChatId chatId, int messageId)
-        : this()
+    public EditMessageReplyMarkupRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="EditMessageReplyMarkupRequest"/></summary>
-    public EditMessageReplyMarkupRequest()
-        : base("editMessageReplyMarkup")
-    { }
+    public EditMessageReplyMarkupRequest() : base("editMessageReplyMarkup") { }
 }

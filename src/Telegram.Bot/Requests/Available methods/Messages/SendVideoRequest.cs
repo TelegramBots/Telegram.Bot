@@ -68,17 +68,14 @@ public partial class SendVideoRequest : FileRequestBase<Message>, IChatTargetabl
     /// <param name="video">Video to send. Pass a FileId as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendVideoRequest(ChatId chatId, InputFile video)
-        : this()
+    public SendVideoRequest(ChatId chatId, InputFile video) : this()
     {
         ChatId = chatId;
         Video = video;
     }
 
     /// <summary>Instantiates a new <see cref="SendVideoRequest"/></summary>
-    public SendVideoRequest()
-        : base("sendVideo")
-    { }
+    public SendVideoRequest() : base("sendVideo") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

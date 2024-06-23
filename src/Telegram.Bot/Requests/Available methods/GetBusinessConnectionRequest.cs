@@ -11,11 +11,8 @@ public partial class GetBusinessConnectionRequest : RequestBase<BusinessConnecti
     /// <param name="businessConnectionId">Unique identifier of the business connection</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetBusinessConnectionRequest(string businessConnectionId)
-        : this() => BusinessConnectionId = businessConnectionId;
+    public GetBusinessConnectionRequest(string businessConnectionId) : this() => BusinessConnectionId = businessConnectionId;
 
     /// <summary>Instantiates a new <see cref="GetBusinessConnectionRequest"/></summary>
-    public GetBusinessConnectionRequest()
-        : base("getBusinessConnection")
-    { }
+    public GetBusinessConnectionRequest() : base("getBusinessConnection") { }
 }

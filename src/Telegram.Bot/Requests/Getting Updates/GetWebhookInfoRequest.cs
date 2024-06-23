@@ -4,7 +4,5 @@
 public partial class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
 {
     /// <summary>Instantiates a new <see cref="GetWebhookInfoRequest"/></summary>
-    public GetWebhookInfoRequest()
-        : base("getWebhookInfo")
-    { }
+    public GetWebhookInfoRequest() : base("getWebhookInfo") { }
 }

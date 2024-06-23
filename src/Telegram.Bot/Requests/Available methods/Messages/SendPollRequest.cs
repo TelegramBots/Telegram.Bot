@@ -79,8 +79,7 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     /// <param name="options">A list of 2-10 answer options</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendPollRequest(ChatId chatId, string question, IEnumerable<InputPollOption> options)
-        : this()
+    public SendPollRequest(ChatId chatId, string question, IEnumerable<InputPollOption> options) : this()
     {
         ChatId = chatId;
         Question = question;
@@ -88,7 +87,5 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     }
 
     /// <summary>Instantiates a new <see cref="SendPollRequest"/></summary>
-    public SendPollRequest()
-        : base("sendPoll")
-    { }
+    public SendPollRequest() : base("sendPoll") { }
 }

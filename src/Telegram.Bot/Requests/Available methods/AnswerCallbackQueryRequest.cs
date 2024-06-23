@@ -24,11 +24,8 @@ public partial class AnswerCallbackQueryRequest : RequestBase<bool>
     /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public AnswerCallbackQueryRequest(string callbackQueryId)
-        : this() => CallbackQueryId = callbackQueryId;
+    public AnswerCallbackQueryRequest(string callbackQueryId) : this() => CallbackQueryId = callbackQueryId;
 
     /// <summary>Instantiates a new <see cref="AnswerCallbackQueryRequest"/></summary>
-    public AnswerCallbackQueryRequest()
-        : base("answerCallbackQuery")
-    { }
+    public AnswerCallbackQueryRequest() : base("answerCallbackQuery") { }
 }

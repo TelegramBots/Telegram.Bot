@@ -36,8 +36,7 @@ public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargeta
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditMessageTextRequest(ChatId chatId, int messageId, string text)
-        : this()
+    public EditMessageTextRequest(ChatId chatId, int messageId, string text) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
@@ -45,7 +44,5 @@ public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargeta
     }
 
     /// <summary>Instantiates a new <see cref="EditMessageTextRequest"/></summary>
-    public EditMessageTextRequest()
-        : base("editMessageText")
-    { }
+    public EditMessageTextRequest() : base("editMessageText") { }
 }

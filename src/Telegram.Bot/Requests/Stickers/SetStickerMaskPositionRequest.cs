@@ -14,11 +14,8 @@ public partial class SetStickerMaskPositionRequest : RequestBase<bool>
     /// <param name="sticker">File identifier of the sticker</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetStickerMaskPositionRequest(InputFileId sticker)
-        : this() => Sticker = sticker;
+    public SetStickerMaskPositionRequest(InputFileId sticker) : this() => Sticker = sticker;
 
     /// <summary>Instantiates a new <see cref="SetStickerMaskPositionRequest"/></summary>
-    public SetStickerMaskPositionRequest()
-        : base("setStickerMaskPosition")
-    { }
+    public SetStickerMaskPositionRequest() : base("setStickerMaskPosition") { }
 }

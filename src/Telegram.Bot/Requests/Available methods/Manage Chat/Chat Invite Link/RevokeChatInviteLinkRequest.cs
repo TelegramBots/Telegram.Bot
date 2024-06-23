@@ -16,15 +16,12 @@ public partial class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, 
     /// <param name="inviteLink">The invite link to revoke</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public RevokeChatInviteLinkRequest(ChatId chatId, string inviteLink)
-        : this()
+    public RevokeChatInviteLinkRequest(ChatId chatId, string inviteLink) : this()
     {
         ChatId = chatId;
         InviteLink = inviteLink;
     }
 
     /// <summary>Instantiates a new <see cref="RevokeChatInviteLinkRequest"/></summary>
-    public RevokeChatInviteLinkRequest()
-        : base("revokeChatInviteLink")
-    { }
+    public RevokeChatInviteLinkRequest() : base("revokeChatInviteLink") { }
 }

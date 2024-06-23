@@ -23,15 +23,12 @@ public partial class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, 
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public BanChatMemberRequest(ChatId chatId, long userId)
-        : this()
+    public BanChatMemberRequest(ChatId chatId, long userId) : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
 
     /// <summary>Instantiates a new <see cref="BanChatMemberRequest"/></summary>
-    public BanChatMemberRequest()
-        : base("banChatMember")
-    { }
+    public BanChatMemberRequest() : base("banChatMember") { }
 }

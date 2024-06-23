@@ -39,8 +39,7 @@ public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>, I
     /// <param name="longitude">Longitude of new location</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditInlineMessageLiveLocationRequest(string inlineMessageId, double latitude, double longitude)
-        : this()
+    public EditInlineMessageLiveLocationRequest(string inlineMessageId, double latitude, double longitude) : this()
     {
         InlineMessageId = inlineMessageId;
         Latitude = latitude;
@@ -48,7 +47,5 @@ public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>, I
     }
 
     /// <summary>Instantiates a new <see cref="EditInlineMessageLiveLocationRequest"/></summary>
-    public EditInlineMessageLiveLocationRequest()
-        : base("editMessageLiveLocation")
-    { }
+    public EditInlineMessageLiveLocationRequest() : base("editMessageLiveLocation") { }
 }

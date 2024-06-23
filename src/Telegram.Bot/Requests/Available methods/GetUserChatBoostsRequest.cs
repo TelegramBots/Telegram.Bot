@@ -16,15 +16,12 @@ public partial class GetUserChatBoostsRequest : RequestBase<UserChatBoosts>, ICh
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetUserChatBoostsRequest(ChatId chatId, long userId)
-        : this()
+    public GetUserChatBoostsRequest(ChatId chatId, long userId) : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
 
     /// <summary>Instantiates a new <see cref="GetUserChatBoostsRequest"/></summary>
-    public GetUserChatBoostsRequest()
-        : base("getUserChatBoosts")
-    { }
+    public GetUserChatBoostsRequest() : base("getUserChatBoosts") { }
 }

@@ -50,17 +50,14 @@ public partial class SendVoiceRequest : FileRequestBase<Message>, IChatTargetabl
     /// <param name="voice">Audio file to send. Pass a FileId as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendVoiceRequest(ChatId chatId, InputFile voice)
-        : this()
+    public SendVoiceRequest(ChatId chatId, InputFile voice) : this()
     {
         ChatId = chatId;
         Voice = voice;
     }
 
     /// <summary>Instantiates a new <see cref="SendVoiceRequest"/></summary>
-    public SendVoiceRequest()
-        : base("sendVoice")
-    { }
+    public SendVoiceRequest() : base("sendVoice") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

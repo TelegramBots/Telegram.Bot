@@ -7,7 +7,5 @@ public partial class GetChatMenuButtonRequest : RequestBase<MenuButton>
     public long? ChatId { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetChatMenuButtonRequest"/></summary>
-    public GetChatMenuButtonRequest()
-        : base("getChatMenuButton")
-    { }
+    public GetChatMenuButtonRequest() : base("getChatMenuButton") { }
 }

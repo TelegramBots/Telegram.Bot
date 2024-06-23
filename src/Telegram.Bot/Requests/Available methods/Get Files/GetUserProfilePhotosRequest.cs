@@ -17,11 +17,8 @@ public partial class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetUserProfilePhotosRequest(long userId)
-        : this() => UserId = userId;
+    public GetUserProfilePhotosRequest(long userId) : this() => UserId = userId;
 
     /// <summary>Instantiates a new <see cref="GetUserProfilePhotosRequest"/></summary>
-    public GetUserProfilePhotosRequest()
-        : base("getUserProfilePhotos")
-    { }
+    public GetUserProfilePhotosRequest() : base("getUserProfilePhotos") { }
 }

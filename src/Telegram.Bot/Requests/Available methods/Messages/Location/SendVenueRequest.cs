@@ -64,8 +64,7 @@ public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, I
     /// <param name="address">Address of the venue</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendVenueRequest(ChatId chatId, double latitude, double longitude, string title, string address)
-        : this()
+    public SendVenueRequest(ChatId chatId, double latitude, double longitude, string title, string address) : this()
     {
         ChatId = chatId;
         Latitude = latitude;
@@ -75,7 +74,5 @@ public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, I
     }
 
     /// <summary>Instantiates a new <see cref="SendVenueRequest"/></summary>
-    public SendVenueRequest()
-        : base("sendVenue")
-    { }
+    public SendVenueRequest() : base("sendVenue") { }
 }

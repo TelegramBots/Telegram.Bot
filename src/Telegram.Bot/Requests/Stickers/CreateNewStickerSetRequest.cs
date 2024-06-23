@@ -32,8 +32,7 @@ public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTa
     /// <param name="stickers">A list of 1-50 initial stickers to be added to the sticker set</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public CreateNewStickerSetRequest(long userId, string name, string title, IEnumerable<InputSticker> stickers)
-        : this()
+    public CreateNewStickerSetRequest(long userId, string name, string title, IEnumerable<InputSticker> stickers) : this()
     {
         UserId = userId;
         Name = name;
@@ -42,7 +41,5 @@ public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTa
     }
 
     /// <summary>Instantiates a new <see cref="CreateNewStickerSetRequest"/></summary>
-    public CreateNewStickerSetRequest()
-        : base("createNewStickerSet")
-    { }
+    public CreateNewStickerSetRequest() : base("createNewStickerSet") { }
 }

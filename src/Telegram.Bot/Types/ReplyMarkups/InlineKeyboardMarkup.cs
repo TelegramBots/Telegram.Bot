@@ -14,6 +14,5 @@ public partial class InlineKeyboardMarkup : IReplyMarkup
     public InlineKeyboardMarkup(IEnumerable<IEnumerable<InlineKeyboardButton>> inlineKeyboard) => InlineKeyboard = inlineKeyboard;
 
     /// <summary>Instantiates a new <see cref="InlineKeyboardMarkup"/></summary>
-    public InlineKeyboardMarkup()
-    { }
+    public InlineKeyboardMarkup() { }
 }

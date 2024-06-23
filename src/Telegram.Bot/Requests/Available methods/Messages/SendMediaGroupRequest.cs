@@ -34,15 +34,12 @@ public partial class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTa
     /// <param name="media">A array describing messages to be sent, must include 2-10 items</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media)
-        : this()
+    public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media) : this()
     {
         ChatId = chatId;
         Media = media;
     }
 
     /// <summary>Instantiates a new <see cref="SendMediaGroupRequest"/></summary>
-    public SendMediaGroupRequest()
-        : base("sendMediaGroup")
-    { }
+    public SendMediaGroupRequest() : base("sendMediaGroup") { }
 }

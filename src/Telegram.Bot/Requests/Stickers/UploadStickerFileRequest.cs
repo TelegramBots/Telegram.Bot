@@ -21,8 +21,7 @@ public partial class UploadStickerFileRequest : FileRequestBase<File>, IUserTarg
     /// <param name="stickerFormat">Format of the sticker, must be one of <see cref="StickerFormat.Static">Static</see>, <see cref="StickerFormat.Animated">Animated</see>, <see cref="StickerFormat.Video">Video</see></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public UploadStickerFileRequest(long userId, InputFileStream sticker, StickerFormat stickerFormat)
-        : this()
+    public UploadStickerFileRequest(long userId, InputFileStream sticker, StickerFormat stickerFormat) : this()
     {
         UserId = userId;
         Sticker = sticker;
@@ -30,9 +29,7 @@ public partial class UploadStickerFileRequest : FileRequestBase<File>, IUserTarg
     }
 
     /// <summary>Instantiates a new <see cref="UploadStickerFileRequest"/></summary>
-    public UploadStickerFileRequest()
-        : base("uploadStickerFile")
-    { }
+    public UploadStickerFileRequest() : base("uploadStickerFile") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

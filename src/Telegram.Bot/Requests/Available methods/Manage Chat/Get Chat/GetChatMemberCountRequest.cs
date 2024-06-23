@@ -11,11 +11,8 @@ public partial class GetChatMemberCountRequest : RequestBase<int>, IChatTargetab
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetChatMemberCountRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public GetChatMemberCountRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="GetChatMemberCountRequest"/></summary>
-    public GetChatMemberCountRequest()
-        : base("getChatMemberCount")
-    { }
+    public GetChatMemberCountRequest() : base("getChatMemberCount") { }
 }

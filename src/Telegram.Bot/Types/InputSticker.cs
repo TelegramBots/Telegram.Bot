@@ -35,6 +35,5 @@ public partial class InputSticker
     }
 
     /// <summary>Instantiates a new <see cref="InputSticker"/></summary>
-    public InputSticker()
-    { }
+    public InputSticker() { }
 }

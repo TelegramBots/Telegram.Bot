@@ -11,11 +11,8 @@ public partial class GetChatAdministratorsRequest : RequestBase<ChatMember[]>, I
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetChatAdministratorsRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public GetChatAdministratorsRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="GetChatAdministratorsRequest"/></summary>
-    public GetChatAdministratorsRequest()
-        : base("getChatAdministrators")
-    { }
+    public GetChatAdministratorsRequest() : base("getChatAdministrators") { }
 }

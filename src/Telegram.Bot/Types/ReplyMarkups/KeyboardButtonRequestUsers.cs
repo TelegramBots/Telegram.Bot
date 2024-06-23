@@ -32,6 +32,5 @@ public partial class KeyboardButtonRequestUsers
     public KeyboardButtonRequestUsers(int requestId) => RequestId = requestId;
 
     /// <summary>Instantiates a new <see cref="KeyboardButtonRequestUsers"/></summary>
-    public KeyboardButtonRequestUsers()
-    { }
+    public KeyboardButtonRequestUsers() { }
 }

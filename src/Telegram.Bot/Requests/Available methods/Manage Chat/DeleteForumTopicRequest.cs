@@ -16,15 +16,12 @@ public partial class DeleteForumTopicRequest : RequestBase<bool>, IChatTargetabl
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteForumTopicRequest(ChatId chatId, int messageThreadId)
-        : this()
+    public DeleteForumTopicRequest(ChatId chatId, int messageThreadId) : this()
     {
         ChatId = chatId;
         MessageThreadId = messageThreadId;
     }
 
     /// <summary>Instantiates a new <see cref="DeleteForumTopicRequest"/></summary>
-    public DeleteForumTopicRequest()
-        : base("deleteForumTopic")
-    { }
+    public DeleteForumTopicRequest() : base("deleteForumTopic") { }
 }

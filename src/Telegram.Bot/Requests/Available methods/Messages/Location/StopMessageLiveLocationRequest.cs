@@ -22,15 +22,12 @@ public partial class StopMessageLiveLocationRequest : RequestBase<Message>, ICha
     /// <param name="messageId">Identifier of the message with live location to stop</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public StopMessageLiveLocationRequest(ChatId chatId, int messageId)
-        : this()
+    public StopMessageLiveLocationRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="StopMessageLiveLocationRequest"/></summary>
-    public StopMessageLiveLocationRequest()
-        : base("stopMessageLiveLocation")
-    { }
+    public StopMessageLiveLocationRequest() : base("stopMessageLiveLocation") { }
 }

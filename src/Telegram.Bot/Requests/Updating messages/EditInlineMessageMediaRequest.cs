@@ -22,15 +22,12 @@ public partial class EditInlineMessageMediaRequest : FileRequestBase<bool>, IBus
     /// <param name="media">An object for a new media content of the message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditInlineMessageMediaRequest(string inlineMessageId, InputMedia media)
-        : this()
+    public EditInlineMessageMediaRequest(string inlineMessageId, InputMedia media) : this()
     {
         InlineMessageId = inlineMessageId;
         Media = media;
     }
 
     /// <summary>Instantiates a new <see cref="EditInlineMessageMediaRequest"/></summary>
-    public EditInlineMessageMediaRequest()
-        : base("editMessageMedia")
-    { }
+    public EditInlineMessageMediaRequest() : base("editMessageMedia") { }
 }

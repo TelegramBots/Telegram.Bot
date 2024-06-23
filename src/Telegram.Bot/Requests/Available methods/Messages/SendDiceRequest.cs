@@ -35,11 +35,8 @@ public partial class SendDiceRequest : RequestBase<Message>, IChatTargetable, IB
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendDiceRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public SendDiceRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="SendDiceRequest"/></summary>
-    public SendDiceRequest()
-        : base("sendDice")
-    { }
+    public SendDiceRequest() : base("sendDice") { }
 }

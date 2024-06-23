@@ -16,15 +16,12 @@ public partial class GetChatMemberRequest : RequestBase<ChatMember>, IChatTarget
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetChatMemberRequest(ChatId chatId, long userId)
-        : this()
+    public GetChatMemberRequest(ChatId chatId, long userId) : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
 
     /// <summary>Instantiates a new <see cref="GetChatMemberRequest"/></summary>
-    public GetChatMemberRequest()
-        : base("getChatMember")
-    { }
+    public GetChatMemberRequest() : base("getChatMember") { }
 }

@@ -33,8 +33,7 @@ public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable
     /// <param name="messageId">Identifier of the sent message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetGameScoreRequest(long userId, int score, long chatId, int messageId)
-        : this()
+    public SetGameScoreRequest(long userId, int score, long chatId, int messageId) : this()
     {
         UserId = userId;
         Score = score;
@@ -43,9 +42,7 @@ public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable
     }
 
     /// <summary>Instantiates a new <see cref="SetGameScoreRequest"/></summary>
-    public SetGameScoreRequest()
-        : base("setGameScore")
-    { }
+    public SetGameScoreRequest() : base("setGameScore") { }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;

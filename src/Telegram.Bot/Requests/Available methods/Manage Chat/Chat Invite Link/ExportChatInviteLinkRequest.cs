@@ -12,11 +12,8 @@ public partial class ExportChatInviteLinkRequest : RequestBase<string>, IChatTar
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public ExportChatInviteLinkRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public ExportChatInviteLinkRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="ExportChatInviteLinkRequest"/></summary>
-    public ExportChatInviteLinkRequest()
-        : base("exportChatInviteLink")
-    { }
+    public ExportChatInviteLinkRequest() : base("exportChatInviteLink") { }
 }

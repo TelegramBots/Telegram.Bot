@@ -20,6 +20,5 @@ public partial class InlineQueryResultsButton
     public InlineQueryResultsButton(string text) => Text = text;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultsButton"/></summary>
-    public InlineQueryResultsButton()
-    { }
+    public InlineQueryResultsButton() { }
 }

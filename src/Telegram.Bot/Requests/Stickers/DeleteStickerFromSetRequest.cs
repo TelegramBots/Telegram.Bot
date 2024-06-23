@@ -11,11 +11,8 @@ public partial class DeleteStickerFromSetRequest : RequestBase<bool>
     /// <param name="sticker">File identifier of the sticker</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteStickerFromSetRequest(InputFileId sticker)
-        : this() => Sticker = sticker;
+    public DeleteStickerFromSetRequest(InputFileId sticker) : this() => Sticker = sticker;
 
     /// <summary>Instantiates a new <see cref="DeleteStickerFromSetRequest"/></summary>
-    public DeleteStickerFromSetRequest()
-        : base("deleteStickerFromSet")
-    { }
+    public DeleteStickerFromSetRequest() : base("deleteStickerFromSet") { }
 }

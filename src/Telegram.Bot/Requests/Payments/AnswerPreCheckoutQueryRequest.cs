@@ -19,15 +19,12 @@ public partial class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// <param name="ok">Specify <see langword="true"/> if everything is alright at this stage and the bot is ready to proceed.<br/> Use <see langword="false"/> and fill <see cref="ErrorMessage"/> if there are any problems.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public AnswerPreCheckoutQueryRequest(string preCheckoutQueryId, bool ok)
-        : this()
+    public AnswerPreCheckoutQueryRequest(string preCheckoutQueryId, bool ok) : this()
     {
         PreCheckoutQueryId = preCheckoutQueryId;
         Ok = ok;
     }
 
     /// <summary>Instantiates a new <see cref="AnswerPreCheckoutQueryRequest"/></summary>
-    public AnswerPreCheckoutQueryRequest()
-        : base("answerPreCheckoutQuery")
-    { }
+    public AnswerPreCheckoutQueryRequest() : base("answerPreCheckoutQuery") { }
 }

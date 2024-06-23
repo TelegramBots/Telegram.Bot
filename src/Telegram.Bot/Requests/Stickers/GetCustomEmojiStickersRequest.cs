@@ -11,11 +11,8 @@ public partial class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
     /// <param name="customEmojiIds">A list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetCustomEmojiStickersRequest(IEnumerable<string> customEmojiIds)
-        : this() => CustomEmojiIds = customEmojiIds;
+    public GetCustomEmojiStickersRequest(IEnumerable<string> customEmojiIds) : this() => CustomEmojiIds = customEmojiIds;
 
     /// <summary>Instantiates a new <see cref="GetCustomEmojiStickersRequest"/></summary>
-    public GetCustomEmojiStickersRequest()
-        : base("getCustomEmojiStickers")
-    { }
+    public GetCustomEmojiStickersRequest() : base("getCustomEmojiStickers") { }
 }

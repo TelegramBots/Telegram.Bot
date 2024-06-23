@@ -24,8 +24,7 @@ public partial class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUse
     /// <param name="format">Format of the thumbnail, must be one of <see cref="StickerFormat.Static">Static</see> for a <b>.WEBP</b> or <b>.PNG</b> image, <see cref="StickerFormat.Animated">Animated</see> for a <b>.TGS</b> animation, or <see cref="StickerFormat.Video">Video</see> for a <b>WEBM</b> video</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetStickerSetThumbnailRequest(string name, long userId, StickerFormat format)
-        : this()
+    public SetStickerSetThumbnailRequest(string name, long userId, StickerFormat format) : this()
     {
         Name = name;
         UserId = userId;
@@ -33,9 +32,7 @@ public partial class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUse
     }
 
     /// <summary>Instantiates a new <see cref="SetStickerSetThumbnailRequest"/></summary>
-    public SetStickerSetThumbnailRequest()
-        : base("setStickerSetThumbnail")
-    { }
+    public SetStickerSetThumbnailRequest() : base("setStickerSetThumbnail") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

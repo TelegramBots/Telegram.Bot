@@ -19,15 +19,12 @@ public partial class SetChatPermissionsRequest : RequestBase<bool>, IChatTargeta
     /// <param name="permissions">An object for new default chat permissions</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetChatPermissionsRequest(ChatId chatId, ChatPermissions permissions)
-        : this()
+    public SetChatPermissionsRequest(ChatId chatId, ChatPermissions permissions) : this()
     {
         ChatId = chatId;
         Permissions = permissions;
     }
 
     /// <summary>Instantiates a new <see cref="SetChatPermissionsRequest"/></summary>
-    public SetChatPermissionsRequest()
-        : base("setChatPermissions")
-    { }
+    public SetChatPermissionsRequest() : base("setChatPermissions") { }
 }

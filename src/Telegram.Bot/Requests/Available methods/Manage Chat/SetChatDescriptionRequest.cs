@@ -14,11 +14,8 @@ public partial class SetChatDescriptionRequest : RequestBase<bool>, IChatTargeta
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetChatDescriptionRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public SetChatDescriptionRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="SetChatDescriptionRequest"/></summary>
-    public SetChatDescriptionRequest()
-        : base("setChatDescription")
-    { }
+    public SetChatDescriptionRequest() : base("setChatDescription") { }
 }

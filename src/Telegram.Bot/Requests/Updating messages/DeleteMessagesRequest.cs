@@ -16,15 +16,12 @@ public partial class DeleteMessagesRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageIds">A list of 1-100 identifiers of messages to delete. See <see cref="TelegramBotClientExtensions.DeleteMessageAsync">DeleteMessage</see> for limitations on which messages can be deleted</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteMessagesRequest(ChatId chatId, IEnumerable<int> messageIds)
-        : this()
+    public DeleteMessagesRequest(ChatId chatId, IEnumerable<int> messageIds) : this()
     {
         ChatId = chatId;
         MessageIds = messageIds;
     }
 
     /// <summary>Instantiates a new <see cref="DeleteMessagesRequest"/></summary>
-    public DeleteMessagesRequest()
-        : base("deleteMessages")
-    { }
+    public DeleteMessagesRequest() : base("deleteMessages") { }
 }

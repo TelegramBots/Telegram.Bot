@@ -77,8 +77,7 @@ public partial class CreateInvoiceLinkRequest : RequestBase<string>
     /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public CreateInvoiceLinkRequest(string title, string description, string payload, string? providerToken, string currency, IEnumerable<LabeledPrice> prices)
-        : this()
+    public CreateInvoiceLinkRequest(string title, string description, string payload, string? providerToken, string currency, IEnumerable<LabeledPrice> prices) : this()
     {
         Title = title;
         Description = description;
@@ -89,7 +88,5 @@ public partial class CreateInvoiceLinkRequest : RequestBase<string>
     }
 
     /// <summary>Instantiates a new <see cref="CreateInvoiceLinkRequest"/></summary>
-    public CreateInvoiceLinkRequest()
-        : base("createInvoiceLink")
-    { }
+    public CreateInvoiceLinkRequest() : base("createInvoiceLink") { }
 }

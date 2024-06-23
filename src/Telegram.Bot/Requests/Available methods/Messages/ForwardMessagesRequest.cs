@@ -30,8 +30,7 @@ public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTar
     /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to forward. The identifiers must be specified in a strictly increasing order.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public ForwardMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds)
-        : this()
+    public ForwardMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds) : this()
     {
         ChatId = chatId;
         FromChatId = fromChatId;
@@ -39,7 +38,5 @@ public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTar
     }
 
     /// <summary>Instantiates a new <see cref="ForwardMessagesRequest"/></summary>
-    public ForwardMessagesRequest()
-        : base("forwardMessages")
-    { }
+    public ForwardMessagesRequest() : base("forwardMessages") { }
 }

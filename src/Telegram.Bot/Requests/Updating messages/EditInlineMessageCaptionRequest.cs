@@ -29,11 +29,8 @@ public partial class EditInlineMessageCaptionRequest : RequestBase<bool>, IBusin
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditInlineMessageCaptionRequest(string inlineMessageId)
-        : this() => InlineMessageId = inlineMessageId;
+    public EditInlineMessageCaptionRequest(string inlineMessageId) : this() => InlineMessageId = inlineMessageId;
 
     /// <summary>Instantiates a new <see cref="EditInlineMessageCaptionRequest"/></summary>
-    public EditInlineMessageCaptionRequest()
-        : base("editMessageCaption")
-    { }
+    public EditInlineMessageCaptionRequest() : base("editMessageCaption") { }
 }

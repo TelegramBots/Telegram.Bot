@@ -16,15 +16,12 @@ public partial class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
     /// <param name="result">An object describing the message to be sent</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public AnswerWebAppQueryRequest(string webAppQueryId, InlineQueryResult result)
-        : this()
+    public AnswerWebAppQueryRequest(string webAppQueryId, InlineQueryResult result) : this()
     {
         WebAppQueryId = webAppQueryId;
         Result = result;
     }
 
     /// <summary>Instantiates a new <see cref="AnswerWebAppQueryRequest"/></summary>
-    public AnswerWebAppQueryRequest()
-        : base("answerWebAppQuery")
-    { }
+    public AnswerWebAppQueryRequest() : base("answerWebAppQuery") { }
 }

@@ -16,15 +16,12 @@ public partial class SetStickerSetTitleRequest : RequestBase<bool>
     /// <param name="title">Sticker set title, 1-64 characters</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetStickerSetTitleRequest(string name, string title)
-        : this()
+    public SetStickerSetTitleRequest(string name, string title) : this()
     {
         Name = name;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="SetStickerSetTitleRequest"/></summary>
-    public SetStickerSetTitleRequest()
-        : base("setStickerSetTitle")
-    { }
+    public SetStickerSetTitleRequest() : base("setStickerSetTitle") { }
 }

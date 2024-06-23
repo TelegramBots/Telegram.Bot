@@ -17,15 +17,12 @@ public partial class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetInlineGameHighScoresRequest(long userId, string inlineMessageId)
-        : this()
+    public GetInlineGameHighScoresRequest(long userId, string inlineMessageId) : this()
     {
         UserId = userId;
         InlineMessageId = inlineMessageId;
     }
 
     /// <summary>Instantiates a new <see cref="GetInlineGameHighScoresRequest"/></summary>
-    public GetInlineGameHighScoresRequest()
-        : base("getGameHighScores")
-    { }
+    public GetInlineGameHighScoresRequest() : base("getGameHighScores") { }
 }

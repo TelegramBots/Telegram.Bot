@@ -16,15 +16,12 @@ public partial class DeleteMessageRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageId">Identifier of the message to delete</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteMessageRequest(ChatId chatId, int messageId)
-        : this()
+    public DeleteMessageRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="DeleteMessageRequest"/></summary>
-    public DeleteMessageRequest()
-        : base("deleteMessage")
-    { }
+    public DeleteMessageRequest() : base("deleteMessage") { }
 }

@@ -48,8 +48,7 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     /// <param name="messageId">Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
-        : this()
+    public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId) : this()
     {
         ChatId = chatId;
         FromChatId = fromChatId;
@@ -57,7 +56,5 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     }
 
     /// <summary>Instantiates a new <see cref="CopyMessageRequest"/></summary>
-    public CopyMessageRequest()
-        : base("copyMessage")
-    { }
+    public CopyMessageRequest() : base("copyMessage") { }
 }

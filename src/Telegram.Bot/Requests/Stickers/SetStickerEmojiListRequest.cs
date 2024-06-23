@@ -16,15 +16,12 @@ public partial class SetStickerEmojiListRequest : RequestBase<bool>
     /// <param name="emojiList">A list of 1-20 emoji associated with the sticker</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList)
-        : this()
+    public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList) : this()
     {
         Sticker = sticker;
         EmojiList = emojiList;
     }
 
     /// <summary>Instantiates a new <see cref="SetStickerEmojiListRequest"/></summary>
-    public SetStickerEmojiListRequest()
-        : base("setStickerEmojiList")
-    { }
+    public SetStickerEmojiListRequest() : base("setStickerEmojiList") { }
 }

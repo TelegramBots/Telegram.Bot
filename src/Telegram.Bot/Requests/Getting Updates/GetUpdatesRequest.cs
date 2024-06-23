@@ -17,7 +17,5 @@ public partial class GetUpdatesRequest : RequestBase<Update[]>
     public IEnumerable<UpdateType>? AllowedUpdates { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetUpdatesRequest"/></summary>
-    public GetUpdatesRequest()
-        : base("getUpdates")
-    { }
+    public GetUpdatesRequest() : base("getUpdates") { }
 }

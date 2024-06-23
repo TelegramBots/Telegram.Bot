@@ -14,11 +14,8 @@ public partial class SetStickerKeywordsRequest : RequestBase<bool>
     /// <param name="sticker">File identifier of the sticker</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetStickerKeywordsRequest(InputFileId sticker)
-        : this() => Sticker = sticker;
+    public SetStickerKeywordsRequest(InputFileId sticker) : this() => Sticker = sticker;
 
     /// <summary>Instantiates a new <see cref="SetStickerKeywordsRequest"/></summary>
-    public SetStickerKeywordsRequest()
-        : base("setStickerKeywords")
-    { }
+    public SetStickerKeywordsRequest() : base("setStickerKeywords") { }
 }

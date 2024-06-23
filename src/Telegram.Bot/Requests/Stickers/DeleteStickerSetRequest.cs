@@ -11,11 +11,8 @@ public partial class DeleteStickerSetRequest : RequestBase<bool>
     /// <param name="name">Sticker set name</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteStickerSetRequest(string name)
-        : this() => Name = name;
+    public DeleteStickerSetRequest(string name) : this() => Name = name;
 
     /// <summary>Instantiates a new <see cref="DeleteStickerSetRequest"/></summary>
-    public DeleteStickerSetRequest()
-        : base("deleteStickerSet")
-    { }
+    public DeleteStickerSetRequest() : base("deleteStickerSet") { }
 }

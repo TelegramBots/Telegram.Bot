@@ -33,8 +33,7 @@ public abstract partial class InputMedia
     protected InputMedia(InputFile media) => Media = media;
 
     /// <summary>Instantiates a new <see cref="InputMedia"/></summary>
-    protected InputMedia()
-    { }
+    protected InputMedia() { }
 }
 
 /// <summary>Represents a photo to be sent.</summary>
@@ -53,14 +52,12 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InputMediaPhoto(InputFile media)
-        : base(media)
+    public InputMediaPhoto(InputFile media) : base(media)
     {
     }
 
     /// <summary>Instantiates a new <see cref="InputMediaPhoto"/></summary>
-    public InputMediaPhoto()
-    { }
+    public InputMediaPhoto() { }
 }
 
 /// <summary>Represents a video to be sent.</summary>
@@ -94,14 +91,12 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InputMediaVideo(InputFile media)
-        : base(media)
+    public InputMediaVideo(InputFile media) : base(media)
     {
     }
 
     /// <summary>Instantiates a new <see cref="InputMediaVideo"/></summary>
-    public InputMediaVideo()
-    { }
+    public InputMediaVideo() { }
 }
 
 /// <summary>Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.</summary>
@@ -132,14 +127,12 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InputMediaAnimation(InputFile media)
-        : base(media)
+    public InputMediaAnimation(InputFile media) : base(media)
     {
     }
 
     /// <summary>Instantiates a new <see cref="InputMediaAnimation"/></summary>
-    public InputMediaAnimation()
-    { }
+    public InputMediaAnimation() { }
 }
 
 /// <summary>Represents an audio file to be treated as music to be sent.</summary>
@@ -164,14 +157,12 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InputMediaAudio(InputFile media)
-        : base(media)
+    public InputMediaAudio(InputFile media) : base(media)
     {
     }
 
     /// <summary>Instantiates a new <see cref="InputMediaAudio"/></summary>
-    public InputMediaAudio()
-    { }
+    public InputMediaAudio() { }
 }
 
 /// <summary>Represents a general file to be sent.</summary>
@@ -190,12 +181,10 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InputMediaDocument(InputFile media)
-        : base(media)
+    public InputMediaDocument(InputFile media) : base(media)
     {
     }
 
     /// <summary>Instantiates a new <see cref="InputMediaDocument"/></summary>
-    public InputMediaDocument()
-    { }
+    public InputMediaDocument() { }
 }

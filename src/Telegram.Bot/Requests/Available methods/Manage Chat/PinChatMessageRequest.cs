@@ -19,15 +19,12 @@ public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageId">Identifier of a message to pin</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public PinChatMessageRequest(ChatId chatId, int messageId)
-        : this()
+    public PinChatMessageRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="PinChatMessageRequest"/></summary>
-    public PinChatMessageRequest()
-        : base("pinChatMessage")
-    { }
+    public PinChatMessageRequest() : base("pinChatMessage") { }
 }

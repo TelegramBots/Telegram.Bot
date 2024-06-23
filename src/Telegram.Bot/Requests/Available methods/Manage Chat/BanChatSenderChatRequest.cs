@@ -16,15 +16,12 @@ public partial class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetab
     /// <param name="senderChatId">Unique identifier of the target sender chat</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public BanChatSenderChatRequest(ChatId chatId, long senderChatId)
-        : this()
+    public BanChatSenderChatRequest(ChatId chatId, long senderChatId) : this()
     {
         ChatId = chatId;
         SenderChatId = senderChatId;
     }
 
     /// <summary>Instantiates a new <see cref="BanChatSenderChatRequest"/></summary>
-    public BanChatSenderChatRequest()
-        : base("banChatSenderChat")
-    { }
+    public BanChatSenderChatRequest() : base("banChatSenderChat") { }
 }

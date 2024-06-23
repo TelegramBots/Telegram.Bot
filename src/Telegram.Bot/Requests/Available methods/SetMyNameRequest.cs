@@ -10,7 +10,5 @@ public partial class SetMyNameRequest : RequestBase<bool>
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="SetMyNameRequest"/></summary>
-    public SetMyNameRequest()
-        : base("setMyName")
-    { }
+    public SetMyNameRequest() : base("setMyName") { }
 }

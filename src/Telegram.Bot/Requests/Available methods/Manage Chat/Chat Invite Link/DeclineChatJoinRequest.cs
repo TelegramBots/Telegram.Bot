@@ -16,15 +16,12 @@ public partial class DeclineChatJoinRequest : RequestBase<bool>, IChatTargetable
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeclineChatJoinRequest(ChatId chatId, long userId)
-        : this()
+    public DeclineChatJoinRequest(ChatId chatId, long userId) : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
 
     /// <summary>Instantiates a new <see cref="DeclineChatJoinRequest"/></summary>
-    public DeclineChatJoinRequest()
-        : base("declineChatJoinRequest")
-    { }
+    public DeclineChatJoinRequest() : base("declineChatJoinRequest") { }
 }

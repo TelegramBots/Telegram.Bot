@@ -23,6 +23,5 @@ public partial class LabeledPrice
     }
 
     /// <summary>Instantiates a new <see cref="LabeledPrice"/></summary>
-    public LabeledPrice()
-    { }
+    public LabeledPrice() { }
 }

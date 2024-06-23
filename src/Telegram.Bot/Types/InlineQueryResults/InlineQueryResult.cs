@@ -35,8 +35,7 @@ public abstract partial class InlineQueryResult
     protected InlineQueryResult(string id) => Id = id;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResult"/></summary>
-    protected InlineQueryResult()
-    { }
+    protected InlineQueryResult() { }
 }
 
 /// <summary>Represents a link to an article or web page.</summary>
@@ -77,16 +76,14 @@ public partial class InlineQueryResultArticle : InlineQueryResult
     /// <param name="inputMessageContent">Content of the message to be sent</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
-        : base(id)
+    public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent) : base(id)
     {
         Title = title;
         InputMessageContent = inputMessageContent;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultArticle"/></summary>
-    public InlineQueryResultArticle()
-    { }
+    public InlineQueryResultArticle() { }
 }
 
 /// <summary>Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the photo.</summary>
@@ -136,16 +133,14 @@ public partial class InlineQueryResultPhoto : InlineQueryResult
     /// <param name="thumbnailUrl">URL of the thumbnail for the photo</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultPhoto(string id, string photoUrl, string thumbnailUrl)
-        : base(id)
+    public InlineQueryResultPhoto(string id, string photoUrl, string thumbnailUrl) : base(id)
     {
         PhotoUrl = photoUrl;
         ThumbnailUrl = thumbnailUrl;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultPhoto"/></summary>
-    public InlineQueryResultPhoto()
-    { }
+    public InlineQueryResultPhoto() { }
 }
 
 /// <summary>Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the animation.</summary>
@@ -198,16 +193,14 @@ public partial class InlineQueryResultGif : InlineQueryResult
     /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl)
-        : base(id)
+    public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl) : base(id)
     {
         GifUrl = gifUrl;
         ThumbnailUrl = thumbnailUrl;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultGif"/></summary>
-    public InlineQueryResultGif()
-    { }
+    public InlineQueryResultGif() { }
 }
 
 /// <summary>Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the animation.</summary>
@@ -260,16 +253,14 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl)
-        : base(id)
+    public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl) : base(id)
     {
         Mpeg4Url = mpeg4Url;
         ThumbnailUrl = thumbnailUrl;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultMpeg4Gif"/></summary>
-    public InlineQueryResultMpeg4Gif()
-    { }
+    public InlineQueryResultMpeg4Gif() { }
 }
 
 /// <summary>Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the video.</summary>
@@ -330,8 +321,7 @@ public partial class InlineQueryResultVideo : InlineQueryResult
     /// <param name="inputMessageContent"><em>Optional</em>. Content of the message to be sent instead of the video. This field is <b>required</b> if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultVideo(string id, string videoUrl, string thumbnailUrl, string title, InputMessageContent? inputMessageContent = default)
-        : base(id)
+    public InlineQueryResultVideo(string id, string videoUrl, string thumbnailUrl, string title, InputMessageContent? inputMessageContent = default) : base(id)
     {
         VideoUrl = videoUrl;
         ThumbnailUrl = thumbnailUrl;
@@ -341,8 +331,7 @@ public partial class InlineQueryResultVideo : InlineQueryResult
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultVideo"/></summary>
-    public InlineQueryResultVideo()
-    { }
+    public InlineQueryResultVideo() { }
 }
 
 /// <summary>Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the audio.</summary>
@@ -383,16 +372,14 @@ public partial class InlineQueryResultAudio : InlineQueryResult
     /// <param name="title">Title</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultAudio(string id, string audioUrl, string title)
-        : base(id)
+    public InlineQueryResultAudio(string id, string audioUrl, string title) : base(id)
     {
         AudioUrl = audioUrl;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultAudio"/></summary>
-    public InlineQueryResultAudio()
-    { }
+    public InlineQueryResultAudio() { }
 }
 
 /// <summary>Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the the voice message.</summary>
@@ -430,16 +417,14 @@ public partial class InlineQueryResultVoice : InlineQueryResult
     /// <param name="title">Recording title</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultVoice(string id, string voiceUrl, string title)
-        : base(id)
+    public InlineQueryResultVoice(string id, string voiceUrl, string title) : base(id)
     {
         VoiceUrl = voiceUrl;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultVoice"/></summary>
-    public InlineQueryResultVoice()
-    { }
+    public InlineQueryResultVoice() { }
 }
 
 /// <summary>Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the file. Currently, only <b>.PDF</b> and <b>.ZIP</b> files can be sent using this method.</summary>
@@ -491,8 +476,7 @@ public partial class InlineQueryResultDocument : InlineQueryResult
     /// <param name="mimeType">MIME type of the content of the file, either “application/pdf” or “application/zip”</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
-        : base(id)
+    public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType) : base(id)
     {
         DocumentUrl = documentUrl;
         Title = title;
@@ -500,8 +484,7 @@ public partial class InlineQueryResultDocument : InlineQueryResult
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultDocument"/></summary>
-    public InlineQueryResultDocument()
-    { }
+    public InlineQueryResultDocument() { }
 }
 
 /// <summary>Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the location.</summary>
@@ -553,8 +536,7 @@ public partial class InlineQueryResultLocation : InlineQueryResult
     /// <param name="title">Location title</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultLocation(string id, double latitude, double longitude, string title)
-        : base(id)
+    public InlineQueryResultLocation(string id, double latitude, double longitude, string title) : base(id)
     {
         Latitude = latitude;
         Longitude = longitude;
@@ -562,8 +544,7 @@ public partial class InlineQueryResultLocation : InlineQueryResult
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultLocation"/></summary>
-    public InlineQueryResultLocation()
-    { }
+    public InlineQueryResultLocation() { }
 }
 
 /// <summary>Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the venue.</summary>
@@ -620,8 +601,7 @@ public partial class InlineQueryResultVenue : InlineQueryResult
     /// <param name="address">Address of the venue</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultVenue(string id, double latitude, double longitude, string title, string address)
-        : base(id)
+    public InlineQueryResultVenue(string id, double latitude, double longitude, string title, string address) : base(id)
     {
         Latitude = latitude;
         Longitude = longitude;
@@ -630,8 +610,7 @@ public partial class InlineQueryResultVenue : InlineQueryResult
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultVenue"/></summary>
-    public InlineQueryResultVenue()
-    { }
+    public InlineQueryResultVenue() { }
 }
 
 /// <summary>Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the contact.</summary>
@@ -672,16 +651,14 @@ public partial class InlineQueryResultContact : InlineQueryResult
     /// <param name="firstName">Contact's first name</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultContact(string id, string phoneNumber, string firstName)
-        : base(id)
+    public InlineQueryResultContact(string id, string phoneNumber, string firstName) : base(id)
     {
         PhoneNumber = phoneNumber;
         FirstName = firstName;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultContact"/></summary>
-    public InlineQueryResultContact()
-    { }
+    public InlineQueryResultContact() { }
 }
 
 /// <summary>Represents a <a href="https://core.telegram.org/bots/api#games">Game</a>.</summary>
@@ -699,12 +676,10 @@ public partial class InlineQueryResultGame : InlineQueryResult
     /// <param name="gameShortName">Short name of the game</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultGame(string id, string gameShortName)
-        : base(id) => GameShortName = gameShortName;
+    public InlineQueryResultGame(string id, string gameShortName) : base(id) => GameShortName = gameShortName;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultGame"/></summary>
-    public InlineQueryResultGame()
-    { }
+    public InlineQueryResultGame() { }
 }
 
 /// <summary>Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the photo.</summary>
@@ -743,12 +718,10 @@ public partial class InlineQueryResultCachedPhoto : InlineQueryResult
     /// <param name="photoFileId">A valid file identifier of the photo</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedPhoto(string id, string photoFileId)
-        : base(id) => PhotoFileId = photoFileId;
+    public InlineQueryResultCachedPhoto(string id, string photoFileId) : base(id) => PhotoFileId = photoFileId;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedPhoto"/></summary>
-    public InlineQueryResultCachedPhoto()
-    { }
+    public InlineQueryResultCachedPhoto() { }
 }
 
 /// <summary>Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with specified content instead of the animation.</summary>
@@ -784,12 +757,10 @@ public partial class InlineQueryResultCachedGif : InlineQueryResult
     /// <param name="gifFileId">A valid file identifier for the GIF file</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedGif(string id, string gifFileId)
-        : base(id) => GifFileId = gifFileId;
+    public InlineQueryResultCachedGif(string id, string gifFileId) : base(id) => GifFileId = gifFileId;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedGif"/></summary>
-    public InlineQueryResultCachedGif()
-    { }
+    public InlineQueryResultCachedGif() { }
 }
 
 /// <summary>Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By default, this animated MPEG-4 file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the animation.</summary>
@@ -825,12 +796,10 @@ public partial class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
     /// <param name="mpeg4FileId">A valid file identifier for the MPEG4 file</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId)
-        : base(id) => Mpeg4FileId = mpeg4FileId;
+    public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId) : base(id) => Mpeg4FileId = mpeg4FileId;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedMpeg4Gif"/></summary>
-    public InlineQueryResultCachedMpeg4Gif()
-    { }
+    public InlineQueryResultCachedMpeg4Gif() { }
 }
 
 /// <summary>Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the sticker.</summary>
@@ -851,12 +820,10 @@ public partial class InlineQueryResultCachedSticker : InlineQueryResult
     /// <param name="stickerFileId">A valid file identifier of the sticker</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedSticker(string id, string stickerFileId)
-        : base(id) => StickerFileId = stickerFileId;
+    public InlineQueryResultCachedSticker(string id, string stickerFileId) : base(id) => StickerFileId = stickerFileId;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedSticker"/></summary>
-    public InlineQueryResultCachedSticker()
-    { }
+    public InlineQueryResultCachedSticker() { }
 }
 
 /// <summary>Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the file.</summary>
@@ -894,16 +861,14 @@ public partial class InlineQueryResultCachedDocument : InlineQueryResult
     /// <param name="title">Title for the result</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedDocument(string id, string documentFileId, string title)
-        : base(id)
+    public InlineQueryResultCachedDocument(string id, string documentFileId, string title) : base(id)
     {
         DocumentFileId = documentFileId;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedDocument"/></summary>
-    public InlineQueryResultCachedDocument()
-    { }
+    public InlineQueryResultCachedDocument() { }
 }
 
 /// <summary>Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the video.</summary>
@@ -944,16 +909,14 @@ public partial class InlineQueryResultCachedVideo : InlineQueryResult
     /// <param name="title">Title for the result</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedVideo(string id, string videoFileId, string title)
-        : base(id)
+    public InlineQueryResultCachedVideo(string id, string videoFileId, string title) : base(id)
     {
         VideoFileId = videoFileId;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedVideo"/></summary>
-    public InlineQueryResultCachedVideo()
-    { }
+    public InlineQueryResultCachedVideo() { }
 }
 
 /// <summary>Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the voice message.</summary>
@@ -988,16 +951,14 @@ public partial class InlineQueryResultCachedVoice : InlineQueryResult
     /// <param name="title">Voice message title</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedVoice(string id, string voiceFileId, string title)
-        : base(id)
+    public InlineQueryResultCachedVoice(string id, string voiceFileId, string title) : base(id)
     {
         VoiceFileId = voiceFileId;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedVoice"/></summary>
-    public InlineQueryResultCachedVoice()
-    { }
+    public InlineQueryResultCachedVoice() { }
 }
 
 /// <summary>Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the audio.</summary>
@@ -1027,10 +988,8 @@ public partial class InlineQueryResultCachedAudio : InlineQueryResult
     /// <param name="audioFileId">A valid file identifier for the audio file</param>
     [JsonConstructor]
     [SetsRequiredMembers]
-    public InlineQueryResultCachedAudio(string id, string audioFileId)
-        : base(id) => AudioFileId = audioFileId;
+    public InlineQueryResultCachedAudio(string id, string audioFileId) : base(id) => AudioFileId = audioFileId;
 
     /// <summary>Instantiates a new <see cref="InlineQueryResultCachedAudio"/></summary>
-    public InlineQueryResultCachedAudio()
-    { }
+    public InlineQueryResultCachedAudio() { }
 }

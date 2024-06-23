@@ -16,15 +16,12 @@ public partial class UnpinAllForumTopicMessagesRequest : RequestBase<bool>, ICha
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public UnpinAllForumTopicMessagesRequest(ChatId chatId, int messageThreadId)
-        : this()
+    public UnpinAllForumTopicMessagesRequest(ChatId chatId, int messageThreadId) : this()
     {
         ChatId = chatId;
         MessageThreadId = messageThreadId;
     }
 
     /// <summary>Instantiates a new <see cref="UnpinAllForumTopicMessagesRequest"/></summary>
-    public UnpinAllForumTopicMessagesRequest()
-        : base("unpinAllForumTopicMessages")
-    { }
+    public UnpinAllForumTopicMessagesRequest() : base("unpinAllForumTopicMessages") { }
 }

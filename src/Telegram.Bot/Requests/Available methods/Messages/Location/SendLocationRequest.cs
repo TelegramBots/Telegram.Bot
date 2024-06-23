@@ -54,8 +54,7 @@ public partial class SendLocationRequest : RequestBase<Message>, IChatTargetable
     /// <param name="longitude">Longitude of the location</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendLocationRequest(ChatId chatId, double latitude, double longitude)
-        : this()
+    public SendLocationRequest(ChatId chatId, double latitude, double longitude) : this()
     {
         ChatId = chatId;
         Latitude = latitude;
@@ -63,7 +62,5 @@ public partial class SendLocationRequest : RequestBase<Message>, IChatTargetable
     }
 
     /// <summary>Instantiates a new <see cref="SendLocationRequest"/></summary>
-    public SendLocationRequest()
-        : base("sendLocation")
-    { }
+    public SendLocationRequest() : base("sendLocation") { }
 }

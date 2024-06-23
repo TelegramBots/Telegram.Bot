@@ -28,15 +28,12 @@ public partial class AnswerInlineQueryRequest : RequestBase<bool>
     /// <param name="results">A array of results for the inline query</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResult> results)
-        : this()
+    public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResult> results) : this()
     {
         InlineQueryId = inlineQueryId;
         Results = results;
     }
 
     /// <summary>Instantiates a new <see cref="AnswerInlineQueryRequest"/></summary>
-    public AnswerInlineQueryRequest()
-        : base("answerInlineQuery")
-    { }
+    public AnswerInlineQueryRequest() : base("answerInlineQuery") { }
 }

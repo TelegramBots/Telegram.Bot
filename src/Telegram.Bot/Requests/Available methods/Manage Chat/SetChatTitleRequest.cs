@@ -16,15 +16,12 @@ public partial class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
     /// <param name="title">New chat title, 1-128 characters</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetChatTitleRequest(ChatId chatId, string title)
-        : this()
+    public SetChatTitleRequest(ChatId chatId, string title) : this()
     {
         ChatId = chatId;
         Title = title;
     }
 
     /// <summary>Instantiates a new <see cref="SetChatTitleRequest"/></summary>
-    public SetChatTitleRequest()
-        : base("setChatTitle")
-    { }
+    public SetChatTitleRequest() : base("setChatTitle") { }
 }

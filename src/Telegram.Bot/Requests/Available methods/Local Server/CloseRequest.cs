@@ -4,7 +4,5 @@
 public partial class CloseRequest : ParameterlessRequest<bool>
 {
     /// <summary>Instantiates a new <see cref="CloseRequest"/></summary>
-    public CloseRequest()
-        : base("close")
-    { }
+    public CloseRequest() : base("close") { }
 }

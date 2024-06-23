@@ -19,15 +19,12 @@ public partial class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public UnbanChatMemberRequest(ChatId chatId, long userId)
-        : this()
+    public UnbanChatMemberRequest(ChatId chatId, long userId) : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
 
     /// <summary>Instantiates a new <see cref="UnbanChatMemberRequest"/></summary>
-    public UnbanChatMemberRequest()
-        : base("unbanChatMember")
-    { }
+    public UnbanChatMemberRequest() : base("unbanChatMember") { }
 }

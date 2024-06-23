@@ -4,7 +4,5 @@
 public partial class GetForumTopicIconStickersRequest : ParameterlessRequest<Sticker[]>
 {
     /// <summary>Instantiates a new <see cref="GetForumTopicIconStickersRequest"/></summary>
-    public GetForumTopicIconStickersRequest()
-        : base("getForumTopicIconStickers")
-    { }
+    public GetForumTopicIconStickersRequest() : base("getForumTopicIconStickers") { }
 }

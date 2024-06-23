@@ -30,13 +30,10 @@ public partial class SetWebhookRequest : FileRequestBase<bool>
     /// <param name="url">HTTPS URL to send updates to. Use an empty string to remove webhook integration</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetWebhookRequest(string url)
-        : this() => Url = url;
+    public SetWebhookRequest(string url) : this() => Url = url;
 
     /// <summary>Instantiates a new <see cref="SetWebhookRequest"/></summary>
-    public SetWebhookRequest()
-        : base("setWebhook")
-    { }
+    public SetWebhookRequest() : base("setWebhook") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

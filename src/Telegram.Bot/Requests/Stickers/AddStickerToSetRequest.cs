@@ -21,8 +21,7 @@ public partial class AddStickerToSetRequest : FileRequestBase<bool>, IUserTarget
     /// <param name="sticker">An object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public AddStickerToSetRequest(long userId, string name, InputSticker sticker)
-        : this()
+    public AddStickerToSetRequest(long userId, string name, InputSticker sticker) : this()
     {
         UserId = userId;
         Name = name;
@@ -30,9 +29,7 @@ public partial class AddStickerToSetRequest : FileRequestBase<bool>, IUserTarget
     }
 
     /// <summary>Instantiates a new <see cref="AddStickerToSetRequest"/></summary>
-    public AddStickerToSetRequest()
-        : base("addStickerToSet")
-    { }
+    public AddStickerToSetRequest() : base("addStickerToSet") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

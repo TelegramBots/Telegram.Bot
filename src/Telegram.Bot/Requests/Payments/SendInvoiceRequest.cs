@@ -103,8 +103,7 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendInvoiceRequest(ChatId chatId, string title, string description, string payload, string? providerToken, string currency, IEnumerable<LabeledPrice> prices)
-        : this()
+    public SendInvoiceRequest(ChatId chatId, string title, string description, string payload, string? providerToken, string currency, IEnumerable<LabeledPrice> prices) : this()
     {
         ChatId = chatId;
         Title = title;
@@ -116,7 +115,5 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     }
 
     /// <summary>Instantiates a new <see cref="SendInvoiceRequest"/></summary>
-    public SendInvoiceRequest()
-        : base("sendInvoice")
-    { }
+    public SendInvoiceRequest() : base("sendInvoice") { }
 }

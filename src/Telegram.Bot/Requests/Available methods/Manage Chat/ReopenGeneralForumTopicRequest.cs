@@ -11,11 +11,8 @@ public partial class ReopenGeneralForumTopicRequest : RequestBase<bool>, IChatTa
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public ReopenGeneralForumTopicRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public ReopenGeneralForumTopicRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="ReopenGeneralForumTopicRequest"/></summary>
-    public ReopenGeneralForumTopicRequest()
-        : base("reopenGeneralForumTopic")
-    { }
+    public ReopenGeneralForumTopicRequest() : base("reopenGeneralForumTopic") { }
 }

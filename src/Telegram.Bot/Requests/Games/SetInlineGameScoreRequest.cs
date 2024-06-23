@@ -28,8 +28,7 @@ public partial class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargeta
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetInlineGameScoreRequest(long userId, int score, string inlineMessageId)
-        : this()
+    public SetInlineGameScoreRequest(long userId, int score, string inlineMessageId) : this()
     {
         UserId = userId;
         Score = score;
@@ -37,7 +36,5 @@ public partial class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargeta
     }
 
     /// <summary>Instantiates a new <see cref="SetInlineGameScoreRequest"/></summary>
-    public SetInlineGameScoreRequest()
-        : base("setGameScore")
-    { }
+    public SetInlineGameScoreRequest() : base("setGameScore") { }
 }

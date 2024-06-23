@@ -29,6 +29,5 @@ public partial class ReplyKeyboardMarkup : IReplyMarkup
     public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard) => Keyboard = keyboard;
 
     /// <summary>Instantiates a new <see cref="ReplyKeyboardMarkup"/></summary>
-    public ReplyKeyboardMarkup()
-    { }
+    public ReplyKeyboardMarkup() { }
 }

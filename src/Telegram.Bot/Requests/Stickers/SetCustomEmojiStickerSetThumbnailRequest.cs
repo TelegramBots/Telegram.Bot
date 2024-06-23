@@ -14,11 +14,8 @@ public partial class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool
     /// <param name="name">Sticker set name</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetCustomEmojiStickerSetThumbnailRequest(string name)
-        : this() => Name = name;
+    public SetCustomEmojiStickerSetThumbnailRequest(string name) : this() => Name = name;
 
     /// <summary>Instantiates a new <see cref="SetCustomEmojiStickerSetThumbnailRequest"/></summary>
-    public SetCustomEmojiStickerSetThumbnailRequest()
-        : base("setCustomEmojiStickerSetThumbnail")
-    { }
+    public SetCustomEmojiStickerSetThumbnailRequest() : base("setCustomEmojiStickerSetThumbnail") { }
 }

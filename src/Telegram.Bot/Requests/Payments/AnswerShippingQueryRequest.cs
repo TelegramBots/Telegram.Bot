@@ -22,15 +22,12 @@ public partial class AnswerShippingQueryRequest : RequestBase<bool>
     /// <param name="ok">Specify <see langword="true"/> if everything is alright at this stage and the bot is ready to proceed.<br/> Use <see langword="false"/> and fill <see cref="ErrorMessage"/> if there are any problems.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public AnswerShippingQueryRequest(string shippingQueryId, bool ok)
-        : this()
+    public AnswerShippingQueryRequest(string shippingQueryId, bool ok) : this()
     {
         ShippingQueryId = shippingQueryId;
         Ok = ok;
     }
 
     /// <summary>Instantiates a new <see cref="AnswerShippingQueryRequest"/></summary>
-    public AnswerShippingQueryRequest()
-        : base("answerShippingQuery")
-    { }
+    public AnswerShippingQueryRequest() : base("answerShippingQuery") { }
 }

@@ -14,6 +14,5 @@ public partial class WebAppInfo
     public WebAppInfo(string url) => Url = url;
 
     /// <summary>Instantiates a new <see cref="WebAppInfo"/></summary>
-    public WebAppInfo()
-    { }
+    public WebAppInfo() { }
 }

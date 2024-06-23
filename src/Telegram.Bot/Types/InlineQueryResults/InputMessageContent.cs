@@ -32,8 +32,7 @@ public partial class InputTextMessageContent : InputMessageContent
     public InputTextMessageContent(string messageText) => MessageText = messageText;
 
     /// <summary>Instantiates a new <see cref="InputTextMessageContent"/></summary>
-    public InputTextMessageContent()
-    { }
+    public InputTextMessageContent() { }
 }
 
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of a location message to be sent as the result of an inline query.</summary>
@@ -71,8 +70,7 @@ public partial class InputLocationMessageContent : InputMessageContent
     }
 
     /// <summary>Instantiates a new <see cref="InputLocationMessageContent"/></summary>
-    public InputLocationMessageContent()
-    { }
+    public InputLocationMessageContent() { }
 }
 
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of a venue message to be sent as the result of an inline query.</summary>
@@ -122,8 +120,7 @@ public partial class InputVenueMessageContent : InputMessageContent
     }
 
     /// <summary>Instantiates a new <see cref="InputVenueMessageContent"/></summary>
-    public InputVenueMessageContent()
-    { }
+    public InputVenueMessageContent() { }
 }
 
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of a contact message to be sent as the result of an inline query.</summary>
@@ -155,8 +152,7 @@ public partial class InputContactMessageContent : InputMessageContent
     }
 
     /// <summary>Instantiates a new <see cref="InputContactMessageContent"/></summary>
-    public InputContactMessageContent()
-    { }
+    public InputContactMessageContent() { }
 }
 
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of an invoice message to be sent as the result of an inline query.</summary>
@@ -245,6 +241,5 @@ public partial class InputInvoiceMessageContent : InputMessageContent
     }
 
     /// <summary>Instantiates a new <see cref="InputInvoiceMessageContent"/></summary>
-    public InputInvoiceMessageContent()
-    { }
+    public InputInvoiceMessageContent() { }
 }

@@ -28,8 +28,7 @@ public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargeta
     /// <param name="permissions">An object for new user permissions</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions)
-        : this()
+    public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions) : this()
     {
         ChatId = chatId;
         UserId = userId;
@@ -37,7 +36,5 @@ public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargeta
     }
 
     /// <summary>Instantiates a new <see cref="RestrictChatMemberRequest"/></summary>
-    public RestrictChatMemberRequest()
-        : base("restrictChatMember")
-    { }
+    public RestrictChatMemberRequest() : base("restrictChatMember") { }
 }

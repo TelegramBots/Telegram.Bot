@@ -11,11 +11,8 @@ public partial class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public UnpinAllGeneralForumTopicMessagesRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public UnpinAllGeneralForumTopicMessagesRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="UnpinAllGeneralForumTopicMessagesRequest"/></summary>
-    public UnpinAllGeneralForumTopicMessagesRequest()
-        : base("unpinAllGeneralForumTopicMessages")
-    { }
+    public UnpinAllGeneralForumTopicMessagesRequest() : base("unpinAllGeneralForumTopicMessages") { }
 }

@@ -10,7 +10,5 @@ public partial class GetMyCommandsRequest : RequestBase<BotCommand[]>
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetMyCommandsRequest"/></summary>
-    public GetMyCommandsRequest()
-        : base("getMyCommands")
-    { }
+    public GetMyCommandsRequest() : base("getMyCommands") { }
 }

@@ -33,8 +33,7 @@ public partial class CopyMessagesRequest : RequestBase<MessageId[]>, IChatTarget
     /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to copy. The identifiers must be specified in a strictly increasing order.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public CopyMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds)
-        : this()
+    public CopyMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds) : this()
     {
         ChatId = chatId;
         FromChatId = fromChatId;
@@ -42,7 +41,5 @@ public partial class CopyMessagesRequest : RequestBase<MessageId[]>, IChatTarget
     }
 
     /// <summary>Instantiates a new <see cref="CopyMessagesRequest"/></summary>
-    public CopyMessagesRequest()
-        : base("copyMessages")
-    { }
+    public CopyMessagesRequest() : base("copyMessages") { }
 }

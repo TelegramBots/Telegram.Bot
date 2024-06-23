@@ -17,11 +17,8 @@ public partial class StopInlineMessageLiveLocationRequest : RequestBase<bool>, I
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public StopInlineMessageLiveLocationRequest(string inlineMessageId)
-        : this() => InlineMessageId = inlineMessageId;
+    public StopInlineMessageLiveLocationRequest(string inlineMessageId) : this() => InlineMessageId = inlineMessageId;
 
     /// <summary>Instantiates a new <see cref="StopInlineMessageLiveLocationRequest"/></summary>
-    public StopInlineMessageLiveLocationRequest()
-        : base("stopMessageLiveLocation")
-    { }
+    public StopInlineMessageLiveLocationRequest() : base("stopMessageLiveLocation") { }
 }

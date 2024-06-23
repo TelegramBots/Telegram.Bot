@@ -29,15 +29,12 @@ public partial class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IC
     /// <param name="inviteLink">The invite link to edit</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditChatInviteLinkRequest(ChatId chatId, string inviteLink)
-        : this()
+    public EditChatInviteLinkRequest(ChatId chatId, string inviteLink) : this()
     {
         ChatId = chatId;
         InviteLink = inviteLink;
     }
 
     /// <summary>Instantiates a new <see cref="EditChatInviteLinkRequest"/></summary>
-    public EditChatInviteLinkRequest()
-        : base("editChatInviteLink")
-    { }
+    public EditChatInviteLinkRequest() : base("editChatInviteLink") { }
 }

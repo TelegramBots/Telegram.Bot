@@ -10,7 +10,5 @@ public partial class DeleteMyCommandsRequest : RequestBase<bool>
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="DeleteMyCommandsRequest"/></summary>
-    public DeleteMyCommandsRequest()
-        : base("deleteMyCommands")
-    { }
+    public DeleteMyCommandsRequest() : base("deleteMyCommands") { }
 }

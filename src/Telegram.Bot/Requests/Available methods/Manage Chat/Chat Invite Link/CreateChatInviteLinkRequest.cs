@@ -24,11 +24,8 @@ public partial class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, 
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public CreateChatInviteLinkRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public CreateChatInviteLinkRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="CreateChatInviteLinkRequest"/></summary>
-    public CreateChatInviteLinkRequest()
-        : base("createChatInviteLink")
-    { }
+    public CreateChatInviteLinkRequest() : base("createChatInviteLink") { }
 }

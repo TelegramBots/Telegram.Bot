@@ -16,17 +16,14 @@ public partial class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetabl
     /// <param name="photo">New chat photo, uploaded using <see cref="InputFileStream"/></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
-        : this()
+    public SetChatPhotoRequest(ChatId chatId, InputFileStream photo) : this()
     {
         ChatId = chatId;
         Photo = photo;
     }
 
     /// <summary>Instantiates a new <see cref="SetChatPhotoRequest"/></summary>
-    public SetChatPhotoRequest()
-        : base("setChatPhoto")
-    { }
+    public SetChatPhotoRequest() : base("setChatPhoto") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

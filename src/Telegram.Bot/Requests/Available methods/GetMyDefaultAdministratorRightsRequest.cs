@@ -7,7 +7,5 @@ public partial class GetMyDefaultAdministratorRightsRequest : RequestBase<ChatAd
     public bool ForChannels { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetMyDefaultAdministratorRightsRequest"/></summary>
-    public GetMyDefaultAdministratorRightsRequest()
-        : base("getMyDefaultAdministratorRights")
-    { }
+    public GetMyDefaultAdministratorRightsRequest() : base("getMyDefaultAdministratorRights") { }
 }

@@ -22,15 +22,12 @@ public partial class StopPollRequest : RequestBase<Poll>, IChatTargetable, IBusi
     /// <param name="messageId">Identifier of the original message with the poll</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public StopPollRequest(ChatId chatId, int messageId)
-        : this()
+    public StopPollRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="StopPollRequest"/></summary>
-    public StopPollRequest()
-        : base("stopPoll")
-    { }
+    public StopPollRequest() : base("stopPoll") { }
 }

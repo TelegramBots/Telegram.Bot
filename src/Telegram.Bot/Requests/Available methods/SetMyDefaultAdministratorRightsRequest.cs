@@ -10,7 +10,5 @@ public partial class SetMyDefaultAdministratorRightsRequest : RequestBase<bool>
     public bool ForChannels { get; set; }
 
     /// <summary>Instantiates a new <see cref="SetMyDefaultAdministratorRightsRequest"/></summary>
-    public SetMyDefaultAdministratorRightsRequest()
-        : base("setMyDefaultAdministratorRights")
-    { }
+    public SetMyDefaultAdministratorRightsRequest() : base("setMyDefaultAdministratorRights") { }
 }

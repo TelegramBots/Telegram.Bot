@@ -11,11 +11,8 @@ public partial class LeaveChatRequest : RequestBase<bool>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public LeaveChatRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public LeaveChatRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="LeaveChatRequest"/></summary>
-    public LeaveChatRequest()
-        : base("leaveChat")
-    { }
+    public LeaveChatRequest() : base("leaveChat") { }
 }

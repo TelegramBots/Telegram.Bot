@@ -22,15 +22,12 @@ public partial class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTar
     /// <param name="name">Topic name, 1-128 characters</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public CreateForumTopicRequest(ChatId chatId, string name)
-        : this()
+    public CreateForumTopicRequest(ChatId chatId, string name) : this()
     {
         ChatId = chatId;
         Name = name;
     }
 
     /// <summary>Instantiates a new <see cref="CreateForumTopicRequest"/></summary>
-    public CreateForumTopicRequest()
-        : base("createForumTopic")
-    { }
+    public CreateForumTopicRequest() : base("createForumTopic") { }
 }

@@ -21,8 +21,7 @@ public partial class SetChatAdministratorCustomTitleRequest : RequestBase<bool>,
     /// <param name="customTitle">New custom title for the administrator; 0-16 characters, emoji are not allowed</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetChatAdministratorCustomTitleRequest(ChatId chatId, long userId, string customTitle)
-        : this()
+    public SetChatAdministratorCustomTitleRequest(ChatId chatId, long userId, string customTitle) : this()
     {
         ChatId = chatId;
         UserId = userId;
@@ -30,7 +29,5 @@ public partial class SetChatAdministratorCustomTitleRequest : RequestBase<bool>,
     }
 
     /// <summary>Instantiates a new <see cref="SetChatAdministratorCustomTitleRequest"/></summary>
-    public SetChatAdministratorCustomTitleRequest()
-        : base("setChatAdministratorCustomTitle")
-    { }
+    public SetChatAdministratorCustomTitleRequest() : base("setChatAdministratorCustomTitle") { }
 }

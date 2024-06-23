@@ -30,8 +30,7 @@ public partial class ForwardMessageRequest : RequestBase<Message>, IChatTargetab
     /// <param name="messageId">Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see></param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public ForwardMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
-        : this()
+    public ForwardMessageRequest(ChatId chatId, ChatId fromChatId, int messageId) : this()
     {
         ChatId = chatId;
         FromChatId = fromChatId;
@@ -39,7 +38,5 @@ public partial class ForwardMessageRequest : RequestBase<Message>, IChatTargetab
     }
 
     /// <summary>Instantiates a new <see cref="ForwardMessageRequest"/></summary>
-    public ForwardMessageRequest()
-        : base("forwardMessage")
-    { }
+    public ForwardMessageRequest() : base("forwardMessage") { }
 }

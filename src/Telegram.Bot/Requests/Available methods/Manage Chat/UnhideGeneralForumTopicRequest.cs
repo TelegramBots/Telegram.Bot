@@ -11,11 +11,8 @@ public partial class UnhideGeneralForumTopicRequest : RequestBase<bool>, IChatTa
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public UnhideGeneralForumTopicRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public UnhideGeneralForumTopicRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="UnhideGeneralForumTopicRequest"/></summary>
-    public UnhideGeneralForumTopicRequest()
-        : base("unhideGeneralForumTopic")
-    { }
+    public UnhideGeneralForumTopicRequest() : base("unhideGeneralForumTopic") { }
 }

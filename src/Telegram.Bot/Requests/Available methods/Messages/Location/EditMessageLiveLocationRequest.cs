@@ -44,8 +44,7 @@ public partial class EditMessageLiveLocationRequest : RequestBase<Message>, ICha
     /// <param name="longitude">Longitude of new location</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditMessageLiveLocationRequest(ChatId chatId, int messageId, double latitude, double longitude)
-        : this()
+    public EditMessageLiveLocationRequest(ChatId chatId, int messageId, double latitude, double longitude) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
@@ -54,7 +53,5 @@ public partial class EditMessageLiveLocationRequest : RequestBase<Message>, ICha
     }
 
     /// <summary>Instantiates a new <see cref="EditMessageLiveLocationRequest"/></summary>
-    public EditMessageLiveLocationRequest()
-        : base("editMessageLiveLocation")
-    { }
+    public EditMessageLiveLocationRequest() : base("editMessageLiveLocation") { }
 }

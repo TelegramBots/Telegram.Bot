@@ -16,15 +16,12 @@ public partial class RefundStarPaymentRequest : RequestBase<bool>, IUserTargetab
     /// <param name="telegramPaymentChargeId">Telegram payment identifier</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public RefundStarPaymentRequest(long userId, string telegramPaymentChargeId)
-        : this()
+    public RefundStarPaymentRequest(long userId, string telegramPaymentChargeId) : this()
     {
         UserId = userId;
         TelegramPaymentChargeId = telegramPaymentChargeId;
     }
 
     /// <summary>Instantiates a new <see cref="RefundStarPaymentRequest"/></summary>
-    public RefundStarPaymentRequest()
-        : base("refundStarPayment")
-    { }
+    public RefundStarPaymentRequest() : base("refundStarPayment") { }
 }

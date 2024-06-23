@@ -11,11 +11,8 @@ public partial class GetFileRequest : RequestBase<File>
     /// <param name="fileId">File identifier to get information about</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetFileRequest(string fileId)
-        : this() => FileId = fileId;
+    public GetFileRequest(string fileId) : this() => FileId = fileId;
 
     /// <summary>Instantiates a new <see cref="GetFileRequest"/></summary>
-    public GetFileRequest()
-        : base("getFile")
-    { }
+    public GetFileRequest() : base("getFile") { }
 }

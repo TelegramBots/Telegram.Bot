@@ -4,7 +4,5 @@
 public partial class GetMeRequest : ParameterlessRequest<User>
 {
     /// <summary>Instantiates a new <see cref="GetMeRequest"/></summary>
-    public GetMeRequest()
-        : base("getMe")
-    { }
+    public GetMeRequest() : base("getMe") { }
 }

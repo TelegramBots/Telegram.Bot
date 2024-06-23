@@ -11,11 +11,8 @@ public partial class DeleteChatStickerSetRequest : RequestBase<bool>, IChatTarge
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteChatStickerSetRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public DeleteChatStickerSetRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="DeleteChatStickerSetRequest"/></summary>
-    public DeleteChatStickerSetRequest()
-        : base("deleteChatStickerSet")
-    { }
+    public DeleteChatStickerSetRequest() : base("deleteChatStickerSet") { }
 }

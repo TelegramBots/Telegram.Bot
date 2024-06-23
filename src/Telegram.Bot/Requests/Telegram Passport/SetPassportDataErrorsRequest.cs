@@ -16,15 +16,12 @@ public partial class SetPassportDataErrorsRequest : RequestBase<bool>, IUserTarg
     /// <param name="errors">A array describing the errors</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetPassportDataErrorsRequest(long userId, IEnumerable<PassportElementError> errors)
-        : this()
+    public SetPassportDataErrorsRequest(long userId, IEnumerable<PassportElementError> errors) : this()
     {
         UserId = userId;
         Errors = errors;
     }
 
     /// <summary>Instantiates a new <see cref="SetPassportDataErrorsRequest"/></summary>
-    public SetPassportDataErrorsRequest()
-        : base("setPassportDataErrors")
-    { }
+    public SetPassportDataErrorsRequest() : base("setPassportDataErrors") { }
 }

@@ -16,15 +16,12 @@ public partial class EditGeneralForumTopicRequest : RequestBase<bool>, IChatTarg
     /// <param name="name">New topic name, 1-128 characters</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditGeneralForumTopicRequest(ChatId chatId, string name)
-        : this()
+    public EditGeneralForumTopicRequest(ChatId chatId, string name) : this()
     {
         ChatId = chatId;
         Name = name;
     }
 
     /// <summary>Instantiates a new <see cref="EditGeneralForumTopicRequest"/></summary>
-    public EditGeneralForumTopicRequest()
-        : base("editGeneralForumTopic")
-    { }
+    public EditGeneralForumTopicRequest() : base("editGeneralForumTopic") { }
 }

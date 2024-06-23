@@ -7,7 +7,5 @@ public partial class GetMyDescriptionRequest : RequestBase<BotDescription>
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetMyDescriptionRequest"/></summary>
-    public GetMyDescriptionRequest()
-        : base("getMyDescription")
-    { }
+    public GetMyDescriptionRequest() : base("getMyDescription") { }
 }

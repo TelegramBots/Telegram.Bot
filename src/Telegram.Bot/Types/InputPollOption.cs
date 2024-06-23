@@ -20,6 +20,5 @@ public partial class InputPollOption
     public InputPollOption(string text) => Text = text;
 
     /// <summary>Instantiates a new <see cref="InputPollOption"/></summary>
-    public InputPollOption()
-    { }
+    public InputPollOption() { }
 }

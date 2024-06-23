@@ -48,8 +48,7 @@ public partial class SendContactRequest : RequestBase<Message>, IChatTargetable,
     /// <param name="firstName">Contact's first name</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendContactRequest(ChatId chatId, string phoneNumber, string firstName)
-        : this()
+    public SendContactRequest(ChatId chatId, string phoneNumber, string firstName) : this()
     {
         ChatId = chatId;
         PhoneNumber = phoneNumber;
@@ -57,7 +56,5 @@ public partial class SendContactRequest : RequestBase<Message>, IChatTargetable,
     }
 
     /// <summary>Instantiates a new <see cref="SendContactRequest"/></summary>
-    public SendContactRequest()
-        : base("sendContact")
-    { }
+    public SendContactRequest() : base("sendContact") { }
 }

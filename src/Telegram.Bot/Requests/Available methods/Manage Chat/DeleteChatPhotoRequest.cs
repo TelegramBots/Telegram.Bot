@@ -11,11 +11,8 @@ public partial class DeleteChatPhotoRequest : RequestBase<bool>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public DeleteChatPhotoRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public DeleteChatPhotoRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="DeleteChatPhotoRequest"/></summary>
-    public DeleteChatPhotoRequest()
-        : base("deleteChatPhoto")
-    { }
+    public DeleteChatPhotoRequest() : base("deleteChatPhoto") { }
 }

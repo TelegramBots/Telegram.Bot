@@ -41,8 +41,7 @@ public partial class InlineKeyboardButton : IKeyboardButton
     public InlineKeyboardButton(string text) => Text = text;
 
     /// <summary>Instantiates a new <see cref="InlineKeyboardButton"/></summary>
-    public InlineKeyboardButton()
-    { }
+    public InlineKeyboardButton() { }
 
     /// <summary>Creates an inline keyboard button with HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;UserId&gt;</c> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.</summary>
     /// <param name="text">Label text on the button</param>

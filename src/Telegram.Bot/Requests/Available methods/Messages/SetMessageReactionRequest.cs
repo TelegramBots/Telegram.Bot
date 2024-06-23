@@ -22,15 +22,12 @@ public partial class SetMessageReactionRequest : RequestBase<bool>, IChatTargeta
     /// <param name="messageId">Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetMessageReactionRequest(ChatId chatId, int messageId)
-        : this()
+    public SetMessageReactionRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="SetMessageReactionRequest"/></summary>
-    public SetMessageReactionRequest()
-        : base("setMessageReaction")
-    { }
+    public SetMessageReactionRequest() : base("setMessageReaction") { }
 }

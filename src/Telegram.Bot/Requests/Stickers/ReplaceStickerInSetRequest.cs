@@ -26,8 +26,7 @@ public partial class ReplaceStickerInSetRequest : FileRequestBase<bool>, IUserTa
     /// <param name="sticker">An object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set remains unchanged.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public ReplaceStickerInSetRequest(long userId, string name, string oldSticker, InputSticker sticker)
-        : this()
+    public ReplaceStickerInSetRequest(long userId, string name, string oldSticker, InputSticker sticker) : this()
     {
         UserId = userId;
         Name = name;
@@ -36,9 +35,7 @@ public partial class ReplaceStickerInSetRequest : FileRequestBase<bool>, IUserTa
     }
 
     /// <summary>Instantiates a new <see cref="ReplaceStickerInSetRequest"/></summary>
-    public ReplaceStickerInSetRequest()
-        : base("replaceStickerInSet")
-    { }
+    public ReplaceStickerInSetRequest() : base("replaceStickerInSet") { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

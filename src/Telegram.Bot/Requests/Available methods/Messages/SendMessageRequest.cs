@@ -46,15 +46,12 @@ public partial class SendMessageRequest : RequestBase<Message>, IChatTargetable,
     /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SendMessageRequest(ChatId chatId, string text)
-        : this()
+    public SendMessageRequest(ChatId chatId, string text) : this()
     {
         ChatId = chatId;
         Text = text;
     }
 
     /// <summary>Instantiates a new <see cref="SendMessageRequest"/></summary>
-    public SendMessageRequest()
-        : base("sendMessage")
-    { }
+    public SendMessageRequest() : base("sendMessage") { }
 }

@@ -16,15 +16,12 @@ public partial class SetStickerPositionInSetRequest : RequestBase<bool>
     /// <param name="position">New sticker position in the set, zero-based</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetStickerPositionInSetRequest(InputFileId sticker, int position)
-        : this()
+    public SetStickerPositionInSetRequest(InputFileId sticker, int position) : this()
     {
         Sticker = sticker;
         Position = position;
     }
 
     /// <summary>Instantiates a new <see cref="SetStickerPositionInSetRequest"/></summary>
-    public SetStickerPositionInSetRequest()
-        : base("setStickerPositionInSet")
-    { }
+    public SetStickerPositionInSetRequest() : base("setStickerPositionInSet") { }
 }

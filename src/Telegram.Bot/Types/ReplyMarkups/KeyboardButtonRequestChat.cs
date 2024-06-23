@@ -49,6 +49,5 @@ public partial class KeyboardButtonRequestChat
     }
 
     /// <summary>Instantiates a new <see cref="KeyboardButtonRequestChat"/></summary>
-    public KeyboardButtonRequestChat()
-    { }
+    public KeyboardButtonRequestChat() { }
 }

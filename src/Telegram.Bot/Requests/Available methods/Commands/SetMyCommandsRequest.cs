@@ -17,11 +17,8 @@ public partial class SetMyCommandsRequest : RequestBase<bool>
     /// <param name="commands">A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetMyCommandsRequest(IEnumerable<BotCommand> commands)
-        : this() => Commands = commands;
+    public SetMyCommandsRequest(IEnumerable<BotCommand> commands) : this() => Commands = commands;
 
     /// <summary>Instantiates a new <see cref="SetMyCommandsRequest"/></summary>
-    public SetMyCommandsRequest()
-        : base("setMyCommands")
-    { }
+    public SetMyCommandsRequest() : base("setMyCommands") { }
 }

@@ -16,15 +16,12 @@ public partial class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetab
     /// <param name="stickerSetName">Name of the sticker set to be set as the group sticker set</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public SetChatStickerSetRequest(ChatId chatId, string stickerSetName)
-        : this()
+    public SetChatStickerSetRequest(ChatId chatId, string stickerSetName) : this()
     {
         ChatId = chatId;
         StickerSetName = stickerSetName;
     }
 
     /// <summary>Instantiates a new <see cref="SetChatStickerSetRequest"/></summary>
-    public SetChatStickerSetRequest()
-        : base("setChatStickerSet")
-    { }
+    public SetChatStickerSetRequest() : base("setChatStickerSet") { }
 }

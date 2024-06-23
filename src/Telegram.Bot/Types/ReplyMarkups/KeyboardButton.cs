@@ -32,8 +32,7 @@ public partial class KeyboardButton : IKeyboardButton
     public KeyboardButton(string text) => Text = text;
 
     /// <summary>Instantiates a new <see cref="KeyboardButton"/></summary>
-    public KeyboardButton()
-    { }
+    public KeyboardButton() { }
 
     /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>

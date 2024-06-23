@@ -14,11 +14,8 @@ public partial class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetabl
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public UnpinChatMessageRequest(ChatId chatId)
-        : this() => ChatId = chatId;
+    public UnpinChatMessageRequest(ChatId chatId) : this() => ChatId = chatId;
 
     /// <summary>Instantiates a new <see cref="UnpinChatMessageRequest"/></summary>
-    public UnpinChatMessageRequest()
-        : base("unpinChatMessage")
-    { }
+    public UnpinChatMessageRequest() : base("unpinChatMessage") { }
 }

@@ -10,7 +10,5 @@ public partial class SetChatMenuButtonRequest : RequestBase<bool>
     public MenuButton? MenuButton { get; set; }
 
     /// <summary>Instantiates a new <see cref="SetChatMenuButtonRequest"/></summary>
-    public SetChatMenuButtonRequest()
-        : base("setChatMenuButton")
-    { }
+    public SetChatMenuButtonRequest() : base("setChatMenuButton") { }
 }

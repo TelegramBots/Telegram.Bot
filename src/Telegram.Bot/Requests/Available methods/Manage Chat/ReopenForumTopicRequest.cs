@@ -16,15 +16,12 @@ public partial class ReopenForumTopicRequest : RequestBase<bool>, IChatTargetabl
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public ReopenForumTopicRequest(ChatId chatId, int messageThreadId)
-        : this()
+    public ReopenForumTopicRequest(ChatId chatId, int messageThreadId) : this()
     {
         ChatId = chatId;
         MessageThreadId = messageThreadId;
     }
 
     /// <summary>Instantiates a new <see cref="ReopenForumTopicRequest"/></summary>
-    public ReopenForumTopicRequest()
-        : base("reopenForumTopic")
-    { }
+    public ReopenForumTopicRequest() : base("reopenForumTopic") { }
 }

@@ -27,8 +27,7 @@ public partial class EditMessageMediaRequest : FileRequestBase<Message>, IChatTa
     /// <param name="media">An object for a new media content of the message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media)
-        : this()
+    public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
@@ -36,7 +35,5 @@ public partial class EditMessageMediaRequest : FileRequestBase<Message>, IChatTa
     }
 
     /// <summary>Instantiates a new <see cref="EditMessageMediaRequest"/></summary>
-    public EditMessageMediaRequest()
-        : base("editMessageMedia")
-    { }
+    public EditMessageMediaRequest() : base("editMessageMedia") { }
 }

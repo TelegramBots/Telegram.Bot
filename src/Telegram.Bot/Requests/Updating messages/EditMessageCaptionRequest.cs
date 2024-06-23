@@ -34,15 +34,12 @@ public partial class EditMessageCaptionRequest : RequestBase<Message>, IChatTarg
     /// <param name="messageId">Identifier of the message to edit</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditMessageCaptionRequest(ChatId chatId, int messageId)
-        : this()
+    public EditMessageCaptionRequest(ChatId chatId, int messageId) : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
 
     /// <summary>Instantiates a new <see cref="EditMessageCaptionRequest"/></summary>
-    public EditMessageCaptionRequest()
-        : base("editMessageCaption")
-    { }
+    public EditMessageCaptionRequest() : base("editMessageCaption") { }
 }

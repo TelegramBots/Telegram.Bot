@@ -10,7 +10,5 @@ public partial class GetStarTransactionsRequest : RequestBase<StarTransactions>
     public int? Limit { get; set; }
 
     /// <summary>Instantiates a new <see cref="GetStarTransactionsRequest"/></summary>
-    public GetStarTransactionsRequest()
-        : base("getStarTransactions")
-    { }
+    public GetStarTransactionsRequest() : base("getStarTransactions") { }
 }

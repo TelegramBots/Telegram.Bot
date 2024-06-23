@@ -31,15 +31,12 @@ public partial class EditInlineMessageTextRequest : RequestBase<bool>, IBusiness
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditInlineMessageTextRequest(string inlineMessageId, string text)
-        : this()
+    public EditInlineMessageTextRequest(string inlineMessageId, string text) : this()
     {
         InlineMessageId = inlineMessageId;
         Text = text;
     }
 
     /// <summary>Instantiates a new <see cref="EditInlineMessageTextRequest"/></summary>
-    public EditInlineMessageTextRequest()
-        : base("editMessageText")
-    { }
+    public EditInlineMessageTextRequest() : base("editMessageText") { }
 }

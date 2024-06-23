@@ -17,11 +17,8 @@ public partial class EditInlineMessageReplyMarkupRequest : RequestBase<bool>, IB
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public EditInlineMessageReplyMarkupRequest(string inlineMessageId)
-        : this() => InlineMessageId = inlineMessageId;
+    public EditInlineMessageReplyMarkupRequest(string inlineMessageId) : this() => InlineMessageId = inlineMessageId;
 
     /// <summary>Instantiates a new <see cref="EditInlineMessageReplyMarkupRequest"/></summary>
-    public EditInlineMessageReplyMarkupRequest()
-        : base("editMessageReplyMarkup")
-    { }
+    public EditInlineMessageReplyMarkupRequest() : base("editMessageReplyMarkup") { }
 }

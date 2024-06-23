@@ -7,7 +7,5 @@ public partial class DeleteWebhookRequest : RequestBase<bool>
     public bool DropPendingUpdates { get; set; }
 
     /// <summary>Instantiates a new <see cref="DeleteWebhookRequest"/></summary>
-    public DeleteWebhookRequest()
-        : base("deleteWebhook")
-    { }
+    public DeleteWebhookRequest() : base("deleteWebhook") { }
 }

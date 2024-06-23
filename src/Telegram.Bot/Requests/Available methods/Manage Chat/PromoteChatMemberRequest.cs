@@ -61,15 +61,12 @@ public partial class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetab
     /// <param name="userId">Unique identifier of the target user</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public PromoteChatMemberRequest(ChatId chatId, long userId)
-        : this()
+    public PromoteChatMemberRequest(ChatId chatId, long userId) : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
 
     /// <summary>Instantiates a new <see cref="PromoteChatMemberRequest"/></summary>
-    public PromoteChatMemberRequest()
-        : base("promoteChatMember")
-    { }
+    public PromoteChatMemberRequest() : base("promoteChatMember") { }
 }

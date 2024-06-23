@@ -10,7 +10,5 @@ public partial class SetMyShortDescriptionRequest : RequestBase<bool>
     public string? LanguageCode { get; set; }
 
     /// <summary>Instantiates a new <see cref="SetMyShortDescriptionRequest"/></summary>
-    public SetMyShortDescriptionRequest()
-        : base("setMyShortDescription")
-    { }
+    public SetMyShortDescriptionRequest() : base("setMyShortDescription") { }
 }

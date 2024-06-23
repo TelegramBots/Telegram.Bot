@@ -22,8 +22,7 @@ public partial class GetGameHighScoresRequest : RequestBase<GameHighScore[]>, IC
     /// <param name="messageId">Identifier of the sent message</param>
     [Obsolete("Use parameterless constructor with required properties")]
     [SetsRequiredMembers]
-    public GetGameHighScoresRequest(long userId, long chatId, int messageId)
-        : this()
+    public GetGameHighScoresRequest(long userId, long chatId, int messageId) : this()
     {
         UserId = userId;
         ChatId = chatId;
@@ -31,9 +30,7 @@ public partial class GetGameHighScoresRequest : RequestBase<GameHighScore[]>, IC
     }
 
     /// <summary>Instantiates a new <see cref="GetGameHighScoresRequest"/></summary>
-    public GetGameHighScoresRequest()
-        : base("getGameHighScores")
-    { }
+    public GetGameHighScoresRequest() : base("getGameHighScores") { }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;
