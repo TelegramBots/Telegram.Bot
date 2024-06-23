@@ -19,7 +19,7 @@ public partial class InlineKeyboardButton : IKeyboardButton
     public string? Url { get; set; }
 
     /// <summary>
-    /// <em>Optional</em>. Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when button is pressed, 1-64 bytes. Not supported for messages sent on behalf of a Telegram Business account.
+    /// <em>Optional</em>. Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -97,10 +97,10 @@ public partial class InlineKeyboardButton : IKeyboardButton
         new(text) { Url = url };
 
     /// <summary>
-    /// Creates an inline keyboard button with data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when button is pressed, 1-64 bytes. Not supported for messages sent on behalf of a Telegram Business account.
+    /// Creates an inline keyboard button with data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes
     /// </summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="callbackData">Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when button is pressed, 1-64 bytes. Not supported for messages sent on behalf of a Telegram Business account.</param>
+    /// <param name="callbackData">Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes</param>
     public static InlineKeyboardButton WithCallbackData(string text, string callbackData) =>
         new(text) { CallbackData = callbackData };
 

@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [v21.1.0] - 2024-06-23
+
+### [Bot API 7.5](https://core.telegram.org/bots/api#june-18-2024)
+Added GetStarTransactions method, and parameter BusinessConnectionId on various requests.
+
+## [v21.0.0] - 2024-06-22
+
 ### Rationalization of the library
 
 These changes are aimed at making your life simpler and should not break existing code and instead ease the migration from previous versions:
@@ -44,13 +51,13 @@ _(so the new linkPreviewOptions: parameter behaves the same as the old disableWe
 - Recently added methods based on request structures are now obsolete and will be removed soon. Favor parameter-based methods instead.  
 If you already changed your code to use these structures and don't want to switch back, you can still use the `MakeRequestAsync` method to send them.
 
-## [Unreleased]
+## [v20.0.0] - 2024-06-15
 
-> [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)
-> [Bot API 7.1](https://core.telegram.org/bots/api#february-16-2024) (February 16, 2024)
-> [Bot API 7.2](https://core.telegram.org/bots/api#march-31-2024) (March 31, 2024)
-> [Bot API 7.3](https://core.telegram.org/bots/api#may-6-2024) (May 6, 2024)
-> [Bot Api 7.4](https://core.telegram.org/bots/api#may-28-2024) (May 28, 2024)
+> [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)  
+> [Bot API 7.1](https://core.telegram.org/bots/api#february-16-2024) (February 16, 2024)  
+> [Bot API 7.2](https://core.telegram.org/bots/api#march-31-2024) (March 31, 2024)  
+> [Bot API 7.3](https://core.telegram.org/bots/api#may-6-2024) (May 6, 2024)  
+> [Bot Api 7.4](https://core.telegram.org/bots/api#may-28-2024) (May 28, 2024)  
 
 ### Added
 
@@ -253,7 +260,7 @@ and `ForwardDate` replaced with the field `ForwardOrigin` of type `MessageOrigin
   and `ForwardDate` from type `Message`
 - Most optional properties are removed from the type `Chat`, all of them are now in `ChatFullInfo` type
 
-## [v20.0.0] - Unreleased
+## [Unreleased] - 2023-09-23
 
 > [Bot API 6.9](https://core.telegram.org/bots/api#september-22-2023) (September 22, 2023)
 
@@ -497,11 +504,9 @@ such objects will contain the user `136817688` (`@Channel_Bot`).
 
 ## [v19.0.0-preview.1] - 2022-12-03
 
-> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
-
-> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
-
-> [Bot API 6.3](https://core.telegram.org/bots/api#november-5-2022) (November 5, 2022)
+> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)  
+> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)  
+> [Bot API 6.3](https://core.telegram.org/bots/api#november-5-2022) (November 5, 2022)  
 
 ### Added
 
@@ -663,11 +668,9 @@ such objects will contain the user `136817688` (`@Channel_Bot`).
 
 ## [v18.0.0-alpha.1] - 2022-02-13
 
-> [Bot API 5.7](https://core.telegram.org/bots/api#january-31-2022) (January 31, 2022)
-
-> [Bot API 5.6](https://core.telegram.org/bots/api#december-30-2021) (December 30, 2021)
-
-> [Bot API 5.5](https://core.telegram.org/bots/api#december-7-2021) (December 7, 2021)
+> [Bot API 5.7](https://core.telegram.org/bots/api#january-31-2022) (January 31, 2022)  
+> [Bot API 5.6](https://core.telegram.org/bots/api#december-30-2021) (December 30, 2021)  
+> [Bot API 5.5](https://core.telegram.org/bots/api#december-7-2021) (December 7, 2021)  
 
 ### Changed
 
@@ -943,7 +946,7 @@ such objects will contain the user `136817688` (`@Channel_Bot`).
 
 ## [v16.0.0-alpha.1] - 2021-05-01
 
-> [Bot API 5.1](https://core.telegram.org/bots/api#march-9-2021) (March 9, 2021)
+> [Bot API 5.1](https://core.telegram.org/bots/api#march-9-2021) (March 9, 2021)  
 > [Bot API 5.0](https://core.telegram.org/bots/api#november-4-2020) (November 4, 2020)
 
 ### Added

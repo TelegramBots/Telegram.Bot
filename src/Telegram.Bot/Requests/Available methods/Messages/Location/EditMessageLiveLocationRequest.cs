@@ -3,7 +3,7 @@
 /// <summary>
 /// Use this method to edit live location messages. A location can be edited until its <see cref="LivePeriod">LivePeriod</see> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocationAsync">StopMessageLiveLocation</see>.<para>Returns: The edited <see cref="Message"/> is returned</para>
 /// </summary>
-public partial class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargetable
+public partial class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
@@ -63,6 +63,13 @@ public partial class EditMessageLiveLocationRequest : RequestBase<Message>, ICha
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="EditMessageLiveLocationRequest"/>

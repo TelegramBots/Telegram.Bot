@@ -2898,6 +2898,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The edited <see cref="Message"/> is returned
@@ -2911,6 +2912,7 @@ public static partial class TelegramBotClientExtensions
         IEnumerable<MessageEntity>? entities = default,
         LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -2924,6 +2926,7 @@ public static partial class TelegramBotClientExtensions
                     Entities = entities,
                     LinkPreviewOptions = linkPreviewOptions,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -2939,6 +2942,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageTextAsync(
         this ITelegramBotClient botClient,
@@ -2948,6 +2952,7 @@ public static partial class TelegramBotClientExtensions
         IEnumerable<MessageEntity>? entities = default,
         LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -2960,6 +2965,7 @@ public static partial class TelegramBotClientExtensions
                     Entities = entities,
                     LinkPreviewOptions = linkPreviewOptions,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -2976,6 +2982,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media. Supported only for animation, photo and video messages.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The edited <see cref="Message"/> is returned
@@ -2989,6 +2996,7 @@ public static partial class TelegramBotClientExtensions
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3002,6 +3010,7 @@ public static partial class TelegramBotClientExtensions
                     CaptionEntities = captionEntities,
                     ShowCaptionAboveMedia = showCaptionAboveMedia,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3017,6 +3026,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media. Supported only for animation, photo and video messages.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
@@ -3026,6 +3036,7 @@ public static partial class TelegramBotClientExtensions
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3038,6 +3049,7 @@ public static partial class TelegramBotClientExtensions
                     CaptionEntities = captionEntities,
                     ShowCaptionAboveMedia = showCaptionAboveMedia,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3051,6 +3063,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="media">An object for a new media content of the message</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The edited <see cref="Message"/> is returned
@@ -3061,6 +3074,7 @@ public static partial class TelegramBotClientExtensions
         int messageId,
         InputMedia media,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3071,6 +3085,7 @@ public static partial class TelegramBotClientExtensions
                     MessageId = messageId,
                     Media = media,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3083,12 +3098,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="media">An object for a new media content of the message</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
         InputMedia media,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3098,6 +3115,7 @@ public static partial class TelegramBotClientExtensions
                     InlineMessageId = inlineMessageId,
                     Media = media,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3116,6 +3134,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="heading">Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.</param>
     /// <param name="proximityAlertRadius">The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The edited <see cref="Message"/> is returned
@@ -3131,6 +3150,7 @@ public static partial class TelegramBotClientExtensions
         int? heading = default,
         int? proximityAlertRadius = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3146,6 +3166,7 @@ public static partial class TelegramBotClientExtensions
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3163,6 +3184,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="heading">Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.</param>
     /// <param name="proximityAlertRadius">The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
@@ -3174,6 +3196,7 @@ public static partial class TelegramBotClientExtensions
         int? heading = default,
         int? proximityAlertRadius = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3188,6 +3211,7 @@ public static partial class TelegramBotClientExtensions
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3200,6 +3224,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message with live location to stop</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The edited <see cref="Message"/> is returned
@@ -3209,6 +3234,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int messageId,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3218,6 +3244,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     MessageId = messageId,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3229,11 +3256,13 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3242,6 +3271,7 @@ public static partial class TelegramBotClientExtensions
                 {
                     InlineMessageId = inlineMessageId,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3254,6 +3284,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The edited <see cref="Message"/> is returned
@@ -3263,6 +3294,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int messageId,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3272,6 +3304,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     MessageId = messageId,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3283,11 +3316,13 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3296,6 +3331,7 @@ public static partial class TelegramBotClientExtensions
                 {
                     InlineMessageId = inlineMessageId,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -3308,6 +3344,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the original message with the poll</param>
     /// <param name="replyMarkup">An object for a new message <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>
     /// The stopped <see cref="Poll"/> is returned.
@@ -3317,6 +3354,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int messageId,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3326,6 +3364,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     MessageId = messageId,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -4170,6 +4209,33 @@ public static partial class TelegramBotClientExtensions
                     PreCheckoutQueryId = preCheckoutQueryId,
                     Ok = false,
                     ErrorMessage = errorMessage,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Returns the bot's Telegram Star transactions in chronological order.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="offset">Number of transactions to skip in the response</param>
+    /// <param name="limit">The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>
+    /// A <see cref="StarTransactions"/> object.
+    /// </returns>
+    public static async Task<StarTransactions> GetStarTransactions(
+        this ITelegramBotClient botClient,
+        int? offset = default,
+        int? limit = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new GetStarTransactionsRequest
+                {
+                    Offset = offset,
+                    Limit = limit,
                 },
                 cancellationToken
             )

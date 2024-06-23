@@ -3,7 +3,7 @@
 /// <summary>
 /// Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.<para>Returns: The edited <see cref="Message"/> is returned</para>
 /// </summary>
-public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
+public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
@@ -50,6 +50,13 @@ public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargeta
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+    /// <summary>
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="EditMessageTextRequest"/>
