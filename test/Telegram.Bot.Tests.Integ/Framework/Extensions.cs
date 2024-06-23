@@ -44,6 +44,12 @@ internal static class Extensions
             millisecond: components.Millisecond ?? dateTime.Millisecond,
             kind: components.Kind ?? dateTime.Kind
         );
+
+    public static ITelegramBotClient WithStreams(this ITelegramBotClient botClient, params System.IO.Stream[] streams)
+    {
+        ((RetryTelegramBotClient)botClient).WithStreams(streams);
+        return botClient;
+    }
 }
 
 public class DateTimeComponents

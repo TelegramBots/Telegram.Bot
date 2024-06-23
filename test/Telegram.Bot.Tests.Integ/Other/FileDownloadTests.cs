@@ -29,7 +29,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
         Message documentMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
-            documentMessage = await BotClient.SendDocumentAsync(
+            documentMessage = await BotClient.WithStreams(stream).SendDocumentAsync(
                 chatId: fixture.SupergroupChat,
                 document: InputFile.FromStream(stream)
             );

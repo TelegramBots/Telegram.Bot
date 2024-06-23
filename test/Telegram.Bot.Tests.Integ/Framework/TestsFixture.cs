@@ -132,15 +132,9 @@ public class TestsFixture : IDisposable
 
         await UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
-        var chat = chatType == ChatType.Channel
+        var chat = (chatType == ChatType.Channel
             ? ((MessageOriginChannel)update.Message?.ForwardOrigin)!.Chat
-            : update.Message?.Chat;
-
-        if (chat is null)
-        {
-            throw new InvalidOperationException("Couldn't find the chat from the tester.");
-        }
-
+            : update.Message?.Chat) ?? throw new InvalidOperationException("Couldn't find the chat from the tester.");
         return await BotClient.GetChatAsync(
             chatId: chat.Id,
             cancellationToken: cancellationToken
@@ -284,7 +278,7 @@ public class TestsFixture : IDisposable
 
 #if DEBUG
     // Disable "The variable ‘x’ is assigned but its value is never used":
-#pragma warning disable 219
+#pragma warning disable 219, IDE0059
     // ReSharper disable NotAccessedVariable
     // ReSharper disable RedundantAssignment
     async ValueTask OnMakingApiRequest(
@@ -339,7 +333,7 @@ public class TestsFixture : IDisposable
 
         /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP response received. */
     }
-#pragma warning restore 219
+#pragma warning restore 219, IDE0059
 #endif
     static class Constants
     {

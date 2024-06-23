@@ -21,7 +21,7 @@ public class AnimationMessageTests(TestsFixture fixture)
         Message message;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
-            message = await BotClient.SendAnimationAsync(
+            message = await BotClient.WithStreams(stream).SendAnimationAsync(
                 chatId: fixture.SupergroupChat.Id,
                 animation: InputFile.FromStream(stream),
                 duration: 4,
@@ -68,7 +68,7 @@ public class AnimationMessageTests(TestsFixture fixture)
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
                     )
         {
-            message = await BotClient.SendAnimationAsync(
+            message = await BotClient.WithStreams(stream1, stream2).SendAnimationAsync(
                 chatId: fixture.SupergroupChat,
                 animation: InputFile.FromStream(stream1, "earth.gif"),
                 thumbnail: InputFile.FromStream(stream2, "thumb.jpg")

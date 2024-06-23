@@ -90,12 +90,12 @@ public class TelegramBotClient : ITelegramBotClient
 
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
 
-#pragma warning disable CA2000
+//#pragma warning disable CA2000
         var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
             Content = request.ToHttpContent(),
         };
-#pragma warning restore CA2000
+//#pragma warning restore CA2000
 
         if (OnMakingApiRequest is not null)
         {

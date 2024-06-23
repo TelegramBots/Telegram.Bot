@@ -93,7 +93,7 @@ public class EditMessageContentTests2(TestsFixture fixture)
         Message originalMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
         {
-            originalMessage = await BotClient.SendPhotoAsync(
+            originalMessage = await BotClient.WithStreams(stream).SendPhotoAsync(
                 chatId: fixture.SupergroupChat.Id,
                 photo: InputFile.FromStream(stream),
                 caption: "Message caption will be updated shortly"
@@ -103,8 +103,8 @@ public class EditMessageContentTests2(TestsFixture fixture)
         await Task.Delay(1_000);
 
         const string captionPrefix = "Modified caption";
-        (MessageEntityType Type, string Value) captionEntity = (MessageEntityType.Italic, "_with Markdown_");
-        string caption = $"{captionPrefix} {captionEntity.Value}";
+        (MessageEntityType Type, string Value) = (MessageEntityType.Italic, "_with Markdown_");
+        string caption = $"{captionPrefix} {Value}";
 
         Message editedMessage = await BotClient.EditMessageCaptionAsync(
             chatId: originalMessage.Chat.Id,
@@ -120,6 +120,6 @@ public class EditMessageContentTests2(TestsFixture fixture)
         Assert.StartsWith(captionPrefix, editedMessage.Caption);
 
         Assert.NotNull(editedMessage.CaptionEntities);
-        Assert.Equal(editedMessage.CaptionEntities.Single().Type, captionEntity.Type);
+        Assert.Equal(editedMessage.CaptionEntities.Single().Type, Type);
     }
 }

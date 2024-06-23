@@ -283,7 +283,7 @@ public class InlineQueryTests(TestsFixture fixture)
         Message photoMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
         {
-            photoMessage = await BotClient.SendPhotoAsync(
+            photoMessage = await BotClient.WithStreams(stream).SendPhotoAsync(
                 chatId: fixture.SupergroupChat,
                 photo: InputFile.FromStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -510,7 +510,7 @@ public class InlineQueryTests(TestsFixture fixture)
         Message audioMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
-            audioMessage = await BotClient.SendAudioAsync(
+            audioMessage = await BotClient.WithStreams(stream).SendAudioAsync(
                 chatId: fixture.SupergroupChat,
                 audio: InputFile.FromStream(stream),
                 performer: "Jackson F. Smith",
@@ -600,7 +600,7 @@ public class InlineQueryTests(TestsFixture fixture)
         Message voiceMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
-            voiceMessage = await BotClient.SendVoiceAsync(
+            voiceMessage = await BotClient.WithStreams(stream).SendVoiceAsync(
                 chatId: fixture.SupergroupChat,
                 voice: InputFile.FromStream(stream),
                 duration: 24,
@@ -690,7 +690,7 @@ public class InlineQueryTests(TestsFixture fixture)
         Message documentMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
-            documentMessage = await BotClient.SendDocumentAsync(
+            documentMessage = await BotClient.WithStreams(stream).SendDocumentAsync(
                 chatId: fixture.SupergroupChat,
                 document: InputFile.FromStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton

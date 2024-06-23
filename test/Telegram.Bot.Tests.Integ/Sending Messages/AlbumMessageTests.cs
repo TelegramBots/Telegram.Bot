@@ -26,7 +26,7 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
                     )
         {
-            messages = await BotClient.SendMediaGroupAsync(
+            messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroupAsync(
                 chatId: testsFixture.SupergroupChat.Id,
                 media: [
                     new InputMediaPhoto
@@ -54,7 +54,7 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
         Assert.Equal("Logo", messages[0].Caption);
         Assert.Equal("Bot", messages[1].Caption);
 
-        classFixture.Entities = messages.ToList();
+        classFixture.Entities = [.. messages];
     }
 
     [OrderedFact("Should send an album with 3 photos using their file_id")]
@@ -116,7 +116,7 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
                     )
         {
-            messages = await BotClient.SendMediaGroupAsync(
+            messages = await BotClient.WithStreams(stream0, stream1, stream2).SendMediaGroupAsync(
                 chatId: testsFixture.SupergroupChat.Id,
                 media: [
                     new InputMediaVideo
@@ -173,7 +173,7 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
             stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
 
 
-        Message[] messages = await BotClient.SendMediaGroupAsync(
+        Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroupAsync(
             chatId: testsFixture.SupergroupChat.Id,
             media: [
                 new InputMediaPhoto
@@ -215,7 +215,7 @@ public class AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Messag
             stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
             stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
 
-        Message[] messages = await BotClient.SendMediaGroupAsync(
+        Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroupAsync(
             chatId: testsFixture.SupergroupChat.Id,
             media: [
                 new InputMediaVideo
