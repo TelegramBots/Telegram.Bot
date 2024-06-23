@@ -1,25 +1,17 @@
 ﻿namespace Telegram.Bot.Types;
 
-/// <summary>
-/// This object represents one row of the high scores table for a game.
-/// </summary>
+/// <summary>This object represents one row of the high scores table for a game.</summary>
 public partial class GameHighScore
 {
-    /// <summary>
-    /// Position in high score table for the game
-    /// </summary>
+    /// <summary>Position in high score table for the game</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Position { get; set; }
 
-    /// <summary>
-    /// User
-    /// </summary>
+    /// <summary>User</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 
-    /// <summary>
-    /// Score
-    /// </summary>
+    /// <summary>Score</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Score { get; set; }
 }

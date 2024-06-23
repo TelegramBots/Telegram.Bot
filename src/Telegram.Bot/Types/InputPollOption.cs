@@ -1,41 +1,29 @@
 ﻿namespace Telegram.Bot.Types;
 
-/// <summary>
-/// This object contains information about one answer option in a poll to send.
-/// </summary>
+/// <summary>This object contains information about one answer option in a poll to send.</summary>
 public partial class InputPollOption
 {
-    /// <summary>
-    /// Option text, 1-100 characters
-    /// </summary>
+    /// <summary>Option text, 1-100 characters</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
 
-    /// <summary>
-    /// <em>Optional</em>. Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Currently, only custom emoji entities are allowed
-    /// </summary>
+    /// <summary><em>Optional</em>. Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Currently, only custom emoji entities are allowed</summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ParseMode TextParseMode { get; set; }
 
-    /// <summary>
-    /// <em>Optional</em>. A list of special entities that appear in the poll option text. It can be specified instead of <see cref="TextParseMode">TextParseMode</see>
-    /// </summary>
+    /// <summary><em>Optional</em>. A list of special entities that appear in the poll option text. It can be specified instead of <see cref="TextParseMode">TextParseMode</see></summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? TextEntities { get; set; }
 
-    /// <summary>
-    /// Initializes an instance of <see cref="InputPollOption"/>
-    /// </summary>
+    /// <summary>Initializes an instance of <see cref="InputPollOption"/></summary>
     /// <param name="text">Option text, 1-100 characters</param>
     [JsonConstructor]
     [SetsRequiredMembers]
     public InputPollOption(string text) => Text = text;
 
-    /// <summary>
-    /// Instantiates a new <see cref="InputPollOption"/>
-    /// </summary>
+    /// <summary>Instantiates a new <see cref="InputPollOption"/></summary>
     public InputPollOption()
     { }
 }
