@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -37,6 +37,45 @@ public class ReceiveAsyncTests
         await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
 
         Assert.True(cancellationToken.IsCancellationRequested);
+        Assert.Equal(2, updateCount);
+        Assert.Equal(1, bot.MessageGroupsLeft);
+    }
+
+    [Fact]
+    public async Task ReceivesUpdatesAndRespectsGlobalCancellationToken()
+    {
+        CancellationTokenSource globalCancelToken = new();
+        MockTelegramBotClient bot = new(new MockClientOptions
+        {
+            Messages = ["start-end", "foo"],
+            GlobalCancelToken = globalCancelToken.Token,
+        });
+
+        CancellationTokenSource cancellationTokenSource = new();
+
+        int updateCount = 0;
+        async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
+        {
+            updateCount++;
+            Assert.NotNull(update.Message?.Text);
+            Assert.Contains(update.Message.Text, "start end");
+            await Task.Delay(10, cancellationTokenSource.Token);
+            if (update.Message.Text is "end")
+            {
+                globalCancelToken.Cancel();
+            }
+        }
+
+        DefaultUpdateHandler updateHandler = new(
+            updateHandler: HandleUpdate,
+            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+        );
+
+        CancellationToken cancellationToken = cancellationTokenSource.Token;
+        await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
+
+        Assert.True(globalCancelToken.IsCancellationRequested);
+        Assert.False(cancellationToken.IsCancellationRequested);
         Assert.Equal(2, updateCount);
         Assert.Equal(1, bot.MessageGroupsLeft);
     }

@@ -11,13 +11,13 @@ namespace Telegram.Bot.Polling;
 [PublicAPI]
 public class DefaultUpdateReceiver : IUpdateReceiver
 {
-    static readonly Update[] EmptyUpdates = Array.Empty<Update>();
+    static readonly Update[] EmptyUpdates = [];
 
     readonly ITelegramBotClient _botClient;
     readonly ReceiverOptions? _receiverOptions;
 
     /// <summary>
-    /// Constructs a new <see cref="DefaultUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>>
+    /// Constructs a new <see cref="DefaultUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>
     /// instance and optional <see cref="ReceiverOptions"/>
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
@@ -71,13 +71,12 @@ public class DefaultUpdateReceiver : IUpdateReceiver
 
                 updates = await _botClient.MakeRequestAsync(
                     request: request,
-                    cancellationToken:
-                    cancellationToken
+                    cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
-                // Ignore
+                return;
             }
 #pragma warning disable CA1031
             catch (Exception exception)
@@ -93,7 +92,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                 }
                 catch (OperationCanceledException)
                 {
-                    // ignored
+                    return;
                 }
             }
 
@@ -111,7 +110,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                 }
                 catch (OperationCanceledException)
                 {
-                    // ignored
+                    return;
                 }
             }
         }

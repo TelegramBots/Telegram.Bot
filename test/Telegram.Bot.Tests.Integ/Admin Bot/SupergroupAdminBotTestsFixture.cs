@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using Telegram.Bot.Requests;

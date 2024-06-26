@@ -1,4 +1,4 @@
-﻿#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,24 +10,24 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Polling;
 
 /// <summary>
-/// Supports asynchronous iteration over <see cref="Update"/>s
+/// Supports asynchronous iteration over <see cref="Update"/>s.
 /// </summary>
 [PublicAPI]
 public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
 {
-    readonly ReceiverOptions? _receiverOptions;
     readonly ITelegramBotClient _botClient;
+    readonly ReceiverOptions? _receiverOptions;
     readonly Func<Exception, CancellationToken, Task>? _pollingErrorHandler;
 
     int _inProcess;
 
     /// <summary>
-    /// Constructs a new <see cref="BlockingUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
+    /// Constructs a new <see cref="BlockingUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="receiverOptions"></param>
     /// <param name="pollingErrorHandler">
-    /// The function used to handle <see cref="Exception"/>s thrown by ReceiveUpdates
+    /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
     /// </param>
     public BlockingUpdateReceiver(
         ITelegramBotClient botClient,
@@ -63,7 +63,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         readonly UpdateType[]? _allowedUpdates;
         readonly int? _limit;
 
-        Update[] _updateArray = Array.Empty<Update>();
+        Update[] _updateArray = [];
         int _updateIndex;
         int _messageOffset;
         bool _updatesThrown;
@@ -85,18 +85,18 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
             _updateIndex += 1;
 
             return _updateIndex < _updateArray.Length
-                ? new(true)
+                ? new(result: true)
                 : new(ReceiveUpdatesAsync());
         }
 
         async Task<bool> ReceiveUpdatesAsync()
         {
-            var shouldThrowPendingUpdates = (
+            var shouldDropPendingUpdates = (
                 _updatesThrown,
                 _receiver._receiverOptions?.DropPendingUpdates ?? false
             );
 
-            if (shouldThrowPendingUpdates is (false, true))
+            if (shouldDropPendingUpdates is (false, true))
             {
                 try
                 {
@@ -114,7 +114,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
                 }
             }
 
-            _updateArray = Array.Empty<Update>();
+            _updateArray = [];
             _updateIndex = 0;
 
             while (_updateArray.Length is 0)
@@ -126,8 +126,8 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
                             request: new GetUpdatesRequest
                             {
                                 Offset = _messageOffset,
-                                Timeout = (int) _receiver._botClient.Timeout.TotalSeconds,
                                 Limit = _limit,
+                                Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
                                 AllowedUpdates = _allowedUpdates,
                             },
                             cancellationToken: _token

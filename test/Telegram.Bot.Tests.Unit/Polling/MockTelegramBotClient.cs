@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -16,9 +16,10 @@ namespace Telegram.Bot.Tests.Unit.Polling;
 public class MockClientOptions
 {
     public bool HandleNegativeOffset { get; set; }
-    public string[] Messages { get; set; } = Array.Empty<string>();
+    public string[] Messages { get; set; } = [];
     public int RequestDelay { get; set; } = 10;
     public Exception? ExceptionToThrow { get; set; }
+    public CancellationToken GlobalCancelToken { get; set; }
 
 }
 
@@ -49,6 +50,7 @@ public class MockTelegramBotClient : ITelegramBotClient
     {
         if (request is not GetUpdatesRequest getUpdatesRequest) { throw new NotImplementedException(); }
 
+        Options.GlobalCancelToken.ThrowIfCancellationRequested();
         await Task.Delay(Options.RequestDelay, cancellationToken);
 
         if (Options.ExceptionToThrow is not null) { throw Options.ExceptionToThrow; }

@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using System;
 using System.IO;
 using System.Threading.Tasks;
