@@ -76,7 +76,7 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
             [InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text: "switch_inline_query_current_chat"),],
         ];
 
-        InlineKeyboardMarkup replyMarkup = new(keyboard);
+        InlineKeyboardMarkup replyMarkup = keyboard;
 
         Message sentMessage = await BotClient.SendTextMessageAsync(
             chatId: testsFixture.SupergroupChat,

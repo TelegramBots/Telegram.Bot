@@ -537,6 +537,68 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         await paymentsBuilder.MakeInvoiceRequest(BotClient);
     }
 
+    [OrderedFact("Should send a Telegram Stars invoice")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
+    public async Task Should_Send_XTR_Invoice()
+    {
+        PaymentsBuilder paymentsBuilder = new PaymentsBuilder()
+            .WithProduct(p => p
+                .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
+                .WithDescription(description:
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    " after her birth, when she had emerged from the sea fully-grown ")
+                .WithProductPrice(label: "Price of the painting", amount: 100)
+                .WithPhoto(
+                    url: "https://cdn.pixabay.com/photo/2012/10/26/03/16/painting-63186_1280.jpg",
+                    width: 1280,
+                    height: 820
+                ))
+            .WithCurrency("XTR")
+            .WithPayload("<my-payload>")
+            .WithPaymentProviderToken("")
+            .ToChat(classFixture.PrivateChat.Id);
+
+        double totalCostWithoutShippingCost = paymentsBuilder
+            .GetTotalAmountWithoutShippingCost();
+
+        string instruction = FormatInstructionWithCurrency(
+            $"Click on *Pay ⭐️ {totalCostWithoutShippingCost}* and confirm payment. Transaction should be completed."
+        );
+        await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
+
+        Message invoiceMessage = await paymentsBuilder.MakeInvoiceRequest(BotClient);
+        Invoice invoice = invoiceMessage.Invoice;
+
+        Assert.Equal(MessageType.Invoice, invoiceMessage.Type);
+        Assert.NotNull(invoice);
+        Assert.Equal("XTR", invoice.Currency);
+        Assert.Equal(totalCostWithoutShippingCost, invoice.TotalAmount);
+
+        //Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
+        //PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
+
+        //await fixture.BotClient.AnswerPreCheckoutQueryAsync(
+        //    query!.Id
+        //);
+
+        //Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
+        //SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
+        //int totalAmount = paymentsBuilder.GetTotalAmount();
+
+        //Assert.Equal(invoice.Currency, successfulPayment.Currency);
+        //Assert.Equal(UpdateType.PreCheckoutQuery, preCheckoutUpdate.Type);
+        //Assert.NotNull(query.Id);
+        //Assert.Equal("<my-payload>", query.InvoicePayload);
+        //Assert.Equal(totalAmount, query.TotalAmount);
+        //Assert.Equal("XTR", query.Currency);
+        //Assert.Contains(query.From.Username, fixture.UpdateReceiver.AllowedUsernames);
+        //Assert.NotNull(query.OrderInfo);
+        //Assert.Null(query.OrderInfo.PhoneNumber);
+        //Assert.Null(query.OrderInfo.Name);
+        //Assert.Null(query.OrderInfo.Email);
+        //Assert.Equal("dhl-express", query.ShippingOptionId);
+    }
+
     async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default)
     {
         Update[] updates = await fixture.UpdateReceiver.GetUpdatesAsync(
