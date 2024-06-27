@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+#if NET6_0_OR_GREATER
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+#endif
 
 namespace Telegram.Bot.Extensions
 {
@@ -32,6 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TOptions : class
             => services.Configure<TOptions>(options => JsonSerializerOptionsProvider.Configure(opt(options)));
 
+#if NET6_0_OR_GREATER
         /// <summary>Configure ASP.NET MVC Json (de)serialization for Telegram.Bot types</summary>
         /// <param name="services">The IServiceCollection to add the services to.</param>
         public static IServiceCollection ConfigureTelegramBotMvc(this IServiceCollection services)
@@ -43,39 +46,40 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static readonly TelegramBotOutputFormatter OutputFormatter = new();
         private static readonly TelegramBotInputFormatter InputFormatter = new();
-    }
 
-    class TelegramBotInputFormatter : TextInputFormatter
-    {
-        public TelegramBotInputFormatter()
+        class TelegramBotInputFormatter : TextInputFormatter
         {
-            SupportedEncodings.Add(Encoding.UTF8);
-            SupportedMediaTypes.Add("application/json");
+            public TelegramBotInputFormatter()
+            {
+                SupportedEncodings.Add(Encoding.UTF8);
+                SupportedMediaTypes.Add("application/json");
+            }
+
+            protected override bool CanReadType(Type type) => type == typeof(Update);
+
+            public sealed override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+            {
+                var model = await JsonSerializer.DeserializeAsync(context.HttpContext.Request.Body, context.ModelType, JsonSerializerOptionsProvider.Options, context.HttpContext.RequestAborted);
+                return await InputFormatterResult.SuccessAsync(model);
+            }
         }
 
-        protected override bool CanReadType(Type type) => type == typeof(Update);
-
-        public sealed override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+        class TelegramBotOutputFormatter : TextOutputFormatter
         {
-            var model = await JsonSerializer.DeserializeAsync(context.HttpContext.Request.Body, context.ModelType, JsonSerializerOptionsProvider.Options);
-            return InputFormatterResult.Success(model);
-        }
-    }
+            public TelegramBotOutputFormatter()
+            {
+                SupportedEncodings.Add(Encoding.UTF8);
+                SupportedMediaTypes.Add("application/json");
+            }
 
-    class TelegramBotOutputFormatter : TextOutputFormatter
-    {
-        public TelegramBotOutputFormatter()
-        {
-            SupportedEncodings.Add(Encoding.UTF8);
-            SupportedMediaTypes.Add("application/json");
-        }
+            protected override bool CanWriteType(Type? type) => typeof(IRequest).IsAssignableFrom(type);
 
-        protected override bool CanWriteType(Type type) => typeof(IRequest).IsAssignableFrom(type);
-
-        public sealed override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
-        {
-            var stream = context.HttpContext.Response.Body;
-            await JsonSerializer.SerializeAsync(stream, context.Object, JsonSerializerOptionsProvider.Options, context.HttpContext.RequestAborted);
+            public sealed override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+            {
+                var stream = context.HttpContext.Response.Body;
+                await JsonSerializer.SerializeAsync(stream, context.Object, JsonSerializerOptionsProvider.Options, context.HttpContext.RequestAborted);
+            }
         }
+#endif
     }
 }
