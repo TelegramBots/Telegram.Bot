@@ -46,7 +46,7 @@ public class WebhookTests(TestsFixture fixture) : IDisposable
         await BotClient.SetWebhookAsync(
             url: "https://www.t.me/",
             maxConnections: 5,
-            allowedUpdates: new[] { UpdateType.CallbackQuery, UpdateType.InlineQuery }
+            allowedUpdates: [UpdateType.CallbackQuery, UpdateType.InlineQuery]
         );
     }
 
@@ -64,11 +64,11 @@ public class WebhookTests(TestsFixture fixture) : IDisposable
     {
         await using (Stream stream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
         {
-            await BotClient.SetWebhookAsync(
+            await BotClient.WithStreams(stream).SetWebhookAsync(
                 url: "https://www.telegram.org/",
                 certificate: InputFile.FromStream(stream),
                 maxConnections: 3,
-                allowedUpdates: Array.Empty<UpdateType>() // send all types of updates
+                allowedUpdates: [] // send all types of updates
             );
         }
 

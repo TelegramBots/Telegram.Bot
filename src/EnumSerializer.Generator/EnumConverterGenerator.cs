@@ -57,12 +57,13 @@ public class EnumConverterGenerator : IIncrementalGenerator
             );
         }
 
-        var optionsTemplate = Template.Parse(SourceGenerationHelper.JsonSerializerOptionsProviderTemplate);
-        var generatedOptionsProviderClass = SourceGenerationHelper.GenerateOptionsProviderClass(optionsTemplate, enumsToProcess);
-        context.AddSource(
-            hintName: "JsonSerializerOptionsProvider.g.cs",
-            sourceText: SourceText.From(generatedOptionsProviderClass, Encoding.UTF8)
-        );
+        //Seems not needed for now (maybe later when we support AOT)
+        //var optionsTemplate = Template.Parse(SourceGenerationHelper.JsonSerializerOptionsProviderTemplate);
+        //var generatedOptionsProviderClass = SourceGenerationHelper.GenerateOptionsProviderClass(optionsTemplate, enumsToProcess);
+        //context.AddSource(
+        //    hintName: "JsonSerializerOptionsProvider.g.cs",
+        //    sourceText: SourceText.From(generatedOptionsProviderClass, Encoding.UTF8)
+        //);
     }
 
     static List<EnumInfo> GetTypesToGenerate(

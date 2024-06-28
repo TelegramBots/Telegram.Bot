@@ -20,7 +20,7 @@ public class SendingVideoMessageTests(TestsFixture fixture)
         Message message;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
         {
-            message = await BotClient.SendVideoAsync(
+            message = await BotClient.WithStreams(stream).SendVideoAsync(
                 chatId: fixture.SupergroupChat.Id,
                 video: InputFile.FromStream(stream, "moon-landing.mp4"),
                 duration: 104,
@@ -57,7 +57,7 @@ public class SendingVideoMessageTests(TestsFixture fixture)
         Message message;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
         {
-            message = await BotClient.SendVideoNoteAsync(
+            message = await BotClient.WithStreams(stream).SendVideoNoteAsync(
                 chatId: fixture.SupergroupChat.Id,
                 videoNote: InputFile.FromStream(stream),
                 duration: 28,
@@ -90,7 +90,7 @@ public class SendingVideoMessageTests(TestsFixture fixture)
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
                     )
         {
-            message = await BotClient.SendVideoAsync(
+            message = await BotClient.WithStreams(stream1, stream2).SendVideoAsync(
                 chatId: fixture.SupergroupChat,
                 video: InputFile.FromStream(stream1),
                 thumbnail: InputFile.FromStream(stream2, "thumb.jpg")
@@ -117,7 +117,7 @@ public class SendingVideoMessageTests(TestsFixture fixture)
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
                     )
         {
-            message = await BotClient.SendVideoNoteAsync(
+            message = await BotClient.WithStreams(stream1, stream2).SendVideoNoteAsync(
                 chatId: fixture.SupergroupChat.Id,
                 videoNote: InputFile.FromStream(stream1),
                 thumbnail: InputFile.FromStream(stream2, "thumbnail.jpg")

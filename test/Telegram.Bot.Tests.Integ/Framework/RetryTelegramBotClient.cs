@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -27,32 +28,44 @@ internal class RetryTelegramBotClient(
     TestClientOptions options)
     : TelegramBotClient(options)
 {
+    private Stream[]? _testStreams;
+    public void WithStreams(Stream[] streams) => _testStreams = streams;
+
     public override async Task<TResponse> MakeRequestAsync<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
         RequestException apiRequestException = new RequestException("Should never been fired");
 
-        for (var i = 0; i < options.RetryCount; i++)
+        try
         {
-            try
+            for (var i = 0; i < options.RetryCount; i++)
             {
-                return await base.MakeRequestAsync(request, cancellationToken);
-            }
-            catch (ApiRequestException e) when (e.ErrorCode == 429)
-            {
-                apiRequestException = e;
+                try
+                {
+                    return await base.MakeRequestAsync(request, cancellationToken);
+                }
+                catch (ApiRequestException e) when (e.ErrorCode == 429)
+                {
+                    apiRequestException = e;
 
-                var timeout = e.Parameters?.RetryAfter is null
-                    ? options.DefaultTimeout
-                    : TimeSpan.FromSeconds(e.Parameters.RetryAfter.Value);
+                    var timeout = e.Parameters?.RetryAfter is null
+                        ? options.DefaultTimeout
+                        : TimeSpan.FromSeconds(e.Parameters.RetryAfter.Value);
 
-                var message = $"Retry attempt {i + 1}. Waiting for {timeout} seconds before retrying.";
-                diagnosticMessageSink.OnMessage(new DiagnosticMessage(message));
-                await Task.Delay(timeout, cancellationToken);
+                    var message = $"Retry attempt {i + 1}. Waiting for {timeout} seconds before retrying.";
+                    diagnosticMessageSink.OnMessage(new DiagnosticMessage(message));
+                    await Task.Delay(timeout, cancellationToken);
+                    if (_testStreams != null)
+                        foreach (var stream in _testStreams)
+                            stream.Position = 0;
+                }
             }
         }
-
+        finally
+        {
+            _testStreams = null;
+        }
         throw apiRequestException;
     }
 }

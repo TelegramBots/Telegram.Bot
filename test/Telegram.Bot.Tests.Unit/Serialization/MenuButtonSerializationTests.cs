@@ -36,13 +36,13 @@ public class MenuButtonSerializationTests
     [Fact]
     public void Should_Serialize_Menu_Button_Web_App()
     {
-        MenuButtonWebApp webAppButton = new()
+        MenuButton menuButton = new MenuButtonWebApp()
         {
             WebApp = new(url: "https://example.com/link/to/web/app"),
             Text = "Test text"
         };
 
-        string webAppButtonJson = JsonSerializer.Serialize(webAppButton, JsonSerializerOptionsProvider.Options);
+        string webAppButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
 
         JsonNode? root = JsonNode.Parse(webAppButtonJson);
         Assert.NotNull(root);
@@ -75,7 +75,7 @@ public class MenuButtonSerializationTests
     [Fact]
     public void Should_Serialize_Menu_Button_Default()
     {
-        MenuButtonDefault menuButton = new();
+        MenuButton menuButton = new MenuButtonDefault();
 
         string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
         JsonNode? root = JsonNode.Parse(menuButtonJson);
@@ -103,7 +103,7 @@ public class MenuButtonSerializationTests
     [Fact]
     public void Should_Serialize_Menu_Button_Commands()
     {
-        MenuButtonCommands menuButton = new();
+        MenuButton menuButton = new MenuButtonCommands();
 
         string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
         JsonNode? root = JsonNode.Parse(menuButtonJson);

@@ -38,7 +38,7 @@ public class BackgroundTypeSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundTypeFill()
     {
-        BackgroundTypeFill value = new()
+        BackgroundType value = new BackgroundTypeFill()
         {
             DarkThemeDimming = 43,
             Fill = new BackgroundFillSolid { Color = 123456 },
@@ -99,7 +99,7 @@ public class BackgroundTypeSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundTypeWallpaper()
     {
-        BackgroundTypeWallpaper value = new()
+        BackgroundType value = new BackgroundTypeWallpaper()
         {
             DarkThemeDimming = 43,
             Document = new()
@@ -180,7 +180,7 @@ public class BackgroundTypeSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundTypePattern()
     {
-        BackgroundTypePattern value = new()
+        BackgroundType value = new BackgroundTypePattern()
         {
             Intensity = 43,
             Document = new()
@@ -247,7 +247,7 @@ public class BackgroundTypeSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundTypeChatTheme()
     {
-        BackgroundTypeChatTheme value = new()
+        BackgroundType value = new BackgroundTypeChatTheme()
         {
             ThemeName = "Test Theme Name"
         };

@@ -8,12 +8,11 @@ namespace Telegram.Bot.Tests.Unit.Serialization;
 public class ChatMemberSerializationTests
 {
     [Fact]
-    public void Should_Deserialize_Chat_Member_Member()
+    public void Should_Deserialize_Chat_Member_Owner()
     {
         // language=JSON
         const string json = """
         {
-            "status": "creator",
             "user": {
                 "id": 12345,
                 "is_bot": true,
@@ -22,11 +21,12 @@ public class ChatMemberSerializationTests
                 "username": "test_bot",
                 "language_code": "en_US"
             },
+            "status": "creator",
             "is_anonymous": true,
             "custom_title": "custom test title"
         }
         """;
-
+        // Note: "status" discriminant is not always sent as first field
         ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options);
 
         ChatMemberOwner owner = Assert.IsAssignableFrom<ChatMemberOwner>(chatMember);
@@ -44,9 +44,9 @@ public class ChatMemberSerializationTests
     }
 
     [Fact]
-    public void Should_Serialize_Chat_Member_Member()
+    public void Should_Serialize_Chat_Member_Owner()
     {
-        ChatMemberOwner creator = new()
+        ChatMember chatMember = new ChatMemberOwner()
         {
             User = new()
             {
@@ -61,7 +61,7 @@ public class ChatMemberSerializationTests
             CustomTitle = "Custom test title"
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
 
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
@@ -88,7 +88,7 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Serialize_Chat_Member_Banned()
     {
-        ChatMemberBanned creator = new()
+        ChatMember chatMember = new ChatMemberBanned()
         {
             User = new()
             {
@@ -102,7 +102,7 @@ public class ChatMemberSerializationTests
             UntilDate = new(2021, 4, 2, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
 
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
@@ -129,7 +129,7 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Serialize_Chat_Member_Banned_2()
     {
-        ChatMemberBanned creator = new()
+        ChatMember chatMember = new ChatMemberBanned()
         {
             User = new()
             {
@@ -142,7 +142,7 @@ public class ChatMemberSerializationTests
             },
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
 
@@ -185,7 +185,9 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMemberBanned? bannedUser = JsonSerializer.Deserialize<ChatMemberBanned>(json, JsonSerializerOptionsProvider.Options);
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options);
+
+        ChatMemberBanned bannedUser = Assert.IsAssignableFrom<ChatMemberBanned>(chatMember);
 
         Assert.NotNull(bannedUser);
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
@@ -218,7 +220,9 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMemberBanned? bannedUser = JsonSerializer.Deserialize<ChatMemberBanned>(json, JsonSerializerOptionsProvider.Options);
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options) as ChatMemberBanned;
+
+        ChatMemberBanned bannedUser = Assert.IsAssignableFrom<ChatMemberBanned>(chatMember);
 
         Assert.NotNull(bannedUser);
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
@@ -250,7 +254,9 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMemberBanned? bannedUser = JsonSerializer.Deserialize<ChatMemberBanned>(json, JsonSerializerOptionsProvider.Options);
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options) as ChatMemberBanned;
+
+        ChatMemberBanned bannedUser = Assert.IsAssignableFrom<ChatMemberBanned>(chatMember);
 
         Assert.NotNull(bannedUser);
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);

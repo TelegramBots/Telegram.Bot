@@ -38,6 +38,11 @@ public class TelegramBotClient : ITelegramBotClient
         set => _httpClient.Timeout = value;
     }
 
+    /// <summary>
+    /// Global cancellation token
+    /// </summary>
+    public CancellationToken GlobalCancelToken { get; }
+
     /// <inheritdoc />
     public IExceptionParser ExceptionsParser { get; set; } = new DefaultExceptionParser();
 
@@ -56,15 +61,18 @@ public class TelegramBotClient : ITelegramBotClient
     /// </summary>
     /// <param name="options">Configuration for <see cref="TelegramBotClient" /></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+    /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentNullException">
     /// Thrown if <paramref name="options"/> is <c>null</c>
     /// </exception>
     public TelegramBotClient(
         TelegramBotClientOptions options,
-        HttpClient? httpClient = default)
+        HttpClient? httpClient = default,
+        CancellationToken cancellationToken = default)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
         _httpClient = httpClient ?? new HttpClient();
+        GlobalCancelToken = cancellationToken;
     }
 
     /// <summary>
@@ -72,13 +80,15 @@ public class TelegramBotClient : ITelegramBotClient
     /// </summary>
     /// <param name="token"></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+    /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentException">
     /// Thrown if <paramref name="token"/> format is invalid
     /// </exception>
     public TelegramBotClient(
         string token,
-        HttpClient? httpClient = null) :
-        this(new TelegramBotClientOptions(token), httpClient)
+        HttpClient? httpClient = null,
+        CancellationToken cancellationToken = default) :
+        this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
     { }
 
     /// <inheritdoc />
@@ -88,14 +98,15 @@ public class TelegramBotClient : ITelegramBotClient
     {
         if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
 
-#pragma warning disable CA2000
+//#pragma warning disable CA2000
         var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
             Content = request.ToHttpContent(),
         };
-#pragma warning restore CA2000
+//#pragma warning restore CA2000
 
         if (OnMakingApiRequest is not null)
         {
@@ -106,14 +117,14 @@ public class TelegramBotClient : ITelegramBotClient
             await OnMakingApiRequest.Invoke(
                 botClient: this,
                 args: requestEventArgs,
-                cancellationToken: cancellationToken
+                cancellationToken: cts.Token
             ).ConfigureAwait(false);
         }
 
         using var httpResponse = await SendRequestAsync(
             httpClient: _httpClient,
             httpRequest: httpRequest,
-            cancellationToken: cancellationToken
+            cancellationToken: cts.Token
         ).ConfigureAwait(false);
 
         if (OnApiResponseReceived is not null)
@@ -129,7 +140,7 @@ public class TelegramBotClient : ITelegramBotClient
             await OnApiResponseReceived.Invoke(
                 botClient: this,
                 args: responseEventArgs,
-                cancellationToken: cancellationToken
+                cancellationToken: cts.Token
             ).ConfigureAwait(false);
         }
 
@@ -141,7 +152,7 @@ public class TelegramBotClient : ITelegramBotClient
                         response.ErrorCode == default ||
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                         response.Description is null,
-                    cancellationToken
+                    cts.Token
                 )
                 .ConfigureAwait(false);
 
@@ -152,7 +163,7 @@ public class TelegramBotClient : ITelegramBotClient
             .DeserializeContentAsync<ApiResponse<TResponse>>(
                 guard: response => !response.Ok ||
                                    response.Result is null,
-                cancellationToken
+                cts.Token
             )
             .ConfigureAwait(false);
 
@@ -224,11 +235,12 @@ public class TelegramBotClient : ITelegramBotClient
 
         if (destination is null) { throw new ArgumentNullException(nameof(destination)); }
 
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var fileUri = $"{_options.BaseFileUrl}/{filePath}";
         using HttpResponseMessage httpResponse = await GetResponseAsync(
             httpClient: _httpClient,
             fileUri: fileUri,
-            cancellationToken: cancellationToken
+            cancellationToken: cts.Token
         ).ConfigureAwait(false);
 
         if (!httpResponse.IsSuccessStatusCode)
@@ -239,7 +251,7 @@ public class TelegramBotClient : ITelegramBotClient
                         response.ErrorCode == default ||
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                         response.Description is null,
-                    cancellationToken
+                    cts.Token
                 )
                 .ConfigureAwait(false);
 
@@ -257,7 +269,7 @@ public class TelegramBotClient : ITelegramBotClient
         try
         {
 #if NET6_0_OR_GREATER
-            await httpResponse.Content.CopyToAsync(destination, cancellationToken)
+            await httpResponse.Content.CopyToAsync(destination, cts.Token)
                 .ConfigureAwait(false);
 #else
             await httpResponse.Content.CopyToAsync(destination)

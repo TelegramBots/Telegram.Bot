@@ -27,15 +27,15 @@ public class DeleteMessageTests(TestsFixture fixture)
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: queryUpdate.InlineQuery!.Id,
-            results: new[]
-            {
+            results:
+            [
                 new InlineQueryResultArticle
                 {
                     Id = "article-to-delete",
                     Title = "Telegram Bot API",
                     InputMessageContent = new InputTextMessageContent { MessageText = "https://www.telegram.org/"},
                 }
-            },
+            ],
             cacheTime: 0
         );
 

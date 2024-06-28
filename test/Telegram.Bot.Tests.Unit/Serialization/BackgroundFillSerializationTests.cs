@@ -28,7 +28,7 @@ public class BackgroundFillSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundFillSolid()
     {
-        BackgroundFillSolid value = new()
+        BackgroundFill value = new BackgroundFillSolid()
         {
             Color = 123456,
         };
@@ -73,7 +73,7 @@ public class BackgroundFillSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundFillGradient()
     {
-        BackgroundFillGradient value = new()
+        BackgroundFill value = new BackgroundFillGradient()
         {
             TopColor = 123456,
             BottomColor = 654321,
@@ -122,7 +122,7 @@ public class BackgroundFillSerializationTests
     [Fact]
     public void Should_Serialize_BackgroundFillFreeformGradient()
     {
-        BackgroundFillFreeformGradient value = new()
+        BackgroundFill value = new BackgroundFillFreeformGradient()
         {
             Colors = [123456, 654321, 987654],
         };

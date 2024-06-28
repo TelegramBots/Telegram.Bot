@@ -168,7 +168,7 @@ public static partial class TelegramBotClientExtensions
                     // ignored
                 }
             }
-        });
+        }, cancellationToken);
     }
 
     /// <summary>

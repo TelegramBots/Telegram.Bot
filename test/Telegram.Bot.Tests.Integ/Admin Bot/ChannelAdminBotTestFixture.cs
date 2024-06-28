@@ -36,7 +36,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
                 if (_oldChatPhoto is not null)
                 {
                     await using MemoryStream photoStream = new(_oldChatPhoto);
-                    await fixture.BotClient.SetChatPhotoAsync(
+                    await fixture.BotClient.WithStreams(photoStream).SetChatPhotoAsync(
                         chatId: Chat.Id,
                         photo: InputFile.FromStream(photoStream)
                     );

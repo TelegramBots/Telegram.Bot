@@ -107,7 +107,7 @@ public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTest
     public async Task Should_Set_Chat_Photo()
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
-        await BotClient.SetChatPhotoAsync(
+        await BotClient.WithStreams(stream).SetChatPhotoAsync(
             chatId: classFixture.Chat.Id,
             photo: InputFile.FromStream(stream)
         );

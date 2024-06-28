@@ -28,10 +28,10 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     Enumerator? _enumerator;
 
     /// <summary>
-    /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
+    /// Constructs a new <see cref="QueuedUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-    /// <param name="receiverOptions"></param>
+    /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
     /// <param name="pollingErrorHandler">
     /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
     /// </param>
@@ -63,9 +63,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
         }
 
-        _enumerator = new(receiver: this, cancellationToken: cancellationToken);
-
-        return _enumerator;
+        return _enumerator = new(receiver: this, cancellationToken: cancellationToken);
     }
 
     class Enumerator : IAsyncEnumerator<Update>
@@ -99,12 +97,12 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 new()
                 {
                     SingleReader = true,
-                    SingleWriter = true
+                    SingleWriter = true,
                 }
             );
 
 #pragma warning disable CA2016
-            _ = Task.Run(ReceiveUpdatesAsync);
+            _ = Task.Run(ReceiveUpdatesAsync, cancellationToken);
 #pragma warning restore CA2016
         }
 
@@ -117,7 +115,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             if (_channel.Reader.TryRead(out _current))
             {
                 Interlocked.Decrement(ref _pendingUpdates);
-                return new(true);
+                return new(result: true);
             }
 
             return new(ReadAsync());
@@ -155,9 +153,9 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                             request: new GetUpdatesRequest
                             {
                                 Offset = _messageOffset,
+                                Limit = _limit,
                                 Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
                                 AllowedUpdates = _allowedUpdates,
-                                Limit = _limit,
                             },
                             cancellationToken: _token
                         )
@@ -180,7 +178,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 }
                 catch (OperationCanceledException)
                 {
-                    // Ignore
+                    return;
                 }
 #pragma warning disable CA1031
                 catch (Exception ex)

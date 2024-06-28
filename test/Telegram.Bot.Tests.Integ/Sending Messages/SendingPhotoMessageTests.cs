@@ -24,7 +24,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
     public async Task Should_Send_Photo_File()
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
-        Message message = await BotClient.SendPhotoAsync(
+        Message message = await BotClient.WithStreams(stream).SendPhotoAsync(
             chatId: fixture.SupergroupChat.Id,
             photo: InputFile.FromStream(stream),
             caption: "👆 This is a\nTelegram Bot"
@@ -77,7 +77,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
         ];
 
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
-        Message message = await BotClient.SendPhotoAsync(
+        Message message = await BotClient.WithStreams(stream).SendPhotoAsync(
             chatId: fixture.SupergroupChat.Id,
             photo: InputFile.FromStream(stream),
             caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
@@ -103,7 +103,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
         ];
 
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
-        Message message = await BotClient.SendPhotoAsync(
+        Message message = await BotClient.WithStreams(stream).SendPhotoAsync(
             chatId: fixture.SupergroupChat.Id,
             photo: InputFile.FromStream(stream),
             caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity)),

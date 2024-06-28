@@ -117,7 +117,7 @@ public class PaymentsBuilder
 
     public PaymentsBuilder WithPaymentProviderToken(string paymentsProviderToken)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(paymentsProviderToken);
+        if (_currency != "XTR") ArgumentException.ThrowIfNullOrWhiteSpace(paymentsProviderToken);
         _paymentsProviderToken = paymentsProviderToken;
         return this;
     }
@@ -181,9 +181,9 @@ public class PaymentsBuilder
     public async Task<Types.Message> MakeInvoiceRequest(ITelegramBotClient botClient)
     {
         ArgumentNullException.ThrowIfNull(_product);
-        ArgumentException.ThrowIfNullOrWhiteSpace(_paymentsProviderToken);
-        ArgumentNullException.ThrowIfNull(_chatId);
         ArgumentException.ThrowIfNullOrWhiteSpace(_currency);
+        if (_currency != "XTR") ArgumentException.ThrowIfNullOrWhiteSpace(_paymentsProviderToken);
+        ArgumentNullException.ThrowIfNull(_chatId);
         ArgumentException.ThrowIfNullOrWhiteSpace(_payload);
 
         return await botClient.SendInvoiceAsync(

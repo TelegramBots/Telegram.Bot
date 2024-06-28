@@ -23,7 +23,7 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         Message originalMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
-            originalMessage = await BotClient.SendVideoAsync(
+            originalMessage = await BotClient.WithStreams(stream).SendVideoAsync(
                 chatId: fixture.SupergroupChat,
                 video: InputFile.FromStream(stream),
                 caption: "This message will be edited shortly"
@@ -36,7 +36,7 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         Message editedMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
         {
-            editedMessage = await BotClient.EditMessageMediaAsync(
+            editedMessage = await BotClient.WithStreams(stream).EditMessageMediaAsync(
                 chatId: originalMessage.Chat,
                 messageId: originalMessage.MessageId,
                 media: new InputMediaDocument
@@ -81,7 +81,7 @@ public class EditMessageMediaTests2(TestsFixture fixture)
 
         // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
         await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
-        Message editedMessage = await BotClient.EditMessageMediaAsync(
+        Message editedMessage = await BotClient.WithStreams(thumbStream).EditMessageMediaAsync(
             chatId: originalMessage.Chat,
             messageId: originalMessage.MessageId,
             media: new InputMediaAnimation

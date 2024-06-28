@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
@@ -64,5 +65,15 @@ public class GettingUpdatesTests(TestsFixture fixture)
         Assert.NotNull(botUser.Username);
         Assert.True(botUser.IsBot);
         Assert.EndsWith("bot", botUser.Username!, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [OrderedFact("Should be aborted by global cancellation token")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
+    public async Task Should_Abort_Request_by_GlobalCancelToken()
+    {
+        CancellationTokenSource globalCT = new();
+        ITelegramBotClient botClient = new TelegramBotClient(fixture.Configuration.ApiToken, cancellationToken: globalCT.Token);
+        globalCT.Cancel();
+        await Assert.ThrowsAsync<TaskCanceledException>(async () => await botClient.GetUpdatesAsync());
     }
 }

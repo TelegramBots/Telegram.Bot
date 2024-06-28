@@ -12,14 +12,12 @@ public class MessageTypeConverterTests
     [Fact]
     public void Should_Verify_All_MessageType_Members()
     {
-        HashSet<MessageType> messageTypeValues = Enum
+        HashSet<MessageType> messageTypeValues = [.. Enum
             .GetValues<MessageType>()
-            .OrderBy(x => x)
-            .ToHashSet();
-        HashSet<string> messageTypeMembers = Enum
+            .OrderBy(x => x)];
+        HashSet<string> messageTypeMembers = [.. Enum
             .GetNames(typeof(MessageType))
-            .OrderBy(x => x)
-            .ToHashSet();
+            .OrderBy(x => x)];
         HashSet<string> messageTypeDataMembers = new MessageTypeData()
             .Select(x => Enum.GetName(typeof(MessageType), x[0]))
             .OrderBy(x => x)
@@ -35,7 +33,7 @@ public class MessageTypeConverterTests
     public void Should_Convert_UpdateType_To_String(MessageType messageType, string value)
     {
         Message message = new(messageType);
-        string expectedResult =
+        string expectedResult = messageType == 0 ? "{}" :
             $$"""
             {"type":"{{value}}"}
             """;

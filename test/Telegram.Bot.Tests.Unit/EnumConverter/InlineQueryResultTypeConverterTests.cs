@@ -24,7 +24,7 @@ public class InlineQueryResultTypeConverterTests
     public void Should_Convert_InlineQueryResultType_To_String(InlineQueryResultType inlineQueryResultType, string value)
     {
         InlineQueryResult inlineQuery = new() { Type = inlineQueryResultType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string expectedResult = inlineQueryResultType == 0 ? "{}" : @$"{{""type"":""{value}""}}";
 
         string result = JsonSerializer.Serialize(inlineQuery, JsonSerializerOptionsProvider.Options);
 

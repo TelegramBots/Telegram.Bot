@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
@@ -10,7 +10,7 @@ public class ChatSourceBoostSerializationTests
     [Fact]
     public void Should_Serialize_ChatBoostSourcePremium()
     {
-        ChatBoostSourcePremium creator = new()
+        ChatBoostSource cbs = new ChatBoostSourcePremium()
         {
             User = new()
             {
@@ -23,7 +23,7 @@ public class ChatSourceBoostSerializationTests
             },
         };
 
-        string json = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(cbs, JsonSerializerOptionsProvider.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -48,7 +48,7 @@ public class ChatSourceBoostSerializationTests
     [Fact]
     public void Should_Serialize_ChatBoostSourceGiveaway()
     {
-        ChatBoostSourceGiveaway creator = new()
+        ChatBoostSource cbs = new ChatBoostSourceGiveaway()
         {
             User = new()
             {
@@ -63,7 +63,7 @@ public class ChatSourceBoostSerializationTests
             IsUnclaimed = true,
         };
 
-        string json = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(cbs, JsonSerializerOptionsProvider.Options);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
 
@@ -91,7 +91,7 @@ public class ChatSourceBoostSerializationTests
     [Fact]
     public void Should_Serialize_ChatBoostSourceGiftCode()
     {
-        ChatBoostSourceGiftCode creator = new()
+        ChatBoostSource cbs = new ChatBoostSourceGiftCode()
         {
             User = new()
             {
@@ -104,7 +104,7 @@ public class ChatSourceBoostSerializationTests
             },
         };
 
-        string json = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(cbs, JsonSerializerOptionsProvider.Options);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
