@@ -15,13 +15,14 @@ public static partial class JsonSerializerOptionsProvider
         options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
         options.UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip;
-        options.Converters.Add(new BanTimeConverter());
-        options.Converters.Add(new ChatIdConverter());
-        options.Converters.Add(new InputFileConverter());
+        //options.AllowOutOfOrderMetadataProperties = true;     // when System.Text.Json 9.0 is available, so we don't need custom PolymorphicJsonConverterFactory
         options.Converters.Add(new PolymorphicJsonConverterFactory());
-        options.Converters.Add(new UnixDateTimeConverter());
-        AddGeneratedConverters(Options.Converters);
+        //options.Converters.Add(new BanTimeConverter());
+        //options.Converters.Add(new ChatIdConverter());
+        //options.Converters.Add(new InputFileConverter());
+        //options.Converters.Add(new UnixDateTimeConverter());
+        //AddGeneratedConverters(Options.Converters);
     }
 
-    static partial void AddGeneratedConverters(IList<JsonConverter> converters);
+    //static partial void AddGeneratedConverters(IList<JsonConverter> converters);
 }
