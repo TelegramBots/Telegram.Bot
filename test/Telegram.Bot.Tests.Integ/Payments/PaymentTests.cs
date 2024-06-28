@@ -561,10 +561,10 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         double totalCostWithoutShippingCost = paymentsBuilder
             .GetTotalAmountWithoutShippingCost();
 
-        string instruction = FormatInstructionWithCurrency(
-            $"Click on *Pay ⭐️ {totalCostWithoutShippingCost}* and confirm payment. Transaction should be completed."
-        );
-        await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
+        //string instruction = FormatInstructionWithCurrency(
+        //    $"Click on *Pay ⭐️ {totalCostWithoutShippingCost}* and confirm payment. Transaction should be completed."
+        //);
+        //await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
         Message invoiceMessage = await paymentsBuilder.MakeInvoiceRequest(BotClient);
         Invoice invoice = invoiceMessage.Invoice;

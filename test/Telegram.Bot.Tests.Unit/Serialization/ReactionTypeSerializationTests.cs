@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
@@ -48,7 +48,7 @@ public class ReactionTypeSerializationTests
     [Fact]
     public void Should_Serialize_ReactionTypeEmoji()
     {
-        ReactionTypeEmoji reactionType = new()
+        ReactionType reactionType = new ReactionTypeEmoji()
         {
             Emoji = "😎"
         };
@@ -67,7 +67,7 @@ public class ReactionTypeSerializationTests
     [Fact]
     public void Should_Serialize_ReactionTypeCustomEmoji()
     {
-        ReactionTypeCustomEmoji reactionType = new()
+        ReactionType reactionType = new ReactionTypeCustomEmoji()
         {
             CustomEmojiId = "custom-emoji-id"
         };
