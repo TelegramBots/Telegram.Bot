@@ -74,11 +74,21 @@ namespace Telegram.Bot.Types
                 : CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
     }
 
+    public partial class Chat
+    {
+        /// <inheritdoc/>
+        public override string ToString() => Type switch
+        {
+            ChatType.Private => Username != null ? $"Private chat with @{Username} ({Id})" : $"Private chat with {FirstName}{LastName?.Insert(0, " ")} ({Id})",
+            _ => $"{Type} \"{Title}\" ({Id})"
+        };
+    }
+
     public partial class User
     {
         /// <inheritdoc/>
         public override string ToString() =>
-            $"{(Username is null ? $"{FirstName}{LastName?.Insert(0, " ")}" : $"@{Username}")} ({Id})";
+            Username != null ? $"@{Username} ({Id})" : $"{FirstName}{LastName?.Insert(0, " ")} ({Id})";
     }
 
     public partial class ReplyParameters
