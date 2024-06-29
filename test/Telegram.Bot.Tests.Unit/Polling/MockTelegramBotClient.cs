@@ -27,6 +27,7 @@ public class MockTelegramBotClient : ITelegramBotClient
 {
     readonly Queue<string[]> _messages;
 
+    public int? lastOffsetRequested = null;
     public int MessageGroupsLeft => _messages.Count;
     public MockClientOptions Options { get; }
 
@@ -53,6 +54,9 @@ public class MockTelegramBotClient : ITelegramBotClient
         Options.GlobalCancelToken.ThrowIfCancellationRequested();
         await Task.Delay(Options.RequestDelay, cancellationToken);
 
+        if (getUpdatesRequest.Offset.HasValue && getUpdatesRequest.Offset == lastOffsetRequested && _messages.Count != 0)
+            throw new InvalidOperationException("Repeating same request.Offset is not supported");
+        lastOffsetRequested = getUpdatesRequest.Offset;
         if (Options.ExceptionToThrow is not null) { throw Options.ExceptionToThrow; }
 
         if (Options.HandleNegativeOffset && getUpdatesRequest.Offset == -1)

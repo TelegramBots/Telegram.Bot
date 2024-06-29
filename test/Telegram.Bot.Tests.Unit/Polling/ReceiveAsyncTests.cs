@@ -100,7 +100,7 @@ public class ReceiveAsyncTests
             updateHandler: HandleUpdate,
             errorHandler: async (_, ex, source, token) =>
             {
-                if (source == HandleErrorSource.HandleUpdateError) throw ex;
+                if (source is HandleErrorSource.HandleUpdateError or HandleErrorSource.PollingError) throw ex;
                 await Task.Delay(10, token);
             });
 
