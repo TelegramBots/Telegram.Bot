@@ -84,9 +84,10 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             {
                 try
                 {
-                    await updateHandler.HandlePollingErrorAsync(
+                    await updateHandler.HandleErrorAsync(
                         botClient: _botClient,
                         exception: exception,
+                        source: HandleErrorSource.PollingError,
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
                 }
@@ -111,6 +112,22 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                 catch (OperationCanceledException)
                 {
                     return;
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        await updateHandler.HandleErrorAsync(
+                            botClient: _botClient,
+                            exception: ex,
+                            source: HandleErrorSource.HandleUpdateError,
+                            cancellationToken: cancellationToken
+                        ).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // ignored
+                    }
                 }
             }
         }

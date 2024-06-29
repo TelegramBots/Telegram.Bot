@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -11,19 +11,33 @@ namespace Telegram.Bot.Polling;
 public class DefaultUpdateHandler : IUpdateHandler
 {
     readonly Func<ITelegramBotClient, Update, CancellationToken, Task> _updateHandler;
-    readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _pollingErrorHandler;
+    readonly Func<ITelegramBotClient, Exception, HandleErrorSource, CancellationToken, Task> _errorHandler;
 
     /// <summary>
     /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
     /// </summary>
     /// <param name="updateHandler">The function to invoke when an update is received</param>
-    /// <param name="pollingErrorHandler">The function to invoke when an error occurs</param>
+    /// <param name="errorHandler">The function to invoke when an error occurs</param>
     public DefaultUpdateHandler(
         Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
-        Func<ITelegramBotClient, Exception, CancellationToken, Task> pollingErrorHandler)
+        Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler)
+    {
+        if (errorHandler == null) throw new ArgumentNullException(nameof(errorHandler));
+        _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));
+        _errorHandler = (bot, ex, s, ct) => errorHandler(bot, ex, ct);
+    }
+
+    /// <summary>
+    /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
+    /// </summary>
+    /// <param name="updateHandler">The function to invoke when an update is received</param>
+    /// <param name="errorHandler">The function to invoke when an error occurs</param>
+    public DefaultUpdateHandler(
+        Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
+        Func<ITelegramBotClient, Exception, HandleErrorSource, CancellationToken, Task> errorHandler)
     {
         _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));
-        _pollingErrorHandler = pollingErrorHandler ?? throw new ArgumentNullException(nameof(pollingErrorHandler));
+        _errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
     }
 
     /// <inheritdoc />
@@ -35,10 +49,11 @@ public class DefaultUpdateHandler : IUpdateHandler
         await _updateHandler(botClient, update, cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc />
-    public async Task HandlePollingErrorAsync(
+    public async Task HandleErrorAsync(
         ITelegramBotClient botClient,
         Exception exception,
+        HandleErrorSource source,
         CancellationToken cancellationToken
     ) =>
-        await _pollingErrorHandler(botClient, exception, cancellationToken).ConfigureAwait(false);
+        await _errorHandler(botClient, exception, source, cancellationToken).ConfigureAwait(false);
 }
