@@ -68,7 +68,6 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             var updates = emptyUpdates;
             try
             {
-
                 updates = await _botClient.MakeRequestAsync(
                     request: request,
                     cancellationToken: cancellationToken
@@ -84,9 +83,10 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             {
                 try
                 {
-                    await updateHandler.HandlePollingErrorAsync(
+                    await updateHandler.HandleErrorAsync(
                         botClient: _botClient,
                         exception: exception,
+                        source: HandleErrorSource.PollingError,
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
                 }
@@ -100,17 +100,33 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             {
                 try
                 {
+                    request.Offset = update.Id + 1;
+
                     await updateHandler.HandleUpdateAsync(
                         botClient: _botClient,
                         update: update,
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
-
-                    request.Offset = update.Id + 1;
                 }
                 catch (OperationCanceledException)
                 {
                     return;
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        await updateHandler.HandleErrorAsync(
+                            botClient: _botClient,
+                            exception: ex,
+                            source: HandleErrorSource.HandleUpdateError,
+                            cancellationToken: cancellationToken
+                        ).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // ignored
+                    }
                 }
             }
         }

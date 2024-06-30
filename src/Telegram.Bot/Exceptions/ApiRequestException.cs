@@ -89,4 +89,13 @@ public class ApiRequestException : RequestException
         ErrorCode = errorCode;
         Parameters = parameters;
     }
+
+    /// <inheritdoc/>>
+    public override string ToString()
+    {
+        var str = base.ToString();
+        if (str.IndexOf(':') is >= 0 and int colon)
+            str = $"Telegram Bot API error {ErrorCode}{str.Substring(colon)}";
+        return str;
+    }
 }

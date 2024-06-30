@@ -1,4 +1,4 @@
-﻿#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 
 using System.Collections.Generic;
 using System.Threading;
@@ -46,7 +46,7 @@ public class QueuedUpdateReceiverTests
     {
         MockTelegramBotClient mockClient = new("foo-bar", "123", "one-two-three", "456");
         QueuedUpdateReceiver receiver = new(mockClient);
-        mockClient.Options.RequestDelay = 250;
+        mockClient.Options.RequestDelay = 500;
 
         Assert.Equal(4, mockClient.MessageGroupsLeft);
         Assert.Equal(0, receiver.PendingUpdates);
