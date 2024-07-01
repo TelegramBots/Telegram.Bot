@@ -1,6 +1,6 @@
 ﻿namespace Telegram.Bot.Types;
 
-/// <summary>This object contains information about one answer option in a poll to send.</summary>
+/// <summary>This object contains information about one answer option in a poll to be sent.</summary>
 public partial class InputPollOption
 {
     /// <summary>Option text, 1-100 characters</summary>

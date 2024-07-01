@@ -25,6 +25,9 @@ public partial class ExternalReplyInfo
     /// <summary><em>Optional</em>. Message is a general file, information about the file</summary>
     public Document? Document { get; set; }
 
+    /// <summary><em>Optional</em>. Message contains paid media; information about the paid media</summary>
+    public PaidMediaInfo? PaidMedia { get; set; }
+
     /// <summary><em>Optional</em>. Message is a photo, available sizes of the photo</summary>
     public PhotoSize[]? Photo { get; set; }
 

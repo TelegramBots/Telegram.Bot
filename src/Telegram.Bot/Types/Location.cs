@@ -3,11 +3,11 @@
 /// <summary>This object represents a point on the map.</summary>
 public partial class Location
 {
-    /// <summary>Latitude as defined by sender</summary>
+    /// <summary>Latitude as defined by the sender</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public double Latitude { get; set; }
 
-    /// <summary>Longitude as defined by sender</summary>
+    /// <summary>Longitude as defined by the sender</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public double Longitude { get; set; }
 

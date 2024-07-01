@@ -1,6 +1,6 @@
 ﻿namespace Telegram.Bot.Types.Payments;
 
-/// <summary>Type of the transaction partner, always <see cref="TransactionPartner"/></summary>
+/// <summary>Type of the transaction partner</summary>
 [JsonConverter(typeof(TransactionPartnerTypeConverter))]
 public enum TransactionPartnerType
 {
@@ -10,4 +10,6 @@ public enum TransactionPartnerType
     User,
     /// <summary>Describes a transaction with an unknown source or recipient.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerOther"/>)</i></summary>
     Other,
+    /// <summary>Describes a withdrawal transaction to the Telegram Ads platform.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerTelegramAds"/>)</i></summary>
+    TelegramAds,
 }

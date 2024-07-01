@@ -95,6 +95,9 @@ public partial class Message
     /// <summary><em>Optional</em>. Message is a general file, information about the file</summary>
     public Document? Document { get; set; }
 
+    /// <summary><em>Optional</em>. Message contains paid media; information about the paid media</summary>
+    public PaidMediaInfo? PaidMedia { get; set; }
+
     /// <summary><em>Optional</em>. Message is a photo, available sizes of the photo</summary>
     public PhotoSize[]? Photo { get; set; }
 
@@ -113,7 +116,7 @@ public partial class Message
     /// <summary><em>Optional</em>. Message is a voice message, information about the file</summary>
     public Voice? Voice { get; set; }
 
-    /// <summary><em>Optional</em>. Caption for the animation, audio, document, photo, video or voice</summary>
+    /// <summary><em>Optional</em>. Caption for the animation, audio, document, paid media, photo, video or voice</summary>
     public string? Caption { get; set; }
 
     /// <summary><em>Optional</em>. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption</summary>
@@ -266,6 +269,7 @@ public partial class Message
         { Animation: not null }                         => MessageType.Animation,
         { Audio: not null }                             => MessageType.Audio,
         { Document: not null }                          => MessageType.Document,
+        { PaidMedia: not null }                         => MessageType.PaidMedia,
         { Photo: not null }                             => MessageType.Photo,
         { Sticker: not null }                           => MessageType.Sticker,
         { Story: not null }                             => MessageType.Story,

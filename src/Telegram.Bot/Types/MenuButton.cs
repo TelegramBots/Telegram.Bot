@@ -29,7 +29,7 @@ public partial class MenuButtonWebApp : MenuButton
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Text { get; set; } = default!;
 
-    /// <summary>Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQueryAsync">AnswerWebAppQuery</see>.</summary>
+    /// <summary>Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQueryAsync">AnswerWebAppQuery</see>. Alternatively, a <c>t.me</c> link to a Web App of the bot can be specified in the object instead of the Web App's URL, in which case the Web App will be opened as if the user pressed the link.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public WebAppInfo WebApp { get; set; } = default!;
 }

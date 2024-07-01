@@ -11,7 +11,7 @@ public partial class ShippingQuery
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
-    /// <summary>Bot specified invoice payload</summary>
+    /// <summary>Bot-specified invoice payload</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string InvoicePayload { get; set; } = default!;
 
