@@ -142,6 +142,7 @@ public class MessageTypeConverterTests
             yield return [MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited"];
             yield return [MessageType.WebAppData, "web_app_data"];
             yield return [MessageType.ChatBackgroundSet, "chat_background_set"];
+            yield return [MessageType.PaidMedia, "paid_media"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
