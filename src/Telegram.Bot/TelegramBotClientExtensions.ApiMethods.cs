@@ -240,7 +240,7 @@ public static partial class TelegramBotClientExtensions
         ProtectContent = protectContent,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessageAsync">ForwardMessage</see>, but the copied message doesn't have a link to the original message.</summary>
+    /// <summary>Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessageAsync">ForwardMessage</see>, but the copied message doesn't have a link to the original message.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)</param>
@@ -287,7 +287,7 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessagesAsync">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.</summary>
+    /// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessagesAsync">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or channel username in the format <c>@channelusername</c>)</param>
@@ -717,6 +717,50 @@ public static partial class TelegramBotClientExtensions
         ReplyParameters = replyParameters,
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to send paid media to channel chats.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media</param>
+    /// <param name="media">A array describing the media to be sent; up to 10 items</param>
+    /// <param name="caption">Media caption, 0-1024 characters after entities parsing</param>
+    /// <param name="parseMode">Mode for parsing entities in the media caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
+    /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media</param>
+    /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
+    /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
+    /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>The sent <see cref="Message"/> is returned.</returns>
+    public static async Task<Message> SendPaidMedia(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int starCount,
+        IEnumerable<InputPaidMedia> media,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().MakeRequestAsync(new SendPaidMediaRequest
+    {
+        ChatId = chatId,
+        StarCount = starCount,
+        Media = media,
+        Caption = caption,
+        ParseMode = parseMode,
+        CaptionEntities = captionEntities,
+        ShowCaptionAboveMedia = showCaptionAboveMedia,
+        DisableNotification = disableNotification,
+        ProtectContent = protectContent,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.</summary>

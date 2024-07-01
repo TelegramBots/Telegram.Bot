@@ -19,7 +19,7 @@ public partial class PreCheckoutQuery
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TotalAmount { get; set; }
 
-    /// <summary>Bot specified invoice payload</summary>
+    /// <summary>Bot-specified invoice payload</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string InvoicePayload { get; set; } = default!;
 

@@ -112,6 +112,8 @@ public enum MessageType
     BoostAdded,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.ChatBackgroundSet"/></summary>
     ChatBackgroundSet,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.PaidMedia"/></summary>
+    PaidMedia,
 
 #pragma warning disable CS1591
     WebsiteConnected = ConnectedWebsite,

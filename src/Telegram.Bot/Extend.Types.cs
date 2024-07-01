@@ -480,6 +480,30 @@ namespace Telegram.Bot.Requests
         }
     }
 
+    public partial class SendPaidMediaRequest
+    {
+        /// <inheritdoc />
+        public override HttpContent ToHttpContent()
+        {
+            var multipartContent = GenerateMultipartFormDataContent();
+
+            foreach (var mediaItem in Media)
+            {
+                if (mediaItem is InputPaidMedia { Media: InputFileStream file })
+                {
+                    multipartContent.AddContentIfInputFile(file, file.FileName!);
+                }
+
+                if (mediaItem is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
+                {
+                    multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
+                }
+            }
+
+            return multipartContent;
+        }
+    }
+
     public partial class SendPollRequest
     {
         /// <summary>
