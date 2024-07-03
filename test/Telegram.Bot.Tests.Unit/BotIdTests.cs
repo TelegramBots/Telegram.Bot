@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 namespace Telegram.Bot.Tests.Unit;
 
@@ -41,7 +41,8 @@ public class BotIdTests
     [InlineData("INVALID:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy")]
     public void Should_Throw_On_Invalid_Token(string invalidToken)
     {
-        TelegramBotClientOptions options = new(token: invalidToken);
-        Assert.Null(options.BotId);
+        ArgumentException exception = Assert.Throws<ArgumentException>(
+            () => new TelegramBotClient(invalidToken)
+        );
     }
 }

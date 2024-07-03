@@ -103,7 +103,7 @@ public class MockTelegramBotClient : ITelegramBotClient
     // ---------------
 
     public bool LocalBotServer => throw new NotImplementedException();
-    public long? BotId => throw new NotImplementedException();
+    public long BotId => throw new NotImplementedException();
     public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
     public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
     public Task DownloadFileAsync(

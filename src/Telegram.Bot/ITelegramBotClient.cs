@@ -25,7 +25,7 @@ public interface ITelegramBotClient
     /// Token format is not public API so this property is optional and may stop working
     /// in the future if Telegram changes it's token format.
     /// </summary>
-    long? BotId { get; }
+    long BotId { get; }
 
     /// <summary>
     /// Timeout for requests
