@@ -2,8 +2,7 @@
 
 ## Background
 
-Telegram.Bot library relies on [Json.NET converters](https://www.newtonsoft.com/json/help/html/CustomJsonConverter.htm)
-to map JSON input to various enums and vice versa.
+Telegram.Bot library relies on Json converters to map JSON input to various enums and vice versa.
 
 It's rather tedious and repeating task. So that's where C# source generators come to help.
 
