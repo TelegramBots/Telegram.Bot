@@ -69,3 +69,12 @@ internal class RetryTelegramBotClient(
         throw apiRequestException;
     }
 }
+
+internal static class RetryTelegramBotClientExtensions
+{
+    public static ITelegramBotClient WithStreams(this ITelegramBotClient botClient, params System.IO.Stream[] streams)
+    {
+        ((RetryTelegramBotClient)botClient).WithStreams(streams);
+        return botClient;
+    }
+}

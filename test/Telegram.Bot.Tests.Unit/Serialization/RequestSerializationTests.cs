@@ -60,4 +60,71 @@ public class RequestSerializationTests
         Assert.Equal(123, (long?)j["member_limit"]);
         Assert.Equal(true, (bool?)j["creates_join_request"]);
     }
+
+    [Fact(DisplayName = "Should build and compare sendPhotoRequest request")]
+    public async Task Should_Build_Compare_SendPhotoRequest()
+    {
+        string json =
+            $$"""
+            {
+                "chat_id": "1234567",
+                "photo": "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg",
+                "caption": "Photo request deserialized from JSON"
+            }
+            """;
+        SendPhotoRequest? request = JsonSerializer.Deserialize<SendPhotoRequest>(json, JsonSerializerOptionsProvider.Options);
+
+        var bot = new Polling.MockTelegramBotClient();
+        var ex = await Assert.ThrowsAsync<NotSupportedException>(
+            () => bot.SendPhotoAsync(
+                1234567,
+                "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg",
+                caption: "Photo request deserialized from JSON"
+            ));
+        var sentRequest = Assert.IsType<SendPhotoRequest>(ex.Data["request"]);
+
+        //TODO Assert.Equivalent(request, sentRequest, true); // needs xunit 2.8.2
+        Assert.Equal(JsonSerializer.Serialize(request), JsonSerializer.Serialize(sentRequest));
+    }
+
+    [Fact(DisplayName = "Should build and compare sendVenueRequest request")]
+    public async Task Should_Build_Compare_SendVenueRequest()
+    {
+        string json =
+            $$"""
+            {
+                "chat_id": "2345678",
+                "latitude": 48.204296,
+                "longitude": 16.365514,
+                "title": "Burggarten",
+                "address": "Opernring",
+                "foursquare_id": "4b7ff7c3f964a5208d4730e3",
+                "foursquare_type": "parks_outdoors/park"
+            }
+            """;
+        SendVenueRequest request = JsonSerializer.Deserialize<SendVenueRequest>(json, JsonSerializerOptionsProvider.Options)!;
+        Assert.Equal("sendVenue", request.MethodName);
+        Assert.Equal("Burggarten", request.Title);
+        Assert.Equal("Opernring", request.Address);
+        Assert.Equal("4b7ff7c3f964a5208d4730e3", request.FoursquareId);
+        Assert.Equal("parks_outdoors/park", request.FoursquareType);
+        Assert.InRange(request.Latitude, 48.204296 - 0.001f, 48.204296 + 0.001f);
+        Assert.InRange(request.Longitude, 16.365514 - 0.001f, 16.365514 + 0.001f);
+
+        var bot = new Polling.MockTelegramBotClient();
+        var ex = await Assert.ThrowsAsync<NotSupportedException>(
+            () => bot.SendVenueAsync(
+                chatId: 2345678,
+                latitude: 48.204296,
+                longitude: 16.365514,
+                title: "Burggarten",
+                address: "Opernring",
+                foursquareId: "4b7ff7c3f964a5208d4730e3",
+                foursquareType: "parks_outdoors/park"
+            ));
+        var sentRequest = Assert.IsType<SendVenueRequest>(ex.Data["request"]);
+
+        //TODO Assert.Equivalent(request, sentRequest, true); // needs xunit 2.8.2
+        Assert.Equal(JsonSerializer.Serialize(request), JsonSerializer.Serialize(sentRequest));
+    }
 }

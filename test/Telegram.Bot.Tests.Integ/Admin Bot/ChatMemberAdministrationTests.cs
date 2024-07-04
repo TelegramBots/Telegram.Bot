@@ -15,12 +15,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
 public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdministrationTestFixture classFixture)
-    : IClassFixture<ChatMemberAdministrationTestFixture>
+    : TestClass(fixture), IClassFixture<ChatMemberAdministrationTestFixture>
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture = fixture;
-
     readonly ChatMemberAdministrationTestFixture _classFixture = classFixture;
 
     #region Kick, Unban, and Invite chat member back
@@ -29,7 +25,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Get_Chat_Member_Member()
     {
         ChatMember chatMember = await BotClient.GetChatMemberAsync(
-            chatId: _fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
 
@@ -42,7 +38,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Kick_Chat_Member_For_Ever()
     {
         await BotClient.BanChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId
         );
     }
@@ -51,7 +47,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Get_Chat_Member_Kicked()
     {
         ChatMember chatMember = await BotClient.GetChatMemberAsync(
-            chatId: _fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
 
@@ -66,7 +62,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Unban_Chat_Member()
     {
         await BotClient.UnbanChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId
         );
     }
@@ -75,7 +71,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
     public async Task Should_Export_Chat_Invite_Link()
     {
-        string chatInviteLink = await BotClient.ExportChatInviteLinkAsync(_fixture.SupergroupChat.Id);
+        string chatInviteLink = await BotClient.ExportChatInviteLinkAsync(Fixture.SupergroupChat.Id);
 
         Assert.Matches("https://t.me/.+", chatInviteLink);
 
@@ -85,22 +81,22 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [OrderedFact("Should receive a notification of new member (same kicked member) joining the chat")]
     public async Task Should_Receive_New_Chat_Member_Notification()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should join the group using invite link sent to " +
             "him/her in private chat"
         );
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
         Message privateMessage = await BotClient.SendTextMessageAsync(
             chatId: _classFixture.RegularMemberChat,
             text: _classFixture.GroupInviteLink
         );
 
-        Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+        Update update = await Fixture.UpdateReceiver.GetUpdateAsync(
             predicate: u =>
                 u.Message!.Chat.Type == ChatType.Supergroup
-                && u.Message!.Chat.Id == _fixture.SupergroupChat.Id
+                && u.Message!.Chat.Id == Fixture.SupergroupChat.Id
                 && u.Message!.Type == MessageType.NewChatMembers,
             updateTypes: [UpdateType.Message]
         );
@@ -109,7 +105,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             chatId: _classFixture.RegularMemberChat,
             messageId: privateMessage.MessageId);
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
         Message serviceMsg = update.Message;
 
@@ -137,7 +133,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         string inviteLinkName = $"Created at {createdAt:yyyy-MM-ddTHH:mm:ss}";
 
         ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             createsJoinRequest: true,
             name: inviteLinkName,
             expireDate: expireDate
@@ -161,20 +157,20 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [OrderedFact("Should receive a notification of new member (same kicked member) joining the chat")]
     public async Task Should_Receive_Chat_Join_Request()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should send a request to join the " +
             "chat by following the invite link sent to them in private chat two time. The administrator should " +
             "decline the first attempt and then approve the second one."
         );
 
         await BotClient.BanChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId);
 
         await Task.Delay(TimeSpan.FromSeconds(5));
 
         await BotClient.UnbanChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId);
 
         await Task.Delay(TimeSpan.FromSeconds(5));
@@ -184,9 +180,9 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             text: _classFixture.ChatInviteLink.InviteLink
         );
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-        Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+        Update update = await Fixture.UpdateReceiver.GetUpdateAsync(
             predicate: u => u.ChatJoinRequest is not null,
             updateTypes: [UpdateType.ChatJoinRequest]
         );
@@ -202,7 +198,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         Assert.NotNull(chatJoinRequest.Chat);
         Assert.NotNull(chatJoinRequest.From);
         Assert.NotEqual(default, chatJoinRequest.Date);
-        Assert.Equal(_fixture.SupergroupChat.Id, chatJoinRequest.Chat.Id);
+        Assert.Equal(Fixture.SupergroupChat.Id, chatJoinRequest.Chat.Id);
         Assert.Equal(chatJoinRequest.From.Id, _classFixture.RegularMemberUserId);
 
         _classFixture.ChatJoinRequest = chatJoinRequest;
@@ -214,7 +210,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     {
         Exception exception = await Record.ExceptionAsync(async () =>
             await BotClient.DeclineChatJoinRequest(
-                chatId: _fixture.SupergroupChat.Id,
+                chatId: Fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
             )
         );
@@ -230,9 +226,9 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             text: _classFixture.ChatInviteLink.InviteLink
         );
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-        Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+        Update update = await Fixture.UpdateReceiver.GetUpdateAsync(
             predicate: u => u.ChatJoinRequest is not null,
             updateTypes: [UpdateType.ChatJoinRequest]
         );
@@ -248,12 +244,12 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         Assert.NotNull(chatJoinRequest.Chat);
         Assert.NotNull(chatJoinRequest.From);
         Assert.NotEqual(default, chatJoinRequest.Date);
-        Assert.Equal(_fixture.SupergroupChat.Id, chatJoinRequest.Chat.Id);
+        Assert.Equal(Fixture.SupergroupChat.Id, chatJoinRequest.Chat.Id);
         Assert.Equal(chatJoinRequest.From.Id, _classFixture.RegularMemberUserId);
 
         Exception exception = await Record.ExceptionAsync(async () =>
             await BotClient.ApproveChatJoinRequest(
-                chatId: _fixture.SupergroupChat.Id,
+                chatId: Fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
             )
         );
@@ -271,7 +267,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         //ToDo exception when user isn't in group. Bad Request: bots can't add new chat members
 
         await BotClient.PromoteChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             canChangeInfo: true
         );
@@ -282,18 +278,18 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Set_Custom_Title_For_Admin()
     {
         ChatMember promotedRegularUser = await BotClient.GetChatMemberAsync(
-            _fixture.SupergroupChat,
+            Fixture.SupergroupChat,
             _classFixture.RegularMemberUserId
         );
 
         await BotClient.SetChatAdministratorCustomTitleAsync(
-            chatId: _fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             userId: promotedRegularUser.User.Id,
             customTitle: "CHANGED TITLE"
         );
 
         ChatMember newChatMember = await BotClient.GetChatMemberAsync(
-            _fixture.SupergroupChat,
+            Fixture.SupergroupChat,
             promotedRegularUser.User.Id
         );
 
@@ -304,7 +300,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         // Restore default title by sending empty string
         await BotClient.SetChatAdministratorCustomTitleAsync(
-            chatId: _fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             userId: promotedRegularUser.User.Id,
             customTitle: ""
         );
@@ -317,7 +313,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         //ToDo exception when user isn't in group. Bad Request: USER_NOT_MUTUAL_CONTACT
 
         await BotClient.PromoteChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             canChangeInfo: false
         );
@@ -330,7 +326,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         const int banSeconds = 35;
 
         await BotClient.RestrictChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             untilDate: DateTime.UtcNow.AddSeconds(banSeconds),
             permissions: new ChatPermissions
@@ -345,7 +341,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Get_Chat_Member_Restricted()
     {
         ChatMember chatMember = await BotClient.GetChatMemberAsync(
-            chatId: _fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
 
@@ -362,19 +358,19 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [OrderedFact("Should receive chat member updated")]
     public async Task Should_Receive_Chat_Member_Updated()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             $"Chat admin should kick @{_classFixture.RegularMemberUserName.Replace("_", @"\_")}."
         );
-        Update[] updates = await _fixture.UpdateReceiver
+        Update[] updates = await Fixture.UpdateReceiver
             .GetUpdatesAsync(
-                predicate: u => u.ChatMember?.Chat.Id == _fixture.SupergroupChat.Id,
+                predicate: u => u.ChatMember?.Chat.Id == Fixture.SupergroupChat.Id,
                 updateTypes: UpdateType.ChatMember
             )
             .ConfigureAwait(false);
 
         Update update = updates.Single();
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
         ChatMemberUpdated chatMemberUpdated = update.ChatMember;
 
@@ -399,23 +395,23 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         TimeSpan waitTime = TimeSpan.FromMinutes(2);
         using CancellationTokenSource cts = new(TimeSpan.FromMinutes(2));
 
-        await _fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             $"Chat admin should invite @{_classFixture.RegularMemberUserName.Replace("_", @"\_")} back to the group. Bot will be waiting" +
             $" for {waitTime.Minutes} minutes."
         );
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-        Update _ = await _fixture.UpdateReceiver
+        Update _ = await Fixture.UpdateReceiver
             .GetUpdateAsync(
-                u => u.Message?.Chat.Id == _fixture.SupergroupChat.Id &&
+                u => u.Message?.Chat.Id == Fixture.SupergroupChat.Id &&
                      u.Message.Type == MessageType.NewChatMembers,
                 updateTypes: UpdateType.Message,
                 cancellationToken: cts.Token
             );
 
         // ReSharper disable once MethodSupportsCancellation
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+        await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
     }
 
     #endregion
@@ -427,13 +423,13 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Kick_Chat_Member_Temporarily()
     {
         const int banSeconds = 35;
-        await _fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in" +
             $" *{banSeconds} seconds* via the link shared in private chat with him/her"
         );
 
         await BotClient.BanChatMemberAsync(
-            chatId: _fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             untilDate: DateTime.UtcNow.AddSeconds(banSeconds)
         );
@@ -443,7 +439,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Get_Chat_Member_Restricted_With_Until_Date()
     {
         ChatMember chatMember = await BotClient.GetChatMemberAsync(
-            chatId: _fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
 

@@ -7,9 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace Telegram.Bot.Tests.Integ.Framework;
 
-public class TestConfiguration : IValidatableObject
+public partial class TestConfiguration : IValidatableObject
 {
-    private static readonly Regex UsernamePattern = new("[a-zA-Z0-9_]+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    [GeneratedRegex("[a-zA-Z0-9_]+", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+    private static partial Regex UsernamePattern();
 
     [Required(ErrorMessage = "API token is not provided or is empty.")]
     [RegularExpression("[0-9]+:.+", ErrorMessage = "API is invalid.")]
@@ -41,7 +42,7 @@ public class TestConfiguration : IValidatableObject
     {
         foreach (var username in AllowedUserNames)
         {
-            if (!UsernamePattern.IsMatch(username))
+            if (!UsernamePattern().IsMatch(username))
             {
                 yield return new($"Username {username} is invalid", [nameof(AllowedUserNames)]);
             }

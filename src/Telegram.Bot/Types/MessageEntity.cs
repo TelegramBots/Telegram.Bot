@@ -51,7 +51,7 @@ public class MessageEntity
 
     /// <summary>
     /// Optional. For <see cref="MessageEntityType.CustomEmoji"/> only, unique identifier of the custom emoji.
-    /// Use <see cref="Requests.GetCustomEmojiStickersRequest"/> to get full information about the sticker
+    /// Use <see csref="TelegramBotClientExtensions.GetCustomEmojiStickersAsync">GetCustomEmojiStickers</see> to get full information about the sticker
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

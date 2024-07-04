@@ -13,11 +13,9 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.FileDownload)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture classFixture, ITestOutputHelper output)
-    : IClassFixture<FileDownloadTests.Fixture>
+public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixture classFixture, ITestOutputHelper output)
+    : TestClass(fixture), IClassFixture<FileDownloadTests.ClassFixture>
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     [OrderedFact("Should get file info")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
     public async Task Should_Get_File_Info()
@@ -30,7 +28,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
             documentMessage = await BotClient.WithStreams(stream).SendDocumentAsync(
-                chatId: fixture.SupergroupChat,
+                chatId: Fixture.SupergroupChat,
                 document: InputFile.FromStream(stream)
             );
         }
@@ -55,7 +53,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
     {
         long? fileSize = classFixture.File.FileSize;
 
-        string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
+        string destinationFilePath = $"{Path.GetTempFileName()}.{ClassFixture.FileType}";
         output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
         await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
@@ -73,7 +71,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
     {
         long? fileSize = classFixture.File.FileSize;
 
-        string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
+        string destinationFilePath = $"{Path.GetTempFileName()}.{ClassFixture.FileType}";
         output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
         await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
@@ -112,7 +110,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
         Assert.Null(content);
     }
 
-    public class Fixture
+    public class ClassFixture
     {
         public const string FileType = "pdf";
 

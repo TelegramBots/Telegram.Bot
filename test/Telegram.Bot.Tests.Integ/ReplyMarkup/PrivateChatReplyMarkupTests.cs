@@ -11,10 +11,9 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup;
 [Collection(Constants.TestCollections.PrivateChatReplyMarkup)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatReplyMarkupTests.Fixture fixture) : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
+public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyMarkupTests.ClassFixture classFixture)
+    : TestClass(fixture), IClassFixture<PrivateChatReplyMarkupTests.ClassFixture>
 {
-    ITelegramBotClient BotClient => testsFixture.BotClient;
-
     [OrderedFact("Should request contact with keyboard reply markup")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Request_Contact()
@@ -28,7 +27,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         };
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Share your contact info using the keyboard reply markup provided.",
             replyMarkup: replyKeyboardMarkup
         );
@@ -38,10 +37,10 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         Assert.NotNull(contactMessage.Contact);
         Assert.NotEmpty(contactMessage.Contact.FirstName);
         Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
-        Assert.Equal(fixture.PrivateChat.Id, contactMessage.Contact.UserId);
+        Assert.Equal(classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Got it. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
@@ -55,7 +54,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         ReplyKeyboardMarkup replyKeyboardMarkup = new(keyboardRow: keyboard);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Share your location using the keyboard reply markup",
             replyMarkup: replyKeyboardMarkup
         );
@@ -65,7 +64,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         Assert.NotNull(locationMessage.Location);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Got it. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
@@ -82,7 +81,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         ReplyKeyboardMarkup replyKeyboardMarkup = new(keyboardRow: keyboard);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Share users using the keyboard reply markup",
             replyMarkup: replyKeyboardMarkup
         );
@@ -92,7 +91,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         Assert.NotNull(usersMessage.UsersShared);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Got it. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
@@ -112,7 +111,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         ReplyKeyboardMarkup replyKeyboardMarkup = new(keyboardRow: keyboard);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Share chat using the keyboard reply markup",
             replyMarkup: replyKeyboardMarkup
         );
@@ -122,19 +121,19 @@ public class PrivateChatReplyMarkupTests(TestsFixture testsFixture, PrivateChatR
         Assert.NotNull(chatMessage.ChatShared);
 
         await BotClient.SendTextMessageAsync(
-            chatId: fixture.PrivateChat,
+            chatId: classFixture.PrivateChat,
             text: "Got it. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
     }
 
     async Task<Message> GetMessageFromChat(MessageType messageType) =>
-        (await testsFixture.UpdateReceiver.GetUpdateAsync(
+        (await Fixture.UpdateReceiver.GetUpdateAsync(
             predicate: u => u.Message!.Type == messageType &&
-                            u.Message.Chat.Id == fixture.PrivateChat.Id,
+                            u.Message.Chat.Id == classFixture.PrivateChat.Id,
             updateTypes: UpdateType.Message
         )).Message;
 
-    public class Fixture(TestsFixture testsFixture)
+    public class ClassFixture(TestsFixture testsFixture)
         : PrivateChatFixture(testsFixture, Constants.TestCollections.ReplyMarkup);
 }

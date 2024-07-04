@@ -10,20 +10,18 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages;
 [Collection(Constants.TestCollections.DeleteMessage)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class DeleteMessageTests(TestsFixture fixture)
+public class DeleteMessageTests(TestsFixture fixture) : TestClass(fixture)
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     [OrderedFact("Should delete message generated from an inline query result")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Delete_Message_From_InlineQuery()
     {
-        await fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             "Starting the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update queryUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update queryUpdate = await Fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: queryUpdate.InlineQuery!.Id,
@@ -40,8 +38,8 @@ public class DeleteMessageTests(TestsFixture fixture)
         );
 
         (Update messageUpdate, _) =
-            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: fixture.SupergroupChat.Id,
+            await Fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: Fixture.SupergroupChat.Id,
                 messageType: MessageType.Text
             );
 

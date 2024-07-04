@@ -10,11 +10,9 @@ namespace Telegram.Bot.Tests.Integ.Polls;
 [Collection(Constants.TestCollections.NativePolls)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class PublicPollTests(PublicPollTestsFixture classFixture) : IClassFixture<PublicPollTestsFixture>
+public class PublicPollTests(PublicPollTestsFixture classFixture)
+    : TestClass(classFixture.TestsFixture), IClassFixture<PublicPollTestsFixture>
 {
-    TestsFixture Fixture => classFixture.TestsFixture;
-    ITelegramBotClient BotClient => Fixture.BotClient;
-
     [OrderedFact(
         "Should send public poll with multiple answers")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]

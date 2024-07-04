@@ -2,6 +2,6 @@
 
 # CSharp code style settings:
 [*.cs]
-csharp_style_var_for_built_in_types = false:error
-csharp_style_var_when_type_is_apparent = false:error
-csharp_style_var_elsewhere = false:error
+#csharp_style_var_for_built_in_types = false:error
+#csharp_style_var_when_type_is_apparent = false:error
+#csharp_style_var_elsewhere = false:error

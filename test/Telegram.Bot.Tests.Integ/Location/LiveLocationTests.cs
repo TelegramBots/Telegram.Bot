@@ -12,10 +12,8 @@ namespace Telegram.Bot.Tests.Integ.Locations;
 [Collection(Constants.TestCollections.LiveLocation)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
 public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> classFixture)
-    : IClassFixture<EntityFixture<Message>>
+    : TestClass(fixture), IClassFixture<EntityFixture<Message>>
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     Message LocationMessage
     {
         get => classFixture.Entity;
@@ -30,7 +28,7 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
         const float lonBerlin = 13.4050f;
 
         Message message = await BotClient.SendLocationAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             latitude: latBerlin,
             longitude: lonBerlin,
             livePeriod: 60

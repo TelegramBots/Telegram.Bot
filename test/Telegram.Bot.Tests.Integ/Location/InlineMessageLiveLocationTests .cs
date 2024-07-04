@@ -12,21 +12,19 @@ namespace Telegram.Bot.Tests.Integ.Locations;
 [Collection(Constants.TestCollections.InlineMessageLiveLocation)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageLiveLocationTests.Fixture classFixture)
-    : IClassFixture<InlineMessageLiveLocationTests.Fixture>
+public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageLiveLocationTests.ClassFixture classFixture)
+    : TestClass(fixture), IClassFixture<InlineMessageLiveLocationTests.ClassFixture>
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     [OrderedFact("Should answer inline query with a location result")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
     public async Task Should_Answer_Inline_Query_With_Location()
     {
-        await fixture.SendTestInstructionsAsync(
+        await Fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await Fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         string callbackQueryData = $"edit-location{new Random().Next(1_000)}";
         Location newYork = new() { Latitude = 40.7128f, Longitude = -74.0060f };
@@ -55,9 +53,9 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
     public async Task Should_Edit_Inline_Message_Live_Location()
     {
-        await fixture.SendTestInstructionsAsync("Click on location message's button to edit the location");
+        await Fixture.SendTestInstructionsAsync("Click on location message's button to edit the location");
 
-        Update cqUpdate = await fixture.UpdateReceiver
+        Update cqUpdate = await Fixture.UpdateReceiver
             .GetCallbackQueryUpdateAsync(data: classFixture.CallbackQueryData);
 
         Location beijing = new() { Latitude = 39.9042f, Longitude = 116.4074f };
@@ -81,7 +79,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
         );
     }
 
-    public class Fixture
+    public class ClassFixture
     {
         public string InlineMessageId { get; set; }
 

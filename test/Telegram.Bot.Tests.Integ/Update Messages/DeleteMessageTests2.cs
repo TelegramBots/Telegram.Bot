@@ -7,18 +7,15 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages;
 
 [Collection(Constants.TestCollections.DeleteMessage2)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class DeleteMessageTests2(TestsFixture fixture)
+public class DeleteMessageTests2(TestsFixture fixture) : TestClass(fixture)
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
-
     [OrderedFact("Should delete message")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
     public async Task Should_Delete_Message()
     {
         Message message = await BotClient.SendTextMessageAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             text: "This message will be deleted shortly"
         );
 
@@ -36,12 +33,12 @@ public class DeleteMessageTests2(TestsFixture fixture)
     public async Task Should_Delete_Messages()
     {
         Message message1 = await BotClient.SendTextMessageAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             text: "Message one.\nThis message will be deleted shortly"
         );
 
         Message message2 = await BotClient.SendTextMessageAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             text: "Message two.\nThis message will be deleted shortly"
         );
 
@@ -50,7 +47,7 @@ public class DeleteMessageTests2(TestsFixture fixture)
         await Task.Delay(1_000);
 
         await BotClient.DeleteMessagesAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             messageIds: messageIds
         );
     }

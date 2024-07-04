@@ -49,7 +49,8 @@ public class MockTelegramBotClient : ITelegramBotClient
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
-        if (request is not GetUpdatesRequest getUpdatesRequest) { throw new NotImplementedException(); }
+        if (request is not GetUpdatesRequest getUpdatesRequest)
+            throw new NotSupportedException() { Data = { ["request"] = request } };
 
         Options.GlobalCancelToken.ThrowIfCancellationRequested();
         await Task.Delay(Options.RequestDelay, cancellationToken);

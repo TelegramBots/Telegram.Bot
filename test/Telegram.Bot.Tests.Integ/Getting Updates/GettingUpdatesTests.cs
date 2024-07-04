@@ -11,10 +11,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates;
 
 [Collection(Constants.TestCollections.GettingUpdates)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class GettingUpdatesTests(TestsFixture fixture)
+public class GettingUpdatesTests(TestsFixture fixture) : TestClass(fixture)
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     [OrderedFact("Should pass API Token test with valid token")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Pass_Test_Api_Token()
@@ -30,7 +28,7 @@ public class GettingUpdatesTests(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Fail_Test_Api_Token()
     {
-        ITelegramBotClient botClient = new TelegramBotClient(options: new("0:1this_is_an-invalid-token_for_tests"));
+        var botClient = new TelegramBotClient(options: new("0:1this_is_an-invalid-token_for_tests"));
         bool result = await botClient.TestApiAsync();
 
         Assert.False(result);
@@ -47,7 +45,7 @@ public class GettingUpdatesTests(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Test_Bad_BotToken()
     {
-        ITelegramBotClient botClient = new TelegramBotClient(
+        var botClient = new TelegramBotClient(
             options: new("123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11")
         );
         bool result = await botClient.TestApiAsync();
@@ -72,8 +70,8 @@ public class GettingUpdatesTests(TestsFixture fixture)
     public async Task Should_Abort_Request_by_GlobalCancelToken()
     {
         CancellationTokenSource globalCT = new();
-        ITelegramBotClient botClient = new TelegramBotClient(fixture.Configuration.ApiToken, cancellationToken: globalCT.Token);
+        var botClient = new TelegramBotClient(Fixture.Configuration.ApiToken, cancellationToken: globalCT.Token);
         globalCT.Cancel();
-        await Assert.ThrowsAsync<TaskCanceledException>(async () => await botClient.GetUpdatesAsync());
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await botClient.GetUpdatesAsync());
     }
 }

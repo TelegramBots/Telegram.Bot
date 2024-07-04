@@ -8,16 +8,14 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup;
 
 [Collection(Constants.TestCollections.ReplyMarkup)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class ReplyMarkupTests(TestsFixture testsFixture)
+public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
 {
-    ITelegramBotClient BotClient => testsFixture.BotClient;
-
     [OrderedFact("Should send a message with force reply markup")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Force_Reply()
     {
         await BotClient.SendTextMessageAsync(
-            chatId: testsFixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             text: "Message with force_reply",
             replyMarkup: new ForceReplyMarkup()
         );
@@ -40,7 +38,7 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
         };
 
         await BotClient.SendTextMessageAsync(
-            chatId: testsFixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             text: "Message with 3x3 keyboard",
             replyMarkup: replyMarkup
         );
@@ -51,7 +49,7 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
     public async Task Should_Remove_Reply_Keyboard()
     {
         await BotClient.SendTextMessageAsync(
-            chatId: testsFixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             text: "Message to remove keyboard",
             replyMarkup: new ReplyKeyboardRemove()
         );
@@ -79,7 +77,7 @@ public class ReplyMarkupTests(TestsFixture testsFixture)
         InlineKeyboardMarkup replyMarkup = keyboard;
 
         Message sentMessage = await BotClient.SendTextMessageAsync(
-            chatId: testsFixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             text: "Message with inline keyboard markup",
             replyMarkup: replyMarkup
         );

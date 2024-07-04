@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -66,6 +65,7 @@ public class TestsFixture : IDisposable
                 cancellationToken: token
             );
         }).GetAwaiter().GetResult();
+        GC.SuppressFinalize(this);
     }
 
     public async Task<Message> SendTestInstructionsAsync(
@@ -195,7 +195,7 @@ public class TestsFixture : IDisposable
             }
         );
 
-        UpdateReceiver = new(BotClient, allowedUserNames);
+        UpdateReceiver = new(this, allowedUserNames);
 
         await Ex.WithCancellation(async token => await BotClient.SendTextMessageAsync(
             chatId: SupergroupChat.Id,
@@ -352,4 +352,10 @@ public class TestsFixture : IDisposable
             ❎ `{3} failed`
             """;
     }
+}
+
+public class TestClass(TestsFixture fixture)
+{
+	public TestsFixture Fixture = fixture;
+	public ITelegramBotClient BotClient => Fixture.BotClient;
 }

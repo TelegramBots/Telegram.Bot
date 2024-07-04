@@ -10,11 +10,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 
 [Collection(Constants.TestCollections.ChannelAdminBots)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTestFixture classFixture)
-    : IClassFixture<ChannelAdminBotTestFixture>
+public class ChannelAdminBotTests(TestsFixture fixture, ChannelAdminBotTestFixture classFixture)
+    : TestClass(fixture), IClassFixture<ChannelAdminBotTestFixture>
 {
-    ITelegramBotClient BotClient => testsFixture.BotClient;
-
     #region 1. Changing Chat Title
 
     [OrderedFact("Should set chat title")]
@@ -156,7 +154,7 @@ public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTest
         const string setName = "EvilMinds";
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
-            await testsFixture.BotClient.SetChatStickerSetAsync(classFixture.Chat.Id, setName)
+            await Fixture.BotClient.SetChatStickerSetAsync(classFixture.Chat.Id, setName)
         );
 
         Assert.Equal(400, exception.ErrorCode);
