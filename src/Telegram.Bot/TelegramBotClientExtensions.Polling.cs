@@ -167,9 +167,7 @@ public static partial class TelegramBotClientExtensions
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
         // ReSharper disable once MethodSupportsCancellation
-#pragma warning disable CA2016
         _ = Task.Run(async () =>
-#pragma warning restore CA2016
         {
             try
             {
