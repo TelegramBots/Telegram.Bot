@@ -9,11 +9,9 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.BotCommands)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
+public class BotCommandsTests(TestsFixture fixture) : TestClass(fixture), IAsyncLifetime
 {
     BotCommandScope _scope;
-
-    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should set a new bot command list")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyCommands)]
@@ -61,14 +59,14 @@ public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
 
         _scope = BotCommandScope.Default();
 
-        await fixture.BotClient.SetMyCommandsAsync(
+        await Fixture.BotClient.SetMyCommandsAsync(
             commands: commands,
             scope: _scope
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotCommand[] currentCommands = await fixture.BotClient.GetMyCommandsAsync();
+        BotCommand[] currentCommands = await Fixture.BotClient.GetMyCommandsAsync();
 
         Assert.Equal(2, currentCommands.Length);
         Asserts.JsonEquals(commands, currentCommands);
@@ -149,5 +147,5 @@ public class BotCommandsTests(TestsFixture fixture) : IAsyncLifetime
 
     public Task InitializeAsync() => Task.CompletedTask;
     public async Task DisposeAsync() =>
-        await fixture.BotClient.DeleteMyCommandsAsync(scope: _scope);
+        await Fixture.BotClient.DeleteMyCommandsAsync(scope: _scope);
 }

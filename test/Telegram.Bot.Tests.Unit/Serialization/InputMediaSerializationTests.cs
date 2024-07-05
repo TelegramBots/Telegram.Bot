@@ -67,7 +67,7 @@ public class InputMediaSerializationTests
     [Fact]
     public void Should_Serialize_InputMediaAnimation_From_Concrete_Type()
     {
-        InputMedia im = new InputMediaAnimation()
+        InputMediaAnimation animation = new()
         {
             HasSpoiler = true,
             Media = InputFile.FromString("https://example.com/image.gif"),
@@ -76,7 +76,7 @@ public class InputMediaSerializationTests
             Height = 200,
         };
 
-        string json = JsonSerializer.Serialize(im, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(animation, JsonSerializerOptionsProvider.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

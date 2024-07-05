@@ -49,7 +49,8 @@ public class MockTelegramBotClient : ITelegramBotClient
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
-        if (request is not GetUpdatesRequest getUpdatesRequest) { throw new NotImplementedException(); }
+        if (request is not GetUpdatesRequest getUpdatesRequest)
+            throw new NotSupportedException() { Data = { ["request"] = request } };
 
         Options.GlobalCancelToken.ThrowIfCancellationRequested();
         await Task.Delay(Options.RequestDelay, cancellationToken);
@@ -103,7 +104,7 @@ public class MockTelegramBotClient : ITelegramBotClient
     // ---------------
 
     public bool LocalBotServer => throw new NotImplementedException();
-    public long? BotId => throw new NotImplementedException();
+    public long BotId => throw new NotImplementedException();
     public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
     public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
     public Task DownloadFileAsync(

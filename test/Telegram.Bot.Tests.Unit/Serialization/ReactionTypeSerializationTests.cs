@@ -84,11 +84,11 @@ public class ReactionTypeSerializationTests
     }
 
     [Fact]
-    public void Should_Serialize_ReactionTypeCustomEmoji_From_Base_Type()
+    public void Should_Serialize_ReactionTypeCustomEmoji_From_Concrete_Type()
     {
-        ReactionType reactionType = new ReactionTypeCustomEmoji()
+        ReactionTypeCustomEmoji reactionType = new()
         {
-            CustomEmojiId = "custom-emoji-id"
+            CustomEmojiId = "9999999999"
         };
 
         string json = JsonSerializer.Serialize(reactionType, JsonSerializerOptionsProvider.Options);
@@ -99,6 +99,6 @@ public class ReactionTypeSerializationTests
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
         Assert.Equal(2, j.Count);
         Assert.Equal("custom_emoji", (string?)j["type"]);
-        Assert.Equal("custom-emoji-id", (string?)j["custom_emoji_id"]);
+        Assert.Equal("9999999999", (string?)j["custom_emoji_id"]);
     }
 }

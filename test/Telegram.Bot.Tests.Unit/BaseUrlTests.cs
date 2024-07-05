@@ -19,10 +19,10 @@ public class BaseUrlTests
     [Fact]
     public void Should_Set_Telegram_Base_Url_When_Custom_Url_Is_Empty_Or_Null()
     {
-        TelegramBotClientOptions options = new(token: "123", baseUrl: null);
+        TelegramBotClientOptions options = new(token: "123:abc", baseUrl: null);
 
-        Assert.Equal("https://api.telegram.org/bot123", options.BaseRequestUrl);
-        Assert.Equal("https://api.telegram.org/file/bot123", options.BaseFileUrl);
+        Assert.Equal("https://api.telegram.org/bot123:abc", options.BaseRequestUrl);
+        Assert.Equal("https://api.telegram.org/file/bot123:abc", options.BaseFileUrl);
     }
 
     [Theory]
@@ -33,7 +33,7 @@ public class BaseUrlTests
     public void Should_Throw_On_Invalid_Base_Url(string invalidBaseUrl)
     {
         Assert.Throws<ArgumentException>(
-            () => new TelegramBotClientOptions(token: "123", baseUrl: invalidBaseUrl)
+            () => new TelegramBotClientOptions(token: "123:abc", baseUrl: invalidBaseUrl)
         );
     }
 }

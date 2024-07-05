@@ -12,10 +12,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages;
 
 [Collection(Constants.TestCollections.EditMessage2)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class EditMessageContentTests2(TestsFixture fixture)
+public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     [OrderedFact("Should edit a message's text")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
@@ -30,7 +28,7 @@ public class EditMessageContentTests2(TestsFixture fixture)
         string messageText = $"{originalMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
         Message originalMessage = await BotClient.SendTextMessageAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             text: messageText,
             parseMode: ParseMode.Html
         );
@@ -66,7 +64,7 @@ public class EditMessageContentTests2(TestsFixture fixture)
     public async Task Should_Edit_Message_Markup()
     {
         Message message = await BotClient.SendTextMessageAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             text: "Inline keyboard will be updated shortly",
             replyMarkup: (InlineKeyboardMarkup)"Original markup"
         );
@@ -94,7 +92,7 @@ public class EditMessageContentTests2(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
         {
             originalMessage = await BotClient.WithStreams(stream).SendPhotoAsync(
-                chatId: fixture.SupergroupChat.Id,
+                chatId: Fixture.SupergroupChat.Id,
                 photo: InputFile.FromStream(stream),
                 caption: "Message caption will be updated shortly"
             );

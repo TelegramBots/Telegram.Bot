@@ -1,5 +1,7 @@
 using Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace Telegram.Bot.Tests.Integ.Framework;
 
 public static class Constants

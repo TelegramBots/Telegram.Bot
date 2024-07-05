@@ -9,11 +9,9 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.BotDescription)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
+public class BotDescriptionTests(TestsFixture fixture) : TestClass(fixture), IAsyncLifetime
 {
     string _languageCode;
-
-    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should set a new bot description")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyDescription)]
@@ -38,7 +36,7 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotDescription currentDescription = await fixture.BotClient.GetMyDescriptionAsync();
+        BotDescription currentDescription = await Fixture.BotClient.GetMyDescriptionAsync();
 
         Assert.NotNull(currentDescription);
         Assert.Equal(description, currentDescription.Description);
@@ -54,7 +52,7 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
             description: description
         );
 
-        BotDescription setDescription = await fixture.BotClient.GetMyDescriptionAsync();
+        BotDescription setDescription = await Fixture.BotClient.GetMyDescriptionAsync();
 
         Assert.NotNull(setDescription);
         Assert.Equal(description, setDescription.Description);
@@ -65,7 +63,7 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotDescription currentDescription = await fixture.BotClient.GetMyDescriptionAsync();
+        BotDescription currentDescription = await Fixture.BotClient.GetMyDescriptionAsync();
 
         Assert.NotNull(currentDescription.Description);
         Assert.Empty(currentDescription.Description);
@@ -86,7 +84,7 @@ public class BotDescriptionTests(TestsFixture fixture) : IAsyncLifetime
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotDescription newDescription = await fixture.BotClient.GetMyDescriptionAsync(languageCode: _languageCode);
+        BotDescription newDescription = await Fixture.BotClient.GetMyDescriptionAsync(languageCode: _languageCode);
 
         Assert.NotNull(newDescription);
         Assert.Equal(description, newDescription.Description);

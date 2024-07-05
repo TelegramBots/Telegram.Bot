@@ -35,7 +35,7 @@ public class TelegramBotClientOptions
     /// Token format is not public API so this property is optional and may stop working
     /// in the future if Telegram changes it's token format.
     /// </summary>
-    public long? BotId { get; }
+    public long BotId { get; }
 
     /// <summary>
     /// Indicates that local bot server will be used
@@ -73,7 +73,12 @@ public class TelegramBotClientOptions
         BaseUrl = baseUrl;
         UseTestEnvironment = useTestEnvironment;
 
-        BotId = GetIdFromToken(token);
+        var index = token.IndexOf(':');
+        if (index is < 1 or > 16) throw new ArgumentException("Bot token invalid", nameof(token));
+        var botIdSpan = token[..index];
+        if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId))
+            throw new ArgumentException("Bot token invalid", nameof(token));
+        BotId = botId;
 
         LocalBotServer = baseUrl is not null;
         var effectiveBaseUrl = LocalBotServer
@@ -87,29 +92,6 @@ public class TelegramBotClientOptions
         BaseFileUrl = useTestEnvironment
             ? $"{effectiveBaseUrl}/file/bot{token}/test"
             : $"{effectiveBaseUrl}/file/bot{token}";
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static long? GetIdFromToken(string token)
-        {
-#if NET6_0_OR_GREATER
-            var span = token.AsSpan();
-            var index = span.IndexOf(':');
-
-            if (index is < 1 or > 16) { return null; }
-
-            var botIdSpan = span[..index];
-            if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId)) { return null; }
-#else
-            var index = token.IndexOf(value: ':');
-
-            if (index is < 1 or > 16) { return null; }
-
-            var botIdSpan = token.Substring(startIndex: 0, length: index);
-            if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId)) { return null; }
-#endif
-
-            return botId;
-        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

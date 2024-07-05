@@ -11,11 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Polls;
 [Collection(Constants.TestCollections.NativePolls)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class AnonymousPollTests(AnonymousPollTestsFixture classFixture) : IClassFixture<AnonymousPollTestsFixture>
+public class AnonymousPollTests(AnonymousPollTestsFixture classFixture)
+    : TestClass(classFixture.TestsFixture), IClassFixture<AnonymousPollTestsFixture>
 {
-    TestsFixture Fixture => classFixture.TestsFixture;
-    ITelegramBotClient BotClient => Fixture.BotClient;
-
     [OrderedFact(
         "Should send a poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]

@@ -15,10 +15,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers;
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
 public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixture)
-    : IClassFixture<StickersTestsFixture>
+    : TestClass(fixture), IClassFixture<StickersTestsFixture>
 {
-    private ITelegramBotClient BotClient => fixture.BotClient;
-
     #region 1. Upload sticker files
     [OrderedFact("Should upload static sticker file")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UploadStickerFile)]
@@ -220,7 +218,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
         Message stickerMessage = await BotClient.SendStickerAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             sticker: InputFile.FromFileId(firstSticker.FileId)
         );
 
@@ -262,7 +260,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
         Message stickerMessage = await BotClient.SendStickerAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             sticker: InputFile.FromFileId(firstSticker.FileId)
         );
 
@@ -304,7 +302,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
         Message stickerMessage = await BotClient.SendStickerAsync(
-            chatId: fixture.SupergroupChat.Id,
+            chatId: Fixture.SupergroupChat.Id,
             sticker: InputFile.FromFileId(firstSticker.FileId)
         );
 
@@ -352,7 +350,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             sticker: inputSticker
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         StickerSet stickerSet = await BotClient.GetStickerSetAsync(
             name: classFixture.TestStaticRegularStickerSetName
@@ -465,7 +463,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             position: 0
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(3_000);
 
         StickerSet positionedStickerSet = await BotClient.GetStickerSetAsync(
             name: classFixture.TestStaticRegularStickerSetName
@@ -493,7 +491,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             sticker: new(thirdSticker.FileId)
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         StickerSet updatedStickerSet = await BotClient.GetStickerSetAsync(
             name: classFixture.TestStaticRegularStickerSetName
@@ -579,7 +577,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             title: newStickerSetTitle
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         StickerSet stickerSet = await BotClient.GetStickerSetAsync(
             name: classFixture.TestStaticRegularStickerSetName
@@ -895,7 +893,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             MaskPosition = new()
             {
                 Point = MaskPositionPoint.Forehead,
-                Scale = .8f
+                Scale = .8
             }
         };
 
@@ -918,7 +916,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.NotNull(sticker.MaskPosition);
         Assert.Equal(MaskPositionPoint.Forehead, sticker.MaskPosition.Point);
-        Assert.Equal(.8, sticker.MaskPosition.Scale);
+        Assert.Equal(.8, sticker.MaskPosition.Scale, .00001);
     }
 
     [OrderedFact("Should set mask position for first sticker")]
@@ -952,7 +950,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.NotNull(changedSticker.MaskPosition);
         Assert.Equal(newMaskPosition.Point, changedSticker.MaskPosition.Point);
-        Assert.Equal(newMaskPosition.Scale, changedSticker.MaskPosition.Scale);
+        Assert.Equal(newMaskPosition.Scale, changedSticker.MaskPosition.Scale, .00001);
     }
 
     [OrderedFact("Should delete mask sticker set")]
@@ -1034,7 +1032,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             sticker: inputSticker
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         StickerSet stickerSet = await BotClient.GetStickerSetAsync(
             name: classFixture.TestStaticCustomEmojiStickerSetName
@@ -1066,6 +1064,8 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             customEmojiId: lastSticker.CustomEmojiId
         );
 
+        await Task.Delay(5_000);
+
         StickerSet changedStickerSet = await BotClient.GetStickerSetAsync(
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
@@ -1088,7 +1088,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.GetStickerSetAsync(

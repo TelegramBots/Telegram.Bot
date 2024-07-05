@@ -9,11 +9,9 @@ namespace Telegram.Bot.Tests.Integ.Polls;
 
 [Collection(Constants.TestCollections.NativePolls)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture) : IClassFixture<SelfStoppingPollTestsFixture>
+public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
+    : TestClass(fixture.TestsFixture), IClassFixture<SelfStoppingPollTestsFixture>
 {
-    TestsFixture Fixture => fixture.TestsFixture;
-    ITelegramBotClient BotClient => Fixture.BotClient;
-
     [OrderedFact(
         "Should send self closing anonymous poll by period")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]

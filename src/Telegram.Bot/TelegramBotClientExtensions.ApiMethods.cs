@@ -8,7 +8,6 @@ using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
-using SendTextMessageRequest = Telegram.Bot.Requests.SendMessageRequest;
 
 namespace Telegram.Bot;
 
@@ -166,7 +165,7 @@ public static partial class TelegramBotClientExtensions
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => await botClient.ThrowIfNull().MakeRequestAsync(new SendTextMessageRequest
+    ) => await botClient.ThrowIfNull().MakeRequestAsync(new SendMessageRequest
     {
         ChatId = chatId,
         Text = text,

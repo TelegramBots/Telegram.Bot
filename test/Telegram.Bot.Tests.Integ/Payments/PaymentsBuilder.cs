@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -178,7 +179,7 @@ public class PaymentsBuilder
 
     public int GetTotalAmountWithoutShippingCost() => _product?.ProductPrices.Sum(price => price.Amount) ?? 0;
 
-    public async Task<Types.Message> MakeInvoiceRequest(ITelegramBotClient botClient)
+    public async Task<Types.Message> MakeInvoiceRequest(TestsFixture fixture)
     {
         ArgumentNullException.ThrowIfNull(_product);
         ArgumentException.ThrowIfNullOrWhiteSpace(_currency);
@@ -186,7 +187,7 @@ public class PaymentsBuilder
         ArgumentNullException.ThrowIfNull(_chatId);
         ArgumentException.ThrowIfNullOrWhiteSpace(_payload);
 
-        return await botClient.SendInvoiceAsync(
+        return await fixture.BotClient.SendInvoiceAsync(
             chatId: _chatId.Value,
             title: _product.Title,
             description: _product.Description,
@@ -212,14 +213,14 @@ public class PaymentsBuilder
         );
     }
 
-    public async Task MakeShippingQueryRequest(ITelegramBotClient botClient, string shippingQueryId, string? errorMessage = default)
+    public async Task MakeShippingQueryRequest(TestsFixture fixture, string shippingQueryId, string? errorMessage = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(shippingQueryId);
 
         if (errorMessage is null)
-            await botClient.AnswerShippingQueryAsync(shippingQueryId, _shippingOptions);
+            await fixture.BotClient.AnswerShippingQueryAsync(shippingQueryId, _shippingOptions);
         else
-            await botClient.AnswerShippingQueryAsync(shippingQueryId, errorMessage);
+            await fixture.BotClient.AnswerShippingQueryAsync(shippingQueryId, errorMessage);
     }
 
     public PaymentsBuilder WithProduct(Action<ProductBuilder> builder)

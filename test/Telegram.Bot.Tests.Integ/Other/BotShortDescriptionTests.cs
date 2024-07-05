@@ -9,11 +9,9 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.BotShortDescription)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
+public class BotShortDescriptionTests(TestsFixture fixture) : TestClass(fixture), IAsyncLifetime
 {
     string _languageCode;
-
-    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should set a new bot short description")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyShortDescription)]
@@ -38,7 +36,7 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotShortDescription currentShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync();
+        BotShortDescription currentShortDescription = await Fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(currentShortDescription);
         Assert.Equal(shortDescription, currentShortDescription.ShortDescription);
@@ -54,7 +52,7 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
             shortDescription: shortDescription
         );
 
-        BotShortDescription setShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync();
+        BotShortDescription setShortDescription = await Fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(setShortDescription);
         Assert.Equal(shortDescription, setShortDescription.ShortDescription);
@@ -66,7 +64,7 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
         // Test fails receiving old description without a delay
         await Task.Delay(TimeSpan.FromSeconds(20));
 
-        BotShortDescription currentShortDescription = await fixture.BotClient.GetMyShortDescriptionAsync();
+        BotShortDescription currentShortDescription = await Fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(currentShortDescription.ShortDescription);
         Assert.Empty(currentShortDescription.ShortDescription);
@@ -87,7 +85,7 @@ public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotShortDescription newDescription = await fixture.BotClient.GetMyShortDescriptionAsync(languageCode: _languageCode);
+        BotShortDescription newDescription = await Fixture.BotClient.GetMyShortDescriptionAsync(languageCode: _languageCode);
 
         Assert.NotNull(newDescription);
         Assert.Equal(shortDescription, newDescription.ShortDescription);

@@ -13,10 +13,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 [Collection(Constants.TestCollections.SupergroupAdminBots)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
 public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture)
-    : IClassFixture<SupergroupAdminBotTestsFixture>
+    : TestClass(classFixture.TestsFixture), IClassFixture<SupergroupAdminBotTestsFixture>
 {
-    ITelegramBotClient BotClient => classFixture.TestsFixture.BotClient;
-
     #region 1. Changing Chat Title
 
     [OrderedFact("Should set chat title")]

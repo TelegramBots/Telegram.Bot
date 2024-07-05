@@ -8,10 +8,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages;
 
 [Collection(Constants.TestCollections.SendContactMessage)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SendingContactMessageTests(TestsFixture fixture)
+public class SendingContactMessageTests(TestsFixture fixture) : TestClass(fixture)
 {
-    ITelegramBotClient BotClient => fixture.BotClient;
-
     [OrderedFact("Should send a contact")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
     public async Task Should_Send_Contact()
@@ -21,7 +19,7 @@ public class SendingContactMessageTests(TestsFixture fixture)
         const string lastName = "Solo";
 
         Message message = await BotClient.SendContactAsync(
-            chatId: fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             phoneNumber: phoneNumber,
             firstName: firstName,
             lastName: lastName
@@ -37,7 +35,7 @@ public class SendingContactMessageTests(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
     public async Task Should_Send_Contact_With_VCard()
     {
-        const string vcard =
+        string vcard =
             """
             BEGIN:VCARD
             VERSION:2.1
@@ -54,10 +52,10 @@ public class SendingContactMessageTests(TestsFixture fixture)
             EMAIL:forrestgump@example.org
             REV:20080424T195243Z
             END:VCARD
-            """;
+            """.Replace("\r", "");
 
         Message message = await BotClient.SendContactAsync(
-            chatId: fixture.SupergroupChat,
+            chatId: Fixture.SupergroupChat,
             phoneNumber: "+11115551212",
             firstName: "Forrest",
             vcard: vcard
@@ -65,6 +63,6 @@ public class SendingContactMessageTests(TestsFixture fixture)
 
         Assert.Equal(MessageType.Contact, message.Type);
         Assert.NotNull(message.Contact);
-        Assert.Equal(vcard.Replace("\r\n", "\n"), message.Contact.Vcard);
+        Assert.Equal(vcard, message.Contact.Vcard);
     }
 }

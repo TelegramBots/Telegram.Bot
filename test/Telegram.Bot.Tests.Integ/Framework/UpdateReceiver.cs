@@ -17,7 +17,7 @@ public enum UpdatePosition
     Single
 }
 
-public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
+public class UpdateReceiver(TestsFixture fixture, IEnumerable<string>? allowedUsernames)
 {
     public List<string> AllowedUsernames { get; } = allowedUsernames?.ToList() ?? [];
 
@@ -37,7 +37,7 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await botClient.GetUpdatesAsync(
+                var updates = await fixture.BotClient.GetUpdatesAsync(
                     offset: offset,
                     allowedUpdates: Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown),
                     cancellationToken: cancellationToken
@@ -208,7 +208,7 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
         CancellationToken cancellationToken,
         params UpdateType[] types)
     {
-        var updates = await botClient.GetUpdatesAsync(
+        var updates = await fixture.BotClient.GetUpdatesAsync(
             offset: offset,
             timeout: 120,
             allowedUpdates: types,
@@ -243,7 +243,7 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
                 or UpdateType.ChannelPost
                 or UpdateType.EditedChannelPost => false,
             _ => throw new ArgumentOutOfRangeException(
-                paramName: nameof(update.Type),
+                paramName: "update.Type",
                 actualValue: update.Type,
                 message: $"Unsupported update type {update.Type}"
             ),

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,7 +21,7 @@ public class XunitTestAssemblyRunnerWithAssemblyFixture(
         executionMessageSink,
         executionOptions)
 {
-    readonly Dictionary<Type, object> _assemblyFixtureMappings = new();
+    readonly Dictionary<Type, object> _assemblyFixtureMappings = [];
 
     protected override async Task AfterTestAssemblyStartingAsync()
     {

@@ -16,12 +16,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates;
 /// </remarks>
 [Collection(Constants.TestCollections.Webhook)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class WebhookTests(TestsFixture fixture) : IDisposable
+public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposable
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture = fixture;
-
     /// <summary>
     /// Ensures that the webhooks are immediately disabled after each test case.
     /// </summary>

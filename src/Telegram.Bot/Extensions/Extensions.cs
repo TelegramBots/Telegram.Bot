@@ -47,6 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static readonly TelegramBotOutputFormatter OutputFormatter = new();
         private static readonly TelegramBotInputFormatter InputFormatter = new();
 
+#pragma warning disable MA0004 // See https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/custom-formatters?view=aspnetcore-8.0
         class TelegramBotInputFormatter : TextInputFormatter
         {
             public TelegramBotInputFormatter()
@@ -80,6 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 await JsonSerializer.SerializeAsync(stream, context.Object, JsonSerializerOptionsProvider.Options, context.HttpContext.RequestAborted);
             }
         }
+#pragma warning restore MA0004 // Use Task.ConfigureAwait
 #endif
     }
 }

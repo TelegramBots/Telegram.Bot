@@ -10,11 +10,9 @@ namespace Telegram.Bot.Tests.Integ.Polls;
 [Collection(Constants.TestCollections.NativePolls)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class QuizPollTests(QuizPollTestsFixture classFixture) : IClassFixture<QuizPollTestsFixture>
+public class QuizPollTests(QuizPollTestsFixture classFixture)
+    : TestClass(classFixture.TestsFixture), IClassFixture<QuizPollTestsFixture>
 {
-    TestsFixture Fixture => classFixture.TestsFixture;
-    ITelegramBotClient BotClient => Fixture.BotClient;
-
     [OrderedFact(
         "Should send public quiz poll")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
