@@ -161,23 +161,6 @@ namespace Telegram.Bot.Types
         public static implicit operator InputPollOption(string text) => new() { Text = text };
     }
 
-    public partial class StickerSet
-    {
-        /// <summary>
-        /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Animated">animated stickers</see>
-        /// </summary>
-        [JsonIgnore]
-        [Obsolete("This field is no longer sent by Bot API")]
-        public bool IsAnimated { get; set; }
-
-        /// <summary>
-        /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Video">video stickers</see>
-        /// </summary>
-        [JsonIgnore]
-        [Obsolete("This field is no longer sent by Bot API")]
-        public bool IsVideo { get; set; }
-    }
-
     public partial class BotCommandScope
     {
         /// <summary>
