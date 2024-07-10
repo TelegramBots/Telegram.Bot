@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -91,7 +92,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
                 $"[{Fixture.BotUser.GetSafeUsername()}](tg://user?id={Fixture.BotUser.Id})"
             },
             {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
-            {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
+            {MessageEntityType.Pre, "```csharp\npre-formatted fixed-width code block```"},
         };
 
         Message message = await BotClient.SendTextMessageAsync(
@@ -127,15 +128,16 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
                 $@"<a href=""tg://user?id={Fixture.BotUser.Id}"">{Fixture.BotUser.Username}</a>"
             ),
             (MessageEntityType.Code, @"inline <code>""fixed-width code""</code>"),
-            (MessageEntityType.Pre, "<pre>pre-formatted fixed-width code block</pre>"),
+            (MessageEntityType.Pre, "<pre><code class=\"language-csharp\">pre-formatted fixed-width code block</code></pre>"),
             (MessageEntityType.Strikethrough, "<s>strikethrough</s>"),
             (MessageEntityType.Underline, "<u>underline</u>"),
             (MessageEntityType.Spoiler, "<tg-spoiler>spoiler</tg-spoiler>"),
         ];
 
+        var text = string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
         Message message = await BotClient.SendTextMessageAsync(
             chatId: Fixture.SupergroupChat.Id,
-            text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
+            text: text,
             parseMode: ParseMode.Html,
             linkPreviewOptions: new() { IsDisabled = true }
         );
@@ -150,6 +152,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             Fixture.BotUser,
             message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User
         );
+        Assert.Equal(text.Replace("strong>", "b>").Replace("em>", "i>"), message.ToHtml());
     }
 
     [OrderedFact("Should send text message and parse its entity values")]
@@ -197,15 +200,16 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
                 $"[{Fixture.BotUser.GetSafeUsername()}](tg://user?id={Fixture.BotUser.Id})"
             },
             {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
-            {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
+            {MessageEntityType.Pre, "```csharp\npre-formatted fixed-width code block```"},
             {MessageEntityType.Strikethrough, "~strikethrough~"},
             {MessageEntityType.Underline, "__underline__"},
             {MessageEntityType.Spoiler, "||spoiler||"},
         };
 
+        var text = string.Join("\n", entityValueMappings.Values);
         Message message = await BotClient.SendTextMessageAsync(
             chatId: Fixture.SupergroupChat.Id,
-            text: string.Join("\n", entityValueMappings.Values),
+            text: text,
             parseMode: ParseMode.MarkdownV2,
             linkPreviewOptions: new() { IsDisabled = true }
         );
@@ -217,6 +221,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             Fixture.BotUser,
             message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User
         );
+        Assert.Equal(text, message.ToMarkdown());
     }
 
     [OrderedFact("Should send text message with manual entities")]
@@ -229,13 +234,13 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
         {
             {MessageEntityType.Bold, "bold"},
             {MessageEntityType.Italic, "italic"},
-            {MessageEntityType.TextLink, $"inline url to Telegram\\.org"},
+            {MessageEntityType.TextLink, $"inline url to Telegram.org"},
             {
                 MessageEntityType.TextMention,
                 Fixture.BotUser.GetSafeUsername()
             },
             {MessageEntityType.Code, @"inline ""fixed-width code"""},
-            {MessageEntityType.Pre, "fixed-width code block"},
+            {MessageEntityType.Pre, "pre-formatted fixed-width code block"},
             {MessageEntityType.Strikethrough, "strikethrough"},
             {MessageEntityType.Underline, "underline"},
             {MessageEntityType.Spoiler, "spoiler"},
@@ -246,7 +251,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             MessageEntity entity = new() { Type = kvp.Key, Offset = offset, Length = kvp.Value.Length };
             if (entity.Type == MessageEntityType.TextLink) entity.Url = url;
             if (entity.Type == MessageEntityType.TextMention) entity.User = Fixture.BotUser;
-            if (entity.Type == MessageEntityType.Pre) entity.Language = "pre-formatted";
+            if (entity.Type == MessageEntityType.Pre) entity.Language = "csharp";
             offset += kvp.Value.Length + 1;
             return entity;
         }).ToList();
