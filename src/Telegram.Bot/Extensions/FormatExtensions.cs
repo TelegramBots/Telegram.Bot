@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Telegram.Bot.Extensions;
 
-/// <summary>Helpers/Extensions for Markdown texts</summary>
+/// <summary>Helpers/Extensions for MarkdownV2 texts</summary>
 public static class Markdown
 {
-    /// <summary>Generate Markdown text from the Message Text or Caption</summary>
+    /// <summary>Generate MarkdownV2 text from the Message Text or Caption</summary>
     /// <param name="msg">The message</param>
     public static string? ToMarkdown(this Message msg)
     {
@@ -16,7 +16,7 @@ public static class Markdown
         return null;
     }
 
-    /// <summary>Converts the (plain text + entities) format used by Telegram messages into a <a href="https://core.telegram.org/bots/api/#markdownv2-style">Markdown text</a></summary>
+    /// <summary>Converts the (plain text + entities) format used by Telegram messages into a <a href="https://core.telegram.org/bots/api/#markdownv2-style">MarkdownV2 text</a></summary>
     /// <param name="message">The plain text, typically obtained from <see cref="Message.Text"/></param>
     /// <param name="entities">The array of formatting entities, typically obtained from <see cref="Message.Entities"/></param>
     /// <returns>The message text with MarkdownV2 formattings </returns>
