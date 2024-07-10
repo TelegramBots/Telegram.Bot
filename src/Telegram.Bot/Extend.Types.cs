@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
@@ -95,6 +96,8 @@ namespace Telegram.Bot.Types
     {
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
         public static implicit operator ReplyParameters(int replyToMessageId) => new() { MessageId = replyToMessageId };
+        /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
+        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.MessageId };
     }
 
     public partial class MessageId
@@ -157,23 +160,6 @@ namespace Telegram.Bot.Types
     {
         /// <summary>Implicit operator for compatibility</summary>
         public static implicit operator InputPollOption(string text) => new() { Text = text };
-    }
-
-    public partial class StickerSet
-    {
-        /// <summary>
-        /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Animated">animated stickers</see>
-        /// </summary>
-        [JsonIgnore]
-        [Obsolete("This field is no longer sent by Bot API")]
-        public bool IsAnimated { get; set; }
-
-        /// <summary>
-        /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Video">video stickers</see>
-        /// </summary>
-        [JsonIgnore]
-        [Obsolete("This field is no longer sent by Bot API")]
-        public bool IsVideo { get; set; }
     }
 
     public partial class BotCommandScope
@@ -242,126 +228,172 @@ namespace Telegram.Bot.Types
     {
         public partial class ReplyKeyboardMarkup
         {
-            /// <summary>
-            /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/> with one button
-            /// </summary>
-            /// <param name="button">Button on keyboard</param>
+            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/> with one button</summary>
+            /// <param name="button">Button or text on keyboard</param>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(KeyboardButton button)
-                : this([button])
-            { }
+            public ReplyKeyboardMarkup(KeyboardButton button) : this(new List<List<KeyboardButton>> { new() { button } }) { }
 
-            /// <summary>
-            /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
-            /// </summary>
+            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/></summary>
             /// <param name="keyboardRow">The keyboard row.</param>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow)
-                : this([keyboardRow])
-            { }
+            public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow) : this(new List<List<KeyboardButton>> { keyboardRow.ToList() }) { }
 
-            /// <summary>
-            /// Generates a reply keyboard markup with one button
-            /// </summary>
+#pragma warning disable MA0016 // Prefer using collection abstraction instead of implementation
+            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/></summary>
+            /// <param name="keyboardRow">The keyboard row.</param>
+            [SetsRequiredMembers]
+            public ReplyKeyboardMarkup(List<KeyboardButton> keyboardRow) : this(new List<List<KeyboardButton>> { keyboardRow }) { }
+#pragma warning restore MA0016 // Prefer using collection abstraction instead of implementation
+
+            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/></summary>
+            /// <param name="keyboardRow">A row of buttons or texts.</param>
+            [SetsRequiredMembers]
+            public ReplyKeyboardMarkup(params KeyboardButton[] keyboardRow) : this(new List<List<KeyboardButton>> { keyboardRow.ToList() }) { }
+
+            /// <summary>Instantiates a new <see cref="ReplyKeyboardMarkup"/></summary>
+            [SetsRequiredMembers]
+            public ReplyKeyboardMarkup(bool resizeKeyboard) : this() { ResizeKeyboard = resizeKeyboard; }
+
+            /// <summary>Generates a reply keyboard markup with one button</summary>
             /// <param name="text">Button's text</param>
-            public static implicit operator ReplyKeyboardMarkup?(string? text) =>
-                text is null
-                    ? default
-                    : new([new KeyboardButton(text)]);
+            public static implicit operator ReplyKeyboardMarkup?(string? text) => text is null ? default : new(text);
 
-            /// <summary>
-            /// Generates a reply keyboard markup with multiple buttons on one row
-            /// </summary>
+            /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
             /// <param name="texts">Texts of buttons</param>
-            public static implicit operator ReplyKeyboardMarkup?(string[]? texts) =>
-                texts is null
-                    ? default
-                    : new[] { texts };
+            public static implicit operator ReplyKeyboardMarkup?(string[]? texts) => texts is null ? default : new[] { texts };
 
-            /// <summary>
-            /// Generates a reply keyboard markup with multiple buttons
-            /// </summary>
+            /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
             /// <param name="textsItems">Texts of buttons</param>
-            public static implicit operator ReplyKeyboardMarkup?(string[][]? textsItems) =>
-                textsItems is null
-                    ? default
-                    : new ReplyKeyboardMarkup(
-                        textsItems.Select(texts =>
-                            texts.Select(t => new KeyboardButton(t))
-                        ));
+            public static implicit operator ReplyKeyboardMarkup?(string[][]? textsItems) => textsItems is null ? default
+                : new ReplyKeyboardMarkup(textsItems.Select(texts => texts.Select(t => new KeyboardButton(t)).ToList()).ToList());
+
+            /// <summary>Add a button to the last row</summary>
+            /// <param name="button">The button or text to add</param>
+            /// <returns></returns>
+            public ReplyKeyboardMarkup AddButton(KeyboardButton button)
+            {
+                if (Keyboard is not List<List<KeyboardButton>> keyboard)
+                    throw new InvalidOperationException("This method works only with a List<List<KeyboardButton>> keyboard");
+                if (keyboard.Count == 0) keyboard.Add([]);
+                keyboard[^1].Add(button);
+                return this;
+            }
+
+            /// <summary>Add buttons to the last row</summary>
+            /// <param name="buttons">The buttons or texts to add</param>
+            /// <returns></returns>
+            public ReplyKeyboardMarkup AddButtons(params KeyboardButton[] buttons)
+            {
+                if (Keyboard is not List<List<KeyboardButton>> keyboard)
+                    throw new InvalidOperationException("This method works only with a List<List<KeyboardButton>> keyboard");
+                if (keyboard.Count == 0) keyboard.Add([]);
+                keyboard[^1].AddRange([.. buttons]);
+                return this;
+            }
+
+            /// <summary>Add a new row of buttons</summary>
+            /// <param name="buttons">Optional: buttons or texts for the new row</param>
+            /// <returns></returns>
+            public ReplyKeyboardMarkup AddNewRow(params KeyboardButton[] buttons)
+            {
+                if (Keyboard is not List<List<KeyboardButton>> keyboard)
+                    throw new InvalidOperationException("This method works only with a List<List<KeyboardButton>> keyboard");
+                keyboard.Add([.. buttons]);
+                return this;
+            }
         }
 
         public partial class InlineKeyboardMarkup
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button
-            /// </summary>
+            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button</summary>
             /// <param name="inlineKeyboardButton">Keyboard button</param>
             [SetsRequiredMembers]
-            public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
-                : this([inlineKeyboardButton])
-            { }
+            public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton) : this(new List<List<InlineKeyboardButton>> { new() { inlineKeyboardButton } }) { }
 
-            /// <summary>
-            /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard
-            /// </summary>
+#pragma warning disable MA0016 // Prefer using collection abstraction instead of implementation
+            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard</summary>
             /// <param name="inlineKeyboardRow">The inline keyboard row</param>
             [SetsRequiredMembers]
-            public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow)
-                : this([inlineKeyboardRow])
-            { }
+            public InlineKeyboardMarkup(List<InlineKeyboardButton> inlineKeyboardRow) : this(new List<List<InlineKeyboardButton>> { inlineKeyboardRow }) { }
+#pragma warning restore MA0016 // Prefer using collection abstraction instead of implementation
 
-            /// <summary>
-            /// Generate an empty inline keyboard markup
-            /// </summary>
+            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard</summary>
+            /// <param name="inlineKeyboardRow">The inline keyboard row</param>
+            [SetsRequiredMembers]
+            public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow) : this(new List<List<InlineKeyboardButton>> { inlineKeyboardRow.ToList() }) { }
+
+            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard</summary>
+            /// <param name="inlineKeyboardRow">The inline keyboard row</param>
+            [SetsRequiredMembers]
+            public InlineKeyboardMarkup(params InlineKeyboardButton[] inlineKeyboardRow) : this(new List<List<InlineKeyboardButton>> { inlineKeyboardRow.ToList() }) { }
+
+            /// <summary>Generate an empty inline keyboard markup</summary>
             /// <returns>Empty inline keyboard markup</returns>
-            public static InlineKeyboardMarkup Empty() =>
-                new(Array.Empty<InlineKeyboardButton[]>());
+            public static InlineKeyboardMarkup Empty() => new();
 
-            /// <summary>
-            /// Generate an inline keyboard markup with one button
-            /// </summary>
+            /// <summary>Generate an inline keyboard markup with one button</summary>
             /// <param name="button">Inline keyboard button</param>
             [return: NotNullIfNotNull(nameof(button))]
-            public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton? button) =>
-                button is null ? default : new(button);
+            public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton? button) => button is null ? default : new(button);
 
-            /// <summary>
-            /// Generate an inline keyboard markup with one button
-            /// </summary>
+            /// <summary>Generate an inline keyboard markup with one button</summary>
             /// <param name="buttonText">Text of the button</param>
             [return: NotNullIfNotNull(nameof(buttonText))]
-            public static implicit operator InlineKeyboardMarkup?(string? buttonText) =>
-                buttonText is null ? default : new(buttonText!);
+            public static implicit operator InlineKeyboardMarkup?(string? buttonText) => buttonText is null ? default : new(buttonText!);
 
-            /// <summary>
-            /// Generate an inline keyboard markup from multiple buttons
-            /// </summary>
+            /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
             /// <param name="inlineKeyboard">Keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(inlineKeyboard))]
             public static implicit operator InlineKeyboardMarkup?(IEnumerable<InlineKeyboardButton>[]? inlineKeyboard) =>
                 inlineKeyboard is null ? default : new(inlineKeyboard);
 
-            /// <summary>
-            /// Generate an inline keyboard markup from multiple buttons on 1 row
-            /// </summary>
+            /// <summary>Generate an inline keyboard markup from multiple buttons on 1 row</summary>
             /// <param name="inlineKeyboard">Keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(inlineKeyboard))]
             public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton[]? inlineKeyboard) =>
                 inlineKeyboard is null ? default : new(inlineKeyboard);
-        }
 
-        public partial class InlineKeyboardButton
-        {
-            /// <summary>
-            /// Creates an inline keyboard button that sends <see cref="CallbackQuery"/> to bot when pressed
-            /// </summary>
-            /// <param name="textAndCallbackData">
-            /// Text and data of the button to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when
-            /// button is pressed, 1-64 bytes
-            /// </param>
-            public static InlineKeyboardButton WithCallbackData(string textAndCallbackData) =>
-                new(textAndCallbackData) { CallbackData = textAndCallbackData };
+            /// <summary>Add a button to the last row</summary>
+            /// <param name="button">The button to add</param>
+            /// <returns></returns>
+            public InlineKeyboardMarkup AddButton(InlineKeyboardButton button)
+            {
+                if (InlineKeyboard is not List<List<InlineKeyboardButton>> keyboard)
+                    throw new InvalidOperationException("This method works only with a List<List<InlineKeyboardButton>> keyboard");
+                if (keyboard.Count == 0) keyboard.Add([]);
+                keyboard[^1].Add(button);
+                return this;
+            }
+
+            /// <summary>Add a callback button to the last row</summary>
+            /// <param name="text">Label text on the button</param>
+            /// <param name="callbackData">Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes</param>
+            /// <returns></returns>
+            public InlineKeyboardMarkup AddButton(string text, string callbackData)
+                => AddButton(InlineKeyboardButton.WithCallbackData(text, callbackData));
+
+            /// <summary>Add buttons to the last row</summary>
+            /// <param name="buttons">The buttons to add</param>
+            /// <returns></returns>
+            public InlineKeyboardMarkup AddButtons(params InlineKeyboardButton[] buttons)
+            {
+                if (InlineKeyboard is not List<List<InlineKeyboardButton>> keyboard)
+                    throw new InvalidOperationException("This method works only with a List<List<KeyboardButton>> keyboard");
+                if (keyboard.Count == 0) keyboard.Add([]);
+                keyboard[^1].AddRange([.. buttons]);
+                return this;
+            }
+
+            /// <summary>Add a new row of buttons</summary>
+            /// <param name="buttons">Optional: buttons for the new row</param>
+            /// <returns></returns>
+            public InlineKeyboardMarkup AddNewRow(params InlineKeyboardButton[] buttons)
+            {
+                if (InlineKeyboard is not List<List<InlineKeyboardButton>> keyboard)
+                    throw new InvalidOperationException("This method works only with a List<List<InlineKeyboardButton>> keyboard");
+                keyboard.Add([.. buttons]);
+                return this;
+            }
         }
 
         public partial class InlineKeyboardButton
@@ -378,8 +410,18 @@ namespace Telegram.Bot.Types
                 textAndCallbackData is null
                     ? default
                     : WithCallbackData(textAndCallbackData);
+
+            /// <summary>
+            /// Creates an inline keyboard button that sends <see cref="CallbackQuery"/> to bot when pressed
+            /// </summary>
+            /// <param name="textAndCallbackData">
+            /// Text and data of the button to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when
+            /// button is pressed, 1-64 bytes
+            /// </param>
+            public static InlineKeyboardButton WithCallbackData(string textAndCallbackData) =>
+                new(textAndCallbackData) { CallbackData = textAndCallbackData };
         }
-        
+
         public partial class KeyboardButton
         {
             /// <summary>

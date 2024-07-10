@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Serialization;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -101,10 +102,11 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
         ];
 
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+        var caption = string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity));
         Message message = await BotClient.WithStreams(stream).SendPhotoAsync(
             chatId: Fixture.SupergroupChat.Id,
             photo: InputFile.FromStream(stream),
-            caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity)),
+            caption: caption,
             parseMode: ParseMode.Markdown
         );
 
@@ -114,5 +116,6 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
             message.CaptionEntities.Select(e => e.Type)
         );
         Assert.Equal(entityValueMappings.Select(t => t.EntityBody), message.CaptionEntityValues);
+        Assert.Equal(caption, message.ToMarkdown());
     }
 }

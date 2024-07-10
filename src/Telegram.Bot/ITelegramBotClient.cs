@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -84,4 +83,34 @@ public interface ITelegramBotClient
         Stream destination,
         CancellationToken cancellationToken = default
     );
+}
+
+public static partial class TelegramBotClientExtensions
+{
+    /// <summary>
+    /// Use this method to get basic info about a file download it. For the moment, bots can download files
+    /// of up to 20MB in size.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="fileId">File identifier to get info about</param>
+    /// <param name="destination">Destination stream to write file to</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, a <see cref="File"/> object is returned.</returns>
+    public static async Task<File> GetInfoAndDownloadFileAsync(
+        this ITelegramBotClient botClient,
+        string fileId,
+        Stream destination,
+        CancellationToken cancellationToken = default)
+    {
+        var file = await botClient.ThrowIfNull()
+            .MakeRequestAsync(new Requests.GetFileRequest { FileId = fileId }, cancellationToken)
+            .ConfigureAwait(false);
+
+        await botClient.DownloadFileAsync(filePath: file.FilePath!, destination, cancellationToken)
+            .ConfigureAwait(false);
+
+        return file;
+    }
 }

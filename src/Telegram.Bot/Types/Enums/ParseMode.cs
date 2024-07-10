@@ -44,7 +44,7 @@ public enum ParseMode
     MarkdownV2,
 
 #pragma warning disable CS1591
-    [Obsolete("Use ParseMode.None instead")]
+    [Obsolete("Use ParseMode.None or just default instead")]
     Default = None,
 #pragma warning restore CS1591
 }
