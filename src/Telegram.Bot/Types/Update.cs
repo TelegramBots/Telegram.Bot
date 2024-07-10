@@ -103,4 +103,8 @@ public partial class Update
         { RemovedChatBoost: not null }        => UpdateType.RemovedChatBoost,
         _                                     => UpdateType.Unknown
     };
+
+    /// <summary>All UpdateTypes, for use with <see cref="TelegramBotClientExtensions.GetUpdatesAsync">GetUpdates</see></summary>
+    public static readonly UpdateType[] AllTypes =
+        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost];
 }
