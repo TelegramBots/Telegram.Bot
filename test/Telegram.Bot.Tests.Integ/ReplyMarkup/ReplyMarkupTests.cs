@@ -44,6 +44,23 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
         );
     }
 
+    [OrderedFact("Should send a message multi-row keyboard reply with Add* methods")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+    public async Task Should_Send_MultiRow_Keyboard_WithAdd()
+    {
+        var replyMarkup = new ReplyKeyboardMarkup(true);
+        replyMarkup.AddButton("Top-Left");
+        replyMarkup.AddButtons("Top", "Top-Right");
+        replyMarkup.AddNewRow("Left", "Center", "Right");
+        replyMarkup.AddNewRow().AddButtons(["Bottom-Left", "Bottom", "Bottom-Right"]);
+
+        await BotClient.SendTextMessageAsync(
+            chatId: Fixture.SupergroupChat,
+            text: "Message with 3x3 keyboard",
+            replyMarkup: replyMarkup
+        );
+    }
+
     [OrderedFact("Should remove reply keyboard")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Remove_Reply_Keyboard()
@@ -59,22 +76,13 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Inline_Keyboard()
     {
-        InlineKeyboardButton[][] keyboard =
-        [
-            [
-                InlineKeyboardButton.WithUrl(
+        var replyMarkup = new InlineKeyboardMarkup()
+            .AddButton(InlineKeyboardButton.WithUrl(
                     text: "Link to Repository",
-                    url: "https://github.com/TelegramBots/Telegram.Bot"),
-            ],
-            [
-                InlineKeyboardButton.WithCallbackData(textAndCallbackData: "callback_data1"),
-                InlineKeyboardButton.WithCallbackData(text: "callback_data: a2", callbackData: "data"),
-            ],
-            [InlineKeyboardButton.WithSwitchInlineQuery(text: "switch_inline_query"),],
-            [InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text: "switch_inline_query_current_chat"),],
-        ];
-
-        InlineKeyboardMarkup replyMarkup = keyboard;
+                    url: "https://github.com/TelegramBots/Telegram.Bot"))
+            .AddNewRow().AddButton("callback_data1").AddButton("callback_data: data2", "data2")
+            .AddNewRow(InlineKeyboardButton.WithSwitchInlineQuery(text: "switch_inline_query"))
+            .AddNewRow().AddButton(InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text: "switch_inline_query_current_chat"));
 
         Message sentMessage = await BotClient.SendTextMessageAsync(
             chatId: Fixture.SupergroupChat,
