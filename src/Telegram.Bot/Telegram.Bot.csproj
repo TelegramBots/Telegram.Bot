@@ -78,7 +78,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
   </ItemGroup>
 
@@ -95,9 +95,9 @@
   <ItemGroup Label="Dev">
     <PackageReference Include="IsExternalInit" Version="1.0.3" PrivateAssets="all" />
     <PackageReference Include="Required" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.141" PrivateAssets="all" />
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.160" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" PrivateAssets="All" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
     <ProjectReference Include="..\EnumSerializer.Generator\EnumSerializer.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
