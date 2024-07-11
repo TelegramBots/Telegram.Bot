@@ -21,8 +21,8 @@
       The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.
     </Description>
     <PackageId>Telegram.Bot</PackageId>
-    <Authors>RoundRobin,Poulad,tuscen</Authors>
-    <Copyright>Copyright © Robin Müller 2016</Copyright>
+    <Authors>RoundRobin,Poulad,tuscen,Wizou</Authors>
+    <Copyright>Copyright © TelegramBots 2016-2024</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>

@@ -114,6 +114,8 @@ public enum MessageType
     ChatBackgroundSet,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.PaidMedia"/></summary>
     PaidMedia,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.RefundedPayment"/></summary>
+    RefundedPayment,
 
 #pragma warning disable CS1591
     WebsiteConnected = ConnectedWebsite,

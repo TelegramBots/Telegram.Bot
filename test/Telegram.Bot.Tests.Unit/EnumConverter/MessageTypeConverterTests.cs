@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
@@ -92,8 +92,8 @@ public class MessageTypeConverterTests
             yield return [MessageType.Text, "text"];
             yield return [MessageType.Animation, "animation"];
             yield return [MessageType.Audio, "audio"];
-            yield return [MessageType.BoostAdded, "boost_added"];
             yield return [MessageType.Document, "document"];
+            yield return [MessageType.PaidMedia, "paid_media"];
             yield return [MessageType.Photo, "photo"];
             yield return [MessageType.Sticker, "sticker"];
             yield return [MessageType.Story, "story"];
@@ -120,12 +120,15 @@ public class MessageTypeConverterTests
             yield return [MessageType.PinnedMessage, "pinned_message"];
             yield return [MessageType.Invoice, "invoice"];
             yield return [MessageType.SuccessfulPayment, "successful_payment"];
+            yield return [MessageType.RefundedPayment, "refunded_payment"];
             yield return [MessageType.UsersShared, "users_shared"];
             yield return [MessageType.ChatShared, "chat_shared"];
             yield return [MessageType.ConnectedWebsite, "connected_website"];
             yield return [MessageType.WriteAccessAllowed, "write_access_allowed"];
             yield return [MessageType.PassportData, "passport_data"];
             yield return [MessageType.ProximityAlertTriggered, "proximity_alert_triggered"];
+            yield return [MessageType.BoostAdded, "boost_added"];
+            yield return [MessageType.ChatBackgroundSet, "chat_background_set"];
             yield return [MessageType.ForumTopicCreated, "forum_topic_created"];
             yield return [MessageType.ForumTopicEdited, "forum_topic_edited"];
             yield return [MessageType.ForumTopicClosed, "forum_topic_closed"];
@@ -141,8 +144,6 @@ public class MessageTypeConverterTests
             yield return [MessageType.VideoChatEnded, "video_chat_ended"];
             yield return [MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited"];
             yield return [MessageType.WebAppData, "web_app_data"];
-            yield return [MessageType.ChatBackgroundSet, "chat_background_set"];
-            yield return [MessageType.PaidMedia, "paid_media"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
