@@ -188,6 +188,9 @@ public partial class Message
     /// <summary><em>Optional</em>. Message is a service message about a successful payment, information about the payment. <a href="https://core.telegram.org/bots/api#payments">More about payments »</a></summary>
     public SuccessfulPayment? SuccessfulPayment { get; set; }
 
+    /// <summary><em>Optional</em>. Message is a service message about a refunded payment, information about the payment. <a href="https://core.telegram.org/bots/api#payments">More about payments »</a></summary>
+    public RefundedPayment? RefundedPayment { get; set; }
+
     /// <summary><em>Optional</em>. Service message: users were shared with the bot</summary>
     public UsersShared? UsersShared { get; set; }
 
@@ -296,6 +299,7 @@ public partial class Message
         { PinnedMessage: not null }                     => MessageType.PinnedMessage,
         { Invoice: not null }                           => MessageType.Invoice,
         { SuccessfulPayment: not null }                 => MessageType.SuccessfulPayment,
+        { RefundedPayment: not null }                   => MessageType.RefundedPayment,
         { UsersShared: not null }                       => MessageType.UsersShared,
         { ChatShared: not null }                        => MessageType.ChatShared,
         { ConnectedWebsite: not null }                  => MessageType.ConnectedWebsite,
