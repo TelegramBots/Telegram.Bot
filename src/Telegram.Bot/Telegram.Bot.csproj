@@ -59,6 +59,7 @@
                                            a new exception instance -->
     <NoWarn>$(NoWarn);MA0046</NoWarn> <!-- The delegate must return void -->
     <NoWarn>$(NoWarn);MA0048;MA0051</NoWarn>
+    <NoWarn>$(NoWarn);CS0419</NoWarn> <!-- Ambiguous reference in cref attribute -->
   </PropertyGroup>
 
   <ItemGroup>

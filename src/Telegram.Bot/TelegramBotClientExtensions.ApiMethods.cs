@@ -2610,7 +2610,7 @@ public static partial class TelegramBotClientExtensions
         CustomEmojiIds = customEmojiIds,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to upload a file with a sticker for later use in the <see cref="TelegramBotClientExtensions.CreateNewStickerSetAsync">CreateNewStickerSet</see>, <see cref="TelegramBotClientExtensions.AddStickerToSetAsync">AddStickerToSet</see>, or <see cref="TelegramBotClientExtensions.ReplaceStickerInSetAsync">ReplaceStickerInSet</see> methods (the file can be used multiple times).</summary>
+    /// <summary>Use this method to upload a file with a sticker for later use in the <see cref="TelegramBotClientExtensions.CreateNewStickerSetAsync">CreateNewStickerSet</see>, <see cref="TelegramBotClientExtensions.AddStickerToSetAsync">AddStickerToSet</see>, or <see cref="TelegramBotClientExtensions.ReplaceStickerInSet">ReplaceStickerInSet</see> methods (the file can be used multiple times).</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">User identifier of sticker file owner</param>
     /// <param name="sticker">A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See <a href="https://core.telegram.org/stickers">https://core.telegram.org/stickers</a> for technical requirements. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
