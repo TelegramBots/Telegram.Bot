@@ -96,8 +96,8 @@ namespace Telegram.Bot.Types
     {
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
         public static implicit operator ReplyParameters(int replyToMessageId) => new() { MessageId = replyToMessageId };
-        /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
-        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.MessageId };
+        /// <summary>Implicit operator when you just want to reply to a message</summary>
+        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.MessageId, ChatId = msg.Chat.Id };
     }
 
     public partial class MessageId
