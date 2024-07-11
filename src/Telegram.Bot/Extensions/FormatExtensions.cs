@@ -4,6 +4,8 @@ using System.Text;
 
 namespace Telegram.Bot.Extensions;
 
+#pragma warning disable MA0001, MA0076
+
 /// <summary>Helpers/Extensions for MarkdownV2 texts</summary>
 public static class Markdown
 {
