@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -32,7 +31,7 @@ public class StickerTypeConverterTests
         Sticker sticker = new() { Type = stickerType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(sticker, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -44,7 +43,7 @@ public class StickerTypeConverterTests
         Sticker expectedResult = new() { Type = stickerType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonBotAPI.Options)!;
 
         Assert.Equal(expectedResult.Type, result.Type);
     }
@@ -54,7 +53,7 @@ public class StickerTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonBotAPI.Options)!;
 
         Assert.Equal((StickerType)0, result.Type);
     }
@@ -64,7 +63,7 @@ public class StickerTypeConverterTests
     {
         Sticker sticker = new() { Type = (StickerType)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonBotAPI.Options));
     }
 
 

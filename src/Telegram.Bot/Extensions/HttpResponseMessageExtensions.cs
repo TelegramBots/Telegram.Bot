@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Extensions;
 
@@ -53,7 +52,7 @@ internal static class HttpResponseMessageExtensions
                 deserializedObject = await JsonSerializer
                     .DeserializeAsync<T>(
                         utf8Json: contentStream,
-                        options: JsonSerializerOptionsProvider.Options,
+                        options: JsonBotAPI.Options,
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
             }

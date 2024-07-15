@@ -1,7 +1,6 @@
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -28,7 +27,7 @@ public class InputQueryResultTests
             Results = results,
             CacheTime = 0
         };
-        string json = JsonSerializer.Serialize(request, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(request, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -68,7 +67,7 @@ public class InputQueryResultTests
             Results = results,
             CacheTime = 0
         };
-        string json = JsonSerializer.Serialize(request, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(request, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

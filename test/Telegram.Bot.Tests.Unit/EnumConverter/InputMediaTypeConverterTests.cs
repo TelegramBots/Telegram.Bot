@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -17,7 +16,7 @@ public class InputMediaTypeConverterTests
         InputMedia inputMedia = new() { Type = inputMediaType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(inputMedia, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(inputMedia, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -33,7 +32,7 @@ public class InputMediaTypeConverterTests
         InputMedia expectedResult = new() { Type = inputMediaType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        InputMedia? result = JsonSerializer.Deserialize<InputMedia>(jsonData, JsonSerializerOptionsProvider.Options);
+        InputMedia? result = JsonSerializer.Deserialize<InputMedia>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -44,7 +43,7 @@ public class InputMediaTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        InputMedia? result = JsonSerializer.Deserialize<InputMedia>(jsonData, JsonSerializerOptionsProvider.Options);
+        InputMedia? result = JsonSerializer.Deserialize<InputMedia>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((InputMediaType)0, result.Type);
@@ -60,7 +59,7 @@ public class InputMediaTypeConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(inputMedia, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(inputMedia, JsonBotAPI.Options));
     }
 
 

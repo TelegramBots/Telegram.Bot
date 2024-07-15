@@ -1,7 +1,6 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -27,7 +26,7 @@ public class ChatMemberSerializationTests
         }
         """;
         // Note: "status" discriminant is not always sent as first field
-        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options);
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonBotAPI.Options);
 
         ChatMemberOwner owner = Assert.IsAssignableFrom<ChatMemberOwner>(chatMember);
 
@@ -61,7 +60,7 @@ public class ChatMemberSerializationTests
             CustomTitle = "Custom test title"
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
@@ -102,7 +101,7 @@ public class ChatMemberSerializationTests
             UntilDate = new(2021, 4, 2, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
@@ -142,7 +141,7 @@ public class ChatMemberSerializationTests
             },
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(chatMember, JsonBotAPI.Options);
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
 
@@ -185,7 +184,7 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options);
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonBotAPI.Options);
 
         ChatMemberBanned bannedUser = Assert.IsAssignableFrom<ChatMemberBanned>(chatMember);
 
@@ -220,7 +219,7 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options) as ChatMemberBanned;
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonBotAPI.Options) as ChatMemberBanned;
 
         ChatMemberBanned bannedUser = Assert.IsAssignableFrom<ChatMemberBanned>(chatMember);
 
@@ -254,7 +253,7 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options) as ChatMemberBanned;
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonBotAPI.Options) as ChatMemberBanned;
 
         ChatMemberBanned bannedUser = Assert.IsAssignableFrom<ChatMemberBanned>(chatMember);
 
@@ -321,7 +320,7 @@ public class ChatMemberSerializationTests
             }
             """;
 
-        Update? update = JsonSerializer.Deserialize<Update>(json, JsonSerializerOptionsProvider.Options);
+        Update? update = JsonSerializer.Deserialize<Update>(json, JsonBotAPI.Options);
 
         Assert.NotNull(update);
         Assert.Equal(UpdateType.ChatMember, update.Type);

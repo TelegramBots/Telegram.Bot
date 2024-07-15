@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +14,7 @@ public class ChatBoostSourceTypeConverterTests
         Container container = new() { Type = kind };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(container, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -29,7 +28,7 @@ public class ChatBoostSourceTypeConverterTests
         Container expectedResult = new() { Type = kind };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
+        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -40,7 +39,7 @@ public class ChatBoostSourceTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
+        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((ChatBoostSourceType)0, result.Type);
@@ -51,7 +50,7 @@ public class ChatBoostSourceTypeConverterTests
     {
         Container container = new() { Type = (ChatBoostSourceType)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(container, JsonBotAPI.Options));
     }
 
 

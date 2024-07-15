@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -21,7 +20,7 @@ public class StorySerializationTests
             },
         };
 
-        string serializeStory = JsonSerializer.Serialize(story, JsonSerializerOptionsProvider.Options);
+        string serializeStory = JsonSerializer.Serialize(story, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(serializeStory);
         Assert.NotNull(root);
@@ -56,7 +55,7 @@ public class StorySerializationTests
             }
             """;
 
-        Story? deserializedStory = JsonSerializer.Deserialize<Story>(story, JsonSerializerOptionsProvider.Options);
+        Story? deserializedStory = JsonSerializer.Deserialize<Story>(story, JsonBotAPI.Options);
 
         Assert.NotNull(deserializedStory);
         Assert.Equal(1234, deserializedStory.Id);

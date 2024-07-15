@@ -1,4 +1,3 @@
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -26,7 +25,7 @@ public class BackgroundTypeSerializationTests
 
         BackgroundType? deserialized = JsonSerializer.Deserialize<BackgroundType>(
             json,
-            JsonSerializerOptionsProvider.Options
+            JsonBotAPI.Options
         );
         Assert.NotNull(deserialized);
         BackgroundTypeFill fill = Assert.IsAssignableFrom<BackgroundTypeFill>(deserialized);
@@ -44,7 +43,7 @@ public class BackgroundTypeSerializationTests
             Fill = new BackgroundFillSolid { Color = 123456 },
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -78,7 +77,7 @@ public class BackgroundTypeSerializationTests
 
         BackgroundType? deserialized = JsonSerializer.Deserialize<BackgroundType>(
             json,
-            JsonSerializerOptionsProvider.Options
+            JsonBotAPI.Options
         );
 
         Assert.NotNull(deserialized);
@@ -112,7 +111,7 @@ public class BackgroundTypeSerializationTests
             IsBlurred = false,
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -157,7 +156,7 @@ public class BackgroundTypeSerializationTests
 
         BackgroundType? deserialized = JsonSerializer.Deserialize<BackgroundType>(
             json,
-            JsonSerializerOptionsProvider.Options
+            JsonBotAPI.Options
         );
 
         Assert.NotNull(deserialized);
@@ -197,7 +196,7 @@ public class BackgroundTypeSerializationTests
             }
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -236,7 +235,7 @@ public class BackgroundTypeSerializationTests
 
         BackgroundType? deserialized = JsonSerializer.Deserialize<BackgroundType>(
             json,
-            JsonSerializerOptionsProvider.Options
+            JsonBotAPI.Options
         );
 
         BackgroundTypeChatTheme chatTheme = Assert.IsAssignableFrom<BackgroundTypeChatTheme>(deserialized);
@@ -252,7 +251,7 @@ public class BackgroundTypeSerializationTests
             ThemeName = "Test Theme Name"
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

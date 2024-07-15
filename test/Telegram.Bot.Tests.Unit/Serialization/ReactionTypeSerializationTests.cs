@@ -1,7 +1,6 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -18,7 +17,7 @@ public class ReactionTypeSerializationTests
         }
         """;
 
-        ReactionType? reactionType = JsonSerializer.Deserialize<ReactionType>(json, JsonSerializerOptionsProvider.Options);
+        ReactionType? reactionType = JsonSerializer.Deserialize<ReactionType>(json, JsonBotAPI.Options);
 
         ReactionTypeEmoji reactionTypeEmoji = Assert.IsAssignableFrom<ReactionTypeEmoji>(reactionType);
 
@@ -37,7 +36,7 @@ public class ReactionTypeSerializationTests
         }
         """;
 
-        ReactionType? reactionType = JsonSerializer.Deserialize<ReactionType>(json, JsonSerializerOptionsProvider.Options);
+        ReactionType? reactionType = JsonSerializer.Deserialize<ReactionType>(json, JsonBotAPI.Options);
 
         ReactionTypeCustomEmoji reactionTypeCustomEmoji = Assert.IsAssignableFrom<ReactionTypeCustomEmoji>(reactionType);
 
@@ -53,7 +52,7 @@ public class ReactionTypeSerializationTests
             Emoji = "😎"
         };
 
-        string json = JsonSerializer.Serialize(reactionType, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(reactionType, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -72,7 +71,7 @@ public class ReactionTypeSerializationTests
             CustomEmojiId = "custom-emoji-id"
         };
 
-        string json = JsonSerializer.Serialize(reactionType, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(reactionType, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -91,7 +90,7 @@ public class ReactionTypeSerializationTests
             CustomEmojiId = "9999999999"
         };
 
-        string json = JsonSerializer.Serialize(reactionType, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(reactionType, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -32,7 +31,7 @@ public class MessageEntityTypeConverterTests
         MessageEntity messageEntity = new() { Type = messageEntityType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(messageEntity, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(messageEntity, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -44,7 +43,7 @@ public class MessageEntityTypeConverterTests
         MessageEntity expectedResult = new() { Type = messageEntityType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        MessageEntity result = JsonSerializer.Deserialize<MessageEntity>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        MessageEntity result = JsonSerializer.Deserialize<MessageEntity>(jsonData, JsonBotAPI.Options)!;
 
         Assert.Equal(expectedResult.Type, result.Type);
     }
@@ -54,7 +53,7 @@ public class MessageEntityTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        MessageEntity result = JsonSerializer.Deserialize<MessageEntity>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        MessageEntity result = JsonSerializer.Deserialize<MessageEntity>(jsonData, JsonBotAPI.Options)!;
 
         Assert.Equal((MessageEntityType)0, result.Type);
     }
@@ -64,7 +63,7 @@ public class MessageEntityTypeConverterTests
     {
         MessageEntity messageEntity = new() { Type = (MessageEntityType)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageEntity, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageEntity, JsonBotAPI.Options));
     }
 
 

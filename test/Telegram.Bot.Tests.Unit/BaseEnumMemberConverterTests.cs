@@ -1,4 +1,3 @@
-using Telegram.Bot.Serialization;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit;
@@ -16,7 +15,7 @@ public abstract class BaseEnumMemberConverterTests<T>
         Container container = new() { Value = enumValue };
         string expectedResult = @$"{{""value"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(container, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -28,7 +27,7 @@ public abstract class BaseEnumMemberConverterTests<T>
         Container expectedResult = new() { Value = enumValue };
         string jsonData = @$"{{""value"":""{value}""}}";
 
-        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
+        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Value, result.Value);
@@ -39,7 +38,7 @@ public abstract class BaseEnumMemberConverterTests<T>
     {
         string jsonData = @$"{{""value"":""{int.MaxValue}""}}";
 
-        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
+        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((T)(object)0, result.Value);
@@ -50,7 +49,7 @@ public abstract class BaseEnumMemberConverterTests<T>
     {
         Container container = new() { Value = (T)(object)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(container, JsonBotAPI.Options));
     }
 
     class Container

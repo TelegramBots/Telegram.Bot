@@ -1,7 +1,6 @@
 using System;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Types;
 using Xunit;
 
@@ -20,8 +19,8 @@ public static class Asserts
         }
         else
         {
-            JsonNode expectedNode = JsonSerializer.SerializeToNode(expected, JsonSerializerOptionsProvider.Options);
-            JsonNode actualNode = JsonSerializer.SerializeToNode(actual, JsonSerializerOptionsProvider.Options);
+            JsonNode expectedNode = JsonSerializer.SerializeToNode(expected, JsonBotAPI.Options);
+            JsonNode actualNode = JsonSerializer.SerializeToNode(actual, JsonBotAPI.Options);
 
             if (expectedNode is null) throw new ArgumentException("Couldn't serialize expected object");
             if (actualNode is null) throw new ArgumentException("Couldn't serialize actual object");
@@ -44,8 +43,8 @@ public static class Asserts
             else
             {
                 // Print out both JSON values in the case of an inequality
-                string expectedJson = JsonSerializer.Serialize(expectedNode, JsonSerializerOptionsProvider.Options);
-                string actualJson = JsonSerializer.Serialize(actualNode, JsonSerializerOptionsProvider.Options);
+                string expectedJson = JsonSerializer.Serialize(expectedNode, JsonBotAPI.Options);
+                string actualJson = JsonSerializer.Serialize(actualNode, JsonBotAPI.Options);
                 Assert.Equal(expectedJson, actualJson);
             }
         }

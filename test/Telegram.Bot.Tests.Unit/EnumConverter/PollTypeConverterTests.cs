@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -14,7 +13,7 @@ public class PollTypeConverterTests
         Poll poll = new() { Type = pollType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(poll, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(poll, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -27,7 +26,7 @@ public class PollTypeConverterTests
         Poll expectedResult = new() { Type = pollType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonSerializerOptionsProvider.Options);
+        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -38,7 +37,7 @@ public class PollTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonSerializerOptionsProvider.Options);
+        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((PollType)0, result.Type);
@@ -54,7 +53,7 @@ public class PollTypeConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(poll, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(poll, JsonBotAPI.Options));
     }
 
 

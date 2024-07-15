@@ -1,7 +1,6 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -21,7 +20,7 @@ public class MenuButtonSerializationTests
         }
         """;
 
-        MenuButton? menuButton = JsonSerializer.Deserialize<MenuButton>(button, JsonSerializerOptionsProvider.Options);
+        MenuButton? menuButton = JsonSerializer.Deserialize<MenuButton>(button, JsonBotAPI.Options);
 
         MenuButtonWebApp webAppButton = Assert.IsAssignableFrom<MenuButtonWebApp>(menuButton);
 
@@ -42,7 +41,7 @@ public class MenuButtonSerializationTests
             Text = "Test text"
         };
 
-        string webAppButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
+        string webAppButtonJson = JsonSerializer.Serialize(menuButton, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(webAppButtonJson);
         Assert.NotNull(root);
@@ -64,8 +63,8 @@ public class MenuButtonSerializationTests
     {
         var button = new { type = MenuButtonType.Default, };
 
-        string menuButtonJson = JsonSerializer.Serialize(button, JsonSerializerOptionsProvider.Options);
-        MenuButton? menuButton = JsonSerializer.Deserialize<MenuButton>(menuButtonJson, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(button, JsonBotAPI.Options);
+        MenuButton? menuButton = JsonSerializer.Deserialize<MenuButton>(menuButtonJson, JsonBotAPI.Options);
 
         Assert.NotNull(menuButton);
         Assert.Equal(MenuButtonType.Default, menuButton.Type);
@@ -77,7 +76,7 @@ public class MenuButtonSerializationTests
     {
         MenuButton menuButton = new MenuButtonDefault();
 
-        string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonBotAPI.Options);
         JsonNode? root = JsonNode.Parse(menuButtonJson);
         Assert.NotNull(root);
 
@@ -91,7 +90,7 @@ public class MenuButtonSerializationTests
     {
         var button = new { type = MenuButtonType.Commands, };
 
-        string menuButtonJson = JsonSerializer.Serialize(button, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(button, JsonBotAPI.Options);
         JsonNode? root = JsonNode.Parse(menuButtonJson);
         Assert.NotNull(root);
 
@@ -105,7 +104,7 @@ public class MenuButtonSerializationTests
     {
         MenuButton menuButton = new MenuButtonCommands();
 
-        string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonBotAPI.Options);
         JsonNode? root = JsonNode.Parse(menuButtonJson);
         Assert.NotNull(root);
 

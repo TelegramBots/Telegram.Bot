@@ -2,7 +2,6 @@ using System.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
@@ -65,7 +64,7 @@ public class PhotoMessageSerializationTests
         }
         """;
 
-        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonBotAPI.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Photo, message.Type);
@@ -133,7 +132,7 @@ public class PhotoMessageSerializationTests
             ]
         };
 
-        string json = JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(message, JsonBotAPI.Options);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);

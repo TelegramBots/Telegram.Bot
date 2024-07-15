@@ -1,4 +1,3 @@
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Types;
 using Xunit;
 
@@ -18,7 +17,7 @@ public class BackgroundFillSerializationTests
             }
             """;
 
-        BackgroundFill? deserialized = JsonSerializer.Deserialize<BackgroundFill>(json, JsonSerializerOptionsProvider.Options);
+        BackgroundFill? deserialized = JsonSerializer.Deserialize<BackgroundFill>(json, JsonBotAPI.Options);
 
         Assert.NotNull(deserialized);
         BackgroundFillSolid solid = Assert.IsAssignableFrom<BackgroundFillSolid>(deserialized);
@@ -33,7 +32,7 @@ public class BackgroundFillSerializationTests
             Color = 123456,
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -60,7 +59,7 @@ public class BackgroundFillSerializationTests
 
         BackgroundFill? deserialized = JsonSerializer.Deserialize<BackgroundFill>(
             json,
-            JsonSerializerOptionsProvider.Options
+            JsonBotAPI.Options
         );
 
         Assert.NotNull(deserialized);
@@ -80,7 +79,7 @@ public class BackgroundFillSerializationTests
             RotationAngle = 123,
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -107,7 +106,7 @@ public class BackgroundFillSerializationTests
 
         BackgroundFill? deserialized = JsonSerializer.Deserialize<BackgroundFill>(
             json,
-            JsonSerializerOptionsProvider.Options
+            JsonBotAPI.Options
         );
 
         Assert.NotNull(deserialized);
@@ -127,7 +126,7 @@ public class BackgroundFillSerializationTests
             Colors = [123456, 654321, 987654],
         };
 
-        string json = JsonSerializer.Serialize(value, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(value, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

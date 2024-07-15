@@ -4,13 +4,13 @@ namespace EnumSerializer.Generator;
 
 internal static class SourceGenerationHelper
 {
-    internal const string JsonSerializerOptionsProviderTemplate =
+    internal const string JsonBotAPITemplate =
         """
         using System.Collections.Generic;
 
-        namespace Telegram.Bot.Serialization;
+        namespace Telegram.Bot;
 
-        public static partial class JsonSerializerOptionsProvider
+        public static partial class JsonBotAPI
         {
             static partial void AddGeneratedConverters(IList<JsonConverter> converters)
             {

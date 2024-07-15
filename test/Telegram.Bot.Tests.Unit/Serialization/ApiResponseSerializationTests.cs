@@ -1,5 +1,4 @@
-﻿using Telegram.Bot.Serialization;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
@@ -17,7 +16,7 @@ public class ApiResponseSerializationTests
         }
         """;
 
-        ApiResponse<bool>? apiResponse = JsonSerializer.Deserialize<ApiResponse<bool>>(json, JsonSerializerOptionsProvider.Options);
+        ApiResponse<bool>? apiResponse = JsonSerializer.Deserialize<ApiResponse<bool>>(json, JsonBotAPI.Options);
 
         Assert.NotNull(apiResponse);
         Assert.True(apiResponse.Ok);
@@ -37,7 +36,7 @@ public class ApiResponseSerializationTests
       }
       """;
 
-        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize<ApiResponse<BotDescription>>(json, JsonSerializerOptionsProvider.Options);
+        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize<ApiResponse<BotDescription>>(json, JsonBotAPI.Options);
 
         Assert.NotNull(apiResponse);
         Assert.True(apiResponse.Ok);
@@ -62,7 +61,7 @@ public class ApiResponseSerializationTests
         }
         """;
 
-        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize<ApiResponse<BotDescription>>(json, JsonSerializerOptionsProvider.Options);
+        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize<ApiResponse<BotDescription>>(json, JsonBotAPI.Options);
 
         Assert.NotNull(apiResponse);
         Assert.False(apiResponse.Ok);

@@ -2,7 +2,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -27,7 +26,7 @@ public class RequestSerializationTests
     {
         GetUpdatesRequest request = new() { Offset = 12345 };
 
-        string serializeRequest = JsonSerializer.Serialize(request, JsonSerializerOptionsProvider.Options);
+        string serializeRequest = JsonSerializer.Serialize(request, JsonBotAPI.Options);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(serializeRequest));
 
         Assert.Single(j);
@@ -71,7 +70,7 @@ public class RequestSerializationTests
                 "caption": "Photo request deserialized from JSON"
             }
             """;
-        SendPhotoRequest? request = JsonSerializer.Deserialize<SendPhotoRequest>(json, JsonSerializerOptionsProvider.Options);
+        SendPhotoRequest? request = JsonSerializer.Deserialize<SendPhotoRequest>(json, JsonBotAPI.Options);
 
         var bot = new Polling.MockTelegramBotClient();
         var ex = await Assert.ThrowsAsync<NotSupportedException>(
@@ -101,7 +100,7 @@ public class RequestSerializationTests
                 "foursquare_type": "parks_outdoors/park"
             }
             """;
-        SendVenueRequest request = JsonSerializer.Deserialize<SendVenueRequest>(json, JsonSerializerOptionsProvider.Options)!;
+        SendVenueRequest request = JsonSerializer.Deserialize<SendVenueRequest>(json, JsonBotAPI.Options)!;
         Assert.Equal("sendVenue", request.MethodName);
         Assert.Equal("Burggarten", request.Title);
         Assert.Equal("Opernring", request.Address);
