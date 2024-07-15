@@ -361,13 +361,7 @@ namespace Telegram.Bot.Types
             /// <param name="pollType">Optional: restrict the type of poll</param>
             /// <returns>Keyboard button</returns>
             public static KeyboardButton WithRequestPoll(string text, PollType? pollType = null)
-                => new(text) { RequestPoll = pollType };
-        }
-
-        public partial class KeyboardButtonPollType
-        {
-            /// <summary>implicit from string</summary>
-            public static implicit operator KeyboardButtonPollType(PollType? type) => new() { Type = type };
+                => new(text) { RequestPoll = new() { Type = pollType } };
         }
     }
 }
