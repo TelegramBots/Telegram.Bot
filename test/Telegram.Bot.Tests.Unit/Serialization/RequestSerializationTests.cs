@@ -1,7 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types.Enums;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 

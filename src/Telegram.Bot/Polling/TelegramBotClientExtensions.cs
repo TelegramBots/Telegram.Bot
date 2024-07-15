@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Polling;
 

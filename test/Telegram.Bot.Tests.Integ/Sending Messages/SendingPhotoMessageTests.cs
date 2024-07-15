@@ -1,10 +1,7 @@
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Telegram.Bot.Extensions;
-using Telegram.Bot.Requests;
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;

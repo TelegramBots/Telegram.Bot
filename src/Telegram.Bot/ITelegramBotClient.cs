@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
-using Telegram.Bot.Requests.Abstractions;
 
 namespace Telegram.Bot;
 

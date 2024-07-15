@@ -1,15 +1,11 @@
-using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
-using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Requests.Abstractions;
 
 namespace Telegram.Bot;
 

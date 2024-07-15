@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-
-namespace Telegram.Bot.Requests;
+﻿namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Represents a request that doesn't require any parameters

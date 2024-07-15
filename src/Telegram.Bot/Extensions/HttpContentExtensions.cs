@@ -1,4 +1,3 @@
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 
 namespace Telegram.Bot.Extensions;

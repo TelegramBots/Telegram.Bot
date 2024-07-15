@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-
-// ReSharper disable once UnusedTypeParameter
+﻿// ReSharper disable once UnusedTypeParameter
 namespace Telegram.Bot.Requests.Abstractions;
 
 /// <summary>

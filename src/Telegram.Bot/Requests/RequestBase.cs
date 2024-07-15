@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Text;
-using Telegram.Bot.Requests.Abstractions;
+﻿using System.Text;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Requests;

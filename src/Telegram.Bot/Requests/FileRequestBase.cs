@@ -1,7 +1,5 @@
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using Telegram.Bot.Extensions;
 namespace Telegram.Bot.Requests;
 
 /// <summary>

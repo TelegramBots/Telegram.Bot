@@ -1,7 +1,6 @@
 ﻿// The original implementation is taken from there
 // https://github.com/dotnet/runtime/issues/72604#issuecomment-1932302266
 
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace Telegram.Bot.Serialization;

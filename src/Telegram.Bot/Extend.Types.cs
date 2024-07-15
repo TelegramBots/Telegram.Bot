@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
 {
