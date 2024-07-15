@@ -10,7 +10,6 @@ namespace Telegram.Bot.Types
         /// <summary><em>Optional</em>. For forwarded messages, sender of the original message</summary>
         [JsonIgnore]
         public User? ForwardFrom => (ForwardOrigin as MessageOriginUser)?.SenderUser;
-
         /// <summary><em>Optional</em>. For messages forwarded from channels or from anonymous administrators, information about the original sender chat</summary>
         [JsonIgnore]
         public Chat? ForwardFromChat => ForwardOrigin switch
@@ -19,19 +18,15 @@ namespace Telegram.Bot.Types
             MessageOriginChat originChat => originChat.SenderChat,
             _ => null,
         };
-
         /// <summary><em>Optional</em>. For messages forwarded from channels, identifier of the original message in the channel</summary>
         [JsonIgnore]
         public int? ForwardFromMessageId => (ForwardOrigin as MessageOriginChannel)?.MessageId;
-
         /// <summary><em>Optional</em>. For messages forwarded from channels, signature of the post author if present</summary>
         [JsonIgnore]
         public string? ForwardSignature => (ForwardOrigin as MessageOriginChannel)?.AuthorSignature;
-
         /// <summary><em>Optional</em>. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages</summary>
         [JsonIgnore]
         public string? ForwardSenderName => (ForwardOrigin as MessageOriginHiddenUser)?.SenderUserName;
-
         /// <summary><em>Optional</em>. For forwarded messages, date the original message was sent</summary>
         [JsonIgnore]
         public DateTime? ForwardDate => ForwardOrigin?.Date;
@@ -40,7 +35,6 @@ namespace Telegram.Bot.Types
         /// <value>The texts covered by each entity.</value>
         [JsonIgnore]
         public IEnumerable<string>? EntityValues => Text is null ? default : Entities?.Select(entity => Text.Substring(entity.Offset, entity.Length));
-
         /// <summary>Gets the caption entity values.</summary>
         /// <value>The caption texts covered by each entity.</value>
         [JsonIgnore]
@@ -137,24 +131,18 @@ namespace Telegram.Bot.Types
     {
         /// <summary>Create a default <see cref="BotCommandScope"/> instance</summary>
         public static BotCommandScopeDefault Default() => new();
-
         /// <summary>Create a <see cref="BotCommandScope"/> instance for all private chats</summary>
         public static BotCommandScopeAllPrivateChats AllPrivateChats() => new();
-
         /// <summary>Create a <see cref="BotCommandScope"/> instance for all group chats</summary>
         public static BotCommandScopeAllGroupChats AllGroupChats() => new();
-
         /// <summary>Create a <see cref="BotCommandScope"/> instance for all chat administrators</summary>
         public static BotCommandScopeAllChatAdministrators AllChatAdministrators() => new();
-
         /// <summary>Create a <see cref="BotCommandScope"/> instance for a specific <see cref="Chat"/></summary>
         /// <param name="chatId">Unique identifier for the target <see cref="Chat"/> or username of the target supergroup</param>
         public static BotCommandScopeChat Chat(ChatId chatId) => new() { ChatId = chatId };
-
         /// <summary>Create a <see cref="BotCommandScope"/> instance for a specific member in a specific <see cref="Chat"/></summary>
         /// <param name="chatId">Unique identifier for the target <see cref="Chat"/> or username of the target supergroup</param>
         public static BotCommandScopeChatAdministrators ChatAdministrators(ChatId chatId) => new() { ChatId = chatId };
-
         /// <summary>Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering a specific member of a group or supergroup chat.</summary>
         /// <param name="chatId">Unique identifier for the target <see cref="Chat"/> or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
@@ -352,7 +340,6 @@ namespace Telegram.Bot.Types
         {
             /// <summary>Generate a keyboard button from text</summary>
             /// <param name="text">Button's text</param>
-            /// <returns>Keyboard button</returns>
             public static implicit operator KeyboardButton(string text)
                 => new(text);
 
@@ -371,15 +358,16 @@ namespace Telegram.Bot.Types
 
             /// <summary>Generate a keyboard button to request a poll</summary>
             /// <param name="text">Button's text</param>
+            /// <param name="pollType">Optional: restrict the type of poll</param>
             /// <returns>Keyboard button</returns>
-            public static KeyboardButton WithRequestPoll(string text)
-                => new(text) { RequestPoll = new() };
+            public static KeyboardButton WithRequestPoll(string text, PollType? pollType = null)
+                => new(text) { RequestPoll = pollType };
         }
 
         public partial class KeyboardButtonPollType
         {
             /// <summary>implicit from string</summary>
-            public static implicit operator KeyboardButtonPollType(string? type) => new() { Type = type };
+            public static implicit operator KeyboardButtonPollType(PollType? type) => new() { Type = type };
         }
     }
 }

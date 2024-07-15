@@ -1,3 +1,4 @@
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
@@ -7,13 +8,13 @@ namespace Telegram.Bot.Tests.Unit.Serialization;
 public class ReplyMarkupSerializationTests
 {
     [Theory(DisplayName = "Should serialize request poll keyboard button")]
-    [InlineData(null)]
-    [InlineData("regular")]
-    [InlineData("quiz")]
-    public void Should_Serialize_Request_Poll_Keyboard_Button_From_Interface(string? type)
+    [InlineData(null, null)]
+    [InlineData(PollType.Regular, "regular")]
+    [InlineData(PollType.Quiz, "quiz")]
+    public void Should_Serialize_Request_Poll_Keyboard_Button_From_Interface(PollType? pollType, string? type)
     {
         IReplyMarkup replyMarkup = new ReplyKeyboardMarkup(
-            KeyboardButton.WithRequestPoll("Create a poll", type)
+            KeyboardButton.WithRequestPoll("Create a poll", pollType)
         );
 
         string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, JsonSerializerOptionsProvider.Options);
@@ -56,13 +57,13 @@ public class ReplyMarkupSerializationTests
     }
 
     [Theory(DisplayName = "Should serialize request poll keyboard button")]
-    [InlineData(null)]
-    [InlineData("regular")]
-    [InlineData("quiz")]
-    public void Should_Serialize_Request_Poll_Keyboard_Button(string? type)
+    [InlineData(null, null)]
+    [InlineData(PollType.Regular, "regular")]
+    [InlineData(PollType.Quiz, "quiz")]
+    public void Should_Serialize_Request_Poll_Keyboard_Button(PollType? pollType, string? type)
     {
         ReplyKeyboardMarkup replyMarkup = new(
-            KeyboardButton.WithRequestPoll("Create a poll", type)
+            KeyboardButton.WithRequestPoll("Create a poll", pollType)
         );
 
         string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, JsonSerializerOptionsProvider.Options);

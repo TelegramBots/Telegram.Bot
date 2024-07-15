@@ -100,7 +100,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : TestC
 
         Update cqUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 
-        Assert.True(cqUpdate.CallbackQuery?.IsGameQuery);
+        Assert.NotNull(cqUpdate.CallbackQuery?.GameShortName);
 
         await BotClient.AnswerCallbackQueryAsync(
             callbackQueryId: cqUpdate.CallbackQuery!.Id,
