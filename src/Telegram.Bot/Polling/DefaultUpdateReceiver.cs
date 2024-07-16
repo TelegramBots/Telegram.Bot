@@ -37,9 +37,8 @@ public class DefaultUpdateReceiver(
         {
             try
             {
-                messageOffset = await _botClient.DropPendingUpdatesAsync(
-                    cancellationToken: cancellationToken
-                ).ConfigureAwait(false);
+                var updates = await _botClient.GetUpdatesAsync(-1, 1, 0, [], cancellationToken).ConfigureAwait(false);
+                messageOffset = updates.Length == 0 ? 0 : updates[^1].Id + 1;
             }
             catch (OperationCanceledException)
             {
