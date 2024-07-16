@@ -34,6 +34,21 @@ public class TelegramBotClient : ITelegramBotClient
         set => _httpClient.Timeout = value;
     }
 
+    #region For testing purposes
+    internal string BaseRequestUrl => _options.BaseRequestUrl;
+    internal string BaseFileUrl => _options.BaseFileUrl;
+    #endregion
+
+    OnUpdateHandler? _onUpdate;
+    OnMessageHandler? _onMessage;
+    CancellationTokenSource? _receivingEvents;
+    /// <summary>Handler to be called when there is an incoming update</summary>
+    public event OnUpdateHandler? OnUpdate { add { _onUpdate += value; StartEventReceiving(); } remove { _onUpdate -= value; StopEventReceiving(); } }
+    /// <summary>Handler to be called when there is an incoming message or edited message</summary>
+    public event OnMessageHandler? OnMessage { add { _onMessage += value; StartEventReceiving(); } remove { _onMessage -= value; StopEventReceiving(); } }
+    /// <summary>Handler to be called when there was a polling error or an exception in your handlers</summary>
+    public event OnErrorHandler? OnError;
+
     /// <summary>
     /// Global cancellation token
     /// </summary>
@@ -319,10 +334,41 @@ public class TelegramBotClient : ITelegramBotClient
         }
     }
 
-    #region For testing purposes
+    private void StartEventReceiving()
+    {
+        lock (_options)
+        {
+            if (_receivingEvents != null) return;
+            _receivingEvents ??= new CancellationTokenSource();
+        }
+        this.StartReceiving(async (bot, update, ct) =>
+        {
+            var task = _onMessage == null ? _onUpdate?.Invoke(update) : update switch
+            {
+                { Message: { } m } => _onMessage?.Invoke(m, UpdateType.Message),
+                { EditedMessage: { } em } => _onMessage?.Invoke(em, UpdateType.EditedMessage),
+                { ChannelPost: { } cp } => _onMessage?.Invoke(cp, UpdateType.ChannelPost),
+                { EditedChannelPost: { } ecp } => _onMessage?.Invoke(ecp, UpdateType.EditedChannelPost),
+                { BusinessMessage: { } bm } => _onMessage?.Invoke(bm, UpdateType.BusinessMessage),
+                { EditedBusinessMessage: { } ebm } => _onMessage?.Invoke(ebm, UpdateType.EditedBusinessMessage),
+                _ => _onUpdate?.Invoke(update) // if OnMessage is set, we call OnUpdate only for non-message updates
+            };
+            if (task != null) await task.ConfigureAwait(true);
+        }, async(bot, ex, source, ct) =>
+        {
+            var task = OnError?.Invoke(ex, source);
+            if (task != null) await task.ConfigureAwait(true);
+            else System.Diagnostics.Debug.WriteLine(ex); // fallback logging if OnError is unset
+        }, new() { AllowedUpdates = Update.AllTypes }, _receivingEvents.Token);
+    }
 
-    internal string BaseRequestUrl => _options.BaseRequestUrl;
-    internal string BaseFileUrl => _options.BaseFileUrl;
-
-    #endregion
+    private void StopEventReceiving()
+    {
+        lock (_options)
+        {
+            if (_onUpdate != null || _onMessage != null || _receivingEvents == null) return;
+            _receivingEvents?.Cancel();
+            _receivingEvents = null;
+        }
+    }
 }
