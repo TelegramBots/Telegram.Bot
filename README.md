@@ -1,4 +1,4 @@
-﻿# .NET Client for Telegram Bot API
+# .NET Client for Telegram Bot API
 
 [![Nuget](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fnuget.voids.site%2Fv3%2Fpackage%2FTelegram.Bot%2Findex.json&query=versions%5B-1%3A%5D&style=flat-square&label=Telegram.Bot&color=d8b541)](https://nuget.voids.site/packages/Telegram.Bot)
 [![Bot API Version](https://img.shields.io/badge/Bot%20API-7.7-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api#july-7-2024)
@@ -51,7 +51,6 @@ use it in your own bot projects.
 
 ## 🗂 References
 
-- [Changelog](CHANGELOG.md)
 - [Documentation](https://telegrambots.github.io/book/)
 - [Examples](https://github.com/TelegramBots/Telegram.Bot.Examples)
 
