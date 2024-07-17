@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Passport;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -25,7 +24,7 @@ public class EncryptedPassportElementTypeConverterTests
         EncryptedPassportElement encryptedPassportElement = new() { Type = encryptedPassportElementType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(encryptedPassportElement, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(encryptedPassportElement, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -49,7 +48,7 @@ public class EncryptedPassportElementTypeConverterTests
         EncryptedPassportElement expectedResult = new() { Type = encryptedPassportElementType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        EncryptedPassportElement? result = JsonSerializer.Deserialize<EncryptedPassportElement>(jsonData, JsonSerializerOptionsProvider.Options);
+        EncryptedPassportElement? result = JsonSerializer.Deserialize<EncryptedPassportElement>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -60,7 +59,7 @@ public class EncryptedPassportElementTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        EncryptedPassportElement? result = JsonSerializer.Deserialize<EncryptedPassportElement>(jsonData, JsonSerializerOptionsProvider.Options);
+        EncryptedPassportElement? result = JsonSerializer.Deserialize<EncryptedPassportElement>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((EncryptedPassportElementType)0, result.Type);
@@ -76,7 +75,7 @@ public class EncryptedPassportElementTypeConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(encryptedPassportElement, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(encryptedPassportElement, JsonBotAPI.Options));
     }
 
 

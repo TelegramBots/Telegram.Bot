@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +14,7 @@ public class EmojiConverterTests
         Dice dice = new() { Emoji = emoji };
         string expectedResult = @$"{{""emoji"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(dice, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(dice, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -27,7 +26,7 @@ public class EmojiConverterTests
         Dice expectedResult = new() { Emoji = emoji };
         string jsonData = @$"{{""emoji"":""{value}""}}";
 
-        Dice? result = JsonSerializer.Deserialize<Dice>(jsonData, JsonSerializerOptionsProvider.Options);
+        Dice? result = JsonSerializer.Deserialize<Dice>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Emoji, result.Emoji);
@@ -38,7 +37,7 @@ public class EmojiConverterTests
     {
         string jsonData = @$"{{""emoji"":""{int.MaxValue}""}}";
 
-        Dice? result = JsonSerializer.Deserialize<Dice>(jsonData, JsonSerializerOptionsProvider.Options);
+        Dice? result = JsonSerializer.Deserialize<Dice>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((Emoji)0, result.Emoji);
@@ -54,7 +53,7 @@ public class EmojiConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(dice, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(dice, JsonBotAPI.Options));
     }
 
 

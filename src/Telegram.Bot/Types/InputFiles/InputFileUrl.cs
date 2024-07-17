@@ -1,6 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
-using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;

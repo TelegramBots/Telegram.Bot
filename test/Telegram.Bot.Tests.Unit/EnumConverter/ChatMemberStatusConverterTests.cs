@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -18,7 +17,7 @@ public class ChatMemberStatusConverterTests
         ChatMember chatMember = new() { Type = chatMemberStatus };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(chatMember, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -35,7 +34,7 @@ public class ChatMemberStatusConverterTests
         ChatMember expectedResult = new() { Type = chatMemberStatus };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        ChatMember? result = JsonSerializer.Deserialize<ChatMember>(jsonData, JsonSerializerOptionsProvider.Options);
+        ChatMember? result = JsonSerializer.Deserialize<ChatMember>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -46,7 +45,7 @@ public class ChatMemberStatusConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        ChatMember? result = JsonSerializer.Deserialize<ChatMember>(jsonData, JsonSerializerOptionsProvider.Options);
+        ChatMember? result = JsonSerializer.Deserialize<ChatMember>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((ChatMemberStatus)0, result.Type);
@@ -57,7 +56,7 @@ public class ChatMemberStatusConverterTests
     {
         ChatMember chatMember = new() { Type = (ChatMemberStatus)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(chatMember, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(chatMember, JsonBotAPI.Options));
     }
 
 

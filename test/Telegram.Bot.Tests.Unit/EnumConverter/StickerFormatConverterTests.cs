@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -33,7 +32,7 @@ public class StickerFormatConverterTests
         Sticker sticker = new() { Format = stickerFormat };
         string expectedResult = @$"{{""format"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(sticker, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -45,7 +44,7 @@ public class StickerFormatConverterTests
         Sticker expectedResult = new() { Format = stickerFormat };
         string jsonData = @$"{{""format"":""{value}""}}";
 
-        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonBotAPI.Options)!;
 
         Assert.Equal(expectedResult.Format, result.Format);
     }
@@ -55,7 +54,7 @@ public class StickerFormatConverterTests
     {
         string jsonData = @$"{{""format"":""{int.MaxValue}""}}";
 
-        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonBotAPI.Options)!;
 
         Assert.Equal((StickerFormat)0, result.Format);
     }
@@ -65,7 +64,7 @@ public class StickerFormatConverterTests
     {
         Sticker sticker = new() { Format = (StickerFormat)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonBotAPI.Options));
     }
 
 

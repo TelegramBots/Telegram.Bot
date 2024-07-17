@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
 using System.Text;
-using Telegram.Bot.Requests.Abstractions;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Requests;
 
@@ -42,7 +39,7 @@ public abstract class RequestBase<TResponse> : IRequest<TResponse>
     /// <returns>Content of HTTP request</returns>
     public virtual HttpContent? ToHttpContent() =>
         new StringContent(
-            content: JsonSerializer.Serialize(this, GetType(), JsonSerializerOptionsProvider.Options),
+            content: JsonSerializer.Serialize(this, GetType(), JsonBotAPI.Options),
             encoding: Encoding.UTF8,
             mediaType: "application/json"
         );

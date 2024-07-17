@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +14,7 @@ public class FileTypeConverterTests
         OnlineFile onlineFile = new() { FileType = fileType };
         string expectedResult = @$"{{""file_type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(onlineFile, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(onlineFile, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -29,7 +28,7 @@ public class FileTypeConverterTests
         OnlineFile expectedResult = new() { FileType = fileType };
         string jsonData = @$"{{""file_type"":""{value}""}}";
 
-        OnlineFile? result = JsonSerializer.Deserialize<OnlineFile>(jsonData, JsonSerializerOptionsProvider.Options);
+        OnlineFile? result = JsonSerializer.Deserialize<OnlineFile>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.FileType, result.FileType);
@@ -40,7 +39,7 @@ public class FileTypeConverterTests
     {
         string jsonData = @$"{{""file_type"":""{int.MaxValue}""}}";
 
-        OnlineFile? result = JsonSerializer.Deserialize<OnlineFile>(jsonData, JsonSerializerOptionsProvider.Options);
+        OnlineFile? result = JsonSerializer.Deserialize<OnlineFile>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((FileType)0, result.FileType);
@@ -56,7 +55,7 @@ public class FileTypeConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(onlineFile, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(onlineFile, JsonBotAPI.Options));
     }
 
 

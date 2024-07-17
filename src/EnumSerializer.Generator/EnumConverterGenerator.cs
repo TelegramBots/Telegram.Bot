@@ -58,10 +58,10 @@ public class EnumConverterGenerator : IIncrementalGenerator
         }
 
         //Seems not needed for now (maybe later when we support AOT)
-        //var optionsTemplate = Template.Parse(SourceGenerationHelper.JsonSerializerOptionsProviderTemplate);
+        //var optionsTemplate = Template.Parse(SourceGenerationHelper.JsonBotAPITemplate);
         //var generatedOptionsProviderClass = SourceGenerationHelper.GenerateOptionsProviderClass(optionsTemplate, enumsToProcess);
         //context.AddSource(
-        //    hintName: "JsonSerializerOptionsProvider.g.cs",
+        //    hintName: "JsonBotAPI.g.cs",
         //    sourceText: SourceText.From(generatedOptionsProviderClass, Encoding.UTF8)
         //);
     }

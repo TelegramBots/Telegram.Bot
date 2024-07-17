@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -16,7 +15,7 @@ public class MaskPositionPointConverterTests
         MaskPosition maskPosition = new() { Point = maskPositionPoint };
         string expectedResult = @$"{{""point"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(maskPosition, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(maskPosition, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -31,7 +30,7 @@ public class MaskPositionPointConverterTests
         MaskPosition expectedResult = new() { Point = maskPositionPoint };
         string jsonData = @$"{{""point"":""{value}""}}";
 
-        MaskPosition? result = JsonSerializer.Deserialize<MaskPosition>(jsonData, JsonSerializerOptionsProvider.Options);
+        MaskPosition? result = JsonSerializer.Deserialize<MaskPosition>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Point, result.Point);
@@ -42,7 +41,7 @@ public class MaskPositionPointConverterTests
     {
         string jsonData = @$"{{""point"":""{int.MaxValue}""}}";
 
-        MaskPosition? result = JsonSerializer.Deserialize<MaskPosition>(jsonData, JsonSerializerOptionsProvider.Options);
+        MaskPosition? result = JsonSerializer.Deserialize<MaskPosition>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((MaskPositionPoint)0, result.Point);
@@ -58,7 +57,7 @@ public class MaskPositionPointConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(maskPosition, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(maskPosition, JsonBotAPI.Options));
     }
 
 

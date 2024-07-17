@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -100,7 +99,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : TestC
 
         Update cqUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 
-        Assert.True(cqUpdate.CallbackQuery?.IsGameQuery);
+        Assert.NotNull(cqUpdate.CallbackQuery?.GameShortName);
 
         await BotClient.AnswerCallbackQueryAsync(
             callbackQueryId: cqUpdate.CallbackQuery!.Id,

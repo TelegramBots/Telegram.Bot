@@ -1,8 +1,6 @@
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Extensions;
 
@@ -26,7 +24,7 @@ internal static class StreamExtensions
         return await JsonSerializer
             .DeserializeAsync<T>(
                 utf8Json: stream,
-                options: JsonSerializerOptionsProvider.Options,
+                options: JsonBotAPI.Options,
                 cancellationToken: cancellationToken
             ).ConfigureAwait(false);
     }

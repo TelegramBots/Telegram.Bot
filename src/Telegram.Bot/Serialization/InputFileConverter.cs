@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace Telegram.Bot.Serialization;
 
 internal class InputFileConverter : JsonConverter<InputFile?>

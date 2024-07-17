@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -16,7 +15,7 @@ public class MessageOriginTypeConverterTests
         MessageOrigin messageOrigin = new() { Type = messageOriginType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(messageOrigin, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -31,7 +30,7 @@ public class MessageOriginTypeConverterTests
         MessageOrigin expectedResult = new() { Type = messageOriginType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -42,7 +41,7 @@ public class MessageOriginTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((MessageOriginType)0, result.Type);
@@ -53,7 +52,7 @@ public class MessageOriginTypeConverterTests
     {
         MessageOrigin messageOrigin = new() { Type = (MessageOriginType)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageOrigin, JsonBotAPI.Options));
     }
 
     class MessageOrigin

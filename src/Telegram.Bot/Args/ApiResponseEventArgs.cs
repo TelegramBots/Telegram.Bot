@@ -1,5 +1,3 @@
-using System.Net.Http;
-
 namespace Telegram.Bot.Args;
 
 /// <summary>

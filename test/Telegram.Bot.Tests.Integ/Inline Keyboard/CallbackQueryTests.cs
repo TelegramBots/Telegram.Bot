@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -45,7 +44,6 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
         Assert.NotEmpty(callbackQuery.ChatInstance);
         Assert.Null(callbackQuery.InlineMessageId);
         Assert.Null(callbackQuery.GameShortName);
-        Assert.False(callbackQuery.IsGameQuery);
         Assert.False(callbackQuery.From.IsBot);
         Assert.NotNull(callbackQuery.From.Username);
         Assert.NotEmpty(callbackQuery.From.Username);
@@ -82,7 +80,6 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
         Assert.NotEmpty(callbackQuery.ChatInstance);
         Assert.Null(callbackQuery.InlineMessageId);
         Assert.Null(callbackQuery.GameShortName);
-        Assert.False(callbackQuery.IsGameQuery);
         Assert.False(callbackQuery.From.IsBot);
         Assert.NotNull(callbackQuery.From.Username);
         Assert.NotEmpty(callbackQuery.From.Username);

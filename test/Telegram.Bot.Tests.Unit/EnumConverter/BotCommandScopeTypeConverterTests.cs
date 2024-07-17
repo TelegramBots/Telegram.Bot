@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -19,7 +18,7 @@ public class BotCommandScopeTypeConverterTests
         BotCommandScope botCommandScope = new(){ Type = botCommandScopeType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(botCommandScope, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(botCommandScope, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -37,7 +36,7 @@ public class BotCommandScopeTypeConverterTests
         BotCommandScope expectedResult = new() { Type = botCommandScopeType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        BotCommandScope? result = JsonSerializer.Deserialize<BotCommandScope>(jsonData, JsonSerializerOptionsProvider.Options);
+        BotCommandScope? result = JsonSerializer.Deserialize<BotCommandScope>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -48,7 +47,7 @@ public class BotCommandScopeTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        BotCommandScope? result = JsonSerializer.Deserialize<BotCommandScope>(jsonData, JsonSerializerOptionsProvider.Options);
+        BotCommandScope? result = JsonSerializer.Deserialize<BotCommandScope>(jsonData, JsonBotAPI.Options);
         Assert.NotNull(result);
         Assert.Equal((BotCommandScopeType)0, result.Type);
     }
@@ -58,7 +57,7 @@ public class BotCommandScopeTypeConverterTests
     {
         BotCommandScope botCommandScope = new() { Type = (BotCommandScopeType)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(botCommandScope, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(botCommandScope, JsonBotAPI.Options));
     }
 
 

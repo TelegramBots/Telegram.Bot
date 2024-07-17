@@ -1,9 +1,9 @@
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 #if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using System.Text;
+using System.Threading.Tasks;
 #endif
 
 namespace Telegram.Bot.Extensions
@@ -24,6 +24,8 @@ namespace Telegram.Bot.Extensions
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    using Telegram.Bot;
+
     /// <summary>Helpers for WebApp service configuration</summary>
     public static class TelegramBotConfigureExtensions
     {
@@ -32,7 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="opt">Accessor to JsonSerializerOptions</param>
         public static IServiceCollection ConfigureTelegramBot<TOptions>(this IServiceCollection services, Func<TOptions, JsonSerializerOptions> opt)
             where TOptions : class
-            => services.Configure<TOptions>(options => JsonSerializerOptionsProvider.Configure(opt(options)));
+            => services.Configure<TOptions>(options => JsonBotAPI.Configure(opt(options)));
 
 #if NET6_0_OR_GREATER
         /// <summary>Configure ASP.NET MVC Json (de)serialization for Telegram.Bot types</summary>
@@ -60,7 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             public sealed override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
             {
-                var model = await JsonSerializer.DeserializeAsync(context.HttpContext.Request.Body, context.ModelType, JsonSerializerOptionsProvider.Options, context.HttpContext.RequestAborted);
+                var model = await JsonSerializer.DeserializeAsync(context.HttpContext.Request.Body, context.ModelType, JsonBotAPI.Options, context.HttpContext.RequestAborted);
                 return await InputFormatterResult.SuccessAsync(model);
             }
         }
@@ -78,7 +80,7 @@ namespace Microsoft.Extensions.DependencyInjection
             public sealed override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
             {
                 var stream = context.HttpContext.Response.Body;
-                await JsonSerializer.SerializeAsync(stream, context.Object, JsonSerializerOptionsProvider.Options, context.HttpContext.RequestAborted);
+                await JsonSerializer.SerializeAsync(stream, context.Object, JsonBotAPI.Options, context.HttpContext.RequestAborted);
             }
         }
 #pragma warning restore MA0004 // Use Task.ConfigureAwait

@@ -13,6 +13,20 @@ namespace Telegram.Bot;
 public static partial class TelegramBotClientExtensions
 {
     /// <summary>
+    /// Drop all pending updates
+    /// </summary>
+    /// <param name="botClient"></param>
+    /// <param name="cancellationToken"></param>
+    public static async Task DropPendingUpdatesAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default)
+    {
+        var updates = await botClient.GetUpdatesAsync(-1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
+        if (updates.Length > 0)
+            await botClient.GetUpdatesAsync(updates[^1].Id + 1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking
     /// <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
     /// <para>

@@ -1,7 +1,4 @@
-using System.Text.Json;
 using System.Threading.Tasks;
-using Telegram.Bot.Requests;
-using Telegram.Bot.Serialization;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;

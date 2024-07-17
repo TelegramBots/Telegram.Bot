@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -25,7 +24,7 @@ public class InputMessageContentSerializationTests
             }
         };
 
-        string json = JsonSerializer.Serialize(content, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(content, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

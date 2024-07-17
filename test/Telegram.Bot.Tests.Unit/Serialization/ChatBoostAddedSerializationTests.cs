@@ -1,6 +1,5 @@
 ﻿using Telegram.Bot.Types;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -17,7 +16,7 @@ public class ChatBoostAddedSerializationTests
             }
             """;
 
-        ChatBoostAdded? deserialize = JsonSerializer.Deserialize<ChatBoostAdded>(chatBoostAdded, JsonSerializerOptionsProvider.Options);
+        ChatBoostAdded? deserialize = JsonSerializer.Deserialize<ChatBoostAdded>(chatBoostAdded, JsonBotAPI.Options);
 
         Assert.NotNull(deserialize);
         Assert.Equal(101, deserialize.BoostCount);
@@ -31,7 +30,7 @@ public class ChatBoostAddedSerializationTests
             BoostCount = 101,
         };
 
-        string json = JsonSerializer.Serialize(chat, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(chat, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

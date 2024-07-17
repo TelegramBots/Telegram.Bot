@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;

@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -23,7 +22,7 @@ public class ChatActionConverterTests
         SendChatActionRequest sendChatActionRequest = new() { Type = chatAction };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(sendChatActionRequest, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(sendChatActionRequest, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -45,7 +44,7 @@ public class ChatActionConverterTests
         SendChatActionRequest expectedResult = new() { Type = chatAction };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        SendChatActionRequest? result = JsonSerializer.Deserialize<SendChatActionRequest>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendChatActionRequest? result = JsonSerializer.Deserialize<SendChatActionRequest>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -56,7 +55,7 @@ public class ChatActionConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        SendChatActionRequest? result = JsonSerializer.Deserialize<SendChatActionRequest>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendChatActionRequest? result = JsonSerializer.Deserialize<SendChatActionRequest>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((ChatAction)0, result.Type);
@@ -67,7 +66,7 @@ public class ChatActionConverterTests
     {
         SendChatActionRequest sendChatActionRequest = new() { Type = (ChatAction)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sendChatActionRequest, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sendChatActionRequest, JsonBotAPI.Options));
     }
 
 

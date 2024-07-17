@@ -1,7 +1,6 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -38,7 +37,7 @@ public class InaccessibleMessageSerializationTests
         }
         """;
 
-        CallbackQuery? query = JsonSerializer.Deserialize<CallbackQuery>(json, JsonSerializerOptionsProvider.Options);
+        CallbackQuery? query = JsonSerializer.Deserialize<CallbackQuery>(json, JsonBotAPI.Options);
 
         Assert.NotNull(query);
         Assert.Equal("12345", query.Id);

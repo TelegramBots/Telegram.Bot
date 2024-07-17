@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -23,7 +22,7 @@ public class ChatFullInfoSerializationTests
             }
             """;
 
-        ChatFullInfo? chatFullInfo = JsonSerializer.Deserialize<ChatFullInfo>(chat, JsonSerializerOptionsProvider.Options);
+        ChatFullInfo? chatFullInfo = JsonSerializer.Deserialize<ChatFullInfo>(chat, JsonBotAPI.Options);
 
         Assert.NotNull(chatFullInfo);
         Assert.Equal(10, chatFullInfo.UnrestrictBoostCount);
@@ -47,7 +46,7 @@ public class ChatFullInfoSerializationTests
             AccentColorId = 123456,
         };
 
-        string json = JsonSerializer.Serialize(chat, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(chat, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

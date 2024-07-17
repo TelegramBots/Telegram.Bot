@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -35,7 +34,7 @@ public class UpdateTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        string result = JsonSerializer.Serialize(update, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(update, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -50,7 +49,7 @@ public class UpdateTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonSerializerOptionsProvider.Options);
+        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -64,7 +63,7 @@ public class UpdateTypeConverterTests
             {"type":"{{int.MaxValue}}"}
             """;
 
-        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonSerializerOptionsProvider.Options);
+        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(UpdateType.Unknown, result.Type);
@@ -75,7 +74,7 @@ public class UpdateTypeConverterTests
     {
         Update update = new((UpdateType)int.MaxValue);
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(update, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(update, JsonBotAPI.Options));
     }
 
 

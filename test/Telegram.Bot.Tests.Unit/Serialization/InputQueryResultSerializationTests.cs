@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -17,7 +16,7 @@ public class InputQueryResultSerializationTests
             PhoneNumber = "+123456789",
         };
 
-        string json = JsonSerializer.Serialize(iqr, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(iqr, JsonBotAPI.Options);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

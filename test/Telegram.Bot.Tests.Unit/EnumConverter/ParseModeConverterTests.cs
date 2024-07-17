@@ -2,7 +2,6 @@
 
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -18,7 +17,7 @@ public class ParseModeConverterTests
         SendMessageRequest sendMessageRequest = new() { ParseMode = parseMode };
         string expectedResult = parseMode == 0 ? "{}" : @$"{{""parse_mode"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(sendMessageRequest, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(sendMessageRequest, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -33,7 +32,7 @@ public class ParseModeConverterTests
         SendMessageRequest expectedResult = new() { ParseMode = parseMode };
         string jsonData = @$"{{""parse_mode"":""{value}""}}";
 
-        SendMessageRequest? result = JsonSerializer.Deserialize<SendMessageRequest>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendMessageRequest? result = JsonSerializer.Deserialize<SendMessageRequest>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.ParseMode, result.ParseMode);
@@ -44,7 +43,7 @@ public class ParseModeConverterTests
     {
         string jsonData = @$"{{""parse_mode"":""{int.MaxValue}""}}";
 
-        SendMessageRequest? result = JsonSerializer.Deserialize<SendMessageRequest>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendMessageRequest? result = JsonSerializer.Deserialize<SendMessageRequest>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((ParseMode)0, result.ParseMode);

@@ -100,9 +100,8 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
             {
                 try
                 {
-                    _messageOffset = await _receiver._botClient.DropPendingUpdatesAsync(
-                        cancellationToken: _token
-                    ).ConfigureAwait(false);
+                    var updates = await _receiver._botClient.GetUpdatesAsync(-1, 1, 0, [], _token).ConfigureAwait(false);
+                    _messageOffset = updates.Length == 0 ? 0 : updates[^1].Id + 1;
                 }
                 catch (OperationCanceledException)
                 {

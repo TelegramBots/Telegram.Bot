@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using Telegram.Bot.Extensions;
+
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -57,7 +56,7 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
         var boundary = $"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}";
         var multipartContent = new MultipartFormDataContent(boundary);
 
-        var stringContents = JsonSerializer.SerializeToElement(this, GetType(), JsonSerializerOptionsProvider.Options)
+        var stringContents = JsonSerializer.SerializeToElement(this, GetType(), JsonBotAPI.Options)
             .EnumerateObject()
             .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
             .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));

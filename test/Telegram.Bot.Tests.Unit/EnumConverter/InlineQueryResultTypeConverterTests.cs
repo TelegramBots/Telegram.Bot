@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -26,7 +25,7 @@ public class InlineQueryResultTypeConverterTests
         InlineQueryResult inlineQuery = new() { Type = inlineQueryResultType };
         string expectedResult = inlineQueryResultType == 0 ? "{}" : @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(inlineQuery, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(inlineQuery, JsonBotAPI.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -51,7 +50,7 @@ public class InlineQueryResultTypeConverterTests
         InlineQueryResult expectedResult = new() { Type = inlineQueryResultType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        InlineQueryResult? result = JsonSerializer.Deserialize<InlineQueryResult>(jsonData, JsonSerializerOptionsProvider.Options);
+        InlineQueryResult? result = JsonSerializer.Deserialize<InlineQueryResult>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -62,7 +61,7 @@ public class InlineQueryResultTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        InlineQueryResult? result = JsonSerializer.Deserialize<InlineQueryResult>(jsonData, JsonSerializerOptionsProvider.Options);
+        InlineQueryResult? result = JsonSerializer.Deserialize<InlineQueryResult>(jsonData, JsonBotAPI.Options);
 
         Assert.NotNull(result);
         Assert.Equal((InlineQueryResultType)0, result.Type);
@@ -73,7 +72,7 @@ public class InlineQueryResultTypeConverterTests
     {
         InlineQueryResult inlineQueryResult = new() { Type = (InlineQueryResultType)int.MaxValue };
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(inlineQueryResult, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(inlineQueryResult, JsonBotAPI.Options));
     }
 
 
