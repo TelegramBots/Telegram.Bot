@@ -24,9 +24,10 @@ internal class TestClientOptions(
 };
 
 internal class RetryTelegramBotClient(
+    TestClientOptions options,
     IMessageSink diagnosticMessageSink,
-    TestClientOptions options)
-    : TelegramBotClient(options)
+    CancellationToken ct = default)
+    : TelegramBotClient(options, cancellationToken: ct)
 {
     private Stream[]? _testStreams;
     public void WithStreams(Stream[] streams) => _testStreams = streams;
@@ -74,7 +75,7 @@ internal static class RetryTelegramBotClientExtensions
 {
     public static ITelegramBotClient WithStreams(this ITelegramBotClient botClient, params System.IO.Stream[] streams)
     {
-        ((RetryTelegramBotClient)botClient).WithStreams(streams);
+        if (botClient is RetryTelegramBotClient retry) retry.WithStreams(streams);
         return botClient;
     }
 }

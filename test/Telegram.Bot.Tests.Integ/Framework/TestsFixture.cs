@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -168,21 +169,24 @@ public class TestsFixture : IDisposable
             or { Message.ForwardOrigin: not null };
     }
 
-    async Task InitAsync()
+    internal ITelegramBotClient CreateClient(string apiToken, CancellationToken ct = default)
     {
-        _configurationProvider = new();
-        var apiToken = Configuration.ApiToken;
-
-        BotClient = new RetryTelegramBotClient(
-            options: new(
+        return new RetryTelegramBotClient(
+            new(
                 retryCount: Configuration.RetryCount,
                 defaultTimeout: TimeSpan.FromSeconds(Configuration.DefaultRetryTimeout),
                 token: apiToken,
                 useTestEnvironment: false,
                 baseUrl: default
             ),
-            diagnosticMessageSink: _diagnosticMessageSink
-        );
+            _diagnosticMessageSink, ct);
+    }
+
+    async Task InitAsync()
+    {
+        _configurationProvider = new();
+        var apiToken = Configuration.ApiToken;
+        BotClient = CreateClient(apiToken);
 
         var allowedUserNames = await Ex.WithCancellation(
             async token =>
@@ -231,7 +235,7 @@ public class TestsFixture : IDisposable
             ? Constants.StartCollectionMessageFormat
             : Constants.StartTestCaseMessageFormat;
 
-        var text = string.Format(textFormat, name);
+        var text = string.Format(textFormat, Markdown.Escape(name));
 
         chatId ??= SupergroupChat.Id;
         if (instructions != default)

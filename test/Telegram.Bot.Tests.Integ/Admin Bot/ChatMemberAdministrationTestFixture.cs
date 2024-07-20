@@ -43,7 +43,7 @@ public class ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
             $"[{chat.FirstName}](tg://user?id={chat.Id}) doesn't have a username.\n" +
             "❎ Failing tests...");
 
-        throw new ArgumentNullException(nameof(chat.Username), "Chat member doesn't have a username");
+        throw new InvalidOperationException("Chat member doesn't have a username");
     }
 
     public async Task InitializeAsync()

@@ -25,6 +25,7 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
         BotClient.DeleteWebhookAsync()
             .GetAwaiter()
             .GetResult();
+        GC.SuppressFinalize(this);
     }
 
     [OrderedFact("Should set webhook", Skip = "setWebhook requests are rate limited")]
