@@ -67,10 +67,12 @@ public static class Markdown
 			}
 			switch (lastCh = sb[i])
 			{
-				case '_': case '*': case '~': case '`': case '#': case '+': case '-': case '=': case '.': case '!':
+				case '_': case '*': case '~': case '#': case '+': case '-': case '=': case '.': case '!':
 				case '[': case ']': case '(': case ')': case '{': case '}': case '>': case '|': case '\\':
-                    if (closings.Count == 0 || closings[0].md[0] != '`')
-					    sb.Insert(i++, '\\');
+					if (closings.Count != 0 && closings[0].md[0] == '`') break;
+					goto case '`';
+				case '`':
+					sb.Insert(i++, '\\');
 					break;
 			}
 		}
