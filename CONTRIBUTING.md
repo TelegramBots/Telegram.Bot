@@ -13,46 +13,15 @@ Before creating a pull request, make sure that your PR
 - Has the HEAD commit from `develop` branch
 - Has a clear message saying why this PR
 - References/Explains any related issues
-- Has updated changelog in `CHANGELOG.md` file
-
-## Tests
-
-Unit Tests and Systems Integration Tests are meant to be examples for our users  of how to interact with the Bot API. It is necessary for test methods to be highly readable, clear on their intents, and show expected behaviour of both systems.
-
-If commits in PR contain any changes to tests, ensure:
-
-- Types are explicitly declared (no use of `var` keyword).
-- If possible, method calls to `ITelegramBotClient` have argument names explicitly mentioned
 
 ## Code Style
 
 ### Bot API Requests
 
-All requests to Telegram Bot API are represented by classes derived from `RequestBase<TResult>`. Required properties of a request must be get-only with value assigned in the constructor.
+All requests to Telegram Bot API are represented by classes derived from `RequestBase<TResult>`.
 
 If a request class (and its accompanying method on `ITelegramBotClient`) accepts a collection, the type must be `IEnumerable<T>`. Also, return types of JSON array responses will be `TResult[]`.
 
-For example, here is a request with required `allowedUpdates` and optional `offset` parameters that returns a JSON array as result:
-
-```c#
-Task<Update[]> GetUpdatesAsync(
-    IEnumerable<string> allowedUpdates,
-    int offset = default
-);
-```
-
-```c#
-class GetUpdatesRequest : RequestBase<Update[]> {
-  IEnumerable<string> AllowedUpdates { get; }
-  int Offset { get; set; }
-
-  public GetUpdatesRequest(IEnumerable<string> allowedUpdates)
-    : base("getUpdates")
-  { AllowedUpdates = allowedUpdates; }
-}
-```
-
 ## Related Documents
 
-- [Change Logs](./CHANGELOG.md)
-- [Systems Integration Tests - How To](https://telegrambots.github.io/book/3/tests.html)
+- [Systems Integration Tests - How To](https://github.com/TelegramBots/Telegram.Bot/blob/master/test/Telegram.Bot.Tests.Integ/README.md)
