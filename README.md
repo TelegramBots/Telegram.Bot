@@ -32,7 +32,7 @@ Please check ➡️ [the Quickstart guide].
 
 ## 🚧 Supported Platforms
 
-Project targets **.NET Standard 2.0** and **.NET 6** at minimum.
+Project targets **.NET Standard 2.0** and **.NET 6** at minimum, with **.NET 8** or more recent recommended.
 
 ## 📦 Extension Packages
 

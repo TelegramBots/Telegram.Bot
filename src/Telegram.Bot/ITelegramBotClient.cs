@@ -6,6 +6,10 @@ using Telegram.Bot.Exceptions;
 
 namespace Telegram.Bot;
 
+#pragma warning disable CS1591
+public delegate ValueTask AsyncEventHandler<in TArgs>(ITelegramBotClient botClient, TArgs args, CancellationToken cancellationToken = default);
+#pragma warning restore CS1591
+
 /// <summary>
 /// A client interface to use the Telegram Bot API
 /// </summary>
