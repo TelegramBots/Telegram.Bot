@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.<para>Returns: </para></summary>
-public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
+public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -13,6 +13,9 @@ public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
 
     /// <summary>Pass <see langword="true"/> if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.</summary>
     public bool DisableNotification { get; set; }
+
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be pinned</summary>
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>Initializes an instance of <see cref="PinChatMessageRequest"/></summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
