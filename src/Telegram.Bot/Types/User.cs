@@ -40,4 +40,7 @@ public partial class User
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
     public bool CanConnectToBusiness { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has a main Web App. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
+    public bool HasMainWebApp { get; set; }
 }

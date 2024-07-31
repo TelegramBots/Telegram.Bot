@@ -1,7 +1,7 @@
-# .NET Client for Telegram Bot API
+﻿# .NET Client for Telegram Bot API
 
 [![Nuget](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fnuget.voids.site%2Fv3%2Fpackage%2FTelegram.Bot%2Findex.json&query=versions%5B-1%3A%5D&style=flat-square&label=Telegram.Bot&color=d8b541)](https://nuget.voids.site/packages/Telegram.Bot)
-[![Bot API Version](https://img.shields.io/badge/Bot%20API-7.7-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api#july-7-2024)
+[![Bot API Version](https://img.shields.io/badge/Bot_API-7.8-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
 [![Documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/)
 [![Telegram Chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)  
 [![Master build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/6?style=flat-square&label=master)](https://dev.azure.com/tgbots/Telegram.Bot/_build/latest?definitionId=6&branchName=master)
@@ -32,7 +32,7 @@ Please check ➡️ [the Quickstart guide].
 
 ## 🚧 Supported Platforms
 
-Project targets **.NET Standard 2.0** and **.NET 6** at minimum.
+Project targets **.NET Standard 2.0** and **.NET 6** at minimum, with **.NET 8** or more recent recommended.
 
 ## 📦 Extension Packages
 

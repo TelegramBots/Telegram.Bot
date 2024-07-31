@@ -6,6 +6,10 @@ using Telegram.Bot.Exceptions;
 
 namespace Telegram.Bot;
 
+#pragma warning disable CS1591
+public delegate ValueTask AsyncEventHandler<in TArgs>(ITelegramBotClient botClient, TArgs args, CancellationToken cancellationToken = default);
+#pragma warning restore CS1591
+
 /// <summary>
 /// A client interface to use the Telegram Bot API
 /// </summary>
@@ -75,8 +79,8 @@ public interface ITelegramBotClient
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation.
     /// </param>
-    /// <exception cref="ArgumentException">filePath is <c>null</c>, empty or too short</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <c>null</c></exception>
+    /// <exception cref="ArgumentException">filePath is <see langword="null"/>, empty or too short</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <see langword="null"/></exception>
     Task DownloadFileAsync(
         string filePath,
         Stream destination,

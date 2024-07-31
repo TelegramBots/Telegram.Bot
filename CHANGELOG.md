@@ -1,7 +1,7 @@
 ## [v21.*] - 2024-06-22
 
 Starting with version 21.x, changes are documented here:  
-https://telegrambots.github.io/book/Migration-Guide-to-Version-21.x.html
+https://telegrambots.github.io/book/migrate/Version-21.x.html
 
 We keep this library updated to the latest version of Telegram Bot API.  
 See the [latest changes to Bot API here](https://core.telegram.org/bots/api#recent-changes)

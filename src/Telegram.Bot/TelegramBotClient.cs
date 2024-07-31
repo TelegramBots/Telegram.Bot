@@ -39,6 +39,10 @@ public class TelegramBotClient : ITelegramBotClient
     internal string BaseFileUrl => _options.BaseFileUrl;
     #endregion
 
+#pragma warning disable CS1591
+    public delegate Task OnUpdateHandler(Update update);
+    public delegate Task OnMessageHandler(Message message, UpdateType type);
+    public delegate Task OnErrorHandler(Exception exception, Polling.HandleErrorSource source);
     OnUpdateHandler? _onUpdate;
     OnMessageHandler? _onMessage;
     CancellationTokenSource? _receivingEvents;
@@ -48,6 +52,7 @@ public class TelegramBotClient : ITelegramBotClient
     public event OnMessageHandler? OnMessage { add { _onMessage += value; StartEventReceiving(); } remove { _onMessage -= value; StopEventReceiving(); } }
     /// <summary>Handler to be called when there was a polling error or an exception in your handlers</summary>
     public event OnErrorHandler? OnError;
+#pragma warning restore CS1591
 
     /// <summary>
     /// Global cancellation token
@@ -358,7 +363,7 @@ public class TelegramBotClient : ITelegramBotClient
         {
             var task = OnError?.Invoke(ex, source);
             if (task != null) await task.ConfigureAwait(true);
-            else System.Diagnostics.Debug.WriteLine(ex); // fallback logging if OnError is unset
+            else System.Diagnostics.Trace.WriteLine(ex); // fallback logging if OnError is unset
         }, new() { AllowedUpdates = Update.AllTypes }, _receivingEvents.Token);
     }
 
