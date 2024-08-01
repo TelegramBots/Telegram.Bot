@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>The type of <see cref="Message"/></summary>
 [JsonConverter(typeof(MessageTypeConverter))]
@@ -118,17 +118,17 @@ public enum MessageType
     RefundedPayment,
 
 #pragma warning disable CS1591
-    WebsiteConnected = ConnectedWebsite,
-    ChatMembersAdded = NewChatMembers,
-    ChatMemberLeft = LeftChatMember,
-    ChatTitleChanged = NewChatTitle,
-    ChatPhotoChanged = NewChatPhoto,
-    MessagePinned = PinnedMessage,
-    ChatPhotoDeleted = DeleteChatPhoto,
-    GroupCreated = GroupChatCreated,
-    SupergroupCreated = SupergroupChatCreated,
-    ChannelCreated = ChannelChatCreated,
-    MigratedToSupergroup = MigrateFromChatId,
-    MigratedFromGroup = MigrateToChatId,
+    [Obsolete("Use MessageType.ConnectedWebsite instead")] WebsiteConnected = ConnectedWebsite,
+    [Obsolete("Use MessageType.NewChatMembers instead")] ChatMembersAdded = NewChatMembers,
+    [Obsolete("Use MessageType.LeftChatMember instead")] ChatMemberLeft = LeftChatMember,
+    [Obsolete("Use MessageType.NewChatTitle instead")] ChatTitleChanged = NewChatTitle,
+    [Obsolete("Use MessageType.NewChatPhoto instead")] ChatPhotoChanged = NewChatPhoto,
+    [Obsolete("Use MessageType.PinnedMessage instead")] MessagePinned = PinnedMessage,
+    [Obsolete("Use MessageType.DeleteChatPhoto instead")] ChatPhotoDeleted = DeleteChatPhoto,
+    [Obsolete("Use MessageType.GroupChatCreated instead")] GroupCreated = GroupChatCreated,
+    [Obsolete("Use MessageType.SupergroupChatCreated instead")] SupergroupCreated = SupergroupChatCreated,
+    [Obsolete("Use MessageType.ChannelChatCreated instead")] ChannelCreated = ChannelChatCreated,
+    [Obsolete("Use MessageType.MigrateFromChatId instead")] MigratedToSupergroup = MigrateFromChatId,
+    [Obsolete("Use MessageType.MigrateToChatId instead")] MigratedFromGroup = MigrateToChatId,
 #pragma warning restore CS1591
 }
