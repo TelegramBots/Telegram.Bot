@@ -39,19 +39,6 @@ public partial class SendPaidMediaRequest : FileRequestBase<Message>, IChatTarge
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
     public IReplyMarkup? ReplyMarkup { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendPaidMediaRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media</param>
-    /// <param name="media">A array describing the media to be sent; up to 10 items</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendPaidMediaRequest(ChatId chatId, int starCount, IEnumerable<InputPaidMedia> media) : this()
-    {
-        ChatId = chatId;
-        StarCount = starCount;
-        Media = media;
-    }
-
     /// <summary>Instantiates a new <see cref="SendPaidMediaRequest"/></summary>
     public SendPaidMediaRequest() : base("sendPaidMedia") { }
 }

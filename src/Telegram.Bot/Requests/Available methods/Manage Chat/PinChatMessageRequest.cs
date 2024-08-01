@@ -17,17 +17,6 @@ public partial class PinChatMessageRequest : RequestBase<bool>, IChatTargetable,
     /// <summary>Unique identifier of the business connection on behalf of which the message will be pinned</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="PinChatMessageRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Identifier of a message to pin</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public PinChatMessageRequest(ChatId chatId, int messageId) : this()
-    {
-        ChatId = chatId;
-        MessageId = messageId;
-    }
-
     /// <summary>Instantiates a new <see cref="PinChatMessageRequest"/></summary>
     public PinChatMessageRequest() : base("pinChatMessage") { }
 }

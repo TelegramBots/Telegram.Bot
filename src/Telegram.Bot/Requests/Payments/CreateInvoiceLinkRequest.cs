@@ -68,25 +68,6 @@ public partial class CreateInvoiceLinkRequest : RequestBase<string>
     /// <summary>Pass <see langword="true"/> if the final price depends on the shipping method. Ignored for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     public bool IsFlexible { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="CreateInvoiceLinkRequest"/></summary>
-    /// <param name="title">Product name, 1-32 characters</param>
-    /// <param name="description">Product description, 1-255 characters</param>
-    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
-    /// <param name="providerToken">Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>. Pass an empty string for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
-    /// <param name="currency">Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
-    /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public CreateInvoiceLinkRequest(string title, string description, string payload, string? providerToken, string currency, IEnumerable<LabeledPrice> prices) : this()
-    {
-        Title = title;
-        Description = description;
-        Payload = payload;
-        ProviderToken = providerToken;
-        Currency = currency;
-        Prices = prices;
-    }
-
     /// <summary>Instantiates a new <see cref="CreateInvoiceLinkRequest"/></summary>
     public CreateInvoiceLinkRequest() : base("createInvoiceLink") { }
 }

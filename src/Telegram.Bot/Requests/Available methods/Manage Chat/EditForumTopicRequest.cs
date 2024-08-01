@@ -17,17 +17,6 @@ public partial class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <summary>New unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickersAsync">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept</summary>
     public string? IconCustomEmojiId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditForumTopicRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
-    /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditForumTopicRequest(ChatId chatId, int messageThreadId) : this()
-    {
-        ChatId = chatId;
-        MessageThreadId = messageThreadId;
-    }
-
     /// <summary>Instantiates a new <see cref="EditForumTopicRequest"/></summary>
     public EditForumTopicRequest() : base("editForumTopic") { }
 }

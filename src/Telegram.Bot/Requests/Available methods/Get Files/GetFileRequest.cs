@@ -7,12 +7,6 @@ public partial class GetFileRequest : RequestBase<File>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FileId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="GetFileRequest"/></summary>
-    /// <param name="fileId">File identifier to get information about</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public GetFileRequest(string fileId) : this() => FileId = fileId;
-
     /// <summary>Instantiates a new <see cref="GetFileRequest"/></summary>
     public GetFileRequest() : base("getFile") { }
 }

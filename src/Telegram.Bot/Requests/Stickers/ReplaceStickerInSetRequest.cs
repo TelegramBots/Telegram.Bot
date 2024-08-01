@@ -19,21 +19,6 @@ public partial class ReplaceStickerInSetRequest : FileRequestBase<bool>, IUserTa
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputSticker Sticker { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="ReplaceStickerInSetRequest"/></summary>
-    /// <param name="userId">User identifier of the sticker set owner</param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="oldSticker">File identifier of the replaced sticker</param>
-    /// <param name="sticker">An object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set remains unchanged.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public ReplaceStickerInSetRequest(long userId, string name, string oldSticker, InputSticker sticker) : this()
-    {
-        UserId = userId;
-        Name = name;
-        OldSticker = oldSticker;
-        Sticker = sticker;
-    }
-
     /// <summary>Instantiates a new <see cref="ReplaceStickerInSetRequest"/></summary>
     public ReplaceStickerInSetRequest() : base("replaceStickerInSet") { }
 

@@ -13,12 +13,6 @@ public partial class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos
     /// <summary>Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.</summary>
     public int? Limit { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="GetUserProfilePhotosRequest"/></summary>
-    /// <param name="userId">Unique identifier of the target user</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public GetUserProfilePhotosRequest(long userId) : this() => UserId = userId;
-
     /// <summary>Instantiates a new <see cref="GetUserProfilePhotosRequest"/></summary>
     public GetUserProfilePhotosRequest() : base("getUserProfilePhotos") { }
 }

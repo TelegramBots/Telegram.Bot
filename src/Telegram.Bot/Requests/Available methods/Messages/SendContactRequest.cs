@@ -42,19 +42,6 @@ public partial class SendContactRequest : RequestBase<Message>, IChatTargetable,
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendContactRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="phoneNumber">Contact's phone number</param>
-    /// <param name="firstName">Contact's first name</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendContactRequest(ChatId chatId, string phoneNumber, string firstName) : this()
-    {
-        ChatId = chatId;
-        PhoneNumber = phoneNumber;
-        FirstName = firstName;
-    }
-
     /// <summary>Instantiates a new <see cref="SendContactRequest"/></summary>
     public SendContactRequest() : base("sendContact") { }
 }

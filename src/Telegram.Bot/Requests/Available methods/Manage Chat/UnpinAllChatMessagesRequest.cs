@@ -7,12 +7,6 @@ public partial class UnpinAllChatMessagesRequest : RequestBase<bool>, IChatTarge
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="UnpinAllChatMessagesRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public UnpinAllChatMessagesRequest(ChatId chatId) : this() => ChatId = chatId;
-
     /// <summary>Instantiates a new <see cref="UnpinAllChatMessagesRequest"/></summary>
     public UnpinAllChatMessagesRequest() : base("unpinAllChatMessages") { }
 }

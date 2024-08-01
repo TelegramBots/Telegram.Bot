@@ -33,19 +33,6 @@ public partial class EditInlineMessageLiveLocationRequest : RequestBase<bool>, I
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditInlineMessageLiveLocationRequest"/></summary>
-    /// <param name="inlineMessageId">Identifier of the inline message</param>
-    /// <param name="latitude">Latitude of new location</param>
-    /// <param name="longitude">Longitude of new location</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditInlineMessageLiveLocationRequest(string inlineMessageId, double latitude, double longitude) : this()
-    {
-        InlineMessageId = inlineMessageId;
-        Latitude = latitude;
-        Longitude = longitude;
-    }
-
     /// <summary>Instantiates a new <see cref="EditInlineMessageLiveLocationRequest"/></summary>
     public EditInlineMessageLiveLocationRequest() : base("editMessageLiveLocation") { }
 }

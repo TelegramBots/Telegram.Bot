@@ -13,12 +13,6 @@ public partial class SetMyCommandsRequest : RequestBase<bool>
     /// <summary>A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands</summary>
     public string? LanguageCode { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetMyCommandsRequest"/></summary>
-    /// <param name="commands">A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetMyCommandsRequest(IEnumerable<BotCommand> commands) : this() => Commands = commands;
-
     /// <summary>Instantiates a new <see cref="SetMyCommandsRequest"/></summary>
     public SetMyCommandsRequest() : base("setMyCommands") { }
 }

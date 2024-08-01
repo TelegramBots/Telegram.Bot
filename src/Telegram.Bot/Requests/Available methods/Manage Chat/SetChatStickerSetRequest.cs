@@ -11,17 +11,6 @@ public partial class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetab
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string StickerSetName { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetChatStickerSetRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
-    /// <param name="stickerSetName">Name of the sticker set to be set as the group sticker set</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetChatStickerSetRequest(ChatId chatId, string stickerSetName) : this()
-    {
-        ChatId = chatId;
-        StickerSetName = stickerSetName;
-    }
-
     /// <summary>Instantiates a new <see cref="SetChatStickerSetRequest"/></summary>
     public SetChatStickerSetRequest() : base("setChatStickerSet") { }
 }

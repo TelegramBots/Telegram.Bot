@@ -13,12 +13,6 @@ public partial class StopInlineMessageLiveLocationRequest : RequestBase<bool>, I
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="StopInlineMessageLiveLocationRequest"/></summary>
-    /// <param name="inlineMessageId">Identifier of the inline message</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public StopInlineMessageLiveLocationRequest(string inlineMessageId) : this() => InlineMessageId = inlineMessageId;
-
     /// <summary>Instantiates a new <see cref="StopInlineMessageLiveLocationRequest"/></summary>
     public StopInlineMessageLiveLocationRequest() : base("stopMessageLiveLocation") { }
 }

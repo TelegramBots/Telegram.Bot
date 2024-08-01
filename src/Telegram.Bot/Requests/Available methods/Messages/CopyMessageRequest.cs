@@ -42,19 +42,6 @@ public partial class CopyMessageRequest : RequestBase<MessageId>, IChatTargetabl
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
     public IReplyMarkup? ReplyMarkup { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="CopyMessageRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Message identifier in the chat specified in <see cref="FromChatId">FromChatId</see></param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId) : this()
-    {
-        ChatId = chatId;
-        FromChatId = fromChatId;
-        MessageId = messageId;
-    }
-
     /// <summary>Instantiates a new <see cref="CopyMessageRequest"/></summary>
     public CopyMessageRequest() : base("copyMessage") { }
 }

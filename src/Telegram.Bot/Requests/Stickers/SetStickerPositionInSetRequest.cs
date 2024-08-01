@@ -11,17 +11,6 @@ public partial class SetStickerPositionInSetRequest : RequestBase<bool>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int Position { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetStickerPositionInSetRequest"/></summary>
-    /// <param name="sticker">File identifier of the sticker</param>
-    /// <param name="position">New sticker position in the set, zero-based</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetStickerPositionInSetRequest(InputFileId sticker, int position) : this()
-    {
-        Sticker = sticker;
-        Position = position;
-    }
-
     /// <summary>Instantiates a new <see cref="SetStickerPositionInSetRequest"/></summary>
     public SetStickerPositionInSetRequest() : base("setStickerPositionInSet") { }
 }

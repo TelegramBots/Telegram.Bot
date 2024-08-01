@@ -20,12 +20,6 @@ public partial class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, 
     /// <summary><see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <see cref="MemberLimit">MemberLimit</see> can't be specified</summary>
     public bool CreatesJoinRequest { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="CreateChatInviteLinkRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public CreateChatInviteLinkRequest(ChatId chatId) : this() => ChatId = chatId;
-
     /// <summary>Instantiates a new <see cref="CreateChatInviteLinkRequest"/></summary>
     public CreateChatInviteLinkRequest() : base("createChatInviteLink") { }
 }

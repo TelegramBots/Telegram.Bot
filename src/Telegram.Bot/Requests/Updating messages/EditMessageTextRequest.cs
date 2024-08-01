@@ -30,19 +30,6 @@ public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargeta
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditMessageTextRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Identifier of the message to edit</param>
-    /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditMessageTextRequest(ChatId chatId, int messageId, string text) : this()
-    {
-        ChatId = chatId;
-        MessageId = messageId;
-        Text = text;
-    }
-
     /// <summary>Instantiates a new <see cref="EditMessageTextRequest"/></summary>
     public EditMessageTextRequest() : base("editMessageText") { }
 }

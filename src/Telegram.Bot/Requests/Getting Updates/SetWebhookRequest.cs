@@ -26,12 +26,6 @@ public partial class SetWebhookRequest : FileRequestBase<bool>
     /// <summary>A secret token to be sent in a header “X-Telegram-Bot-Api-Secret-Token” in every webhook request, 1-256 characters. Only characters <c>A-Z</c>, <c>a-z</c>, <c>0-9</c>, <c>_</c> and <c>-</c> are allowed. The header is useful to ensure that the request comes from a webhook set by you.</summary>
     public string? SecretToken { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetWebhookRequest"/></summary>
-    /// <param name="url">HTTPS URL to send updates to. Use an empty string to remove webhook integration</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetWebhookRequest(string url) : this() => Url = url;
-
     /// <summary>Instantiates a new <see cref="SetWebhookRequest"/></summary>
     public SetWebhookRequest() : base("setWebhook") { }
 

@@ -11,17 +11,6 @@ public partial class SetStickerEmojiListRequest : RequestBase<bool>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<string> EmojiList { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetStickerEmojiListRequest"/></summary>
-    /// <param name="sticker">File identifier of the sticker</param>
-    /// <param name="emojiList">A list of 1-20 emoji associated with the sticker</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList) : this()
-    {
-        Sticker = sticker;
-        EmojiList = emojiList;
-    }
-
     /// <summary>Instantiates a new <see cref="SetStickerEmojiListRequest"/></summary>
     public SetStickerEmojiListRequest() : base("setStickerEmojiList") { }
 }

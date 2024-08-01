@@ -11,17 +11,6 @@ public partial class EditGeneralForumTopicRequest : RequestBase<bool>, IChatTarg
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditGeneralForumTopicRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
-    /// <param name="name">New topic name, 1-128 characters</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditGeneralForumTopicRequest(ChatId chatId, string name) : this()
-    {
-        ChatId = chatId;
-        Name = name;
-    }
-
     /// <summary>Instantiates a new <see cref="EditGeneralForumTopicRequest"/></summary>
     public EditGeneralForumTopicRequest() : base("editGeneralForumTopic") { }
 }

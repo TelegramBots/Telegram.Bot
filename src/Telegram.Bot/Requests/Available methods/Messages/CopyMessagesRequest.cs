@@ -27,19 +27,6 @@ public partial class CopyMessagesRequest : RequestBase<MessageId[]>, IChatTarget
     /// <summary>Pass <see langword="true"/> to copy the messages without their captions</summary>
     public bool RemoveCaption { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="CopyMessagesRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or channel username in the format <c>@channelusername</c>)</param>
-    /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to copy. The identifiers must be specified in a strictly increasing order.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public CopyMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds) : this()
-    {
-        ChatId = chatId;
-        FromChatId = fromChatId;
-        MessageIds = messageIds;
-    }
-
     /// <summary>Instantiates a new <see cref="CopyMessagesRequest"/></summary>
     public CopyMessagesRequest() : base("copyMessages") { }
 }

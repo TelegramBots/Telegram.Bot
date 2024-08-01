@@ -32,17 +32,6 @@ public partial class SendGameRequest : RequestBase<Message>, IChatTargetable, IB
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendGameRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat</param>
-    /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game. Set up your games via <a href="https://t.me/botfather">@BotFather</a>.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendGameRequest(long chatId, string gameShortName) : this()
-    {
-        ChatId = chatId;
-        GameShortName = gameShortName;
-    }
-
     /// <summary>Instantiates a new <see cref="SendGameRequest"/></summary>
     public SendGameRequest() : base("sendGame") { }
 

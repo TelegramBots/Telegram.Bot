@@ -8,12 +8,6 @@ public partial class ExportChatInviteLinkRequest : RequestBase<string>, IChatTar
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="ExportChatInviteLinkRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public ExportChatInviteLinkRequest(ChatId chatId) : this() => ChatId = chatId;
-
     /// <summary>Instantiates a new <see cref="ExportChatInviteLinkRequest"/></summary>
     public ExportChatInviteLinkRequest() : base("exportChatInviteLink") { }
 }

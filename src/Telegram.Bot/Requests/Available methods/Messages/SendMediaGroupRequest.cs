@@ -29,17 +29,6 @@ public partial class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTa
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendMediaGroupRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="media">A array describing messages to be sent, must include 2-10 items</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media) : this()
-    {
-        ChatId = chatId;
-        Media = media;
-    }
-
     /// <summary>Instantiates a new <see cref="SendMediaGroupRequest"/></summary>
     public SendMediaGroupRequest() : base("sendMediaGroup") { }
 }

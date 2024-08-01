@@ -20,12 +20,6 @@ public partial class AnswerCallbackQueryRequest : RequestBase<bool>
     /// <summary>The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.</summary>
     public int? CacheTime { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="AnswerCallbackQueryRequest"/></summary>
-    /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public AnswerCallbackQueryRequest(string callbackQueryId) : this() => CallbackQueryId = callbackQueryId;
-
     /// <summary>Instantiates a new <see cref="AnswerCallbackQueryRequest"/></summary>
     public AnswerCallbackQueryRequest() : base("answerCallbackQuery") { }
 }

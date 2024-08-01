@@ -17,17 +17,6 @@ public partial class EditInlineMessageMediaRequest : FileRequestBase<bool>, IBus
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditInlineMessageMediaRequest"/></summary>
-    /// <param name="inlineMessageId">Identifier of the inline message</param>
-    /// <param name="media">An object for a new media content of the message</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditInlineMessageMediaRequest(string inlineMessageId, InputMedia media) : this()
-    {
-        InlineMessageId = inlineMessageId;
-        Media = media;
-    }
-
     /// <summary>Instantiates a new <see cref="EditInlineMessageMediaRequest"/></summary>
     public EditInlineMessageMediaRequest() : base("editMessageMedia") { }
 }

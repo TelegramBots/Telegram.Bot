@@ -15,19 +15,6 @@ public partial class AddStickerToSetRequest : FileRequestBase<bool>, IUserTarget
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputSticker Sticker { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="AddStickerToSetRequest"/></summary>
-    /// <param name="userId">User identifier of sticker set owner</param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="sticker">An object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set isn't changed.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public AddStickerToSetRequest(long userId, string name, InputSticker sticker) : this()
-    {
-        UserId = userId;
-        Name = name;
-        Sticker = sticker;
-    }
-
     /// <summary>Instantiates a new <see cref="AddStickerToSetRequest"/></summary>
     public AddStickerToSetRequest() : base("addStickerToSet") { }
 

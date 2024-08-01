@@ -22,19 +22,6 @@ public partial class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargeta
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
     public bool DisableEditMessage { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetInlineGameScoreRequest"/></summary>
-    /// <param name="userId">User identifier</param>
-    /// <param name="score">New score, must be non-negative</param>
-    /// <param name="inlineMessageId">Identifier of the inline message</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetInlineGameScoreRequest(long userId, int score, string inlineMessageId) : this()
-    {
-        UserId = userId;
-        Score = score;
-        InlineMessageId = inlineMessageId;
-    }
-
     /// <summary>Instantiates a new <see cref="SetInlineGameScoreRequest"/></summary>
     public SetInlineGameScoreRequest() : base("setGameScore") { }
 }

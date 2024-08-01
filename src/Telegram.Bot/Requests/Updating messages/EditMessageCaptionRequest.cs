@@ -29,17 +29,6 @@ public partial class EditMessageCaptionRequest : RequestBase<Message>, IChatTarg
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditMessageCaptionRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Identifier of the message to edit</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditMessageCaptionRequest(ChatId chatId, int messageId) : this()
-    {
-        ChatId = chatId;
-        MessageId = messageId;
-    }
-
     /// <summary>Instantiates a new <see cref="EditMessageCaptionRequest"/></summary>
     public EditMessageCaptionRequest() : base("editMessageCaption") { }
 }

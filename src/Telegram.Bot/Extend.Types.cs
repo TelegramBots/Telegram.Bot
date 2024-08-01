@@ -147,14 +147,6 @@ namespace Telegram.Bot.Types
         public static BotCommandScopeChatMember ChatMember(ChatId chatId, long userId) => new() { ChatId = chatId, UserId = userId };
     }
 
-    public partial class CallbackQuery
-    {
-        /// <summary>Indicates if the User requests a Game</summary>
-        [JsonIgnore]
-        [Obsolete("Use GameShortName != null")]
-        public bool IsGameQuery => GameShortName != default;
-    }
-
     namespace ReplyMarkups
     {
         public partial class ReplyKeyboardMarkup

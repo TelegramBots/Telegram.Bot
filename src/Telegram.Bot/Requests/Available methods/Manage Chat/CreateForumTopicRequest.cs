@@ -17,17 +17,6 @@ public partial class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTar
     /// <summary>Unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickersAsync">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers.</summary>
     public string? IconCustomEmojiId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="CreateForumTopicRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
-    /// <param name="name">Topic name, 1-128 characters</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public CreateForumTopicRequest(ChatId chatId, string name) : this()
-    {
-        ChatId = chatId;
-        Name = name;
-    }
-
     /// <summary>Instantiates a new <see cref="CreateForumTopicRequest"/></summary>
     public CreateForumTopicRequest() : base("createForumTopic") { }
 }

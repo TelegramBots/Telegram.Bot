@@ -11,17 +11,6 @@ public partial class GetUserChatBoostsRequest : RequestBase<UserChatBoosts>, ICh
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="GetUserChatBoostsRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public GetUserChatBoostsRequest(ChatId chatId, long userId) : this()
-    {
-        ChatId = chatId;
-        UserId = userId;
-    }
-
     /// <summary>Instantiates a new <see cref="GetUserChatBoostsRequest"/></summary>
     public GetUserChatBoostsRequest() : base("getUserChatBoosts") { }
 }

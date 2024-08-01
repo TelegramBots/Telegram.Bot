@@ -18,17 +18,6 @@ public partial class SendChatActionRequest : RequestBase<bool>, IChatTargetable,
     /// <summary>Unique identifier of the business connection on behalf of which the action will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendChatActionRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="action">Type of action to broadcast. Choose one, depending on what the user is about to receive: <em>typing</em> for <a href="https://core.telegram.org/bots/api#sendmessage">text messages</a>, <em>UploadPhoto</em> for <see cref="TelegramBotClientExtensions.SendPhotoAsync">photos</see>, <em>RecordVideo</em> or <em>UploadVideo</em> for <see cref="TelegramBotClientExtensions.SendVideoAsync">videos</see>, <em>RecordVoice</em> or <em>UploadVoice</em> for <see cref="TelegramBotClientExtensions.SendVoiceAsync">voice notes</see>, <em>UploadDocument</em> for <see cref="TelegramBotClientExtensions.SendDocumentAsync">general files</see>, <em>ChooseSticker</em> for <see cref="TelegramBotClientExtensions.SendStickerAsync">stickers</see>, <em>FindLocation</em> for <see cref="TelegramBotClientExtensions.SendLocationAsync">location data</see>, <em>RecordVideoNote</em> or <em>UploadVideoNote</em> for <see cref="TelegramBotClientExtensions.SendVideoNoteAsync">video notes</see>.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendChatActionRequest(ChatId chatId, ChatAction action) : this()
-    {
-        ChatId = chatId;
-        Action = action;
-    }
-
     /// <summary>Instantiates a new <see cref="SendChatActionRequest"/></summary>
     public SendChatActionRequest() : base("sendChatAction") { }
 }

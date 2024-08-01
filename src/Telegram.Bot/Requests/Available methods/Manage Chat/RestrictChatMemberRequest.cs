@@ -22,19 +22,6 @@ public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargeta
     [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="RestrictChatMemberRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="permissions">An object for new user permissions</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions) : this()
-    {
-        ChatId = chatId;
-        UserId = userId;
-        Permissions = permissions;
-    }
-
     /// <summary>Instantiates a new <see cref="RestrictChatMemberRequest"/></summary>
     public RestrictChatMemberRequest() : base("restrictChatMember") { }
 }

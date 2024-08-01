@@ -56,23 +56,6 @@ public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, I
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendVenueRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="latitude">Latitude of the venue</param>
-    /// <param name="longitude">Longitude of the venue</param>
-    /// <param name="title">Name of the venue</param>
-    /// <param name="address">Address of the venue</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendVenueRequest(ChatId chatId, double latitude, double longitude, string title, string address) : this()
-    {
-        ChatId = chatId;
-        Latitude = latitude;
-        Longitude = longitude;
-        Title = title;
-        Address = address;
-    }
-
     /// <summary>Instantiates a new <see cref="SendVenueRequest"/></summary>
     public SendVenueRequest() : base("sendVenue") { }
 }

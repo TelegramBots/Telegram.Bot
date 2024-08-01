@@ -7,12 +7,6 @@ public partial class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="UnpinAllGeneralForumTopicMessagesRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public UnpinAllGeneralForumTopicMessagesRequest(ChatId chatId) : this() => ChatId = chatId;
-
     /// <summary>Instantiates a new <see cref="UnpinAllGeneralForumTopicMessagesRequest"/></summary>
     public UnpinAllGeneralForumTopicMessagesRequest() : base("unpinAllGeneralForumTopicMessages") { }
 }

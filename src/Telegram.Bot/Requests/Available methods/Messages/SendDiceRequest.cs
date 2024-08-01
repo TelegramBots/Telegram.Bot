@@ -31,12 +31,6 @@ public partial class SendDiceRequest : RequestBase<Message>, IChatTargetable, IB
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendDiceRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendDiceRequest(ChatId chatId) : this() => ChatId = chatId;
-
     /// <summary>Instantiates a new <see cref="SendDiceRequest"/></summary>
     public SendDiceRequest() : base("sendDice") { }
 }

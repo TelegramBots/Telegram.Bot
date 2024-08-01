@@ -13,12 +13,6 @@ public partial class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetabl
     /// <summary>Unique identifier of the business connection on behalf of which the message will be unpinned</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="UnpinChatMessageRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public UnpinChatMessageRequest(ChatId chatId) : this() => ChatId = chatId;
-
     /// <summary>Instantiates a new <see cref="UnpinChatMessageRequest"/></summary>
     public UnpinChatMessageRequest() : base("unpinChatMessage") { }
 }

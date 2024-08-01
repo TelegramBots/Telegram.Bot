@@ -11,17 +11,6 @@ public partial class DeleteMessageRequest : RequestBase<bool>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="DeleteMessageRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Identifier of the message to delete</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public DeleteMessageRequest(ChatId chatId, int messageId) : this()
-    {
-        ChatId = chatId;
-        MessageId = messageId;
-    }
-
     /// <summary>Instantiates a new <see cref="DeleteMessageRequest"/></summary>
     public DeleteMessageRequest() : base("deleteMessage") { }
 }

@@ -11,17 +11,6 @@ public partial class SetPassportDataErrorsRequest : RequestBase<bool>, IUserTarg
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<PassportElementError> Errors { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetPassportDataErrorsRequest"/></summary>
-    /// <param name="userId">User identifier</param>
-    /// <param name="errors">A array describing the errors</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetPassportDataErrorsRequest(long userId, IEnumerable<PassportElementError> errors) : this()
-    {
-        UserId = userId;
-        Errors = errors;
-    }
-
     /// <summary>Instantiates a new <see cref="SetPassportDataErrorsRequest"/></summary>
     public SetPassportDataErrorsRequest() : base("setPassportDataErrors") { }
 }
