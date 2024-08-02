@@ -116,74 +116,44 @@ public class TelegramBotClient : ITelegramBotClient
 
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
-
-//#pragma warning disable CA2000
-        var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
+        using var httpContent = request.ToHttpContent();
+        for (int attempt = 1; ; attempt++)
         {
-            Content = request.ToHttpContent(),
-        };
-//#pragma warning restore CA2000
+            var httpRequest = new HttpRequestMessage(request.Method, url) { Content = httpContent };
+            ApiRequestEventArgs? requestEventArgs = null;
+            if (OnMakingApiRequest is not null)
+            {
+                requestEventArgs ??= new(request, httpRequest);
+                await OnMakingApiRequest.Invoke(this, requestEventArgs, cts.Token).ConfigureAwait(false);
+            }
 
-        if (OnMakingApiRequest is not null)
-        {
-            var requestEventArgs = new ApiRequestEventArgs(
-                request: request,
-                httpRequestMessage: httpRequest
-            );
-            await OnMakingApiRequest.Invoke(
-                botClient: this,
-                args: requestEventArgs,
-                cancellationToken: cts.Token
-            ).ConfigureAwait(false);
+            using var httpResponse = await SendRequestAsync(_httpClient, httpRequest, cts.Token).ConfigureAwait(false);
+
+            if (OnApiResponseReceived is not null)
+            {
+                requestEventArgs ??= new(request, httpRequest);
+                ApiResponseEventArgs responseEventArgs = new(httpResponse, requestEventArgs);
+                await OnApiResponseReceived.Invoke(this, responseEventArgs, cts.Token).ConfigureAwait(false);
+            }
+
+            if (httpResponse.StatusCode != HttpStatusCode.OK)
+            {
+                var failedApiResponse = await httpResponse.DeserializeContentAsync<ApiResponse>(
+                    response => response.ErrorCode == default || response.Description is null, cts.Token).ConfigureAwait(false);
+
+                if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
+                    failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold)
+                {
+                    await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cancellationToken).ConfigureAwait(false);
+                    continue; // retry attempt
+                }
+                throw ExceptionsParser.Parse(failedApiResponse);
+            }
+
+            var apiResponse = await httpResponse.DeserializeContentAsync<ApiResponse<TResponse>>(
+                    response => !response.Ok || response.Result is null, cts.Token).ConfigureAwait(false);
+            return apiResponse.Result!;
         }
-
-        using var httpResponse = await SendRequestAsync(
-            httpClient: _httpClient,
-            httpRequest: httpRequest,
-            cancellationToken: cts.Token
-        ).ConfigureAwait(false);
-
-        if (OnApiResponseReceived is not null)
-        {
-            var requestEventArgs = new ApiRequestEventArgs(
-                request: request,
-                httpRequestMessage: httpRequest
-            );
-            var responseEventArgs = new ApiResponseEventArgs(
-                responseMessage: httpResponse,
-                apiRequestEventArgs: requestEventArgs
-            );
-            await OnApiResponseReceived.Invoke(
-                botClient: this,
-                args: responseEventArgs,
-                cancellationToken: cts.Token
-            ).ConfigureAwait(false);
-        }
-
-        if (httpResponse.StatusCode != HttpStatusCode.OK)
-        {
-            var failedApiResponse = await httpResponse
-                .DeserializeContentAsync<ApiResponse>(
-                    guard: response =>
-                        response.ErrorCode == default ||
-                        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                        response.Description is null,
-                    cts.Token
-                )
-                .ConfigureAwait(false);
-
-            throw ExceptionsParser.Parse(failedApiResponse);
-        }
-
-        var apiResponse = await httpResponse
-            .DeserializeContentAsync<ApiResponse<TResponse>>(
-                guard: response => !response.Ok ||
-                                   response.Result is null,
-                cts.Token
-            )
-            .ConfigureAwait(false);
-
-        return apiResponse.Result!;
 
         [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
         static async Task<HttpResponseMessage> SendRequestAsync(
@@ -261,15 +231,8 @@ public class TelegramBotClient : ITelegramBotClient
 
         if (!httpResponse.IsSuccessStatusCode)
         {
-            var failedApiResponse = await httpResponse
-                .DeserializeContentAsync<ApiResponse>(
-                    guard: response =>
-                        response.ErrorCode == default ||
-                        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                        response.Description is null,
-                    cts.Token
-                )
-                .ConfigureAwait(false);
+            var failedApiResponse = await httpResponse.DeserializeContentAsync<ApiResponse>(
+                    response => response.ErrorCode == default || response.Description is null, cts.Token).ConfigureAwait(false);
 
             throw ExceptionsParser.Parse(failedApiResponse);
         }
