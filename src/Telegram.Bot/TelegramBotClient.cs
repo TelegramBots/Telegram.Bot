@@ -144,7 +144,7 @@ public class TelegramBotClient : ITelegramBotClient
                 if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
                     failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold)
                 {
-                    await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cancellationToken).ConfigureAwait(false);
+                    await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cts.Token).ConfigureAwait(false);
                     continue; // retry attempt
                 }
                 throw ExceptionsParser.Parse(failedApiResponse);
