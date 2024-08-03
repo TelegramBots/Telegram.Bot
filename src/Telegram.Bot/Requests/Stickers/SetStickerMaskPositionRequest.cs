@@ -10,12 +10,6 @@ public partial class SetStickerMaskPositionRequest : RequestBase<bool>
     /// <summary>An object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.</summary>
     public MaskPosition? MaskPosition { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetStickerMaskPositionRequest"/></summary>
-    /// <param name="sticker">File identifier of the sticker</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetStickerMaskPositionRequest(InputFileId sticker) : this() => Sticker = sticker;
-
     /// <summary>Instantiates a new <see cref="SetStickerMaskPositionRequest"/></summary>
     public SetStickerMaskPositionRequest() : base("setStickerMaskPosition") { }
 }

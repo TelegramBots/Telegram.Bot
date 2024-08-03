@@ -4,6 +4,7 @@ namespace Telegram.Bot.Serialization;
 public static class JsonSerializerOptionsProvider
 {
     /// <summary>JsonSerializerOptions configured for Telegram.Bot serialization</summary>
+    [Obsolete("Use JsonBotAPI.Options")]
     public static JsonSerializerOptions Options => JsonBotAPI.Options;
 
     /// <summary>Configure JsonSerializerOptions for Telegram.Bot serialization</summary>

@@ -56,17 +56,6 @@ public partial class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetab
     /// <summary>Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</summary>
     public bool CanManageTopics { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="PromoteChatMemberRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public PromoteChatMemberRequest(ChatId chatId, long userId) : this()
-    {
-        ChatId = chatId;
-        UserId = userId;
-    }
-
     /// <summary>Instantiates a new <see cref="PromoteChatMemberRequest"/></summary>
     public PromoteChatMemberRequest() : base("promoteChatMember") { }
 }

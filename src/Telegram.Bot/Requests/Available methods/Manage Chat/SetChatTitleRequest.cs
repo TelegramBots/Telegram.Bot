@@ -11,17 +11,6 @@ public partial class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetChatTitleRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="title">New chat title, 1-128 characters</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetChatTitleRequest(ChatId chatId, string title) : this()
-    {
-        ChatId = chatId;
-        Title = title;
-    }
-
     /// <summary>Instantiates a new <see cref="SetChatTitleRequest"/></summary>
     public SetChatTitleRequest() : base("setChatTitle") { }
 }

@@ -11,17 +11,6 @@ public partial class DeclineChatJoinRequest : RequestBase<bool>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="DeclineChatJoinRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public DeclineChatJoinRequest(ChatId chatId, long userId) : this()
-    {
-        ChatId = chatId;
-        UserId = userId;
-    }
-
     /// <summary>Instantiates a new <see cref="DeclineChatJoinRequest"/></summary>
     public DeclineChatJoinRequest() : base("declineChatJoinRequest") { }
 }

@@ -12,17 +12,6 @@ public partial class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="GetInlineGameHighScoresRequest"/></summary>
-    /// <param name="userId">Target user id</param>
-    /// <param name="inlineMessageId">Identifier of the inline message</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public GetInlineGameHighScoresRequest(long userId, string inlineMessageId) : this()
-    {
-        UserId = userId;
-        InlineMessageId = inlineMessageId;
-    }
-
     /// <summary>Instantiates a new <see cref="GetInlineGameHighScoresRequest"/></summary>
     public GetInlineGameHighScoresRequest() : base("getGameHighScores") { }
 }

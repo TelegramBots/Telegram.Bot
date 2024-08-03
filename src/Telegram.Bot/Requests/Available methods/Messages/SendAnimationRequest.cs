@@ -60,17 +60,6 @@ public partial class SendAnimationRequest : FileRequestBase<Message>, IChatTarge
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendAnimationRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="animation">Animation to send. Pass a FileId as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendAnimationRequest(ChatId chatId, InputFile animation) : this()
-    {
-        ChatId = chatId;
-        Animation = animation;
-    }
-
     /// <summary>Instantiates a new <see cref="SendAnimationRequest"/></summary>
     public SendAnimationRequest() : base("sendAnimation") { }
 

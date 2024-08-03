@@ -11,17 +11,6 @@ public partial class UnbanChatSenderChatRequest : RequestBase<bool>, IChatTarget
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long SenderChatId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="UnbanChatSenderChatRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="senderChatId">Unique identifier of the target sender chat</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public UnbanChatSenderChatRequest(ChatId chatId, long senderChatId) : this()
-    {
-        ChatId = chatId;
-        SenderChatId = senderChatId;
-    }
-
     /// <summary>Instantiates a new <see cref="UnbanChatSenderChatRequest"/></summary>
     public UnbanChatSenderChatRequest() : base("unbanChatSenderChat") { }
 }

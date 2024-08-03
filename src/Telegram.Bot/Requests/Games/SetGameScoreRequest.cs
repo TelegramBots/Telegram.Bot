@@ -26,21 +26,6 @@ public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
     public bool DisableEditMessage { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetGameScoreRequest"/></summary>
-    /// <param name="userId">User identifier</param>
-    /// <param name="score">New score, must be non-negative</param>
-    /// <param name="chatId">Unique identifier for the target chat</param>
-    /// <param name="messageId">Identifier of the sent message</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetGameScoreRequest(long userId, int score, long chatId, int messageId) : this()
-    {
-        UserId = userId;
-        Score = score;
-        ChatId = chatId;
-        MessageId = messageId;
-    }
-
     /// <summary>Instantiates a new <see cref="SetGameScoreRequest"/></summary>
     public SetGameScoreRequest() : base("setGameScore") { }
 

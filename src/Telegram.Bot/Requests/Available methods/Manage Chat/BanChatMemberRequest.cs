@@ -18,17 +18,6 @@ public partial class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, 
     /// <summary>Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed. If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was removed. Always <see langword="true"/> for supergroups and channels.</summary>
     public bool RevokeMessages { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="BanChatMemberRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public BanChatMemberRequest(ChatId chatId, long userId) : this()
-    {
-        ChatId = chatId;
-        UserId = userId;
-    }
-
     /// <summary>Instantiates a new <see cref="BanChatMemberRequest"/></summary>
     public BanChatMemberRequest() : base("banChatMember") { }
 }

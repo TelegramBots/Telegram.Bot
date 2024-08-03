@@ -47,17 +47,6 @@ public partial class SendPhotoRequest : FileRequestBase<Message>, IChatTargetabl
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendPhotoRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="photo">Photo to send. Pass a FileId as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using <see cref="InputFileStream"/>. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendPhotoRequest(ChatId chatId, InputFile photo) : this()
-    {
-        ChatId = chatId;
-        Photo = photo;
-    }
-
     /// <summary>Instantiates a new <see cref="SendPhotoRequest"/></summary>
     public SendPhotoRequest() : base("sendPhoto") { }
 

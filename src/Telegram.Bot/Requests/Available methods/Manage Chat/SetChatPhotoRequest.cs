@@ -11,17 +11,6 @@ public partial class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetabl
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileStream Photo { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetChatPhotoRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="photo">New chat photo, uploaded using <see cref="InputFileStream"/></param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetChatPhotoRequest(ChatId chatId, InputFileStream photo) : this()
-    {
-        ChatId = chatId;
-        Photo = photo;
-    }
-
     /// <summary>Instantiates a new <see cref="SetChatPhotoRequest"/></summary>
     public SetChatPhotoRequest() : base("setChatPhoto") { }
 

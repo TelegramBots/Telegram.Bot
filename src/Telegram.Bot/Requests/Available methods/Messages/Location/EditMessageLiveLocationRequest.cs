@@ -37,21 +37,6 @@ public partial class EditMessageLiveLocationRequest : RequestBase<Message>, ICha
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="EditMessageLiveLocationRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="messageId">Identifier of the message to edit</param>
-    /// <param name="latitude">Latitude of new location</param>
-    /// <param name="longitude">Longitude of new location</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public EditMessageLiveLocationRequest(ChatId chatId, int messageId, double latitude, double longitude) : this()
-    {
-        ChatId = chatId;
-        MessageId = messageId;
-        Latitude = latitude;
-        Longitude = longitude;
-    }
-
     /// <summary>Instantiates a new <see cref="EditMessageLiveLocationRequest"/></summary>
     public EditMessageLiveLocationRequest() : base("editMessageLiveLocation") { }
 }

@@ -41,17 +41,6 @@ public partial class SendMessageRequest : RequestBase<Message>, IChatTargetable,
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendMessageRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendMessageRequest(ChatId chatId, string text) : this()
-    {
-        ChatId = chatId;
-        Text = text;
-    }
-
     /// <summary>Instantiates a new <see cref="SendMessageRequest"/></summary>
     public SendMessageRequest() : base("sendMessage") { }
 }

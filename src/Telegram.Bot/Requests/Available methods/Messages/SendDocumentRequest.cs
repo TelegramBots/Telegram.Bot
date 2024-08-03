@@ -48,17 +48,6 @@ public partial class SendDocumentRequest : FileRequestBase<Message>, IChatTarget
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendDocumentRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="document">File to send. Pass a FileId as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendDocumentRequest(ChatId chatId, InputFile document) : this()
-    {
-        ChatId = chatId;
-        Document = document;
-    }
-
     /// <summary>Instantiates a new <see cref="SendDocumentRequest"/></summary>
     public SendDocumentRequest() : base("sendDocument") { }
 

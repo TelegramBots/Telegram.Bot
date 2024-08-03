@@ -48,19 +48,6 @@ public partial class SendLocationRequest : RequestBase<Message>, IChatTargetable
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendLocationRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="latitude">Latitude of the location</param>
-    /// <param name="longitude">Longitude of the location</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendLocationRequest(ChatId chatId, double latitude, double longitude) : this()
-    {
-        ChatId = chatId;
-        Latitude = latitude;
-        Longitude = longitude;
-    }
-
     /// <summary>Instantiates a new <see cref="SendLocationRequest"/></summary>
     public SendLocationRequest() : base("sendLocation") { }
 }

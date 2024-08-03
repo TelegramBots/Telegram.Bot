@@ -14,17 +14,6 @@ public partial class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable
     /// <summary>Do nothing if the user is not banned</summary>
     public bool OnlyIfBanned { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="UnbanChatMemberRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public UnbanChatMemberRequest(ChatId chatId, long userId) : this()
-    {
-        ChatId = chatId;
-        UserId = userId;
-    }
-
     /// <summary>Instantiates a new <see cref="UnbanChatMemberRequest"/></summary>
     public UnbanChatMemberRequest() : base("unbanChatMember") { }
 }

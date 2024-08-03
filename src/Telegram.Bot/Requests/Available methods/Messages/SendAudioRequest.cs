@@ -54,17 +54,6 @@ public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetabl
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendAudioRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="audio">Audio file to send. Pass a FileId as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendAudioRequest(ChatId chatId, InputFile audio) : this()
-    {
-        ChatId = chatId;
-        Audio = audio;
-    }
-
     /// <summary>Instantiates a new <see cref="SendAudioRequest"/></summary>
     public SendAudioRequest() : base("sendAudio") { }
 

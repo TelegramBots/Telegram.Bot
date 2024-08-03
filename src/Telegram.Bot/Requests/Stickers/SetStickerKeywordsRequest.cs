@@ -10,12 +10,6 @@ public partial class SetStickerKeywordsRequest : RequestBase<bool>
     /// <summary>A list of 0-20 search keywords for the sticker with total length of up to 64 characters</summary>
     public IEnumerable<string>? Keywords { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SetStickerKeywordsRequest"/></summary>
-    /// <param name="sticker">File identifier of the sticker</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SetStickerKeywordsRequest(InputFileId sticker) : this() => Sticker = sticker;
-
     /// <summary>Instantiates a new <see cref="SetStickerKeywordsRequest"/></summary>
     public SetStickerKeywordsRequest() : base("setStickerKeywords") { }
 }

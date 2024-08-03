@@ -73,19 +73,6 @@ public partial class SendPollRequest : RequestBase<Message>, IChatTargetable, IB
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendPollRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="question">Poll question, 1-300 characters</param>
-    /// <param name="options">A list of 2-10 answer options</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendPollRequest(ChatId chatId, string question, IEnumerable<InputPollOption> options) : this()
-    {
-        ChatId = chatId;
-        Question = question;
-        Options = options;
-    }
-
     /// <summary>Instantiates a new <see cref="SendPollRequest"/></summary>
     public SendPollRequest() : base("sendPoll") { }
 }

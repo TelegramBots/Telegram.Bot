@@ -23,17 +23,6 @@ public partial class AnswerInlineQueryRequest : RequestBase<bool>
     /// <summary>An object describing a button to be shown above inline query results</summary>
     public InlineQueryResultsButton? Button { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="AnswerInlineQueryRequest"/></summary>
-    /// <param name="inlineQueryId">Unique identifier for the answered query</param>
-    /// <param name="results">A array of results for the inline query</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResult> results) : this()
-    {
-        InlineQueryId = inlineQueryId;
-        Results = results;
-    }
-
     /// <summary>Instantiates a new <see cref="AnswerInlineQueryRequest"/></summary>
     public AnswerInlineQueryRequest() : base("answerInlineQuery") { }
 }

@@ -35,17 +35,6 @@ public partial class SendStickerRequest : FileRequestBase<Message>, IChatTargeta
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendStickerRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="sticker">Sticker to send. Pass a FileId as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Video and animated stickers can't be sent via an HTTP URL.</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendStickerRequest(ChatId chatId, InputFile sticker) : this()
-    {
-        ChatId = chatId;
-        Sticker = sticker;
-    }
-
     /// <summary>Instantiates a new <see cref="SendStickerRequest"/></summary>
     public SendStickerRequest() : base("sendSticker") { }
 

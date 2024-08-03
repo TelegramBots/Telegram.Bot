@@ -16,19 +16,6 @@ public partial class GetGameHighScoresRequest : RequestBase<GameHighScore[]>, IC
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="GetGameHighScoresRequest"/></summary>
-    /// <param name="userId">Target user id</param>
-    /// <param name="chatId">Unique identifier for the target chat</param>
-    /// <param name="messageId">Identifier of the sent message</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public GetGameHighScoresRequest(long userId, long chatId, int messageId) : this()
-    {
-        UserId = userId;
-        ChatId = chatId;
-        MessageId = messageId;
-    }
-
     /// <summary>Instantiates a new <see cref="GetGameHighScoresRequest"/></summary>
     public GetGameHighScoresRequest() : base("getGameHighScores") { }
 

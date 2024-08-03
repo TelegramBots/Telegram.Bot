@@ -7,12 +7,6 @@ public partial class GetBusinessConnectionRequest : RequestBase<BusinessConnecti
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="GetBusinessConnectionRequest"/></summary>
-    /// <param name="businessConnectionId">Unique identifier of the business connection</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public GetBusinessConnectionRequest(string businessConnectionId) : this() => BusinessConnectionId = businessConnectionId;
-
     /// <summary>Instantiates a new <see cref="GetBusinessConnectionRequest"/></summary>
     public GetBusinessConnectionRequest() : base("getBusinessConnection") { }
 }

@@ -41,17 +41,6 @@ public partial class SendVideoNoteRequest : FileRequestBase<Message>, IChatTarge
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Initializes an instance of <see cref="SendVideoNoteRequest"/></summary>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="videoNote">Video note to send. Pass a FileId as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending video notes by a URL is currently unsupported</param>
-    [Obsolete("Use parameterless constructor with required properties")]
-    [SetsRequiredMembers]
-    public SendVideoNoteRequest(ChatId chatId, InputFile videoNote) : this()
-    {
-        ChatId = chatId;
-        VideoNote = videoNote;
-    }
-
     /// <summary>Instantiates a new <see cref="SendVideoNoteRequest"/></summary>
     public SendVideoNoteRequest() : base("sendVideoNote") { }
 

@@ -19,13 +19,13 @@ public sealed class ReceiverOptions
 
     /// <summary>
     /// Indicates which <see cref="UpdateType"/>s are allowed to be received.
-    /// In case of <c>null</c> the previous setting will be used
+    /// In case of <see langword="null"/> the previous setting will be used
     /// </summary>
     public UpdateType[]? AllowedUpdates { get; set; }
 
     /// <summary>
     /// Limits the number of updates to be retrieved. Values between 1-100 are accepted.
-    /// Defaults to 100 when is set to <c>null</c>.
+    /// Defaults to 100 when is set to <see langword="null"/>.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the value doesn't satisfies constraints
@@ -46,15 +46,6 @@ public sealed class ReceiverOptions
             _limit = value;
         }
     }
-
-    /// <summary>
-    /// Indicates if all pending <see cref="Update"/>s should be thrown out before start
-    /// polling. If set to <see langword="true"/> <see cref="AllowedUpdates"/> should be set to not
-    /// <c>null</c>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
-    /// receive all <see cref="Update"/>s.
-    /// </summary>
-    [Obsolete($"This property will be removed in future updates, use {nameof(DropPendingUpdates)} instead")]
-    public bool ThrowPendingUpdates { get => DropPendingUpdates; set => DropPendingUpdates = value; }
 
     /// <summary>
     /// Indicates if all pending <see cref="Update"/>s should be thrown out before start
