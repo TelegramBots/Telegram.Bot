@@ -117,7 +117,7 @@ public class TelegramBotClient : ITelegramBotClient
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
         using var httpContent = request.ToHttpContent();
-        if (httpContent != null && _options.RetryThreshold > 0 && _options.RetryCount > 1)
+        if (httpContent != null && _options.RetryThreshold > 0 && _options.RetryCount > 1 && httpContent.Headers.ContentLength == null)
             await httpContent.LoadIntoBufferAsync().ConfigureAwait(false);
         for (int attempt = 1; ; attempt++)
         {
