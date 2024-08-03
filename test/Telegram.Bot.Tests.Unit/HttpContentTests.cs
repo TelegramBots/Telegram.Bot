@@ -11,7 +11,17 @@ namespace Telegram.Bot.Tests.Unit;
 
 public class HttpContentTests
 {
-    static readonly byte[] _gzABC = [31, 139, 8, 0, 0, 0, 0, 0, 0, 10, 115, 116, 114, 6, 0, 72, 3, 131, 163, 3, 0, 0, 0];
+    static readonly byte[] _gzABC = [31, 139, 8, 0, 0, 0, 0, 0, 0, 10, 115, 116, 114, 6, 0, 72, 3, 131, 163, 3, 0, 0, 0]; // gzipped "ABC"
+
+    [Fact]
+    public async Task RetryWithSeekableStream()
+    {
+        var httpClient = new HttpClient(new TestHandler());
+        var bot = new TelegramBotClient(new TelegramBotClientOptions("666:DEVIL") { RetryThreshold = 60, RetryCount = 3 }, httpClient);
+        using var stream = new MemoryStream([65, 66, 67]); // "ABC"
+        var ex = await Assert.ThrowsAsync<ApiRequestException>(async () => await bot.SendDocumentAsync(123, stream));
+        Assert.Equal("Too Many Requests: 3", ex.Message);
+    }
 
     [Fact]
     public async Task RetryWithNonSeekableStream()
