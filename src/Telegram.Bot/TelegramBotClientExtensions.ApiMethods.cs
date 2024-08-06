@@ -1100,7 +1100,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int messageId,
         IEnumerable<ReactionType>? reaction,
-        bool isBig,
+        bool isBig = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequestAsync(new SetMessageReactionRequest
     {
