@@ -79,7 +79,7 @@ public class TelegramBotClient : ITelegramBotClient
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="options"/> is <c>null</c>
+    /// Thrown if <paramref name="options"/> is <see langword="null"/>
     /// </exception>
     public TelegramBotClient(
         TelegramBotClientOptions options,
@@ -87,7 +87,11 @@ public class TelegramBotClient : ITelegramBotClient
         CancellationToken cancellationToken = default)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
+#if NET6_0_OR_GREATER
+        _httpClient = httpClient ?? new HttpClient(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(3) });
+#else
         _httpClient = httpClient ?? new HttpClient();
+#endif
         GlobalCancelToken = cancellationToken;
     }
 

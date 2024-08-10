@@ -4,6 +4,8 @@ using JetBrains.Annotations;
 
 namespace Telegram.Bot;
 
+#pragma warning disable MA0001 // StringComparison is missing
+
 /// <summary>
 /// This class is used to provide configuration for <see cref="TelegramBotClient"/>
 /// </summary>

@@ -15,11 +15,11 @@ internal class TestClientOptions(
     string token,
     string? baseUrl,
     bool useTestEnvironment,
-    int retryCount,
+    int retryMax,
     TimeSpan defaultTimeout)
     : TelegramBotClientOptions(token, baseUrl, useTestEnvironment)
 {
-    public int RetryCount { get; } = retryCount;
+    public int RetryMax { get; } = retryMax;
     public TimeSpan DefaultTimeout { get; } = defaultTimeout;
 };
 
@@ -40,7 +40,7 @@ internal class RetryTelegramBotClient(
 
         try
         {
-            for (var i = 0; i < options.RetryCount; i++)
+            for (var i = 0; i < options.RetryMax; i++)
             {
                 try
                 {
