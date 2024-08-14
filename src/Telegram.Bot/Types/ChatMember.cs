@@ -95,6 +95,10 @@ public partial class ChatMemberMember : ChatMember
 {
     /// <summary>The member's status in the chat, always <see cref="ChatMemberStatus.Member"/></summary>
     public override ChatMemberStatus Status => ChatMemberStatus.Member;
+
+    /// <summary><em>Optional</em>. Date when the user's subscription will expire; Unix time</summary>
+    [JsonConverter(typeof(BanTimeConverter))]
+    public DateTime? UntilDate { get; set; }
 }
 
 /// <summary>Represents a <see cref="ChatMember">chat member</see> that is under certain restrictions in the chat. Supergroups only.</summary>

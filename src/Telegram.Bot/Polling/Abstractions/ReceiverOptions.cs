@@ -50,7 +50,7 @@ public sealed class ReceiverOptions
     /// <summary>
     /// Indicates if all pending <see cref="Update"/>s should be thrown out before start
     /// polling. If set to <see langword="true"/> <see cref="AllowedUpdates"/> should be set to not
-    /// <c>null</c>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
+    /// <see langword="null"/>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
     /// receive all <see cref="Update"/>s.
     /// </summary>
     public bool DropPendingUpdates { get; set; }

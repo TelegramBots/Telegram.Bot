@@ -1,9 +1,9 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to send paid media to channel chats.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendPaidMediaRequest : FileRequestBase<Message>, IChatTargetable
+/// <summary>Use this method to send paid media.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
+public partial class SendPaidMediaRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
@@ -38,6 +38,9 @@ public partial class SendPaidMediaRequest : FileRequestBase<Message>, IChatTarge
 
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
     public IReplyMarkup? ReplyMarkup { get; set; }
+
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
+    public string? BusinessConnectionId { get; set; }
 
     /// <summary>Instantiates a new <see cref="SendPaidMediaRequest"/></summary>
     public SendPaidMediaRequest() : base("sendPaidMedia") { }

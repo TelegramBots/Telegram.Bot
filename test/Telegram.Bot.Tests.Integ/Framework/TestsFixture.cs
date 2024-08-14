@@ -173,7 +173,7 @@ public class TestsFixture : IDisposable
     {
         return new RetryTelegramBotClient(
             new(
-                retryCount: Configuration.RetryCount,
+                retryMax: Configuration.RetryCount,
                 defaultTimeout: TimeSpan.FromSeconds(Configuration.DefaultRetryTimeout),
                 token: apiToken,
                 useTestEnvironment: false,
