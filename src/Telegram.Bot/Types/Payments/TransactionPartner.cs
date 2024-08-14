@@ -25,6 +25,9 @@ public partial class TransactionPartnerUser : TransactionPartner
 
     /// <summary><em>Optional</em>. Bot-specified invoice payload</summary>
     public string? InvoicePayload { get; set; }
+
+    /// <summary><em>Optional</em>. Information about the paid media bought by the user</summary>
+    public PaidMedia[]? PaidMedia { get; set; }
 }
 
 /// <summary>Describes a withdrawal transaction with Fragment.</summary>

@@ -1,9 +1,10 @@
 ﻿namespace Telegram.Bot.Types;
 
-/// <summary>This object describes the type of a reaction. Currently, it can be one of<br/><see cref="ReactionTypeEmoji"/>, <see cref="ReactionTypeCustomEmoji"/></summary>
+/// <summary>This object describes the type of a reaction. Currently, it can be one of<br/><see cref="ReactionTypeEmoji"/>, <see cref="ReactionTypeCustomEmoji"/>, <see cref="ReactionTypePaid"/></summary>
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(ReactionTypeEmoji), "emoji")]
 [CustomJsonDerivedType(typeof(ReactionTypeCustomEmoji), "custom_emoji")]
+[CustomJsonDerivedType(typeof(ReactionTypePaid), "paid")]
 public abstract partial class ReactionType
 {
     /// <summary>Type of the reaction</summary>
@@ -31,4 +32,11 @@ public partial class ReactionTypeCustomEmoji : ReactionType
     /// <summary>Custom emoji identifier</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string CustomEmojiId { get; set; } = default!;
+}
+
+/// <summary>The reaction is paid.</summary>
+public partial class ReactionTypePaid : ReactionType
+{
+    /// <summary>Type of the reaction, always <see cref="ReactionTypeKind.Paid"/></summary>
+    public override ReactionTypeKind Type => ReactionTypeKind.Paid;
 }

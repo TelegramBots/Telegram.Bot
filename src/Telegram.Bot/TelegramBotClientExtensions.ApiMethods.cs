@@ -712,9 +712,9 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to send paid media to channel chats.</summary>
+    /// <summary>Use this method to send paid media.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</param>
     /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media</param>
     /// <param name="media">A array describing the media to be sent; up to 10 items</param>
     /// <param name="caption">Media caption, 0-1024 characters after entities parsing</param>
@@ -725,6 +725,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendPaidMedia(
@@ -740,6 +741,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequestAsync(new SendPaidMediaRequest
     {
@@ -754,6 +756,7 @@ public static partial class TelegramBotClientExtensions
         ProtectContent = protectContent,
         ReplyParameters = replyParameters,
         ReplyMarkup = replyMarkup,
+        BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.</summary>
@@ -1088,11 +1091,11 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel.</summary>
+    /// <summary>Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.</param>
-    /// <param name="reaction">A list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.</param>
+    /// <param name="reaction">A list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.</param>
     /// <param name="isBig">Pass <see langword="true"/> to set the reaction with a big animation</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task SetMessageReactionAsync(
@@ -1411,6 +1414,49 @@ public static partial class TelegramBotClientExtensions
         CreatesJoinRequest = createsJoinRequest,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to create a <a href="https://telegram.org/blog/superchannels-star-reactions-subscriptions#star-subscriptions">subscription invite link</a> for a channel chat. The bot must have the <em>CanInviteUsers</em> administrator rights. The link can be edited using the method <see cref="TelegramBotClientExtensions.EditChatSubscriptionInviteLinkAsync">EditChatSubscriptionInviteLink</see> or revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLinkAsync">RevokeChatInviteLink</see>.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target channel chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="subscriptionPeriod">The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).</param>
+    /// <param name="subscriptionPrice">The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-2500</param>
+    /// <param name="name">Invite link name; 0-32 characters</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>The new invite link as a <see cref="ChatInviteLink"/> object.</returns>
+    public static async Task<ChatInviteLink> CreateChatSubscriptionInviteLink(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int subscriptionPeriod,
+        int subscriptionPrice,
+        string? name = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().MakeRequestAsync(new CreateChatSubscriptionInviteLinkRequest
+    {
+        ChatId = chatId,
+        SubscriptionPeriod = subscriptionPeriod,
+        SubscriptionPrice = subscriptionPrice,
+        Name = name,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to edit a subscription invite link created by the bot. The bot must have the <em>CanInviteUsers</em> administrator rights.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="inviteLink">The invite link to edit</param>
+    /// <param name="name">Invite link name; 0-32 characters</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>The edited invite link as a <see cref="ChatInviteLink"/> object.</returns>
+    public static async Task<ChatInviteLink> EditChatSubscriptionInviteLink(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string inviteLink,
+        string? name = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().MakeRequestAsync(new EditChatSubscriptionInviteLinkRequest
+    {
+        ChatId = chatId,
+        InviteLink = inviteLink,
+        Name = name,
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier of the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1710,7 +1756,7 @@ public static partial class TelegramBotClientExtensions
         IconCustomEmojiId = iconCustomEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have <em>CanManageTopics</em> administrator rights, unless it is the creator of the topic.</summary>
+    /// <summary>Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights, unless it is the creator of the topic.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
@@ -1796,7 +1842,7 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have <em>CanManageTopics</em> administrator rights.</summary>
+    /// <summary>Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="name">New topic name, 1-128 characters</param>
