@@ -2,15 +2,7 @@ namespace Telegram.Bot.Serialization;
 
 internal static class UnixDateTimeConverterUtil
 {
-    private static readonly DateTime UnixEpoch = new(
-        year: 1970,
-        month: 1,
-        day: 1,
-        hour: 0,
-        minute: 0,
-        second: 0,
-        kind: DateTimeKind.Utc
-    );
+    private static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     internal static DateTime Read(ref Utf8JsonReader reader, Type typeToConvert)
     {
