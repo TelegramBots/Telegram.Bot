@@ -174,7 +174,7 @@ public class PaymentsBuilder
 
     public int GetTotalAmount() =>
         (_product?.ProductPrices.Sum(price => price.Amount) ?? 0) +
-        _shippingOptions.Sum(x => x.Prices.Sum(p => p.Amount));
+        _shippingOptions.Take(1).Sum(x => x.Prices.Sum(p => p.Amount));
 
     public int GetTotalAmountWithoutShippingCost() => _product?.ProductPrices.Sum(price => price.Amount) ?? 0;
 

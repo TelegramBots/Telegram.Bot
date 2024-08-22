@@ -111,7 +111,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.PostCode);
     }
 
-    [OrderedFact("Should send invoice for no shipment option, and reply pre-checkout query with OK.")]
+    [OrderedFact("Should send invoice with 2 shipment options, and reply pre-checkout query with OK.")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
     public async Task Should_Answer_PreCheckout_Query_With_Ok_And_Shipment_Option()
@@ -132,8 +132,12 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             .WithShipping(s => s
                 .WithTitle(title: "DHL Express")
                 .WithId(id: "dhl-express")
-                .WithPrice(label: "Packaging", amount: 400_000)
                 .WithPrice(label: "Shipping price", amount: 337_600))
+            .WithShipping(s => s
+                .WithTitle(title: "FedEx")
+                .WithId(id: "fedex")
+                .WithPrice(label: "Packaging", amount: 200_000)
+                .WithPrice(label: "Shipping price", amount: 237_600))
             .WithCurrency("USD")
             .WithPayload("<my-payload>")
             .WithFlexible()
@@ -146,7 +150,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             .CurrencyFormat();
 
         string instruction = FormatInstructionWithCurrency(
-            $"Click on *Pay {totalCostWithoutShippingCost:C}* and send your shipping address. Then click *Pay {totalCostWithoutShippingCost:C}* inside payment dialog. Transaction should be completed."
+            $"Click on *Pay {totalCostWithoutShippingCost:C}* and send your shipping address. Then click *Pay {totalCostWithoutShippingCost:C}* inside payment dialog using DHL option. Transaction should be completed."
         );
         await Fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
