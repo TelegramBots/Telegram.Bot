@@ -17,9 +17,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot API Client</Title>
-    <Description>
-      The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.
-    </Description>
+    <Description>This library gives you easy access to Telegram Bot API so you can start building useful bots for Telegram.</Description>
     <PackageId>Telegram.Bot</PackageId>
     <Authors>RoundRobin,Poulad,tuscen,Wizou</Authors>
     <Copyright>Copyright © TelegramBots 2016-2024</Copyright>
@@ -29,9 +27,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>
-      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
-    </AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <PropertyGroup Label="Warnings">
