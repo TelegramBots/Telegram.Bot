@@ -147,6 +147,15 @@ namespace Telegram.Bot.Types
         public static BotCommandScopeChatMember ChatMember(ChatId chatId, long userId) => new() { ChatId = chatId, UserId = userId };
     }
 
+    namespace Payments
+    {
+        public partial class LabeledPrice
+        {
+            /// <summary>Instantiates a new <see cref="LabeledPrice"/></summary>
+            public static implicit operator LabeledPrice((string label, int amount) t) => new(t.label, t.amount);
+        }
+    }
+
     namespace ReplyMarkups
     {
         public partial class ReplyKeyboardMarkup

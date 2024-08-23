@@ -1414,7 +1414,7 @@ public static partial class TelegramBotClientExtensions
         CreatesJoinRequest = createsJoinRequest,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to create a <a href="https://telegram.org/blog/superchannels-star-reactions-subscriptions#star-subscriptions">subscription invite link</a> for a channel chat. The bot must have the <em>CanInviteUsers</em> administrator rights. The link can be edited using the method <see cref="TelegramBotClientExtensions.EditChatSubscriptionInviteLinkAsync">EditChatSubscriptionInviteLink</see> or revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLinkAsync">RevokeChatInviteLink</see>.</summary>
+    /// <summary>Use this method to create a <a href="https://telegram.org/blog/superchannels-star-reactions-subscriptions#star-subscriptions">subscription invite link</a> for a channel chat. The bot must have the <em>CanInviteUsers</em> administrator rights. The link can be edited using the method <see cref="TelegramBotClientExtensions.EditChatSubscriptionInviteLink">EditChatSubscriptionInviteLink</see> or revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLinkAsync">RevokeChatInviteLink</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target channel chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="subscriptionPeriod">The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).</param>
@@ -3145,31 +3145,17 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Update"/> with the field <em>PreCheckoutQuery</em>. Use this method to respond to such pre-checkout queries <b>Note:</b> The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
+    /// <param name="errorMessage">Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.<para/>Leave <see langword="null"/> if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task AnswerPreCheckoutQueryAsync(
         this ITelegramBotClient botClient,
         string preCheckoutQueryId,
+        string? errorMessage = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequestAsync(new AnswerPreCheckoutQueryRequest
     {
         PreCheckoutQueryId = preCheckoutQueryId,
-        Ok = true,
-    }, cancellationToken).ConfigureAwait(false);
-
-    /// <summary>Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Update"/> with the field <em>PreCheckoutQuery</em>. Use this method to respond to such pre-checkout queries <b>Note:</b> The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="errorMessage">Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.</param>
-    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    public static async Task AnswerPreCheckoutQueryAsync(
-        this ITelegramBotClient botClient,
-        string preCheckoutQueryId,
-        string errorMessage,
-        CancellationToken cancellationToken = default
-    ) => await botClient.ThrowIfNull().MakeRequestAsync(new AnswerPreCheckoutQueryRequest
-    {
-        PreCheckoutQueryId = preCheckoutQueryId,
-        Ok = false,
+        Ok = errorMessage == null,
         ErrorMessage = errorMessage,
     }, cancellationToken).ConfigureAwait(false);
 

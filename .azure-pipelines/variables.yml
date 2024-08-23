@@ -1,7 +1,7 @@
-﻿variables:
+variables:
   - group: Integration Tests Variables
   - name: versionPrefix
-    value: 21.10.0
+    value: 21.10.1
   - name: versionSuffix
     value: ''
   - name: ciVersionSuffix

@@ -1,0 +1,49 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - '.github'
+      - docs
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
+
+pr: none
+
+variables:
+  - template: variables.yml
+
+pool:
+  vmImage: $(vmImage)
+
+steps:
+  - task: UseDotNet@2
+    displayName: Install .NET sdk
+    inputs:
+      packageType: sdk
+      version: $(netSdkVersion)
+  - pwsh: >
+      dotnet build
+      --configuration $(buildConfiguration)
+      -p:Version=$(releaseVersion)
+      $(projectPath)
+    displayName: Build project with release version
+  - pwsh: >
+      dotnet pack
+      --no-build
+      --output "$(Build.ArtifactStagingDirectory)/packages"
+      --configuration $(buildConfiguration)
+      -p:Version=$(releaseVersion)
+      $(projectPath)
+    displayName: Create nuget package
+  - task: NuGetAuthenticate@1
+  - pwsh: >
+      dotnet nuget push
+      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
+      --skip-duplicate
+      --source https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/release/nuget/v3/index.json
+      --api-key AZ
+    displayName: Publish package to NuGet

@@ -7,7 +7,7 @@ public partial class AnswerShippingQueryRequest : RequestBase<bool>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ShippingQueryId { get; set; }
 
-    /// <summary>Specify <see langword="true"/> if everything is alright at this stage and the bot is ready to proceed.<br/> Use <see langword="false"/> and fill <see cref="ErrorMessage"/> if there are any problems.</summary>
+    /// <summary>Pass <see langword="true"/> if delivery to the specified address is possible and <see langword="false"/> if there are any problems (for example, if delivery to the specified address is not possible)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required bool Ok { get; set; }
 
