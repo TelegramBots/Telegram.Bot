@@ -11,7 +11,7 @@ public partial class SendDiceRequest : RequestBase<Message>, IChatTargetable, IB
     public int? MessageThreadId { get; set; }
 
     /// <summary>Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”</summary>
-    public Emoji? Emoji { get; set; }
+    public string? Emoji { get; set; }
 
     /// <summary>Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
     public bool DisableNotification { get; set; }

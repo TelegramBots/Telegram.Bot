@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the message origin</summary>
-[JsonConverter(typeof(MessageOriginTypeConverter))]
+[JsonConverter(typeof(EnumConverter<MessageOriginType>))]
 public enum MessageOriginType
 {
     /// <summary>The message was originally sent by a known user.<br/><br/><i>(<see cref="MessageOrigin"/> can be cast into <see cref="MessageOriginUser"/>)</i></summary>

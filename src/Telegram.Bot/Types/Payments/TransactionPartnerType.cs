@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Payments;
 
 /// <summary>Type of the transaction partner</summary>
-[JsonConverter(typeof(TransactionPartnerTypeConverter))]
+[JsonConverter(typeof(EnumConverter<TransactionPartnerType>))]
 public enum TransactionPartnerType
 {
     /// <summary>Describes a withdrawal transaction with Fragment.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerFragment"/>)</i></summary>

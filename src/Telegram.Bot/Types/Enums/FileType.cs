@@ -1,23 +1,13 @@
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>
-/// Type of a <see cref="InputFile"/>
-/// </summary>
-[JsonConverter(typeof(FileTypeConverter))]
+/// <summary>Type of a <see cref="InputFile"/></summary>
+[JsonConverter(typeof(EnumConverter<FileType>))]
 public enum FileType
 {
-    /// <summary>
-    /// FileStream
-    /// </summary>
+    /// <summary>FileStream</summary>
     Stream = 1,
-
-    /// <summary>
-    /// FileId
-    /// </summary>
+    /// <summary>FileId</summary>
     Id,
-
-    /// <summary>
-    /// File URL
-    /// </summary>
+    /// <summary>File URL</summary>
     Url,
 }

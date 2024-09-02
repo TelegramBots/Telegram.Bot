@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Payments;
 
 /// <summary>Type of the state, always <see cref="RevenueWithdrawalState"/></summary>
-[JsonConverter(typeof(RevenueWithdrawalStateTypeConverter))]
+[JsonConverter(typeof(EnumConverter<RevenueWithdrawalStateType>))]
 public enum RevenueWithdrawalStateType
 {
     /// <summary>The withdrawal is in progress.<br/><br/><i>(<see cref="RevenueWithdrawalState"/> can be cast into <see cref="RevenueWithdrawalStatePending"/>)</i></summary>

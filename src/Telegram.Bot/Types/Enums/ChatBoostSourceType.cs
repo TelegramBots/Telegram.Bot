@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Source of the boost</summary>
-[JsonConverter(typeof(ChatBoostSourceTypeConverter))]
+[JsonConverter(typeof(EnumConverter<ChatBoostSourceType>))]
 public enum ChatBoostSourceType
 {
     /// <summary>The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.<br/><br/><i>(<see cref="ChatBoostSource"/> can be cast into <see cref="ChatBoostSourcePremium"/>)</i></summary>

@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Passport;
 
 /// <summary>Error source</summary>
-[JsonConverter(typeof(PassportElementErrorSourceConverter))]
+[JsonConverter(typeof(EnumConverter<PassportElementErrorSource>))]
 public enum PassportElementErrorSource
 {
     /// <summary>Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.<br/><br/><i>(<see cref="PassportElementError"/> can be cast into <see cref="PassportElementErrorDataField"/>)</i></summary>

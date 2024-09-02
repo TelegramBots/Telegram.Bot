@@ -1,50 +1,21 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>
-/// <para>
-/// Text parsing mode
-/// </para>
-/// <para>
-/// The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline
-/// links and pre-formatted code in your bots' messages. Telegram clients will render them accordingly.
-/// You can use either markdown-style or HTML-style formatting.
-/// </para>
+/// <summary>Text parsing mode. See <a href="https://core.telegram.org/bots/api#formatting-options"/>
+/// <para>The Bot API supports basic formatting for messages. You can use bold, italic, underlined, strikethrough,
+/// spoiler text, block quotations as well as inline links and pre-formatted code in your bots' messages.
+/// Telegram clients will render them accordingly.
+/// You can specify text entities directly, or use markdown-style or HTML-style formatting.</para>
 /// </summary>
-/// <a href="https://core.telegram.org/bots/api#formatting-options"/>
-[JsonConverter(typeof(ParseModeConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter<ParseMode>))]
 public enum ParseMode
 {
-    /// <summary>
-    /// <see cref="Message.Text"/> is plain text
-    /// </summary>
-    [Display(Name = "None")]
+    /// <summary>The message text is plain text, possibly with explicit entities</summary>
     None = 0,
-
-    /// <summary>
-    /// Markdown-formatted A <see cref="Message.Text"/>
-    /// </summary>
-    /// <remarks>
-    /// This is a legacy mode, retained for backward compatibility
-    /// </remarks>
-    [Display(Name = "Markdown")]
+    /// <summary>The message text is Markdown-formatted</summary>
+    /// <remarks>This is a legacy mode, retained for backward compatibility</remarks>
     Markdown,
-
-    /// <summary>
-    /// HTML-formatted <see cref="Message.Text"/>
-    /// </summary>
-    [Display(Name = "Html")]
+    /// <summary>The message text is HTML-formatted</summary>
     Html,
-
-    /// <summary>
-    /// MarkdownV2-formatted <see cref="Message.Text"/>
-    /// </summary>
-    [Display(Name = "MarkdownV2")]
+    /// <summary>The message text is MarkdownV2-formatted</summary>
     MarkdownV2,
-
-#pragma warning disable CS1591
-    [Obsolete("Use ParseMode.None or just default instead")]
-    Default = None,
-#pragma warning restore CS1591
 }

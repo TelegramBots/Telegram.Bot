@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the paid media, always <see cref="PaidMedia"/></summary>
-[JsonConverter(typeof(PaidMediaTypeConverter))]
+[JsonConverter(typeof(EnumConverter<PaidMediaType>))]
 public enum PaidMediaType
 {
     /// <summary>The paid media isn't available before the payment.<br/><br/><i>(<see cref="PaidMedia"/> can be cast into <see cref="PaidMediaPreview"/>)</i></summary>

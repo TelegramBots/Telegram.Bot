@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot;
 
@@ -1047,7 +1046,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         int? messageThreadId = default,
-        Emoji? emoji = default,
+        string? emoji = default,
         bool disableNotification = default,
         bool protectContent = default,
         string? messageEffectId = default,

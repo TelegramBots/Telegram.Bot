@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Scope type</summary>
-[JsonConverter(typeof(BotCommandScopeTypeConverter))]
+[JsonConverter(typeof(EnumConverter<BotCommandScopeType>))]
 public enum BotCommandScopeType
 {
     /// <summary>Represents the default <see cref="BotCommandScope">scope</see> of bot commands. Default commands are used if no commands with a <a href="https://core.telegram.org/bots/api#determining-list-of-commands">narrower scope</a> are specified for the user.<br/><br/><i>(<see cref="BotCommandScope"/> can be cast into <see cref="BotCommandScopeDefault"/>)</i></summary>

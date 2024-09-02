@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the background fill</summary>
-[JsonConverter(typeof(BackgroundFillTypeConverter))]
+[JsonConverter(typeof(EnumConverter<BackgroundFillType>))]
 public enum BackgroundFillType
 {
     /// <summary>The background is filled using the selected color.<br/><br/><i>(<see cref="BackgroundFill"/> can be cast into <see cref="BackgroundFillSolid"/>)</i></summary>
