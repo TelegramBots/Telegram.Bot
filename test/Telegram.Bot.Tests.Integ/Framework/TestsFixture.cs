@@ -250,7 +250,7 @@ public class TestsFixture : IDisposable
         var task = BotClient.SendTextMessageAsync(
             chatId: chatId,
             text: text,
-            parseMode: ParseMode.Markdown,
+            parseMode: ParseMode.MarkdownV2,
             replyMarkup: replyMarkup,
             cancellationToken: cancellationToken
         );

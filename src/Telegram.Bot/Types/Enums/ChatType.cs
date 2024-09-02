@@ -12,6 +12,6 @@ public enum ChatType
     Channel,
     /// <summary>A supergroup</summary>
     Supergroup,
-    /// <summary>“sender” for a private chat with the inline query sender</summary>
+    /// <summary>Value possible only in <see cref="InlineQuery.ChatType"/>: private chat with the inline query sender</summary>
     Sender,
 }

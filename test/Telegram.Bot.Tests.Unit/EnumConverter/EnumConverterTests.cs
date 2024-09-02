@@ -4,9 +4,6 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-#pragma warning disable xUnit1015
-// ReSharper disable NotResolvedInText
-
 public class EnumConverterTests
 {
     public static TheoryData<StickerType, string> TestData => new()
