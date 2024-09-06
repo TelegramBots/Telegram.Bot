@@ -11,7 +11,7 @@ public partial class CreateInvoiceLinkRequest : RequestBase<string>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Description { get; set; }
 
-    /// <summary>Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</summary>
+    /// <summary>Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Payload { get; set; }
 

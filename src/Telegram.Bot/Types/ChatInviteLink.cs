@@ -32,4 +32,10 @@ public partial class ChatInviteLink
 
     /// <summary><em>Optional</em>. Number of pending join requests created using this link</summary>
     public int? PendingJoinRequestCount { get; set; }
+
+    /// <summary><em>Optional</em>. The number of seconds the subscription will be active for before the next payment</summary>
+    public int? SubscriptionPeriod { get; set; }
+
+    /// <summary><em>Optional</em>. The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat using the link</summary>
+    public int? SubscriptionPrice { get; set; }
 }

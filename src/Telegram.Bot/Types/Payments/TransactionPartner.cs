@@ -28,6 +28,9 @@ public partial class TransactionPartnerUser : TransactionPartner
 
     /// <summary><em>Optional</em>. Information about the paid media bought by the user</summary>
     public PaidMedia[]? PaidMedia { get; set; }
+
+    /// <summary><em>Optional</em>. Bot-specified paid media payload</summary>
+    public string? PaidMediaPayload { get; set; }
 }
 
 /// <summary>Describes a withdrawal transaction with Fragment.</summary>

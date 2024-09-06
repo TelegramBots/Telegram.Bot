@@ -15,5 +15,6 @@ global using Telegram.Bot.Types.InlineQueryResults;
 global using Telegram.Bot.Types.Passport;
 global using Telegram.Bot.Types.Payments;
 global using Telegram.Bot.Types.ReplyMarkups;
+global using File = Telegram.Bot.Types.File;
 global using Stream = System.IO.Stream;
 global using LabeledPrice = Telegram.Bot.Types.Payments.LabeledPrice;

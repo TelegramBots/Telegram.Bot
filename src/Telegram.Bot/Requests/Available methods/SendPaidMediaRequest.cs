@@ -7,13 +7,16 @@ public partial class SendPaidMediaRequest : FileRequestBase<Message>, IChatTarge
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>The number of Telegram Stars that must be paid to buy access to the media</summary>
+    /// <summary>The number of Telegram Stars that must be paid to buy access to the media; 1-2500</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int StarCount { get; set; }
 
     /// <summary>A array describing the media to be sent; up to 10 items</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputPaidMedia> Media { get; set; }
+
+    /// <summary>Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</summary>
+    public string? Payload { get; set; }
 
     /// <summary>Media caption, 0-1024 characters after entities parsing</summary>
     public string? Caption { get; set; }

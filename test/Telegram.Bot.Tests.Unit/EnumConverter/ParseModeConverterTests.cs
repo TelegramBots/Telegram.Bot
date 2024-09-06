@@ -39,14 +39,10 @@ public class ParseModeConverterTests
     }
 
     [Fact]
-    public void Should_Return_Zero_For_Incorrect_ParseMode()
+    public void Should_Throw_For_Invalid_ParseMode()
     {
-        string jsonData = @$"{{""parse_mode"":""{int.MaxValue}""}}";
-
-        SendMessageRequest? result = JsonSerializer.Deserialize<SendMessageRequest>(jsonData, JsonBotAPI.Options);
-
-        Assert.NotNull(result);
-        Assert.Equal((ParseMode)0, result.ParseMode);
+        string jsonData = @$"{{""parse_mode"":""invalid value""}}";
+        Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<SendMessageRequest>(jsonData, JsonBotAPI.Options));
     }
 
 

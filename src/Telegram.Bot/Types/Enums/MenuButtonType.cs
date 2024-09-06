@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the button</summary>
-[JsonConverter(typeof(MenuButtonTypeConverter))]
+[JsonConverter(typeof(EnumConverter<MenuButtonType>))]
 public enum MenuButtonType
 {
     /// <summary>Describes that no specific value for the menu button was set.<br/><br/><i>(<see cref="MenuButton"/> can be cast into <see cref="MenuButtonDefault"/>)</i></summary>

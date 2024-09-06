@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>The type of <see cref="Update"/></summary>
-[JsonConverter(typeof(UpdateTypeConverter))]
+[JsonConverter(typeof(EnumConverter<UpdateType>))]
 public enum UpdateType
 {
     /// <summary><see cref="Update"/> type is unknown</summary>
@@ -50,4 +50,6 @@ public enum UpdateType
     EditedBusinessMessage,
     /// <summary>The <see cref="Update"/> contains a <see cref="Update.DeletedBusinessMessages"/></summary>
     DeletedBusinessMessages,
+    /// <summary>The <see cref="Update"/> contains a <see cref="Update.PurchasedPaidMedia"/></summary>
+    PurchasedPaidMedia,
 }

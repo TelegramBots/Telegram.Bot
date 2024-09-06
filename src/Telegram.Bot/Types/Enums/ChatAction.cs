@@ -1,63 +1,29 @@
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>
-/// Type of action to broadcast
-/// </summary>
-[JsonConverter(typeof(ChatActionConverter))]
+/// <summary>Type of action to broadcast</summary>
+[JsonConverter(typeof(EnumConverter<ChatAction>))]
 public enum ChatAction
 {
-    /// <summary>
-    /// Typing
-    /// </summary>
+    /// <summary>Typing some text</summary>
     Typing = 1,
-
-    /// <summary>
-    /// Uploading a <see cref="PhotoSize"/>
-    /// </summary>
+    /// <summary>Uploading a <see cref="PhotoSize"/></summary>
     UploadPhoto,
-
-    /// <summary>
-    /// Recording a <see cref="Video"/>
-    /// </summary>
+    /// <summary>Recording a <see cref="Video"/></summary>
     RecordVideo,
-
-    /// <summary>
-    /// Uploading a <see cref="Video"/>
-    /// </summary>
+    /// <summary>Uploading a <see cref="Video"/></summary>
     UploadVideo,
-
-    /// <summary>
-    /// Recording a <see cref="Voice"/>
-    /// </summary>
+    /// <summary>Recording a <see cref="Voice"/></summary>
     RecordVoice,
-
-    /// <summary>
-    /// Uploading a <see cref="Voice"/>
-    /// </summary>
+    /// <summary>Uploading a <see cref="Voice"/></summary>
     UploadVoice,
-
-    /// <summary>
-    /// Uploading a <see cref="Document"/>
-    /// </summary>
+    /// <summary>Uploading a <see cref="Document"/></summary>
     UploadDocument,
-
-    /// <summary>
-    /// Finding a <see cref="Location"/>
-    /// </summary>
+    /// <summary>Finding a <see cref="Location"/></summary>
     FindLocation,
-
-    /// <summary>
-    /// Recording a <see cref="VideoNote"/>
-    /// </summary>
+    /// <summary>Recording a <see cref="VideoNote"/></summary>
     RecordVideoNote,
-
-    /// <summary>
-    /// Uploading a <see cref="VideoNote"/>
-    /// </summary>
+    /// <summary>Uploading a <see cref="VideoNote"/></summary>
     UploadVideoNote,
-
-    /// <summary>
-    /// Choosing a <see cref="Sticker"/>
-    /// </summary>
+    /// <summary>Choosing a <see cref="Sticker"/></summary>
     ChooseSticker,
 }

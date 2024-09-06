@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -63,8 +63,8 @@ public class MessageEntityTests
         Assert.Equal((MessageEntityType)0, message.Type);
     }
 
-    [Fact(DisplayName = "Should serialize message entity with unknown type")]
-    public void Should_Serialize_Message_Entity_With_Unknown_Type()
+    [Fact(DisplayName = "Should throw on serialize message entity with unknown type")]
+    public void Should_Throw_Serializing_Message_Entity_With_Unknown_Type()
     {
         MessageEntity messageEntity = new()
         {
@@ -73,14 +73,6 @@ public class MessageEntityTests
             Type = 0
         };
 
-        string json = JsonSerializer.Serialize(messageEntity, JsonBotAPI.Options);
-        JsonNode? root = JsonNode.Parse(json);
-        Assert.NotNull(root);
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-
-        Assert.Equal(3, j.Count);
-        Assert.Equal(10, (long?)j["length"]);
-        Assert.Equal(10, (long?)j["offset"]);
-        Assert.Equal("unknown", (string?)j["type"]);
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageEntity, JsonBotAPI.Options));
     }
 }

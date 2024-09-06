@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>The member's status in the chat</summary>
-[JsonConverter(typeof(ChatMemberStatusConverter))]
+[JsonConverter(typeof(EnumConverter<ChatMemberStatus>))]
 public enum ChatMemberStatus
 {
     /// <summary>Represents a <see cref="ChatMember">chat member</see> that owns the chat and has all administrator privileges.<br/><br/><i>(<see cref="ChatMember"/> can be cast into <see cref="ChatMemberOwner"/>)</i></summary>

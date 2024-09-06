@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot;
 
@@ -715,8 +714,9 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to send paid media.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</param>
-    /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media</param>
+    /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media; 1-2500</param>
     /// <param name="media">A array describing the media to be sent; up to 10 items</param>
+    /// <param name="payload">Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
     /// <param name="caption">Media caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the media caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
@@ -733,6 +733,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int starCount,
         IEnumerable<InputPaidMedia> media,
+        string? payload = default,
         string? caption = default,
         ParseMode parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -748,6 +749,7 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         StarCount = starCount,
         Media = media,
+        Payload = payload,
         Caption = caption,
         ParseMode = parseMode,
         CaptionEntities = captionEntities,
@@ -1047,7 +1049,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         int? messageThreadId = default,
-        Emoji? emoji = default,
+        string? emoji = default,
         bool disableNotification = default,
         bool protectContent = default,
         string? messageEffectId = default,
@@ -2947,7 +2949,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="title">Product name, 1-32 characters</param>
     /// <param name="description">Product description, 1-255 characters</param>
-    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
+    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
     /// <param name="providerToken">Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>. Pass an empty string for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="currency">Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
@@ -3041,7 +3043,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="title">Product name, 1-32 characters</param>
     /// <param name="description">Product description, 1-255 characters</param>
-    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
+    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
     /// <param name="providerToken">Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>. Pass an empty string for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="currency">Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>

@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.InlineQueryResults;
 
 /// <summary>Type of the result</summary>
-[JsonConverter(typeof(InlineQueryResultTypeConverter))]
+[JsonConverter(typeof(EnumConverter<InlineQueryResultType>))]
 public enum InlineQueryResultType
 {
     /// <summary>Represents a link to an article or web page.<br/><br/><i>(<see cref="InlineQueryResult"/> can be cast into <see cref="InlineQueryResultArticle"/>)</i></summary>

@@ -10,19 +10,20 @@ using System.Text;
 using System.Threading.Tasks;
 #endif
 
+#pragma warning disable IDE0130, MA0003
+
 namespace Telegram.Bot.Extensions
 {
-    /// <summary>
-    /// Extension Methods
-    /// </summary>
     internal static class ObjectExtensions
     {
+#if NETCOREAPP3_1_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T ThrowIfNull<T>(
-            this T? value,
-            [CallerArgumentExpression(nameof(value))] string? parameterName = default
-        ) =>
-            value ?? throw new ArgumentNullException(parameterName);
+        internal static T ThrowIfNull<T>(this T? value, [CallerArgumentExpression(nameof(value))] string? parameterName = default)
+            => value ?? throw new ArgumentNullException(parameterName);
+#else
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static T ThrowIfNull<T>(this T? value) => value ?? throw new ArgumentNullException(null);
+#endif
     }
 }
 

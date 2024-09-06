@@ -53,6 +53,9 @@ public partial class Update
     /// <summary><em>Optional</em>. New incoming pre-checkout query. Contains full information about checkout</summary>
     public PreCheckoutQuery? PreCheckoutQuery { get; set; }
 
+    /// <summary><em>Optional</em>. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat</summary>
+    public PaidMediaPurchased? PurchasedPaidMedia { get; set; }
+
     /// <summary><em>Optional</em>. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot</summary>
     public Poll? Poll { get; set; }
 
@@ -94,6 +97,7 @@ public partial class Update
         { CallbackQuery: not null }           => UpdateType.CallbackQuery,
         { ShippingQuery: not null }           => UpdateType.ShippingQuery,
         { PreCheckoutQuery: not null }        => UpdateType.PreCheckoutQuery,
+        { PurchasedPaidMedia: not null }      => UpdateType.PurchasedPaidMedia,
         { Poll: not null }                    => UpdateType.Poll,
         { PollAnswer: not null }              => UpdateType.PollAnswer,
         { MyChatMember: not null }            => UpdateType.MyChatMember,
@@ -106,5 +110,5 @@ public partial class Update
 
     /// <summary>All UpdateTypes, for use with <see cref="TelegramBotClientExtensions.GetUpdatesAsync">GetUpdates</see></summary>
     public static readonly UpdateType[] AllTypes =
-        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost];
+        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.PurchasedPaidMedia, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost];
 }

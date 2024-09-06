@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the reaction</summary>
-[JsonConverter(typeof(ReactionTypeKindConverter))]
+[JsonConverter(typeof(EnumConverter<ReactionTypeKind>))]
 public enum ReactionTypeKind
 {
     /// <summary>The reaction is based on an emoji.<br/><br/><i>(<see cref="ReactionType"/> can be cast into <see cref="ReactionTypeEmoji"/>)</i></summary>

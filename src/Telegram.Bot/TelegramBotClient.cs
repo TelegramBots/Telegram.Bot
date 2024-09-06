@@ -121,8 +121,6 @@ public class TelegramBotClient : ITelegramBotClient
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
         using var httpContent = request.ToHttpContent();
-        if (httpContent != null && _options.RetryThreshold > 0 && _options.RetryCount > 1 && httpContent.Headers.ContentLength == null)
-            await httpContent.LoadIntoBufferAsync().ConfigureAwait(false);
         for (int attempt = 1; ; attempt++)
         {
             var httpRequest = new HttpRequestMessage(request.Method, url) { Content = httpContent };
@@ -132,6 +130,10 @@ public class TelegramBotClient : ITelegramBotClient
                 requestEventArgs ??= new(request, httpRequest);
                 await OnMakingApiRequest.Invoke(this, requestEventArgs, cts.Token).ConfigureAwait(false);
             }
+            // httpContent.Headers.ContentLength must be called after OnMakingApiRequest, because it enforces the
+            // final ContentLength header, and OnMakingApiRequest might modify the content, leading to discrepancy
+            if (httpContent != null && _options.RetryThreshold > 0 && _options.RetryCount > 1 && httpContent.Headers.ContentLength == null)
+                await httpContent.LoadIntoBufferAsync().ConfigureAwait(false);
 
             using var httpResponse = await SendRequestAsync(_httpClient, httpRequest, cts.Token).ConfigureAwait(false);
 
