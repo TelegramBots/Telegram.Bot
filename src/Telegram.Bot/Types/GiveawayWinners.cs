@@ -27,7 +27,10 @@ public partial class GiveawayWinners
     /// <summary><em>Optional</em>. The number of other chats the user had to join in order to be eligible for the giveaway</summary>
     public int? AdditionalChatCount { get; set; }
 
-    /// <summary><em>Optional</em>. The number of months the Telegram Premium subscription won from the giveaway will be active for</summary>
+    /// <summary><em>Optional</em>. The number of Telegram Stars that were split between giveaway winners; for Telegram Star giveaways only</summary>
+    public int? PrizeStarCount { get; set; }
+
+    /// <summary><em>Optional</em>. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only</summary>
     public int? PremiumSubscriptionMonthCount { get; set; }
 
     /// <summary><em>Optional</em>. Number of undistributed prizes</summary>

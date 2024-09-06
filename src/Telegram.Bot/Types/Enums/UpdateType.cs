@@ -50,4 +50,6 @@ public enum UpdateType
     EditedBusinessMessage,
     /// <summary>The <see cref="Update"/> contains a <see cref="Update.DeletedBusinessMessages"/></summary>
     DeletedBusinessMessages,
+    /// <summary>The <see cref="Update"/> contains a <see cref="Update.PurchasedPaidMedia"/></summary>
+    PurchasedPaidMedia,
 }

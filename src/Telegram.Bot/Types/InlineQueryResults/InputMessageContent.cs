@@ -162,7 +162,7 @@ public partial class InputInvoiceMessageContent : InputMessageContent
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Description { get; set; }
 
-    /// <summary>Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</summary>
+    /// <summary>Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Payload { get; set; }
 
@@ -222,7 +222,7 @@ public partial class InputInvoiceMessageContent : InputMessageContent
     /// <summary>Initializes an instance of <see cref="InputInvoiceMessageContent"/></summary>
     /// <param name="title">Product name, 1-32 characters</param>
     /// <param name="description">Product description, 1-255 characters</param>
-    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
+    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
     /// <param name="currency">Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     [SetsRequiredMembers]
