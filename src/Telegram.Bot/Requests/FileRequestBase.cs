@@ -3,30 +3,11 @@ using System.Linq;
 
 namespace Telegram.Bot.Requests;
 
-/// <summary>
-/// Represents an API request with a file
-/// </summary>
+/// <summary>Represents an API request with a file</summary>
 /// <typeparam name="TResponse">Type of result expected in result</typeparam>
-
-public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
+/// <param name="methodName">Bot API method</param>
+public abstract class FileRequestBase<TResponse>(string methodName) : RequestBase<TResponse>(methodName)
 {
-    /// <summary>
-    /// Initializes an instance of request
-    /// </summary>
-    /// <param name="methodName">Bot API method</param>
-    protected FileRequestBase(string methodName)
-        : base(methodName)
-    { }
-
-    /// <summary>
-    /// Initializes an instance of request
-    /// </summary>
-    /// <param name="methodName">Bot API method</param>
-    /// <param name="method">HTTP method to use</param>
-    protected FileRequestBase(string methodName, HttpMethod method)
-        : base(methodName, method)
-    { }
-
     /// <summary>
     /// Generate multipart form data content
     /// </summary>

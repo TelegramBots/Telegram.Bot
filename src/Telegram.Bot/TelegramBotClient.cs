@@ -123,7 +123,7 @@ public class TelegramBotClient : ITelegramBotClient
         using var httpContent = request.ToHttpContent();
         for (int attempt = 1; ; attempt++)
         {
-            var httpRequest = new HttpRequestMessage(request.Method, url) { Content = httpContent };
+            var httpRequest = new HttpRequestMessage(request.HttpMethod, url) { Content = httpContent };
             ApiRequestEventArgs? requestEventArgs = null;
             if (OnMakingApiRequest is not null)
             {

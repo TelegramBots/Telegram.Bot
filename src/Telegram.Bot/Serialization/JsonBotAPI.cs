@@ -14,7 +14,9 @@ public static class JsonBotAPI
     {
         options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-        //options.AllowOutOfOrderMetadataProperties = true;     // when System.Text.Json 9.0 is available, so we don't need custom PolymorphicJsonConverterFactory
+        //when System.Text.Json 9.0 is available, we can use
+        //options.AllowOutOfOrderMetadataProperties = true; // so we don't need custom PolymorphicJsonConverterFactory
+        //see also [JsonEnumMemberName("..")] // instead of DisplayMember & special converter
         options.Converters.Add(new PolymorphicJsonConverterFactory());
         //options.Converters.Add(new BanTimeConverter());
         //options.Converters.Add(new ChatIdConverter());

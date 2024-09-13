@@ -50,9 +50,7 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
     /// <summary>Initializes an instance of <see cref="InputMediaPhoto"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaPhoto(InputFile media) : base(media)
-    {
-    }
+    public InputMediaPhoto(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaPhoto"/></summary>
     public InputMediaPhoto() { }
@@ -88,9 +86,7 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     /// <summary>Initializes an instance of <see cref="InputMediaVideo"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaVideo(InputFile media) : base(media)
-    {
-    }
+    public InputMediaVideo(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaVideo"/></summary>
     public InputMediaVideo() { }
@@ -123,9 +119,7 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     /// <summary>Initializes an instance of <see cref="InputMediaAnimation"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaAnimation(InputFile media) : base(media)
-    {
-    }
+    public InputMediaAnimation(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaAnimation"/></summary>
     public InputMediaAnimation() { }
@@ -152,9 +146,7 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
     /// <summary>Initializes an instance of <see cref="InputMediaAudio"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaAudio(InputFile media) : base(media)
-    {
-    }
+    public InputMediaAudio(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaAudio"/></summary>
     public InputMediaAudio() { }
@@ -175,9 +167,7 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
     /// <summary>Initializes an instance of <see cref="InputMediaDocument"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaDocument(InputFile media) : base(media)
-    {
-    }
+    public InputMediaDocument(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaDocument"/></summary>
     public InputMediaDocument() { }
