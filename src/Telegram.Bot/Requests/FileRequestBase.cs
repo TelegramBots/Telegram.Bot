@@ -12,18 +12,20 @@ public abstract class FileRequestBase<TResponse>(string methodName) : RequestBas
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()
     {
+        InputFileConverter.Attachments.Value = null;
         var utf8Json = JsonSerializer.SerializeToUtf8Bytes(this, GetType(), JsonBotAPI.Options);
-        if (InputFileConverter.Attachments.Value == null)
+        var attachments = InputFileConverter.Attachments.Value;
+        if (attachments == null)
             return new ByteArrayContent(utf8Json) { Headers = { ContentType = new("application/json") { CharSet = "utf-8" } } };
 
         var multipartContent = new MultipartFormDataContent();
         var firstLevel = JsonDocument.Parse(utf8Json).RootElement.EnumerateObject();
         foreach (var prop in firstLevel)
             multipartContent.Add(new StringContent(prop.Value.ToString()), prop.Name);
-        for (int i = 0; i < InputFileConverter.Attachments.Value.Count; i++)
+        for (int i = 0; i < attachments.Count; i++)
         {
-            var inputFile = InputFileConverter.Attachments.Value[i];
-            string fileName = inputFile.FileName ?? "file";
+            var inputFile = attachments[i];
+            string fileName = inputFile.FileName ?? "document";
             string contentDisposition = FormattableString.Invariant($"form-data; name=\"{i}\"; filename=\"{fileName}\"");
             contentDisposition = Latin1.GetString(Encoding.UTF8.GetBytes(contentDisposition));
 #pragma warning disable CA2000
@@ -38,7 +40,6 @@ public abstract class FileRequestBase<TResponse>(string methodName) : RequestBas
 #pragma warning restore CA2000
             multipartContent.Add(mediaPartContent);
         }
-
         return multipartContent;
     }
 }

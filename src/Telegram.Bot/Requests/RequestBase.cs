@@ -29,7 +29,7 @@ public abstract class RequestBase<TResponse>(string methodName) : IRequest<TResp
     /// <returns>Content of HTTP request</returns>
     public virtual HttpContent? ToHttpContent() =>
 #if NET6_0_OR_GREATER
-        System.Net.Http.Json.JsonContent.Create(this, options: JsonBotAPI.Options);
+        System.Net.Http.Json.JsonContent.Create(this, GetType(), options: JsonBotAPI.Options);
 #else
         new StringContent(JsonSerializer.Serialize(this, GetType(), JsonBotAPI.Options), Encoding.UTF8, "application/json");
 #endif

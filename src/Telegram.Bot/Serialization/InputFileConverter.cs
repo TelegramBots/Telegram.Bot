@@ -18,7 +18,7 @@ internal class InputFileConverter : JsonConverter<InputFile?>
         if (value is null)
             return null;
         if (value.StartsWith("attach://", StringComparison.OrdinalIgnoreCase))
-            return new InputFileStream(Stream.Null, value.Substring(9));
+            return new InputFileStream(Stream.Null, value[9..]);
 
         return Uri.TryCreate(value, UriKind.Absolute, out var url)
             ? new InputFileUrl(url)

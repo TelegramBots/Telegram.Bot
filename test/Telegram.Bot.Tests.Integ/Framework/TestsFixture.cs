@@ -240,7 +240,7 @@ public class TestsFixture : IDisposable
         chatId ??= SupergroupChat.Id;
         if (instructions != default)
         {
-            text += $"\n\n{string.Format(Constants.InstructionsMessageFormat, instructions)}";
+            text += $"\n\n{string.Format(Constants.InstructionsMessageFormat, Markdown.Escape(instructions))}";
         }
 
         IReplyMarkup replyMarkup = switchInlineQuery

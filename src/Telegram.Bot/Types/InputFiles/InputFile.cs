@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System.IO;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;
@@ -39,8 +40,9 @@ public abstract class InputFile
     /// <returns>An instance of <see cref="InputFileId"/></returns>
     public static InputFileId FromFileId(string fileId) => new(fileId.ThrowIfNull());
 
-    /// <summary>Implicit operator, same as <see cref="FromStream"/></summary>
-    public static implicit operator InputFile(Stream stream) => FromStream(stream);
+    /// <summary>Implicit operator, same as <see cref="FromStream"/> passing the filename for a FileStream</summary>
+    public static implicit operator InputFile(Stream stream)
+        => FromStream(stream, stream is FileStream { Name: var filename } ? Path.GetFileName(filename) : null);
 
     /// <summary>Implicit operator, same as <see cref="FromString"/></summary>
     public static implicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);
