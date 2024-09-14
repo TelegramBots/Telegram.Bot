@@ -20,10 +20,10 @@ public abstract class InputFile
 
     /// <summary>Creates an <see cref="InputFileStream"/> from an instance <see cref="Stream"/></summary>
     /// <param name="stream">A <see cref="Stream"/> with file data to upload</param>
-    /// <param name="fileName">An optional file name</param>
+    /// <param name="fileName">An optional file name. If unspecified, it may be extracted from FileStream</param>
     /// <returns>An instance of <see cref="InputFileStream"/></returns>
     public static InputFileStream FromStream(Stream stream, string? fileName = default) =>
-        new(stream.ThrowIfNull(), fileName);
+        new(stream.ThrowIfNull(), fileName ?? Path.GetFileName((stream as FileStream)?.Name));
 
     /// <summary>Creates an <see cref="InputFileUrl"/> from an <see cref="Uri"/></summary>
     /// <param name="url">A URL of a file</param>
@@ -40,9 +40,8 @@ public abstract class InputFile
     /// <returns>An instance of <see cref="InputFileId"/></returns>
     public static InputFileId FromFileId(string fileId) => new(fileId.ThrowIfNull());
 
-    /// <summary>Implicit operator, same as <see cref="FromStream"/> passing the filename for a FileStream</summary>
-    public static implicit operator InputFile(Stream stream)
-        => FromStream(stream, stream is FileStream { Name: var filename } ? Path.GetFileName(filename) : null);
+    /// <summary>Implicit operator, same as <see cref="FromStream"/></summary>
+    public static implicit operator InputFile(Stream stream) => FromStream(stream);
 
     /// <summary>Implicit operator, same as <see cref="FromString"/></summary>
     public static implicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);

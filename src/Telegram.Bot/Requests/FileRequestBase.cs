@@ -25,7 +25,7 @@ public abstract class FileRequestBase<TResponse>(string methodName) : RequestBas
         for (int i = 0; i < attachments.Count; i++)
         {
             var inputFile = attachments[i];
-            string fileName = inputFile.FileName ?? "document";
+            string fileName = inputFile.FileName ?? "file";
             string contentDisposition = FormattableString.Invariant($"form-data; name=\"{i}\"; filename=\"{fileName}\"");
             contentDisposition = Latin1.GetString(Encoding.UTF8.GetBytes(contentDisposition));
 #pragma warning disable CA2000
