@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit only the reply markup of messages.<para>Returns: </para></summary>
-public partial class EditInlineMessageReplyMarkupRequest : RequestBase<bool>, IBusinessConnectable
+public partial class EditInlineMessageReplyMarkupRequest() : RequestBase<bool>("editMessageReplyMarkup"), IBusinessConnectable
 {
     /// <summary>Identifier of the inline message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -12,7 +12,4 @@ public partial class EditInlineMessageReplyMarkupRequest : RequestBase<bool>, IB
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditInlineMessageReplyMarkupRequest"/></summary>
-    public EditInlineMessageReplyMarkupRequest() : base("editMessageReplyMarkup") { }
 }

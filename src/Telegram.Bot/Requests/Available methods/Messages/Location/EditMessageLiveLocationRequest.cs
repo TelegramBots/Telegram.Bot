@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit live location messages. A location can be edited until its <see cref="LivePeriod">LivePeriod</see> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocationAsync">StopMessageLiveLocation</see>.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>
-public partial class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class EditMessageLiveLocationRequest() : RequestBase<Message>("editMessageLiveLocation"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -36,7 +36,4 @@ public partial class EditMessageLiveLocationRequest : RequestBase<Message>, ICha
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditMessageLiveLocationRequest"/></summary>
-    public EditMessageLiveLocationRequest() : base("editMessageLiveLocation") { }
 }

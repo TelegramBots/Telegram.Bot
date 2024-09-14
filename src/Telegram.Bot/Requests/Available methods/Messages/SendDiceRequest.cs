@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send an animated emoji that will display a random value.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendDiceRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendDiceRequest() : RequestBase<Message>("sendDice"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -30,7 +30,4 @@ public partial class SendDiceRequest : RequestBase<Message>, IChatTargetable, IB
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendDiceRequest"/></summary>
-    public SendDiceRequest() : base("sendDice") { }
 }

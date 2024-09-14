@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send a game.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendGameRequest() : RequestBase<Message>("sendGame"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -31,9 +31,6 @@ public partial class SendGameRequest : RequestBase<Message>, IChatTargetable, IB
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendGameRequest"/></summary>
-    public SendGameRequest() : base("sendGame") { }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;

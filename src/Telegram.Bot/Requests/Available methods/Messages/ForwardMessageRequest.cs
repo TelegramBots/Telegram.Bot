@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class ForwardMessageRequest : RequestBase<Message>, IChatTargetable
+public partial class ForwardMessageRequest() : RequestBase<Message>("forwardMessage"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -23,7 +23,4 @@ public partial class ForwardMessageRequest : RequestBase<Message>, IChatTargetab
 
     /// <summary>Protects the contents of the forwarded message from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
-
-    /// <summary>Instantiates a new <see cref="ForwardMessageRequest"/></summary>
-    public ForwardMessageRequest() : base("forwardMessage") { }
 }

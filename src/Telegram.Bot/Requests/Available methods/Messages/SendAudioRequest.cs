@@ -2,7 +2,7 @@
 
 /// <summary>Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 /// <remarks>Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.<br/>For sending voice messages, use the <see cref="TelegramBotClientExtensions.SendVoiceAsync">SendVoice</see> method instead.</remarks>
-public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendAudioRequest() : FileRequestBase<Message>("sendAudio"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -53,15 +53,4 @@ public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetabl
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendAudioRequest"/></summary>
-    public SendAudioRequest() : base("sendAudio") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Audio is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("audio", "thumbnail")
-                .AddContentIfInputFile(media: Audio, name: "audio")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
-            : base.ToHttpContent();
 }

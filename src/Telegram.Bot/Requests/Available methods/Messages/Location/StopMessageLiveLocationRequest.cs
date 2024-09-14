@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to stop updating a live location message before <em>LivePeriod</em> expires.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>
-public partial class StopMessageLiveLocationRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class StopMessageLiveLocationRequest() : RequestBase<Message>("stopMessageLiveLocation"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -16,7 +16,4 @@ public partial class StopMessageLiveLocationRequest : RequestBase<Message>, ICha
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="StopMessageLiveLocationRequest"/></summary>
-    public StopMessageLiveLocationRequest() : base("stopMessageLiveLocation") { }
 }

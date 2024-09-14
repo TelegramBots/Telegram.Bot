@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send point on the map.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendLocationRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendLocationRequest() : RequestBase<Message>("sendLocation"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -47,7 +47,4 @@ public partial class SendLocationRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendLocationRequest"/></summary>
-    public SendLocationRequest() : base("sendLocation") { }
 }

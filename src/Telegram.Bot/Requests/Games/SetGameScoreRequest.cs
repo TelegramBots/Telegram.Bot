@@ -2,7 +2,7 @@
 
 /// <summary>Use this method to set the score of the specified user in a game message.<para>Returns: The <see cref="Message"/> is returned</para></summary>
 /// <remarks>Returns an error, if the new score is not greater than the user's current score in the chat and <see cref="Force">Force</see> is <em>False</em>.</remarks>
-public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable, IUserTargetable
+public partial class SetGameScoreRequest() : RequestBase<Message>("setGameScore"), IChatTargetable, IUserTargetable
 {
     /// <summary>User identifier</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -25,9 +25,6 @@ public partial class SetGameScoreRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
     public bool DisableEditMessage { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SetGameScoreRequest"/></summary>
-    public SetGameScoreRequest() : base("setGameScore") { }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;

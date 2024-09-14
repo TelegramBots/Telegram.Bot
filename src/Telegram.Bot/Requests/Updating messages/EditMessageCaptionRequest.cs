@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit captions of messages.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>
-public partial class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class EditMessageCaptionRequest() : RequestBase<Message>("editMessageCaption"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,7 +28,4 @@ public partial class EditMessageCaptionRequest : RequestBase<Message>, IChatTarg
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditMessageCaptionRequest"/></summary>
-    public EditMessageCaptionRequest() : base("editMessageCaption") { }
 }

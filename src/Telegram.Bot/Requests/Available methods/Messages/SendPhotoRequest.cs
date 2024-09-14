@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send photos.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendPhotoRequest() : FileRequestBase<Message>("sendPhoto"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -46,11 +46,4 @@ public partial class SendPhotoRequest : FileRequestBase<Message>, IChatTargetabl
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendPhotoRequest"/></summary>
-    public SendPhotoRequest() : base("sendPhoto") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Photo is InputFileStream ifs ? ToMultipartFormDataContent("photo", ifs) : base.ToHttpContent();
 }

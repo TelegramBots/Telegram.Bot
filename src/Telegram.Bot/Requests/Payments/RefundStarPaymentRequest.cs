@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Refunds a successful payment in <a href="https://t.me/BotNews/90">Telegram Stars</a>.<para>Returns: </para></summary>
-public partial class RefundStarPaymentRequest : RequestBase<bool>, IUserTargetable
+public partial class RefundStarPaymentRequest() : RequestBase<bool>("refundStarPayment"), IUserTargetable
 {
     /// <summary>Identifier of the user whose payment will be refunded</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -10,7 +10,4 @@ public partial class RefundStarPaymentRequest : RequestBase<bool>, IUserTargetab
     /// <summary>Telegram payment identifier</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string TelegramPaymentChargeId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="RefundStarPaymentRequest"/></summary>
-    public RefundStarPaymentRequest() : base("refundStarPayment") { }
 }

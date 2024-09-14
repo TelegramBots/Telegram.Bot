@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send invoices.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
+public partial class SendInvoiceRequest() : RequestBase<Message>("sendInvoice"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -92,7 +92,4 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>. If empty, one 'Pay <c>total price</c>' button will be shown. If not empty, the first button must be a Pay button.</summary>
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendInvoiceRequest"/></summary>
-    public SendInvoiceRequest() : base("sendInvoice") { }
 }

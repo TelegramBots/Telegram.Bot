@@ -2,7 +2,7 @@
 
 /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 /// <remarks>Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.</remarks>
-public partial class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendAnimationRequest() : FileRequestBase<Message>("sendAnimation"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -59,15 +59,4 @@ public partial class SendAnimationRequest : FileRequestBase<Message>, IChatTarge
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendAnimationRequest"/></summary>
-    public SendAnimationRequest() : base("sendAnimation") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Animation is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("animation", "thumbnail")
-                .AddContentIfInputFile(media: Animation, name: "animation")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
-            : base.ToHttpContent();
 }

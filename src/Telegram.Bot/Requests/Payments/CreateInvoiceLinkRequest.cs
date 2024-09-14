@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to create a link for an invoice.<para>Returns: The created invoice link as <em>String</em> on success.</para></summary>
-public partial class CreateInvoiceLinkRequest : RequestBase<string>
+public partial class CreateInvoiceLinkRequest() : RequestBase<string>("createInvoiceLink")
 {
     /// <summary>Product name, 1-32 characters</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -67,7 +67,4 @@ public partial class CreateInvoiceLinkRequest : RequestBase<string>
 
     /// <summary>Pass <see langword="true"/> if the final price depends on the shipping method. Ignored for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     public bool IsFlexible { get; set; }
-
-    /// <summary>Instantiates a new <see cref="CreateInvoiceLinkRequest"/></summary>
-    public CreateInvoiceLinkRequest() : base("createInvoiceLink") { }
 }
