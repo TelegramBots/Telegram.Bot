@@ -67,7 +67,7 @@ public class ChatId : IEquatable<ChatId>
             _ => false,
         };
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public bool Equals(ChatId? other) => this == other;
 
     /// <summary>

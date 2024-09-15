@@ -8,21 +8,20 @@ namespace Telegram.Bot.Requests;
 /// <param name="methodName">Bot API method</param>
 public abstract class RequestBase<TResponse>(string methodName) : IRequest<TResponse>
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     [JsonIgnore]
     public HttpMethod HttpMethod { get; set; } = HttpMethod.Post;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     [JsonIgnore]
     public string MethodName { get; } = methodName;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     [JsonIgnore]
     public bool IsWebhookResponse { get; set; }
 
     /// <summary><see href="https://core.telegram.org/bots/api#making-requests-when-getting-updates"/></summary>
     [JsonInclude]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     internal string? Method => IsWebhookResponse ? MethodName : default;
 
     /// <summary>Generate content of HTTP message</summary>

@@ -26,6 +26,6 @@ public partial class SetGameScoreRequest() : RequestBase<Message>("setGameScore"
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
     public bool DisableEditMessage { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     ChatId IChatTargetable.ChatId => ChatId;
 }

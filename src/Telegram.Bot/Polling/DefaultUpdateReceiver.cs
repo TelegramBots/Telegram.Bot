@@ -23,7 +23,7 @@ public class DefaultUpdateReceiver(
 
     readonly ITelegramBotClient _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task ReceiveAsync(IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
     {
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }

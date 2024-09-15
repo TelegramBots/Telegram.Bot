@@ -32,6 +32,6 @@ public partial class SendGameRequest() : RequestBase<Message>("sendGame"), IChat
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     ChatId IChatTargetable.ChatId => ChatId;
 }

@@ -9,7 +9,7 @@ public abstract class FileRequestBase<TResponse>(string methodName) : RequestBas
 {
     readonly static Encoding Latin1 = Encoding.GetEncoding(28591);
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override HttpContent? ToHttpContent()
     {
         InputFileConverter.Attachments.Value = null;

@@ -8,7 +8,7 @@ internal class BanTimeConverter : JsonConverter<DateTime?>
         if (reader.TokenType is JsonTokenType.Null)
         {
             if (underlyingType is null)
-                throw new JsonException($"Cannot convert null value to {typeToConvert:CultureInfo.InvariantCulture}.");
+                throw new JsonException($"Cannot convert null value to {typeToConvert}.");
 
             return default;
         }

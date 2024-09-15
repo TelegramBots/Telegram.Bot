@@ -16,6 +16,6 @@ public partial class GetGameHighScoresRequest() : RequestBase<GameHighScore[]>("
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     ChatId IChatTargetable.ChatId => ChatId;
 }

@@ -40,7 +40,7 @@ public class DefaultUpdateHandler : IUpdateHandler
         _errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task HandleUpdateAsync(
         ITelegramBotClient botClient,
         Update update,
@@ -48,7 +48,7 @@ public class DefaultUpdateHandler : IUpdateHandler
     ) =>
         await _updateHandler(botClient, update, cancellationToken).ConfigureAwait(false);
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task HandleErrorAsync(
         ITelegramBotClient botClient,
         Exception exception,

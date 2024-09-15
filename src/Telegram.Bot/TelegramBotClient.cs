@@ -6,6 +6,9 @@ using JetBrains.Annotations;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
+#if NET6_0_OR_GREATER
+using System.Net.Http.Json;
+#endif
 
 namespace Telegram.Bot;
 
@@ -22,7 +25,7 @@ public class TelegramBotClient : ITelegramBotClient
     /// <inheritdoc/>
     public long BotId => _options.BotId;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public bool LocalBotServer => _options.LocalBotServer;
 
     /// <summary>
@@ -59,7 +62,7 @@ public class TelegramBotClient : ITelegramBotClient
     /// </summary>
     public CancellationToken GlobalCancelToken { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public IExceptionParser ExceptionsParser { get; set; } = new DefaultExceptionParser();
 
     /// <summary>
@@ -111,7 +114,7 @@ public class TelegramBotClient : ITelegramBotClient
         this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
     { }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
@@ -162,7 +165,7 @@ public class TelegramBotClient : ITelegramBotClient
                 if (httpResponse.StatusCode != HttpStatusCode.OK)
                 {
                     var failedApiResponse = await DeserializeContentAsync<ApiResponse>(httpResponse,
-                        response => response.ErrorCode == default || response.Description is null, cancellationToken).ConfigureAwait(false);
+                        response => response.ErrorCode != default && response.Description != null, cancellationToken).ConfigureAwait(false);
 
                     if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
                         failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold)
@@ -174,50 +177,37 @@ public class TelegramBotClient : ITelegramBotClient
                 }
 
                 var apiResponse = await DeserializeContentAsync<ApiResponse<TResponse>>(httpResponse,
-                        response => !response.Ok || response.Result is null, cancellationToken).ConfigureAwait(false);
+                        response => response.Ok && response.Result != null, cancellationToken).ConfigureAwait(false);
                 return apiResponse.Result!;
             }
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static async Task<T> DeserializeContentAsync<T>(HttpResponseMessage httpResponse, Func<T, bool> guard,
+    static async Task<T> DeserializeContentAsync<T>(HttpResponseMessage httpResponse, Func<T, bool> validate,
         CancellationToken cancellationToken = default) where T : class
     {
         if (httpResponse.Content is null)
             throw new RequestException("Response doesn't contain any content", httpResponse.StatusCode);
-        Stream? contentStream = null;
+        T? deserializedObject;
         try
         {
-            T? deserializedObject;
-            try
-            {
 #if NET6_0_OR_GREATER
-                contentStream = await httpResponse.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            deserializedObject = await httpResponse.Content.ReadFromJsonAsync<T>(JsonBotAPI.Options, cancellationToken).ConfigureAwait(false);
 #else
-                contentStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var contentStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            deserializedObject = await JsonSerializer.DeserializeAsync<T>(contentStream, JsonBotAPI.Options,
+                cancellationToken).ConfigureAwait(false);
 #endif
-                deserializedObject = await JsonSerializer.DeserializeAsync<T>(contentStream, JsonBotAPI.Options,
-                    cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception exception)
-            {
-                throw new RequestException("There was an exception during deserialization of the response",
-                    httpResponse.StatusCode, exception);
-            }
-
-            if (deserializedObject is null || guard(deserializedObject))
-                throw new RequestException("Required properties not found in response", httpResponse.StatusCode);
-            return deserializedObject;
         }
-        finally
+        catch (Exception exception)
         {
-#if NET6_0_OR_GREATER
-            if (contentStream is not null) await contentStream.DisposeAsync().ConfigureAwait(false);
-#else
-            contentStream?.Dispose();
-#endif
+            throw new RequestException("There was an exception during deserialization of the response",
+                httpResponse.StatusCode, exception);
         }
+        if (deserializedObject is null || !validate(deserializedObject))
+            throw new RequestException("Required properties not found in response", httpResponse.StatusCode);
+        return deserializedObject;
     }
 
     /// <summary>
@@ -239,7 +229,7 @@ public class TelegramBotClient : ITelegramBotClient
         }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task DownloadFileAsync(
         string filePath,
         Stream destination,
@@ -263,8 +253,7 @@ public class TelegramBotClient : ITelegramBotClient
         if (!httpResponse.IsSuccessStatusCode)
         {
             var failedApiResponse = await DeserializeContentAsync<ApiResponse>(httpResponse,
-                    response => response.ErrorCode == default || response.Description is null, cts.Token).ConfigureAwait(false);
-
+                    response => response.ErrorCode != default && response.Description != null, cts.Token).ConfigureAwait(false);
             throw ExceptionsParser.Parse(failedApiResponse);
         }
 

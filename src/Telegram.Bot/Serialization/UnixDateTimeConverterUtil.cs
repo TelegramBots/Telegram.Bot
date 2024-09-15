@@ -11,7 +11,7 @@ internal static class UnixDateTimeConverterUtil
             return UnixEpoch.AddSeconds(seconds);
         if (seconds == 0)
             return default; // easier to test than 1/1/1970
-        throw new JsonException($"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {typeToConvert:CultureInfo.InvariantCulture}.");
+        throw new JsonException($"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {typeToConvert}.");
     }
 
     internal static void Write(Utf8JsonWriter writer, DateTime value)
