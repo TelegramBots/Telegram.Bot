@@ -20,7 +20,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Text_Message()
     {
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "Hello world!"
         );
@@ -43,7 +43,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
     {
         string text = $"Hello members of channel {classFixture.ChannelChatId}";
 
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: classFixture.ChannelChatId,
             text: text
         );
@@ -58,12 +58,12 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ForwardMessage)]
     public async Task Should_Forward_Message()
     {
-        Message message1 = await BotClient.SendTextMessageAsync(
+        Message message1 = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat,
             text: "➡️ Message to be forwared ⬅️"
         );
 
-        Message message2 = await BotClient.ForwardMessageAsync(
+        Message message2 = await BotClient.ForwardMessage(
             chatId: Fixture.SupergroupChat,
             fromChatId: Fixture.SupergroupChat,
             messageId: message1.MessageId
@@ -94,7 +94,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             {MessageEntityType.Pre, "```csharp\npre-formatted fixed-width code block```"},
         };
 
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: string.Join("\n", entityValueMappings.Values),
             parseMode: ParseMode.Markdown,
@@ -134,7 +134,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
         ];
 
         var text = string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: text,
             parseMode: ParseMode.Html,
@@ -170,7 +170,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             (MessageEntityType.BotCommand, $"/test@{Fixture.BotUser.Username}"),
         ];
 
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
         );
@@ -206,7 +206,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
         };
 
         var text = string.Join("\n", entityValueMappings.Values);
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: text,
             parseMode: ParseMode.MarkdownV2,
@@ -254,7 +254,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             offset += kvp.Value.Length + 1;
             return entity;
         }).ToList();
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: string.Join("\n", entityValueMappings.Values),
             entities: entities,
@@ -275,7 +275,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Message_With_Protected_Content()
     {
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "This content is protected!",
             protectContent: true
@@ -298,7 +298,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Receive_Error_Trying_Forward_A_Message__With_Protected_Content()
     {
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "This content is protected!",
             protectContent: true
@@ -307,7 +307,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
         Assert.True(message.HasProtectedContent);
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
-            async () => await BotClient.ForwardMessageAsync(
+            async () => await BotClient.ForwardMessage(
                 fromChatId: Fixture.SupergroupChat.Id,
                 chatId: Fixture.SupergroupChat.Id,
                 messageId: message.MessageId

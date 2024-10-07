@@ -41,7 +41,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
+        await BotClient.AnswerInlineQuery(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -54,7 +54,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
         // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
         // either an URL or the file_id of a previously uploaded media.
         InputFileUrl inputFileUrl = InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3");
-        await BotClient.EditMessageMediaAsync(
+        await BotClient.EditMessageMedia(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
             media: new InputMediaAudio
             {
@@ -73,7 +73,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
     {
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
-        Message gifMessage = await BotClient.WithStreams(stream).SendDocumentAsync(
+        Message gifMessage = await BotClient.WithStreams(stream).SendDocument(
             chatId: Fixture.SupergroupChat,
             document: InputFile.FromStream(stream, "Earth.gif"),
             caption: "`file_id` of this GIF will be used",
@@ -102,7 +102,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
+        await BotClient.AnswerInlineQuery(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -114,7 +114,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
         // Change the YouTube video for an animation. Note that, in the case of an inline message, the new media
         // should be either an URL or the file_id of a previously uploaded media.
         // Also, animation thumbnail cannot be uploaded for an inline message.
-        await BotClient.EditMessageMediaAsync(
+        await BotClient.EditMessageMedia(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
             media: new InputMediaAnimation { Media = InputFile.FromFileId(animationFileId) }
         );

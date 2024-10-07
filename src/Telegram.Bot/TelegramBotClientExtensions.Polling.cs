@@ -21,9 +21,9 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default)
     {
-        var updates = await botClient.GetUpdatesAsync(-1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
+        var updates = await botClient.GetUpdates(-1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
         if (updates.Length > 0)
-            await botClient.GetUpdatesAsync(updates[^1].Id + 1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
+            await botClient.GetUpdates(updates[^1].Id + 1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

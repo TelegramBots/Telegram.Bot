@@ -53,7 +53,7 @@ public class TestsFixture : IDisposable
             await UpdateReceiver.DiscardNewUpdatesAsync(token);
             var passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Failed;
 
-            await BotClient.SendTextMessageAsync(
+            await BotClient.SendMessage(
                 chatId: SupergroupChat.Id,
                 text: string.Format(
                     Constants.TestExecutionResultMessageFormat,
@@ -82,7 +82,7 @@ public class TestsFixture : IDisposable
             : default;
 
         return await Ex.WithCancellation(async token =>
-            await BotClient.SendTextMessageAsync(
+            await BotClient.SendMessage(
                 chatId: chatId,
                 text: text,
                 parseMode: ParseMode.Markdown,
@@ -136,7 +136,7 @@ public class TestsFixture : IDisposable
         var chat = (chatType == ChatType.Channel
             ? ((MessageOriginChannel)update.Message?.ForwardOrigin)!.Chat
             : update.Message?.Chat) ?? throw new InvalidOperationException("Couldn't find the chat from the tester.");
-        return await BotClient.GetChatAsync(
+        return await BotClient.GetChat(
             chatId: chat.Id,
             cancellationToken: cancellationToken
         );
@@ -161,7 +161,7 @@ public class TestsFixture : IDisposable
             _ => throw new InvalidOperationException()
         };
 
-        return await BotClient.GetChatAsync(userId!);
+        return await BotClient.GetChat(userId!);
 
         static bool IsMatch(Update u) => u
             is { Message.Type: MessageType.Contact }
@@ -191,8 +191,8 @@ public class TestsFixture : IDisposable
         var allowedUserNames = await Ex.WithCancellation(
             async token =>
             {
-                BotUser = await BotClient.GetMeAsync(token);
-                await BotClient.DeleteWebhookAsync(cancellationToken: token);
+                BotUser = await BotClient.GetMe(token);
+                await BotClient.DeleteWebhook(cancellationToken: token);
 
                 SupergroupChat = await FindSupergroupTestChatAsync(token);
                 return await FindAllowedTesterUserNames(token);
@@ -201,7 +201,7 @@ public class TestsFixture : IDisposable
 
         UpdateReceiver = new(this, allowedUserNames);
 
-        await Ex.WithCancellation(async token => await BotClient.SendTextMessageAsync(
+        await Ex.WithCancellation(async token => await BotClient.SendMessage(
             chatId: SupergroupChat.Id,
             text: $"""
                   ```
@@ -247,7 +247,7 @@ public class TestsFixture : IDisposable
             ? (InlineKeyboardMarkup)InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
             : default;
 
-        var task = BotClient.SendTextMessageAsync(
+        var task = BotClient.SendMessage(
             chatId: chatId,
             text: text,
             parseMode: ParseMode.MarkdownV2,
@@ -260,7 +260,7 @@ public class TestsFixture : IDisposable
     async Task<ChatFullInfo> FindSupergroupTestChatAsync(CancellationToken cancellationToken = default)
     {
         var supergroupChatId = Configuration.SuperGroupChatId;
-        return await BotClient.GetChatAsync(supergroupChatId, cancellationToken);
+        return await BotClient.GetChat(supergroupChatId, cancellationToken);
     }
 
     async Task<IEnumerable<string>> FindAllowedTesterUserNames(CancellationToken cancellationToken = default)
@@ -271,7 +271,7 @@ public class TestsFixture : IDisposable
         if (allowedUserNames.Length != 0) return allowedUserNames;
 
         // Assume all chat admins are allowed testers
-        var admins = await BotClient.GetChatAdministratorsAsync(SupergroupChat, cancellationToken);
+        var admins = await BotClient.GetChatAdministrators(SupergroupChat, cancellationToken);
         allowedUserNames = admins
             .Where(member => !member.User.IsBot)
             .Select(member => member.User.Username)

@@ -13,12 +13,12 @@ public class CopyMessageTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CopyMessage)]
     public async Task Should_Copy_Text_Message()
     {
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "hello"
         );
 
-        MessageId copyMessageId = await BotClient.CopyMessageAsync(
+        MessageId copyMessageId = await BotClient.CopyMessage(
             chatId: Fixture.SupergroupChat.Id,
             fromChatId: Fixture.SupergroupChat.Id,
             messageId: message.MessageId
@@ -31,19 +31,19 @@ public class CopyMessageTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CopyMessages)]
     public async Task Should_Copy_Text_Messages()
     {
-        Message message1 = await BotClient.SendTextMessageAsync(
+        Message message1 = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "message one."
         );
 
-        Message message2 = await BotClient.SendTextMessageAsync(
+        Message message2 = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "message two"
         );
 
         int[] messageIds = [message1.MessageId, message2.MessageId];
 
-        MessageId[] copyMessageIds = await BotClient.CopyMessagesAsync(
+        MessageId[] copyMessageIds = await BotClient.CopyMessages(
             chatId: Fixture.SupergroupChat.Id,
             fromChatId: Fixture.SupergroupChat.Id,
             messageIds: messageIds

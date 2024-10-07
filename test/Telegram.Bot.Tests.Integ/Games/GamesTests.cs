@@ -26,7 +26,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : TestC
         Update queryUpdate = await Fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "game";
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: queryUpdate.InlineQuery!.Id,
             results:
             [
@@ -58,7 +58,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : TestC
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
     public async Task Should_Get_High_Scores_Inline_Message()
     {
-        GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
+        GameHighScore[] highScores = await BotClient.GetGameHighScores(
             userId: classFixture.Player.Id,
             inlineMessageId: classFixture.InlineGameMessageId
         );
@@ -82,7 +82,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : TestC
             $"Changing score from {oldScore} to {newScore} for {classFixture.Player.Username!.Replace("_", @"\_")}."
         );
 
-        await BotClient.SetGameScoreAsync(
+        await BotClient.SetGameScore(
             userId: playerId,
             score: newScore,
             inlineMessageId: classFixture.InlineGameMessageId
@@ -101,7 +101,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : TestC
 
         Assert.NotNull(cqUpdate.CallbackQuery?.GameShortName);
 
-        await BotClient.AnswerCallbackQueryAsync(
+        await BotClient.AnswerCallbackQuery(
             callbackQueryId: cqUpdate.CallbackQuery!.Id,
             url: "https://tbot.xyz/lumber/"
         );

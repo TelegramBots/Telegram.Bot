@@ -14,6 +14,6 @@ public partial class EditForumTopicRequest() : RequestBase<bool>("editForumTopic
     /// <summary>New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept</summary>
     public string? Name { get; set; }
 
-    /// <summary>New unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickersAsync">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept</summary>
+    /// <summary>New unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickers">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept</summary>
     public string? IconCustomEmojiId { get; set; }
 }

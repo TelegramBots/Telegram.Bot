@@ -32,7 +32,7 @@ internal class RetryTelegramBotClient(
     private Stream[]? _testStreams;
     public void WithStreams(Stream[] streams) => _testStreams = streams;
 
-    public override async Task<TResponse> MakeRequestAsync<TResponse>(
+    public override async Task<TResponse> MakeRequest<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
@@ -44,7 +44,7 @@ internal class RetryTelegramBotClient(
             {
                 try
                 {
-                    return await base.MakeRequestAsync(request, cancellationToken);
+                    return await base.MakeRequest(request, cancellationToken);
                 }
                 catch (ApiRequestException e) when (e.ErrorCode == 429)
                 {

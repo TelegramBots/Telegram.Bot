@@ -26,7 +26,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
         ];
         string messageText = $"{originalMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
-        Message originalMessage = await BotClient.SendTextMessageAsync(
+        Message originalMessage = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: messageText,
             parseMode: ParseMode.Html
@@ -37,7 +37,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
         const string modifiedMessagePrefix = "modified\n";
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
-        Message editedMessage = await BotClient.EditMessageTextAsync(
+        Message editedMessage = await BotClient.EditMessageText(
             chatId: originalMessage.Chat.Id,
             messageId: originalMessage.MessageId,
             text: messageText,
@@ -62,7 +62,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
     public async Task Should_Edit_Message_Markup()
     {
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "Inline keyboard will be updated shortly",
             replyMarkup: (InlineKeyboardMarkup)"Original markup"
@@ -70,7 +70,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
 
         await Task.Delay(1_000);
 
-        Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
+        Message editedMessage = await BotClient.EditMessageReplyMarkup(
             chatId: message.Chat.Id,
             messageId: message.MessageId,
             replyMarkup: "Edited 👍"
@@ -90,7 +90,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
         Message originalMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
         {
-            originalMessage = await BotClient.WithStreams(stream).SendPhotoAsync(
+            originalMessage = await BotClient.WithStreams(stream).SendPhoto(
                 chatId: Fixture.SupergroupChat.Id,
                 photo: InputFile.FromStream(stream),
                 caption: "Message caption will be updated shortly"
@@ -103,7 +103,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
         (MessageEntityType Type, string Value) = (MessageEntityType.Italic, "_with Markdown_");
         string caption = $"{captionPrefix} {Value}";
 
-        Message editedMessage = await BotClient.EditMessageCaptionAsync(
+        Message editedMessage = await BotClient.EditMessageCaption(
             chatId: originalMessage.Chat.Id,
             messageId: originalMessage.MessageId,
             caption: caption,

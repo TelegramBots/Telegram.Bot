@@ -16,7 +16,7 @@ public class ApiExceptionsTests2(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Throw_Exception_ChatNotFoundException()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendTextMessageAsync(0, "test")
+            BotClient.SendMessage(0, "test")
         );
 
         Assert.Equal(400, e.ErrorCode);
@@ -27,7 +27,7 @@ public class ApiExceptionsTests2(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Throw_Exception_UserNotFoundException()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.PromoteChatMemberAsync(Fixture.SupergroupChat.Id, 123456)
+            BotClient.PromoteChatMember(Fixture.SupergroupChat.Id, 123456)
         );
 
         Assert.Equal(400, e.ErrorCode);
@@ -44,7 +44,7 @@ public class ApiExceptionsTests2(TestsFixture fixture) : TestClass(fixture)
         });
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendTextMessageAsync(
+            BotClient.SendMessage(
                 chatId: Fixture.SupergroupChat.Id,
                 text: "You should never see this message",
                 replyMarkup: replyMarkup
@@ -60,13 +60,13 @@ public class ApiExceptionsTests2(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Throw_Exception_MessageIsNotModifiedException()
     {
         const string messageTextToModify = "Message text to modify";
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: messageTextToModify
         );
 
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.EditMessageTextAsync(
+            BotClient.EditMessageText(
                 chatId: Fixture.SupergroupChat.Id,
                 messageId: message.MessageId,
                 text: messageTextToModify

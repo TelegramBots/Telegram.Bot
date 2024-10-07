@@ -37,7 +37,7 @@ public class UpdateReceiver(TestsFixture fixture, IEnumerable<string>? allowedUs
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await fixture.BotClient.GetUpdatesAsync(
+                var updates = await fixture.BotClient.GetUpdates(
                     offset: offset,
                     allowedUpdates: Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown),
                     cancellationToken: cancellationToken
@@ -208,7 +208,7 @@ public class UpdateReceiver(TestsFixture fixture, IEnumerable<string>? allowedUs
         CancellationToken cancellationToken,
         params UpdateType[] types)
     {
-        var updates = await fixture.BotClient.GetUpdatesAsync(
+        var updates = await fixture.BotClient.GetUpdates(
             offset: offset,
             timeout: 120,
             allowedUpdates: types,

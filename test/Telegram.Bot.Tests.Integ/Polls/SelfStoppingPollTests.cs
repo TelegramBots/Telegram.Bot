@@ -17,7 +17,7 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Self_Closing_Poll_Anonymous_Poll_By_Period()
     {
-        Message message = await BotClient.SendPollAsync(
+        Message message = await BotClient.SendPoll(
             chatId: Fixture.SupergroupChat,
             question: "Who shot first?",
             options: ["Han Solo", "Greedo", "I don't care"],
@@ -72,7 +72,7 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
     {
         DateTime closeDate = DateTime.UtcNow.AddSeconds(8);
 
-        Message message = await BotClient.SendPollAsync(
+        Message message = await BotClient.SendPoll(
             chatId: Fixture.SupergroupChat,
             question: "Who shot first?",
             options: ["Han Solo", "Greedo", "I don't care"],

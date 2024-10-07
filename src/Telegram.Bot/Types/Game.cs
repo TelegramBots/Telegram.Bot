@@ -15,7 +15,7 @@ public partial class Game
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public PhotoSize[] Photo { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls <see cref="TelegramBotClientExtensions.SetGameScoreAsync">SetGameScore</see>, or manually edited using <see cref="TelegramBotClientExtensions.EditMessageTextAsync">EditMessageText</see>. 0-4096 characters.</summary>
+    /// <summary><em>Optional</em>. Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls <see cref="TelegramBotClientExtensions.SetGameScore">SetGameScore</see>, or manually edited using <see cref="TelegramBotClientExtensions.EditMessageText">EditMessageText</see>. 0-4096 characters.</summary>
     public string? Text { get; set; }
 
     /// <summary><em>Optional</em>. Special entities that appear in <see cref="Text">Text</see>, such as usernames, URLs, bot commands, etc.</summary>

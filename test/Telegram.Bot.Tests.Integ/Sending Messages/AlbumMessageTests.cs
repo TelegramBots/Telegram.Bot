@@ -24,7 +24,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
                     )
         {
-            messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroupAsync(
+            messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroup(
                 chatId: Fixture.SupergroupChat.Id,
                 media: [
                     new InputMediaPhoto
@@ -64,7 +64,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
             .Select(msg => msg.Photo!.First().FileId)
             .ToArray();
 
-        Message[] messages = await BotClient.SendMediaGroupAsync(
+        Message[] messages = await BotClient.SendMediaGroup(
             chatId: Fixture.SupergroupChat.Id,
             media: [
                 new InputMediaPhoto { Media = InputFile.FromFileId(fileIds[0])},
@@ -84,7 +84,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
         // ToDo add exception: Bad Request: failed to get HTTP URL content
         int replyToMessageId = classFixture.Entities.First().MessageId;
 
-        Message[] messages = await BotClient.SendMediaGroupAsync(
+        Message[] messages = await BotClient.SendMediaGroup(
             chatId: Fixture.SupergroupChat.Id,
             media: [
                 new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")},
@@ -114,7 +114,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
                     )
         {
-            messages = await BotClient.WithStreams(stream0, stream1, stream2).SendMediaGroupAsync(
+            messages = await BotClient.WithStreams(stream0, stream1, stream2).SendMediaGroup(
                 chatId: Fixture.SupergroupChat.Id,
                 media: [
                     new InputMediaVideo
@@ -171,7 +171,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
             stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
 
 
-        Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroupAsync(
+        Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroup(
             chatId: Fixture.SupergroupChat.Id,
             media: [
                 new InputMediaPhoto
@@ -213,7 +213,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
             stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
             stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
 
-        Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroupAsync(
+        Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroup(
             chatId: Fixture.SupergroupChat.Id,
             media: [
                 new InputMediaVideo

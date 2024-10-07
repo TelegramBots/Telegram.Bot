@@ -23,7 +23,7 @@ public class DeleteMessageTests(TestsFixture fixture) : TestClass(fixture)
 
         Update queryUpdate = await Fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: queryUpdate.InlineQuery!.Id,
             results:
             [
@@ -45,7 +45,7 @@ public class DeleteMessageTests(TestsFixture fixture) : TestClass(fixture)
 
         await Task.Delay(1_000);
 
-        await BotClient.DeleteMessageAsync(
+        await BotClient.DeleteMessage(
             chatId: messageUpdate.Message!.Chat.Id,
             messageId: messageUpdate.Message.MessageId
         );

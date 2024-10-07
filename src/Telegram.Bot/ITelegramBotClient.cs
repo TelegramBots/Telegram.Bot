@@ -58,7 +58,7 @@ public interface ITelegramBotClient
     /// <param name="request">API request object</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Result of the API request</returns>
-    Task<TResponse> MakeRequestAsync<TResponse>(
+    Task<TResponse> MakeRequest<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default
     );
@@ -68,11 +68,11 @@ public interface ITelegramBotClient
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns><see langword="true"/> if token is valid</returns>
-    Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
+    Task<bool> TestApi(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use this method to download a file. Get <paramref name="filePath"/> by calling
-    /// <see cref="TelegramBotClientExtensions.GetFileAsync(ITelegramBotClient, string, CancellationToken)"/>
+    /// <see cref="TelegramBotClientExtensions.GetFile(ITelegramBotClient, string, CancellationToken)"/>
     /// </summary>
     /// <param name="filePath">Path to file on server</param>
     /// <param name="destination">Destination stream to write file to</param>
@@ -81,7 +81,7 @@ public interface ITelegramBotClient
     /// </param>
     /// <exception cref="ArgumentException">filePath is <see langword="null"/>, empty or too short</exception>
     /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <see langword="null"/></exception>
-    Task DownloadFileAsync(
+    Task DownloadFile(
         string filePath,
         Stream destination,
         CancellationToken cancellationToken = default
@@ -101,17 +101,17 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, a <see cref="File"/> object is returned.</returns>
-    public static async Task<File> GetInfoAndDownloadFileAsync(
+    public static async Task<File> GetInfoAndDownloadFile(
         this ITelegramBotClient botClient,
         string fileId,
         Stream destination,
         CancellationToken cancellationToken = default)
     {
         var file = await botClient.ThrowIfNull()
-            .MakeRequestAsync(new Requests.GetFileRequest { FileId = fileId }, cancellationToken)
+            .MakeRequest(new Requests.GetFileRequest { FileId = fileId }, cancellationToken)
             .ConfigureAwait(false);
 
-        await botClient.DownloadFileAsync(filePath: file.FilePath!, destination, cancellationToken)
+        await botClient.DownloadFile(filePath: file.FilePath!, destination, cancellationToken)
             .ConfigureAwait(false);
 
         return file;

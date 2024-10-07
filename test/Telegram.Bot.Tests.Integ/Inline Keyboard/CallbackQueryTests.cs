@@ -21,7 +21,7 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
     {
         string callbackQueryData = 'a' + new Random().Next(5_000).ToString();
 
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "Please click on *OK* button.",
             parseMode: ParseMode.Markdown,
@@ -34,7 +34,7 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
         Update responseUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
         CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
-        await BotClient.AnswerCallbackQueryAsync(
+        await BotClient.AnswerCallbackQuery(
             callbackQueryId: callbackQuery!.Id,
             text: "You clicked on OK"
         );
@@ -57,7 +57,7 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
     {
         string callbackQueryData = $"b{new Random().Next(5_000)}";
 
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "Please click on *Notify* button.",
             parseMode: ParseMode.Markdown,
@@ -69,7 +69,7 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
         Update responseUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
         CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
-        await BotClient.AnswerCallbackQueryAsync(
+        await BotClient.AnswerCallbackQuery(
             callbackQueryId: responseUpdate.CallbackQuery!.Id,
             text: "Got it!",
             showAlert: true

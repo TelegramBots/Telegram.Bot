@@ -1,6 +1,6 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling <see cref="TelegramBotClientExtensions.DeleteStickerFromSetAsync">DeleteStickerFromSet</see>, then <see cref="TelegramBotClientExtensions.AddStickerToSetAsync">AddStickerToSet</see>, then <see cref="TelegramBotClientExtensions.SetStickerPositionInSetAsync">SetStickerPositionInSet</see>.<para>Returns: </para></summary>
+/// <summary>Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling <see cref="TelegramBotClientExtensions.DeleteStickerFromSet">DeleteStickerFromSet</see>, then <see cref="TelegramBotClientExtensions.AddStickerToSet">AddStickerToSet</see>, then <see cref="TelegramBotClientExtensions.SetStickerPositionInSet">SetStickerPositionInSet</see>.<para>Returns: </para></summary>
 public partial class ReplaceStickerInSetRequest() : FileRequestBase<bool>("replaceStickerInSet"), IUserTargetable
 {
     /// <summary>User identifier of the sticker set owner</summary>

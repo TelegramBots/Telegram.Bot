@@ -21,7 +21,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
         Message originalMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
-            originalMessage = await BotClient.WithStreams(stream).SendVideoAsync(
+            originalMessage = await BotClient.WithStreams(stream).SendVideo(
                 chatId: Fixture.SupergroupChat,
                 video: InputFile.FromStream(stream),
                 caption: "This message will be edited shortly"
@@ -36,7 +36,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
             documentStream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey),
             thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         {
-            editedMessage = await BotClient.WithStreams(documentStream, thumbStream).EditMessageMediaAsync(
+            editedMessage = await BotClient.WithStreams(documentStream, thumbStream).EditMessageMedia(
                 chatId: originalMessage.Chat,
                 messageId: originalMessage.MessageId,
                 media: new InputMediaDocument
@@ -63,7 +63,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Edit_Message_Photo()
     {
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
-        Message gifMessage = await BotClient.SendDocumentAsync(
+        Message gifMessage = await BotClient.SendDocument(
             chatId: Fixture.SupergroupChat,
             document: InputFile.FromUri(new Uri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")),
             caption: "`file_id` of this GIF will be used"
@@ -72,7 +72,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
         Assert.NotNull(gifMessage.Document);
 
         // Send a photo to chat. This media will be changed later in test.
-        Message originalMessage = await BotClient.SendPhotoAsync(
+        Message originalMessage = await BotClient.SendPhoto(
             chatId: Fixture.SupergroupChat,
             photo: InputFile.FromUri(new Uri("https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")),
             caption: "This message will be edited shortly"
@@ -82,7 +82,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
 
         // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
         await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
-        Message editedMessage = await BotClient.WithStreams(thumbStream).EditMessageMediaAsync(
+        Message editedMessage = await BotClient.WithStreams(thumbStream).EditMessageMedia(
             chatId: originalMessage.Chat,
             messageId: originalMessage.MessageId,
             media: new InputMediaAnimation

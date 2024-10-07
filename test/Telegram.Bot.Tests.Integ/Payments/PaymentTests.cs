@@ -165,7 +165,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
-        await Fixture.BotClient.AnswerPreCheckoutQueryAsync(
+        await Fixture.BotClient.AnswerPreCheckoutQuery(
             query!.Id
         );
 
@@ -240,7 +240,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
-        await Fixture.BotClient.AnswerPreCheckoutQueryAsync(
+        await Fixture.BotClient.AnswerPreCheckoutQuery(
             query!.Id
         );
 
@@ -302,7 +302,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
-        await Fixture.BotClient.AnswerPreCheckoutQueryAsync(
+        await Fixture.BotClient.AnswerPreCheckoutQuery(
             query!.Id
         );
 
@@ -405,7 +405,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
-        await Fixture.BotClient.AnswerPreCheckoutQueryAsync(
+        await Fixture.BotClient.AnswerPreCheckoutQuery(
             preCheckoutQueryId: query!.Id,
             errorMessage: "Sorry, we couldn't process the transaction. Please, contact our support."
         );
@@ -497,7 +497,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         Assert.Equal(400, exception.ErrorCode);
         Assert.Equal("Bad Request: SHIPPING_ID_DUPLICATE", exception.Message);
 
-        await Fixture.BotClient.AnswerShippingQueryAsync(
+        await Fixture.BotClient.AnswerShippingQuery(
             shippingQueryId: shippingUpdate.ShippingQuery.Id,
             errorMessage: "✅ Test Passed"
         );
@@ -578,7 +578,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         //Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         //PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
-        //await fixture.BotClient.AnswerPreCheckoutQueryAsync(
+        //await fixture.BotClient.AnswerPreCheckoutQuery(
         //    query!.Id
         //);
 

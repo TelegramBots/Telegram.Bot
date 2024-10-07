@@ -18,7 +18,7 @@ public class PublicPollTests(PublicPollTestsFixture classFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Non_Anonymous_Poll_With_Multiple_Answers()
     {
-        Message message = await Fixture.BotClient.SendPollAsync(
+        Message message = await Fixture.BotClient.SendPoll(
             chatId: Fixture.SupergroupChat,
             question: "Pick your team",
             options: ["Aragorn", "Galadriel", "Frodo"],
@@ -84,7 +84,7 @@ public class PublicPollTests(PublicPollTestsFixture classFixture)
         // doesn't match up with the previously received poll answer
         await Task.Delay(TimeSpan.FromSeconds(5));
 
-        Poll closedPoll = await BotClient.StopPollAsync(
+        Poll closedPoll = await BotClient.StopPoll(
             chatId: classFixture.OriginalPollMessage.Chat,
             messageId: classFixture.OriginalPollMessage.MessageId
         );

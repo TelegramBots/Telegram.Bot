@@ -18,7 +18,7 @@ public class SendingContactMessageTests(TestsFixture fixture) : TestClass(fixtur
         const string firstName = "Han";
         const string lastName = "Solo";
 
-        Message message = await BotClient.SendContactAsync(
+        Message message = await BotClient.SendContact(
             chatId: Fixture.SupergroupChat,
             phoneNumber: phoneNumber,
             firstName: firstName,
@@ -54,7 +54,7 @@ public class SendingContactMessageTests(TestsFixture fixture) : TestClass(fixtur
             END:VCARD
             """.Replace("\r", "");
 
-        Message message = await BotClient.SendContactAsync(
+        Message message = await BotClient.SendContact(
             chatId: Fixture.SupergroupChat,
             phoneNumber: "+11115551212",
             firstName: "Forrest",

@@ -26,7 +26,7 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
         const float latBerlin = 52.5200f;
         const float lonBerlin = 13.4050f;
 
-        Message message = await BotClient.SendLocationAsync(
+        Message message = await BotClient.SendLocation(
             chatId: Fixture.SupergroupChat.Id,
             latitude: latBerlin,
             longitude: lonBerlin,
@@ -55,7 +55,7 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
         {
             await Task.Delay(1_500);
 
-            editedMessage = await BotClient.EditMessageLiveLocationAsync(
+            editedMessage = await BotClient.EditMessageLiveLocation(
                 chatId: LocationMessage.Chat.Id,
                 messageId: LocationMessage.MessageId,
                 latitude: newLocation.Latitude,
@@ -75,7 +75,7 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
     public async Task Should_Stop_Live_Location()
     {
-        Message message = await BotClient.StopMessageLiveLocationAsync(
+        Message message = await BotClient.StopMessageLiveLocation(
             chatId: LocationMessage.Chat,
             messageId: LocationMessage.MessageId
         );

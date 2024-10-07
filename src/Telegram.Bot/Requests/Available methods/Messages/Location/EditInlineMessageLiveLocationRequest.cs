@@ -1,6 +1,6 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to edit live location messages. A location can be edited until its <see cref="LivePeriod">LivePeriod</see> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocationAsync">StopMessageLiveLocation</see>.<para>Returns: </para></summary>
+/// <summary>Use this method to edit live location messages. A location can be edited until its <see cref="LivePeriod">LivePeriod</see> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocation">StopMessageLiveLocation</see>.<para>Returns: </para></summary>
 public partial class EditInlineMessageLiveLocationRequest() : RequestBase<bool>("editMessageLiveLocation"), IBusinessConnectable
 {
     /// <summary>Identifier of the inline message</summary>

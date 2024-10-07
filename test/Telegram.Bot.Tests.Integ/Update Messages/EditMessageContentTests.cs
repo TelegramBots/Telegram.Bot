@@ -54,7 +54,7 @@ public class EditMessageContentTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+        await BotClient.AnswerInlineQuery(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -67,7 +67,7 @@ public class EditMessageContentTests(TestsFixture fixture) : TestClass(fixture)
         const string modifiedMessagePrefix = "✌ modified 👌\n";
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
-        await BotClient.EditMessageTextAsync(
+        await BotClient.EditMessageText(
             inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
             text: messageText,
             parseMode: ParseMode.Html
@@ -112,7 +112,7 @@ public class EditMessageContentTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+        await BotClient.AnswerInlineQuery(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -122,7 +122,7 @@ public class EditMessageContentTests(TestsFixture fixture) : TestClass(fixture)
         Assert.NotNull(callbackQUpdate.CallbackQuery);
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
-        await BotClient.EditMessageReplyMarkupAsync(
+        await BotClient.EditMessageReplyMarkup(
             inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
             replyMarkup: "✌ Edited 👌"
         );
@@ -162,7 +162,7 @@ public class EditMessageContentTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+        await BotClient.AnswerInlineQuery(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
 
         #endregion
 
@@ -172,7 +172,7 @@ public class EditMessageContentTests(TestsFixture fixture) : TestClass(fixture)
         Assert.NotNull(callbackQUpdate.CallbackQuery);
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
-        await BotClient.EditMessageCaptionAsync(
+        await BotClient.EditMessageCaption(
             inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
             caption: "_Caption is edited_ 👌",
             parseMode: ParseMode.Markdown

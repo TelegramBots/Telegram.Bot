@@ -14,6 +14,6 @@ public partial class CreateForumTopicRequest() : RequestBase<ForumTopic>("create
     /// <summary>Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590 (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)</summary>
     public int? IconColor { get; set; }
 
-    /// <summary>Unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickersAsync">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers.</summary>
+    /// <summary>Unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickers">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers.</summary>
     public string? IconCustomEmojiId { get; set; }
 }

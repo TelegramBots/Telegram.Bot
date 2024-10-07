@@ -17,7 +17,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
     public async Task Should_Send_Game()
     {
-        Message gameMessage = await BotClient.SendGameAsync(
+        Message gameMessage = await BotClient.SendGame(
             chatId: Fixture.SupergroupChat.Id,
             gameShortName: classFixture.GameShortName
         );
@@ -40,7 +40,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
     public async Task Should_Send_Game_With_ReplyMarkup()
     {
-        Message gameMessage = await BotClient.SendGameAsync(
+        Message gameMessage = await BotClient.SendGame(
             chatId: Fixture.SupergroupChat.Id,
             gameShortName: classFixture.GameShortName,
             replyMarkup: new[]
@@ -65,7 +65,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
     public async Task Should_Get_High_Scores()
     {
-        GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
+        GameHighScore[] highScores = await BotClient.GetGameHighScores(
             userId: classFixture.Player.Id,
             chatId: Fixture.SupergroupChat.Id,
             messageId: classFixture.GameMessage.MessageId
@@ -98,7 +98,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
             $"Changing score from {oldScore} to {newScore} for {classFixture.Player.Username!.Replace("_", @"\_")}."
         );
 
-        Message gameMessage = await BotClient.SetGameScoreAsync(
+        Message gameMessage = await BotClient.SetGameScore(
             userId: playerId,
             score: newScore,
             chatId: Fixture.SupergroupChat.Id,
@@ -109,7 +109,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
 
         // update the high scores cache
         await Task.Delay(1_000);
-        classFixture.HighScores = await BotClient.GetGameHighScoresAsync(
+        classFixture.HighScores = await BotClient.GetGameHighScores(
             playerId, Fixture.SupergroupChat.Id, gameMessage.MessageId
         );
     }
@@ -126,7 +126,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
             $"Changing score from {oldScore} to {newScore} for {classFixture.Player.Username!.Replace("_", @"\_")}."
         );
 
-        Message gameMessage = await BotClient.SetGameScoreAsync(
+        Message gameMessage = await BotClient.SetGameScore(
             userId: playerId,
             score: newScore,
             chatId: Fixture.SupergroupChat.Id,

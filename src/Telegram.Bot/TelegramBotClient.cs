@@ -115,7 +115,7 @@ public class TelegramBotClient : ITelegramBotClient
     { }
 
     /// <inheritdoc/>
-    public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
+    public virtual async Task<TResponse> MakeRequest<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
@@ -164,7 +164,7 @@ public class TelegramBotClient : ITelegramBotClient
 
                 if (httpResponse.StatusCode != HttpStatusCode.OK)
                 {
-                    var failedApiResponse = await DeserializeContentAsync<ApiResponse>(httpResponse,
+                    var failedApiResponse = await DeserializeContent<ApiResponse>(httpResponse,
                         response => response.ErrorCode != default && response.Description != null, cancellationToken).ConfigureAwait(false);
 
                     if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
@@ -176,7 +176,7 @@ public class TelegramBotClient : ITelegramBotClient
                     throw ExceptionsParser.Parse(failedApiResponse);
                 }
 
-                var apiResponse = await DeserializeContentAsync<ApiResponse<TResponse>>(httpResponse,
+                var apiResponse = await DeserializeContent<ApiResponse<TResponse>>(httpResponse,
                         response => response.Ok && response.Result != null, cancellationToken).ConfigureAwait(false);
                 return apiResponse.Result!;
             }
@@ -184,7 +184,7 @@ public class TelegramBotClient : ITelegramBotClient
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static async Task<T> DeserializeContentAsync<T>(HttpResponseMessage httpResponse, Func<T, bool> validate,
+    static async Task<T> DeserializeContent<T>(HttpResponseMessage httpResponse, Func<T, bool> validate,
         CancellationToken cancellationToken = default) where T : class
     {
         if (httpResponse.Content is null)
@@ -214,11 +214,11 @@ public class TelegramBotClient : ITelegramBotClient
     /// Test the API token
     /// </summary>
     /// <returns><see langword="true"/> if token is valid</returns>
-    public async Task<bool> TestApiAsync(CancellationToken cancellationToken = default)
+    public async Task<bool> TestApi(CancellationToken cancellationToken = default)
     {
         try
         {
-            await MakeRequestAsync(request: new GetMeRequest(), cancellationToken: cancellationToken)
+            await MakeRequest(request: new GetMeRequest(), cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return true;
         }
@@ -230,7 +230,7 @@ public class TelegramBotClient : ITelegramBotClient
     }
 
     /// <inheritdoc/>
-    public async Task DownloadFileAsync(
+    public async Task DownloadFile(
         string filePath,
         Stream destination,
         CancellationToken cancellationToken = default)
@@ -252,7 +252,7 @@ public class TelegramBotClient : ITelegramBotClient
 
         if (!httpResponse.IsSuccessStatusCode)
         {
-            var failedApiResponse = await DeserializeContentAsync<ApiResponse>(httpResponse,
+            var failedApiResponse = await DeserializeContent<ApiResponse>(httpResponse,
                     response => response.ErrorCode != default && response.Description != null, cts.Token).ConfigureAwait(false);
             throw ExceptionsParser.Parse(failedApiResponse);
         }
