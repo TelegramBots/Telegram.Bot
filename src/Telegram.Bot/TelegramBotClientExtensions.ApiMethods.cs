@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 
@@ -35,6 +35,17 @@ public static partial class TelegramBotClientExtensions
         AllowedUpdates = allowedUpdates,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetUpdates">GetUpdates</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetUpdates instead")]
+    public static Task<Update[]> GetUpdatesAsync(
+        this ITelegramBotClient botClient,
+        int? offset = default,
+        int? limit = default,
+        int? timeout = default,
+        IEnumerable<UpdateType>? allowedUpdates = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetUpdates(offset, limit, timeout, allowedUpdates, cancellationToken);
+
     /// <summary>Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized <see cref="Update"/>. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.<br/>If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter <paramref name="secretToken"/>. If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.</summary>
     /// <remarks><p><b>Notes</b><br/><b>1.</b> You will not be able to receive updates using <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see> for as long as an outgoing webhook is set up.<br/><b>2.</b> To use a self-signed certificate, you need to upload your <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using <paramref name="certificate"/> parameter. Please upload as InputFile, sending a String will not work.<br/><b>3.</b> Ports currently supported <em>for webhooks</em>: <b>443, 80, 88, 8443</b>.</p><p>If you're having any trouble setting up webhooks, please check out this <a href="https://core.telegram.org/bots/webhooks">amazing guide to webhooks</a>.</p></remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -67,6 +78,20 @@ public static partial class TelegramBotClientExtensions
         SecretToken = secretToken,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetWebhook">SetWebhook</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetWebhook instead")]
+    public static Task SetWebhookAsync(
+        this ITelegramBotClient botClient,
+        string url,
+        InputFileStream? certificate = default,
+        string? ipAddress = default,
+        int? maxConnections = default,
+        IEnumerable<UpdateType>? allowedUpdates = default,
+        bool dropPendingUpdates = default,
+        string? secretToken = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetWebhook(url, certificate, ipAddress, maxConnections, allowedUpdates, dropPendingUpdates, secretToken, cancellationToken);
+
 
     /// <summary>Use this method to remove webhook integration if you decide to switch back to <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -81,6 +106,14 @@ public static partial class TelegramBotClientExtensions
         DropPendingUpdates = dropPendingUpdates,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteWebhook">DeleteWebhook</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteWebhook instead")]
+    public static Task DeleteWebhookAsync(
+        this ITelegramBotClient botClient,
+        bool dropPendingUpdates = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteWebhook(dropPendingUpdates, cancellationToken);
+
     /// <summary>Use this method to get current webhook status.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -91,6 +124,13 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().MakeRequest(new GetWebhookInfoRequest
     {
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetWebhookInfo">GetWebhookInfo</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetWebhookInfo instead")]
+    public static Task<WebhookInfo> GetWebhookInfoAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetWebhookInfo(cancellationToken);
 
     #endregion Getting updates
 
@@ -107,6 +147,13 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMe">GetMe</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetMe instead")]
+    public static Task<User> GetMeAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetMe(cancellationToken);
+
     /// <summary>Use this method to log out from the cloud Bot API server before launching the bot locally. You <b>must</b> log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -117,6 +164,13 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="LogOut">LogOut</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use LogOut instead")]
+    public static Task LogOutAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => botClient.LogOut(cancellationToken);
+
     /// <summary>Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -126,6 +180,13 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().MakeRequest(new CloseRequest
     {
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="Close">Close</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use Close instead")]
+    public static Task CloseAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => botClient.Close(cancellationToken);
 
     /// <summary>Use this method to send text messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -174,6 +235,25 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendMessage">SendMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendMessage instead")]
+    public static Task<Message> SendTextMessageAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string text,
+        int? messageThreadId = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? entities = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendMessage(chatId, text, parseMode, replyParameters, replyMarkup, linkPreviewOptions, messageThreadId, entities, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -203,6 +283,19 @@ public static partial class TelegramBotClientExtensions
         ProtectContent = protectContent,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ForwardMessage">ForwardMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ForwardMessage instead")]
+    public static Task<Message> ForwardMessageAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        int messageId,
+        int? messageThreadId = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.ForwardMessage(chatId, fromChatId, messageId, messageThreadId, disableNotification, protectContent, cancellationToken);
+
     /// <summary>Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -231,6 +324,19 @@ public static partial class TelegramBotClientExtensions
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ForwardMessages">ForwardMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ForwardMessages instead")]
+    public static Task<MessageId[]> ForwardMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        IEnumerable<int> messageIds,
+        int? messageThreadId = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.ForwardMessages(chatId, fromChatId, messageIds, messageThreadId, disableNotification, protectContent, cancellationToken);
 
     /// <summary>Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessage">ForwardMessage</see>, but the copied message doesn't have a link to the original message.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -279,6 +385,25 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CopyMessage">CopyMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CopyMessage instead")]
+    public static Task<MessageId> CopyMessageAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        int messageId,
+        int? messageThreadId = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CopyMessage(chatId, fromChatId, messageId, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, cancellationToken);
+
     /// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessages">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -310,6 +435,20 @@ public static partial class TelegramBotClientExtensions
         ProtectContent = protectContent,
         RemoveCaption = removeCaption,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CopyMessages">CopyMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CopyMessages instead")]
+    public static Task<MessageId[]> CopyMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        IEnumerable<int> messageIds,
+        int? messageThreadId = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        bool removeCaption = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CopyMessages(chatId, fromChatId, messageIds, removeCaption, messageThreadId, disableNotification, protectContent, cancellationToken);
 
     /// <summary>Use this method to send photos.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -363,6 +502,27 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendPhoto">SendPhoto</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendPhoto instead")]
+    public static Task<Message> SendPhotoAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile photo,
+        int? messageThreadId = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool hasSpoiler = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendPhoto(chatId, photo, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format.</summary>
     /// <remarks>Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.<br/>For sending voice messages, use the <see cref="TelegramBotClientExtensions.SendVoice">SendVoice</see> method instead.</remarks>
@@ -424,6 +584,29 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendAudio">SendAudio</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendAudio instead")]
+    public static Task<Message> SendAudioAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile audio,
+        int? messageThreadId = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        int? duration = default,
+        string? performer = default,
+        string? title = default,
+        InputFile? thumbnail = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendAudio(chatId, audio, caption, parseMode, replyParameters, replyMarkup, duration, performer, title, thumbnail, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to send general files.</summary>
     /// <remarks>Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -477,6 +660,27 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendDocument">SendDocument</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendDocument instead")]
+    public static Task<Message> SendDocumentAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile document,
+        int? messageThreadId = default,
+        InputFile? thumbnail = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool disableContentTypeDetection = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendDocument(chatId, document, caption, parseMode, replyParameters, replyMarkup, thumbnail, messageThreadId, captionEntities, disableContentTypeDetection, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as <see cref="Document"/>).</summary>
     /// <remarks>Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</remarks>
@@ -547,6 +751,32 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVideo">SendVideo</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendVideo instead")]
+    public static Task<Message> SendVideoAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile video,
+        int? messageThreadId = default,
+        int? duration = default,
+        int? width = default,
+        int? height = default,
+        InputFile? thumbnail = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool hasSpoiler = default,
+        bool supportsStreaming = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendVideo(chatId, video, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, supportsStreaming, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).</summary>
     /// <remarks>Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -613,6 +843,31 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendAnimation">SendAnimation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendAnimation instead")]
+    public static Task<Message> SendAnimationAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile animation,
+        int? messageThreadId = default,
+        int? duration = default,
+        int? width = default,
+        int? height = default,
+        InputFile? thumbnail = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool hasSpoiler = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendAnimation(chatId, animation, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).</summary>
     /// <remarks>Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -664,6 +919,26 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVoice">SendVoice</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendVoice instead")]
+    public static Task<Message> SendVoiceAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile voice,
+        int? messageThreadId = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        int? duration = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendVoice(chatId, voice, caption, parseMode, replyParameters, replyMarkup, duration, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -710,6 +985,25 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVideoNote">SendVideoNote</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendVideoNote instead")]
+    public static Task<Message> SendVideoNoteAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile videoNote,
+        int? messageThreadId = default,
+        int? duration = default,
+        int? length = default,
+        InputFile? thumbnail = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendVideoNote(chatId, videoNote, replyParameters, replyMarkup, duration, length, thumbnail, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to send paid media.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -761,6 +1055,26 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendPaidMedia">SendPaidMedia</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendPaidMedia instead")]
+    public static Task<Message> SendPaidMediaAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int starCount,
+        IEnumerable<InputPaidMedia> media,
+        string? payload = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendPaidMedia(chatId, starCount, media, payload, caption, parseMode, replyParameters, replyMarkup, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -795,6 +1109,21 @@ public static partial class TelegramBotClientExtensions
         ReplyParameters = replyParameters,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendMediaGroup">SendMediaGroup</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendMediaGroup instead")]
+    public static Task<Message[]> SendMediaGroupAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        IEnumerable<IAlbumInputMedia> media,
+        int? messageThreadId = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to send point on the map.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -848,6 +1177,27 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendLocation">SendLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendLocation instead")]
+    public static Task<Message> SendLocationAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        double latitude,
+        double longitude,
+        int? messageThreadId = default,
+        double? horizontalAccuracy = default,
+        int? livePeriod = default,
+        int? heading = default,
+        int? proximityAlertRadius = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendLocation(chatId, latitude, longitude, replyParameters, replyMarkup, horizontalAccuracy, livePeriod, heading, proximityAlertRadius, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to send information about a venue.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -908,6 +1258,29 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVenue">SendVenue</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendVenue instead")]
+    public static Task<Message> SendVenueAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        double latitude,
+        double longitude,
+        string title,
+        string address,
+        int? messageThreadId = default,
+        string? foursquareId = default,
+        string? foursquareType = default,
+        string? googlePlaceId = default,
+        string? googlePlaceType = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendVenue(chatId, latitude, longitude, title, address, replyParameters, replyMarkup, foursquareId, foursquareType, googlePlaceId, googlePlaceType, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to send phone contacts.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -954,6 +1327,25 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendContact">SendContact</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendContact instead")]
+    public static Task<Message> SendContactAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string phoneNumber,
+        string firstName,
+        int? messageThreadId = default,
+        string? lastName = default,
+        string? vcard = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendContact(chatId, phoneNumber, firstName, lastName, vcard, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to send a native poll.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1032,6 +1424,35 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendPoll">SendPoll</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendPoll instead")]
+    public static Task<Message> SendPollAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string question,
+        IEnumerable<InputPollOption> options,
+        int? messageThreadId = default,
+        ParseMode questionParseMode = default,
+        IEnumerable<MessageEntity>? questionEntities = default,
+        bool isAnonymous = true,
+        PollType? type = default,
+        bool allowsMultipleAnswers = default,
+        int? correctOptionId = default,
+        string? explanation = default,
+        ParseMode explanationParseMode = default,
+        IEnumerable<MessageEntity>? explanationEntities = default,
+        int? openPeriod = default,
+        DateTime? closeDate = default,
+        bool isClosed = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendPoll(chatId, question, options, isAnonymous, type, allowsMultipleAnswers, correctOptionId, replyParameters, replyMarkup, explanation, explanationParseMode, explanationEntities, questionParseMode, questionEntities, openPeriod, closeDate, isClosed, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to send an animated emoji that will display a random value.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1070,6 +1491,22 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendDice">SendDice</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendDice instead")]
+    public static Task<Message> SendDiceAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int? messageThreadId = default,
+        string? emoji = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendDice(chatId, emoji, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).<br/>We only recommend using this method when a response from the bot will take a <b>noticeable</b> amount of time to arrive.</summary>
     /// <remarks>Example: The <a href="https://t.me/imagebot">ImageBot</a> needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use <see cref="TelegramBotClientExtensions.SendChatAction">SendChatAction</see> with <paramref name="action"/> = <em>UploadPhoto</em>. The user will see a “sending photo” status for the bot.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1093,6 +1530,17 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendChatAction">SendChatAction</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendChatAction instead")]
+    public static Task SendChatActionAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatAction action,
+        int? messageThreadId = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendChatAction(chatId, action, messageThreadId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1115,6 +1563,17 @@ public static partial class TelegramBotClientExtensions
         IsBig = isBig,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMessageReaction">SetMessageReaction</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetMessageReaction instead")]
+    public static Task SetMessageReactionAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        IEnumerable<ReactionType>? reaction,
+        bool isBig = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetMessageReaction(chatId, messageId, reaction, isBig, cancellationToken);
+
     /// <summary>Use this method to get a list of profile pictures for a user.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Unique identifier of the target user</param>
@@ -1135,6 +1594,16 @@ public static partial class TelegramBotClientExtensions
         Limit = limit,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetUserProfilePhotos">GetUserProfilePhotos</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetUserProfilePhotos instead")]
+    public static Task<UserProfilePhotos> GetUserProfilePhotosAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        int? offset = default,
+        int? limit = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetUserProfilePhotos(userId, offset, limit, cancellationToken);
+
     /// <summary>Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="fileId">File identifier to get information about</param>
@@ -1148,6 +1617,14 @@ public static partial class TelegramBotClientExtensions
     {
         FileId = fileId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetFile">GetFile</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetFile instead")]
+    public static Task<File> GetFileAsync(
+        this ITelegramBotClient botClient,
+        string fileId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetFile(fileId, cancellationToken);
 
     /// <summary>Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="TelegramBotClientExtensions.UnbanChatMember">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1171,6 +1648,17 @@ public static partial class TelegramBotClientExtensions
         RevokeMessages = revokeMessages,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="BanChatMember">BanChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use BanChatMember instead")]
+    public static Task BanChatMemberAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        DateTime? untilDate = default,
+        bool revokeMessages = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.BanChatMember(chatId, userId, untilDate, revokeMessages, cancellationToken);
+
     /// <summary>Use this method to unban a previously banned user in a supergroup or channel. The user will <b>not</b> return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be <b>removed</b> from the chat. If you don't want this, use the parameter <paramref name="onlyIfBanned"/>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
@@ -1189,6 +1677,16 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
         OnlyIfBanned = onlyIfBanned,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnbanChatMember">UnbanChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnbanChatMember instead")]
+    public static Task UnbanChatMemberAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        bool onlyIfBanned = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnbanChatMember(chatId, userId, onlyIfBanned, cancellationToken);
 
     /// <summary>Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass <em>True</em> for all permissions to lift restrictions from a user.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1214,6 +1712,18 @@ public static partial class TelegramBotClientExtensions
         UseIndependentChatPermissions = useIndependentChatPermissions,
         UntilDate = untilDate,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="RestrictChatMember">RestrictChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use RestrictChatMember instead")]
+    public static Task RestrictChatMemberAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        ChatPermissions permissions,
+        bool useIndependentChatPermissions = default,
+        DateTime? untilDate = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.RestrictChatMember(chatId, userId, permissions, useIndependentChatPermissions, untilDate, cancellationToken);
 
     /// <summary>Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass <em>False</em> for all boolean parameters to demote a user.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1276,6 +1786,30 @@ public static partial class TelegramBotClientExtensions
         CanManageTopics = canManageTopics,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="PromoteChatMember">PromoteChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use PromoteChatMember instead")]
+    public static Task PromoteChatMemberAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        bool isAnonymous = default,
+        bool canManageChat = default,
+        bool canPostMessages = default,
+        bool canEditMessages = default,
+        bool canDeleteMessages = default,
+        bool canPostStories = default,
+        bool canEditStories = default,
+        bool canDeleteStories = default,
+        bool canManageVideoChats = default,
+        bool canRestrictMembers = default,
+        bool canPromoteMembers = default,
+        bool canChangeInfo = default,
+        bool canInviteUsers = default,
+        bool canPinMessages = default,
+        bool canManageTopics = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.PromoteChatMember(chatId, userId, isAnonymous, canManageChat, canPostMessages, canEditMessages, canDeleteMessages, canPostStories, canEditStories, canDeleteStories, canManageVideoChats, canRestrictMembers, canPromoteMembers, canChangeInfo, canInviteUsers, canPinMessages, canManageTopics, cancellationToken);
+
     /// <summary>Use this method to set a custom title for an administrator in a supergroup promoted by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1295,6 +1829,16 @@ public static partial class TelegramBotClientExtensions
         CustomTitle = customTitle,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatAdministratorCustomTitle">SetChatAdministratorCustomTitle</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatAdministratorCustomTitle instead")]
+    public static Task SetChatAdministratorCustomTitleAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        string customTitle,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatAdministratorCustomTitle(chatId, userId, customTitle, cancellationToken);
+
     /// <summary>Use this method to ban a channel chat in a supergroup or a channel. Until the chat is <see cref="TelegramBotClientExtensions.UnbanChatSenderChat">unbanned</see>, the owner of the banned chat won't be able to send messages on behalf of <b>any of their channels</b>. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1311,6 +1855,15 @@ public static partial class TelegramBotClientExtensions
         SenderChatId = senderChatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="BanChatSenderChat">BanChatSenderChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use BanChatSenderChat instead")]
+    public static Task BanChatSenderChatAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long senderChatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.BanChatSenderChat(chatId, senderChatId, cancellationToken);
+
     /// <summary>Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1326,6 +1879,15 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         SenderChatId = senderChatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnbanChatSenderChat">UnbanChatSenderChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnbanChatSenderChat instead")]
+    public static Task UnbanChatSenderChatAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long senderChatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnbanChatSenderChat(chatId, senderChatId, cancellationToken);
 
     /// <summary>Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the <em>CanRestrictMembers</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1346,6 +1908,16 @@ public static partial class TelegramBotClientExtensions
         UseIndependentChatPermissions = useIndependentChatPermissions,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatPermissions">SetChatPermissions</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatPermissions instead")]
+    public static Task SetChatPermissionsAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatPermissions permissions,
+        bool useIndependentChatPermissions = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatPermissions(chatId, permissions, useIndependentChatPermissions, cancellationToken);
+
     /// <summary>Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <remarks>Note: Each administrator in a chat generates their own invite links. Bots can't use invite links generated by other administrators. If you want your bot to work with invite links, it will need to generate its own link using <see cref="TelegramBotClientExtensions.ExportChatInviteLink">ExportChatInviteLink</see> or by calling the <see cref="TelegramBotClientExtensions.GetChat">GetChat</see> method. If your bot needs to generate a new primary invite link replacing its previous one, use <see cref="TelegramBotClientExtensions.ExportChatInviteLink">ExportChatInviteLink</see> again.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1360,6 +1932,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ExportChatInviteLink">ExportChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ExportChatInviteLink instead")]
+    public static Task<string> ExportChatInviteLinkAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.ExportChatInviteLink(chatId, cancellationToken);
 
     /// <summary>Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLink">RevokeChatInviteLink</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1386,6 +1966,18 @@ public static partial class TelegramBotClientExtensions
         MemberLimit = memberLimit,
         CreatesJoinRequest = createsJoinRequest,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateChatInviteLink">CreateChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CreateChatInviteLink instead")]
+    public static Task<ChatInviteLink> CreateChatInviteLinkAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string? name = default,
+        DateTime? expireDate = default,
+        int? memberLimit = default,
+        bool createsJoinRequest = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CreateChatInviteLink(chatId, name, expireDate, memberLimit, createsJoinRequest, cancellationToken);
 
     /// <summary>Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1416,6 +2008,19 @@ public static partial class TelegramBotClientExtensions
         CreatesJoinRequest = createsJoinRequest,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditChatInviteLink">EditChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditChatInviteLink instead")]
+    public static Task<ChatInviteLink> EditChatInviteLinkAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string inviteLink,
+        string? name = default,
+        DateTime? expireDate = default,
+        int? memberLimit = default,
+        bool createsJoinRequest = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditChatInviteLink(chatId, inviteLink, name, expireDate, memberLimit, createsJoinRequest, cancellationToken);
+
     /// <summary>Use this method to create a <a href="https://telegram.org/blog/superchannels-star-reactions-subscriptions#star-subscriptions">subscription invite link</a> for a channel chat. The bot must have the <em>CanInviteUsers</em> administrator rights. The link can be edited using the method <see cref="TelegramBotClientExtensions.EditChatSubscriptionInviteLink">EditChatSubscriptionInviteLink</see> or revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLink">RevokeChatInviteLink</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target channel chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1439,6 +2044,17 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateChatSubscriptionInviteLink">CreateChatSubscriptionInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CreateChatSubscriptionInviteLink instead")]
+    public static Task<ChatInviteLink> CreateChatSubscriptionInviteLinkAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int subscriptionPeriod,
+        int subscriptionPrice,
+        string? name = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CreateChatSubscriptionInviteLink(chatId, subscriptionPeriod, subscriptionPrice, name, cancellationToken);
+
     /// <summary>Use this method to edit a subscription invite link created by the bot. The bot must have the <em>CanInviteUsers</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1459,6 +2075,16 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditChatSubscriptionInviteLink">EditChatSubscriptionInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditChatSubscriptionInviteLink instead")]
+    public static Task<ChatInviteLink> EditChatSubscriptionInviteLinkAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string inviteLink,
+        string? name = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditChatSubscriptionInviteLink(chatId, inviteLink, name, cancellationToken);
+
     /// <summary>Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier of the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1476,6 +2102,15 @@ public static partial class TelegramBotClientExtensions
         InviteLink = inviteLink,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="RevokeChatInviteLink">RevokeChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use RevokeChatInviteLink instead")]
+    public static Task<ChatInviteLink> RevokeChatInviteLinkAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string inviteLink,
+        CancellationToken cancellationToken = default
+    ) => botClient.RevokeChatInviteLink(chatId, inviteLink, cancellationToken);
+
     /// <summary>Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the <em>CanInviteUsers</em> administrator right.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1491,6 +2126,15 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ApproveChatJoinRequest">ApproveChatJoinRequest</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ApproveChatJoinRequest instead")]
+    public static Task ApproveChatJoinRequestAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        CancellationToken cancellationToken = default
+    ) => botClient.ApproveChatJoinRequest(chatId, userId, cancellationToken);
 
     /// <summary>Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the <em>CanInviteUsers</em> administrator right.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1508,6 +2152,15 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeclineChatJoinRequest">DeclineChatJoinRequest</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeclineChatJoinRequest instead")]
+    public static Task DeclineChatJoinRequestAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeclineChatJoinRequest(chatId, userId, cancellationToken);
+
     /// <summary>Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1524,6 +2177,15 @@ public static partial class TelegramBotClientExtensions
         Photo = photo,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatPhoto">SetChatPhoto</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatPhoto instead")]
+    public static Task SetChatPhotoAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFileStream photo,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatPhoto(chatId, photo, cancellationToken);
+
     /// <summary>Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1536,6 +2198,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteChatPhoto">DeleteChatPhoto</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteChatPhoto instead")]
+    public static Task DeleteChatPhotoAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteChatPhoto(chatId, cancellationToken);
 
     /// <summary>Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1553,6 +2223,15 @@ public static partial class TelegramBotClientExtensions
         Title = title,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatTitle">SetChatTitle</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatTitle instead")]
+    public static Task SetChatTitleAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string title,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatTitle(chatId, title, cancellationToken);
+
     /// <summary>Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1568,6 +2247,15 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         Description = description,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatDescription">SetChatDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatDescription instead")]
+    public static Task SetChatDescriptionAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string? description = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatDescription(chatId, description, cancellationToken);
 
     /// <summary>Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1591,6 +2279,17 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="PinChatMessage">PinChatMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use PinChatMessage instead")]
+    public static Task PinChatMessageAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        bool disableNotification = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.PinChatMessage(chatId, messageId, disableNotification, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1610,6 +2309,16 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinChatMessage">UnpinChatMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnpinChatMessage instead")]
+    public static Task UnpinChatMessageAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int? messageId = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnpinChatMessage(chatId, messageId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -1623,6 +2332,14 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinAllChatMessages">UnpinAllChatMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnpinAllChatMessages instead")]
+    public static Task UnpinAllChatMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnpinAllChatMessages(chatId, cancellationToken);
+
     /// <summary>Use this method for your bot to leave a group, supergroup or channel.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
@@ -1635,6 +2352,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="LeaveChat">LeaveChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use LeaveChat instead")]
+    public static Task LeaveChatAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.LeaveChat(chatId, cancellationToken);
 
     /// <summary>Use this method to get up-to-date information about the chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1650,6 +2375,14 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChat">GetChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetChat instead")]
+    public static Task<ChatFullInfo> GetChatAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetChat(chatId, cancellationToken);
+
     /// <summary>Use this method to get a list of administrators in a chat, which aren't bots.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
@@ -1664,6 +2397,14 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatAdministrators">GetChatAdministrators</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetChatAdministrators instead")]
+    public static Task<ChatMember[]> GetChatAdministratorsAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetChatAdministrators(chatId, cancellationToken);
+
     /// <summary>Use this method to get the number of members in a chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup or channel (in the format <c>@channelusername</c>)</param>
@@ -1677,6 +2418,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatMemberCount">GetChatMemberCount</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetChatMemberCount instead")]
+    public static Task<int> GetChatMemberCountAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetChatMemberCount(chatId, cancellationToken);
 
     /// <summary>Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1695,6 +2444,15 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatMember">GetChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetChatMember instead")]
+    public static Task<ChatMember> GetChatMemberAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetChatMember(chatId, userId, cancellationToken);
+
     /// <summary>Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field <em>CanSetStickerSet</em> optionally returned in <see cref="TelegramBotClientExtensions.GetChat">GetChat</see> requests to check if the bot can use this method.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1711,6 +2469,15 @@ public static partial class TelegramBotClientExtensions
         StickerSetName = stickerSetName,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatStickerSet">SetChatStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatStickerSet instead")]
+    public static Task SetChatStickerSetAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string stickerSetName,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatStickerSet(chatId, stickerSetName, cancellationToken);
+
     /// <summary>Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field <em>CanSetStickerSet</em> optionally returned in <see cref="TelegramBotClientExtensions.GetChat">GetChat</see> requests to check if the bot can use this method.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1724,6 +2491,14 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteChatStickerSet">DeleteChatStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteChatStickerSet instead")]
+    public static Task DeleteChatStickerSetAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteChatStickerSet(chatId, cancellationToken);
+
     /// <summary>Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -1734,6 +2509,13 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().MakeRequest(new GetForumTopicIconStickersRequest
     {
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetForumTopicIconStickers">GetForumTopicIconStickers</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetForumTopicIconStickers instead")]
+    public static Task<Sticker[]> GetForumTopicIconStickersAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetForumTopicIconStickers(cancellationToken);
 
     /// <summary>Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1758,6 +2540,17 @@ public static partial class TelegramBotClientExtensions
         IconCustomEmojiId = iconCustomEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateForumTopic">CreateForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CreateForumTopic instead")]
+    public static Task<ForumTopic> CreateForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string name,
+        int? iconColor = default,
+        string? iconCustomEmojiId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CreateForumTopic(chatId, name, iconColor, iconCustomEmojiId, cancellationToken);
+
     /// <summary>Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights, unless it is the creator of the topic.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1780,6 +2573,17 @@ public static partial class TelegramBotClientExtensions
         IconCustomEmojiId = iconCustomEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditForumTopic">EditForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditForumTopic instead")]
+    public static Task EditForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageThreadId,
+        string? name = default,
+        string? iconCustomEmojiId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditForumTopic(chatId, messageThreadId, name, iconCustomEmojiId, cancellationToken);
+
     /// <summary>Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights, unless it is the creator of the topic.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1795,6 +2599,15 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CloseForumTopic">CloseForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CloseForumTopic instead")]
+    public static Task CloseForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageThreadId,
+        CancellationToken cancellationToken = default
+    ) => botClient.CloseForumTopic(chatId, messageThreadId, cancellationToken);
 
     /// <summary>Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights, unless it is the creator of the topic.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1812,6 +2625,15 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ReopenForumTopic">ReopenForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ReopenForumTopic instead")]
+    public static Task ReopenForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageThreadId,
+        CancellationToken cancellationToken = default
+    ) => botClient.ReopenForumTopic(chatId, messageThreadId, cancellationToken);
+
     /// <summary>Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanDeleteMessages</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1827,6 +2649,15 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteForumTopic">DeleteForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteForumTopic instead")]
+    public static Task DeleteForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageThreadId,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteForumTopic(chatId, messageThreadId, cancellationToken);
 
     /// <summary>Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the <em>CanPinMessages</em> administrator right in the supergroup.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1844,6 +2675,15 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinAllForumTopicMessages">UnpinAllForumTopicMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnpinAllForumTopicMessages instead")]
+    public static Task UnpinAllForumTopicMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageThreadId,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnpinAllForumTopicMessages(chatId, messageThreadId, cancellationToken);
+
     /// <summary>Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1860,6 +2700,15 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditGeneralForumTopic">EditGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditGeneralForumTopic instead")]
+    public static Task EditGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string name,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditGeneralForumTopic(chatId, name, cancellationToken);
+
     /// <summary>Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1872,6 +2721,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CloseGeneralForumTopic">CloseGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CloseGeneralForumTopic instead")]
+    public static Task CloseGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.CloseGeneralForumTopic(chatId, cancellationToken);
 
     /// <summary>Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights. The topic will be automatically unhidden if it was hidden.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1886,6 +2743,14 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ReopenGeneralForumTopic">ReopenGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ReopenGeneralForumTopic instead")]
+    public static Task ReopenGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.ReopenGeneralForumTopic(chatId, cancellationToken);
+
     /// <summary>Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights. The topic will be automatically closed if it was open.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1898,6 +2763,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="HideGeneralForumTopic">HideGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use HideGeneralForumTopic instead")]
+    public static Task HideGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.HideGeneralForumTopic(chatId, cancellationToken);
 
     /// <summary>Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1912,6 +2785,14 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnhideGeneralForumTopic">UnhideGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnhideGeneralForumTopic instead")]
+    public static Task UnhideGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnhideGeneralForumTopic(chatId, cancellationToken);
+
     /// <summary>Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the <em>CanPinMessages</em> administrator right in the supergroup.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
@@ -1924,6 +2805,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinAllGeneralForumTopicMessages">UnpinAllGeneralForumTopicMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UnpinAllGeneralForumTopicMessages instead")]
+    public static Task UnpinAllGeneralForumTopicMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.UnpinAllGeneralForumTopicMessages(chatId, cancellationToken);
 
     /// <summary>Use this method to send answers to callback queries sent from <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboards</a>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert</summary>
     /// <remarks>Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via <a href="https://t.me/botfather">@BotFather</a> and accept the terms. Otherwise, you may use links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter.</remarks>
@@ -1951,6 +2840,18 @@ public static partial class TelegramBotClientExtensions
         CacheTime = cacheTime,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerCallbackQuery">AnswerCallbackQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AnswerCallbackQuery instead")]
+    public static Task AnswerCallbackQueryAsync(
+        this ITelegramBotClient botClient,
+        string callbackQueryId,
+        string? text = default,
+        bool showAlert = default,
+        string? url = default,
+        int? cacheTime = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.AnswerCallbackQuery(callbackQueryId, text, showAlert, url, cacheTime, cancellationToken);
+
     /// <summary>Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>)</param>
@@ -1968,6 +2869,15 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetUserChatBoosts">GetUserChatBoosts</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetUserChatBoosts instead")]
+    public static Task<UserChatBoosts> GetUserChatBoostsAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetUserChatBoosts(chatId, userId, cancellationToken);
+
     /// <summary>Use this method to get information about the connection of the bot with a business account.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection</param>
@@ -1981,6 +2891,14 @@ public static partial class TelegramBotClientExtensions
     {
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetBusinessConnection">GetBusinessConnection</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetBusinessConnection instead")]
+    public static Task<BusinessConnection> GetBusinessConnectionAsync(
+        this ITelegramBotClient botClient,
+        string businessConnectionId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetBusinessConnection(businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to change the list of the bot's commands. See <a href="https://core.telegram.org/bots/features#commands">this manual</a> for more details about bot commands.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2001,6 +2919,16 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyCommands">SetMyCommands</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetMyCommands instead")]
+    public static Task SetMyCommandsAsync(
+        this ITelegramBotClient botClient,
+        IEnumerable<BotCommand> commands,
+        BotCommandScope? scope = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetMyCommands(commands, scope, languageCode, cancellationToken);
+
     /// <summary>Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, <a href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</a> will be shown to affected users.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="scope">An object, describing scope of users for which the commands are relevant. Defaults to <see cref="BotCommandScopeDefault"/>.</param>
@@ -2016,6 +2944,15 @@ public static partial class TelegramBotClientExtensions
         Scope = scope,
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteMyCommands">DeleteMyCommands</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteMyCommands instead")]
+    public static Task DeleteMyCommandsAsync(
+        this ITelegramBotClient botClient,
+        BotCommandScope? scope = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteMyCommands(scope, languageCode, cancellationToken);
 
     /// <summary>Use this method to get the current list of the bot's commands for the given scope and user language.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2034,6 +2971,15 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyCommands">GetMyCommands</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetMyCommands instead")]
+    public static Task<BotCommand[]> GetMyCommandsAsync(
+        this ITelegramBotClient botClient,
+        BotCommandScope? scope = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetMyCommands(scope, languageCode, cancellationToken);
+
     /// <summary>Use this method to change the bot's name.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="name">New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.</param>
@@ -2050,6 +2996,15 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyName">SetMyName</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetMyName instead")]
+    public static Task SetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? name = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetMyName(name, languageCode, cancellationToken);
+
     /// <summary>Use this method to get the current bot name for the given user language.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="languageCode">A two-letter ISO 639-1 language code or an empty string</param>
@@ -2063,6 +3018,14 @@ public static partial class TelegramBotClientExtensions
     {
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyName">GetMyName</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetMyName instead")]
+    public static Task<BotName> GetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetMyName(languageCode, cancellationToken);
 
     /// <summary>Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2080,6 +3043,15 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyDescription">SetMyDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetMyDescription instead")]
+    public static Task SetMyDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? description = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetMyDescription(description, languageCode, cancellationToken);
+
     /// <summary>Use this method to get the current bot description for the given user language.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="languageCode">A two-letter ISO 639-1 language code or an empty string</param>
@@ -2093,6 +3065,14 @@ public static partial class TelegramBotClientExtensions
     {
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyDescription">GetMyDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetMyDescription instead")]
+    public static Task<BotDescription> GetMyDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetMyDescription(languageCode, cancellationToken);
 
     /// <summary>Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2110,6 +3090,15 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyShortDescription">SetMyShortDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetMyShortDescription instead")]
+    public static Task SetMyShortDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? shortDescription = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetMyShortDescription(shortDescription, languageCode, cancellationToken);
+
     /// <summary>Use this method to get the current bot short description for the given user language.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="languageCode">A two-letter ISO 639-1 language code or an empty string</param>
@@ -2123,6 +3112,14 @@ public static partial class TelegramBotClientExtensions
     {
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyShortDescription">GetMyShortDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetMyShortDescription instead")]
+    public static Task<BotShortDescription> GetMyShortDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetMyShortDescription(languageCode, cancellationToken);
 
     /// <summary>Use this method to change the bot's menu button in a private chat, or the default menu button.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2140,6 +3137,15 @@ public static partial class TelegramBotClientExtensions
         MenuButton = menuButton,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatMenuButton">SetChatMenuButton</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetChatMenuButton instead")]
+    public static Task SetChatMenuButtonAsync(
+        this ITelegramBotClient botClient,
+        long? chatId = default,
+        MenuButton? menuButton = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetChatMenuButton(chatId, menuButton, cancellationToken);
+
     /// <summary>Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target private chat. If not specified, default bot's menu button will be returned</param>
@@ -2153,6 +3159,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatMenuButton">GetChatMenuButton</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetChatMenuButton instead")]
+    public static Task<MenuButton> GetChatMenuButtonAsync(
+        this ITelegramBotClient botClient,
+        long? chatId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetChatMenuButton(chatId, cancellationToken);
 
     /// <summary>Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2170,6 +3184,15 @@ public static partial class TelegramBotClientExtensions
         ForChannels = forChannels,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyDefaultAdministratorRights">SetMyDefaultAdministratorRights</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetMyDefaultAdministratorRights instead")]
+    public static Task SetMyDefaultAdministratorRightsAsync(
+        this ITelegramBotClient botClient,
+        ChatAdministratorRights? rights = default,
+        bool forChannels = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetMyDefaultAdministratorRights(rights, forChannels, cancellationToken);
+
     /// <summary>Use this method to get the current default administrator rights of the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="forChannels">Pass <see langword="true"/> to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.</param>
@@ -2183,6 +3206,14 @@ public static partial class TelegramBotClientExtensions
     {
         ForChannels = forChannels,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyDefaultAdministratorRights">GetMyDefaultAdministratorRights</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetMyDefaultAdministratorRights instead")]
+    public static Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
+        this ITelegramBotClient botClient,
+        bool forChannels = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetMyDefaultAdministratorRights(forChannels, cancellationToken);
 
     #endregion Available methods
 
@@ -2223,6 +3254,21 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageText">EditMessageText</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageText instead")]
+    public static Task<Message> EditMessageTextAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        string text,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? entities = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageText(chatId, messageId, text, parseMode, entities, linkPreviewOptions, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -2253,6 +3299,20 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageText">EditMessageText</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageText instead")]
+    public static Task EditMessageTextAsync(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        string text,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? entities = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageText(inlineMessageId, text, parseMode, entities, linkPreviewOptions, replyMarkup, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to edit captions of messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2289,6 +3349,21 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageCaption">EditMessageCaption</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageCaption instead")]
+    public static Task<Message> EditMessageCaptionAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        string? caption,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageCaption(chatId, messageId, caption, parseMode, captionEntities, showCaptionAboveMedia, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to edit captions of messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -2320,6 +3395,20 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageCaption">EditMessageCaption</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageCaption instead")]
+    public static Task EditMessageCaptionAsync(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        string? caption,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageCaption(inlineMessageId, caption, parseMode, captionEntities, showCaptionAboveMedia, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -2346,6 +3435,18 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageMedia">EditMessageMedia</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageMedia instead")]
+    public static Task<Message> EditMessageMediaAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        InputMedia media,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageMedia(chatId, messageId, media, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -2367,6 +3468,17 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageMedia">EditMessageMedia</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageMedia instead")]
+    public static Task EditMessageMediaAsync(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        InputMedia media,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageMedia(inlineMessageId, media, replyMarkup, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to edit live location messages. A location can be edited until its <paramref name="livePeriod"/> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocation">StopMessageLiveLocation</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2409,6 +3521,23 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageLiveLocation">EditMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageLiveLocation instead")]
+    public static Task<Message> EditMessageLiveLocationAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        double latitude,
+        double longitude,
+        int? livePeriod = default,
+        double? horizontalAccuracy = default,
+        int? heading = default,
+        int? proximityAlertRadius = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageLiveLocation(chatId, messageId, latitude, longitude, livePeriod, horizontalAccuracy, heading, proximityAlertRadius, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to edit live location messages. A location can be edited until its <paramref name="livePeriod"/> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocation">StopMessageLiveLocation</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -2446,6 +3575,22 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageLiveLocation">EditMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageLiveLocation instead")]
+    public static Task EditMessageLiveLocationAsync(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        double latitude,
+        double longitude,
+        int? livePeriod = default,
+        double? horizontalAccuracy = default,
+        int? heading = default,
+        int? proximityAlertRadius = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageLiveLocation(inlineMessageId, latitude, longitude, livePeriod, horizontalAccuracy, heading, proximityAlertRadius, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to stop updating a live location message before <em>LivePeriod</em> expires.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -2469,6 +3614,17 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="StopMessageLiveLocation">StopMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use StopMessageLiveLocation instead")]
+    public static Task<Message> StopMessageLiveLocationAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.StopMessageLiveLocation(chatId, messageId, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to stop updating a live location message before <em>LivePeriod</em> expires.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -2487,6 +3643,16 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="StopMessageLiveLocation">StopMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use StopMessageLiveLocation instead")]
+    public static Task StopMessageLiveLocationAsync(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.StopMessageLiveLocation(inlineMessageId, replyMarkup, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to edit only the reply markup of messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2511,6 +3677,17 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageReplyMarkup">EditMessageReplyMarkup</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageReplyMarkup instead")]
+    public static Task<Message> EditMessageReplyMarkupAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageReplyMarkup(chatId, messageId, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to edit only the reply markup of messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -2529,6 +3706,16 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageReplyMarkup">EditMessageReplyMarkup</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use EditMessageReplyMarkup instead")]
+    public static Task EditMessageReplyMarkupAsync(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditMessageReplyMarkup(inlineMessageId, replyMarkup, businessConnectionId, cancellationToken);
 
     /// <summary>Use this method to stop a poll which was sent by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2553,6 +3740,17 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="StopPoll">StopPoll</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use StopPoll instead")]
+    public static Task<Poll> StopPollAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.StopPoll(chatId, messageId, replyMarkup, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to delete a message, including service messages, with the following limitations:<br/>- A message can only be deleted if it was sent less than 48 hours ago.<br/>- Service messages about a supergroup, channel, or forum topic creation can't be deleted.<br/>- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.<br/>- Bots can delete outgoing messages in private chats, groups, and supergroups.<br/>- Bots can delete incoming messages in private chats.<br/>- Bots granted <em>CanPostMessages</em> permissions can delete outgoing messages in channels.<br/>- If the bot is an administrator of a group, it can delete any message there.<br/>- If the bot has <em>CanDeleteMessages</em> permission in a supergroup or a channel, it can delete any message there.<br/>Returns <em>True</em> on success.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -2569,6 +3767,15 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteMessage">DeleteMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteMessage instead")]
+    public static Task DeleteMessageAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteMessage(chatId, messageId, cancellationToken);
+
     /// <summary>Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
@@ -2584,6 +3791,15 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         MessageIds = messageIds,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteMessages">DeleteMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteMessages instead")]
+    public static Task DeleteMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        IEnumerable<int> messageIds,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteMessages(chatId, messageIds, cancellationToken);
 
     #endregion Updating messages
 
@@ -2630,6 +3846,23 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendSticker">SendSticker</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendSticker instead")]
+    public static Task<Message> SendStickerAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputFile sticker,
+        int? messageThreadId = default,
+        string? emoji = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendSticker(chatId, sticker, replyParameters, replyMarkup, emoji, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to get a sticker set.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="name">Name of the sticker set</param>
@@ -2644,6 +3877,14 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetStickerSet">GetStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetStickerSet instead")]
+    public static Task<StickerSet> GetStickerSetAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetStickerSet(name, cancellationToken);
+
     /// <summary>Use this method to get information about custom emoji stickers by their identifiers.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="customEmojiIds">A list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.</param>
@@ -2657,6 +3898,14 @@ public static partial class TelegramBotClientExtensions
     {
         CustomEmojiIds = customEmojiIds,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetCustomEmojiStickers">GetCustomEmojiStickers</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetCustomEmojiStickers instead")]
+    public static Task<Sticker[]> GetCustomEmojiStickersAsync(
+        this ITelegramBotClient botClient,
+        IEnumerable<string> customEmojiIds,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetCustomEmojiStickers(customEmojiIds, cancellationToken);
 
     /// <summary>Use this method to upload a file with a sticker for later use in the <see cref="TelegramBotClientExtensions.CreateNewStickerSet">CreateNewStickerSet</see>, <see cref="TelegramBotClientExtensions.AddStickerToSet">AddStickerToSet</see>, or <see cref="TelegramBotClientExtensions.ReplaceStickerInSet">ReplaceStickerInSet</see> methods (the file can be used multiple times).</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2677,6 +3926,16 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
         StickerFormat = stickerFormat,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="UploadStickerFile">UploadStickerFile</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use UploadStickerFile instead")]
+    public static Task<File> UploadStickerFileAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        InputFileStream sticker,
+        StickerFormat stickerFormat,
+        CancellationToken cancellationToken = default
+    ) => botClient.UploadStickerFile(userId, sticker, stickerFormat, cancellationToken);
 
     /// <summary>Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2706,6 +3965,19 @@ public static partial class TelegramBotClientExtensions
         NeedsRepainting = needsRepainting,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateNewStickerSet">CreateNewStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CreateNewStickerSet instead")]
+    public static Task CreateNewStickerSetAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string name,
+        string title,
+        IEnumerable<InputSticker> stickers,
+        StickerType? stickerType = default,
+        bool needsRepainting = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CreateNewStickerSet(userId, name, title, stickers, stickerType, needsRepainting, cancellationToken);
+
     /// <summary>Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">User identifier of sticker set owner</param>
@@ -2725,6 +3997,16 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AddStickerToSet">AddStickerToSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AddStickerToSet instead")]
+    public static Task AddStickerToSetAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string name,
+        InputSticker sticker,
+        CancellationToken cancellationToken = default
+    ) => botClient.AddStickerToSet(userId, name, sticker, cancellationToken);
+
     /// <summary>Use this method to move a sticker in a set created by the bot to a specific position.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="sticker">File identifier of the sticker</param>
@@ -2741,6 +4023,15 @@ public static partial class TelegramBotClientExtensions
         Position = position,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerPositionInSet">SetStickerPositionInSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetStickerPositionInSet instead")]
+    public static Task SetStickerPositionInSetAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        int position,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetStickerPositionInSet(sticker, position, cancellationToken);
+
     /// <summary>Use this method to delete a sticker from a set created by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="sticker">File identifier of the sticker</param>
@@ -2753,6 +4044,14 @@ public static partial class TelegramBotClientExtensions
     {
         Sticker = sticker,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteStickerFromSet">DeleteStickerFromSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteStickerFromSet instead")]
+    public static Task DeleteStickerFromSetAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteStickerFromSet(sticker, cancellationToken);
 
     /// <summary>Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling <see cref="TelegramBotClientExtensions.DeleteStickerFromSet">DeleteStickerFromSet</see>, then <see cref="TelegramBotClientExtensions.AddStickerToSet">AddStickerToSet</see>, then <see cref="TelegramBotClientExtensions.SetStickerPositionInSet">SetStickerPositionInSet</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2776,6 +4075,17 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="ReplaceStickerInSet">ReplaceStickerInSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use ReplaceStickerInSet instead")]
+    public static Task ReplaceStickerInSetAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string name,
+        string oldSticker,
+        InputSticker sticker,
+        CancellationToken cancellationToken = default
+    ) => botClient.ReplaceStickerInSet(userId, name, oldSticker, sticker, cancellationToken);
+
     /// <summary>Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="sticker">File identifier of the sticker</param>
@@ -2791,6 +4101,15 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
         EmojiList = emojiList,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerEmojiList">SetStickerEmojiList</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetStickerEmojiList instead")]
+    public static Task SetStickerEmojiListAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        IEnumerable<string> emojiList,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetStickerEmojiList(sticker, emojiList, cancellationToken);
 
     /// <summary>Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2808,6 +4127,15 @@ public static partial class TelegramBotClientExtensions
         Keywords = keywords,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerKeywords">SetStickerKeywords</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetStickerKeywords instead")]
+    public static Task SetStickerKeywordsAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        IEnumerable<string>? keywords = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetStickerKeywords(sticker, keywords, cancellationToken);
+
     /// <summary>Use this method to change the <see cref="MaskPosition">mask position</see> of a mask sticker. The sticker must belong to a sticker set that was created by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="sticker">File identifier of the sticker</param>
@@ -2824,6 +4152,15 @@ public static partial class TelegramBotClientExtensions
         MaskPosition = maskPosition,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerMaskPosition">SetStickerMaskPosition</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetStickerMaskPosition instead")]
+    public static Task SetStickerMaskPositionAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        MaskPosition? maskPosition = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetStickerMaskPosition(sticker, maskPosition, cancellationToken);
+
     /// <summary>Use this method to set the title of a created sticker set.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="name">Sticker set name</param>
@@ -2839,6 +4176,15 @@ public static partial class TelegramBotClientExtensions
         Name = name,
         Title = title,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerSetTitle">SetStickerSetTitle</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetStickerSetTitle instead")]
+    public static Task SetStickerSetTitleAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        string title,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetStickerSetTitle(name, title, cancellationToken);
 
     /// <summary>Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2862,6 +4208,17 @@ public static partial class TelegramBotClientExtensions
         Thumbnail = thumbnail,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerSetThumbnail">SetStickerSetThumbnail</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetStickerSetThumbnail instead")]
+    public static Task SetStickerSetThumbnailAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        long userId,
+        StickerFormat format,
+        InputFile? thumbnail = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetStickerSetThumbnail(name, userId, format, thumbnail, cancellationToken);
+
     /// <summary>Use this method to set the thumbnail of a custom emoji sticker set.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="name">Sticker set name</param>
@@ -2878,6 +4235,15 @@ public static partial class TelegramBotClientExtensions
         CustomEmojiId = customEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetCustomEmojiStickerSetThumbnail">SetCustomEmojiStickerSetThumbnail</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetCustomEmojiStickerSetThumbnail instead")]
+    public static Task SetCustomEmojiStickerSetThumbnailAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        string? customEmojiId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetCustomEmojiStickerSetThumbnail(name, customEmojiId, cancellationToken);
+
     /// <summary>Use this method to delete a sticker set that was created by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="name">Sticker set name</param>
@@ -2890,6 +4256,14 @@ public static partial class TelegramBotClientExtensions
     {
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteStickerSet">DeleteStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use DeleteStickerSet instead")]
+    public static Task DeleteStickerSetAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        CancellationToken cancellationToken = default
+    ) => botClient.DeleteStickerSet(name, cancellationToken);
 
     #endregion
 
@@ -2923,6 +4297,19 @@ public static partial class TelegramBotClientExtensions
         Button = button,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerInlineQuery">AnswerInlineQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AnswerInlineQuery instead")]
+    public static Task AnswerInlineQueryAsync(
+        this ITelegramBotClient botClient,
+        string inlineQueryId,
+        IEnumerable<InlineQueryResult> results,
+        int? cacheTime = default,
+        bool isPersonal = default,
+        string? nextOffset = default,
+        InlineQueryResultsButton? button = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.AnswerInlineQuery(inlineQueryId, results, cacheTime, isPersonal, nextOffset, button, cancellationToken);
+
     /// <summary>Use this method to set the result of an interaction with a <a href="https://core.telegram.org/bots/webapps">Web App</a> and send a corresponding message on behalf of the user to the chat from which the query originated.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
@@ -2939,6 +4326,15 @@ public static partial class TelegramBotClientExtensions
         WebAppQueryId = webAppQueryId,
         Result = result,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerWebAppQuery">AnswerWebAppQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AnswerWebAppQuery instead")]
+    public static Task<SentWebAppMessage> AnswerWebAppQueryAsync(
+        this ITelegramBotClient botClient,
+        string webAppQueryId,
+        InlineQueryResult result,
+        CancellationToken cancellationToken = default
+    ) => botClient.AnswerWebAppQuery(webAppQueryId, result, cancellationToken);
 
     #endregion Inline mode
 
@@ -3039,6 +4435,41 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendInvoice">SendInvoice</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendInvoice instead")]
+    public static Task<Message> SendInvoiceAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string title,
+        string description,
+        string payload,
+        string currency,
+        IEnumerable<LabeledPrice> prices,
+        int? messageThreadId = default,
+        string? providerToken = default,
+        int? maxTipAmount = default,
+        IEnumerable<int>? suggestedTipAmounts = default,
+        string? startParameter = default,
+        string? providerData = default,
+        string? photoUrl = default,
+        int? photoSize = default,
+        int? photoWidth = default,
+        int? photoHeight = default,
+        bool needName = default,
+        bool needPhoneNumber = default,
+        bool needEmail = default,
+        bool needShippingAddress = default,
+        bool sendPhoneNumberToProvider = default,
+        bool sendEmailToProvider = default,
+        bool isFlexible = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendInvoice(chatId, title, description, payload, currency, prices, providerToken, providerData, maxTipAmount, suggestedTipAmounts, photoUrl, photoSize, photoWidth, photoHeight, needName, needPhoneNumber, needEmail, needShippingAddress, sendPhoneNumberToProvider, sendEmailToProvider, isFlexible, replyParameters, replyMarkup, startParameter, messageThreadId, disableNotification, protectContent, messageEffectId, cancellationToken);
+
     /// <summary>Use this method to create a link for an invoice.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="title">Product name, 1-32 characters</param>
@@ -3110,6 +4541,33 @@ public static partial class TelegramBotClientExtensions
         IsFlexible = isFlexible,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateInvoiceLink">CreateInvoiceLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use CreateInvoiceLink instead")]
+    public static Task<string> CreateInvoiceLinkAsync(
+        this ITelegramBotClient botClient,
+        string title,
+        string description,
+        string payload,
+        string currency,
+        IEnumerable<LabeledPrice> prices,
+        string? providerToken = default,
+        int? maxTipAmount = default,
+        IEnumerable<int>? suggestedTipAmounts = default,
+        string? providerData = default,
+        string? photoUrl = default,
+        int? photoSize = default,
+        int? photoWidth = default,
+        int? photoHeight = default,
+        bool needName = default,
+        bool needPhoneNumber = default,
+        bool needEmail = default,
+        bool needShippingAddress = default,
+        bool sendPhoneNumberToProvider = default,
+        bool sendEmailToProvider = default,
+        bool isFlexible = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.CreateInvoiceLink(title, description, payload, currency, prices, providerToken, providerData, maxTipAmount, suggestedTipAmounts, photoUrl, photoSize, photoWidth, photoHeight, needName, needPhoneNumber, needEmail, needShippingAddress, sendPhoneNumberToProvider, sendEmailToProvider, isFlexible, cancellationToken);
+
     /// <summary>If you sent an invoice requesting a shipping address and the parameter <em>IsFlexible</em> was specified, the Bot API will send an <see cref="Update"/> with a <em>ShippingQuery</em> field to the bot. Use this method to reply to shipping queries</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
@@ -3126,6 +4584,15 @@ public static partial class TelegramBotClientExtensions
         Ok = true,
         ShippingOptions = shippingOptions,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerShippingQuery">AnswerShippingQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AnswerShippingQuery instead")]
+    public static Task AnswerShippingQueryAsync(
+        this ITelegramBotClient botClient,
+        string shippingQueryId,
+        IEnumerable<ShippingOption> shippingOptions,
+        CancellationToken cancellationToken = default
+    ) => botClient.AnswerShippingQuery(shippingQueryId, shippingOptions, cancellationToken);
 
     /// <summary>If you sent an invoice requesting a shipping address and the parameter <em>IsFlexible</em> was specified, the Bot API will send an <see cref="Update"/> with a <em>ShippingQuery</em> field to the bot. Use this method to reply to shipping queries</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3144,6 +4611,15 @@ public static partial class TelegramBotClientExtensions
         ErrorMessage = errorMessage,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerShippingQuery">AnswerShippingQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AnswerShippingQuery instead")]
+    public static Task AnswerShippingQueryAsync(
+        this ITelegramBotClient botClient,
+        string shippingQueryId,
+        string errorMessage,
+        CancellationToken cancellationToken = default
+    ) => botClient.AnswerShippingQuery(shippingQueryId, errorMessage, cancellationToken);
+
     /// <summary>Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Update"/> with the field <em>PreCheckoutQuery</em>. Use this method to respond to such pre-checkout queries <b>Note:</b> The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
@@ -3160,6 +4636,15 @@ public static partial class TelegramBotClientExtensions
         Ok = errorMessage == null,
         ErrorMessage = errorMessage,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerPreCheckoutQuery">AnswerPreCheckoutQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use AnswerPreCheckoutQuery instead")]
+    public static Task AnswerPreCheckoutQueryAsync(
+        this ITelegramBotClient botClient,
+        string preCheckoutQueryId,
+        string? errorMessage = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.AnswerPreCheckoutQuery(preCheckoutQueryId, errorMessage, cancellationToken);
 
     /// <summary>Returns the bot's Telegram Star transactions in chronological order.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3178,6 +4663,15 @@ public static partial class TelegramBotClientExtensions
         Limit = limit,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetStarTransactions">GetStarTransactions</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetStarTransactions instead")]
+    public static Task<StarTransactions> GetStarTransactionsAsync(
+        this ITelegramBotClient botClient,
+        int? offset = default,
+        int? limit = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetStarTransactions(offset, limit, cancellationToken);
+
     /// <summary>Refunds a successful payment in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Identifier of the user whose payment will be refunded</param>
@@ -3194,6 +4688,15 @@ public static partial class TelegramBotClientExtensions
         TelegramPaymentChargeId = telegramPaymentChargeId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="RefundStarPayment">RefundStarPayment</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use RefundStarPayment instead")]
+    public static Task RefundStarPaymentAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string telegramPaymentChargeId,
+        CancellationToken cancellationToken = default
+    ) => botClient.RefundStarPayment(userId, telegramPaymentChargeId, cancellationToken);
+
     /// <summary>Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change).<br/>Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">User identifier</param>
@@ -3209,6 +4712,15 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
         Errors = errors,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetPassportDataErrors">SetPassportDataErrors</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetPassportDataErrors instead")]
+    public static Task SetPassportDataErrorsAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        IEnumerable<PassportElementError> errors,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetPassportDataErrors(userId, errors, cancellationToken);
 
     #endregion Payments
 
@@ -3252,6 +4764,22 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendGame">SendGame</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SendGame instead")]
+    public static Task<Message> SendGameAsync(
+        this ITelegramBotClient botClient,
+        long chatId,
+        string gameShortName,
+        int? messageThreadId = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendGame(chatId, gameShortName, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+
     /// <summary>Use this method to set the score of the specified user in a game message.</summary>
     /// <remarks>Returns an error, if the new score is not greater than the user's current score in the chat and <paramref name="force"/> is <em>False</em>.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3282,6 +4810,19 @@ public static partial class TelegramBotClientExtensions
         DisableEditMessage = disableEditMessage,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetGameScore">SetGameScore</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetGameScore instead")]
+    public static Task<Message> SetGameScoreAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        int score,
+        long chatId,
+        int messageId,
+        bool force = default,
+        bool disableEditMessage = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetGameScore(userId, score, chatId, messageId, force, disableEditMessage, cancellationToken);
+
     /// <summary>Use this method to set the score of the specified user in a game message.</summary>
     /// <remarks>Returns an error, if the new score is not greater than the user's current score in the chat and <paramref name="force"/> is <em>False</em>.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3308,6 +4849,18 @@ public static partial class TelegramBotClientExtensions
         DisableEditMessage = disableEditMessage,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetGameScore">SetGameScore</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use SetGameScore instead")]
+    public static Task SetGameScoreAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        int score,
+        string inlineMessageId,
+        bool force = default,
+        bool disableEditMessage = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetGameScore(userId, score, inlineMessageId, force, disableEditMessage, cancellationToken);
+
     /// <summary>Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game.</summary>
     /// <remarks>This method will currently return scores for the target user, plus two of their closest neighbors on each side. Will also return the top three users if the user and their neighbors are not among them. Please note that this behavior is subject to change.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3329,6 +4882,16 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetGameHighScores">GetGameHighScores</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetGameHighScores instead")]
+    public static Task<GameHighScore[]> GetGameHighScoresAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        long chatId,
+        int messageId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetGameHighScores(userId, chatId, messageId, cancellationToken);
+
     /// <summary>Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game.</summary>
     /// <remarks>This method will currently return scores for the target user, plus two of their closest neighbors on each side. Will also return the top three users if the user and their neighbors are not among them. Please note that this behavior is subject to change.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3346,6 +4909,15 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
         InlineMessageId = inlineMessageId,
     }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetGameHighScores">GetGameHighScores</see> instead</summary>
+    [Obsolete("We removed all Async suffix from methods name. Use GetGameHighScores instead")]
+    public static Task<GameHighScore[]> GetGameHighScoresAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string inlineMessageId,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetGameHighScores(userId, inlineMessageId, cancellationToken);
 
     #endregion Games
 }
