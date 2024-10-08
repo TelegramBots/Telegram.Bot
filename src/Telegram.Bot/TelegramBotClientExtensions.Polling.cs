@@ -17,7 +17,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient"></param>
     /// <param name="cancellationToken"></param>
-    public static async Task DropPendingUpdatesAsync(
+    public static async Task DropPendingUpdates(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default)
     {

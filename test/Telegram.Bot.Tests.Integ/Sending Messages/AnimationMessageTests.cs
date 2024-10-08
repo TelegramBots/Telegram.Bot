@@ -22,12 +22,12 @@ public class AnimationMessageTests(TestsFixture fixture) : TestClass(fixture)
             message = await BotClient.WithStreams(stream).SendAnimation(
                 chatId: Fixture.SupergroupChat.Id,
                 animation: InputFile.FromStream(stream),
+                caption: "<b>Rotating</b> <i>Earth</i>",
+                parseMode: ParseMode.Html,
                 duration: 4,
                 width: 400,
                 height: 400,
-                thumbnail: null,
-                caption: "<b>Rotating</b> <i>Earth</i>",
-                parseMode: ParseMode.Html
+                thumbnail: null
             );
         }
 

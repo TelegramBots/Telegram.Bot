@@ -600,9 +600,9 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             voiceMessage = await BotClient.WithStreams(stream).SendVoice(
                 chatId: Fixture.SupergroupChat,
                 voice: InputFile.FromStream(stream),
-                duration: 24,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"),
+                duration: 24
             );
         }
 

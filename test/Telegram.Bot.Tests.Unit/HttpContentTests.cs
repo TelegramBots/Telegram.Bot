@@ -19,7 +19,7 @@ public class HttpContentTests
         var httpClient = new HttpClient(new TestHandler());
         var bot = new TelegramBotClient(new TelegramBotClientOptions("666:DEVIL") { RetryThreshold = 60, RetryCount = 3 }, httpClient);
         using var stream = new MemoryStream([65, 66, 67]); // "ABC"
-        var ex = await Assert.ThrowsAsync<ApiRequestException>(async () => await bot.SendDocumentAsync(123, stream));
+        var ex = await Assert.ThrowsAsync<ApiRequestException>(async () => await bot.SendDocument(123, stream));
         Assert.Equal("Too Many Requests: 3", ex.Message);
     }
 
@@ -29,7 +29,7 @@ public class HttpContentTests
         var httpClient = new HttpClient(new TestHandler());
         var bot = new TelegramBotClient(new TelegramBotClientOptions("666:DEVIL") { RetryThreshold = 60, RetryCount = 3 }, httpClient);
         using var stream = new GZipStream(new MemoryStream(_gzABC), CompressionMode.Decompress);
-        var ex = await Assert.ThrowsAsync<ApiRequestException>(async () => await bot.SendDocumentAsync(123, stream));
+        var ex = await Assert.ThrowsAsync<ApiRequestException>(async () => await bot.SendDocument(123, stream));
         Assert.Equal("Too Many Requests: 3", ex.Message);
     }
 

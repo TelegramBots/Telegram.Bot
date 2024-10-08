@@ -78,7 +78,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
             document: InputFile.FromStream(stream, "Earth.gif"),
             caption: "`file_id` of this GIF will be used",
             parseMode: ParseMode.Markdown,
-            replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+            replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start Inline Query")
         );
 

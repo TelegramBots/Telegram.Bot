@@ -21,10 +21,10 @@ public class SendingVideoMessageTests(TestsFixture fixture) : TestClass(fixture)
             message = await BotClient.WithStreams(stream).SendVideo(
                 chatId: Fixture.SupergroupChat.Id,
                 video: InputFile.FromStream(stream, "moon-landing.mp4"),
+                caption: "Moon Landing",
                 duration: 104,
                 width: 320,
-                height: 240,
-                caption: "Moon Landing"
+                height: 240
             );
         }
 
