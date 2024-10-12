@@ -35,8 +35,8 @@ public static partial class TelegramBotClientExtensions
         AllowedUpdates = allowedUpdates,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetUpdates">GetUpdates</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetUpdates instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetUpdates">GetUpdates</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetUpdates instead")]
     public static Task<Update[]> GetUpdatesAsync(
         this ITelegramBotClient botClient,
         int? offset = default,
@@ -78,8 +78,8 @@ public static partial class TelegramBotClientExtensions
         SecretToken = secretToken,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetWebhook">SetWebhook</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetWebhook instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetWebhook">SetWebhook</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetWebhook instead")]
     public static Task SetWebhookAsync(
         this ITelegramBotClient botClient,
         string url,
@@ -106,8 +106,8 @@ public static partial class TelegramBotClientExtensions
         DropPendingUpdates = dropPendingUpdates,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteWebhook">DeleteWebhook</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteWebhook instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteWebhook">DeleteWebhook</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteWebhook instead")]
     public static Task DeleteWebhookAsync(
         this ITelegramBotClient botClient,
         bool dropPendingUpdates = default,
@@ -125,8 +125,8 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetWebhookInfo">GetWebhookInfo</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetWebhookInfo instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetWebhookInfo">GetWebhookInfo</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetWebhookInfo instead")]
     public static Task<WebhookInfo> GetWebhookInfoAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
@@ -147,8 +147,8 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMe">GetMe</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetMe instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetMe">GetMe</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetMe instead")]
     public static Task<User> GetMeAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
@@ -164,8 +164,8 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="LogOut">LogOut</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use LogOut instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="LogOut">LogOut</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use LogOut instead")]
     public static Task LogOutAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
@@ -181,8 +181,8 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="Close">Close</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use Close instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="Close">Close</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use Close instead")]
     public static Task CloseAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
@@ -235,8 +235,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendMessage">SendMessage</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendMessage instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendMessage">SendMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendMessage instead")]
     public static Task<Message> SendTextMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -283,8 +283,8 @@ public static partial class TelegramBotClientExtensions
         ProtectContent = protectContent,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ForwardMessage">ForwardMessage</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ForwardMessage instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ForwardMessage">ForwardMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ForwardMessage instead")]
     public static Task<Message> ForwardMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -325,8 +325,8 @@ public static partial class TelegramBotClientExtensions
         ProtectContent = protectContent,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ForwardMessages">ForwardMessages</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ForwardMessages instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ForwardMessages">ForwardMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ForwardMessages instead")]
     public static Task<MessageId[]> ForwardMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -385,8 +385,8 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CopyMessage">CopyMessage</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CopyMessage instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CopyMessage">CopyMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CopyMessage instead")]
     public static Task<MessageId> CopyMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -436,8 +436,8 @@ public static partial class TelegramBotClientExtensions
         RemoveCaption = removeCaption,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CopyMessages">CopyMessages</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CopyMessages instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CopyMessages">CopyMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CopyMessages instead")]
     public static Task<MessageId[]> CopyMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -503,8 +503,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendPhoto">SendPhoto</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendPhoto instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendPhoto">SendPhoto</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendPhoto instead")]
     public static Task<Message> SendPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -536,7 +536,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="duration">Duration of the audio in seconds</param>
     /// <param name="performer">Performer</param>
     /// <param name="title">Track name</param>
-    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
@@ -584,8 +584,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendAudio">SendAudio</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendAudio instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendAudio">SendAudio</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendAudio instead")]
     public static Task<Message> SendAudioAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -616,7 +616,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="parseMode">Mode for parsing entities in the document caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</param>
-    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="disableContentTypeDetection">Disables automatic server-side content type detection for files uploaded using <see cref="InputFileStream"/></param>
@@ -661,8 +661,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendDocument">SendDocument</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendDocument instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendDocument">SendDocument</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendDocument instead")]
     public static Task<Message> SendDocumentAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -694,7 +694,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="duration">Duration of sent video in seconds</param>
     /// <param name="width">Video width</param>
     /// <param name="height">Video height</param>
-    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media</param>
@@ -751,8 +751,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVideo">SendVideo</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendVideo instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendVideo">SendVideo</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendVideo instead")]
     public static Task<Message> SendVideoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -789,7 +789,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="duration">Duration of sent animation in seconds</param>
     /// <param name="width">Animation width</param>
     /// <param name="height">Animation height</param>
-    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media</param>
@@ -843,8 +843,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendAnimation">SendAnimation</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendAnimation instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendAnimation">SendAnimation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendAnimation instead")]
     public static Task<Message> SendAnimationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -919,8 +919,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVoice">SendVoice</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendVoice instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendVoice">SendVoice</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendVoice instead")]
     public static Task<Message> SendVoiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -947,7 +947,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</param>
     /// <param name="duration">Duration of sent video in seconds</param>
     /// <param name="length">Video width and height, i.e. diameter of the video message</param>
-    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
+    /// <param name="thumbnail">Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
@@ -986,8 +986,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVideoNote">SendVideoNote</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendVideoNote instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendVideoNote">SendVideoNote</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendVideoNote instead")]
     public static Task<Message> SendVideoNoteAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1055,8 +1055,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendPaidMedia">SendPaidMedia</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendPaidMedia instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendPaidMedia">SendPaidMedia</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendPaidMedia instead")]
     public static Task<Message> SendPaidMediaAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1110,8 +1110,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendMediaGroup">SendMediaGroup</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendMediaGroup instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendMediaGroup">SendMediaGroup</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendMediaGroup instead")]
     public static Task<Message[]> SendMediaGroupAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1178,8 +1178,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendLocation">SendLocation</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendLocation instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendLocation">SendLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendLocation instead")]
     public static Task<Message> SendLocationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1258,8 +1258,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendVenue">SendVenue</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendVenue instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendVenue">SendVenue</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendVenue instead")]
     public static Task<Message> SendVenueAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1328,8 +1328,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendContact">SendContact</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendContact instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendContact">SendContact</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendContact instead")]
     public static Task<Message> SendContactAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1424,8 +1424,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendPoll">SendPoll</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendPoll instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendPoll">SendPoll</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendPoll instead")]
     public static Task<Message> SendPollAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1491,8 +1491,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendDice">SendDice</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendDice instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendDice">SendDice</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendDice instead")]
     public static Task<Message> SendDiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1530,8 +1530,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendChatAction">SendChatAction</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendChatAction instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendChatAction">SendChatAction</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendChatAction instead")]
     public static Task SendChatActionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1563,8 +1563,8 @@ public static partial class TelegramBotClientExtensions
         IsBig = isBig,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMessageReaction">SetMessageReaction</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetMessageReaction instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetMessageReaction">SetMessageReaction</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetMessageReaction instead")]
     public static Task SetMessageReactionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1594,8 +1594,8 @@ public static partial class TelegramBotClientExtensions
         Limit = limit,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetUserProfilePhotos">GetUserProfilePhotos</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetUserProfilePhotos instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetUserProfilePhotos">GetUserProfilePhotos</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetUserProfilePhotos instead")]
     public static Task<UserProfilePhotos> GetUserProfilePhotosAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -1618,8 +1618,8 @@ public static partial class TelegramBotClientExtensions
         FileId = fileId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetFile">GetFile</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetFile instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetFile">GetFile</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetFile instead")]
     public static Task<File> GetFileAsync(
         this ITelegramBotClient botClient,
         string fileId,
@@ -1648,8 +1648,8 @@ public static partial class TelegramBotClientExtensions
         RevokeMessages = revokeMessages,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="BanChatMember">BanChatMember</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use BanChatMember instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="BanChatMember">BanChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use BanChatMember instead")]
     public static Task BanChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1678,8 +1678,8 @@ public static partial class TelegramBotClientExtensions
         OnlyIfBanned = onlyIfBanned,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnbanChatMember">UnbanChatMember</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnbanChatMember instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnbanChatMember">UnbanChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnbanChatMember instead")]
     public static Task UnbanChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1713,8 +1713,8 @@ public static partial class TelegramBotClientExtensions
         UntilDate = untilDate,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="RestrictChatMember">RestrictChatMember</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use RestrictChatMember instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="RestrictChatMember">RestrictChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use RestrictChatMember instead")]
     public static Task RestrictChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1786,8 +1786,8 @@ public static partial class TelegramBotClientExtensions
         CanManageTopics = canManageTopics,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="PromoteChatMember">PromoteChatMember</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use PromoteChatMember instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="PromoteChatMember">PromoteChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use PromoteChatMember instead")]
     public static Task PromoteChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1829,8 +1829,8 @@ public static partial class TelegramBotClientExtensions
         CustomTitle = customTitle,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatAdministratorCustomTitle">SetChatAdministratorCustomTitle</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatAdministratorCustomTitle instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatAdministratorCustomTitle">SetChatAdministratorCustomTitle</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatAdministratorCustomTitle instead")]
     public static Task SetChatAdministratorCustomTitleAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1855,8 +1855,8 @@ public static partial class TelegramBotClientExtensions
         SenderChatId = senderChatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="BanChatSenderChat">BanChatSenderChat</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use BanChatSenderChat instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="BanChatSenderChat">BanChatSenderChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use BanChatSenderChat instead")]
     public static Task BanChatSenderChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1880,8 +1880,8 @@ public static partial class TelegramBotClientExtensions
         SenderChatId = senderChatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnbanChatSenderChat">UnbanChatSenderChat</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnbanChatSenderChat instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnbanChatSenderChat">UnbanChatSenderChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnbanChatSenderChat instead")]
     public static Task UnbanChatSenderChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1908,8 +1908,8 @@ public static partial class TelegramBotClientExtensions
         UseIndependentChatPermissions = useIndependentChatPermissions,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatPermissions">SetChatPermissions</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatPermissions instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatPermissions">SetChatPermissions</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatPermissions instead")]
     public static Task SetChatPermissionsAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1933,8 +1933,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ExportChatInviteLink">ExportChatInviteLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ExportChatInviteLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ExportChatInviteLink">ExportChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ExportChatInviteLink instead")]
     public static Task<string> ExportChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1967,8 +1967,8 @@ public static partial class TelegramBotClientExtensions
         CreatesJoinRequest = createsJoinRequest,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateChatInviteLink">CreateChatInviteLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CreateChatInviteLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CreateChatInviteLink">CreateChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CreateChatInviteLink instead")]
     public static Task<ChatInviteLink> CreateChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2008,8 +2008,8 @@ public static partial class TelegramBotClientExtensions
         CreatesJoinRequest = createsJoinRequest,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditChatInviteLink">EditChatInviteLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditChatInviteLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditChatInviteLink">EditChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditChatInviteLink instead")]
     public static Task<ChatInviteLink> EditChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2044,8 +2044,8 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateChatSubscriptionInviteLink">CreateChatSubscriptionInviteLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CreateChatSubscriptionInviteLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CreateChatSubscriptionInviteLink">CreateChatSubscriptionInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CreateChatSubscriptionInviteLink instead")]
     public static Task<ChatInviteLink> CreateChatSubscriptionInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2075,8 +2075,8 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditChatSubscriptionInviteLink">EditChatSubscriptionInviteLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditChatSubscriptionInviteLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditChatSubscriptionInviteLink">EditChatSubscriptionInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditChatSubscriptionInviteLink instead")]
     public static Task<ChatInviteLink> EditChatSubscriptionInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2102,8 +2102,8 @@ public static partial class TelegramBotClientExtensions
         InviteLink = inviteLink,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="RevokeChatInviteLink">RevokeChatInviteLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use RevokeChatInviteLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="RevokeChatInviteLink">RevokeChatInviteLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use RevokeChatInviteLink instead")]
     public static Task<ChatInviteLink> RevokeChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2127,8 +2127,8 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ApproveChatJoinRequest">ApproveChatJoinRequest</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ApproveChatJoinRequest instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ApproveChatJoinRequest">ApproveChatJoinRequest</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ApproveChatJoinRequest instead")]
     public static Task ApproveChatJoinRequestAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2152,8 +2152,8 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeclineChatJoinRequest">DeclineChatJoinRequest</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeclineChatJoinRequest instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeclineChatJoinRequest">DeclineChatJoinRequest</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeclineChatJoinRequest instead")]
     public static Task DeclineChatJoinRequestAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2177,8 +2177,8 @@ public static partial class TelegramBotClientExtensions
         Photo = photo,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatPhoto">SetChatPhoto</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatPhoto instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatPhoto">SetChatPhoto</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatPhoto instead")]
     public static Task SetChatPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2199,8 +2199,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteChatPhoto">DeleteChatPhoto</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteChatPhoto instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteChatPhoto">DeleteChatPhoto</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteChatPhoto instead")]
     public static Task DeleteChatPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2223,8 +2223,8 @@ public static partial class TelegramBotClientExtensions
         Title = title,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatTitle">SetChatTitle</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatTitle instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatTitle">SetChatTitle</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatTitle instead")]
     public static Task SetChatTitleAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2248,8 +2248,8 @@ public static partial class TelegramBotClientExtensions
         Description = description,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatDescription">SetChatDescription</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatDescription instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatDescription">SetChatDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatDescription instead")]
     public static Task SetChatDescriptionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2279,8 +2279,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="PinChatMessage">PinChatMessage</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use PinChatMessage instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="PinChatMessage">PinChatMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use PinChatMessage instead")]
     public static Task PinChatMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2309,8 +2309,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinChatMessage">UnpinChatMessage</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnpinChatMessage instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnpinChatMessage">UnpinChatMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnpinChatMessage instead")]
     public static Task UnpinChatMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2332,8 +2332,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinAllChatMessages">UnpinAllChatMessages</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnpinAllChatMessages instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnpinAllChatMessages">UnpinAllChatMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnpinAllChatMessages instead")]
     public static Task UnpinAllChatMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2353,8 +2353,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="LeaveChat">LeaveChat</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use LeaveChat instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="LeaveChat">LeaveChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use LeaveChat instead")]
     public static Task LeaveChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2375,8 +2375,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChat">GetChat</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetChat instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetChat">GetChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetChat instead")]
     public static Task<ChatFullInfo> GetChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2397,8 +2397,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatAdministrators">GetChatAdministrators</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetChatAdministrators instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetChatAdministrators">GetChatAdministrators</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetChatAdministrators instead")]
     public static Task<ChatMember[]> GetChatAdministratorsAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2419,8 +2419,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatMemberCount">GetChatMemberCount</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetChatMemberCount instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetChatMemberCount">GetChatMemberCount</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetChatMemberCount instead")]
     public static Task<int> GetChatMemberCountAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2444,8 +2444,8 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatMember">GetChatMember</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetChatMember instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetChatMember">GetChatMember</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetChatMember instead")]
     public static Task<ChatMember> GetChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2469,8 +2469,8 @@ public static partial class TelegramBotClientExtensions
         StickerSetName = stickerSetName,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatStickerSet">SetChatStickerSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatStickerSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatStickerSet">SetChatStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatStickerSet instead")]
     public static Task SetChatStickerSetAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2491,8 +2491,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteChatStickerSet">DeleteChatStickerSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteChatStickerSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteChatStickerSet">DeleteChatStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteChatStickerSet instead")]
     public static Task DeleteChatStickerSetAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2510,8 +2510,8 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetForumTopicIconStickers">GetForumTopicIconStickers</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetForumTopicIconStickers instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetForumTopicIconStickers">GetForumTopicIconStickers</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetForumTopicIconStickers instead")]
     public static Task<Sticker[]> GetForumTopicIconStickersAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
@@ -2540,8 +2540,8 @@ public static partial class TelegramBotClientExtensions
         IconCustomEmojiId = iconCustomEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateForumTopic">CreateForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CreateForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CreateForumTopic">CreateForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CreateForumTopic instead")]
     public static Task<ForumTopic> CreateForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2573,8 +2573,8 @@ public static partial class TelegramBotClientExtensions
         IconCustomEmojiId = iconCustomEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditForumTopic">EditForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditForumTopic">EditForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditForumTopic instead")]
     public static Task EditForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2600,8 +2600,8 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CloseForumTopic">CloseForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CloseForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CloseForumTopic">CloseForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CloseForumTopic instead")]
     public static Task CloseForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2625,8 +2625,8 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ReopenForumTopic">ReopenForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ReopenForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ReopenForumTopic">ReopenForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ReopenForumTopic instead")]
     public static Task ReopenForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2650,8 +2650,8 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteForumTopic">DeleteForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteForumTopic">DeleteForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteForumTopic instead")]
     public static Task DeleteForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2675,8 +2675,8 @@ public static partial class TelegramBotClientExtensions
         MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinAllForumTopicMessages">UnpinAllForumTopicMessages</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnpinAllForumTopicMessages instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnpinAllForumTopicMessages">UnpinAllForumTopicMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnpinAllForumTopicMessages instead")]
     public static Task UnpinAllForumTopicMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2700,8 +2700,8 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditGeneralForumTopic">EditGeneralForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditGeneralForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditGeneralForumTopic">EditGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditGeneralForumTopic instead")]
     public static Task EditGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2722,8 +2722,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CloseGeneralForumTopic">CloseGeneralForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CloseGeneralForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CloseGeneralForumTopic">CloseGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CloseGeneralForumTopic instead")]
     public static Task CloseGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2743,8 +2743,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ReopenGeneralForumTopic">ReopenGeneralForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ReopenGeneralForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ReopenGeneralForumTopic">ReopenGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ReopenGeneralForumTopic instead")]
     public static Task ReopenGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2764,8 +2764,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="HideGeneralForumTopic">HideGeneralForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use HideGeneralForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="HideGeneralForumTopic">HideGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use HideGeneralForumTopic instead")]
     public static Task HideGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2785,8 +2785,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnhideGeneralForumTopic">UnhideGeneralForumTopic</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnhideGeneralForumTopic instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnhideGeneralForumTopic">UnhideGeneralForumTopic</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnhideGeneralForumTopic instead")]
     public static Task UnhideGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2806,8 +2806,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UnpinAllGeneralForumTopicMessages">UnpinAllGeneralForumTopicMessages</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UnpinAllGeneralForumTopicMessages instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UnpinAllGeneralForumTopicMessages">UnpinAllGeneralForumTopicMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UnpinAllGeneralForumTopicMessages instead")]
     public static Task UnpinAllGeneralForumTopicMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2840,8 +2840,8 @@ public static partial class TelegramBotClientExtensions
         CacheTime = cacheTime,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerCallbackQuery">AnswerCallbackQuery</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AnswerCallbackQuery instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AnswerCallbackQuery">AnswerCallbackQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AnswerCallbackQuery instead")]
     public static Task AnswerCallbackQueryAsync(
         this ITelegramBotClient botClient,
         string callbackQueryId,
@@ -2869,8 +2869,8 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetUserChatBoosts">GetUserChatBoosts</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetUserChatBoosts instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetUserChatBoosts">GetUserChatBoosts</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetUserChatBoosts instead")]
     public static Task<UserChatBoosts> GetUserChatBoostsAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2892,8 +2892,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetBusinessConnection">GetBusinessConnection</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetBusinessConnection instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetBusinessConnection">GetBusinessConnection</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetBusinessConnection instead")]
     public static Task<BusinessConnection> GetBusinessConnectionAsync(
         this ITelegramBotClient botClient,
         string businessConnectionId,
@@ -2919,8 +2919,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyCommands">SetMyCommands</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetMyCommands instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetMyCommands">SetMyCommands</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetMyCommands instead")]
     public static Task SetMyCommandsAsync(
         this ITelegramBotClient botClient,
         IEnumerable<BotCommand> commands,
@@ -2945,8 +2945,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteMyCommands">DeleteMyCommands</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteMyCommands instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteMyCommands">DeleteMyCommands</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteMyCommands instead")]
     public static Task DeleteMyCommandsAsync(
         this ITelegramBotClient botClient,
         BotCommandScope? scope = default,
@@ -2971,8 +2971,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyCommands">GetMyCommands</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetMyCommands instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetMyCommands">GetMyCommands</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetMyCommands instead")]
     public static Task<BotCommand[]> GetMyCommandsAsync(
         this ITelegramBotClient botClient,
         BotCommandScope? scope = default,
@@ -2996,8 +2996,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyName">SetMyName</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetMyName instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetMyName">SetMyName</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetMyName instead")]
     public static Task SetMyNameAsync(
         this ITelegramBotClient botClient,
         string? name = default,
@@ -3019,8 +3019,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyName">GetMyName</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetMyName instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetMyName">GetMyName</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetMyName instead")]
     public static Task<BotName> GetMyNameAsync(
         this ITelegramBotClient botClient,
         string? languageCode = default,
@@ -3043,8 +3043,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyDescription">SetMyDescription</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetMyDescription instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetMyDescription">SetMyDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetMyDescription instead")]
     public static Task SetMyDescriptionAsync(
         this ITelegramBotClient botClient,
         string? description = default,
@@ -3066,8 +3066,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyDescription">GetMyDescription</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetMyDescription instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetMyDescription">GetMyDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetMyDescription instead")]
     public static Task<BotDescription> GetMyDescriptionAsync(
         this ITelegramBotClient botClient,
         string? languageCode = default,
@@ -3090,8 +3090,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyShortDescription">SetMyShortDescription</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetMyShortDescription instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetMyShortDescription">SetMyShortDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetMyShortDescription instead")]
     public static Task SetMyShortDescriptionAsync(
         this ITelegramBotClient botClient,
         string? shortDescription = default,
@@ -3113,8 +3113,8 @@ public static partial class TelegramBotClientExtensions
         LanguageCode = languageCode,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyShortDescription">GetMyShortDescription</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetMyShortDescription instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetMyShortDescription">GetMyShortDescription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetMyShortDescription instead")]
     public static Task<BotShortDescription> GetMyShortDescriptionAsync(
         this ITelegramBotClient botClient,
         string? languageCode = default,
@@ -3137,8 +3137,8 @@ public static partial class TelegramBotClientExtensions
         MenuButton = menuButton,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetChatMenuButton">SetChatMenuButton</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetChatMenuButton instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetChatMenuButton">SetChatMenuButton</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetChatMenuButton instead")]
     public static Task SetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         long? chatId = default,
@@ -3160,8 +3160,8 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetChatMenuButton">GetChatMenuButton</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetChatMenuButton instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetChatMenuButton">GetChatMenuButton</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetChatMenuButton instead")]
     public static Task<MenuButton> GetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         long? chatId = default,
@@ -3184,8 +3184,8 @@ public static partial class TelegramBotClientExtensions
         ForChannels = forChannels,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetMyDefaultAdministratorRights">SetMyDefaultAdministratorRights</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetMyDefaultAdministratorRights instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetMyDefaultAdministratorRights">SetMyDefaultAdministratorRights</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetMyDefaultAdministratorRights instead")]
     public static Task SetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         ChatAdministratorRights? rights = default,
@@ -3207,8 +3207,8 @@ public static partial class TelegramBotClientExtensions
         ForChannels = forChannels,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetMyDefaultAdministratorRights">GetMyDefaultAdministratorRights</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetMyDefaultAdministratorRights instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetMyDefaultAdministratorRights">GetMyDefaultAdministratorRights</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetMyDefaultAdministratorRights instead")]
     public static Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         bool forChannels = default,
@@ -3254,8 +3254,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageText">EditMessageText</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageText instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageText">EditMessageText</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageText instead")]
     public static Task<Message> EditMessageTextAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3300,8 +3300,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageText">EditMessageText</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageText instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageText">EditMessageText</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageText instead")]
     public static Task EditMessageTextAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3349,8 +3349,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageCaption">EditMessageCaption</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageCaption instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageCaption">EditMessageCaption</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageCaption instead")]
     public static Task<Message> EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3395,8 +3395,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageCaption">EditMessageCaption</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageCaption instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageCaption">EditMessageCaption</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageCaption instead")]
     public static Task EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3435,8 +3435,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageMedia">EditMessageMedia</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageMedia instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageMedia">EditMessageMedia</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageMedia instead")]
     public static Task<Message> EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3469,8 +3469,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageMedia">EditMessageMedia</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageMedia instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageMedia">EditMessageMedia</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageMedia instead")]
     public static Task EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3521,8 +3521,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageLiveLocation">EditMessageLiveLocation</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageLiveLocation instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageLiveLocation">EditMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageLiveLocation instead")]
     public static Task<Message> EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3575,8 +3575,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageLiveLocation">EditMessageLiveLocation</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageLiveLocation instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageLiveLocation">EditMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageLiveLocation instead")]
     public static Task EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3614,8 +3614,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="StopMessageLiveLocation">StopMessageLiveLocation</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use StopMessageLiveLocation instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="StopMessageLiveLocation">StopMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use StopMessageLiveLocation instead")]
     public static Task<Message> StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3644,8 +3644,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="StopMessageLiveLocation">StopMessageLiveLocation</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use StopMessageLiveLocation instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="StopMessageLiveLocation">StopMessageLiveLocation</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use StopMessageLiveLocation instead")]
     public static Task StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3677,8 +3677,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageReplyMarkup">EditMessageReplyMarkup</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageReplyMarkup instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageReplyMarkup">EditMessageReplyMarkup</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageReplyMarkup instead")]
     public static Task<Message> EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3707,8 +3707,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="EditMessageReplyMarkup">EditMessageReplyMarkup</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use EditMessageReplyMarkup instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditMessageReplyMarkup">EditMessageReplyMarkup</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditMessageReplyMarkup instead")]
     public static Task EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3740,8 +3740,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="StopPoll">StopPoll</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use StopPoll instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="StopPoll">StopPoll</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use StopPoll instead")]
     public static Task<Poll> StopPollAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3767,8 +3767,8 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteMessage">DeleteMessage</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteMessage instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteMessage">DeleteMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteMessage instead")]
     public static Task DeleteMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3792,8 +3792,8 @@ public static partial class TelegramBotClientExtensions
         MessageIds = messageIds,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteMessages">DeleteMessages</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteMessages instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteMessages">DeleteMessages</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteMessages instead")]
     public static Task DeleteMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3846,8 +3846,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendSticker">SendSticker</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendSticker instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendSticker">SendSticker</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendSticker instead")]
     public static Task<Message> SendStickerAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3877,8 +3877,8 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetStickerSet">GetStickerSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetStickerSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetStickerSet">GetStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetStickerSet instead")]
     public static Task<StickerSet> GetStickerSetAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -3899,8 +3899,8 @@ public static partial class TelegramBotClientExtensions
         CustomEmojiIds = customEmojiIds,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetCustomEmojiStickers">GetCustomEmojiStickers</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetCustomEmojiStickers instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetCustomEmojiStickers">GetCustomEmojiStickers</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetCustomEmojiStickers instead")]
     public static Task<Sticker[]> GetCustomEmojiStickersAsync(
         this ITelegramBotClient botClient,
         IEnumerable<string> customEmojiIds,
@@ -3927,8 +3927,8 @@ public static partial class TelegramBotClientExtensions
         StickerFormat = stickerFormat,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="UploadStickerFile">UploadStickerFile</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use UploadStickerFile instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="UploadStickerFile">UploadStickerFile</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use UploadStickerFile instead")]
     public static Task<File> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -3965,8 +3965,8 @@ public static partial class TelegramBotClientExtensions
         NeedsRepainting = needsRepainting,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateNewStickerSet">CreateNewStickerSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CreateNewStickerSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CreateNewStickerSet">CreateNewStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CreateNewStickerSet instead")]
     public static Task CreateNewStickerSetAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -3997,8 +3997,8 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AddStickerToSet">AddStickerToSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AddStickerToSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AddStickerToSet">AddStickerToSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AddStickerToSet instead")]
     public static Task AddStickerToSetAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4023,8 +4023,8 @@ public static partial class TelegramBotClientExtensions
         Position = position,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerPositionInSet">SetStickerPositionInSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetStickerPositionInSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetStickerPositionInSet">SetStickerPositionInSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetStickerPositionInSet instead")]
     public static Task SetStickerPositionInSetAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4045,8 +4045,8 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteStickerFromSet">DeleteStickerFromSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteStickerFromSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteStickerFromSet">DeleteStickerFromSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteStickerFromSet instead")]
     public static Task DeleteStickerFromSetAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4075,8 +4075,8 @@ public static partial class TelegramBotClientExtensions
         Sticker = sticker,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="ReplaceStickerInSet">ReplaceStickerInSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use ReplaceStickerInSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="ReplaceStickerInSet">ReplaceStickerInSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use ReplaceStickerInSet instead")]
     public static Task ReplaceStickerInSetAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4102,8 +4102,8 @@ public static partial class TelegramBotClientExtensions
         EmojiList = emojiList,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerEmojiList">SetStickerEmojiList</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetStickerEmojiList instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetStickerEmojiList">SetStickerEmojiList</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetStickerEmojiList instead")]
     public static Task SetStickerEmojiListAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4127,8 +4127,8 @@ public static partial class TelegramBotClientExtensions
         Keywords = keywords,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerKeywords">SetStickerKeywords</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetStickerKeywords instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetStickerKeywords">SetStickerKeywords</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetStickerKeywords instead")]
     public static Task SetStickerKeywordsAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4152,8 +4152,8 @@ public static partial class TelegramBotClientExtensions
         MaskPosition = maskPosition,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerMaskPosition">SetStickerMaskPosition</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetStickerMaskPosition instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetStickerMaskPosition">SetStickerMaskPosition</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetStickerMaskPosition instead")]
     public static Task SetStickerMaskPositionAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4177,8 +4177,8 @@ public static partial class TelegramBotClientExtensions
         Title = title,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerSetTitle">SetStickerSetTitle</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetStickerSetTitle instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetStickerSetTitle">SetStickerSetTitle</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetStickerSetTitle instead")]
     public static Task SetStickerSetTitleAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4208,8 +4208,8 @@ public static partial class TelegramBotClientExtensions
         Thumbnail = thumbnail,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetStickerSetThumbnail">SetStickerSetThumbnail</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetStickerSetThumbnail instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetStickerSetThumbnail">SetStickerSetThumbnail</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetStickerSetThumbnail instead")]
     public static Task SetStickerSetThumbnailAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4235,8 +4235,8 @@ public static partial class TelegramBotClientExtensions
         CustomEmojiId = customEmojiId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetCustomEmojiStickerSetThumbnail">SetCustomEmojiStickerSetThumbnail</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetCustomEmojiStickerSetThumbnail instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetCustomEmojiStickerSetThumbnail">SetCustomEmojiStickerSetThumbnail</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetCustomEmojiStickerSetThumbnail instead")]
     public static Task SetCustomEmojiStickerSetThumbnailAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4257,8 +4257,8 @@ public static partial class TelegramBotClientExtensions
         Name = name,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="DeleteStickerSet">DeleteStickerSet</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use DeleteStickerSet instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="DeleteStickerSet">DeleteStickerSet</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use DeleteStickerSet instead")]
     public static Task DeleteStickerSetAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4297,8 +4297,8 @@ public static partial class TelegramBotClientExtensions
         Button = button,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerInlineQuery">AnswerInlineQuery</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AnswerInlineQuery instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AnswerInlineQuery">AnswerInlineQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AnswerInlineQuery instead")]
     public static Task AnswerInlineQueryAsync(
         this ITelegramBotClient botClient,
         string inlineQueryId,
@@ -4327,8 +4327,8 @@ public static partial class TelegramBotClientExtensions
         Result = result,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerWebAppQuery">AnswerWebAppQuery</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AnswerWebAppQuery instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AnswerWebAppQuery">AnswerWebAppQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AnswerWebAppQuery instead")]
     public static Task<SentWebAppMessage> AnswerWebAppQueryAsync(
         this ITelegramBotClient botClient,
         string webAppQueryId,
@@ -4435,8 +4435,8 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendInvoice">SendInvoice</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendInvoice instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendInvoice">SendInvoice</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendInvoice instead")]
     public static Task<Message> SendInvoiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -4541,8 +4541,8 @@ public static partial class TelegramBotClientExtensions
         IsFlexible = isFlexible,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="CreateInvoiceLink">CreateInvoiceLink</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use CreateInvoiceLink instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="CreateInvoiceLink">CreateInvoiceLink</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use CreateInvoiceLink instead")]
     public static Task<string> CreateInvoiceLinkAsync(
         this ITelegramBotClient botClient,
         string title,
@@ -4585,8 +4585,8 @@ public static partial class TelegramBotClientExtensions
         ShippingOptions = shippingOptions,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerShippingQuery">AnswerShippingQuery</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AnswerShippingQuery instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AnswerShippingQuery">AnswerShippingQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AnswerShippingQuery instead")]
     public static Task AnswerShippingQueryAsync(
         this ITelegramBotClient botClient,
         string shippingQueryId,
@@ -4611,8 +4611,8 @@ public static partial class TelegramBotClientExtensions
         ErrorMessage = errorMessage,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerShippingQuery">AnswerShippingQuery</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AnswerShippingQuery instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AnswerShippingQuery">AnswerShippingQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AnswerShippingQuery instead")]
     public static Task AnswerShippingQueryAsync(
         this ITelegramBotClient botClient,
         string shippingQueryId,
@@ -4637,8 +4637,8 @@ public static partial class TelegramBotClientExtensions
         ErrorMessage = errorMessage,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="AnswerPreCheckoutQuery">AnswerPreCheckoutQuery</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use AnswerPreCheckoutQuery instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="AnswerPreCheckoutQuery">AnswerPreCheckoutQuery</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use AnswerPreCheckoutQuery instead")]
     public static Task AnswerPreCheckoutQueryAsync(
         this ITelegramBotClient botClient,
         string preCheckoutQueryId,
@@ -4663,8 +4663,8 @@ public static partial class TelegramBotClientExtensions
         Limit = limit,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetStarTransactions">GetStarTransactions</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetStarTransactions instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetStarTransactions">GetStarTransactions</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetStarTransactions instead")]
     public static Task<StarTransactions> GetStarTransactionsAsync(
         this ITelegramBotClient botClient,
         int? offset = default,
@@ -4688,8 +4688,8 @@ public static partial class TelegramBotClientExtensions
         TelegramPaymentChargeId = telegramPaymentChargeId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="RefundStarPayment">RefundStarPayment</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use RefundStarPayment instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="RefundStarPayment">RefundStarPayment</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use RefundStarPayment instead")]
     public static Task RefundStarPaymentAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4713,8 +4713,8 @@ public static partial class TelegramBotClientExtensions
         Errors = errors,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetPassportDataErrors">SetPassportDataErrors</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetPassportDataErrors instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetPassportDataErrors">SetPassportDataErrors</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetPassportDataErrors instead")]
     public static Task SetPassportDataErrorsAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4764,8 +4764,8 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SendGame">SendGame</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SendGame instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendGame">SendGame</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendGame instead")]
     public static Task<Message> SendGameAsync(
         this ITelegramBotClient botClient,
         long chatId,
@@ -4810,8 +4810,8 @@ public static partial class TelegramBotClientExtensions
         DisableEditMessage = disableEditMessage,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetGameScore">SetGameScore</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetGameScore instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetGameScore">SetGameScore</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetGameScore instead")]
     public static Task<Message> SetGameScoreAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4849,8 +4849,8 @@ public static partial class TelegramBotClientExtensions
         DisableEditMessage = disableEditMessage,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="SetGameScore">SetGameScore</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use SetGameScore instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetGameScore">SetGameScore</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetGameScore instead")]
     public static Task SetGameScoreAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4882,8 +4882,8 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetGameHighScores">GetGameHighScores</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetGameHighScores instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetGameHighScores">GetGameHighScores</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetGameHighScores instead")]
     public static Task<GameHighScore[]> GetGameHighScoresAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4910,8 +4910,8 @@ public static partial class TelegramBotClientExtensions
         InlineMessageId = inlineMessageId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>We removed all Async suffix from methods name. Use <see cref="GetGameHighScores">GetGameHighScores</see> instead</summary>
-    [Obsolete("We removed all Async suffix from methods name. Use GetGameHighScores instead")]
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetGameHighScores">GetGameHighScores</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetGameHighScores instead")]
     public static Task<GameHighScore[]> GetGameHighScoresAsync(
         this ITelegramBotClient botClient,
         long userId,
