@@ -38,7 +38,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
         {
             editedMessage = await BotClient.WithStreams(documentStream, thumbStream).EditMessageMedia(
                 chatId: originalMessage.Chat,
-                messageId: originalMessage.MessageId,
+                messageId: originalMessage.Id,
                 media: new InputMediaDocument
                 {
                     Media = InputFile.FromStream(documentStream, "public-key.pem.txt"),
@@ -49,7 +49,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
             );
         }
 
-        Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
+        Assert.Equal(originalMessage.Id, editedMessage.Id);
         Assert.Equal(MessageType.Document, editedMessage.Type);
         Assert.NotNull(editedMessage.Document);
         Assert.Null(editedMessage.Video);
@@ -84,7 +84,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
         await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         Message editedMessage = await BotClient.WithStreams(thumbStream).EditMessageMedia(
             chatId: originalMessage.Chat,
-            messageId: originalMessage.MessageId,
+            messageId: originalMessage.Id,
             media: new InputMediaAnimation
             {
                 Media = InputFile.FromFileId(gifMessage.Document.FileId),
@@ -95,7 +95,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
             }
         );
 
-        Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
+        Assert.Equal(originalMessage.Id, editedMessage.Id);
 
         // For backward compatibility, when this field is set, the document field will also be set.
         // In that case, message type is still considered as Document.

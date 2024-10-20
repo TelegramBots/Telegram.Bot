@@ -86,7 +86,7 @@ public class PublicPollTests(PublicPollTestsFixture classFixture)
 
         Poll closedPoll = await BotClient.StopPoll(
             chatId: classFixture.OriginalPollMessage.Chat,
-            messageId: classFixture.OriginalPollMessage.MessageId
+            messageId: classFixture.OriginalPollMessage.Id
         );
 
         Assert.Equal(classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);

@@ -4,8 +4,9 @@
 public partial class Message
 {
     /// <summary>Unique message identifier inside this chat</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int MessageId { get; set; }
+    public int Id { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of a message thread to which the message belongs; for supergroups only</summary>
     public int? MessageThreadId { get; set; }

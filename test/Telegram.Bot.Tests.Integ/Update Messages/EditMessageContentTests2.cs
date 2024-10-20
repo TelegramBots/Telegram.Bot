@@ -39,14 +39,14 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
 
         Message editedMessage = await BotClient.EditMessageText(
             chatId: originalMessage.Chat.Id,
-            messageId: originalMessage.MessageId,
+            messageId: originalMessage.Id,
             text: messageText,
             parseMode: ParseMode.Html
         );
 
         Assert.NotNull(editedMessage.Text);
         Assert.StartsWith(modifiedMessagePrefix, editedMessage.Text);
-        Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
+        Assert.Equal(originalMessage.Id, editedMessage.Id);
         Assert.Equal(originalMessage.Date, editedMessage.Date);
         Assert.True(originalMessage.Date < editedMessage.EditDate);
 
@@ -72,11 +72,11 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
 
         Message editedMessage = await BotClient.EditMessageReplyMarkup(
             chatId: message.Chat.Id,
-            messageId: message.MessageId,
+            messageId: message.Id,
             replyMarkup: "Edited 👍"
         );
 
-        Assert.Equal(message.MessageId, editedMessage.MessageId);
+        Assert.Equal(message.Id, editedMessage.Id);
         Assert.Equal(message.Text, editedMessage.Text);
         Assert.True(message.Date < editedMessage.EditDate);
         Assert.Equal(message.Date, editedMessage.Date);
@@ -105,12 +105,12 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
 
         Message editedMessage = await BotClient.EditMessageCaption(
             chatId: originalMessage.Chat.Id,
-            messageId: originalMessage.MessageId,
+            messageId: originalMessage.Id,
             caption: caption,
             parseMode: ParseMode.Markdown
         );
 
-        Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
+        Assert.Equal(originalMessage.Id, editedMessage.Id);
         Assert.True(originalMessage.Date < editedMessage.EditDate);
         Assert.Equal(originalMessage.Date, editedMessage.Date);
         Assert.NotNull(editedMessage.Caption);

@@ -68,7 +68,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture)
     {
         Poll poll = await BotClient.StopPoll(
             chatId: classFixture.PollMessage.Chat,
-            messageId: classFixture.PollMessage.MessageId
+            messageId: classFixture.PollMessage.Id
         );
 
         Assert.Equal(classFixture.PollMessage.Poll!.Id, poll.Id);

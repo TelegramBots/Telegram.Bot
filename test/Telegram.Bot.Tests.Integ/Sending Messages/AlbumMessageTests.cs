@@ -82,7 +82,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
     public async Task Should_Send_Photo_Album_Using_Url()
     {
         // ToDo add exception: Bad Request: failed to get HTTP URL content
-        int replyToMessageId = classFixture.Entities.First().MessageId;
+        int replyToMessageId = classFixture.Entities.First().Id;
 
         Message[] messages = await BotClient.SendMediaGroup(
             chatId: Fixture.SupergroupChat.Id,
@@ -96,11 +96,11 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
         Assert.Equal(2, messages.Length);
         Assert.All(messages, message => Assert.Equal(MessageType.Photo, message.Type));
         // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
-        Assert.All(messages, message =>
+        Assert.All(messages, (System.Action<Message>)(message =>
         {
             Assert.NotNull(message.ReplyToMessage);
-            Assert.Equal(replyToMessageId, message.ReplyToMessage.MessageId);
-        });
+            Assert.Equal(replyToMessageId, (int)message.ReplyToMessage.Id);
+        }));
     }
 
     [OrderedFact("Should upload 2 videos and a photo with captions and send them in an album")]

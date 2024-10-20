@@ -21,7 +21,7 @@ public class CopyMessageTests(TestsFixture fixture) : TestClass(fixture)
         MessageId copyMessageId = await BotClient.CopyMessage(
             chatId: Fixture.SupergroupChat.Id,
             fromChatId: Fixture.SupergroupChat.Id,
-            messageId: message.MessageId
+            messageId: message.Id
         );
 
         Assert.NotEqual(0, copyMessageId.Id);
@@ -41,7 +41,7 @@ public class CopyMessageTests(TestsFixture fixture) : TestClass(fixture)
             text: "message two"
         );
 
-        int[] messageIds = [message1.MessageId, message2.MessageId];
+        int[] messageIds = [message1.Id, message2.Id];
 
         MessageId[] copyMessageIds = await BotClient.CopyMessages(
             chatId: Fixture.SupergroupChat.Id,

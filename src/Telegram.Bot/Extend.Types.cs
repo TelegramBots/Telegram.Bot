@@ -5,6 +5,10 @@ namespace Telegram.Bot.Types
 {
     public partial class Message
     {
+        /// <summary>Same as <see cref="Id"/></summary>
+        [JsonIgnore]
+        public int MessageId => Id;
+
         /// <summary><em>Optional</em>. For forwarded messages, sender of the original message</summary>
         [JsonIgnore]
         public User? ForwardFrom => (ForwardOrigin as MessageOriginUser)?.SenderUser;
@@ -60,7 +64,7 @@ namespace Telegram.Bot.Types
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
         public static implicit operator ReplyParameters(int replyToMessageId) => new() { MessageId = replyToMessageId };
         /// <summary>Implicit operator when you just want to reply to a message</summary>
-        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.MessageId, ChatId = msg.Chat.Id };
+        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.Id, ChatId = msg.Chat.Id };
     }
 
     public partial class MessageId
@@ -70,7 +74,7 @@ namespace Telegram.Bot.Types
         /// <summary>Implicit operator from int</summary>
         public static implicit operator MessageId(int id) => new() { Id = id };
         /// <summary>Implicit operator from Message</summary>
-        public static implicit operator MessageId(Message msg) => new() { Id = msg.MessageId };
+        public static implicit operator MessageId(Message msg) => new() { Id = msg.Id };
     }
 
     public abstract partial class ReactionType

@@ -31,7 +31,7 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
             })
         );
 
-        Update responseUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
+        Update responseUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.Id);
         CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
         await BotClient.AnswerCallbackQuery(
@@ -66,7 +66,7 @@ public class CallbackQueryTests(TestsFixture fixture) : TestClass(fixture)
             )
         );
 
-        Update responseUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
+        Update responseUpdate = await Fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.Id);
         CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
         await BotClient.AnswerCallbackQuery(

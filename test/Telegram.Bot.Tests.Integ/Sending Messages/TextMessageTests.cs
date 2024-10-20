@@ -66,7 +66,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
         Message message2 = await BotClient.ForwardMessage(
             chatId: Fixture.SupergroupChat,
             fromChatId: Fixture.SupergroupChat,
-            messageId: message1.MessageId
+            messageId: message1.Id
         );
 
         MessageOriginUser forwardOrigin = (MessageOriginUser)message2.ForwardOrigin;
@@ -310,7 +310,7 @@ public class TextMessageTests(TestsFixture fixture, TextMessageTests.ClassFixtur
             async () => await BotClient.ForwardMessage(
                 fromChatId: Fixture.SupergroupChat.Id,
                 chatId: Fixture.SupergroupChat.Id,
-                messageId: message.MessageId
+                messageId: message.Id
             )
         );
 

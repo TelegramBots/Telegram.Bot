@@ -11,7 +11,7 @@ public class DocumentSerializationTests
     {
         Message documentMessage = new()
         {
-            MessageId = 1234,
+            Id = 1234,
             From = new()
             {
                 Id = 123_456_789,

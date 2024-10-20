@@ -68,7 +68,7 @@ public class ApiExceptionsTests2(TestsFixture fixture) : TestClass(fixture)
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.EditMessageText(
                 chatId: Fixture.SupergroupChat.Id,
-                messageId: message.MessageId,
+                messageId: message.Id,
                 text: messageTextToModify
             )
         );

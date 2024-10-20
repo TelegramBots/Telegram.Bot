@@ -99,25 +99,25 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
 
         await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg1.MessageId,
+            messageId: msg1.Id,
             disableNotification: true
         );
 
         await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg2.MessageId,
+            messageId: msg2.Id,
             disableNotification: true
         );
 
         await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg3.MessageId,
+            messageId: msg3.Id,
             disableNotification: true
         );
 
         await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg4.MessageId,
+            messageId: msg4.Id,
             disableNotification: true
         );
 
@@ -162,7 +162,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     {
         await BotClient.UnpinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: classFixture.PinnedMessages.First().MessageId
+            messageId: classFixture.PinnedMessages.First().Id
         );
     }
 

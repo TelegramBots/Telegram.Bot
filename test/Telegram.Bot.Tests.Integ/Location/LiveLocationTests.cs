@@ -57,13 +57,13 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
 
             editedMessage = await BotClient.EditMessageLiveLocation(
                 chatId: LocationMessage.Chat.Id,
-                messageId: LocationMessage.MessageId,
+                messageId: LocationMessage.Id,
                 latitude: newLocation.Latitude,
                 longitude: newLocation.Longitude
             );
 
             Assert.Equal(MessageType.Location, editedMessage.Type);
-            Assert.Equal(LocationMessage.MessageId, editedMessage.MessageId);
+            Assert.Equal(LocationMessage.Id, editedMessage.Id);
             Assert.Equal(newLocation.Latitude, editedMessage.Location!.Latitude, 3);
             Assert.Equal(newLocation.Longitude, editedMessage.Location!.Longitude, 3);
         }
@@ -77,10 +77,10 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
     {
         Message message = await BotClient.StopMessageLiveLocation(
             chatId: LocationMessage.Chat,
-            messageId: LocationMessage.MessageId
+            messageId: LocationMessage.Id
         );
 
-        Assert.Equal(LocationMessage.MessageId, message.MessageId);
+        Assert.Equal(LocationMessage.Id, message.Id);
         Assert.Equal(LocationMessage.Chat.Id, message.Chat.Id);
         Assert.Equal(LocationMessage.From!.Id, message.From!.Id);
         Assert.Equal(LocationMessage.Location!.Longitude, message.Location!.Longitude);

@@ -46,7 +46,7 @@ public class InaccessibleMessageSerializationTests
         Assert.NotNull(query.From?.Username);
 
         Assert.NotNull(query.Message);
-        Assert.Equal(9999, query.Message.MessageId);
+        Assert.Equal(9999, query.Message.Id);
         Assert.Equal(9999999999L, query.Message.Chat.Id);
         Assert.Equal(default, query.Message.Date);
         Assert.Equal(MessageType.Unknown, query.Message.Type);

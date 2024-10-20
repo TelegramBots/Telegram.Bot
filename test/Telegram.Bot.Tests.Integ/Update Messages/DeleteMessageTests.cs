@@ -47,7 +47,7 @@ public class DeleteMessageTests(TestsFixture fixture) : TestClass(fixture)
 
         await BotClient.DeleteMessage(
             chatId: messageUpdate.Message!.Chat.Id,
-            messageId: messageUpdate.Message.MessageId
+            messageId: messageUpdate.Message.Id
         );
     }
 }

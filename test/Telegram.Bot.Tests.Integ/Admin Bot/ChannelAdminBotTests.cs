@@ -60,7 +60,7 @@ public class ChannelAdminBotTests(TestsFixture fixture, ChannelAdminBotTestFixtu
 
         await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg.MessageId,
+            messageId: msg.Id,
             disableNotification: true
         );
 

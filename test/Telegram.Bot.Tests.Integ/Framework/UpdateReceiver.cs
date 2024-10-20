@@ -135,7 +135,7 @@ public class UpdateReceiver(TestsFixture fixture, IEnumerable<string>? allowedUs
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
         var updates = await GetUpdatesAsync(
-            predicate: u => (messageId is null || ((Message?)u.CallbackQuery?.Message)?.MessageId == messageId) &&
+            predicate: u => (messageId is null || ((Message?)u.CallbackQuery?.Message)?.Id == messageId) &&
                             (data is null || u.CallbackQuery?.Data == data),
             updateTypes: [UpdateType.CallbackQuery],
             cancellationToken: cancellationToken

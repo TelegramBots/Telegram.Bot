@@ -68,7 +68,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
         GameHighScore[] highScores = await BotClient.GetGameHighScores(
             userId: classFixture.Player.Id,
             chatId: Fixture.SupergroupChat.Id,
-            messageId: classFixture.GameMessage.MessageId
+            messageId: classFixture.GameMessage.Id
         );
 
         Assert.All(highScores, hs => Assert.True(hs.Position > 0));
@@ -102,15 +102,15 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
             userId: playerId,
             score: newScore,
             chatId: Fixture.SupergroupChat.Id,
-            messageId: classFixture.GameMessage.MessageId
+            messageId: classFixture.GameMessage.Id
         );
 
-        Assert.Equal(classFixture.GameMessage.MessageId, gameMessage.MessageId);
+        Assert.Equal(classFixture.GameMessage.Id, gameMessage.Id);
 
         // update the high scores cache
         await Task.Delay(1_000);
         classFixture.HighScores = await BotClient.GetGameHighScores(
-            playerId, Fixture.SupergroupChat.Id, gameMessage.MessageId
+            playerId, Fixture.SupergroupChat.Id, gameMessage.Id
         );
     }
 
@@ -130,7 +130,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : Test
             userId: playerId,
             score: newScore,
             chatId: Fixture.SupergroupChat.Id,
-            messageId: classFixture.GameMessage.MessageId,
+            messageId: classFixture.GameMessage.Id,
             force: true
         );
 

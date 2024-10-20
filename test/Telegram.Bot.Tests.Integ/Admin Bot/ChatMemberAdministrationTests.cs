@@ -102,7 +102,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         await BotClient.DeleteMessage(
             chatId: _classFixture.RegularMemberChat,
-            messageId: privateMessage.MessageId);
+            messageId: privateMessage.Id);
 
         await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -188,7 +188,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         await BotClient.DeleteMessage(
             chatId: _classFixture.RegularMemberChat,
-            messageId: privateMessage.MessageId);
+            messageId: privateMessage.Id);
 
         ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 
@@ -234,7 +234,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         await BotClient.DeleteMessage(
             chatId: _classFixture.RegularMemberChat,
-            messageId: privateMessage.MessageId);
+            messageId: privateMessage.Id);
 
         ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 

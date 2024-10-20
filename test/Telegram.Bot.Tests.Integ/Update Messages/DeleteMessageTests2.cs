@@ -23,7 +23,7 @@ public class DeleteMessageTests2(TestsFixture fixture) : TestClass(fixture)
 
         await BotClient.DeleteMessage(
             chatId: message.Chat.Id,
-            messageId: message.MessageId
+            messageId: message.Id
         );
     }
 
@@ -42,7 +42,7 @@ public class DeleteMessageTests2(TestsFixture fixture) : TestClass(fixture)
             text: "Message two.\nThis message will be deleted shortly"
         );
 
-        int[] messageIds = [message1.MessageId, message2.MessageId];
+        int[] messageIds = [message1.Id, message2.Id];
 
         await Task.Delay(1_000);
 
