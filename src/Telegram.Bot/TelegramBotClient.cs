@@ -229,6 +229,10 @@ public class TelegramBotClient : ITelegramBotClient
         }
     }
 
+    /// <summary>Get type of the file referenced by a FileId string</summary>
+    /// <param name="fileId">Identifier of file (Base64)</param>
+    public static FileIdType GetFileIdType(string fileId) => (FileIdType)Convert.FromBase64String(fileId[0..4])[0];
+
     /// <inheritdoc/>
     public async Task DownloadFile(
         string filePath,

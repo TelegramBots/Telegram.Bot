@@ -45,4 +45,7 @@ public abstract class InputFile
 
     /// <summary>Implicit operator, same as <see cref="FromString"/></summary>
     public static implicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);
+
+    /// <summary>Implicit operator, using <see cref="FileBase.FileId"/> property</summary>
+    public static implicit operator InputFile(FileBase file) => FromFileId(file.FileId);
 }
