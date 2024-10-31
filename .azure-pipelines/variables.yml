@@ -1,4 +1,4 @@
-variables:
+﻿variables:
   - group: Integration Tests Variables
   - name: versionPrefix
     value: 22.0.0

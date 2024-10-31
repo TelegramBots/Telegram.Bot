@@ -19,6 +19,9 @@ public partial class SendDiceRequest() : RequestBase<Message>("sendDice"), IChat
     /// <summary>Protects the contents of the sent message from forwarding</summary>
     public bool ProtectContent { get; set; }
 
+    /// <summary>Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</summary>
+    public bool AllowPaidBroadcast { get; set; }
+
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     public string? MessageEffectId { get; set; }
 

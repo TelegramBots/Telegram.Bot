@@ -202,6 +202,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendMessage(
@@ -218,6 +219,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendMessageRequest
     {
@@ -247,12 +249,13 @@ public static partial class TelegramBotClientExtensions
         LinkPreviewOptions? linkPreviewOptions = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendMessage(chatId, text, parseMode, replyParameters, replyMarkup, linkPreviewOptions, messageThreadId, entities, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendMessage(chatId, text, parseMode, replyParameters, replyMarkup, linkPreviewOptions, messageThreadId, entities, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -352,6 +355,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media. Ignored if a new caption isn't specified.</param>
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The <see cref="MessageId"/> of the sent message on success.</returns>
     public static async Task<MessageId> CopyMessage(
@@ -368,6 +372,7 @@ public static partial class TelegramBotClientExtensions
         bool showCaptionAboveMedia = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new CopyMessageRequest
     {
@@ -399,10 +404,11 @@ public static partial class TelegramBotClientExtensions
         bool showCaptionAboveMedia = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
-    ) => botClient.CopyMessage(chatId, fromChatId, messageId, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, cancellationToken);
+    ) => botClient.CopyMessage(chatId, fromChatId, messageId, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessages">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -466,6 +472,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendPhoto(
@@ -484,6 +491,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendPhotoRequest
     {
@@ -517,12 +525,13 @@ public static partial class TelegramBotClientExtensions
         bool hasSpoiler = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendPhoto(chatId, photo, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendPhoto(chatId, photo, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format.</summary>
     /// <remarks>Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.<br/>For sending voice messages, use the <see cref="TelegramBotClientExtensions.SendVoice">SendVoice</see> method instead.</remarks>
@@ -543,6 +552,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendAudio(
@@ -563,6 +573,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendAudioRequest
     {
@@ -600,12 +611,13 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendAudio(chatId, audio, caption, parseMode, replyParameters, replyMarkup, duration, performer, title, thumbnail, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendAudio(chatId, audio, caption, parseMode, replyParameters, replyMarkup, duration, performer, title, thumbnail, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send general files.</summary>
     /// <remarks>Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.</remarks>
@@ -624,6 +636,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendDocument(
@@ -642,6 +655,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendDocumentRequest
     {
@@ -675,12 +689,13 @@ public static partial class TelegramBotClientExtensions
         bool disableContentTypeDetection = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendDocument(chatId, document, caption, parseMode, replyParameters, replyMarkup, thumbnail, messageThreadId, captionEntities, disableContentTypeDetection, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendDocument(chatId, document, caption, parseMode, replyParameters, replyMarkup, thumbnail, messageThreadId, captionEntities, disableContentTypeDetection, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as <see cref="Document"/>).</summary>
     /// <remarks>Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</remarks>
@@ -704,6 +719,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVideo(
@@ -727,6 +743,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendVideoRequest
     {
@@ -770,12 +787,13 @@ public static partial class TelegramBotClientExtensions
         bool supportsStreaming = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendVideo(chatId, video, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, supportsStreaming, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendVideo(chatId, video, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, supportsStreaming, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).</summary>
     /// <remarks>Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.</remarks>
@@ -798,6 +816,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendAnimation(
@@ -820,6 +839,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendAnimationRequest
     {
@@ -861,12 +881,13 @@ public static partial class TelegramBotClientExtensions
         bool hasSpoiler = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendAnimation(chatId, animation, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendAnimation(chatId, animation, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).</summary>
     /// <remarks>Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.</remarks>
@@ -884,6 +905,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVoice(
@@ -901,6 +923,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendVoiceRequest
     {
@@ -932,12 +955,13 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendVoice(chatId, voice, caption, parseMode, replyParameters, replyMarkup, duration, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendVoice(chatId, voice, caption, parseMode, replyParameters, replyMarkup, duration, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -953,6 +977,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVideoNote(
@@ -969,6 +994,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendVideoNoteRequest
     {
@@ -998,12 +1024,13 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendVideoNote(chatId, videoNote, replyParameters, replyMarkup, duration, length, thumbnail, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendVideoNote(chatId, videoNote, replyParameters, replyMarkup, duration, length, thumbnail, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send paid media.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1020,6 +1047,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendPaidMedia(
@@ -1037,6 +1065,7 @@ public static partial class TelegramBotClientExtensions
         bool disableNotification = default,
         bool protectContent = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendPaidMediaRequest
     {
@@ -1069,11 +1098,12 @@ public static partial class TelegramBotClientExtensions
         bool showCaptionAboveMedia = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendPaidMedia(chatId, starCount, media, payload, caption, parseMode, replyParameters, replyMarkup, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, businessConnectionId, cancellationToken);
+    ) => botClient.SendPaidMedia(chatId, starCount, media, payload, caption, parseMode, replyParameters, replyMarkup, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1085,6 +1115,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent messages from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>An array of <see cref="Message">Messages</see> that were sent is returned.</returns>
     public static async Task<Message[]> SendMediaGroup(
@@ -1097,6 +1128,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendMediaGroupRequest
     {
@@ -1119,11 +1151,12 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send point on the map.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1141,6 +1174,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendLocation(
@@ -1159,6 +1193,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendLocationRequest
     {
@@ -1192,12 +1227,13 @@ public static partial class TelegramBotClientExtensions
         int? proximityAlertRadius = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendLocation(chatId, latitude, longitude, replyParameters, replyMarkup, horizontalAccuracy, livePeriod, heading, proximityAlertRadius, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendLocation(chatId, latitude, longitude, replyParameters, replyMarkup, horizontalAccuracy, livePeriod, heading, proximityAlertRadius, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send information about a venue.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1217,6 +1253,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVenue(
@@ -1237,6 +1274,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendVenueRequest
     {
@@ -1274,12 +1312,13 @@ public static partial class TelegramBotClientExtensions
         string? googlePlaceType = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendVenue(chatId, latitude, longitude, title, address, replyParameters, replyMarkup, foursquareId, foursquareType, googlePlaceId, googlePlaceType, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendVenue(chatId, latitude, longitude, title, address, replyParameters, replyMarkup, foursquareId, foursquareType, googlePlaceId, googlePlaceType, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send phone contacts.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1295,6 +1334,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendContact(
@@ -1311,6 +1351,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendContactRequest
     {
@@ -1340,12 +1381,13 @@ public static partial class TelegramBotClientExtensions
         string? vcard = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendContact(chatId, phoneNumber, firstName, lastName, vcard, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendContact(chatId, phoneNumber, firstName, lastName, vcard, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send a native poll.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1371,6 +1413,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendPoll(
@@ -1397,6 +1440,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendPollRequest
     {
@@ -1446,12 +1490,13 @@ public static partial class TelegramBotClientExtensions
         bool isClosed = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendPoll(chatId, question, options, isAnonymous, type, allowsMultipleAnswers, correctOptionId, replyParameters, replyMarkup, explanation, explanationParseMode, explanationEntities, questionParseMode, questionEntities, openPeriod, closeDate, isClosed, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendPoll(chatId, question, options, isAnonymous, type, allowsMultipleAnswers, correctOptionId, replyParameters, replyMarkup, explanation, explanationParseMode, explanationEntities, questionParseMode, questionEntities, openPeriod, closeDate, isClosed, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send an animated emoji that will display a random value.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1464,6 +1509,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendDice(
@@ -1477,6 +1523,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendDiceRequest
     {
@@ -1500,12 +1547,13 @@ public static partial class TelegramBotClientExtensions
         string? emoji = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendDice(chatId, emoji, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendDice(chatId, emoji, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).<br/>We only recommend using this method when a response from the bot will take a <b>noticeable</b> amount of time to arrive.</summary>
     /// <remarks>Example: The <a href="https://t.me/imagebot">ImageBot</a> needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use <see cref="TelegramBotClientExtensions.SendChatAction">SendChatAction</see> with <paramref name="action"/> = <em>UploadPhoto</em>. The user will see a “sending photo” status for the bot.</remarks>
@@ -3409,7 +3457,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.EditMessageCaption(inlineMessageId, caption, parseMode, captionEntities, showCaptionAboveMedia, replyMarkup, businessConnectionId, cancellationToken);
 
-    /// <summary>Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
+    /// <summary>Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="messageId">Identifier of the message to edit</param>
@@ -3447,7 +3495,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.EditMessageMedia(chatId, messageId, media, replyMarkup, businessConnectionId, cancellationToken);
 
-    /// <summary>Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
+    /// <summary>Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="media">An object for a new media content of the message</param>
@@ -3817,6 +3865,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendSticker(
@@ -3831,6 +3880,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendStickerRequest
     {
@@ -3856,12 +3906,13 @@ public static partial class TelegramBotClientExtensions
         string? emoji = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendSticker(chatId, sticker, replyParameters, replyMarkup, emoji, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendSticker(chatId, sticker, replyParameters, replyMarkup, emoji, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to get a sticker set.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -4370,6 +4421,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendInvoice(
@@ -4402,6 +4454,7 @@ public static partial class TelegramBotClientExtensions
         bool disableNotification = default,
         bool protectContent = default,
         string? messageEffectId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendInvoiceRequest
     {
@@ -4464,11 +4517,12 @@ public static partial class TelegramBotClientExtensions
         bool isFlexible = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendInvoice(chatId, title, description, payload, currency, prices, providerToken, providerData, maxTipAmount, suggestedTipAmounts, photoUrl, photoSize, photoWidth, photoHeight, needName, needPhoneNumber, needEmail, needShippingAddress, sendPhoneNumberToProvider, sendEmailToProvider, isFlexible, replyParameters, replyMarkup, startParameter, messageThreadId, disableNotification, protectContent, messageEffectId, cancellationToken);
+    ) => botClient.SendInvoice(chatId, title, description, payload, currency, prices, providerToken, providerData, maxTipAmount, suggestedTipAmounts, photoUrl, photoSize, photoWidth, photoHeight, needName, needPhoneNumber, needEmail, needShippingAddress, sendPhoneNumberToProvider, sendEmailToProvider, isFlexible, replyParameters, replyMarkup, startParameter, messageThreadId, disableNotification, protectContent, messageEffectId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to create a link for an invoice.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -4737,6 +4791,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendGame(
@@ -4750,6 +4805,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().MakeRequest(new SendGameRequest
     {
@@ -4773,12 +4829,13 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool disableNotification = default,
         bool protectContent = default,
+        bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendGame(chatId, gameShortName, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, cancellationToken);
+    ) => botClient.SendGame(chatId, gameShortName, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to set the score of the specified user in a game message.</summary>
     /// <remarks>Returns an error, if the new score is not greater than the user's current score in the chat and <paramref name="force"/> is <em>False</em>.</remarks>

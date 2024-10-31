@@ -28,6 +28,9 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</summary>
     public SwitchInlineQueryChosenChat? SwitchInlineQueryChosenChat { get; set; }
 
+    /// <summary><em>Optional</em>. Description of the button that copies the specified text to the clipboard.</summary>
+    public CopyTextButton? CopyText { get; set; }
+
     /// <summary><em>Optional</em>. Description of the game that will be launched when the user presses the button.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.</summary>
     public CallbackGame? CallbackGame { get; set; }
 
@@ -83,6 +86,12 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <param name="switchInlineQueryChosenChat">If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) =>
         new(text) { SwitchInlineQueryChosenChat = switchInlineQueryChosenChat };
+
+    /// <summary>Creates an inline keyboard button with description of the button that copies the specified text to the clipboard.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="copyText">Description of the button that copies the specified text to the clipboard.</param>
+    public static InlineKeyboardButton WithCopyText(string text, CopyTextButton copyText) =>
+        new(text) { CopyText = copyText };
 
     /// <summary>Creates an inline keyboard button with description of the game that will be launched when the user presses the button.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.</summary>
     /// <param name="text">Label text on the button</param>
