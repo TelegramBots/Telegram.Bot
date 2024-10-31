@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the type of a reaction. Currently, it can be one of<br/><see cref="ReactionTypeEmoji"/>, <see cref="ReactionTypeCustomEmoji"/>, <see cref="ReactionTypePaid"/></summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<ReactionType>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(ReactionTypeEmoji), "emoji")]
 [CustomJsonDerivedType(typeof(ReactionTypeCustomEmoji), "custom_emoji")]

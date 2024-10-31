@@ -16,14 +16,5 @@ public static class JsonBotAPI
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
         //when System.Text.Json 9.0 is available, we can use
         //options.AllowOutOfOrderMetadataProperties = true; // so we don't need custom PolymorphicJsonConverterFactory
-        //see also [JsonEnumMemberName("..")] // instead of DisplayMember & special converter
-        options.Converters.Add(new PolymorphicJsonConverterFactory());
-        //options.Converters.Add(new BanTimeConverter());
-        //options.Converters.Add(new ChatIdConverter());
-        //options.Converters.Add(new InputFileConverter());
-        //options.Converters.Add(new UnixDateTimeConverter());
-        //AddGeneratedConverters(Options.Converters);
     }
-
-    //static partial void AddGeneratedConverters(IList<JsonConverter> converters);
 }

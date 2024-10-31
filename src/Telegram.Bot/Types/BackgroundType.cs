@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the type of a background. Currently, it can be one of<br/><see cref="BackgroundTypeFill"/>, <see cref="BackgroundTypeWallpaper"/>, <see cref="BackgroundTypePattern"/>, <see cref="BackgroundTypeChatTheme"/></summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<BackgroundType>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(BackgroundTypeFill), "fill")]
 [CustomJsonDerivedType(typeof(BackgroundTypeWallpaper), "wallpaper")]
