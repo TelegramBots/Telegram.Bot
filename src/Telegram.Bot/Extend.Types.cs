@@ -69,10 +69,6 @@ namespace Telegram.Bot.Types
 
     public partial class MessageId
     {
-        /// <summary>Implicit operator to int</summary>
-        public static implicit operator int(MessageId msgID) => msgID.Id;
-        /// <summary>Implicit operator from int</summary>
-        public static implicit operator MessageId(int id) => new() { Id = id };
         /// <summary>Implicit operator from Message</summary>
         public static implicit operator MessageId(Message msg) => new() { Id = msg.Id };
     }
@@ -89,38 +85,6 @@ namespace Telegram.Bot.Types
     {
         /// <summary>To get the same behaviour as previous parameter <c>disableWebPagePreview:</c></summary>
         public static implicit operator LinkPreviewOptions(bool disabled) => new() { IsDisabled = disabled };
-    }
-
-    public partial class BotName
-    {
-        /// <summary>implicit to string</summary>
-        public static implicit operator string(BotName bn) => bn.Name;
-        /// <summary>implicit from string</summary>
-        public static implicit operator BotName(string bn) => new() { Name = bn };
-    }
-
-    public partial class BotShortDescription
-    {
-        /// <summary>implicit to string</summary>
-        public static implicit operator string(BotShortDescription bsd) => bsd.ShortDescription;
-        /// <summary>implicit from string</summary>
-        public static implicit operator BotShortDescription(string bsd) => new() { ShortDescription = bsd };
-    }
-    
-    public partial class BotDescription
-    {
-        /// <summary>implicit to string</summary>
-        public static implicit operator string(BotDescription bd) => bd.Description;
-        /// <summary>implicit from string</summary>
-        public static implicit operator BotDescription(string bd) => new() { Description = bd };
-    }
-
-    public partial class WebAppInfo
-    {
-        /// <summary>implicit to string (URL)</summary>
-        public static implicit operator string(WebAppInfo wai) => wai.Url;
-        /// <summary>implicit from string (URL)</summary>
-        public static implicit operator WebAppInfo(string url) => new() { Url = url };
     }
 
     public partial class InputPollOption
@@ -358,13 +322,6 @@ namespace Telegram.Bot.Types
             /// <param name="chatIsChannel">Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.</param>
             public static KeyboardButton WithRequestChat(string text, int requestId, bool chatIsChannel)
                 => new(text) { RequestChat = new(requestId, chatIsChannel) };
-
-            /// <summary>Generate a keyboard button to request a poll</summary>
-            /// <param name="text">Button's text</param>
-            /// <param name="pollType">Optional: restrict the type of poll</param>
-            /// <returns>Keyboard button</returns>
-            public static KeyboardButton WithRequestPoll(string text, PollType? pollType = null)
-                => new(text) { RequestPoll = new() { Type = pollType } };
         }
     }
 }

@@ -7,4 +7,9 @@ public partial class MessageId
     [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Id { get; set; }
+
+    /// <summary>Implicit conversion to int (Id)</summary>
+    public static implicit operator int(MessageId self) => self.Id;
+    /// <summary>Implicit conversion from int (Id)</summary>
+    public static implicit operator MessageId(int id) => new() { Id = id };
 }
