@@ -313,8 +313,9 @@ namespace Telegram.Bot.Types
             /// <summary>Generate a keyboard button to request users</summary>
             /// <param name="text">Button's text</param>
             /// <param name="requestId">Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object. Must be unique within the message</param>
-            public static KeyboardButton WithRequestUsers(string text, int requestId)
-                => new(text) { RequestUsers = new(requestId) };
+            /// <param name="maxQuantity"><em>Optional</em>. The maximum number of users to be selected; 1-10. Defaults to 1.</param>
+            public static KeyboardButton WithRequestUsers(string text, int requestId, int? maxQuantity = null)
+                => new(text) { RequestUsers = new(requestId) { MaxQuantity = maxQuantity } };
 
             /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
             /// <param name="text">Button's text</param>
