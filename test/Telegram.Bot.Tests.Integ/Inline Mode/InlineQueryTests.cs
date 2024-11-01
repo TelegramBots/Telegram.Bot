@@ -960,7 +960,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
                 Id = resultId,
                 PhotoUrl = url,
                 ThumbnailUrl = url,
-                Caption = $"*{photoCaption}*",
+                Caption = $"_{photoCaption}_",
                 ParseMode = ParseMode.Markdown
             }
         ];
@@ -979,7 +979,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
 
         Assert.Equal(MessageType.Photo, messageUpdate.Message!.Type);
         Assert.Equal(photoCaption, messageUpdate.Message.Caption);
-        Assert.Equal(MessageEntityType.Bold, messageUpdate.Message.CaptionEntities!.Single().Type);
+        Assert.Equal(MessageEntityType.Italic, messageUpdate.Message.CaptionEntities!.Single().Type);
 
         Assert.Equal(UpdateType.ChosenInlineResult, chosenResultUpdate.Type);
         Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult!.ResultId);

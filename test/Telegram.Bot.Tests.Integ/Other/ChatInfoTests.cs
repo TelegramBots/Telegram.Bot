@@ -30,7 +30,7 @@ public class ChatInfoTests(TestsFixture fixture) : TestClass(fixture)
         // Don't compare invite links, it's easy to invalidate them accidentally so the test
         // fails for no good reason
         // Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
-        Assert.Equal(supergroupChat.PinnedMessage, chat.PinnedMessage);
+        Asserts.JsonEquals(supergroupChat.PinnedMessage, chat.PinnedMessage);
         Assert.Equal(supergroupChat.StickerSetName, chat.StickerSetName);
         Assert.Equal(supergroupChat.CanSetStickerSet, chat.CanSetStickerSet);
         Assert.Null(chat.FirstName);

@@ -177,8 +177,8 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
                 new InputMediaPhoto
                 {
                     Media = InputFile.FromStream(stream1, "logo.png"),
-                    Caption = "*Logo*",
-                    ParseMode = ParseMode.Markdown
+                    Caption = "__Logo__",
+                    ParseMode = ParseMode.MarkdownV2
                 },
                 new InputMediaPhoto
                 {
@@ -199,7 +199,7 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
 
 
         Assert.Equal("Logo", message1.CaptionEntityValues.Single());
-        Assert.Equal(MessageEntityType.Bold, message1.CaptionEntities.Single().Type);
+        Assert.Equal(MessageEntityType.Underline, message1.CaptionEntities.Single().Type);
 
         Assert.Equal("Bot", message2.CaptionEntityValues.Single());
         Assert.Equal(MessageEntityType.Italic, message2.CaptionEntities.Single().Type);

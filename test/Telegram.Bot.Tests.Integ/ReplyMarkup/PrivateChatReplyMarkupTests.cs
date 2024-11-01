@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -41,7 +42,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
 
         await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
-            text: "Got it. Removing reply keyboard markup...",
+            text: $"Got it: {contactMessage.Contact.FirstName}. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
     }
@@ -92,7 +93,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
 
         await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
-            text: "Got it. Removing reply keyboard markup...",
+            text: $"Got it: UserId {usersMessage.UsersShared.Users[0].UserId}. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
     }
@@ -122,9 +123,25 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
 
         await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
-            text: "Got it. Removing reply keyboard markup...",
+            text: $"Got it: ChatId {chatMessage.ChatShared.ChatId}. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
+    }
+
+    [OrderedFact("Should send inline 'copy text' button and receive it back")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+    public async Task Should_Obtain_Copied_Text()
+    {
+        var copiedText = "random" + Random.Shared.Next().ToString();
+        var button = InlineKeyboardButton.WithCopyText("Click here to copy", copiedText);
+        await BotClient.SendMessage(
+            chatId: classFixture.PrivateChat,
+            text: "Click button below to copy text, then paste that text in a message",
+            replyMarkup: new InlineKeyboardMarkup(button)
+        );
+
+        Message chatMessage = await GetMessageFromChat(MessageType.Text);
+        Assert.Equal(chatMessage.Text, copiedText);
     }
 
     async Task<Message> GetMessageFromChat(MessageType messageType) =>

@@ -19,13 +19,14 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixt
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
     public async Task Should_Get_File_Info()
     {
-        const int fileSize = 253736;
+        long fileSize = 253736;
 
         #region Send Document
 
         Message documentMessage;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
+            fileSize = stream.Length;
             documentMessage = await BotClient.WithStreams(stream).SendDocument(
                 chatId: Fixture.SupergroupChat,
                 document: InputFile.FromStream(stream)
