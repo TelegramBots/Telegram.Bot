@@ -12,9 +12,7 @@ using System.Net.Http.Json;
 
 namespace Telegram.Bot;
 
-/// <summary>
-/// A client to use the Telegram Bot API
-/// </summary>
+/// <summary>A client to use the Telegram Bot API</summary>
 [PublicAPI]
 public class TelegramBotClient : ITelegramBotClient
 {
@@ -28,9 +26,7 @@ public class TelegramBotClient : ITelegramBotClient
     /// <inheritdoc/>
     public bool LocalBotServer => _options.LocalBotServer;
 
-    /// <summary>
-    /// Timeout for requests
-    /// </summary>
+    /// <inheritdoc/>
     public TimeSpan Timeout
     {
         get => _httpClient.Timeout;
@@ -57,37 +53,24 @@ public class TelegramBotClient : ITelegramBotClient
     public event OnErrorHandler? OnError;
 #pragma warning restore CS1591
 
-    /// <summary>
-    /// Global cancellation token
-    /// </summary>
+    /// <summary>Global cancellation token</summary>
     public CancellationToken GlobalCancelToken { get; }
 
     /// <inheritdoc/>
     public IExceptionParser ExceptionsParser { get; set; } = new DefaultExceptionParser();
 
-    /// <summary>
-    /// Occurs before sending a request to API
-    /// </summary>
+    /// <inheritdoc/>
     public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
 
-    /// <summary>
-    /// Occurs after receiving the response to an API request
-    /// </summary>
+    /// <inheritdoc/>
     public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
 
-    /// <summary>
-    /// Create a new <see cref="TelegramBotClient"/> instance.
-    /// </summary>
+    /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
     /// <param name="options">Configuration for <see cref="TelegramBotClient" /></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="options"/> is <see langword="null"/>
-    /// </exception>
-    public TelegramBotClient(
-        TelegramBotClientOptions options,
-        HttpClient? httpClient = default,
-        CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is <see langword="null"/></exception>
+    public TelegramBotClient(TelegramBotClientOptions options, HttpClient? httpClient = default, CancellationToken cancellationToken = default)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
 #if NET6_0_OR_GREATER
@@ -98,26 +81,27 @@ public class TelegramBotClient : ITelegramBotClient
         GlobalCancelToken = cancellationToken;
     }
 
-    /// <summary>
-    /// Create a new <see cref="TelegramBotClient"/> instance.
-    /// </summary>
+    /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
     /// <param name="token"></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
-    /// <exception cref="ArgumentException">
-    /// Thrown if <paramref name="token"/> format is invalid
-    /// </exception>
-    public TelegramBotClient(
-        string token,
-        HttpClient? httpClient = null,
-        CancellationToken cancellationToken = default) :
-        this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
+    /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
+    public TelegramBotClient(string token, HttpClient? httpClient = null, CancellationToken cancellationToken = default)
+        : this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
     { }
 
     /// <inheritdoc/>
-    public virtual async Task<TResponse> MakeRequest<TResponse>(
-        IRequest<TResponse> request,
-        CancellationToken cancellationToken = default)
+    [Obsolete("Method MakeRequestAsync was renamed as SendRequest")]
+    public Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        => SendRequest(request, cancellationToken);
+
+    /// <inheritdoc/>
+    [Obsolete("Method MakeRequest was renamed as SendRequest")]
+    public Task<TResponse> MakeRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        => SendRequest(request, cancellationToken);
+
+    /// <inheritdoc/>
+    public virtual async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
@@ -202,28 +186,22 @@ public class TelegramBotClient : ITelegramBotClient
         }
         catch (Exception exception)
         {
-            throw new RequestException("There was an exception during deserialization of the response",
-                httpResponse.StatusCode, exception);
+            throw new RequestException("There was an exception during deserialization of the response", httpResponse.StatusCode, exception);
         }
         if (deserializedObject is null || !validate(deserializedObject))
             throw new RequestException("Required properties not found in response", httpResponse.StatusCode);
         return deserializedObject;
     }
 
-    /// <summary>
-    /// Test the API token
-    /// </summary>
-    /// <returns><see langword="true"/> if token is valid</returns>
+    /// <inheritdoc/>
     public async Task<bool> TestApi(CancellationToken cancellationToken = default)
     {
         try
         {
-            await MakeRequest(request: new GetMeRequest(), cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+            await SendRequest(new GetMeRequest(), cancellationToken).ConfigureAwait(false);
             return true;
         }
-        catch (ApiRequestException e)
-            when (e.ErrorCode == 401)
+        catch (ApiRequestException e) when (e.ErrorCode == 401)
         {
             return false;
         }
@@ -234,25 +212,16 @@ public class TelegramBotClient : ITelegramBotClient
     public static FileIdType GetFileIdType(string fileId) => (FileIdType)Convert.FromBase64String(fileId[0..4])[0];
 
     /// <inheritdoc/>
-    public async Task DownloadFile(
-        string filePath,
-        Stream destination,
-        CancellationToken cancellationToken = default)
+    public async Task DownloadFile(string filePath, Stream destination, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(filePath) || filePath.Length < 2)
-        {
             throw new ArgumentException(message: "Invalid file path", paramName: nameof(filePath));
-        }
 
         if (destination is null) { throw new ArgumentNullException(nameof(destination)); }
 
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var fileUri = $"{_options.BaseFileUrl}/{filePath}";
-        using HttpResponseMessage httpResponse = await GetResponseAsync(
-            httpClient: _httpClient,
-            fileUri: fileUri,
-            cancellationToken: cts.Token
-        ).ConfigureAwait(false);
+        using HttpResponseMessage httpResponse = await GetResponseAsync(_httpClient, fileUri, cts.Token).ConfigureAwait(false);
 
         if (!httpResponse.IsSuccessStatusCode)
         {
@@ -262,66 +231,40 @@ public class TelegramBotClient : ITelegramBotClient
         }
 
         if (httpResponse.Content is null)
-        {
-            throw new RequestException(
-                message: "Response doesn't contain any content",
-                httpResponse.StatusCode
-            );
-        }
+            throw new RequestException("Response doesn't contain any content", httpResponse.StatusCode);
 
         try
         {
 #if NET6_0_OR_GREATER
-            await httpResponse.Content.CopyToAsync(destination, cts.Token)
-                .ConfigureAwait(false);
+            await httpResponse.Content.CopyToAsync(destination, cts.Token).ConfigureAwait(false);
 #else
-            await httpResponse.Content.CopyToAsync(destination)
-                .ConfigureAwait(false);
+            await httpResponse.Content.CopyToAsync(destination).ConfigureAwait(false);
 #endif
         }
         catch (Exception exception)
         {
-            throw new RequestException(
-                message: "Exception during file download",
-                httpResponse.StatusCode,
-                exception
-            );
+            throw new RequestException("Exception during file download", httpResponse.StatusCode, exception);
         }
 
         [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
-        static async Task<HttpResponseMessage> GetResponseAsync(
-            HttpClient httpClient,
-            string fileUri,
-            CancellationToken cancellationToken)
+        static async Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, string fileUri, CancellationToken cancellationToken)
         {
             HttpResponseMessage? httpResponse;
             try
             {
-                httpResponse = await httpClient
-                    .GetAsync(
-                        requestUri: fileUri,
-                        completionOption: HttpCompletionOption.ResponseHeadersRead,
-                        cancellationToken: cancellationToken
-                    )
+                httpResponse = await httpClient.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (TaskCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested) { throw; }
 
-                throw new RequestException(
-                    message: "Request timed out",
-                    innerException: exception
-                );
+                throw new RequestException("Request timed out", exception);
             }
             catch (Exception exception)
             {
-                throw new RequestException(
-                    message: "Exception during file download",
-                    innerException: exception
-                );
+                throw new RequestException("Exception during file download", exception);
             }
-
             return httpResponse;
         }
     }

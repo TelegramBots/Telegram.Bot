@@ -148,7 +148,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 try
                 {
                     Update[] updateArray = await _receiver._botClient
-                        .MakeRequest(
+                        .SendRequest(
                             request: new GetUpdatesRequest
                             {
                                 Offset = _messageOffset,

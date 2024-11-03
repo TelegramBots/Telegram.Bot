@@ -121,7 +121,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
                 try
                 {
                     _updateArray = await _receiver._botClient
-                        .MakeRequest(
+                        .SendRequest(
                             request: new GetUpdatesRequest
                             {
                                 Offset = _messageOffset,

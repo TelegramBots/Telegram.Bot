@@ -45,7 +45,7 @@ public class MockTelegramBotClient : ITelegramBotClient
         _messages = new(messages.Select(message => message.Split('-').ToArray()));
     }
 
-    public async Task<TResponse> MakeRequest<TResponse>(
+    public async Task<TResponse> SendRequest<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {

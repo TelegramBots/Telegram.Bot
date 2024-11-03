@@ -58,7 +58,7 @@ public class DefaultUpdateReceiver(
             var updates = emptyUpdates;
             try
             {
-                updates = await _botClient.MakeRequest(
+                updates = await _botClient.SendRequest(
                     request: request,
                     cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
