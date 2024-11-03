@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to move a sticker in a set created by the bot to a specific position.<para>Returns: </para></summary>
-public partial class SetStickerPositionInSetRequest : RequestBase<bool>
+public partial class SetStickerPositionInSetRequest() : RequestBase<bool>("setStickerPositionInSet")
 {
     /// <summary>File identifier of the sticker</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -10,7 +10,4 @@ public partial class SetStickerPositionInSetRequest : RequestBase<bool>
     /// <summary>New sticker position in the set, zero-based</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int Position { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SetStickerPositionInSetRequest"/></summary>
-    public SetStickerPositionInSetRequest() : base("setStickerPositionInSet") { }
 }

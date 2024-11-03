@@ -18,7 +18,7 @@ public class BotShortDescriptionTests(TestsFixture fixture) : TestClass(fixture)
     {
         const string shortDescription = "Test bot short description";
 
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: shortDescription
         );
     }
@@ -29,13 +29,13 @@ public class BotShortDescriptionTests(TestsFixture fixture) : TestClass(fixture)
     {
         const string shortDescription = "Test bot short description";
 
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: shortDescription
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotShortDescription currentShortDescription = await Fixture.BotClient.GetMyShortDescriptionAsync();
+        BotShortDescription currentShortDescription = await Fixture.BotClient.GetMyShortDescription();
 
         Assert.NotNull(currentShortDescription);
         Assert.Equal(shortDescription, currentShortDescription.ShortDescription);
@@ -47,23 +47,23 @@ public class BotShortDescriptionTests(TestsFixture fixture) : TestClass(fixture)
     {
         const string shortDescription = "Test bot short description";
 
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: shortDescription
         );
 
-        BotShortDescription setShortDescription = await Fixture.BotClient.GetMyShortDescriptionAsync();
+        BotShortDescription setShortDescription = await Fixture.BotClient.GetMyShortDescription();
 
         Assert.NotNull(setShortDescription);
         Assert.Equal(shortDescription, setShortDescription.ShortDescription);
 
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: ""
         );
 
         // Test fails receiving old description without a delay
         await Task.Delay(TimeSpan.FromSeconds(20));
 
-        BotShortDescription currentShortDescription = await Fixture.BotClient.GetMyShortDescriptionAsync();
+        BotShortDescription currentShortDescription = await Fixture.BotClient.GetMyShortDescription();
 
         Assert.NotNull(currentShortDescription.ShortDescription);
         Assert.Empty(currentShortDescription.ShortDescription);
@@ -77,14 +77,14 @@ public class BotShortDescriptionTests(TestsFixture fixture) : TestClass(fixture)
 
         _languageCode = "ru";
 
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: shortDescription,
             languageCode: _languageCode
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
-        BotShortDescription newDescription = await Fixture.BotClient.GetMyShortDescriptionAsync(languageCode: _languageCode);
+        BotShortDescription newDescription = await Fixture.BotClient.GetMyShortDescription(languageCode: _languageCode);
 
         Assert.NotNull(newDescription);
         Assert.Equal(shortDescription, newDescription.ShortDescription);
@@ -94,11 +94,11 @@ public class BotShortDescriptionTests(TestsFixture fixture) : TestClass(fixture)
 
     public async Task DisposeAsync()
     {
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: ""
         );
 
-        await BotClient.SetMyShortDescriptionAsync(
+        await BotClient.SetMyShortDescription(
             shortDescription: "",
             languageCode: _languageCode
         );

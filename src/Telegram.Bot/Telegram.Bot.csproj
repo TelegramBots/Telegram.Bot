@@ -54,8 +54,8 @@
     <NoWarn>$(NoWarn);CA1510</NoWarn> <!-- Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing
                                            a new exception instance -->
     <NoWarn>$(NoWarn);MA0046</NoWarn> <!-- The delegate must return void -->
-    <NoWarn>$(NoWarn);MA0048;MA0051</NoWarn>
-    <NoWarn>$(NoWarn);IDE0079</NoWarn>
+    <NoWarn>$(NoWarn);MA0001;MA0048;MA0051;MA0111;MA0113</NoWarn>
+    <NoWarn>$(NoWarn);IDE0079;IDE0130</NoWarn>
     <NoWarn>$(NoWarn);CS0419</NoWarn> <!-- Ambiguous reference in cref attribute -->
   </PropertyGroup>
 
@@ -75,7 +75,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
   </ItemGroup>
 

@@ -45,7 +45,11 @@ public class MockTelegramBotClient : ITelegramBotClient
         _messages = new(messages.Select(message => message.Split('-').ToArray()));
     }
 
-    public async Task<TResponse> MakeRequestAsync<TResponse>(
+    public Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        => SendRequest(request, cancellationToken);
+    public Task<TResponse> MakeRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        => SendRequest(request, cancellationToken);
+    public async Task<TResponse> SendRequest<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
@@ -107,11 +111,11 @@ public class MockTelegramBotClient : ITelegramBotClient
     public long BotId => throw new NotImplementedException();
     public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
     public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
-    public Task DownloadFileAsync(
+    public Task DownloadFile(
         string filePath,
         Stream destination,
         CancellationToken cancellationToken = default) =>
         throw new NotImplementedException();
-    public Task<bool> TestApiAsync(CancellationToken cancellationToken = default) =>
+    public Task<bool> TestApi(CancellationToken cancellationToken = default) =>
         throw new NotImplementedException();
 }

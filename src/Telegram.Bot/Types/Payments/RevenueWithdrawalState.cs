@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object describes the state of a revenue withdrawal operation. Currently, it can be one of<br/><see cref="RevenueWithdrawalStatePending"/>, <see cref="RevenueWithdrawalStateSucceeded"/>, <see cref="RevenueWithdrawalStateFailed"/></summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<RevenueWithdrawalState>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(RevenueWithdrawalStatePending), "pending")]
 [CustomJsonDerivedType(typeof(RevenueWithdrawalStateSucceeded), "succeeded")]

@@ -23,7 +23,7 @@ public class AudioMessageTests(TestsFixture fixture) : TestClass(fixture)
         Message message;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
-            message = await BotClient.WithStreams(stream).SendAudioAsync(
+            message = await BotClient.WithStreams(stream).SendAudio(
                 chatId: Fixture.SupergroupChat,
                 audio: InputFile.FromStream(stream, "Jackson F Smith - Cantina Rag.mp3"),
                 title: title,
@@ -57,7 +57,7 @@ public class AudioMessageTests(TestsFixture fixture) : TestClass(fixture)
                      stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
                     )
         {
-            message = await BotClient.WithStreams(stream1, stream2).SendAudioAsync(
+            message = await BotClient.WithStreams(stream1, stream2).SendAudio(
                 chatId: Fixture.SupergroupChat,
                 audio: InputFile.FromStream(stream1, "Ask Again - A State of Despair.mp3"),
                 thumbnail: InputFile.FromStream(stream2, "thumb.jpg")
@@ -83,7 +83,7 @@ public class AudioMessageTests(TestsFixture fixture) : TestClass(fixture)
         Message message;
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
-            message = await BotClient.WithStreams(stream).SendVoiceAsync(
+            message = await BotClient.WithStreams(stream).SendVoice(
                 chatId: Fixture.SupergroupChat,
                 voice: InputFile.FromStream(stream),
                 caption: caption,

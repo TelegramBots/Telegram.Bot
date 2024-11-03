@@ -16,7 +16,7 @@ public class SendingDocumentMessageTests(TestsFixture fixture) : TestClass(fixtu
     public async Task Should_Send_Pdf_Document()
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
-        Message message = await BotClient.WithStreams(stream).SendDocumentAsync(
+        Message message = await BotClient.WithStreams(stream).SendDocument(
             chatId: Fixture.SupergroupChat.Id,
             document: InputFile.FromStream(stream, "HAMLET.pdf"),
             caption: "The Tragedy of Hamlet,\nPrince of Denmark"
@@ -40,7 +40,7 @@ public class SendingDocumentMessageTests(TestsFixture fixture) : TestClass(fixtu
     public async Task Should_Send_Document_With_Farsi_Name()
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
-        Message message = await BotClient.WithStreams(stream).SendDocumentAsync(
+        Message message = await BotClient.WithStreams(stream).SendDocument(
             chatId: Fixture.SupergroupChat.Id,
             document: InputFile.FromStream(stream, "هملت.pdf"),
             caption: "تراژدی هملت\nشاهزاده دانمارک"
@@ -65,7 +65,7 @@ public class SendingDocumentMessageTests(TestsFixture fixture) : TestClass(fixtu
             documentStream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet),
             thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak);
 
-        Message message = await BotClient.WithStreams(documentStream, thumbStream).SendDocumentAsync(
+        Message message = await BotClient.WithStreams(documentStream, thumbStream).SendDocument(
             chatId: Fixture.SupergroupChat,
             document: InputFile.FromStream(documentStream, "Hamlet.pdf"),
             thumbnail: InputFile.FromStream(thumbStream, "thumb.jpg")

@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the way a background is filled based on the selected colors. Currently, it can be one of<br/><see cref="BackgroundFillSolid"/>, <see cref="BackgroundFillGradient"/>, <see cref="BackgroundFillFreeformGradient"/></summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<BackgroundFill>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(BackgroundFillSolid), "solid")]
 [CustomJsonDerivedType(typeof(BackgroundFillGradient), "gradient")]

@@ -13,7 +13,7 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary><em>Optional</em>. Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes</summary>
     public string? CallbackData { get; set; }
 
-    /// <summary><em>Optional</em>. Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQueryAsync">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary><em>Optional</em>. Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
     public WebAppInfo? WebApp { get; set; }
 
     /// <summary><em>Optional</em>. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
@@ -27,6 +27,9 @@ public partial class InlineKeyboardButton : IKeyboardButton
 
     /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</summary>
     public SwitchInlineQueryChosenChat? SwitchInlineQueryChosenChat { get; set; }
+
+    /// <summary><em>Optional</em>. Description of the button that copies the specified text to the clipboard.</summary>
+    public CopyTextButton? CopyText { get; set; }
 
     /// <summary><em>Optional</em>. Description of the game that will be launched when the user presses the button.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.</summary>
     public CallbackGame? CallbackGame { get; set; }
@@ -54,9 +57,9 @@ public partial class InlineKeyboardButton : IKeyboardButton
     public static InlineKeyboardButton WithCallbackData(string text, string callbackData) =>
         new(text) { CallbackData = callbackData };
 
-    /// <summary>Creates an inline keyboard button with description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQueryAsync">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary>Creates an inline keyboard button with description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="webApp">Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQueryAsync">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</param>
+    /// <param name="webApp">Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithWebApp(string text, WebAppInfo webApp) =>
         new(text) { WebApp = webApp };
 
@@ -83,6 +86,12 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <param name="switchInlineQueryChosenChat">If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) =>
         new(text) { SwitchInlineQueryChosenChat = switchInlineQueryChosenChat };
+
+    /// <summary>Creates an inline keyboard button with description of the button that copies the specified text to the clipboard.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="copyText">Description of the button that copies the specified text to the clipboard.</param>
+    public static InlineKeyboardButton WithCopyText(string text, CopyTextButton copyText) =>
+        new(text) { CopyText = copyText };
 
     /// <summary>Creates an inline keyboard button with description of the game that will be launched when the user presses the button.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.</summary>
     /// <param name="text">Label text on the button</param>

@@ -29,18 +29,18 @@ public partial class User
     /// <summary><em>Optional</em>. <see langword="true"/>, if this user added the bot to the attachment menu</summary>
     public bool AddedToAttachmentMenu { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be invited to groups. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be invited to groups. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     public bool CanJoinGroups { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if <a href="https://core.telegram.org/bots/features#privacy-mode">privacy mode</a> is disabled for the bot. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if <a href="https://core.telegram.org/bots/features#privacy-mode">privacy mode</a> is disabled for the bot. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     public bool CanReadAllGroupMessages { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot supports inline queries. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot supports inline queries. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     public bool SupportsInlineQueries { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     public bool CanConnectToBusiness { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has a main Web App. Returned only in <see cref="TelegramBotClientExtensions.GetMeAsync">GetMe</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has a main Web App. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     public bool HasMainWebApp { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>
-public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class EditMessageTextRequest() : RequestBase<Message>("editMessageText"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -29,7 +29,4 @@ public partial class EditMessageTextRequest : RequestBase<Message>, IChatTargeta
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditMessageTextRequest"/></summary>
-    public EditMessageTextRequest() : base("editMessageText") { }
 }

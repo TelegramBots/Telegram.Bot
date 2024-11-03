@@ -74,7 +74,7 @@ public class RequestSerializationTests
 
         var bot = new Polling.MockTelegramBotClient();
         var ex = await Assert.ThrowsAsync<NotSupportedException>(
-            () => bot.SendPhotoAsync(
+            () => bot.SendPhoto(
                 1234567,
                 "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg",
                 caption: "Photo request deserialized from JSON"
@@ -111,7 +111,7 @@ public class RequestSerializationTests
 
         var bot = new Polling.MockTelegramBotClient();
         var ex = await Assert.ThrowsAsync<NotSupportedException>(
-            () => bot.SendVenueAsync(
+            () => bot.SendVenue(
                 chatId: 2345678,
                 latitude: 48.204296,
                 longitude: 16.365514,

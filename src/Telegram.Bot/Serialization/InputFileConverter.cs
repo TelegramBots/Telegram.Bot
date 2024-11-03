@@ -1,7 +1,11 @@
+using System.Threading;
+
 namespace Telegram.Bot.Serialization;
 
 internal class InputFileConverter : JsonConverter<InputFile?>
 {
+    internal static readonly AsyncLocal<List<InputFileStream>?> Attachments = new();
+
     public override bool CanConvert(Type typeToConvert) => typeof(InputFile).IsAssignableFrom(typeToConvert);
 
     public override InputFile? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -14,7 +18,7 @@ internal class InputFileConverter : JsonConverter<InputFile?>
         if (value is null)
             return null;
         if (value.StartsWith("attach://", StringComparison.OrdinalIgnoreCase))
-            return new InputFileStream(Stream.Null, value.Substring(9));
+            return new InputFileStream(Stream.Null, value[9..]);
 
         return Uri.TryCreate(value, UriKind.Absolute, out var url)
             ? new InputFileUrl(url)
@@ -32,7 +36,9 @@ internal class InputFileConverter : JsonConverter<InputFile?>
                 writer.WriteStringValue(file.Url.ToString());
                 break;
             case InputFileStream file:
-                writer.WriteStringValue($"attach://{file.FileName}");
+                var attachments = Attachments.Value ??= [];
+                writer.WriteStringValue($"attach://{attachments.Count}");
+                attachments.Add(file);
                 break;
             default:
                 throw new JsonException("File Type not supported");

@@ -1,8 +1,8 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-/// <remarks>Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.<br/>For sending voice messages, use the <see cref="TelegramBotClientExtensions.SendVoiceAsync">SendVoice</see> method instead.</remarks>
-public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+/// <remarks>Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.<br/>For sending voice messages, use the <see cref="TelegramBotClientExtensions.SendVoice">SendVoice</see> method instead.</remarks>
+public partial class SendAudioRequest() : FileRequestBase<Message>("sendAudio"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -33,7 +33,7 @@ public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetabl
     /// <summary>Track name</summary>
     public string? Title { get; set; }
 
-    /// <summary>Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    /// <summary>Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
@@ -41,6 +41,9 @@ public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetabl
 
     /// <summary>Protects the contents of the sent message from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
+
+    /// <summary>Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</summary>
+    public bool AllowPaidBroadcast { get; set; }
 
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     public string? MessageEffectId { get; set; }
@@ -53,15 +56,4 @@ public partial class SendAudioRequest : FileRequestBase<Message>, IChatTargetabl
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendAudioRequest"/></summary>
-    public SendAudioRequest() : base("sendAudio") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Audio is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("audio", "thumbnail")
-                .AddContentIfInputFile(media: Audio, name: "audio")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
-            : base.ToHttpContent();
 }

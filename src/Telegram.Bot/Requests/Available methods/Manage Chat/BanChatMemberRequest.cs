@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="TelegramBotClientExtensions.UnbanChatMemberAsync">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: </para></summary>
-public partial class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+/// <summary>Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="TelegramBotClientExtensions.UnbanChatMember">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: </para></summary>
+public partial class BanChatMemberRequest() : RequestBase<bool>("banChatMember"), IChatTargetable, IUserTargetable
 {
     /// <summary>Unique identifier for the target group or username of the target supergroup or channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -17,7 +17,4 @@ public partial class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, 
 
     /// <summary>Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed. If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was removed. Always <see langword="true"/> for supergroups and channels.</summary>
     public bool RevokeMessages { get; set; }
-
-    /// <summary>Instantiates a new <see cref="BanChatMemberRequest"/></summary>
-    public BanChatMemberRequest() : base("banChatMember") { }
 }

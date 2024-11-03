@@ -22,7 +22,7 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
     /// </summary>
     public void Dispose()
     {
-        BotClient.DeleteWebhookAsync()
+        BotClient.DeleteWebhook()
             .GetAwaiter()
             .GetResult();
         GC.SuppressFinalize(this);
@@ -32,14 +32,14 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
     public async Task Should_Set_Webhook()
     {
-        await BotClient.SetWebhookAsync(url: "https://www.telegram.org/");
+        await BotClient.SetWebhook(url: "https://www.telegram.org/");
     }
 
     [OrderedFact("Should set webhook with options", Skip = "setWebhook requests are rate limited")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
     public async Task Should_Set_Webhook_With_Options()
     {
-        await BotClient.SetWebhookAsync(
+        await BotClient.SetWebhook(
             url: "https://www.t.me/",
             maxConnections: 5,
             allowedUpdates: [UpdateType.CallbackQuery, UpdateType.InlineQuery]
@@ -50,7 +50,7 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
     public async Task Should_Delete_Webhook_Using_setWebhook()
     {
-        await BotClient.SetWebhookAsync(url: "");
+        await BotClient.SetWebhook(url: "");
     }
 
     [OrderedFact("Should set webhook with self-signed certificate")]
@@ -60,7 +60,7 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
     {
         await using (Stream stream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
         {
-            await BotClient.WithStreams(stream).SetWebhookAsync(
+            await BotClient.WithStreams(stream).SetWebhook(
                 url: "https://www.telegram.org/",
                 certificate: InputFile.FromStream(stream),
                 maxConnections: 3,
@@ -68,7 +68,7 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
             );
         }
 
-        WebhookInfo info = await BotClient.GetWebhookInfoAsync();
+        WebhookInfo info = await BotClient.GetWebhookInfo();
 
         Assert.Equal("https://www.telegram.org/", info.Url);
         Assert.True(info.HasCustomCertificate);
@@ -80,14 +80,14 @@ public class WebhookTests(TestsFixture fixture) : TestClass(fixture), IDisposabl
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteWebhook)]
     public async Task Should_Delete_Webhook()
     {
-        await BotClient.DeleteWebhookAsync();
+        await BotClient.DeleteWebhook();
     }
 
     [OrderedFact("Should get info of the deleted webhook")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
     public async Task Should_Get_Deleted_Webhook_Info()
     {
-        WebhookInfo info = await BotClient.GetWebhookInfoAsync();
+        WebhookInfo info = await BotClient.GetWebhookInfo();
 
         Assert.Empty(info.Url);
         Assert.False(info.HasCustomCertificate);

@@ -14,4 +14,9 @@ public partial class WebAppInfo
 
     /// <summary>Instantiates a new <see cref="WebAppInfo"/></summary>
     public WebAppInfo() { }
+
+    /// <summary>Implicit conversion to string (Url)</summary>
+    public static implicit operator string(WebAppInfo self) => self.Url;
+    /// <summary>Implicit conversion from string (Url)</summary>
+    public static implicit operator WebAppInfo(string url) => new() { Url = url };
 }

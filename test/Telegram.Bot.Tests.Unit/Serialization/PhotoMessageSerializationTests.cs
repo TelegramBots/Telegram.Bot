@@ -80,7 +80,7 @@ public class PhotoMessageSerializationTests
     {
         Message message = new()
         {
-            MessageId = 1234,
+            Id = 1234,
             From = new()
             {
                 Id = 1234567,

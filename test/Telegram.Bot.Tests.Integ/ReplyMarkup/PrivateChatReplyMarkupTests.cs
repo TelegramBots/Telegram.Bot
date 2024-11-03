@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -26,7 +27,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
             OneTimeKeyboard = true,
         };
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
             text: "Share your contact info using the keyboard reply markup provided.",
             replyMarkup: replyKeyboardMarkup
@@ -39,9 +40,9 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
         Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
         Assert.Equal(classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
-            text: "Got it. Removing reply keyboard markup...",
+            text: $"Got it: {contactMessage.Contact.FirstName}. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
     }
@@ -53,7 +54,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
         KeyboardButton[] keyboard = [KeyboardButton.WithRequestLocation("Share Location")];
         ReplyKeyboardMarkup replyKeyboardMarkup = new(keyboardRow: keyboard);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
             text: "Share your location using the keyboard reply markup",
             replyMarkup: replyKeyboardMarkup
@@ -63,7 +64,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
 
         Assert.NotNull(locationMessage.Location);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
             text: "Got it. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
@@ -80,7 +81,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
         ];
         ReplyKeyboardMarkup replyKeyboardMarkup = new(keyboardRow: keyboard);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
             text: "Share users using the keyboard reply markup",
             replyMarkup: replyKeyboardMarkup
@@ -90,9 +91,9 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
 
         Assert.NotNull(usersMessage.UsersShared);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
-            text: "Got it. Removing reply keyboard markup...",
+            text: $"Got it: UserId {usersMessage.UsersShared.Users[0].UserId}. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
     }
@@ -110,7 +111,7 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
         ];
         ReplyKeyboardMarkup replyKeyboardMarkup = new(keyboardRow: keyboard);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
             text: "Share chat using the keyboard reply markup",
             replyMarkup: replyKeyboardMarkup
@@ -120,11 +121,27 @@ public class PrivateChatReplyMarkupTests(TestsFixture fixture, PrivateChatReplyM
 
         Assert.NotNull(chatMessage.ChatShared);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: classFixture.PrivateChat,
-            text: "Got it. Removing reply keyboard markup...",
+            text: $"Got it: ChatId {chatMessage.ChatShared.ChatId}. Removing reply keyboard markup...",
             replyMarkup: new ReplyKeyboardRemove()
         );
+    }
+
+    [OrderedFact("Should send inline 'copy text' button and receive it back")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+    public async Task Should_Obtain_Copied_Text()
+    {
+        var copiedText = "random" + Random.Shared.Next().ToString();
+        var button = InlineKeyboardButton.WithCopyText("Click here to copy", copiedText);
+        await BotClient.SendMessage(
+            chatId: classFixture.PrivateChat,
+            text: "Click button below to copy text, then paste that text in a message",
+            replyMarkup: new InlineKeyboardMarkup(button)
+        );
+
+        Message chatMessage = await GetMessageFromChat(MessageType.Text);
+        Assert.Equal(chatMessage.Text, copiedText);
     }
 
     async Task<Message> GetMessageFromChat(MessageType messageType) =>

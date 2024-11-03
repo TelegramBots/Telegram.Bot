@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created.<para>Returns: </para></summary>
-public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
+public partial class CreateNewStickerSetRequest() : FileRequestBase<bool>("createNewStickerSet"), IUserTargetable
 {
     /// <summary>User identifier of created sticker set owner</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -24,7 +24,4 @@ public partial class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTa
 
     /// <summary>Pass <see langword="true"/> if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only</summary>
     public bool NeedsRepainting { get; set; }
-
-    /// <summary>Instantiates a new <see cref="CreateNewStickerSetRequest"/></summary>
-    public CreateNewStickerSetRequest() : base("createNewStickerSet") { }
 }

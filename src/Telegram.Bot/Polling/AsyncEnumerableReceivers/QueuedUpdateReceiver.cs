@@ -134,7 +134,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             {
                 try
                 {
-                    var updates = await _receiver._botClient.GetUpdatesAsync(-1, 1, 0, [], _token).ConfigureAwait(false);
+                    var updates = await _receiver._botClient.GetUpdates(-1, 1, 0, [], _token).ConfigureAwait(false);
                     _messageOffset = updates.Length == 0 ? 0 : updates[^1].Id + 1;
                 }
                 catch (OperationCanceledException)
@@ -148,7 +148,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 try
                 {
                     Update[] updateArray = await _receiver._botClient
-                        .MakeRequestAsync(
+                        .SendRequest(
                             request: new GetUpdatesRequest
                             {
                                 Offset = _messageOffset,

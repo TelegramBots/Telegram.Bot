@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>This object represents the content of a media message to be sent. It should be one of<br/><see cref="InputMediaAnimation"/>, <see cref="InputMediaDocument"/>, <see cref="InputMediaAudio"/>, <see cref="InputMediaPhoto"/>, <see cref="InputMediaVideo"/></summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<InputMedia>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(InputMediaAnimation), "animation")]
 [CustomJsonDerivedType(typeof(InputMediaDocument), "document")]
@@ -50,9 +51,7 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
     /// <summary>Initializes an instance of <see cref="InputMediaPhoto"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaPhoto(InputFile media) : base(media)
-    {
-    }
+    public InputMediaPhoto(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaPhoto"/></summary>
     public InputMediaPhoto() { }
@@ -64,7 +63,7 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     /// <summary>Type of the result, always <see cref="InputMediaType.Video"/></summary>
     public override InputMediaType Type => InputMediaType.Video;
 
-    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
@@ -88,9 +87,7 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     /// <summary>Initializes an instance of <see cref="InputMediaVideo"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaVideo(InputFile media) : base(media)
-    {
-    }
+    public InputMediaVideo(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaVideo"/></summary>
     public InputMediaVideo() { }
@@ -102,7 +99,7 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     /// <summary>Type of the result, always <see cref="InputMediaType.Animation"/></summary>
     public override InputMediaType Type => InputMediaType.Animation;
 
-    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
@@ -123,9 +120,7 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     /// <summary>Initializes an instance of <see cref="InputMediaAnimation"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaAnimation(InputFile media) : base(media)
-    {
-    }
+    public InputMediaAnimation(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaAnimation"/></summary>
     public InputMediaAnimation() { }
@@ -137,7 +132,7 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
     /// <summary>Type of the result, always <see cref="InputMediaType.Audio"/></summary>
     public override InputMediaType Type => InputMediaType.Audio;
 
-    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Duration of the audio in seconds</summary>
@@ -152,9 +147,7 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
     /// <summary>Initializes an instance of <see cref="InputMediaAudio"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaAudio(InputFile media) : base(media)
-    {
-    }
+    public InputMediaAudio(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaAudio"/></summary>
     public InputMediaAudio() { }
@@ -166,7 +159,7 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
     /// <summary>Type of the result, always <see cref="InputMediaType.Document"/></summary>
     public override InputMediaType Type => InputMediaType.Document;
 
-    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Disables automatic server-side content type detection for files uploaded using <see cref="InputFileStream"/>. Always <see langword="true"/>, if the document is sent as part of an album.</summary>
@@ -175,9 +168,7 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
     /// <summary>Initializes an instance of <see cref="InputMediaDocument"/></summary>
     /// <param name="media">File to send. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     [SetsRequiredMembers]
-    public InputMediaDocument(InputFile media) : base(media)
-    {
-    }
+    public InputMediaDocument(InputFile media) : base(media) { }
 
     /// <summary>Instantiates a new <see cref="InputMediaDocument"/></summary>
     public InputMediaDocument() { }

@@ -44,7 +44,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
         ];
 
         // Answer the query
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -88,7 +88,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -128,7 +128,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -169,7 +169,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -211,7 +211,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -254,7 +254,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -280,7 +280,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
         Message photoMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
         {
-            photoMessage = await BotClient.WithStreams(stream).SendPhotoAsync(
+            photoMessage = await BotClient.WithStreams(stream).SendPhoto(
                 chatId: Fixture.SupergroupChat,
                 photo: InputFile.FromStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -302,7 +302,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -346,7 +346,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -395,7 +395,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -418,7 +418,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Answer_Inline_Query_With_Cached_Video()
     {
         // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
-        Message videoMessage = await BotClient.SendVideoAsync(
+        Message videoMessage = await BotClient.SendVideo(
             chatId: Fixture.SupergroupChat,
             video: InputFile.FromUri("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -439,7 +439,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -481,7 +481,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -507,7 +507,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
         Message audioMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
-            audioMessage = await BotClient.WithStreams(stream).SendAudioAsync(
+            audioMessage = await BotClient.WithStreams(stream).SendAudio(
                 chatId: Fixture.SupergroupChat,
                 audio: InputFile.FromStream(stream),
                 performer: "Jackson F. Smith",
@@ -530,7 +530,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -572,7 +572,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -597,12 +597,12 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
         Message voiceMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
-            voiceMessage = await BotClient.WithStreams(stream).SendVoiceAsync(
+            voiceMessage = await BotClient.WithStreams(stream).SendVoice(
                 chatId: Fixture.SupergroupChat,
                 voice: InputFile.FromStream(stream),
-                duration: 24,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"),
+                duration: 24
             );
         }
 
@@ -619,7 +619,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -662,7 +662,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -687,7 +687,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
         Message documentMessage;
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
-            documentMessage = await BotClient.WithStreams(stream).SendDocumentAsync(
+            documentMessage = await BotClient.WithStreams(stream).SendDocument(
                 chatId: Fixture.SupergroupChat,
                 document: InputFile.FromStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -710,7 +710,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -756,7 +756,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -778,7 +778,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Cached_Gif()
     {
-        Message gifMessage = await BotClient.SendDocumentAsync(
+        Message gifMessage = await BotClient.SendDocument(
             chatId: Fixture.SupergroupChat,
             document: InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -797,7 +797,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -838,7 +838,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -860,7 +860,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Cached_Mpeg4Gif()
     {
-        Message gifMessage = await BotClient.SendDocumentAsync(
+        Message gifMessage = await BotClient.SendDocument(
             chatId: Fixture.SupergroupChat,
             document: InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -879,7 +879,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -909,7 +909,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
 
         Update iqUpdate = await Fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync("EvilMinds");
+        StickerSet stickerSet = await BotClient.GetStickerSet("EvilMinds");
 
         const string resultId = "sticker_result";
         InlineQueryResult[] results =
@@ -921,7 +921,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -960,12 +960,12 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
                 Id = resultId,
                 PhotoUrl = url,
                 ThumbnailUrl = url,
-                Caption = $"*{photoCaption}*",
+                Caption = $"_{photoCaption}_",
                 ParseMode = ParseMode.Markdown
             }
         ];
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             results: results,
             cacheTime: 0
@@ -979,7 +979,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
 
         Assert.Equal(MessageType.Photo, messageUpdate.Message!.Type);
         Assert.Equal(photoCaption, messageUpdate.Message.Caption);
-        Assert.Equal(MessageEntityType.Bold, messageUpdate.Message.CaptionEntities!.Single().Type);
+        Assert.Equal(MessageEntityType.Italic, messageUpdate.Message.CaptionEntities!.Single().Type);
 
         Assert.Equal(UpdateType.ChosenInlineResult, chosenResultUpdate.Type);
         Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult!.ResultId);
@@ -1011,7 +1011,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
         await Task.Delay(10_000);
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.AnswerInlineQueryAsync(
+            BotClient.AnswerInlineQuery(
                 inlineQueryId: queryUpdate.InlineQuery!.Id,
                 results: results,
                 cacheTime: 0

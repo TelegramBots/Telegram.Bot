@@ -29,7 +29,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
         string callbackQueryData = $"edit-location{new Random().Next(1_000)}";
         Location newYork = new() { Latitude = 40.7128f, Longitude = -74.0060f };
 
-        await BotClient.AnswerInlineQueryAsync(
+        await BotClient.AnswerInlineQuery(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             cacheTime: 0,
             results:
@@ -60,7 +60,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
 
         Location beijing = new() { Latitude = 39.9042f, Longitude = 116.4074f };
 
-        await BotClient.EditMessageLiveLocationAsync(
+        await BotClient.EditMessageLiveLocation(
             inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
             latitude: beijing.Latitude,
             longitude: beijing.Longitude,
@@ -74,7 +74,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
     public async Task Should_Stop_Inline_Message_Live_Location()
     {
-        await BotClient.StopMessageLiveLocationAsync(
+        await BotClient.StopMessageLiveLocation(
             inlineMessageId: classFixture.InlineMessageId
         );
     }

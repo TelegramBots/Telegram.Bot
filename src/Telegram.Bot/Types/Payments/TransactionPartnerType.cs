@@ -12,4 +12,6 @@ public enum TransactionPartnerType
     Other,
     /// <summary>Describes a withdrawal transaction to the Telegram Ads platform.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerTelegramAds"/>)</i></summary>
     TelegramAds,
+    /// <summary>Describes a transaction with payment for <a href="https://core.telegram.org/bots/api#paid-broadcasts">paid broadcasting</a>.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerTelegramApi"/>)</i></summary>
+    TelegramApi,
 }

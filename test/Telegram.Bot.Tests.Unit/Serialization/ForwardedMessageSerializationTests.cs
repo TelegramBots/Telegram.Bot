@@ -249,7 +249,7 @@ public class ForwardedMessageSerializationTests
     {
         Message message = new()
         {
-            MessageId = 1,
+            Id = 1,
             Text = "test",
             Date = new(2024, 1, 2, 14, 30, 0, DateTimeKind.Utc),
             Chat = new()

@@ -3,7 +3,7 @@
 /// <summary>This <a href="https://core.telegram.org/bots/api#available-types">object</a> represents an incoming update.<br/>At most <b>one</b> of the optional parameters can be present in any given update.</summary>
 public partial class Update
 {
-    /// <summary>The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This identifier becomes especially handy if you're using <see cref="TelegramBotClientExtensions.SetWebhookAsync">webhooks</see>, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.</summary>
+    /// <summary>The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This identifier becomes especially handy if you're using <see cref="TelegramBotClientExtensions.SetWebhook">webhooks</see>, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.</summary>
     [JsonPropertyName("update_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Id { get; set; }
@@ -108,7 +108,7 @@ public partial class Update
         _                                     => UpdateType.Unknown
     };
 
-    /// <summary>All UpdateTypes, for use with <see cref="TelegramBotClientExtensions.GetUpdatesAsync">GetUpdates</see></summary>
+    /// <summary>All UpdateTypes, for use with <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see></summary>
     public static readonly UpdateType[] AllTypes =
         [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.PurchasedPaidMedia, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost];
 }

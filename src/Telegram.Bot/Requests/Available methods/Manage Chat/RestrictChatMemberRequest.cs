@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass <em>True</em> for all permissions to lift restrictions from a user.<para>Returns: </para></summary>
-public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class RestrictChatMemberRequest() : RequestBase<bool>("restrictChatMember"), IChatTargetable, IUserTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,4 @@ public partial class RestrictChatMemberRequest : RequestBase<bool>, IChatTargeta
     /// <summary>Date when restrictions will be lifted for the user, in UTC. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever</summary>
     [JsonConverter(typeof(BanTimeConverter))]
     public DateTime? UntilDate { get; set; }
-
-    /// <summary>Instantiates a new <see cref="RestrictChatMemberRequest"/></summary>
-    public RestrictChatMemberRequest() : base("restrictChatMember") { }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the bot's menu button in a private chat. It should be one of<br/><see cref="MenuButtonDefault"/>, <see cref="MenuButtonCommands"/>, <see cref="MenuButtonWebApp"/><br/>If a menu button other than <see cref="MenuButtonDefault"/> is set for a private chat, then it is applied in the chat. Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands.</summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<MenuButton>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(MenuButtonDefault), "default")]
 [CustomJsonDerivedType(typeof(MenuButtonCommands), "commands")]
@@ -29,7 +30,7 @@ public partial class MenuButtonWebApp : MenuButton
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Text { get; set; } = default!;
 
-    /// <summary>Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQueryAsync">AnswerWebAppQuery</see>. Alternatively, a <c>t.me</c> link to a Web App of the bot can be specified in the object instead of the Web App's URL, in which case the Web App will be opened as if the user pressed the link.</summary>
+    /// <summary>Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Alternatively, a <c>t.me</c> link to a Web App of the bot can be specified in the object instead of the Web App's URL, in which case the Web App will be opened as if the user pressed the link.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public WebAppInfo WebApp { get; set; } = default!;
 }

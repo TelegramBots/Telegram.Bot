@@ -2,7 +2,7 @@
 
 /// <summary>Use this method to send answers to callback queries sent from <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboards</a>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert<para>Returns: </para></summary>
 /// <remarks>Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via <a href="https://t.me/botfather">@BotFather</a> and accept the terms. Otherwise, you may use links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter.</remarks>
-public partial class AnswerCallbackQueryRequest : RequestBase<bool>
+public partial class AnswerCallbackQueryRequest() : RequestBase<bool>("answerCallbackQuery")
 {
     /// <summary>Unique identifier for the query to be answered</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -19,7 +19,4 @@ public partial class AnswerCallbackQueryRequest : RequestBase<bool>
 
     /// <summary>The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.</summary>
     public int? CacheTime { get; set; }
-
-    /// <summary>Instantiates a new <see cref="AnswerCallbackQueryRequest"/></summary>
-    public AnswerCallbackQueryRequest() : base("answerCallbackQuery") { }
 }

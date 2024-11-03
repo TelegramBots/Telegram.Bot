@@ -26,7 +26,7 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
         const float latBerlin = 52.5200f;
         const float lonBerlin = 13.4050f;
 
-        Message message = await BotClient.SendLocationAsync(
+        Message message = await BotClient.SendLocation(
             chatId: Fixture.SupergroupChat.Id,
             latitude: latBerlin,
             longitude: lonBerlin,
@@ -55,15 +55,15 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
         {
             await Task.Delay(1_500);
 
-            editedMessage = await BotClient.EditMessageLiveLocationAsync(
+            editedMessage = await BotClient.EditMessageLiveLocation(
                 chatId: LocationMessage.Chat.Id,
-                messageId: LocationMessage.MessageId,
+                messageId: LocationMessage.Id,
                 latitude: newLocation.Latitude,
                 longitude: newLocation.Longitude
             );
 
             Assert.Equal(MessageType.Location, editedMessage.Type);
-            Assert.Equal(LocationMessage.MessageId, editedMessage.MessageId);
+            Assert.Equal(LocationMessage.Id, editedMessage.Id);
             Assert.Equal(newLocation.Latitude, editedMessage.Location!.Latitude, 3);
             Assert.Equal(newLocation.Longitude, editedMessage.Location!.Longitude, 3);
         }
@@ -75,12 +75,12 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
     public async Task Should_Stop_Live_Location()
     {
-        Message message = await BotClient.StopMessageLiveLocationAsync(
+        Message message = await BotClient.StopMessageLiveLocation(
             chatId: LocationMessage.Chat,
-            messageId: LocationMessage.MessageId
+            messageId: LocationMessage.Id
         );
 
-        Assert.Equal(LocationMessage.MessageId, message.MessageId);
+        Assert.Equal(LocationMessage.Id, message.Id);
         Assert.Equal(LocationMessage.Chat.Id, message.Chat.Id);
         Assert.Equal(LocationMessage.From!.Id, message.From!.Id);
         Assert.Equal(LocationMessage.Location!.Longitude, message.Location!.Longitude);

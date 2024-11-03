@@ -186,14 +186,14 @@ public class PaymentsBuilder
         ArgumentNullException.ThrowIfNull(_chatId);
         ArgumentException.ThrowIfNullOrWhiteSpace(_payload);
 
-        return await fixture.BotClient.SendInvoiceAsync(
+        return await fixture.BotClient.SendInvoice(
             chatId: _chatId.Value,
             title: _product.Title,
             description: _product.Description,
             payload: _payload,
-            providerToken: _paymentsProviderToken,
             currency: _currency,
             prices: _product.ProductPrices,
+            providerToken: _paymentsProviderToken,
             photoUrl: _product.PhotoUrl,
             photoWidth: _product.PhotoWidth,
             photoHeight: _product.PhotoHeight,
@@ -217,9 +217,9 @@ public class PaymentsBuilder
         ArgumentException.ThrowIfNullOrWhiteSpace(shippingQueryId);
 
         if (errorMessage is null)
-            await fixture.BotClient.AnswerShippingQueryAsync(shippingQueryId, _shippingOptions);
+            await fixture.BotClient.AnswerShippingQuery(shippingQueryId, _shippingOptions);
         else
-            await fixture.BotClient.AnswerShippingQueryAsync(shippingQueryId, errorMessage);
+            await fixture.BotClient.AnswerShippingQuery(shippingQueryId, errorMessage);
     }
 
     public PaymentsBuilder WithProduct(Action<ProductBuilder> builder)

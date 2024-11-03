@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: The edited invite link as a <see cref="ChatInviteLink"/> object.</para></summary>
-public partial class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTargetable
+public partial class EditChatInviteLinkRequest() : RequestBase<ChatInviteLink>("editChatInviteLink"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -23,7 +23,4 @@ public partial class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IC
 
     /// <summary><see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <see cref="MemberLimit">MemberLimit</see> can't be specified</summary>
     public bool CreatesJoinRequest { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditChatInviteLinkRequest"/></summary>
-    public EditChatInviteLinkRequest() : base("editChatInviteLink") { }
 }

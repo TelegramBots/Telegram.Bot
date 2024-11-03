@@ -26,7 +26,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
                 if (!string.IsNullOrEmpty(Chat.Photo?.BigFileId))
                 {
                     await using MemoryStream stream = new();
-                    await fixture.BotClient.GetInfoAndDownloadFileAsync(Chat.Photo.BigFileId, stream);
+                    await fixture.BotClient.GetInfoAndDownloadFile(Chat.Photo.BigFileId, stream);
                     _oldChatPhoto = stream.ToArray();
                 }
             },
@@ -36,7 +36,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
                 if (_oldChatPhoto is not null)
                 {
                     await using MemoryStream photoStream = new(_oldChatPhoto);
-                    await fixture.BotClient.WithStreams(photoStream).SetChatPhotoAsync(
+                    await fixture.BotClient.WithStreams(photoStream).SetChatPhoto(
                         chatId: Chat.Id,
                         photo: InputFile.FromStream(photoStream)
                     );

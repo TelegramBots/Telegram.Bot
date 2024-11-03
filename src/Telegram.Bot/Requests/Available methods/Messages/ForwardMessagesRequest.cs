@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages.<para>Returns: An array of <see cref="MessageId"/> of the sent messages is returned.</para></summary>
-public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTargetable
+public partial class ForwardMessagesRequest() : RequestBase<MessageId[]>("forwardMessages"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -23,7 +23,4 @@ public partial class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTar
 
     /// <summary>Protects the contents of the forwarded messages from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
-
-    /// <summary>Instantiates a new <see cref="ForwardMessagesRequest"/></summary>
-    public ForwardMessagesRequest() : base("forwardMessages") { }
 }

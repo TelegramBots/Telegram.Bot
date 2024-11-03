@@ -15,7 +15,7 @@ public class InputFileSerializationTests
 
         string serializedValue = JsonSerializer.Serialize(inputFile, JsonBotAPI.Options);
 
-        Assert.Equal(@$"""attach://{fileName}""", serializedValue);
+        Assert.Equal(@$"""attach://0""", serializedValue);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input file with file_id")]

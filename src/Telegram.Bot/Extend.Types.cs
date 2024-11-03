@@ -5,6 +5,10 @@ namespace Telegram.Bot.Types
 {
     public partial class Message
     {
+        /// <summary>Same as <see cref="Id"/></summary>
+        [JsonIgnore]
+        public int MessageId => Id;
+
         /// <summary><em>Optional</em>. For forwarded messages, sender of the original message</summary>
         [JsonIgnore]
         public User? ForwardFrom => (ForwardOrigin as MessageOriginUser)?.SenderUser;
@@ -60,17 +64,13 @@ namespace Telegram.Bot.Types
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
         public static implicit operator ReplyParameters(int replyToMessageId) => new() { MessageId = replyToMessageId };
         /// <summary>Implicit operator when you just want to reply to a message</summary>
-        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.MessageId, ChatId = msg.Chat.Id };
+        public static implicit operator ReplyParameters(Message msg) => new() { MessageId = msg.Id, ChatId = msg.Chat.Id };
     }
 
     public partial class MessageId
     {
-        /// <summary>Implicit operator to int</summary>
-        public static implicit operator int(MessageId msgID) => msgID.Id;
-        /// <summary>Implicit operator from int</summary>
-        public static implicit operator MessageId(int id) => new() { Id = id };
         /// <summary>Implicit operator from Message</summary>
-        public static implicit operator MessageId(Message msg) => new() { Id = msg.MessageId };
+        public static implicit operator MessageId(Message msg) => new() { Id = msg.Id };
     }
 
     public abstract partial class ReactionType
@@ -85,38 +85,6 @@ namespace Telegram.Bot.Types
     {
         /// <summary>To get the same behaviour as previous parameter <c>disableWebPagePreview:</c></summary>
         public static implicit operator LinkPreviewOptions(bool disabled) => new() { IsDisabled = disabled };
-    }
-
-    public partial class BotName
-    {
-        /// <summary>implicit to string</summary>
-        public static implicit operator string(BotName bn) => bn.Name;
-        /// <summary>implicit from string</summary>
-        public static implicit operator BotName(string bn) => new() { Name = bn };
-    }
-
-    public partial class BotShortDescription
-    {
-        /// <summary>implicit to string</summary>
-        public static implicit operator string(BotShortDescription bsd) => bsd.ShortDescription;
-        /// <summary>implicit from string</summary>
-        public static implicit operator BotShortDescription(string bsd) => new() { ShortDescription = bsd };
-    }
-    
-    public partial class BotDescription
-    {
-        /// <summary>implicit to string</summary>
-        public static implicit operator string(BotDescription bd) => bd.Description;
-        /// <summary>implicit from string</summary>
-        public static implicit operator BotDescription(string bd) => new() { Description = bd };
-    }
-
-    public partial class WebAppInfo
-    {
-        /// <summary>implicit to string (URL)</summary>
-        public static implicit operator string(WebAppInfo wai) => wai.Url;
-        /// <summary>implicit from string (URL)</summary>
-        public static implicit operator WebAppInfo(string url) => new() { Url = url };
     }
 
     public partial class InputPollOption
@@ -345,8 +313,9 @@ namespace Telegram.Bot.Types
             /// <summary>Generate a keyboard button to request users</summary>
             /// <param name="text">Button's text</param>
             /// <param name="requestId">Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object. Must be unique within the message</param>
-            public static KeyboardButton WithRequestUsers(string text, int requestId)
-                => new(text) { RequestUsers = new(requestId) };
+            /// <param name="maxQuantity"><em>Optional</em>. The maximum number of users to be selected; 1-10. Defaults to 1.</param>
+            public static KeyboardButton WithRequestUsers(string text, int requestId, int? maxQuantity = null)
+                => new(text) { RequestUsers = new(requestId) { MaxQuantity = maxQuantity } };
 
             /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
             /// <param name="text">Button's text</param>
@@ -354,95 +323,6 @@ namespace Telegram.Bot.Types
             /// <param name="chatIsChannel">Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.</param>
             public static KeyboardButton WithRequestChat(string text, int requestId, bool chatIsChannel)
                 => new(text) { RequestChat = new(requestId, chatIsChannel) };
-
-            /// <summary>Generate a keyboard button to request a poll</summary>
-            /// <param name="text">Button's text</param>
-            /// <param name="pollType">Optional: restrict the type of poll</param>
-            /// <returns>Keyboard button</returns>
-            public static KeyboardButton WithRequestPoll(string text, PollType? pollType = null)
-                => new(text) { RequestPoll = new() { Type = pollType } };
-        }
-    }
-}
-
-namespace Telegram.Bot.Requests
-{
-    public partial class SendMediaGroupRequest
-    {
-        /// <inheritdoc />
-        public override HttpContent ToHttpContent()
-        {
-            var multipartContent = GenerateMultipartFormDataContent();
-            foreach (var mediaItem in Media)
-            {
-                if (mediaItem is InputMedia { Media: InputFileStream file })
-                    multipartContent.AddContentIfInputFile(file, file.FileName!);
-                if (mediaItem is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
-                    multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
-            }
-            return multipartContent;
-        }
-    }
-
-    public partial class SendPaidMediaRequest
-    {
-        /// <inheritdoc />
-        public override HttpContent ToHttpContent()
-        {
-            var multipartContent = GenerateMultipartFormDataContent();
-            foreach (var mediaItem in Media)
-            {
-                if (mediaItem is InputPaidMedia { Media: InputFileStream file })
-                    multipartContent.AddContentIfInputFile(file, file.FileName!);
-                if (mediaItem is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
-                    multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
-            }
-            return multipartContent;
-        }
-    }
-
-    public partial class CreateNewStickerSetRequest
-    {
-        /// <inheritdoc/>
-        public override HttpContent ToHttpContent()
-        {
-            var multipartContent = GenerateMultipartFormDataContent();
-            foreach (var inputSticker in Stickers)
-                if (inputSticker is { Sticker: InputFileStream file })
-                    multipartContent.AddContentIfInputFile(file, file.FileName!);
-            return multipartContent;
-        }
-    }
-
-    public partial class EditInlineMessageMediaRequest
-    {
-        /// <inheritdoc />
-        public override HttpContent? ToHttpContent()
-        {
-            if (Media.Media.FileType is not FileType.Stream && Media is not IInputMediaThumb { Thumbnail.FileType: FileType.Stream })
-                return base.ToHttpContent();
-            var multipartContent = GenerateMultipartFormDataContent();
-            if (Media.Media is InputFileStream file)
-                multipartContent.AddContentIfInputFile(file, file.FileName!);
-            if (Media is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
-                multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
-            return multipartContent;
-        }
-    }
-
-    public partial class EditMessageMediaRequest
-    {
-        /// <inheritdoc />
-        public override HttpContent? ToHttpContent()
-        {
-            if (Media.Media.FileType is not FileType.Stream && Media is not IInputMediaThumb { Thumbnail.FileType: FileType.Stream })
-                return base.ToHttpContent();
-            var multipartContent = GenerateMultipartFormDataContent();
-            if (Media.Media is InputFileStream file)
-                multipartContent.AddContentIfInputFile(file, file.FileName!);
-            if (Media is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
-                multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
-            return multipartContent;
         }
     }
 }

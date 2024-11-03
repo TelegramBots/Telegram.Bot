@@ -2,7 +2,7 @@
 
 /// <summary>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 /// <remarks>Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.</remarks>
-public partial class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendVoiceRequest() : FileRequestBase<Message>("sendVoice"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -33,6 +33,9 @@ public partial class SendVoiceRequest : FileRequestBase<Message>, IChatTargetabl
     /// <summary>Protects the contents of the sent message from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
 
+    /// <summary>Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</summary>
+    public bool AllowPaidBroadcast { get; set; }
+
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     public string? MessageEffectId { get; set; }
 
@@ -44,11 +47,4 @@ public partial class SendVoiceRequest : FileRequestBase<Message>, IChatTargetabl
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendVoiceRequest"/></summary>
-    public SendVoiceRequest() : base("sendVoice") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Voice is InputFileStream ifs ? ToMultipartFormDataContent("voice", ifs) : base.ToHttpContent();
 }

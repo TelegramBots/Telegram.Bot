@@ -3,9 +3,10 @@
 /// <summary>This object represents a message.</summary>
 public partial class Message
 {
-    /// <summary>Unique message identifier inside this chat</summary>
+    /// <summary>Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int MessageId { get; set; }
+    public int Id { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of a message thread to which the message belongs; for supergroups only</summary>
     public int? MessageThreadId { get; set; }

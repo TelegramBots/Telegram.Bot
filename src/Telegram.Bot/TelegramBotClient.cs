@@ -6,12 +6,13 @@ using JetBrains.Annotations;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
+#if NET6_0_OR_GREATER
+using System.Net.Http.Json;
+#endif
 
 namespace Telegram.Bot;
 
-/// <summary>
-/// A client to use the Telegram Bot API
-/// </summary>
+/// <summary>A client to use the Telegram Bot API</summary>
 [PublicAPI]
 public class TelegramBotClient : ITelegramBotClient
 {
@@ -22,12 +23,10 @@ public class TelegramBotClient : ITelegramBotClient
     /// <inheritdoc/>
     public long BotId => _options.BotId;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public bool LocalBotServer => _options.LocalBotServer;
 
-    /// <summary>
-    /// Timeout for requests
-    /// </summary>
+    /// <inheritdoc/>
     public TimeSpan Timeout
     {
         get => _httpClient.Timeout;
@@ -54,37 +53,24 @@ public class TelegramBotClient : ITelegramBotClient
     public event OnErrorHandler? OnError;
 #pragma warning restore CS1591
 
-    /// <summary>
-    /// Global cancellation token
-    /// </summary>
+    /// <summary>Global cancellation token</summary>
     public CancellationToken GlobalCancelToken { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public IExceptionParser ExceptionsParser { get; set; } = new DefaultExceptionParser();
 
-    /// <summary>
-    /// Occurs before sending a request to API
-    /// </summary>
+    /// <inheritdoc/>
     public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
 
-    /// <summary>
-    /// Occurs after receiving the response to an API request
-    /// </summary>
+    /// <inheritdoc/>
     public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
 
-    /// <summary>
-    /// Create a new <see cref="TelegramBotClient"/> instance.
-    /// </summary>
+    /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
     /// <param name="options">Configuration for <see cref="TelegramBotClient" /></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="options"/> is <see langword="null"/>
-    /// </exception>
-    public TelegramBotClient(
-        TelegramBotClientOptions options,
-        HttpClient? httpClient = default,
-        CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is <see langword="null"/></exception>
+    public TelegramBotClient(TelegramBotClientOptions options, HttpClient? httpClient = default, CancellationToken cancellationToken = default)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
 #if NET6_0_OR_GREATER
@@ -95,217 +81,190 @@ public class TelegramBotClient : ITelegramBotClient
         GlobalCancelToken = cancellationToken;
     }
 
-    /// <summary>
-    /// Create a new <see cref="TelegramBotClient"/> instance.
-    /// </summary>
+    /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
     /// <param name="token"></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
-    /// <exception cref="ArgumentException">
-    /// Thrown if <paramref name="token"/> format is invalid
-    /// </exception>
-    public TelegramBotClient(
-        string token,
-        HttpClient? httpClient = null,
-        CancellationToken cancellationToken = default) :
-        this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
+    /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
+    public TelegramBotClient(string token, HttpClient? httpClient = null, CancellationToken cancellationToken = default)
+        : this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
     { }
 
-    /// <inheritdoc />
-    public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
-        IRequest<TResponse> request,
-        CancellationToken cancellationToken = default)
+    /// <inheritdoc/>
+    [Obsolete("Method MakeRequestAsync was renamed as SendRequest")]
+    public Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        => SendRequest(request, cancellationToken);
+
+    /// <inheritdoc/>
+    [Obsolete("Method MakeRequest was renamed as SendRequest")]
+    public Task<TResponse> MakeRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        => SendRequest(request, cancellationToken);
+
+    /// <inheritdoc/>
+    public virtual async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
+        cancellationToken = cts.Token;
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
         using var httpContent = request.ToHttpContent();
         for (int attempt = 1; ; attempt++)
         {
-            var httpRequest = new HttpRequestMessage(request.Method, url) { Content = httpContent };
+            var httpRequest = new HttpRequestMessage(request.HttpMethod, url) { Content = httpContent };
             ApiRequestEventArgs? requestEventArgs = null;
             if (OnMakingApiRequest is not null)
             {
                 requestEventArgs ??= new(request, httpRequest);
-                await OnMakingApiRequest.Invoke(this, requestEventArgs, cts.Token).ConfigureAwait(false);
+                await OnMakingApiRequest.Invoke(this, requestEventArgs, cancellationToken).ConfigureAwait(false);
             }
             // httpContent.Headers.ContentLength must be called after OnMakingApiRequest, because it enforces the
             // final ContentLength header, and OnMakingApiRequest might modify the content, leading to discrepancy
             if (httpContent != null && _options.RetryThreshold > 0 && _options.RetryCount > 1 && httpContent.Headers.ContentLength == null)
                 await httpContent.LoadIntoBufferAsync().ConfigureAwait(false);
 
-            using var httpResponse = await SendRequestAsync(_httpClient, httpRequest, cts.Token).ConfigureAwait(false);
-
-            if (OnApiResponseReceived is not null)
-            {
-                requestEventArgs ??= new(request, httpRequest);
-                ApiResponseEventArgs responseEventArgs = new(httpResponse, requestEventArgs);
-                await OnApiResponseReceived.Invoke(this, responseEventArgs, cts.Token).ConfigureAwait(false);
-            }
-
-            if (httpResponse.StatusCode != HttpStatusCode.OK)
-            {
-                var failedApiResponse = await httpResponse.DeserializeContentAsync<ApiResponse>(
-                    response => response.ErrorCode == default || response.Description is null, cts.Token).ConfigureAwait(false);
-
-                if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
-                    failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold)
-                {
-                    await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cts.Token).ConfigureAwait(false);
-                    continue; // retry attempt
-                }
-                throw ExceptionsParser.Parse(failedApiResponse);
-            }
-
-            var apiResponse = await httpResponse.DeserializeContentAsync<ApiResponse<TResponse>>(
-                    response => !response.Ok || response.Result is null, cts.Token).ConfigureAwait(false);
-            return apiResponse.Result!;
-        }
-
-        [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
-        static async Task<HttpResponseMessage> SendRequestAsync(
-            HttpClient httpClient,
-            HttpRequestMessage httpRequest,
-            CancellationToken cancellationToken)
-        {
-            HttpResponseMessage? httpResponse;
+            HttpResponseMessage httpResponse;
             try
             {
-                httpResponse = await httpClient
-                    .SendAsync(request: httpRequest, cancellationToken: cancellationToken)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
             }
             catch (TaskCanceledException exception)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    throw;
-                }
-
-                throw new RequestException(message: "Request timed out", innerException: exception);
+                if (cancellationToken.IsCancellationRequested) throw;
+                throw new RequestException("Request timed out", exception);
             }
             catch (Exception exception)
             {
-                throw new RequestException(
-                    message: "Exception during making request",
-                    innerException: exception
-                );
+                throw new RequestException("Exception during making request", exception);
             }
+            using (httpResponse)
+            {
+                if (OnApiResponseReceived is not null)
+                {
+                    requestEventArgs ??= new(request, httpRequest);
+                    ApiResponseEventArgs responseEventArgs = new(httpResponse, requestEventArgs);
+                    await OnApiResponseReceived.Invoke(this, responseEventArgs, cancellationToken).ConfigureAwait(false);
+                }
 
-            return httpResponse;
+                if (httpResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    var failedApiResponse = await DeserializeContent<ApiResponse>(httpResponse,
+                        response => response.ErrorCode != default && response.Description != null, cancellationToken).ConfigureAwait(false);
+
+                    if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
+                        failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold)
+                    {
+                        await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cancellationToken).ConfigureAwait(false);
+                        continue; // retry attempt
+                    }
+                    throw ExceptionsParser.Parse(failedApiResponse);
+                }
+
+                var apiResponse = await DeserializeContent<ApiResponse<TResponse>>(httpResponse,
+                        response => response.Ok && response.Result != null, cancellationToken).ConfigureAwait(false);
+                return apiResponse.Result!;
+            }
         }
     }
 
-    /// <summary>
-    /// Test the API token
-    /// </summary>
-    /// <returns><see langword="true"/> if token is valid</returns>
-    public async Task<bool> TestApiAsync(CancellationToken cancellationToken = default)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    static async Task<T> DeserializeContent<T>(HttpResponseMessage httpResponse, Func<T, bool> validate,
+        CancellationToken cancellationToken = default) where T : class
+    {
+        if (httpResponse.Content is null)
+            throw new RequestException("Response doesn't contain any content", httpResponse.StatusCode);
+        T? deserializedObject;
+        try
+        {
+#if NET6_0_OR_GREATER
+            deserializedObject = await httpResponse.Content.ReadFromJsonAsync<T>(JsonBotAPI.Options, cancellationToken).ConfigureAwait(false);
+#else
+            using var contentStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            deserializedObject = await JsonSerializer.DeserializeAsync<T>(contentStream, JsonBotAPI.Options,
+                cancellationToken).ConfigureAwait(false);
+#endif
+        }
+        catch (Exception exception)
+        {
+            throw new RequestException("There was an exception during deserialization of the response", httpResponse.StatusCode, exception);
+        }
+        if (deserializedObject is null || !validate(deserializedObject))
+            throw new RequestException("Required properties not found in response", httpResponse.StatusCode);
+        return deserializedObject;
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> TestApi(CancellationToken cancellationToken = default)
     {
         try
         {
-            await MakeRequestAsync(request: new GetMeRequest(), cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+            await SendRequest(new GetMeRequest(), cancellationToken).ConfigureAwait(false);
             return true;
         }
-        catch (ApiRequestException e)
-            when (e.ErrorCode == 401)
+        catch (ApiRequestException e) when (e.ErrorCode == 401)
         {
             return false;
         }
     }
 
-    /// <inheritdoc />
-    public async Task DownloadFileAsync(
-        string filePath,
-        Stream destination,
-        CancellationToken cancellationToken = default)
+    /// <summary>Get type of the file referenced by a FileId string</summary>
+    /// <param name="fileId">Identifier of file (Base64)</param>
+    public static FileIdType GetFileIdType(string fileId) => (FileIdType)Convert.FromBase64String(fileId[0..4])[0];
+
+    /// <inheritdoc/>
+    public async Task DownloadFile(string filePath, Stream destination, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(filePath) || filePath.Length < 2)
-        {
             throw new ArgumentException(message: "Invalid file path", paramName: nameof(filePath));
-        }
 
         if (destination is null) { throw new ArgumentNullException(nameof(destination)); }
 
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(GlobalCancelToken, cancellationToken);
         var fileUri = $"{_options.BaseFileUrl}/{filePath}";
-        using HttpResponseMessage httpResponse = await GetResponseAsync(
-            httpClient: _httpClient,
-            fileUri: fileUri,
-            cancellationToken: cts.Token
-        ).ConfigureAwait(false);
+        using HttpResponseMessage httpResponse = await GetResponseAsync(_httpClient, fileUri, cts.Token).ConfigureAwait(false);
 
         if (!httpResponse.IsSuccessStatusCode)
         {
-            var failedApiResponse = await httpResponse.DeserializeContentAsync<ApiResponse>(
-                    response => response.ErrorCode == default || response.Description is null, cts.Token).ConfigureAwait(false);
-
+            var failedApiResponse = await DeserializeContent<ApiResponse>(httpResponse,
+                    response => response.ErrorCode != default && response.Description != null, cts.Token).ConfigureAwait(false);
             throw ExceptionsParser.Parse(failedApiResponse);
         }
 
         if (httpResponse.Content is null)
-        {
-            throw new RequestException(
-                message: "Response doesn't contain any content",
-                httpResponse.StatusCode
-            );
-        }
+            throw new RequestException("Response doesn't contain any content", httpResponse.StatusCode);
 
         try
         {
 #if NET6_0_OR_GREATER
-            await httpResponse.Content.CopyToAsync(destination, cts.Token)
-                .ConfigureAwait(false);
+            await httpResponse.Content.CopyToAsync(destination, cts.Token).ConfigureAwait(false);
 #else
-            await httpResponse.Content.CopyToAsync(destination)
-                .ConfigureAwait(false);
+            await httpResponse.Content.CopyToAsync(destination).ConfigureAwait(false);
 #endif
         }
         catch (Exception exception)
         {
-            throw new RequestException(
-                message: "Exception during file download",
-                httpResponse.StatusCode,
-                exception
-            );
+            throw new RequestException("Exception during file download", httpResponse.StatusCode, exception);
         }
 
         [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
-        static async Task<HttpResponseMessage> GetResponseAsync(
-            HttpClient httpClient,
-            string fileUri,
-            CancellationToken cancellationToken)
+        static async Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, string fileUri, CancellationToken cancellationToken)
         {
             HttpResponseMessage? httpResponse;
             try
             {
-                httpResponse = await httpClient
-                    .GetAsync(
-                        requestUri: fileUri,
-                        completionOption: HttpCompletionOption.ResponseHeadersRead,
-                        cancellationToken: cancellationToken
-                    )
+                httpResponse = await httpClient.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (TaskCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested) { throw; }
 
-                throw new RequestException(
-                    message: "Request timed out",
-                    innerException: exception
-                );
+                throw new RequestException("Request timed out", exception);
             }
             catch (Exception exception)
             {
-                throw new RequestException(
-                    message: "Exception during file download",
-                    innerException: exception
-                );
+                throw new RequestException("Exception during file download", exception);
             }
-
             return httpResponse;
         }
     }

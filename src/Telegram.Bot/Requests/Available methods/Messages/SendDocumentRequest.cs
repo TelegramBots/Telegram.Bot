@@ -2,7 +2,7 @@
 
 /// <summary>Use this method to send general files.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 /// <remarks>Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.</remarks>
-public partial class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendDocumentRequest() : FileRequestBase<Message>("sendDocument"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -15,7 +15,7 @@ public partial class SendDocumentRequest : FileRequestBase<Message>, IChatTarget
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     public int? MessageThreadId { get; set; }
 
-    /// <summary>Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://&lt;FileAttachName&gt;” if the thumbnail was uploaded using <see cref="InputFileStream"/> under &lt;FileAttachName&gt;. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    /// <summary>Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>Document caption (may also be used when resending documents by <em>FileId</em>), 0-1024 characters after entities parsing</summary>
@@ -36,6 +36,9 @@ public partial class SendDocumentRequest : FileRequestBase<Message>, IChatTarget
     /// <summary>Protects the contents of the sent message from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
 
+    /// <summary>Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</summary>
+    public bool AllowPaidBroadcast { get; set; }
+
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     public string? MessageEffectId { get; set; }
 
@@ -47,15 +50,4 @@ public partial class SendDocumentRequest : FileRequestBase<Message>, IChatTarget
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendDocumentRequest"/></summary>
-    public SendDocumentRequest() : base("sendDocument") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Document is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("document", "thumbnail")
-                .AddContentIfInputFile(media: Document, name: "document")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
-            : base.ToHttpContent();
 }

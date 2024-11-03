@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling <see cref="TelegramBotClientExtensions.DeleteStickerFromSetAsync">DeleteStickerFromSet</see>, then <see cref="TelegramBotClientExtensions.AddStickerToSetAsync">AddStickerToSet</see>, then <see cref="TelegramBotClientExtensions.SetStickerPositionInSetAsync">SetStickerPositionInSet</see>.<para>Returns: </para></summary>
-public partial class ReplaceStickerInSetRequest : FileRequestBase<bool>, IUserTargetable
+/// <summary>Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling <see cref="TelegramBotClientExtensions.DeleteStickerFromSet">DeleteStickerFromSet</see>, then <see cref="TelegramBotClientExtensions.AddStickerToSet">AddStickerToSet</see>, then <see cref="TelegramBotClientExtensions.SetStickerPositionInSet">SetStickerPositionInSet</see>.<para>Returns: </para></summary>
+public partial class ReplaceStickerInSetRequest() : FileRequestBase<bool>("replaceStickerInSet"), IUserTargetable
 {
     /// <summary>User identifier of the sticker set owner</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -18,11 +18,4 @@ public partial class ReplaceStickerInSetRequest : FileRequestBase<bool>, IUserTa
     /// <summary>An object with information about the added sticker. If exactly the same sticker had already been added to the set, then the set remains unchanged.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputSticker Sticker { get; set; }
-
-    /// <summary>Instantiates a new <see cref="ReplaceStickerInSetRequest"/></summary>
-    public ReplaceStickerInSetRequest() : base("replaceStickerInSet") { }
-
-    /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-        => Sticker.Sticker is InputFileStream ifs ? ToMultipartFormDataContent(ifs.FileName!, ifs) : base.ToHttpContent();
 }

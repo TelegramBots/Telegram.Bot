@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send answers to an inline query<br/>No more than <b>50</b> results per query are allowed.<para>Returns: </para></summary>
-public partial class AnswerInlineQueryRequest : RequestBase<bool>
+public partial class AnswerInlineQueryRequest() : RequestBase<bool>("answerInlineQuery")
 {
     /// <summary>Unique identifier for the answered query</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -22,7 +22,4 @@ public partial class AnswerInlineQueryRequest : RequestBase<bool>
 
     /// <summary>An object describing a button to be shown above inline query results</summary>
     public InlineQueryResultsButton? Button { get; set; }
-
-    /// <summary>Instantiates a new <see cref="AnswerInlineQueryRequest"/></summary>
-    public AnswerInlineQueryRequest() : base("answerInlineQuery") { }
 }

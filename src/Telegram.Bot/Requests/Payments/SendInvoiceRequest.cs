@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send invoices.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
+public partial class SendInvoiceRequest() : RequestBase<Message>("sendInvoice"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -19,9 +19,6 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Payload { get; set; }
 
-    /// <summary>Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>. Pass an empty string for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
-    public required string? ProviderToken { get; set; }
-
     /// <summary>Three-letter ISO 4217 currency code, see <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>. Pass “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Currency { get; set; }
@@ -32,6 +29,9 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     public int? MessageThreadId { get; set; }
+
+    /// <summary>Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>. Pass an empty string for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
+    public string? ProviderToken { get; set; }
 
     /// <summary>The maximum accepted amount for tips in the <em>smallest units</em> of the currency (integer, <b>not</b> float/double). For example, for a maximum tip of <c>US$ 1.45</c> pass <c><see cref="MaxTipAmount">MaxTipAmount</see> = 145</c>. See the <em>exp</em> parameter in <a href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</a>, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     public int? MaxTipAmount { get; set; }
@@ -84,6 +84,9 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// <summary>Protects the contents of the sent message from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
 
+    /// <summary>Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</summary>
+    public bool AllowPaidBroadcast { get; set; }
+
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     public string? MessageEffectId { get; set; }
 
@@ -92,7 +95,4 @@ public partial class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>. If empty, one 'Pay <c>total price</c>' button will be shown. If not empty, the first button must be a Pay button.</summary>
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendInvoiceRequest"/></summary>
-    public SendInvoiceRequest() : base("sendInvoice") { }
 }

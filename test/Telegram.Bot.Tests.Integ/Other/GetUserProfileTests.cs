@@ -14,7 +14,7 @@ public class GetUserProfileTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetUserProfilePhotos)]
     public async Task Should_Get_User_Profile_Photos()
     {
-        UserProfilePhotos profilePhotos = await BotClient.GetUserProfilePhotosAsync(
+        UserProfilePhotos profilePhotos = await BotClient.GetUserProfilePhotos(
             userId: Fixture.BotUser.Id
         );
 

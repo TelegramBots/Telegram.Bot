@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit captions of messages.<para>Returns: </para></summary>
-public partial class EditInlineMessageCaptionRequest : RequestBase<bool>, IBusinessConnectable
+public partial class EditInlineMessageCaptionRequest() : RequestBase<bool>("editMessageCaption"), IBusinessConnectable
 {
     /// <summary>Identifier of the inline message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -24,7 +24,4 @@ public partial class EditInlineMessageCaptionRequest : RequestBase<bool>, IBusin
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditInlineMessageCaptionRequest"/></summary>
-    public EditInlineMessageCaptionRequest() : base("editMessageCaption") { }
 }

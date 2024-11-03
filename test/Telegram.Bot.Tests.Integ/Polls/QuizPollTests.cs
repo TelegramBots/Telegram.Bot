@@ -18,7 +18,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Public_Quiz_Poll()
     {
-        Message message = await Fixture.BotClient.SendPollAsync(
+        Message message = await Fixture.BotClient.SendPoll(
             chatId: Fixture.SupergroupChat,
             question: "How many silmarils were made in J. R. R. Tolkiens's Silmarillion?",
             options: ["One", "Ten", "Three"],
@@ -96,9 +96,9 @@ public class QuizPollTests(QuizPollTestsFixture classFixture)
         // doesn't match up with the previously received poll answer
         await Task.Delay(TimeSpan.FromSeconds(5));
 
-        Poll closedPoll = await BotClient.StopPollAsync(
+        Poll closedPoll = await BotClient.StopPoll(
             chatId: classFixture.OriginalPollMessage.Chat,
-            messageId: classFixture.OriginalPollMessage.MessageId
+            messageId: classFixture.OriginalPollMessage.Id
         );
 
         Assert.Equal(classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);

@@ -1,6 +1,7 @@
 ﻿namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the origin of a message. It can be one of<br/><see cref="MessageOriginUser"/>, <see cref="MessageOriginHiddenUser"/>, <see cref="MessageOriginChat"/>, <see cref="MessageOriginChannel"/></summary>
+[JsonConverter(typeof(PolymorphicJsonConverter<MessageOrigin>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(MessageOriginUser), "user")]
 [CustomJsonDerivedType(typeof(MessageOriginHiddenUser), "hidden_user")]

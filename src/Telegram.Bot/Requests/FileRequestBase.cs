@@ -1,71 +1,45 @@
-using System.Globalization;
-using System.Linq;
+using System.Text;
 
 namespace Telegram.Bot.Requests;
 
-/// <summary>
-/// Represents an API request with a file
-/// </summary>
+/// <summary>Represents an API request with a file</summary>
 /// <typeparam name="TResponse">Type of result expected in result</typeparam>
-
-public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
+/// <param name="methodName">Bot API method</param>
+public abstract class FileRequestBase<TResponse>(string methodName) : RequestBase<TResponse>(methodName)
 {
-    /// <summary>
-    /// Initializes an instance of request
-    /// </summary>
-    /// <param name="methodName">Bot API method</param>
-    protected FileRequestBase(string methodName)
-        : base(methodName)
-    { }
+    readonly static Encoding Latin1 = Encoding.GetEncoding(28591);
 
-    /// <summary>
-    /// Initializes an instance of request
-    /// </summary>
-    /// <param name="methodName">Bot API method</param>
-    /// <param name="method">HTTP method to use</param>
-    protected FileRequestBase(string methodName, HttpMethod method)
-        : base(methodName, method)
-    { }
-
-    /// <summary>
-    /// Generate multipart form data content
-    /// </summary>
-    /// <param name="fileParameterName"></param>
-    /// <param name="inputFile"></param>
-    /// <returns></returns>
-    protected MultipartFormDataContent ToMultipartFormDataContent(
-        string fileParameterName,
-        InputFileStream inputFile)
+    /// <inheritdoc/>
+    public override HttpContent? ToHttpContent()
     {
-        if (inputFile is null or { Content: null })
+        InputFileConverter.Attachments.Value = null;
+        var utf8Json = JsonSerializer.SerializeToUtf8Bytes(this, GetType(), JsonBotAPI.Options);
+        var attachments = InputFileConverter.Attachments.Value;
+        if (attachments == null)
+            return new ByteArrayContent(utf8Json) { Headers = { ContentType = new("application/json") { CharSet = "utf-8" } } };
+
+        var multipartContent = new MultipartFormDataContent();
+        var firstLevel = JsonDocument.Parse(utf8Json).RootElement.EnumerateObject();
+        foreach (var prop in firstLevel)
+            multipartContent.Add(new StringContent(prop.Value.ToString()), prop.Name);
+        for (int i = 0; i < attachments.Count; i++)
         {
-            throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
+            var inputFile = attachments[i];
+            string fileName = inputFile.FileName ?? "file";
+            string contentDisposition = FormattableString.Invariant($"form-data; name=\"{i}\"; filename=\"{fileName}\"");
+            contentDisposition = Latin1.GetString(Encoding.UTF8.GetBytes(contentDisposition));
+#pragma warning disable CA2000
+            var mediaPartContent = new StreamContent(inputFile.Content)
+            {
+                Headers =
+                {
+                    {"Content-Type", "application/octet-stream"},
+                    {"Content-Disposition", contentDisposition},
+                },
+            };
+#pragma warning restore CA2000
+            multipartContent.Add(mediaPartContent);
         }
-
-        return GenerateMultipartFormDataContent(fileParameterName)
-            .AddContentIfInputFile(media: inputFile, name: fileParameterName);
-    }
-
-    /// <summary>
-    /// Generate multipart form data content
-    /// </summary>
-    /// <param name="exceptPropertyNames"></param>
-    /// <returns></returns>
-    protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
-    {
-        var boundary = $"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}";
-        var multipartContent = new MultipartFormDataContent(boundary);
-
-        var stringContents = JsonSerializer.SerializeToElement(this, GetType(), JsonBotAPI.Options)
-            .EnumerateObject()
-            .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
-            .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));
-
-        foreach (var (name, content) in stringContents)
-        {
-            multipartContent.Add(content: content, name: name);
-        }
-
         return multipartContent;
     }
 }

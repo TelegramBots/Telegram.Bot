@@ -20,7 +20,7 @@ public class SendingVenueMessageTests(TestsFixture fixture) : TestClass(fixture)
         const float lon = -73.996006f;
         const string foursquareId = "4cc6222106c25481d7a4a047";
 
-        Message message = await BotClient.SendVenueAsync(
+        Message message = await BotClient.SendVenue(
             chatId: Fixture.SupergroupChat,
             latitude: lat,
             longitude: lon,

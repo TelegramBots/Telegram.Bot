@@ -14,16 +14,16 @@ public class DeleteMessageTests2(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
     public async Task Should_Delete_Message()
     {
-        Message message = await BotClient.SendTextMessageAsync(
+        Message message = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "This message will be deleted shortly"
         );
 
         await Task.Delay(1_000);
 
-        await BotClient.DeleteMessageAsync(
+        await BotClient.DeleteMessage(
             chatId: message.Chat.Id,
-            messageId: message.MessageId
+            messageId: message.Id
         );
     }
 
@@ -32,21 +32,21 @@ public class DeleteMessageTests2(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessages)]
     public async Task Should_Delete_Messages()
     {
-        Message message1 = await BotClient.SendTextMessageAsync(
+        Message message1 = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "Message one.\nThis message will be deleted shortly"
         );
 
-        Message message2 = await BotClient.SendTextMessageAsync(
+        Message message2 = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat.Id,
             text: "Message two.\nThis message will be deleted shortly"
         );
 
-        int[] messageIds = [message1.MessageId, message2.MessageId];
+        int[] messageIds = [message1.Id, message2.Id];
 
         await Task.Delay(1_000);
 
-        await BotClient.DeleteMessagesAsync(
+        await BotClient.DeleteMessages(
             chatId: Fixture.SupergroupChat.Id,
             messageIds: messageIds
         );

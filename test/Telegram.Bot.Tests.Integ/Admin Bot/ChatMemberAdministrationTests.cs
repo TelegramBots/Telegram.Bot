@@ -23,7 +23,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [OrderedFact("Should get regular chat member with member status and of ChatMemberMember type")]
     public async Task Should_Get_Chat_Member_Member()
     {
-        ChatMember chatMember = await BotClient.GetChatMemberAsync(
+        ChatMember chatMember = await BotClient.GetChatMember(
             chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
@@ -36,7 +36,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
     public async Task Should_Kick_Chat_Member_For_Ever()
     {
-        await BotClient.BanChatMemberAsync(
+        await BotClient.BanChatMember(
             chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId
         );
@@ -45,7 +45,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [OrderedFact("Should get banned chat member with kicked status and of ChatMemberBanned type")]
     public async Task Should_Get_Chat_Member_Kicked()
     {
-        ChatMember chatMember = await BotClient.GetChatMemberAsync(
+        ChatMember chatMember = await BotClient.GetChatMember(
             chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
@@ -60,7 +60,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnbanChatMember)]
     public async Task Should_Unban_Chat_Member()
     {
-        await BotClient.UnbanChatMemberAsync(
+        await BotClient.UnbanChatMember(
             chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId
         );
@@ -70,7 +70,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
     public async Task Should_Export_Chat_Invite_Link()
     {
-        string chatInviteLink = await BotClient.ExportChatInviteLinkAsync(Fixture.SupergroupChat.Id);
+        string chatInviteLink = await BotClient.ExportChatInviteLink(Fixture.SupergroupChat.Id);
 
         Assert.Matches("https://t.me/.+", chatInviteLink);
 
@@ -87,7 +87,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-        Message privateMessage = await BotClient.SendTextMessageAsync(
+        Message privateMessage = await BotClient.SendMessage(
             chatId: _classFixture.RegularMemberChat,
             text: _classFixture.GroupInviteLink
         );
@@ -100,9 +100,9 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             updateTypes: [UpdateType.Message]
         );
 
-        await BotClient.DeleteMessageAsync(
+        await BotClient.DeleteMessage(
             chatId: _classFixture.RegularMemberChat,
-            messageId: privateMessage.MessageId);
+            messageId: privateMessage.Id);
 
         await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -131,7 +131,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         string inviteLinkName = $"Created at {createdAt:yyyy-MM-ddTHH:mm:ss}";
 
-        ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
+        ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLink(
             chatId: Fixture.SupergroupChat.Id,
             createsJoinRequest: true,
             name: inviteLinkName,
@@ -153,6 +153,36 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         _classFixture.ChatInviteLink = chatInviteLink;
     }
 
+    [OrderedFact("Should kick user from chat and ban him/her temporarily")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
+    public async Task Should_Kick_Chat_Member_Temporarily()
+    {
+        const int banSeconds = 35;
+        await Fixture.SendTestInstructionsAsync(
+            $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in" +
+            $" *{banSeconds} seconds* via the link shared in private chat with him/her"
+        );
+
+        await BotClient.BanChatMember(
+            chatId: Fixture.SupergroupChat.Id,
+            userId: _classFixture.RegularMemberUserId,
+            untilDate: DateTime.UtcNow.AddSeconds(banSeconds)
+        );
+    }
+
+    [OrderedFact("Should get banned chat member with restricted status and of ChatMemberBanned type with not null UntilDate")]
+    public async Task Should_Get_Chat_Member_Restricted_With_Until_Date()
+    {
+        ChatMember chatMember = await BotClient.GetChatMember(
+            chatId: Fixture.SupergroupChat,
+            userId: _classFixture.RegularMemberUserId
+        );
+
+        Assert.Equal(ChatMemberStatus.Kicked, chatMember.Status);
+        ChatMemberBanned restrictedMember = Assert.IsType<ChatMemberBanned>(chatMember);
+        Assert.NotNull(restrictedMember.UntilDate);
+    }
+
     [OrderedFact("Should receive a notification of new member (same kicked member) joining the chat")]
     public async Task Should_Receive_Chat_Join_Request()
     {
@@ -162,19 +192,13 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             "decline the first attempt and then approve the second one."
         );
 
-        await BotClient.BanChatMemberAsync(
+        await BotClient.UnbanChatMember(
             chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId);
 
         await Task.Delay(TimeSpan.FromSeconds(5));
 
-        await BotClient.UnbanChatMemberAsync(
-            chatId: Fixture.SupergroupChat.Id,
-            userId: _classFixture.RegularMemberUserId);
-
-        await Task.Delay(TimeSpan.FromSeconds(5));
-
-        Message privateMessage = await BotClient.SendTextMessageAsync(
+        Message privateMessage = await BotClient.SendMessage(
             chatId: _classFixture.RegularMemberChat,
             text: _classFixture.ChatInviteLink.InviteLink
         );
@@ -186,9 +210,9 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             updateTypes: [UpdateType.ChatJoinRequest]
         );
 
-        await BotClient.DeleteMessageAsync(
+        await BotClient.DeleteMessage(
             chatId: _classFixture.RegularMemberChat,
-            messageId: privateMessage.MessageId);
+            messageId: privateMessage.Id);
 
         ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 
@@ -220,7 +244,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ApproveChatJoinRequest)]
     public async Task Should_Approve_Chat_Join_Request()
     {
-        Message privateMessage = await BotClient.SendTextMessageAsync(
+        Message privateMessage = await BotClient.SendMessage(
             chatId: _classFixture.RegularMemberChat,
             text: _classFixture.ChatInviteLink.InviteLink
         );
@@ -232,9 +256,9 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
             updateTypes: [UpdateType.ChatJoinRequest]
         );
 
-        await BotClient.DeleteMessageAsync(
+        await BotClient.DeleteMessage(
             chatId: _classFixture.RegularMemberChat,
-            messageId: privateMessage.MessageId);
+            messageId: privateMessage.Id);
 
         ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 
@@ -265,7 +289,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     {
         //ToDo exception when user isn't in group. Bad Request: bots can't add new chat members
 
-        await BotClient.PromoteChatMemberAsync(
+        await BotClient.PromoteChatMember(
             chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             canChangeInfo: true
@@ -276,18 +300,18 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatAdministratorCustomTitle)]
     public async Task Should_Set_Custom_Title_For_Admin()
     {
-        ChatMember promotedRegularUser = await BotClient.GetChatMemberAsync(
+        ChatMember promotedRegularUser = await BotClient.GetChatMember(
             Fixture.SupergroupChat,
             _classFixture.RegularMemberUserId
         );
 
-        await BotClient.SetChatAdministratorCustomTitleAsync(
+        await BotClient.SetChatAdministratorCustomTitle(
             chatId: Fixture.SupergroupChat,
             userId: promotedRegularUser.User.Id,
             customTitle: "CHANGED TITLE"
         );
 
-        ChatMember newChatMember = await BotClient.GetChatMemberAsync(
+        ChatMember newChatMember = await BotClient.GetChatMember(
             Fixture.SupergroupChat,
             promotedRegularUser.User.Id
         );
@@ -298,7 +322,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         Assert.Equal("CHANGED TITLE", administrator.CustomTitle);
 
         // Restore default title by sending empty string
-        await BotClient.SetChatAdministratorCustomTitleAsync(
+        await BotClient.SetChatAdministratorCustomTitle(
             chatId: Fixture.SupergroupChat,
             userId: promotedRegularUser.User.Id,
             customTitle: ""
@@ -311,7 +335,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     {
         //ToDo exception when user isn't in group. Bad Request: USER_NOT_MUTUAL_CONTACT
 
-        await BotClient.PromoteChatMemberAsync(
+        await BotClient.PromoteChatMember(
             chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             canChangeInfo: false
@@ -324,7 +348,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     {
         const int banSeconds = 35;
 
-        await BotClient.RestrictChatMemberAsync(
+        await BotClient.RestrictChatMember(
             chatId: Fixture.SupergroupChat.Id,
             userId: _classFixture.RegularMemberUserId,
             untilDate: DateTime.UtcNow.AddSeconds(banSeconds),
@@ -339,7 +363,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [OrderedFact("Should get banned chat member with restricted status and of ChatMemberRestricted type")]
     public async Task Should_Get_Chat_Member_Restricted()
     {
-        ChatMember chatMember = await BotClient.GetChatMemberAsync(
+        ChatMember chatMember = await BotClient.GetChatMember(
             chatId: Fixture.SupergroupChat,
             userId: _classFixture.RegularMemberUserId
         );
@@ -411,40 +435,6 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         // ReSharper disable once MethodSupportsCancellation
         await Fixture.UpdateReceiver.DiscardNewUpdatesAsync();
-    }
-
-    #endregion
-
-    #region Kick chat member temporarily
-
-    [OrderedFact("Should kick user from chat and ban him/her temporarily")]
-    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
-    public async Task Should_Kick_Chat_Member_Temporarily()
-    {
-        const int banSeconds = 35;
-        await Fixture.SendTestInstructionsAsync(
-            $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in" +
-            $" *{banSeconds} seconds* via the link shared in private chat with him/her"
-        );
-
-        await BotClient.BanChatMemberAsync(
-            chatId: Fixture.SupergroupChat.Id,
-            userId: _classFixture.RegularMemberUserId,
-            untilDate: DateTime.UtcNow.AddSeconds(banSeconds)
-        );
-    }
-
-    [OrderedFact("Should get banned chat member with restricted status and of ChatMemberBanned type with not null UntilDate")]
-    public async Task Should_Get_Chat_Member_Restricted_With_Until_Date()
-    {
-        ChatMember chatMember = await BotClient.GetChatMemberAsync(
-            chatId: Fixture.SupergroupChat,
-            userId: _classFixture.RegularMemberUserId
-        );
-
-        Assert.Equal(ChatMemberStatus.Kicked, chatMember.Status);
-        ChatMemberBanned restrictedMember = Assert.IsType<ChatMemberBanned>(chatMember);
-        Assert.NotNull(restrictedMember.UntilDate);
     }
 
     #endregion

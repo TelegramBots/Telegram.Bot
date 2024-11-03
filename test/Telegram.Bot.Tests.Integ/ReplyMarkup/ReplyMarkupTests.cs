@@ -14,7 +14,7 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Force_Reply()
     {
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat,
             text: "Message with force_reply",
             replyMarkup: new ForceReplyMarkup()
@@ -37,7 +37,7 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
             ResizeKeyboard = true,
         };
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat,
             text: "Message with 3x3 keyboard",
             replyMarkup: replyMarkup
@@ -54,7 +54,7 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
         replyMarkup.AddNewRow("Left", "Center", "Right");
         replyMarkup.AddNewRow().AddButtons(["Bottom-Left", "Bottom", "Bottom-Right"]);
 
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat,
             text: "Message with 3x3 keyboard",
             replyMarkup: replyMarkup
@@ -65,7 +65,7 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Remove_Reply_Keyboard()
     {
-        await BotClient.SendTextMessageAsync(
+        await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat,
             text: "Message to remove keyboard",
             replyMarkup: new ReplyKeyboardRemove()
@@ -84,7 +84,7 @@ public class ReplyMarkupTests(TestsFixture fixture) : TestClass(fixture)
             .AddNewRow(InlineKeyboardButton.WithSwitchInlineQuery(text: "switch_inline_query"))
             .AddNewRow().AddButton(InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text: "switch_inline_query_current_chat"));
 
-        Message sentMessage = await BotClient.SendTextMessageAsync(
+        Message sentMessage = await BotClient.SendMessage(
             chatId: Fixture.SupergroupChat,
             text: "Message with inline keyboard markup",
             replyMarkup: replyMarkup

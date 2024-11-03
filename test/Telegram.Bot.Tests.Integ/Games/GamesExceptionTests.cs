@@ -14,7 +14,7 @@ public class GamesExceptionTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Throw_InvalidGameShortNameException()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendGameAsync(
+            BotClient.SendGame(
                 chatId: Fixture.SupergroupChat.Id,
                 gameShortName: "my game"
             )
@@ -28,7 +28,7 @@ public class GamesExceptionTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Throw_InvalidGameShortNameException_2()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendGameAsync(
+            BotClient.SendGame(
                 chatId: Fixture.SupergroupChat.Id,
                 gameShortName: ""
             )
@@ -42,7 +42,7 @@ public class GamesExceptionTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Throw_InvalidGameShortNameException_3()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendGameAsync(
+            BotClient.SendGame(
                 chatId: Fixture.SupergroupChat.Id,
                 gameShortName: "non_existing_game"
             )

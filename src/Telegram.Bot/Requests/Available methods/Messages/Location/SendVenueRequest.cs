@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send information about a venue.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
-public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
+public partial class SendVenueRequest() : RequestBase<Message>("sendVenue"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -44,6 +44,9 @@ public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, I
     /// <summary>Protects the contents of the sent message from forwarding and saving</summary>
     public bool ProtectContent { get; set; }
 
+    /// <summary>Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</summary>
+    public bool AllowPaidBroadcast { get; set; }
+
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     public string? MessageEffectId { get; set; }
 
@@ -55,7 +58,4 @@ public partial class SendVenueRequest : RequestBase<Message>, IChatTargetable, I
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SendVenueRequest"/></summary>
-    public SendVenueRequest() : base("sendVenue") { }
 }

@@ -23,7 +23,7 @@ public class DefaultUpdateReceiver(
 
     readonly ITelegramBotClient _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task ReceiveAsync(IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
     {
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
@@ -37,7 +37,7 @@ public class DefaultUpdateReceiver(
         {
             try
             {
-                var updates = await _botClient.GetUpdatesAsync(-1, 1, 0, [], cancellationToken).ConfigureAwait(false);
+                var updates = await _botClient.GetUpdates(-1, 1, 0, [], cancellationToken).ConfigureAwait(false);
                 messageOffset = updates.Length == 0 ? 0 : updates[^1].Id + 1;
             }
             catch (OperationCanceledException)
@@ -58,7 +58,7 @@ public class DefaultUpdateReceiver(
             var updates = emptyUpdates;
             try
             {
-                updates = await _botClient.MakeRequestAsync(
+                updates = await _botClient.SendRequest(
                     request: request,
                     cancellationToken: cancellationToken
                 ).ConfigureAwait(false);

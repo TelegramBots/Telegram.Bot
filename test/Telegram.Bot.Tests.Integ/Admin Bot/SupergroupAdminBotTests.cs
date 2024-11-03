@@ -20,7 +20,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatTitle)]
     public async Task Should_Set_Chat_Title()
     {
-        await BotClient.SetChatTitleAsync(
+        await BotClient.SetChatTitle(
             chatId: classFixture.Chat.Id,
             title: "Test Chat Title"
         );
@@ -52,9 +52,9 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
             CanManageTopics = false,
         };
 
-        await BotClient.SetChatPermissionsAsync(classFixture.Chat.Id, newDefaultPermissions);
+        await BotClient.SetChatPermissions(classFixture.Chat.Id, newDefaultPermissions);
 
-        ChatFullInfo supergroup = await BotClient.GetChatAsync(classFixture.Chat.Id);
+        ChatFullInfo supergroup = await BotClient.GetChat(classFixture.Chat.Id);
         Assert.NotNull(supergroup.Permissions);
         Asserts.JsonEquals(newDefaultPermissions, supergroup.Permissions);
     }
@@ -67,7 +67,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
     public async Task Should_Set_Chat_Description()
     {
-        await BotClient.SetChatDescriptionAsync(
+        await BotClient.SetChatDescription(
             chatId: classFixture.Chat.Id,
             description: "Test Chat Description"
         );
@@ -79,7 +79,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     {
         // ToDo: exception Bad Request: chat description is not modified
 
-        await BotClient.SetChatDescriptionAsync(
+        await BotClient.SetChatDescription(
             chatId: classFixture.Chat.Id
         );
     }
@@ -97,27 +97,27 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
         Message msg3 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This will be deleted with previous one");
         Message msg4 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This message will be deleted first");
 
-        await BotClient.PinChatMessageAsync(
+        await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg1.MessageId,
+            messageId: msg1.Id,
             disableNotification: true
         );
 
-        await BotClient.PinChatMessageAsync(
+        await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg2.MessageId,
+            messageId: msg2.Id,
             disableNotification: true
         );
 
-        await BotClient.PinChatMessageAsync(
+        await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg3.MessageId,
+            messageId: msg3.Id,
             disableNotification: true
         );
 
-        await BotClient.PinChatMessageAsync(
+        await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: msg4.MessageId,
+            messageId: msg4.Id,
             disableNotification: true
         );
 
@@ -133,7 +133,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     {
         Message pinnedMsg = classFixture.PinnedMessages.Last();
 
-        ChatFullInfo chat = await BotClient.GetChatAsync(classFixture.Chat.Id);
+        ChatFullInfo chat = await BotClient.GetChat(classFixture.Chat.Id);
 
         Assert.NotNull(chat.PinnedMessage);
         Asserts.JsonEquals(pinnedMsg, chat.PinnedMessage);
@@ -143,12 +143,12 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
     public async Task Should_Unpin_Last_Message()
     {
-        await BotClient.UnpinChatMessageAsync(classFixture.Chat.Id);
+        await BotClient.UnpinChatMessage(classFixture.Chat.Id);
 
         // Wait for chat object to update on Telegram servers
         await Task.Delay(TimeSpan.FromSeconds(5));
 
-        ChatFullInfo chat = await BotClient.GetChatAsync(classFixture.Chat.Id);
+        ChatFullInfo chat = await BotClient.GetChat(classFixture.Chat.Id);
 
     Message secondsFromEndPinnedMessage = classFixture.PinnedMessages[^2];
 
@@ -160,9 +160,9 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
     public async Task Should_Unpin_First_Message()
     {
-        await BotClient.UnpinChatMessageAsync(
+        await BotClient.UnpinChatMessage(
             chatId: classFixture.Chat.Id,
-            messageId: classFixture.PinnedMessages.First().MessageId
+            messageId: classFixture.PinnedMessages.First().Id
         );
     }
 
@@ -177,7 +177,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Chat_With_No_Pinned_Message()
     {
-        ChatFullInfo chat = await BotClient.GetChatAsync(classFixture.Chat.Id);
+        ChatFullInfo chat = await BotClient.GetChat(classFixture.Chat.Id);
 
         Assert.Null(chat.PinnedMessage);
     }
@@ -191,7 +191,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     public async Task Should_Set_Chat_Photo()
     {
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
-        await BotClient.WithStreams(stream).SetChatPhotoAsync(
+        await BotClient.WithStreams(stream).SetChatPhoto(
             chatId: classFixture.Chat.Id,
             photo: InputFile.FromStream(stream)
         );
@@ -201,7 +201,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
     public async Task Should_Delete_Chat_Photo()
     {
-        await BotClient.DeleteChatPhotoAsync(classFixture.Chat.Id);
+        await BotClient.DeleteChatPhoto(classFixture.Chat.Id);
     }
 
     [OrderedFact("Should throw exception in deleting chat photo with no photo currently set")]
@@ -209,7 +209,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
     {
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(
-            () => BotClient.DeleteChatPhotoAsync(classFixture.Chat.Id)
+            () => BotClient.DeleteChatPhoto(classFixture.Chat.Id)
         );
 
         Assert.IsType<ApiRequestException>(e);
@@ -227,7 +227,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
         const string setName = "EvilMinds";
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SetChatStickerSetAsync(classFixture.Chat.Id, setName)
+            BotClient.SetChatStickerSet(classFixture.Chat.Id, setName)
         );
 
         Assert.Equal(400, exception.ErrorCode);
@@ -250,7 +250,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
 
         string inviteLinkName = $"Created at {createdAt:yyyy-MM-ddTHH:mm:ss}Z";
 
-        ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
+        ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLink(
             chatId: classFixture.TestsFixture.SupergroupChat.Id,
             name: inviteLinkName,
             expireDate: expireDate,
@@ -286,7 +286,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
 
         string inviteLinkName = $"Edited at {editedAt:yyyy-MM-ddTHH:mm:ss}Z";
 
-        ChatInviteLink editedChatInviteLink = await BotClient.EditChatInviteLinkAsync(
+        ChatInviteLink editedChatInviteLink = await BotClient.EditChatInviteLink(
             chatId: classFixture.TestsFixture.SupergroupChat.Id,
             inviteLink: classFixture.ChatInviteLink.InviteLink,
             name: inviteLinkName,
@@ -318,7 +318,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RevokeChatInviteLink)]
     public async Task Should_Revoke_Chat_Invite_Link()
     {
-        ChatInviteLink revokedChatInviteLink = await BotClient.RevokeChatInviteLinkAsync(
+        ChatInviteLink revokedChatInviteLink = await BotClient.RevokeChatInviteLink(
             chatId: classFixture.TestsFixture.SupergroupChat.Id,
             inviteLink: classFixture.ChatInviteLink.InviteLink
         );

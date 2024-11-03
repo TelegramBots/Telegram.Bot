@@ -19,7 +19,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
     public async Task Should_Send_Poll()
     {
-        Message message = await BotClient.SendPollAsync(
+        Message message = await BotClient.SendPoll(
             chatId: Fixture.SupergroupChat,
             question: "Who shot first?",
             options: ["Han Solo", "Greedo", "I don't care"]
@@ -66,9 +66,9 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
     public async Task Should_Stop_Poll()
     {
-        Poll poll = await BotClient.StopPollAsync(
+        Poll poll = await BotClient.StopPoll(
             chatId: classFixture.PollMessage.Chat,
-            messageId: classFixture.PollMessage.MessageId
+            messageId: classFixture.PollMessage.Id
         );
 
         Assert.Equal(classFixture.PollMessage.Poll!.Id, poll.Id);
@@ -80,7 +80,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture)
     public async Task Should_Throw_Exception_Not_Enough_Options()
     {
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.SendPollAsync(
+            BotClient.SendPoll(
                 chatId: Fixture.SupergroupChat,
                 question: "You should never see this poll",
                 options: ["The only poll option"]

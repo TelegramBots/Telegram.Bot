@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.<para>Returns: </para></summary>
-public partial class EditInlineMessageMediaRequest : FileRequestBase<bool>, IBusinessConnectable
+/// <summary>Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.<para>Returns: </para></summary>
+public partial class EditInlineMessageMediaRequest() : FileRequestBase<bool>("editMessageMedia"), IBusinessConnectable
 {
     /// <summary>Identifier of the inline message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -16,7 +16,4 @@ public partial class EditInlineMessageMediaRequest : FileRequestBase<bool>, IBus
 
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     public string? BusinessConnectionId { get; set; }
-
-    /// <summary>Instantiates a new <see cref="EditInlineMessageMediaRequest"/></summary>
-    public EditInlineMessageMediaRequest() : base("editMessageMedia") { }
 }

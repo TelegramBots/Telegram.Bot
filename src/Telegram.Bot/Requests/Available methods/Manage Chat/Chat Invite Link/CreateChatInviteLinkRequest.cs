@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLinkAsync">RevokeChatInviteLink</see>.<para>Returns: The new invite link as <see cref="ChatInviteLink"/> object.</para></summary>
-public partial class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTargetable
+/// <summary>Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLink">RevokeChatInviteLink</see>.<para>Returns: The new invite link as <see cref="ChatInviteLink"/> object.</para></summary>
+public partial class CreateChatInviteLinkRequest() : RequestBase<ChatInviteLink>("createChatInviteLink"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -19,7 +19,4 @@ public partial class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, 
 
     /// <summary><see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <see cref="MemberLimit">MemberLimit</see> can't be specified</summary>
     public bool CreatesJoinRequest { get; set; }
-
-    /// <summary>Instantiates a new <see cref="CreateChatInviteLinkRequest"/></summary>
-    public CreateChatInviteLinkRequest() : base("createChatInviteLink") { }
 }

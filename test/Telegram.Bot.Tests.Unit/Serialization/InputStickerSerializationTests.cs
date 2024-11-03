@@ -26,7 +26,7 @@ public class InputStickerSerializationTests
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
         Assert.Equal(3, j.Count);
-        Assert.Equal($"attach://{fileName}", (string?)j["sticker"]);
+        Assert.Equal($"attach://0", (string?)j["sticker"]);
         Assert.Equal("static", (string?)j["format"]);
 
         JsonNode? je = j["emoji_list"];

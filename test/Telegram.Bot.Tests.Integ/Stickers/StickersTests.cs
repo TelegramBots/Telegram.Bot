@@ -23,7 +23,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.StaticFirst);
 
-        File file = await BotClient.UploadStickerFileAsync(
+        File file = await BotClient.UploadStickerFile(
             userId: classFixture.OwnerUserId,
             sticker: new(stream),
             stickerFormat: StickerFormat.Static
@@ -41,7 +41,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.AnimatedFirst);
 
-        File file = await BotClient.UploadStickerFileAsync(
+        File file = await BotClient.UploadStickerFile(
             userId: classFixture.OwnerUserId,
             sticker: new(stream),
             stickerFormat: StickerFormat.Animated
@@ -59,7 +59,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.VideoFirst);
 
-        File file = await BotClient.UploadStickerFileAsync(
+        File file = await BotClient.UploadStickerFile(
             userId: classFixture.OwnerUserId,
             sticker: new(stream),
             stickerFormat: StickerFormat.Video
@@ -98,7 +98,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             },
         ];
 
-        await BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+        await BotClient.WithStreams(stream).CreateNewStickerSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestStaticRegularStickerSetName,
             title: classFixture.TestStickerSetTitle,
@@ -108,7 +108,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        classFixture.TestStaticRegularStickerSet = await BotClient.GetStickerSetAsync(
+        classFixture.TestStaticRegularStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -139,7 +139,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             },
         ];
 
-        await BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+        await BotClient.WithStreams(stream).CreateNewStickerSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestAnimatedRegularStickerSetName,
             title: classFixture.TestStickerSetTitle,
@@ -149,7 +149,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        classFixture.TestAnimatedRegularStickerSet = await BotClient.GetStickerSetAsync(
+        classFixture.TestAnimatedRegularStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestAnimatedRegularStickerSetName
         );
 
@@ -180,7 +180,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Format = StickerFormat.Video,
             },
         ];
-        await BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+        await BotClient.WithStreams(stream).CreateNewStickerSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestVideoRegularStickerSetName,
             title: classFixture.TestStickerSetTitle,
@@ -190,7 +190,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        classFixture.TestVideoRegularStickerSet = await BotClient.GetStickerSetAsync(
+        classFixture.TestVideoRegularStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestVideoRegularStickerSetName
         );
 
@@ -204,7 +204,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Send_Static_Sticker()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -216,7 +216,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
-        Message stickerMessage = await BotClient.SendStickerAsync(
+        Message stickerMessage = await BotClient.SendSticker(
             chatId: Fixture.SupergroupChat.Id,
             sticker: InputFile.FromFileId(firstSticker.FileId)
         );
@@ -246,7 +246,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Send_Animated_Sticker()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestAnimatedRegularStickerSetName
         );
 
@@ -258,7 +258,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
-        Message stickerMessage = await BotClient.SendStickerAsync(
+        Message stickerMessage = await BotClient.SendSticker(
             chatId: Fixture.SupergroupChat.Id,
             sticker: InputFile.FromFileId(firstSticker.FileId)
         );
@@ -288,7 +288,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Send_Video_Sticker()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestVideoRegularStickerSetName
         );
 
@@ -300,7 +300,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
-        Message stickerMessage = await BotClient.SendStickerAsync(
+        Message stickerMessage = await BotClient.SendSticker(
             chatId: Fixture.SupergroupChat.Id,
             sticker: InputFile.FromFileId(firstSticker.FileId)
         );
@@ -343,7 +343,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Format = StickerFormat.Static,
         };
 
-        await BotClient.WithStreams(stream).AddStickerToSetAsync(
+        await BotClient.WithStreams(stream).AddStickerToSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestStaticRegularStickerSetName,
             sticker: inputSticker
@@ -351,7 +351,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(2_000);
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -382,7 +382,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Format = StickerFormat.Animated,
         };
 
-        await BotClient.WithStreams(stream).AddStickerToSetAsync(
+        await BotClient.WithStreams(stream).AddStickerToSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestAnimatedRegularStickerSetName,
             sticker: inputSticker
@@ -390,7 +390,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestAnimatedRegularStickerSetName
         );
 
@@ -421,7 +421,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Format = StickerFormat.Video,
         };
 
-        await BotClient.WithStreams(stream).AddStickerToSetAsync(
+        await BotClient.WithStreams(stream).AddStickerToSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestVideoRegularStickerSetName,
             sticker: inputSticker
@@ -429,7 +429,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestVideoRegularStickerSetName
         );
 
@@ -451,20 +451,20 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Change_Sticker_Position_In_Set()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        await BotClient.SetStickerPositionInSetAsync(
+        await BotClient.SetStickerPositionInSet(
             sticker: new(thirdSticker.FileId),
             position: 0
         );
 
         await Task.Delay(3_000);
 
-        StickerSet positionedStickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet positionedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -480,19 +480,19 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Delete_Sticker_From_Set()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        await BotClient.DeleteStickerFromSetAsync(
+        await BotClient.DeleteStickerFromSet(
             sticker: new(thirdSticker.FileId)
         );
 
         await Task.Delay(2_000);
 
-        StickerSet updatedStickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet updatedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -506,7 +506,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Set_First_Sticker_EmojiList()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -516,14 +516,14 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.Equal(thirdEmojisString, firstSticker.Emoji);
 
-        await BotClient.SetStickerEmojiListAsync(
+        await BotClient.SetStickerEmojiList(
             sticker: new(firstSticker.FileId),
             emojiList: classFixture.FirstEmojis
         );
 
         await Task.Delay(1_000);
 
-        StickerSet updatedStickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet updatedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -543,20 +543,20 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         string[] keywords = ["test", "supertest"];
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        await BotClient.SetStickerKeywordsAsync(
+        await BotClient.SetStickerKeywords(
             sticker: new(firstSticker.FileId),
             keywords: keywords
         );
 
         await Task.Delay(1_000);
 
-        await BotClient.SetStickerKeywordsAsync(
+        await BotClient.SetStickerKeywords(
             sticker: new(firstSticker.FileId),
             keywords: null
         );
@@ -571,14 +571,14 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         const string newStickerSetTitle = "New title for sticker set";
 
-        await BotClient.SetStickerSetTitleAsync(
+        await BotClient.SetStickerSetTitle(
             name: classFixture.TestStaticRegularStickerSetName,
             title: newStickerSetTitle
         );
 
         await Task.Delay(2_000);
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -596,7 +596,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Constants.PathToFile.Sticker.Regular.StaticThumbnail
         );
 
-        await BotClient.WithStreams(stream).SetStickerSetThumbnailAsync(
+        await BotClient.WithStreams(stream).SetStickerSetThumbnail(
             name: classFixture.TestStaticRegularStickerSetName,
             userId: classFixture.OwnerUserId,
             thumbnail: InputFile.FromStream(stream),
@@ -605,7 +605,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        StickerSet updatedStickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet updatedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
@@ -631,7 +631,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.CreateNewStickerSetAsync(
+            BotClient.CreateNewStickerSet(
                 userId: classFixture.OwnerUserId,
                 name: "Invalid_Sticker_Set_Name",
                 title: classFixture.TestStickerSetTitle,
@@ -660,7 +660,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.CreateNewStickerSetAsync(
+            BotClient.CreateNewStickerSet(
                 userId: classFixture.OwnerUserId,
                 name: classFixture.TestStaticRegularStickerSetName,
                 title: classFixture.TestStickerSetTitle,
@@ -694,7 +694,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         string newStickerSetName = $"new_{classFixture.TestStaticRegularStickerSetName}";
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+            BotClient.WithStreams(stream).CreateNewStickerSet(
                 userId: classFixture.OwnerUserId,
                 name: newStickerSetName,
                 title: classFixture.TestStickerSetTitle,
@@ -723,7 +723,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+            BotClient.WithStreams(stream).CreateNewStickerSet(
                 userId: classFixture.OwnerUserId,
                 name: classFixture.TestStaticRegularStickerSetName,
                 title: classFixture.TestStickerSetTitle,
@@ -754,7 +754,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         // Telegram for some reason does not return an error, so the test is skipped
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+            BotClient.WithStreams(stream).CreateNewStickerSet(
                 userId: classFixture.OwnerUserId,
                 name: classFixture.TestStaticRegularStickerSetName,
                 title: classFixture.TestStickerSetTitle,
@@ -772,20 +772,20 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         const string expectedExceptionMessage = "Bad Request: STICKERSET_NOT_MODIFIED";
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
         Sticker lastSticker = stickerSet.Stickers.Last();
 
-        await BotClient.DeleteStickerFromSetAsync(
+        await BotClient.DeleteStickerFromSet(
             sticker: new(lastSticker.FileId)
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
-            await BotClient.DeleteStickerFromSetAsync(
+            await BotClient.DeleteStickerFromSet(
                 sticker: new(lastSticker.FileId)
             )
         );
@@ -802,34 +802,34 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         const string expectedExceptionMessage = "Bad Request: STICKERSET_INVALID";
 
-        await BotClient.DeleteStickerSetAsync(
+        await BotClient.DeleteStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
         );
 
-        await BotClient.DeleteStickerSetAsync(
+        await BotClient.DeleteStickerSet(
             name: classFixture.TestAnimatedRegularStickerSetName
         );
 
-        await BotClient.DeleteStickerSetAsync(
+        await BotClient.DeleteStickerSet(
             name: classFixture.TestVideoRegularStickerSetName
         );
 
         await Task.Delay(2_500);
 
         ApiRequestException staticException = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.GetStickerSetAsync(
+            BotClient.GetStickerSet(
                 name: classFixture.TestStaticRegularStickerSetName
             )
         );
 
         ApiRequestException animatedException = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.GetStickerSetAsync(
+            BotClient.GetStickerSet(
                 name: classFixture.TestAnimatedRegularStickerSetName
             )
         );
 
         ApiRequestException videoException = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.GetStickerSetAsync(
+            BotClient.GetStickerSet(
                 name: classFixture.TestVideoRegularStickerSetName
             )
         );
@@ -858,7 +858,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             )
         ];
 
-        await BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+        await BotClient.WithStreams(stream).CreateNewStickerSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestStaticMaskStickerSetName,
             title: classFixture.TestStickerSetTitle,
@@ -868,7 +868,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        classFixture.TestStaticMaskStickerSet = await BotClient.GetStickerSetAsync(
+        classFixture.TestStaticMaskStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticMaskStickerSetName
         );
 
@@ -896,7 +896,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             }
         };
 
-        await BotClient.WithStreams(stream).AddStickerToSetAsync(
+        await BotClient.WithStreams(stream).AddStickerToSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestStaticMaskStickerSetName,
             sticker: inputSticker
@@ -904,7 +904,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticMaskStickerSetName
         );
 
@@ -928,20 +928,20 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             Scale = .42
         };
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticMaskStickerSetName
         );
 
         Sticker sticker = stickerSet.Stickers.First();
 
-        await BotClient.SetStickerMaskPositionAsync(
+        await BotClient.SetStickerMaskPosition(
             sticker: new(sticker.FileId),
             maskPosition: newMaskPosition
         );
 
         await Task.Delay(1_000);
 
-        StickerSet changedStickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet changedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticMaskStickerSetName
         );
 
@@ -959,14 +959,14 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         const string expectedExceptionMessage = "Bad Request: STICKERSET_INVALID";
 
-        await BotClient.DeleteStickerSetAsync(
+        await BotClient.DeleteStickerSet(
             name: classFixture.TestStaticMaskStickerSetName
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.GetStickerSetAsync(
+            BotClient.GetStickerSet(
                 name: classFixture.TestStaticMaskStickerSetName
             )
         );
@@ -994,7 +994,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             )
         ];
 
-        await BotClient.WithStreams(stream).CreateNewStickerSetAsync(
+        await BotClient.WithStreams(stream).CreateNewStickerSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestStaticCustomEmojiStickerSetName,
             title: classFixture.TestStickerSetTitle,
@@ -1004,7 +1004,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(1_000);
 
-        classFixture.TestStaticCustomEmojiStickerSet = await BotClient.GetStickerSetAsync(
+        classFixture.TestStaticCustomEmojiStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
 
@@ -1025,7 +1025,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             format: StickerFormat.Static
         );
 
-        await BotClient.WithStreams(stream).AddStickerToSetAsync(
+        await BotClient.WithStreams(stream).AddStickerToSet(
             userId: classFixture.OwnerUserId,
             name: classFixture.TestStaticCustomEmojiStickerSetName,
             sticker: inputSticker
@@ -1033,7 +1033,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         await Task.Delay(2_000);
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
 
@@ -1050,7 +1050,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetCustomEmojiStickerSetThumbnail)]
     public async Task Should_Set_Custom_Emoji_Set_Thumbnail()
     {
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
 
@@ -1058,14 +1058,14 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
 
         Assert.NotNull(lastSticker.CustomEmojiId);
 
-        await BotClient.SetCustomEmojiStickerSetThumbnailAsync(
+        await BotClient.SetCustomEmojiStickerSetThumbnail(
             name: classFixture.TestStaticCustomEmojiStickerSetName,
             customEmojiId: lastSticker.CustomEmojiId
         );
 
         await Task.Delay(5_000);
 
-        StickerSet changedStickerSet = await BotClient.GetStickerSetAsync(
+        StickerSet changedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
 
@@ -1083,14 +1083,14 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         const string expectedExceptionMessage = "Bad Request: STICKERSET_INVALID";
 
-        await BotClient.DeleteStickerSetAsync(
+        await BotClient.DeleteStickerSet(
             name: classFixture.TestStaticCustomEmojiStickerSetName
         );
 
         await Task.Delay(2_000);
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.GetStickerSetAsync(
+            BotClient.GetStickerSet(
                 name: classFixture.TestStaticCustomEmojiStickerSetName
             )
         );

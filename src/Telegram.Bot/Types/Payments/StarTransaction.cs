@@ -3,7 +3,7 @@
 /// <summary>Describes a Telegram Star transaction.</summary>
 public partial class StarTransaction
 {
-    /// <summary>Unique identifier of the transaction. Coincides with the identifer of the original transaction for refund transactions. Coincides with <em>SuccessfulPayment.TelegramPaymentChargeId</em> for successful incoming payments from users.</summary>
+    /// <summary>Unique identifier of the transaction. Coincides with the identifier of the original transaction for refund transactions. Coincides with <em>SuccessfulPayment.TelegramPaymentChargeId</em> for successful incoming payments from users.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Id { get; set; } = default!;
 

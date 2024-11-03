@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions.<para>Returns: </para></summary>
-public partial class SetMessageReactionRequest : RequestBase<bool>, IChatTargetable
+public partial class SetMessageReactionRequest() : RequestBase<bool>("setMessageReaction"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -16,7 +16,4 @@ public partial class SetMessageReactionRequest : RequestBase<bool>, IChatTargeta
 
     /// <summary>Pass <see langword="true"/> to set the reaction with a big animation</summary>
     public bool IsBig { get; set; }
-
-    /// <summary>Instantiates a new <see cref="SetMessageReactionRequest"/></summary>
-    public SetMessageReactionRequest() : base("setMessageReaction") { }
 }

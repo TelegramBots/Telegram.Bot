@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass <em>False</em> for all boolean parameters to demote a user.<para>Returns: </para></summary>
-public partial class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
+public partial class PromoteChatMemberRequest() : RequestBase<bool>("promoteChatMember"), IChatTargetable, IUserTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -55,7 +55,4 @@ public partial class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetab
 
     /// <summary>Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</summary>
     public bool CanManageTopics { get; set; }
-
-    /// <summary>Instantiates a new <see cref="PromoteChatMemberRequest"/></summary>
-    public PromoteChatMemberRequest() : base("promoteChatMember") { }
 }
