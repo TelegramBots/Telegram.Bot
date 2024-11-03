@@ -39,13 +39,13 @@ steps:
       -p:Version=$(releaseVersion)
       $(projectPath)
     displayName: Create release nuget package
- - pwsh: >
-     dotnet nuget push
-     $(Build.ArtifactStagingDirectory)/packages/*.nupkg
-     --api-key $(NugetApiKey)
-     --skip-duplicate
-     --source https://api.nuget.org/v3/index.json
-   displayName: Publish package to NuGet
+  - pwsh: >
+      dotnet nuget push
+      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
+      --api-key $(NugetApiKey)
+      --skip-duplicate
+      --source https://api.nuget.org/v3/index.json
+    displayName: Publish package to NuGet
   - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
