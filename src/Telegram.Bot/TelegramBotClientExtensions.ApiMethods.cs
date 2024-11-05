@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 
@@ -225,16 +225,17 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Text = text,
-        MessageThreadId = messageThreadId,
         ParseMode = parseMode,
-        Entities = entities,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         LinkPreviewOptions = linkPreviewOptions,
+        MessageThreadId = messageThreadId,
+        Entities = entities,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendMessage">SendMessage</see> instead</summary>
@@ -379,15 +380,16 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         FromChatId = fromChatId,
         MessageId = messageId,
-        MessageThreadId = messageThreadId,
         Caption = caption,
         ParseMode = parseMode,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        MessageThreadId = messageThreadId,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="CopyMessage">CopyMessage</see> instead</summary>
@@ -436,10 +438,10 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         FromChatId = fromChatId,
         MessageIds = messageIds,
+        RemoveCaption = removeCaption,
         MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
-        RemoveCaption = removeCaption,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="CopyMessages">CopyMessages</see> instead</summary>
@@ -497,18 +499,19 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Photo = photo,
-        MessageThreadId = messageThreadId,
         Caption = caption,
         ParseMode = parseMode,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        MessageThreadId = messageThreadId,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         HasSpoiler = hasSpoiler,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendPhoto">SendPhoto</see> instead</summary>
@@ -579,20 +582,21 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Audio = audio,
-        MessageThreadId = messageThreadId,
         Caption = caption,
         ParseMode = parseMode,
-        CaptionEntities = captionEntities,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Duration = duration,
         Performer = performer,
         Title = title,
         Thumbnail = thumbnail,
+        MessageThreadId = messageThreadId,
+        CaptionEntities = captionEntities,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendAudio">SendAudio</see> instead</summary>
@@ -661,18 +665,19 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Document = document,
-        MessageThreadId = messageThreadId,
-        Thumbnail = thumbnail,
         Caption = caption,
         ParseMode = parseMode,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        Thumbnail = thumbnail,
+        MessageThreadId = messageThreadId,
         CaptionEntities = captionEntities,
         DisableContentTypeDetection = disableContentTypeDetection,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendDocument">SendDocument</see> instead</summary>
@@ -749,13 +754,15 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Video = video,
-        MessageThreadId = messageThreadId,
+        Caption = caption,
+        ParseMode = parseMode,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Duration = duration,
         Width = width,
         Height = height,
         Thumbnail = thumbnail,
-        Caption = caption,
-        ParseMode = parseMode,
+        MessageThreadId = messageThreadId,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         HasSpoiler = hasSpoiler,
@@ -763,9 +770,8 @@ public static partial class TelegramBotClientExtensions
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendVideo">SendVideo</see> instead</summary>
@@ -845,22 +851,23 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Animation = animation,
-        MessageThreadId = messageThreadId,
+        Caption = caption,
+        ParseMode = parseMode,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Duration = duration,
         Width = width,
         Height = height,
         Thumbnail = thumbnail,
-        Caption = caption,
-        ParseMode = parseMode,
+        MessageThreadId = messageThreadId,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         HasSpoiler = hasSpoiler,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendAnimation">SendAnimation</see> instead</summary>
@@ -929,17 +936,18 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Voice = voice,
-        MessageThreadId = messageThreadId,
         Caption = caption,
         ParseMode = parseMode,
-        CaptionEntities = captionEntities,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Duration = duration,
+        MessageThreadId = messageThreadId,
+        CaptionEntities = captionEntities,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendVoice">SendVoice</see> instead</summary>
@@ -1000,16 +1008,17 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         VideoNote = videoNote,
-        MessageThreadId = messageThreadId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Duration = duration,
         Length = length,
         Thumbnail = thumbnail,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendVideoNote">SendVideoNote</see> instead</summary>
@@ -1075,13 +1084,14 @@ public static partial class TelegramBotClientExtensions
         Payload = payload,
         Caption = caption,
         ParseMode = parseMode,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendPaidMedia">SendPaidMedia</see> instead</summary>
@@ -1134,12 +1144,13 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Media = media,
+        ReplyParameters = replyParameters,
         MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendMediaGroup">SendMediaGroup</see> instead</summary>
@@ -1200,17 +1211,18 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         Latitude = latitude,
         Longitude = longitude,
-        MessageThreadId = messageThreadId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         HorizontalAccuracy = horizontalAccuracy,
         LivePeriod = livePeriod,
         Heading = heading,
         ProximityAlertRadius = proximityAlertRadius,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendLocation">SendLocation</see> instead</summary>
@@ -1283,17 +1295,18 @@ public static partial class TelegramBotClientExtensions
         Longitude = longitude,
         Title = title,
         Address = address,
-        MessageThreadId = messageThreadId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         FoursquareId = foursquareId,
         FoursquareType = foursquareType,
         GooglePlaceId = googlePlaceId,
         GooglePlaceType = googlePlaceType,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendVenue">SendVenue</see> instead</summary>
@@ -1358,15 +1371,16 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         PhoneNumber = phoneNumber,
         FirstName = firstName,
-        MessageThreadId = messageThreadId,
         LastName = lastName,
         Vcard = vcard,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendContact">SendContact</see> instead</summary>
@@ -1447,25 +1461,26 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         Question = question,
         Options = options,
-        MessageThreadId = messageThreadId,
-        QuestionParseMode = questionParseMode,
-        QuestionEntities = questionEntities,
         IsAnonymous = isAnonymous,
         Type = type,
         AllowsMultipleAnswers = allowsMultipleAnswers,
         CorrectOptionId = correctOptionId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Explanation = explanation,
         ExplanationParseMode = explanationParseMode,
         ExplanationEntities = explanationEntities,
+        QuestionParseMode = questionParseMode,
+        QuestionEntities = questionEntities,
         OpenPeriod = openPeriod,
         CloseDate = closeDate,
         IsClosed = isClosed,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendPoll">SendPoll</see> instead</summary>
@@ -1528,14 +1543,15 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().SendRequest(new SendDiceRequest
     {
         ChatId = chatId,
-        MessageThreadId = messageThreadId,
         Emoji = emoji,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendDice">SendDice</see> instead</summary>
@@ -3886,14 +3902,15 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         Sticker = sticker,
-        MessageThreadId = messageThreadId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         Emoji = emoji,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendSticker">SendSticker</see> instead</summary>
@@ -4462,14 +4479,12 @@ public static partial class TelegramBotClientExtensions
         Title = title,
         Description = description,
         Payload = payload,
-        ProviderToken = providerToken,
         Currency = currency,
         Prices = prices,
-        MessageThreadId = messageThreadId,
+        ProviderToken = providerToken,
+        ProviderData = providerData,
         MaxTipAmount = maxTipAmount,
         SuggestedTipAmounts = suggestedTipAmounts,
-        StartParameter = startParameter,
-        ProviderData = providerData,
         PhotoUrl = photoUrl,
         PhotoSize = photoSize,
         PhotoWidth = photoWidth,
@@ -4481,11 +4496,14 @@ public static partial class TelegramBotClientExtensions
         SendPhoneNumberToProvider = sendPhoneNumberToProvider,
         SendEmailToProvider = sendEmailToProvider,
         IsFlexible = isFlexible,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        StartParameter = startParameter,
+        MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendInvoice">SendInvoice</see> instead</summary>
@@ -4576,12 +4594,12 @@ public static partial class TelegramBotClientExtensions
         Title = title,
         Description = description,
         Payload = payload,
-        ProviderToken = providerToken,
         Currency = currency,
         Prices = prices,
+        ProviderToken = providerToken,
+        ProviderData = providerData,
         MaxTipAmount = maxTipAmount,
         SuggestedTipAmounts = suggestedTipAmounts,
-        ProviderData = providerData,
         PhotoUrl = photoUrl,
         PhotoSize = photoSize,
         PhotoWidth = photoWidth,
@@ -4811,13 +4829,14 @@ public static partial class TelegramBotClientExtensions
     {
         ChatId = chatId,
         GameShortName = gameShortName,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
         MessageThreadId = messageThreadId,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         MessageEffectId = messageEffectId,
-        ReplyParameters = replyParameters,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendGame">SendGame</see> instead</summary>
