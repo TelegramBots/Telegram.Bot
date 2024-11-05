@@ -1046,11 +1046,11 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</param>
     /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media; 1-2500</param>
     /// <param name="media">A array describing the media to be sent; up to 10 items</param>
-    /// <param name="payload">Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
     /// <param name="caption">Media caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the media caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</param>
+    /// <param name="payload">Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media</param>
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
@@ -1064,11 +1064,11 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int starCount,
         IEnumerable<InputPaidMedia> media,
-        string? payload = default,
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? payload = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
         bool disableNotification = default,
@@ -1081,11 +1081,11 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         StarCount = starCount,
         Media = media,
-        Payload = payload,
         Caption = caption,
         ParseMode = parseMode,
         ReplyParameters = replyParameters,
         ReplyMarkup = replyMarkup,
+        Payload = payload,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         DisableNotification = disableNotification,
@@ -1113,7 +1113,7 @@ public static partial class TelegramBotClientExtensions
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendPaidMedia(chatId, starCount, media, payload, caption, parseMode, replyParameters, replyMarkup, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, businessConnectionId, allowPaidBroadcast, cancellationToken);
+    ) => botClient.SendPaidMedia(chatId, starCount, media, caption, parseMode, replyParameters, replyMarkup, payload, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, businessConnectionId, allowPaidBroadcast, cancellationToken);
 
     /// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
