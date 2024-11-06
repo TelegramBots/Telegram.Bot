@@ -169,24 +169,15 @@ public class TestsFixture : IDisposable
             or { Message.ForwardOrigin: not null };
     }
 
-    internal ITelegramBotClient CreateClient(string apiToken, CancellationToken ct = default)
+    internal ITelegramBotClient CreateClient(TestConfiguration configuration, CancellationToken ct = default)
     {
-        return new RetryTelegramBotClient(
-            new(
-                retryMax: Configuration.RetryCount,
-                defaultTimeout: TimeSpan.FromSeconds(Configuration.DefaultRetryTimeout),
-                token: apiToken,
-                useTestEnvironment: false,
-                baseUrl: default
-            ),
-            _diagnosticMessageSink, ct);
+        return new RetryTelegramBotClient(configuration, _diagnosticMessageSink, ct);
     }
 
     async Task InitAsync()
     {
         _configurationProvider = new();
-        var apiToken = Configuration.ApiToken;
-        BotClient = CreateClient(apiToken);
+        BotClient = CreateClient(Configuration);
 
         var allowedUserNames = await Ex.WithCancellation(
             async token =>

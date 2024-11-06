@@ -37,6 +37,8 @@ public partial class TestConfiguration : IValidatableObject
 
     public int DefaultRetryTimeout { get; set; } = 30;
 
+    public string ClientApiToken { get; set; } = default!;
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         foreach (var username in AllowedUserNames)

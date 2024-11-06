@@ -26,7 +26,8 @@ public class GettingUpdatesTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Fail_Test_Api_Token()
     {
-        var botClient = Fixture.CreateClient("0:1this_is_an-invalid-token_for_tests");
+        var botClient = Fixture.CreateClient(new() { ApiToken = "0:1this_is_an-invalid-token_for_tests",
+            ClientApiToken = Fixture.Configuration.ClientApiToken });
         bool result = await botClient.TestApi();
 
         Assert.False(result);
@@ -43,7 +44,8 @@ public class GettingUpdatesTests(TestsFixture fixture) : TestClass(fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Test_Bad_BotToken()
     {
-        var botClient = Fixture.CreateClient("123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11");
+        var botClient = Fixture.CreateClient(new() { ApiToken = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11",
+            ClientApiToken = Fixture.Configuration.ClientApiToken });
         bool result = await botClient.TestApi();
 
         Assert.False(result);
@@ -66,7 +68,7 @@ public class GettingUpdatesTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Abort_Request_by_GlobalCancelToken()
     {
         CancellationTokenSource globalCT = new();
-        var botClient = Fixture.CreateClient(Fixture.Configuration.ApiToken, globalCT.Token);
+        var botClient = Fixture.CreateClient(Fixture.Configuration, globalCT.Token);
         globalCT.Cancel();
         await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await botClient.GetUpdates());
     }

@@ -92,10 +92,10 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PinChatMessage)]
     public async Task Should_Pin_Message()
     {
-        Message msg1 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This message will be deleted second");
-        Message msg2 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This will be deleted as group");
-        Message msg3 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This will be deleted with previous one");
-        Message msg4 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This message will be deleted first");
+        Message msg1 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This message will be unpinned second");
+        Message msg2 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This will be unpinned as group");
+        Message msg3 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This will be unpinned with previous one");
+        Message msg4 = await classFixture.TestsFixture.SendTestInstructionsAsync("🧷 This message will be unpinned first");
 
         await BotClient.PinChatMessage(
             chatId: classFixture.Chat.Id,

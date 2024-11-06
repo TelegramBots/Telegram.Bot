@@ -11,24 +11,24 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework;
 
-internal class TestClientOptions(
-    string token,
-    string? baseUrl,
-    bool useTestEnvironment,
-    int retryMax,
-    TimeSpan defaultTimeout)
-    : TelegramBotClientOptions(token, baseUrl, useTestEnvironment)
+#if WTB
+internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageSink diagnosticMessageSink, CancellationToken ct = default)
+    : WTelegramBotClient(MakeOptions(configuration.ApiToken, configuration.ClientApiToken.Split(':')), cancellationToken: ct)
 {
-    public int RetryMax { get; } = retryMax;
-    public TimeSpan DefaultTimeout { get; } = defaultTimeout;
-};
+    private static WTelegramBotClientOptions MakeOptions(string botToken, string[] api)
+    {
+        var connection = new Microsoft.Data.Sqlite.SqliteConnection($"Data Source=WTelegramBot.{botToken.Split(':')[0]}.sqlite");
+        WTelegram.Helpers.Log = (lvl, str) => System.Diagnostics.Trace.WriteLine(str);
+        return new WTelegramBotClientOptions(botToken, int.Parse(api[0]), api[1], connection) { WaitForLogin = false };
+    }
+#else
+internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageSink diagnosticMessageSink, CancellationToken ct = default)
+    : TelegramBotClient(new TelegramBotClientOptions(configuration.ApiToken), cancellationToken: ct)
+{
+#endif
+    public int RetryMax { get; } = configuration.RetryCount;
+    public TimeSpan DefaultTimeout { get; } = TimeSpan.FromSeconds(configuration.DefaultRetryTimeout);
 
-internal class RetryTelegramBotClient(
-    TestClientOptions options,
-    IMessageSink diagnosticMessageSink,
-    CancellationToken ct = default)
-    : TelegramBotClient(options, cancellationToken: ct)
-{
     private Stream[]? _testStreams;
     public void WithStreams(Stream[] streams) => _testStreams = streams;
 
@@ -40,7 +40,7 @@ internal class RetryTelegramBotClient(
 
         try
         {
-            for (var i = 0; i < options.RetryMax; i++)
+            for (var i = 0; i < RetryMax; i++)
             {
                 try
                 {
@@ -51,7 +51,7 @@ internal class RetryTelegramBotClient(
                     apiRequestException = e;
 
                     var timeout = e.Parameters?.RetryAfter is null
-                        ? options.DefaultTimeout
+                        ? DefaultTimeout
                         : TimeSpan.FromSeconds(e.Parameters.RetryAfter.Value);
 
                     var message = $"Retry attempt {i + 1}. Waiting for {timeout} seconds before retrying.";
