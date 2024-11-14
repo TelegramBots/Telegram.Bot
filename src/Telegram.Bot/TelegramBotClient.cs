@@ -82,7 +82,7 @@ public class TelegramBotClient : ITelegramBotClient
     }
 
     /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
-    /// <param name="token"></param>
+    /// <param name="token">The bot token</param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
@@ -274,7 +274,7 @@ public class TelegramBotClient : ITelegramBotClient
         lock (_options)
         {
             if (_receivingEvents != null) return;
-            _receivingEvents ??= new CancellationTokenSource();
+            _receivingEvents = new CancellationTokenSource();
         }
         this.StartReceiving(async (bot, update, ct) =>
         {

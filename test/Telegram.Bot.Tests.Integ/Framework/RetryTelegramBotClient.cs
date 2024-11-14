@@ -19,7 +19,7 @@ internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageS
     {
         var connection = new Microsoft.Data.Sqlite.SqliteConnection($"Data Source=WTelegramBot.{botToken.Split(':')[0]}.sqlite");
         WTelegram.Helpers.Log = (lvl, str) => System.Diagnostics.Trace.WriteLine(str);
-        return new WTelegramBotClientOptions(botToken, int.Parse(api[0]), api[1], connection) { WaitForLogin = false };
+        return new(botToken, int.Parse(api[0]), api[1], connection);
     }
 #else
 internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageSink diagnosticMessageSink, CancellationToken ct = default)

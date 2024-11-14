@@ -1,6 +1,6 @@
-﻿# .NET Client for Telegram Bot API
+# .NET Client for Telegram Bot API
 
-[![Nuget](https://img.shields.io/badge/dynamic/json?url=https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/release/nuget/v3/flat2/Telegram.Bot/index.json&query=versions%5B-1%3A%5D&style=flat-square&label=Telegram.Bot&color=d8b541)](https://dev.azure.com/tgbots/Telegram.Bot/_artifacts/feed/release/NuGet/Telegram.Bot)
+[![Nuget](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square&color=d8b541)](https://www.nuget.org/packages/Telegram.Bot)
 [![Bot API Version](https://img.shields.io/badge/Bot_API-7.11-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
 [![Documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/)
 [![Telegram Chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)  
@@ -23,8 +23,8 @@ We, the [Telegram Bots team], mainly focus on developing multiple [NuGet package
 
 |Packages|Documentation|News Channel|Team|Group Chat|
 |:-----:|:-----------:|:----------:|:--:|:--------:|
-| [![Packages](docs/logo-nuget.png)](https://dev.azure.com/tgbots/Telegram.Bot/_artifacts/feed/release/NuGet/Telegram.Bot) | [![documentations](docs/logo-docs.png)](https://telegrambots.github.io/book/) | [![News Channel](docs/logo-channel.jpg)](https://t.me/s/tgbots_dotnet) | [![Team](docs/logo-gh.png)](https://github.com/orgs/TelegramBots/people) | [![Group Chat](docs/logo-chat.jpg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA) |
-| Our nuget package feed | Telegram bots book | Subscribe to 📣 [`@tgbots_dotnet`] channel to get our latest news | The team contributing to this work | [Join our chat] 💬 to talk about bots and ask questions |
+| [![Packages](docs/logo-nuget.png)](https://www.nuget.org/packages/Telegram.Bot) | [![documentations](docs/logo-docs.png)](https://telegrambots.github.io/book/) | [![News Channel](docs/logo-channel.jpg)](https://t.me/s/tgbots_dotnet) | [![Team](docs/logo-gh.png)](https://github.com/orgs/TelegramBots/people) | [![Group Chat](docs/logo-chat.jpg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA) |
+| nuget.org package feed | Telegram bots book | Subscribe to 📣 [`@tgbots_dotnet`] channel to get our latest news | The team contributing to this work | [Join our chat] 💬 to talk about bots and ask questions |
 
 ## 🔨 Getting Started
 
