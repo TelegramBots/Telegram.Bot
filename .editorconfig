@@ -13,14 +13,6 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 max_line_length = 120
 
-# C# Files
-[*.cs]
-csharp_align_multiline_parameter = true
-csharp_align_multiline_extends_list = true
-csharp_align_linq_query = true
-csharp_place_attribute_on_same_line = false
-csharp_empty_block_style = together
-
 # Solution Files
 [*.sln]
 indent_style = tab
@@ -37,3 +29,24 @@ indent_size = 2
 [*.md]
 trim_trailing_whitespace = false
 indent_size = 2
+
+# C# Files
+[*.cs]
+indent_style = space
+csharp_align_multiline_parameter = true
+csharp_align_multiline_extends_list = true
+csharp_align_linq_query = true
+csharp_place_attribute_on_same_line = false
+csharp_empty_block_style = together
+csharp_style_namespace_declarations = file_scoped
+csharp_style_var_when_type_is_apparent = true
+csharp_prefer_braces = when_multiline
+dotnet_diagnostic.IDE0011.severity = silent
+csharp_style_expression_bodied_constructors = when_on_single_line
+csharp_style_expression_bodied_methods = when_on_single_line
+csharp_style_expression_bodied_operators = when_on_single_line
+dotnet_diagnostic.IDE0046.severity = silent
+csharp_style_var_for_built_in_types = false
+dotnet_diagnostic.IDE0008.severity = silent
+dotnet_diagnostic.IDE0055.severity = silent
+dotnet_diagnostic.IDE0045.severity = silent

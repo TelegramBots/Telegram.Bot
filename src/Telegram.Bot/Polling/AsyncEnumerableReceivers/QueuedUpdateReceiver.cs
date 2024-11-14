@@ -1,86 +1,55 @@
 #if NET6_0_OR_GREATER
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Polling;
 
-/// <summary>
-/// Supports asynchronous iteration over <see cref="Update"/>s.
-/// <para>Updates are received on a different thread and enqueued.</para>
-/// </summary>
+/// <summary>Supports asynchronous iteration over <see cref="Update"/>s./// <para>Updates are received on a different thread and enqueued.</para></summary>
+/// <remarks>Constructs a new <see cref="QueuedUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/></remarks>
+/// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+/// <param name="receiverOptions">Options used to configure getUpdates requests</param>
+/// <param name="pollingErrorHandler">The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests</param>
 [PublicAPI]
 #pragma warning disable CA1001
-public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
+public class QueuedUpdateReceiver(ITelegramBotClient botClient, ReceiverOptions? receiverOptions = default,
+    Func<Exception, CancellationToken, Task>? pollingErrorHandler = default) : IAsyncEnumerable<Update>
 #pragma warning restore CA1001
 {
-    readonly ITelegramBotClient _botClient;
-    readonly ReceiverOptions? _receiverOptions;
-    readonly Func<Exception, CancellationToken, Task>? _pollingErrorHandler;
+    private readonly ITelegramBotClient _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+    private readonly ReceiverOptions? _receiverOptions = receiverOptions;
+    private readonly Func<Exception, CancellationToken, Task>? _pollingErrorHandler = pollingErrorHandler;
+    private int _inProcess;
+    private Enumerator? _enumerator;
 
-    int _inProcess;
-    Enumerator? _enumerator;
-
-    /// <summary>
-    /// Constructs a new <see cref="QueuedUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>
-    /// </summary>
-    /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-    /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
-    /// <param name="pollingErrorHandler">
-    /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
-    /// </param>
-    public QueuedUpdateReceiver(
-        ITelegramBotClient botClient,
-        ReceiverOptions? receiverOptions = default,
-        Func<Exception, CancellationToken, Task>? pollingErrorHandler = default)
-    {
-        _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-        _receiverOptions = receiverOptions;
-        _pollingErrorHandler = pollingErrorHandler;
-    }
-
-    /// <summary>
-    /// Indicates how many <see cref="Update"/>s are ready to be returned the enumerator
-    /// </summary>
+    /// <summary>Indicates how many <see cref="Update"/>s are ready to be returned the enumerator</summary>
     public int PendingUpdates => _enumerator?.PendingUpdates ?? 0;
 
-    /// <summary>
-    /// Gets the <see cref="IAsyncEnumerator{Update}"/>. This method may only be called once.
-    /// </summary>
-    /// <param name="cancellationToken">
-    /// The <see cref="CancellationToken"/> with which you can stop receiving
-    /// </param>
+    /// <summary>Gets the <see cref="IAsyncEnumerator{Update}"/>. This method may only be called once.</summary>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
     public IAsyncEnumerator<Update> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
         if (Interlocked.CompareExchange(ref _inProcess, 1, 0) is 1)
-        {
             throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
-        }
-
         return _enumerator = new(receiver: this, cancellationToken: cancellationToken);
     }
 
-    class Enumerator : IAsyncEnumerator<Update>
+    private class Enumerator : IAsyncEnumerator<Update>
     {
-        readonly QueuedUpdateReceiver _receiver;
-        readonly CancellationTokenSource _cts;
-        readonly CancellationToken _token;
-        readonly UpdateType[]? _allowedUpdates;
-        readonly int? _limit;
-
-        Exception? _uncaughtException;
-
-        readonly Channel<Update> _channel;
-        Update? _current;
-
-        int _pendingUpdates;
-        int _messageOffset;
+        private readonly QueuedUpdateReceiver _receiver;
+        private readonly CancellationTokenSource _cts;
+        private readonly CancellationToken _token;
+        private readonly UpdateType[]? _allowedUpdates;
+        private readonly int? _limit;
+        private Exception? _uncaughtException;
+        private readonly Channel<Update> _channel;
+        private Update? _current;
+        private int _pendingUpdates;
+        private int _messageOffset;
 
         public int PendingUpdates => _pendingUpdates;
 
@@ -93,13 +62,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             _limit = receiver._receiverOptions?.Limit ?? default;
             _allowedUpdates = receiver._receiverOptions?.AllowedUpdates;
 
-            _channel = Channel.CreateUnbounded<Update>(
-                new()
-                {
-                    SingleReader = true,
-                    SingleWriter = true,
-                }
-            );
+            _channel = Channel.CreateUnbounded<Update>(new() { SingleReader = true, SingleWriter = true });
 
 #pragma warning disable CA2016
             _ = Task.Run(ReceiveUpdatesAsync, cancellationToken);
@@ -108,27 +71,24 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 
         public ValueTask<bool> MoveNextAsync()
         {
-            if (_uncaughtException is not null) { throw _uncaughtException; }
-
+            if (_uncaughtException is not null) throw _uncaughtException;
             _token.ThrowIfCancellationRequested();
-
             if (_channel.Reader.TryRead(out _current))
             {
                 Interlocked.Decrement(ref _pendingUpdates);
                 return new(result: true);
             }
-
             return new(ReadAsync());
         }
 
-        async Task<bool> ReadAsync()
+        private async Task<bool> ReadAsync()
         {
             _current = await _channel.Reader.ReadAsync(_token).ConfigureAwait(false);
             Interlocked.Decrement(ref _pendingUpdates);
             return true;
         }
 
-        async Task ReceiveUpdatesAsync()
+        private async Task ReceiveUpdatesAsync()
         {
             if (_receiver._receiverOptions?.DropPendingUpdates is true)
             {
@@ -147,23 +107,17 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             {
                 try
                 {
-                    Update[] updateArray = await _receiver._botClient
-                        .SendRequest(
-                            request: new GetUpdatesRequest
-                            {
-                                Offset = _messageOffset,
-                                Limit = _limit,
-                                Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
-                                AllowedUpdates = _allowedUpdates,
-                            },
-                            cancellationToken: _token
-                        )
-                        .ConfigureAwait(false);
+                    Update[] updateArray = await _receiver._botClient.SendRequest(new GetUpdatesRequest
+                    {
+                        Offset = _messageOffset,
+                        Limit = _limit,
+                        Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
+                        AllowedUpdates = _allowedUpdates,
+                    }, cancellationToken: _token).ConfigureAwait(false);
 
                     if (updateArray.Length > 0)
                     {
                         _messageOffset = updateArray[^1].Id + 1;
-
                         Interlocked.Add(ref _pendingUpdates, updateArray.Length);
 
                         ChannelWriter<Update> writer = _channel.Writer;
@@ -201,11 +155,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                         catch (Exception errorHandlerException)
 #pragma warning restore CA1031
                         {
-                            _uncaughtException = new AggregateException(
-                                message: "Exception was not caught by the errorHandler.",
-                                ex,
-                                errorHandlerException
-                            );
+                            _uncaughtException = new AggregateException("Exception was not caught by the errorHandler.", ex, errorHandlerException);
                             _cts.Cancel();
                         }
                     }
@@ -213,10 +163,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                     if (_uncaughtException is not null)
                     {
 #pragma warning disable CA2201
-                        _uncaughtException = new(
-                            message: "Exception was not caught by the errorHandler.",
-                            innerException: _uncaughtException
-                        );
+                        _uncaughtException = new("Exception was not caught by the errorHandler.", _uncaughtException);
 #pragma warning restore CA2201
                     }
                 }

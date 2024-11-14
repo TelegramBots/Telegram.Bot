@@ -152,7 +152,7 @@ namespace Telegram.Bot.Types
 
             /// <summary>Instantiates a new <see cref="ReplyKeyboardMarkup"/></summary>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(bool resizeKeyboard) : this() { ResizeKeyboard = resizeKeyboard; }
+            public ReplyKeyboardMarkup(bool resizeKeyboard) : this() => ResizeKeyboard = resizeKeyboard;
 
             /// <summary>Generates a reply keyboard markup with one button</summary>
             /// <param name="text">Button's text</param>

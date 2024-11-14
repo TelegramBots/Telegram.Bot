@@ -4,8 +4,8 @@ namespace Telegram.Bot.Serialization;
 
 public class EnumConverter<TEnum> : JsonConverter<TEnum> where TEnum : struct, Enum
 {
-    readonly Dictionary<string, TEnum> mapRead = [];
-    readonly Dictionary<TEnum, string> mapWrite = [];
+    private readonly Dictionary<string, TEnum> mapRead = [];
+    private readonly Dictionary<TEnum, string> mapWrite = [];
 
     public EnumConverter()
     {

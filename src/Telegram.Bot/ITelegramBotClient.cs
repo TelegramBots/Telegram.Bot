@@ -17,12 +17,8 @@ public interface ITelegramBotClient
     /// <summary><see langword="true"/> when the bot is using local Bot API server</summary>
     bool LocalBotServer { get; }
 
-    /// <summary>
-    /// Unique identifier for the bot from bot token. For example, for the bot token
-    /// "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy", the bot id is "1234567".
-    /// Token format is not public API so this property is optional and may stop working
-    /// in the future if Telegram changes it's token format.
-    /// </summary>
+    /// <summary>Unique identifier for the bot from bot token, extracted from the first part of the bot token.
+    /// Token format is not public API so this property is optional and may stop working in the future if Telegram changes it's token format.</summary>
     long BotId { get; }
 
     /// <summary>Timeout for requests</summary>
