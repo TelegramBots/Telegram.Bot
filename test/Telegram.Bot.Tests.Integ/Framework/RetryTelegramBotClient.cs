@@ -12,6 +12,7 @@ using Xunit.Sdk;
 namespace Telegram.Bot.Tests.Integ.Framework;
 
 #if WTB
+#pragma warning disable CS9113, CA1822
 internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageSink diagnosticMessageSink, CancellationToken ct = default)
     : WTelegramBotClient(MakeOptions(configuration.ApiToken, configuration.ClientApiToken.Split(':')), cancellationToken: ct)
 {
@@ -21,20 +22,19 @@ internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageS
         WTelegram.Helpers.Log = (lvl, str) => System.Diagnostics.Trace.WriteLine(str);
         return new(botToken, int.Parse(api[0]), api[1], connection);
     }
+    public void WithStreams(Stream[] _) { }
+}
 #else
 internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageSink diagnosticMessageSink, CancellationToken ct = default)
     : TelegramBotClient(new TelegramBotClientOptions(configuration.ApiToken), cancellationToken: ct)
 {
-#endif
     public int RetryMax { get; } = configuration.RetryCount;
     public TimeSpan DefaultTimeout { get; } = TimeSpan.FromSeconds(configuration.DefaultRetryTimeout);
 
     private Stream[]? _testStreams;
     public void WithStreams(Stream[] streams) => _testStreams = streams;
 
-    public override async Task<TResponse> SendRequest<TResponse>(
-        IRequest<TResponse> request,
-        CancellationToken cancellationToken = default)
+    public override async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         RequestException apiRequestException = new RequestException("Should never been fired");
 
@@ -70,6 +70,7 @@ internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageS
         throw apiRequestException;
     }
 }
+#endif
 
 internal static class RetryTelegramBotClientExtensions
 {
