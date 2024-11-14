@@ -303,6 +303,7 @@ public class TelegramBotClient : ITelegramBotClient
         {
             if (_onUpdate != null || _onMessage != null || _receivingEvents == null) return;
             _receivingEvents?.Cancel();
+            _receivingEvents?.Dispose();
             _receivingEvents = null;
         }
     }
