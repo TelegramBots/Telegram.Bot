@@ -66,6 +66,7 @@ public class TestsFixture : IDisposable
                 cancellationToken: token
             );
         }).GetAwaiter().GetResult();
+        if (BotClient is IDisposable disposable) disposable.Dispose();
         GC.SuppressFinalize(this);
     }
 
