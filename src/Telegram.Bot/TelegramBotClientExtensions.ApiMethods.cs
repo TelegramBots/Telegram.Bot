@@ -1666,6 +1666,35 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.GetUserProfilePhotos(userId, offset, limit, cancellationToken);
 
+    /// <summary>Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">requestEmojiStatusAccess</a>.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Unique identifier of the target user</param>
+    /// <param name="emojiStatusCustomEmojiId">Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.</param>
+    /// <param name="emojiStatusExpirationDate">Expiration date of the emoji status, if any</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SetUserEmojiStatus(
+        this ITelegramBotClient botClient,
+        long userId,
+        string? emojiStatusCustomEmojiId = default,
+        DateTime? emojiStatusExpirationDate = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SetUserEmojiStatusRequest
+    {
+        UserId = userId,
+        EmojiStatusCustomEmojiId = emojiStatusCustomEmojiId,
+        EmojiStatusExpirationDate = emojiStatusExpirationDate,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SetUserEmojiStatus">SetUserEmojiStatus</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SetUserEmojiStatus instead")]
+    public static Task SetUserEmojiStatusAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string? emojiStatusCustomEmojiId = default,
+        DateTime? emojiStatusExpirationDate = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SetUserEmojiStatus(userId, emojiStatusCustomEmojiId, emojiStatusExpirationDate, cancellationToken);
+
     /// <summary>Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="fileId">File identifier to get information about</param>
@@ -4331,6 +4360,61 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.DeleteStickerSet(name, cancellationToken);
 
+    /// <summary>Returns the list of gifts that can be sent by the bot to users.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>A <see cref="GiftList"/> object.</returns>
+    public static async Task<GiftList> GetAvailableGifts(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new GetAvailableGiftsRequest
+    {
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="GetAvailableGifts">GetAvailableGifts</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use GetAvailableGifts instead")]
+    public static Task<GiftList> GetAvailableGiftsAsync(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => botClient.GetAvailableGifts(cancellationToken);
+
+    /// <summary>Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Unique identifier of the target user that will receive the gift</param>
+    /// <param name="giftId">Identifier of the gift</param>
+    /// <param name="text">Text that will be shown along with the gift; 0-255 characters</param>
+    /// <param name="textParseMode">Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Entities other than <see cref="MessageEntityType.Bold">Bold</see>, <see cref="MessageEntityType.Italic">Italic</see>, <see cref="MessageEntityType.Underline">Underline</see>, <see cref="MessageEntityType.Strikethrough">Strikethrough</see>, <see cref="MessageEntityType.Spoiler">Spoiler</see>, and <see cref="MessageEntityType.CustomEmoji">CustomEmoji</see> are ignored.</param>
+    /// <param name="textEntities">A list of special entities that appear in the gift text. It can be specified instead of <paramref name="textParseMode"/>. Entities other than <see cref="MessageEntityType.Bold">Bold</see>, <see cref="MessageEntityType.Italic">Italic</see>, <see cref="MessageEntityType.Underline">Underline</see>, <see cref="MessageEntityType.Strikethrough">Strikethrough</see>, <see cref="MessageEntityType.Spoiler">Spoiler</see>, and <see cref="MessageEntityType.CustomEmoji">CustomEmoji</see> are ignored.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SendGift(
+        this ITelegramBotClient botClient,
+        long userId,
+        string giftId,
+        string? text = default,
+        ParseMode textParseMode = default,
+        IEnumerable<MessageEntity>? textEntities = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SendGiftRequest
+    {
+        UserId = userId,
+        GiftId = giftId,
+        Text = text,
+        TextParseMode = textParseMode,
+        TextEntities = textEntities,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SendGift">SendGift</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SendGift instead")]
+    public static Task SendGiftAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string giftId,
+        string? text = default,
+        ParseMode textParseMode = default,
+        IEnumerable<MessageEntity>? textEntities = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SendGift(userId, giftId, text, textParseMode, textEntities, cancellationToken);
+
     #endregion
 
     #region Inline mode
@@ -4401,6 +4485,48 @@ public static partial class TelegramBotClientExtensions
         InlineQueryResult result,
         CancellationToken cancellationToken = default
     ) => botClient.AnswerWebAppQuery(webAppQueryId, result, cancellationToken);
+
+    /// <summary>Stores a message that can be sent by a user of a Mini App.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Unique identifier of the target user that can use the prepared message</param>
+    /// <param name="result">An object describing the message to be sent</param>
+    /// <param name="allowUserChats">Pass <see langword="true"/> if the message can be sent to private chats with users</param>
+    /// <param name="allowBotChats">Pass <see langword="true"/> if the message can be sent to private chats with bots</param>
+    /// <param name="allowGroupChats">Pass <see langword="true"/> if the message can be sent to group and supergroup chats</param>
+    /// <param name="allowChannelChats">Pass <see langword="true"/> if the message can be sent to channel chats</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>A <see cref="PreparedInlineMessage"/> object.</returns>
+    public static async Task<PreparedInlineMessage> SavePreparedInlineMessage(
+        this ITelegramBotClient botClient,
+        long userId,
+        InlineQueryResult result,
+        bool allowUserChats = default,
+        bool allowBotChats = default,
+        bool allowGroupChats = default,
+        bool allowChannelChats = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SavePreparedInlineMessageRequest
+    {
+        UserId = userId,
+        Result = result,
+        AllowUserChats = allowUserChats,
+        AllowBotChats = allowBotChats,
+        AllowGroupChats = allowGroupChats,
+        AllowChannelChats = allowChannelChats,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="SavePreparedInlineMessage">SavePreparedInlineMessage</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use SavePreparedInlineMessage instead")]
+    public static Task<PreparedInlineMessage> SavePreparedInlineMessageAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        InlineQueryResult result,
+        bool allowUserChats = default,
+        bool allowBotChats = default,
+        bool allowGroupChats = default,
+        bool allowChannelChats = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.SavePreparedInlineMessage(userId, result, allowUserChats, allowBotChats, allowGroupChats, allowChannelChats, cancellationToken);
 
     #endregion Inline mode
 
@@ -4562,6 +4688,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="sendPhoneNumberToProvider">Pass <see langword="true"/> if the user's phone number should be sent to the provider. Ignored for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="sendEmailToProvider">Pass <see langword="true"/> if the user's email address should be sent to the provider. Ignored for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
     /// <param name="isFlexible">Pass <see langword="true"/> if the final price depends on the shipping method. Ignored for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</param>
+    /// <param name="subscriptionPeriod">The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the link will be created</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The created invoice link as <em>String</em> on success.</returns>
     public static async Task<string> CreateInvoiceLink(
@@ -4586,6 +4714,8 @@ public static partial class TelegramBotClientExtensions
         bool sendPhoneNumberToProvider = default,
         bool sendEmailToProvider = default,
         bool isFlexible = default,
+        int? subscriptionPeriod = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new CreateInvoiceLinkRequest
     {
@@ -4609,6 +4739,8 @@ public static partial class TelegramBotClientExtensions
         SendPhoneNumberToProvider = sendPhoneNumberToProvider,
         SendEmailToProvider = sendEmailToProvider,
         IsFlexible = isFlexible,
+        SubscriptionPeriod = subscriptionPeriod,
+        BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="CreateInvoiceLink">CreateInvoiceLink</see> instead</summary>
@@ -4635,8 +4767,10 @@ public static partial class TelegramBotClientExtensions
         bool sendPhoneNumberToProvider = default,
         bool sendEmailToProvider = default,
         bool isFlexible = default,
+        int? subscriptionPeriod = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
-    ) => botClient.CreateInvoiceLink(title, description, payload, currency, prices, providerToken, providerData, maxTipAmount, suggestedTipAmounts, photoUrl, photoSize, photoWidth, photoHeight, needName, needPhoneNumber, needEmail, needShippingAddress, sendPhoneNumberToProvider, sendEmailToProvider, isFlexible, cancellationToken);
+    ) => botClient.CreateInvoiceLink(title, description, payload, currency, prices, providerToken, providerData, maxTipAmount, suggestedTipAmounts, photoUrl, photoSize, photoWidth, photoHeight, needName, needPhoneNumber, needEmail, needShippingAddress, sendPhoneNumberToProvider, sendEmailToProvider, isFlexible, subscriptionPeriod, businessConnectionId, cancellationToken);
 
     /// <summary>If you sent an invoice requesting a shipping address and the parameter <em>IsFlexible</em> was specified, the Bot API will send an <see cref="Update"/> with a <em>ShippingQuery</em> field to the bot. Use this method to reply to shipping queries</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -4766,6 +4900,35 @@ public static partial class TelegramBotClientExtensions
         string telegramPaymentChargeId,
         CancellationToken cancellationToken = default
     ) => botClient.RefundStarPayment(userId, telegramPaymentChargeId, cancellationToken);
+
+    /// <summary>Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Identifier of the user whose subscription will be edited</param>
+    /// <param name="telegramPaymentChargeId">Telegram payment identifier for the subscription</param>
+    /// <param name="isCanceled">Pass <see langword="true"/> to cancel extension of the user subscription; the subscription must be active up to the end of the current subscription period. Pass <see langword="false"/> to allow the user to re-enable a subscription that was previously canceled by the bot.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task EditUserStarSubscription(
+        this ITelegramBotClient botClient,
+        long userId,
+        string telegramPaymentChargeId,
+        bool isCanceled,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new EditUserStarSubscriptionRequest
+    {
+        UserId = userId,
+        TelegramPaymentChargeId = telegramPaymentChargeId,
+        IsCanceled = isCanceled,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="EditUserStarSubscription">EditUserStarSubscription</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use EditUserStarSubscription instead")]
+    public static Task EditUserStarSubscriptionAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string telegramPaymentChargeId,
+        bool isCanceled,
+        CancellationToken cancellationToken = default
+    ) => botClient.EditUserStarSubscription(userId, telegramPaymentChargeId, isCanceled, cancellationToken);
 
     /// <summary>Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change).<br/>Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>

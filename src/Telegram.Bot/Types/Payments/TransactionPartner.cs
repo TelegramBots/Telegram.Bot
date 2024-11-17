@@ -28,11 +28,17 @@ public partial class TransactionPartnerUser : TransactionPartner
     /// <summary><em>Optional</em>. Bot-specified invoice payload</summary>
     public string? InvoicePayload { get; set; }
 
+    /// <summary><em>Optional</em>. The duration of the paid subscription</summary>
+    public int? SubscriptionPeriod { get; set; }
+
     /// <summary><em>Optional</em>. Information about the paid media bought by the user</summary>
     public PaidMedia[]? PaidMedia { get; set; }
 
     /// <summary><em>Optional</em>. Bot-specified paid media payload</summary>
     public string? PaidMediaPayload { get; set; }
+
+    /// <summary><em>Optional</em>. The gift sent to the user by the bot</summary>
+    public string? Gift { get; set; }
 }
 
 /// <summary>Describes a withdrawal transaction with Fragment.</summary>
