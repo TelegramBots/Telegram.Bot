@@ -1,6 +1,3 @@
-using System.Text;
-using System.Threading;
-
 namespace Telegram.Bot.Requests;
 
 /// <summary>Represents an API request</summary>
@@ -30,7 +27,7 @@ public abstract class RequestBase<TResponse>(string methodName) : IRequest<TResp
 #if NET6_0_OR_GREATER
         System.Net.Http.Json.JsonContent.Create(this, GetType(), options: JsonBotAPI.Options);
 #else
-        new StringContent(JsonSerializer.Serialize(this, GetType(), JsonBotAPI.Options), Encoding.UTF8, "application/json");
+        new StringContent(JsonSerializer.Serialize(this, GetType(), JsonBotAPI.Options), System.Text.Encoding.UTF8, "application/json");
 #endif
 }
 

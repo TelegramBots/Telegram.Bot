@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Telegram.Bot.Serialization;
 
 /// <summary>
-/// A temporary hack to support deserializing JSON payloads that use polymorphism but don't specify $type as the first field.
+/// Supports deserializing JSON payloads that use polymorphism but don't specify $type as the first field.
 /// Modified from https://github.com/dotnet/runtime/issues/72604#issuecomment-1440708052.
 /// </summary>
 internal sealed class PolymorphicJsonConverter<T> : JsonConverter<T>
@@ -49,7 +49,7 @@ internal sealed class PolymorphicJsonConverter<T> : JsonConverter<T>
         if (!_discriminatorToSubtype.TryGetValue(typeName, out var type))
             throw new JsonException($"Unknown type: {typeName}");
 
-        return (T) JsonSerializer.Deserialize(ref reader, type, options)!;
+        return (T)JsonSerializer.Deserialize(ref reader, type, options)!;
     }
 
     public override void Write(

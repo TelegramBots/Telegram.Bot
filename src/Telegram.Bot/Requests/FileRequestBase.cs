@@ -7,7 +7,7 @@ namespace Telegram.Bot.Requests;
 /// <param name="methodName">Bot API method</param>
 public abstract class FileRequestBase<TResponse>(string methodName) : RequestBase<TResponse>(methodName)
 {
-    readonly static Encoding Latin1 = Encoding.GetEncoding(28591);
+    private static readonly Encoding Latin1 = Encoding.GetEncoding(28591);
 
     /// <inheritdoc/>
     public override HttpContent? ToHttpContent()

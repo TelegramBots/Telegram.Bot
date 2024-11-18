@@ -41,6 +41,12 @@ namespace Telegram.Bot.Types
         /// <value>The caption texts covered by each entity.</value>
         [JsonIgnore]
         public IEnumerable<string>? CaptionEntityValues => Caption is null ? default : CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
+
+        /// <summary>Returns the <a href="t.me">t.me</a> link to this message, or null if the message was not in a Supergroup or Channel</summary>
+        public string? MessageLink() => Chat.Type is ChatType.Channel or ChatType.Supergroup ? Chat.Username is null
+            ? $"https://t.me/c/{(-1000000000000 - Chat.Id).ToString(CultureInfo.InvariantCulture)}/{Id.ToString(CultureInfo.InvariantCulture)}"
+            : $"https://t.me/{Chat.Username}/{Id.ToString(CultureInfo.InvariantCulture)}"
+            : null;
     }
 
     public partial class Chat
@@ -152,7 +158,7 @@ namespace Telegram.Bot.Types
 
             /// <summary>Instantiates a new <see cref="ReplyKeyboardMarkup"/></summary>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(bool resizeKeyboard) : this() { ResizeKeyboard = resizeKeyboard; }
+            public ReplyKeyboardMarkup(bool resizeKeyboard) : this() => ResizeKeyboard = resizeKeyboard;
 
             /// <summary>Generates a reply keyboard markup with one button</summary>
             /// <param name="text">Button's text</param>

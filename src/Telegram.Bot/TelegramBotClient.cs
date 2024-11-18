@@ -16,9 +16,9 @@ namespace Telegram.Bot;
 [PublicAPI]
 public class TelegramBotClient : ITelegramBotClient
 {
-    readonly TelegramBotClientOptions _options;
+    private readonly TelegramBotClientOptions _options;
 
-    readonly HttpClient _httpClient;
+    private readonly HttpClient _httpClient;
 
     /// <inheritdoc/>
     public long BotId => _options.BotId;
@@ -42,9 +42,9 @@ public class TelegramBotClient : ITelegramBotClient
     public delegate Task OnUpdateHandler(Update update);
     public delegate Task OnMessageHandler(Message message, UpdateType type);
     public delegate Task OnErrorHandler(Exception exception, Polling.HandleErrorSource source);
-    OnUpdateHandler? _onUpdate;
-    OnMessageHandler? _onMessage;
-    CancellationTokenSource? _receivingEvents;
+    private OnUpdateHandler? _onUpdate;
+    private OnMessageHandler? _onMessage;
+    private CancellationTokenSource? _receivingEvents;
     /// <summary>Handler to be called when there is an incoming update</summary>
     public event OnUpdateHandler? OnUpdate { add { _onUpdate += value; StartEventReceiving(); } remove { _onUpdate -= value; StopEventReceiving(); } }
     /// <summary>Handler to be called when there is an incoming message or edited message</summary>
@@ -82,7 +82,7 @@ public class TelegramBotClient : ITelegramBotClient
     }
 
     /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
-    /// <param name="token"></param>
+    /// <param name="token">The bot token</param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
@@ -168,7 +168,7 @@ public class TelegramBotClient : ITelegramBotClient
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static async Task<T> DeserializeContent<T>(HttpResponseMessage httpResponse, Func<T, bool> validate,
+    private static async Task<T> DeserializeContent<T>(HttpResponseMessage httpResponse, Func<T, bool> validate,
         CancellationToken cancellationToken = default) where T : class
     {
         if (httpResponse.Content is null)
@@ -274,7 +274,7 @@ public class TelegramBotClient : ITelegramBotClient
         lock (_options)
         {
             if (_receivingEvents != null) return;
-            _receivingEvents ??= new CancellationTokenSource();
+            _receivingEvents = new CancellationTokenSource();
         }
         this.StartReceiving(async (bot, update, ct) =>
         {
@@ -289,7 +289,7 @@ public class TelegramBotClient : ITelegramBotClient
                 _ => _onUpdate?.Invoke(update) // if OnMessage is set, we call OnUpdate only for non-message updates
             };
             if (task != null) await task.ConfigureAwait(true);
-        }, async(bot, ex, source, ct) =>
+        }, async (bot, ex, source, ct) =>
         {
             var task = OnError?.Invoke(ex, source);
             if (task != null) await task.ConfigureAwait(true);
@@ -303,6 +303,7 @@ public class TelegramBotClient : ITelegramBotClient
         {
             if (_onUpdate != null || _onMessage != null || _receivingEvents == null) return;
             _receivingEvents?.Cancel();
+            _receivingEvents?.Dispose();
             _receivingEvents = null;
         }
     }

@@ -2,9 +2,7 @@
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;
 
-/// <summary>
-/// A marker for input media types that can be used in sendMediaGroup method.
-/// </summary>
+/// <summary>A marker for input media types that can be used in sendMediaGroup method.</summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<IAlbumInputMedia>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(InputMediaDocument), "document")]

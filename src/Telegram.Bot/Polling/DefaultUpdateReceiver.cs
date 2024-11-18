@@ -5,23 +5,14 @@ using Telegram.Bot.Requests;
 
 namespace Telegram.Bot.Polling;
 
-/// <summary>
-/// A simple <see cref="IUpdateReceiver"/>> implementation that requests new updates and handles them sequentially
-/// </summary>
-/// <remarks>
-/// Constructs a new <see cref="DefaultUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>
-/// instance and optional <see cref="ReceiverOptions"/>
-/// </remarks>
+/// <summary>A simple <see cref="IUpdateReceiver"/>> implementation that requests new updates and handles them sequentially</summary>
+/// <remarks>Constructs a new <see cref="DefaultUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/> instance and optional <see cref="ReceiverOptions"/></remarks>
 /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
 /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
 [PublicAPI]
-public class DefaultUpdateReceiver(
-    ITelegramBotClient botClient,
-    ReceiverOptions? receiverOptions = default) : IUpdateReceiver
+public class DefaultUpdateReceiver(ITelegramBotClient botClient, ReceiverOptions? receiverOptions = default) : IUpdateReceiver
 {
-    static readonly Update[] EmptyUpdates = [];
-
-    readonly ITelegramBotClient _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+    private static readonly Update[] EmptyUpdates = [];
 
     /// <inheritdoc/>
     public async Task ReceiveAsync(IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
@@ -37,7 +28,7 @@ public class DefaultUpdateReceiver(
         {
             try
             {
-                var updates = await _botClient.GetUpdates(-1, 1, 0, [], cancellationToken).ConfigureAwait(false);
+                var updates = await botClient.GetUpdates(-1, 1, 0, [], cancellationToken).ConfigureAwait(false);
                 messageOffset = updates.Length == 0 ? 0 : updates[^1].Id + 1;
             }
             catch (OperationCanceledException)
@@ -53,15 +44,12 @@ public class DefaultUpdateReceiver(
         };
         while (!cancellationToken.IsCancellationRequested)
         {
-            request.Timeout = (int) _botClient.Timeout.TotalSeconds;
+            request.Timeout = (int)botClient.Timeout.TotalSeconds;
 
             var updates = emptyUpdates;
             try
             {
-                updates = await _botClient.SendRequest(
-                    request: request,
-                    cancellationToken: cancellationToken
-                ).ConfigureAwait(false);
+                updates = await botClient.SendRequest(request, cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -71,12 +59,7 @@ public class DefaultUpdateReceiver(
             {
                 try
                 {
-                    await updateHandler.HandleErrorAsync(
-                        botClient: _botClient,
-                        exception: exception,
-                        source: HandleErrorSource.PollingError,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
+                    await updateHandler.HandleErrorAsync(botClient, exception, HandleErrorSource.PollingError, cancellationToken).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -89,12 +72,7 @@ public class DefaultUpdateReceiver(
                 try
                 {
                     request.Offset = update.Id + 1;
-
-                    await updateHandler.HandleUpdateAsync(
-                        botClient: _botClient,
-                        update: update,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
+                    await updateHandler.HandleUpdateAsync(botClient, update, cancellationToken).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -104,12 +82,7 @@ public class DefaultUpdateReceiver(
                 {
                     try
                     {
-                        await updateHandler.HandleErrorAsync(
-                            botClient: _botClient,
-                            exception: ex,
-                            source: HandleErrorSource.HandleUpdateError,
-                            cancellationToken: cancellationToken
-                        ).ConfigureAwait(false);
+                        await updateHandler.HandleErrorAsync(botClient, ex, HandleErrorSource.HandleUpdateError, cancellationToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
                     {

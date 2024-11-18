@@ -15,6 +15,16 @@ public partial class SuccessfulPayment
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string InvoicePayload { get; set; } = default!;
 
+    /// <summary><em>Optional</em>. Expiration date of the subscription,; for recurring payments only</summary>
+    [JsonConverter(typeof(UnixDateTimeConverter))]
+    public DateTime? SubscriptionExpirationDate { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the payment is a recurring payment for a subscription</summary>
+    public bool IsRecurring { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the payment is the first payment for a subscription</summary>
+    public bool IsFirstRecurring { get; set; }
+
     /// <summary><em>Optional</em>. Identifier of the shipping option chosen by the user</summary>
     public string? ShippingOptionId { get; set; }
 

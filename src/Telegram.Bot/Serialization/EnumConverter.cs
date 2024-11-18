@@ -4,10 +4,10 @@ namespace Telegram.Bot.Serialization;
 
 public class EnumConverter<TEnum> : JsonConverter<TEnum> where TEnum : struct, Enum
 {
-    readonly Dictionary<string, TEnum> mapRead = [];
-    readonly Dictionary<TEnum, string> mapWrite = [];
+    private static readonly Dictionary<string, TEnum> mapRead = [];
+    private static readonly Dictionary<TEnum, string> mapWrite = [];
 
-    public EnumConverter()
+    static EnumConverter()
     {
         var enumType = typeof(TEnum);
         var names = Enum.GetNames(enumType);

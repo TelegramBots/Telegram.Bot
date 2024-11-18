@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Telegram.Bot;
 #if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -29,8 +30,6 @@ namespace Telegram.Bot.Extensions
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    using Telegram.Bot;
-
     /// <summary>Helpers for WebApp service configuration</summary>
     public static class TelegramBotConfigureExtensions
     {
@@ -55,7 +54,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static readonly TelegramBotInputFormatter InputFormatter = new();
 
 #pragma warning disable MA0004 // See https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/custom-formatters?view=aspnetcore-8.0
-        class TelegramBotInputFormatter : TextInputFormatter
+        private class TelegramBotInputFormatter : TextInputFormatter
         {
             public TelegramBotInputFormatter()
             {
@@ -72,7 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
         }
 
-        class TelegramBotOutputFormatter : TextOutputFormatter
+        private class TelegramBotOutputFormatter : TextOutputFormatter
         {
             public TelegramBotOutputFormatter()
             {
