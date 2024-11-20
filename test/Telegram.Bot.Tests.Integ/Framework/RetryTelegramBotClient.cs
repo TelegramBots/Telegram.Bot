@@ -16,10 +16,12 @@ namespace Telegram.Bot.Tests.Integ.Framework;
 internal class RetryTelegramBotClient(TestConfiguration configuration, IMessageSink diagnosticMessageSink, CancellationToken ct = default)
     : WTelegramBotClient(MakeOptions(configuration.ApiToken, configuration.ClientApiToken.Split(':')), cancellationToken: ct)
 {
+    private static StreamWriter WTelegramLogs = new StreamWriter("WTelegramBot.log", true, System.Text.Encoding.UTF8) { AutoFlush = true };
     private static WTelegramBotClientOptions MakeOptions(string botToken, string[] api)
     {
         var connection = new Microsoft.Data.Sqlite.SqliteConnection($"Data Source=WTelegramBot.{botToken.Split(':')[0]}.sqlite");
         WTelegram.Helpers.Log = (lvl, str) => System.Diagnostics.Trace.WriteLine(str);
+        WTelegram.Helpers.Log += (lvl, str) => WTelegramLogs.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{"TDIWE!"[lvl]}] {str}");
         return new(botToken, int.Parse(api[0]), api[1], connection);
     }
     public void WithStreams(Stream[] _) { }

@@ -36,7 +36,7 @@ public static class Markdown
                 var md = closings[0].md;
                 closings.RemoveAt(0);
                 if (i > 0 && md[0] == '_' && sb[i - 1] == '_') md = '\r' + md;
-                if (md[0] == '>') { inBlockQuote = false; if (lastCh != '\n' && i < sb.Length && sb[i] != '\n') md = "\n"; else continue; }
+                if (md[0] == '>') { inBlockQuote = false; md = md[1..]; if (lastCh != '\n' && i < sb.Length && sb[i] != '\n') md += '\n'; }
                 sb.Insert(i, md); i += md.Length;
             }
             if (i == sb.Length) break;
@@ -56,7 +56,7 @@ public static class Markdown
                             closing.md = $"](tg://emoji?id={nextEntity.CustomEmojiId})";
                     }
                     else if (md[0] == '>')
-                    { inBlockQuote = true; if (lastCh is not '\n' and not '\0') md = "\n>"; }
+                    { inBlockQuote = true; md = lastCh is not '\n' and not '\0' ? "\n>" : ">"; }
                     else if (nextEntity.Type is MessageEntityType.Pre)
                         md = $"```{nextEntity.Language}\n";
                     int index = ~closings.BinarySearch(closing, Comparer<(int, string)>.Create((x, y) => x.Item1.CompareTo(y.Item1) | 1));
@@ -92,6 +92,7 @@ public static class Markdown
         [MessageEntityType.Spoiler] = "||",
         [MessageEntityType.CustomEmoji] = "![",
         [MessageEntityType.Blockquote] = ">",
+        [MessageEntityType.ExpandableBlockquote] = ">||",
     };
 
     /// <summary>Insert backslashes in front of MarkdownV2 reserved characters</summary>
@@ -168,6 +169,8 @@ public static class HtmlText
                         closing.Item2 = "</code></pre>";
                         tag = $"<pre><code class=\"language-{nextEntity.Language}\">";
                     }
+                    else if (nextEntity.Type is MessageEntityType.ExpandableBlockquote)
+                        tag = "<blockquote expandable>";
                     else
                         tag = $"<{tag}>";
                     int index = ~closings.BinarySearch(closing, Comparer<(int, string)>.Create((x, y) => x.Item1.CompareTo(y.Item1) | 1));
@@ -198,6 +201,7 @@ public static class HtmlText
         [MessageEntityType.Spoiler] = "tg-spoiler",
         [MessageEntityType.CustomEmoji] = "tg-emoji",
         [MessageEntityType.Blockquote] = "blockquote",
+        [MessageEntityType.ExpandableBlockquote] = "blockquote",
     };
 
     /// <summary>Replace special HTML characters with their &amp;xx; equivalent</summary>
