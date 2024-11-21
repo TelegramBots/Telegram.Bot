@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>The type of <see cref="Update"/></summary>
 [JsonConverter(typeof(EnumConverter<UpdateType>))]

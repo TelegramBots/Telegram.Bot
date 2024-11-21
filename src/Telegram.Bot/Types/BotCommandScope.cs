@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported:<br/><see cref="BotCommandScopeDefault"/>, <see cref="BotCommandScopeAllPrivateChats"/>, <see cref="BotCommandScopeAllGroupChats"/>, <see cref="BotCommandScopeAllChatAdministrators"/>, <see cref="BotCommandScopeChat"/>, <see cref="BotCommandScopeChatAdministrators"/>, <see cref="BotCommandScopeChatMember"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<BotCommandScope>))]

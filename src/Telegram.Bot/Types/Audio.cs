@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents an audio file to be treated as music by the Telegram clients.</summary>
 public partial class Audio : FileBase

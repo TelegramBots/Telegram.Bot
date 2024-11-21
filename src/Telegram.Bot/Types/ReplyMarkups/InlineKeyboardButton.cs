@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.ReplyMarkups;
+namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.</summary>
 public partial class InlineKeyboardButton : IKeyboardButton

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object is received when messages are deleted from a connected business account.</summary>
 public partial class BusinessMessagesDeleted

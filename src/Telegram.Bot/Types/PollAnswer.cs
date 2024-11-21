@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents an answer of a user in a non-anonymous poll.</summary>
 public partial class PollAnswer

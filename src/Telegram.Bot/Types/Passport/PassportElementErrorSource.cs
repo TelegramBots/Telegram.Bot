@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Passport;
+namespace Telegram.Bot.Types.Passport;
 
 /// <summary>Error source</summary>
 [JsonConverter(typeof(EnumConverter<PassportElementErrorSource>))]

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes an interval of time during which a business is open.</summary>
 public partial class BusinessOpeningHoursInterval

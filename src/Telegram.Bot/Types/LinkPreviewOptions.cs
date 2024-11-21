@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes the options used for link preview generation.</summary>
 public partial class LinkPreviewOptions

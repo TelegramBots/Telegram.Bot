@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a service message about the completion of a giveaway without public winners.</summary>
 public partial class GiveawayCompleted

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object contains information about a chat that was shared with the bot using a <see cref="KeyboardButtonRequestChat"/> button.</summary>
 public partial class ChatShared

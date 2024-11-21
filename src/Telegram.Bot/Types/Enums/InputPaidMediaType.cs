@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the media</summary>
 [JsonConverter(typeof(EnumConverter<InputPaidMediaType>))]

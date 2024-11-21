@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object represents a portion of the price for goods or services.</summary>
 public partial class LabeledPrice

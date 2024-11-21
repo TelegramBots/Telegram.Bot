@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object contains information about a paid media purchase.</summary>
 public partial class PaidMediaPurchased

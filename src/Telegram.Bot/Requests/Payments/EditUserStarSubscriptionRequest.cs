@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars.<para>Returns: </para></summary>
 public partial class EditUserStarSubscriptionRequest() : RequestBase<bool>("editUserStarSubscription"), IUserTargetable

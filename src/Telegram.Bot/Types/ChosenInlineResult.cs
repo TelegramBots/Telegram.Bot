@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Represents a <see cref="InlineQueryResult">result</see> of an inline query that was chosen by the user and sent to their chat partner.<br/><b>Note:</b> It is necessary to enable <a href="https://core.telegram.org/bots/inline#collecting-feedback">inline feedback</a> via <a href="https://t.me/botfather">@BotFather</a> in order to receive these objects in updates.</summary>
 public partial class ChosenInlineResult

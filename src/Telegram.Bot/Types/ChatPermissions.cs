@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes actions that a non-administrator user is allowed to take in a chat.</summary>
 public partial class ChatPermissions

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get the current bot name for the given user language.<para>Returns: <see cref="BotName"/> on success.</para></summary>
 public partial class GetMyNameRequest() : RequestBase<BotName>("getMyName")

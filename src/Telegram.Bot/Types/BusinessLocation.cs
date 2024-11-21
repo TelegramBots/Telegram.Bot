@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Contains information about the location of a Telegram Business account.</summary>
 public partial class BusinessLocation

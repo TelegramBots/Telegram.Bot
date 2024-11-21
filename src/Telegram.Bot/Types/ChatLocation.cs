@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Represents a location to which a chat is connected.</summary>
 public partial class ChatLocation

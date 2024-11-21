@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a change of a reaction on a message performed by a user.</summary>
 public partial class MessageReactionUpdated

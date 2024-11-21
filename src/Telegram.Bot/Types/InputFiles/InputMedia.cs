@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents the content of a media message to be sent. It should be one of<br/><see cref="InputMediaAnimation"/>, <see cref="InputMediaDocument"/>, <see cref="InputMediaAudio"/>, <see cref="InputMediaPhoto"/>, <see cref="InputMediaVideo"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<InputMedia>))]

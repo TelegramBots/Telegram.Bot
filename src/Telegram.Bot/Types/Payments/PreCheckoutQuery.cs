@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object contains information about an incoming pre-checkout query.</summary>
 public partial class PreCheckoutQuery

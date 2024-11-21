@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.</summary>
 public partial class SwitchInlineQueryChosenChat

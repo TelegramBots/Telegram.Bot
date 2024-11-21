@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights. The topic will be automatically closed if it was open.<para>Returns: </para></summary>
 public partial class HideGeneralForumTopicRequest() : RequestBase<bool>("hideGeneralForumTopic"), IChatTargetable

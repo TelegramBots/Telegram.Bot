@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the <em>CanInviteUsers</em> administrator right.<para>Returns: </para></summary>
 public partial class DeclineChatJoinRequest() : RequestBase<bool>("declineChatJoinRequest"), IChatTargetable, IUserTargetable

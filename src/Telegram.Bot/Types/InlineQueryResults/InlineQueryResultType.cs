@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.InlineQueryResults;
+namespace Telegram.Bot.Types.InlineQueryResults;
 
 /// <summary>Type of the result</summary>
 [JsonConverter(typeof(EnumConverter<InlineQueryResultType>))]

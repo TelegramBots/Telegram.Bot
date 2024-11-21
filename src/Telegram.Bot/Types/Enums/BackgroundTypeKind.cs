@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the background</summary>
 [JsonConverter(typeof(EnumConverter<BackgroundTypeKind>))]

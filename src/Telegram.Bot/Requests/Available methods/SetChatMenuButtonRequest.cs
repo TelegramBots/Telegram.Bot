@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the bot's menu button in a private chat, or the default menu button.<para>Returns: </para></summary>
 public partial class SetChatMenuButtonRequest() : RequestBase<bool>("setChatMenuButton")

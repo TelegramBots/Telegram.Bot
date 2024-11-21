@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>Describes a Telegram Star transaction.</summary>
 public partial class StarTransaction

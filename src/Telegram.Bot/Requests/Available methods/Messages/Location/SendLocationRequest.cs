@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send point on the map.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 public partial class SendLocationRequest() : RequestBase<Message>("sendLocation"), IChatTargetable, IBusinessConnectable

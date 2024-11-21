@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes an inline message to be sent by a user of a Mini App.</summary>
 public partial class PreparedInlineMessage

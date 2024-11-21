@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Represents the rights of an administrator in a chat.</summary>
 public partial class ChatAdministratorRights

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to delete a sticker from a set created by the bot.<para>Returns: </para></summary>
 public partial class DeleteStickerFromSetRequest() : RequestBase<bool>("deleteStickerFromSet")

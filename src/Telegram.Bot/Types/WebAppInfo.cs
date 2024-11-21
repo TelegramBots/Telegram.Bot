@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes a <a href="https://core.telegram.org/bots/webapps">Web App</a>.</summary>
 public partial class WebAppInfo

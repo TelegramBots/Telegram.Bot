@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the paid media to be sent. Currently, it can be one of<br/><see cref="InputPaidMediaPhoto"/>, <see cref="InputPaidMediaVideo"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<InputPaidMedia>))]
