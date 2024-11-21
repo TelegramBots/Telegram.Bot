@@ -1,7 +1,7 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Stores a message that can be sent by a user of a Mini App.<para>Returns: A <see cref="PreparedInlineMessage"/> object.</para></summary>
-public partial class SavePreparedInlineMessageRequest() : RequestBase<PreparedInlineMessage>("savePreparedMessage"), IUserTargetable
+public partial class SavePreparedInlineMessageRequest() : RequestBase<PreparedInlineMessage>("savePreparedInlineMessage"), IUserTargetable
 {
     /// <summary>Unique identifier of the target user that can use the prepared message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
