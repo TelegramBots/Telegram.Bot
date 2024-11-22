@@ -38,7 +38,7 @@ public partial class TransactionPartnerUser : TransactionPartner
     public string? PaidMediaPayload { get; set; }
 
     /// <summary><em>Optional</em>. The gift sent to the user by the bot</summary>
-    public string? Gift { get; set; }
+    public Gift? Gift { get; set; }
 }
 
 /// <summary>Describes a withdrawal transaction with Fragment.</summary>
