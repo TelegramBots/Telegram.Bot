@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get a list of profile pictures for a user.<para>Returns: A <see cref="UserProfilePhotos"/> object.</para></summary>
 public partial class GetUserProfilePhotosRequest() : RequestBase<UserProfilePhotos>("getUserProfilePhotos"), IUserTargetable

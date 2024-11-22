@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="TelegramBotClientExtensions.UnbanChatMember">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.<para>Returns: </para></summary>
 public partial class BanChatMemberRequest() : RequestBase<bool>("banChatMember"), IChatTargetable, IUserTargetable

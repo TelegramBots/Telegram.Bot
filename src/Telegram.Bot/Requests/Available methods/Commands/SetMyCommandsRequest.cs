@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the list of the bot's commands. See <a href="https://core.telegram.org/bots/features#commands">this manual</a> for more details about bot commands.<para>Returns: </para></summary>
 public partial class SetMyCommandsRequest() : RequestBase<bool>("setMyCommands")

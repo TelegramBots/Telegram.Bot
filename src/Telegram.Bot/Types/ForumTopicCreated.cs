@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a service message about a new forum topic created in the chat.</summary>
 public partial class ForumTopicCreated

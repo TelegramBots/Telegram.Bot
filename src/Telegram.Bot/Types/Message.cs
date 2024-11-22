@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a message.</summary>
 public partial class Message

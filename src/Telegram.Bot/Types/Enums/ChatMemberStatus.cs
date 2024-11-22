@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>The member's status in the chat</summary>
 [JsonConverter(typeof(EnumConverter<ChatMemberStatus>))]

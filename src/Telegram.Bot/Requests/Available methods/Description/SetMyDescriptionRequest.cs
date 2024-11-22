@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty.<para>Returns: </para></summary>
 public partial class SetMyDescriptionRequest() : RequestBase<bool>("setMyDescription")

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 public partial class SendVideoNoteRequest() : FileRequestBase<Message>("sendVideoNote"), IChatTargetable, IBusinessConnectable

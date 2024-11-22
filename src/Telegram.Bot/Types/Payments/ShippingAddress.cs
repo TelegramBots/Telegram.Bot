@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object represents a shipping address.</summary>
 public partial class ShippingAddress

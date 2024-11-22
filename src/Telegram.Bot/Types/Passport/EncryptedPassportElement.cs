@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Passport;
+namespace Telegram.Bot.Types.Passport;
 
 /// <summary>Describes documents or other Telegram Passport elements shared with the bot by the user.</summary>
 public partial class EncryptedPassportElement

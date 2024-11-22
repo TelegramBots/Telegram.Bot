@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the bot's name.<para>Returns: </para></summary>
 public partial class SetMyNameRequest() : RequestBase<bool>("setMyName")

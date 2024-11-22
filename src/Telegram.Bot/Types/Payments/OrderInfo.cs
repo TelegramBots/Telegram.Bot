@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object represents information about an order.</summary>
 public partial class OrderInfo

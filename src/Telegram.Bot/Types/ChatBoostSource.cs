@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the source of a chat boost. It can be one of<br/><see cref="ChatBoostSourcePremium"/>, <see cref="ChatBoostSourceGiftCode"/>, <see cref="ChatBoostSourceGiveaway"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<ChatBoostSource>))]

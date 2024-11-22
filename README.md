@@ -1,4 +1,4 @@
-﻿# .NET Client for Telegram Bot API
+# .NET Client for Telegram Bot API
 
 [![Nuget](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square&color=d8b541)](https://www.nuget.org/packages/Telegram.Bot)
 [![Bot API Version](https://img.shields.io/badge/Bot_API-8.0-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)

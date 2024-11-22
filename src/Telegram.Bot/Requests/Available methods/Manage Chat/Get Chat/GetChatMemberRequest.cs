@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat.<para>Returns: A <see cref="ChatMember"/> object on success.</para></summary>
 public partial class GetChatMemberRequest() : RequestBase<ChatMember>("getChatMember"), IChatTargetable, IUserTargetable

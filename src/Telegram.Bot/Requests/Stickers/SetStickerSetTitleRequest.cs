@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to set the title of a created sticker set.<para>Returns: </para></summary>
 public partial class SetStickerSetTitleRequest() : RequestBase<bool>("setStickerSetTitle")

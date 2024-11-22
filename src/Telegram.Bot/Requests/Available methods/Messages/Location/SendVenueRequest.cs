@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send information about a venue.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 public partial class SendVenueRequest() : RequestBase<Message>("sendVenue"), IChatTargetable, IBusinessConnectable

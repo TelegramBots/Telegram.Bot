@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes reply parameters for the message that is being sent.</summary>
 public partial class ReplyParameters

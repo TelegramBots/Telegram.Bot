@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object describes a sticker to be added to a sticker set.</summary>
 public partial class InputSticker

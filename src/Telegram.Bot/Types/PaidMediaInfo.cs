@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes the paid media added to a message.</summary>
 public partial class PaidMediaInfo

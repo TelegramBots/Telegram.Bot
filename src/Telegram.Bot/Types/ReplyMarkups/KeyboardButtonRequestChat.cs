@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.ReplyMarkups;
+namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. <a href="https://core.telegram.org/bots/features#chat-and-user-selection">More about requesting chats »</a>.</summary>
 public partial class KeyboardButtonRequestChat

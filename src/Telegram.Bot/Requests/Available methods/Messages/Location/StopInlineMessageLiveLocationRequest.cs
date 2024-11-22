@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to stop updating a live location message before <em>LivePeriod</em> expires.<para>Returns: </para></summary>
 public partial class StopInlineMessageLiveLocationRequest() : RequestBase<bool>("stopMessageLiveLocation"), IBusinessConnectable

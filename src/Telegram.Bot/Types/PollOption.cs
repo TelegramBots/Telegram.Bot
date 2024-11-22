@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object contains information about one answer option in a poll.</summary>
 public partial class PollOption

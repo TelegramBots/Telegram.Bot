@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes the opening hours of a business.</summary>
 public partial class BusinessOpeningHours

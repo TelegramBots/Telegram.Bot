@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Scope type</summary>
 [JsonConverter(typeof(EnumConverter<BotCommandScopeType>))]

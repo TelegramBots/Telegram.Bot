@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Payments;
+namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object contains basic information about an invoice.</summary>
 public partial class Invoice

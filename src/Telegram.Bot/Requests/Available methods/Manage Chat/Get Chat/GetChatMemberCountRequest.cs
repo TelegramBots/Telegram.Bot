@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get the number of members in a chat.<para>Returns: <em>Int</em> on success.</para></summary>
 public partial class GetChatMemberCountRequest() : RequestBase<int>("getChatMemberCount"), IChatTargetable

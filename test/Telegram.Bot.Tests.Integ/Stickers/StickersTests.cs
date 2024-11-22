@@ -349,7 +349,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             sticker: inputSticker
         );
 
-        await Task.Delay(2_000);
+        await Task.Delay(3_000);
 
         StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
@@ -521,7 +521,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             emojiList: classFixture.FirstEmojis
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
 
         StickerSet updatedStickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
@@ -576,7 +576,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             title: newStickerSetTitle
         );
 
-        await Task.Delay(2_000);
+        await Task.Delay(3_000);
 
         StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticRegularStickerSetName
@@ -1031,7 +1031,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             sticker: inputSticker
         );
 
-        await Task.Delay(2_000);
+        await Task.Delay(3_000);
 
         StickerSet stickerSet = await BotClient.GetStickerSet(
             name: classFixture.TestStaticCustomEmojiStickerSetName

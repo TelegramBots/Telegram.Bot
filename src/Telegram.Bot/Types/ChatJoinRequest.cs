@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Represents a join request sent to a chat.</summary>
 public partial class ChatJoinRequest

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes the connection of the bot with a business account.</summary>
 public partial class BusinessConnection

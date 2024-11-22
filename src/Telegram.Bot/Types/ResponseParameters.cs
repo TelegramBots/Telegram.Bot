@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Describes why a request was unsuccessful.</summary>
 public partial class ResponseParameters

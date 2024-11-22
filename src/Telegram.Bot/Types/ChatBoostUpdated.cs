@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a boost added to a chat or changed.</summary>
 public partial class ChatBoostUpdated

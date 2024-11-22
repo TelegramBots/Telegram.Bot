@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send photos.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 public partial class SendPhotoRequest() : FileRequestBase<Message>("sendPhoto"), IChatTargetable, IBusinessConnectable

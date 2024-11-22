@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>
 public partial class EditMessageTextRequest() : RequestBase<Message>("editMessageText"), IChatTargetable, IBusinessConnectable

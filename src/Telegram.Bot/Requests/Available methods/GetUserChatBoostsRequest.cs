@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests;
+namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.<para>Returns: A <see cref="UserChatBoosts"/> object.</para></summary>
 public partial class GetUserChatBoostsRequest() : RequestBase<UserChatBoosts>("getUserChatBoosts"), IChatTargetable, IUserTargetable

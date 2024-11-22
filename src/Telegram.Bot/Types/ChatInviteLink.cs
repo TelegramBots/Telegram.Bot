@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>Represents an invite link for a chat.</summary>
 public partial class ChatInviteLink
