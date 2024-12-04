@@ -14,6 +14,9 @@ public static class JsonBotAPI
     {
         options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+#if NET6_0_OR_GREATER
+        if (!JsonSerializer.IsReflectionEnabledByDefault) options.TypeInfoResolverChain.Add(JsonBotSerializerContext.Default);
+#endif
         //when System.Text.Json 9.0 is available, we can use
         //options.AllowOutOfOrderMetadataProperties = true; // so we don't need custom PolymorphicJsonConverterFactory
     }

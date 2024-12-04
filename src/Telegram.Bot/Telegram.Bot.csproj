@@ -57,6 +57,7 @@
     <NoWarn>$(NoWarn);MA0001;MA0048;MA0051;MA0111;MA0113</NoWarn>
     <NoWarn>$(NoWarn);IDE0079;IDE0130</NoWarn>
     <NoWarn>$(NoWarn);CS0419</NoWarn> <!-- Ambiguous reference in cref attribute -->
+    <NoWarn>$(NoWarn);IL2026</NoWarn> <!-- Using member 'method' which has 'RequiresUnreferencedCodeAttribute'... it's ok we use JsonSerializerOptions with type resolver context -->
   </PropertyGroup>
 
   <ItemGroup>

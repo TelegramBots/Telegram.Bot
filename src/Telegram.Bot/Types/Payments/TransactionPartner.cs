@@ -1,9 +1,10 @@
 namespace Telegram.Bot.Types.Payments;
 
-/// <summary>This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of<br/><see cref="TransactionPartnerUser"/>, <see cref="TransactionPartnerFragment"/>, <see cref="TransactionPartnerTelegramAds"/>, <see cref="TransactionPartnerTelegramApi"/>, <see cref="TransactionPartnerOther"/></summary>
+/// <summary>This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of<br/><see cref="TransactionPartnerUser"/>, <see cref="TransactionPartnerAffiliateProgram"/>, <see cref="TransactionPartnerFragment"/>, <see cref="TransactionPartnerTelegramAds"/>, <see cref="TransactionPartnerTelegramApi"/>, <see cref="TransactionPartnerOther"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<TransactionPartner>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(TransactionPartnerUser), "user")]
+[CustomJsonDerivedType(typeof(TransactionPartnerAffiliateProgram), "affiliate_program")]
 [CustomJsonDerivedType(typeof(TransactionPartnerFragment), "fragment")]
 [CustomJsonDerivedType(typeof(TransactionPartnerTelegramAds), "telegram_ads")]
 [CustomJsonDerivedType(typeof(TransactionPartnerTelegramApi), "telegram_api")]
@@ -25,6 +26,9 @@ public partial class TransactionPartnerUser : TransactionPartner
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 
+    /// <summary><em>Optional</em>. Information about the affiliate that received a commission via this transaction</summary>
+    public AffiliateInfo? Affiliate { get; set; }
+
     /// <summary><em>Optional</em>. Bot-specified invoice payload</summary>
     public string? InvoicePayload { get; set; }
 
@@ -39,6 +43,20 @@ public partial class TransactionPartnerUser : TransactionPartner
 
     /// <summary><em>Optional</em>. The gift sent to the user by the bot</summary>
     public Gift? Gift { get; set; }
+}
+
+/// <summary>Describes the affiliate program that issued the affiliate commission received via this transaction.</summary>
+public partial class TransactionPartnerAffiliateProgram : TransactionPartner
+{
+    /// <summary>Type of the transaction partner, always <see cref="TransactionPartnerType.AffiliateProgram"/></summary>
+    public override TransactionPartnerType Type => TransactionPartnerType.AffiliateProgram;
+
+    /// <summary><em>Optional</em>. Information about the bot that sponsored the affiliate program</summary>
+    public User? SponsorUser { get; set; }
+
+    /// <summary>The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public int CommissionPerMille { get; set; }
 }
 
 /// <summary>Describes a withdrawal transaction with Fragment.</summary>
