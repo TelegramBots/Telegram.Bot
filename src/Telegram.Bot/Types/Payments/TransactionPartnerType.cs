@@ -14,4 +14,6 @@ public enum TransactionPartnerType
     TelegramAds,
     /// <summary>Describes a transaction with payment for <a href="https://core.telegram.org/bots/api#paid-broadcasts">paid broadcasting</a>.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerTelegramApi"/>)</i></summary>
     TelegramApi,
+    /// <summary>Describes the affiliate program that issued the affiliate commission received via this transaction.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerAffiliateProgram"/>)</i></summary>
+    AffiliateProgram,
 }
