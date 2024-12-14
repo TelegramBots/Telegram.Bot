@@ -1699,8 +1699,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="fileId">File identifier to get information about</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    /// <returns>A <see cref="File"/> object is returned. The file can then be downloaded via <see cref="TelegramBotClient.DownloadFile">DownloadFile</see>, where <c>&lt;FilePath&gt;</c> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="TelegramBotClientExtensions.GetFile">GetFile</see> again.<br/><b>Note:</b> This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.</returns>
-    public static async Task<File> GetFile(
+    /// <returns>A <see cref="TGFile"/> object is returned. The file can then be downloaded via <see cref="TelegramBotClient.DownloadFile">DownloadFile</see>, where <c>&lt;FilePath&gt;</c> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="TelegramBotClientExtensions.GetFile">GetFile</see> again.<br/><b>Note:</b> This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.</returns>
+    public static async Task<TGFile> GetFile(
         this ITelegramBotClient botClient,
         string fileId,
         CancellationToken cancellationToken = default
@@ -1711,7 +1711,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="GetFile">GetFile</see> instead</summary>
     [Obsolete("We removed all Async suffix from method names. Use GetFile instead")]
-    public static Task<File> GetFileAsync(
+    public static Task<TGFile> GetFileAsync(
         this ITelegramBotClient botClient,
         string fileId,
         CancellationToken cancellationToken = default
@@ -4008,8 +4008,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="sticker">A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See <a href="https://core.telegram.org/stickers">https://core.telegram.org/stickers</a> for technical requirements. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="stickerFormat">Format of the sticker, must be one of <see cref="StickerFormat.Static">Static</see>, <see cref="StickerFormat.Animated">Animated</see>, <see cref="StickerFormat.Video">Video</see></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    /// <returns>The uploaded <see cref="File"/> on success.</returns>
-    public static async Task<File> UploadStickerFile(
+    /// <returns>The uploaded <see cref="TGFile"/> on success.</returns>
+    public static async Task<TGFile> UploadStickerFile(
         this ITelegramBotClient botClient,
         long userId,
         InputFileStream sticker,
@@ -4024,7 +4024,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="UploadStickerFile">UploadStickerFile</see> instead</summary>
     [Obsolete("We removed all Async suffix from method names. Use UploadStickerFile instead")]
-    public static Task<File> UploadStickerFileAsync(
+    public static Task<TGFile> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
         InputFileStream sticker,

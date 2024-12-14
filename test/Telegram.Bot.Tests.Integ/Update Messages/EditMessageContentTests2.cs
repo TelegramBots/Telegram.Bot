@@ -88,7 +88,7 @@ public class EditMessageContentTests2(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Edit_Message_Caption()
     {
         Message originalMessage;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Photos.Bot))
         {
             originalMessage = await BotClient.WithStreams(stream).SendPhoto(
                 chatId: Fixture.SupergroupChat.Id,

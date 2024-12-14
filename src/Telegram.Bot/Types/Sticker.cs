@@ -31,7 +31,7 @@ public partial class Sticker : FileBase
     public string? SetName { get; set; }
 
     /// <summary><em>Optional</em>. For premium regular stickers, premium animation for the sticker</summary>
-    public File? PremiumAnimation { get; set; }
+    public TGFile? PremiumAnimation { get; set; }
 
     /// <summary><em>Optional</em>. For mask stickers, the position where the mask should be placed</summary>
     public MaskPosition? MaskPosition { get; set; }

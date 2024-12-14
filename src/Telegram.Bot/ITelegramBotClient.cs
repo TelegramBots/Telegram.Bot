@@ -71,8 +71,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="fileId">File identifier to get info about</param>
     /// <param name="destination">Destination stream to write file to</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    /// <returns>On success, a <see cref="File"/> object is returned.</returns>
-    public static async Task<File> GetInfoAndDownloadFile(this ITelegramBotClient botClient, string fileId, Stream destination,
+    /// <returns>On success, a <see cref="TGFile"/> object is returned.</returns>
+    public static async Task<TGFile> GetInfoAndDownloadFile(this ITelegramBotClient botClient, string fileId, Stream destination,
         CancellationToken cancellationToken = default)
     {
         var file = await botClient.ThrowIfNull().SendRequest(new Requests.GetFileRequest { FileId = fileId },

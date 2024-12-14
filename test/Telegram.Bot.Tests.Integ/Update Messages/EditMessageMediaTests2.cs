@@ -19,7 +19,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
     {
         // Send a video to chat. This media will be changed later in test.
         Message originalMessage;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
             originalMessage = await BotClient.WithStreams(stream).SendVideo(
                 chatId: Fixture.SupergroupChat,
@@ -33,8 +33,8 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
         // Replace video with a document+thumb by uploading the new file
         Message editedMessage;
         await using Stream
-            documentStream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey),
-            thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
+            documentStream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey),
+            thumbStream = File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         {
             editedMessage = await BotClient.WithStreams(documentStream, thumbStream).EditMessageMedia(
                 chatId: originalMessage.Chat,
@@ -81,7 +81,7 @@ public class EditMessageMediaTests2(TestsFixture fixture) : TestClass(fixture)
         await Task.Delay(500);
 
         // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
-        await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
+        await using Stream thumbStream = File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         Message editedMessage = await BotClient.WithStreams(thumbStream).EditMessageMedia(
             chatId: originalMessage.Chat,
             messageId: originalMessage.Id,

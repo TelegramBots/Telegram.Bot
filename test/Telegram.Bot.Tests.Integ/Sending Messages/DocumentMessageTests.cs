@@ -15,7 +15,7 @@ public class SendingDocumentMessageTests(TestsFixture fixture) : TestClass(fixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
     public async Task Should_Send_Pdf_Document()
     {
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.WithStreams(stream).SendDocument(
             chatId: Fixture.SupergroupChat.Id,
             document: InputFile.FromStream(stream, "HAMLET.pdf"),
@@ -39,7 +39,7 @@ public class SendingDocumentMessageTests(TestsFixture fixture) : TestClass(fixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
     public async Task Should_Send_Document_With_Farsi_Name()
     {
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.WithStreams(stream).SendDocument(
             chatId: Fixture.SupergroupChat.Id,
             document: InputFile.FromStream(stream, "هملت.pdf"),
@@ -62,8 +62,8 @@ public class SendingDocumentMessageTests(TestsFixture fixture) : TestClass(fixtu
     public async Task Should_Send_Document_With_Thumb()
     {
         await using Stream
-            documentStream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet),
-            thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak);
+            documentStream = File.OpenRead(Constants.PathToFile.Documents.Hamlet),
+            thumbStream = File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak);
 
         Message message = await BotClient.WithStreams(documentStream, thumbStream).SendDocument(
             chatId: Fixture.SupergroupChat,

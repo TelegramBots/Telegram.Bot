@@ -17,7 +17,7 @@ public class AnimationMessageTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Send_Animation()
     {
         Message message;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
             message = await BotClient.WithStreams(stream).SendAnimation(
                 chatId: Fixture.SupergroupChat.Id,
@@ -62,8 +62,8 @@ public class AnimationMessageTests(TestsFixture fixture) : TestClass(fixture)
     {
         Message message;
         await using (Stream
-                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth),
-                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
+                     stream1 = File.OpenRead(Constants.PathToFile.Animation.Earth),
+                     stream2 = File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
                     )
         {
             message = await BotClient.WithStreams(stream1, stream2).SendAnimation(

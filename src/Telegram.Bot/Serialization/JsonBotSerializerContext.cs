@@ -152,7 +152,7 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(ApiResponse<MessageId>))]
 [JsonSerializable(typeof(ApiResponse<Message[]>))]
 [JsonSerializable(typeof(ApiResponse<UserProfilePhotos>))]
-[JsonSerializable(typeof(ApiResponse<File>))]
+[JsonSerializable(typeof(ApiResponse<TGFile>))]
 [JsonSerializable(typeof(ApiResponse<string>))]
 [JsonSerializable(typeof(ApiResponse<ChatInviteLink>))]
 [JsonSerializable(typeof(ApiResponse<ChatFullInfo>))]

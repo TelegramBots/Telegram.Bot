@@ -21,7 +21,7 @@ public class AudioMessageTests(TestsFixture fixture) : TestClass(fixture)
         const string caption = "Audio File in .mp3 format";
 
         Message message;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
             message = await BotClient.WithStreams(stream).SendAudio(
                 chatId: Fixture.SupergroupChat,
@@ -53,8 +53,8 @@ public class AudioMessageTests(TestsFixture fixture) : TestClass(fixture)
         // Both audio file and its thumbnail should be uploaded
         Message message;
         await using (Stream
-                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Audio.AStateOfDespairMp3),
-                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
+                     stream1 = File.OpenRead(Constants.PathToFile.Audio.AStateOfDespairMp3),
+                     stream2 = File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
                     )
         {
             message = await BotClient.WithStreams(stream1, stream2).SendAudio(
@@ -81,7 +81,7 @@ public class AudioMessageTests(TestsFixture fixture) : TestClass(fixture)
         const string caption = "Test Voice in .ogg format";
 
         Message message;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
             message = await BotClient.WithStreams(stream).SendVoice(
                 chatId: Fixture.SupergroupChat,
