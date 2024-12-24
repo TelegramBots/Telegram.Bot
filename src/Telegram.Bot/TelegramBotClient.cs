@@ -22,6 +22,9 @@ public class TelegramBotClient : ITelegramBotClient
 
     private readonly HttpClient _httpClient;
 
+    /// <summary>Bot token</summary>
+    public string Token => _options.Token;
+
     /// <inheritdoc/>
     public long BotId => _options.BotId;
 
