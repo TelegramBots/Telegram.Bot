@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to stop a poll which was sent by the bot.<para>Returns: The stopped <see cref="Poll"/> is returned.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class StopPollRequest() : RequestBase<Poll>("stopPoll"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>

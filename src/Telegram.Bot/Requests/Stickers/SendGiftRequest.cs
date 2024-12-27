@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendGiftRequest() : RequestBase<bool>("sendGift"), IUserTargetable
 {
     /// <summary>Unique identifier of the target user that will receive the gift</summary>

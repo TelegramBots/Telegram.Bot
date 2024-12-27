@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetMyDefaultAdministratorRightsRequest() : RequestBase<bool>("setMyDefaultAdministratorRights")
 {
     /// <summary>An object describing new default administrator rights. If not specified, the default administrator rights will be cleared.</summary>

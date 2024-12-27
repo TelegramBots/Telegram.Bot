@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to delete a sticker set that was created by the bot.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class DeleteStickerSetRequest() : RequestBase<bool>("deleteStickerSet")
 {
     /// <summary>Sticker set name</summary>

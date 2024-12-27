@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send answers to an inline query<br/>No more than <b>50</b> results per query are allowed.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class AnswerInlineQueryRequest() : RequestBase<bool>("answerInlineQuery")
 {
     /// <summary>Unique identifier for the answered query</summary>

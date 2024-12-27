@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send phone contacts.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendContactRequest() : RequestBase<Message>("sendContact"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>

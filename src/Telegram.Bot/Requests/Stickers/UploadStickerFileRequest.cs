@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to upload a file with a sticker for later use in the <see cref="TelegramBotClientExtensions.CreateNewStickerSet">CreateNewStickerSet</see>, <see cref="TelegramBotClientExtensions.AddStickerToSet">AddStickerToSet</see>, or <see cref="TelegramBotClientExtensions.ReplaceStickerInSet">ReplaceStickerInSet</see> methods (the file can be used multiple times).<para>Returns: The uploaded <see cref="TGFile"/> on success.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class UploadStickerFileRequest() : FileRequestBase<TGFile>("uploadStickerFile"), IUserTargetable
 {
     /// <summary>User identifier of sticker file owner</summary>

@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send paid media.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaidMedia"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</summary>

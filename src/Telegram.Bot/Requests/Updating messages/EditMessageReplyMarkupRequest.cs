@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit only the reply markup of messages.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class EditMessageReplyMarkupRequest() : RequestBase<Message>("editMessageReplyMarkup"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>

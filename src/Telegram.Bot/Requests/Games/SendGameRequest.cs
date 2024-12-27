@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send a game.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendGameRequest() : RequestBase<Message>("sendGame"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat</summary>
