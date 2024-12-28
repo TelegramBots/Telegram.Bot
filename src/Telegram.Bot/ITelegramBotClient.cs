@@ -17,6 +17,9 @@ public interface ITelegramBotClient
     /// <summary><see langword="true"/> when the bot is using local Bot API server</summary>
     bool LocalBotServer { get; }
 
+    /// <summary>API token</summary>
+    string Token { get; }
+
     /// <summary>Unique identifier for the bot from bot token, extracted from the first part of the bot token.
     /// Token format is not public API so this property is optional and may stop working in the future if Telegram changes it's token format.</summary>
     long BotId { get; }

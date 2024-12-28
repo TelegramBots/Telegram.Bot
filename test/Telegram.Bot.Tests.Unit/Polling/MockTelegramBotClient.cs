@@ -107,6 +107,7 @@ public class MockTelegramBotClient : ITelegramBotClient
     // NOT IMPLEMENTED
     // ---------------
 
+    public string Token => throw new NotImplementedException();
     public bool LocalBotServer => throw new NotImplementedException();
     public long BotId => throw new NotImplementedException();
     public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
