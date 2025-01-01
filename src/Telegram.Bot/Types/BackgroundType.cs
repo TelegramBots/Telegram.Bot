@@ -50,7 +50,7 @@ public partial class BackgroundTypeWallpaper : BackgroundType
     public bool IsMoving { get; set; }
 }
 
-/// <summary>The background is a PNG or TGV (gzipped subset of SVG with MIME type “application/x-tgwallpattern”) pattern to be combined with the background fill chosen by the user.</summary>
+/// <summary>The background is a .PNG or .TGV (gzipped subset of SVG with MIME type “application/x-tgwallpattern”) pattern to be combined with the background fill chosen by the user.</summary>
 public partial class BackgroundTypePattern : BackgroundType
 {
     /// <summary>Type of the background, always <see cref="BackgroundTypeKind.Pattern"/></summary>
