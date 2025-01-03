@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to set the thumbnail of a custom emoji sticker set.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetCustomEmojiStickerSetThumbnailRequest() : RequestBase<bool>("setCustomEmojiStickerSetThumbnail")
 {
     /// <summary>Sticker set name</summary>

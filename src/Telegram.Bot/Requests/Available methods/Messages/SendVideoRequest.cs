@@ -2,6 +2,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as <see cref="Document"/>).<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 /// <remarks>Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</remarks>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendVideoRequest() : FileRequestBase<Message>("sendVideo"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>

@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to change the bot's name.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetMyNameRequest() : RequestBase<bool>("setMyName")
 {
     /// <summary>New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.</summary>

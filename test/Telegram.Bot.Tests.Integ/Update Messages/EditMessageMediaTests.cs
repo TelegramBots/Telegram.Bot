@@ -72,7 +72,7 @@ public class EditMessageMediaTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Edit_Inline_Message_Document_With_FileId()
     {
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Animation.Earth);
         Message gifMessage = await BotClient.WithStreams(stream).SendDocument(
             chatId: Fixture.SupergroupChat,
             document: InputFile.FromStream(stream, "Earth.gif"),

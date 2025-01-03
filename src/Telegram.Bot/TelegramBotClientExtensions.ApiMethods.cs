@@ -15,7 +15,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="offset">Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see> is called with an <paramref name="offset"/> higher than its <em>UpdateId</em>. The negative offset can be specified to retrieve updates starting from <em>-offset</em> update from the end of the updates queue. All previous updates will be forgotten.</param>
     /// <param name="limit">Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.</param>
     /// <param name="timeout">Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.</param>
-    /// <param name="allowedUpdates">A list of the update types you want your bot to receive. For example, specify <c>["message", "EditedChannelPost", "CallbackQuery"]</c> to only receive updates of these types. See <see cref="Update"/> for a complete list of available update types. Specify an empty list to receive all update types except <em>ChatMember</em>, <em>MessageReaction</em>, and <em>MessageReactionCount</em> (default). If not specified, the previous setting will be used.<br/><br/>Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.</param>
+    /// <param name="allowedUpdates">A list of the update types you want your bot to receive. For example, specify <c>["message", "EditedChannelPost", "CallbackQuery"]</c> to only receive updates of these types. See <see cref="Update"/> for a complete list of available update types. Specify an empty list to receive all update types except <em>ChatMember</em>, <em>MessageReaction</em>, and <em>MessageReactionCount</em> (default). If not specified, the previous setting will be used.<br/><br/>Please note that this parameter doesn't affect updates created before the call to getUpdates, so unwanted updates may be received for a short period of time.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>An Array of <see cref="Update"/> objects.</returns>
     public static async Task<Update[]> GetUpdates(
@@ -44,7 +44,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.GetUpdates(offset, limit, timeout, allowedUpdates, cancellationToken);
 
-    /// <summary>Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized <see cref="Update"/>. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.<br/>If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter <paramref name="secretToken"/>. If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.</summary>
+    /// <summary>Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized <see cref="Update"/>. In case of an unsuccessful request (a request with response <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">HTTP status code</a> different from <c>2XY</c>), we will repeat the request and give up after a reasonable amount of attempts.<br/>If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter <paramref name="secretToken"/>. If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.</summary>
     /// <remarks><p><b>Notes</b><br/><b>1.</b> You will not be able to receive updates using <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see> for as long as an outgoing webhook is set up.<br/><b>2.</b> To use a self-signed certificate, you need to upload your <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using <paramref name="certificate"/> parameter. Please upload as InputFile, sending a String will not work.<br/><b>3.</b> Ports currently supported <em>for webhooks</em>: <b>443, 80, 88, 8443</b>.</p><p>If you're having any trouble setting up webhooks, please check out this <a href="https://core.telegram.org/bots/webhooks">amazing guide to webhooks</a>.</p></remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="url">HTTPS URL to send updates to. Use an empty string to remove webhook integration</param>
@@ -1699,8 +1699,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="fileId">File identifier to get information about</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    /// <returns>A <see cref="File"/> object is returned. The file can then be downloaded via <see cref="TelegramBotClient.DownloadFile">DownloadFile</see>, where <c>&lt;FilePath&gt;</c> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="TelegramBotClientExtensions.GetFile">GetFile</see> again.<br/><b>Note:</b> This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.</returns>
-    public static async Task<File> GetFile(
+    /// <returns>A <see cref="TGFile"/> object is returned. The file can then be downloaded via <see cref="TelegramBotClient.DownloadFile">DownloadFile</see>, where <c>&lt;FilePath&gt;</c> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="TelegramBotClientExtensions.GetFile">GetFile</see> again.<br/><b>Note:</b> This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.</returns>
+    public static async Task<TGFile> GetFile(
         this ITelegramBotClient botClient,
         string fileId,
         CancellationToken cancellationToken = default
@@ -1711,7 +1711,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="GetFile">GetFile</see> instead</summary>
     [Obsolete("We removed all Async suffix from method names. Use GetFile instead")]
-    public static Task<File> GetFileAsync(
+    public static Task<TGFile> GetFileAsync(
         this ITelegramBotClient botClient,
         string fileId,
         CancellationToken cancellationToken = default
@@ -4008,8 +4008,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="sticker">A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See <a href="https://core.telegram.org/stickers">https://core.telegram.org/stickers</a> for technical requirements. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="stickerFormat">Format of the sticker, must be one of <see cref="StickerFormat.Static">Static</see>, <see cref="StickerFormat.Animated">Animated</see>, <see cref="StickerFormat.Video">Video</see></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    /// <returns>The uploaded <see cref="File"/> on success.</returns>
-    public static async Task<File> UploadStickerFile(
+    /// <returns>The uploaded <see cref="TGFile"/> on success.</returns>
+    public static async Task<TGFile> UploadStickerFile(
         this ITelegramBotClient botClient,
         long userId,
         InputFileStream sticker,
@@ -4024,7 +4024,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="UploadStickerFile">UploadStickerFile</see> instead</summary>
     [Obsolete("We removed all Async suffix from method names. Use UploadStickerFile instead")]
-    public static Task<File> UploadStickerFileAsync(
+    public static Task<TGFile> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
         InputFileStream sticker,
@@ -4285,8 +4285,8 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
-    /// <param name="format">Format of the thumbnail, must be one of <see cref="StickerFormat.Static">Static</see> for a <b>.WEBP</b> or <b>.PNG</b> image, <see cref="StickerFormat.Animated">Animated</see> for a <b>.TGS</b> animation, or <see cref="StickerFormat.Video">Video</see> for a <b>WEBM</b> video</param>
-    /// <param name="thumbnail">A <b>.WEBP</b> or <b>.PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a <b>.TGS</b> animation with a thumbnail up to 32 kilobytes in size (see <a href="https://core.telegram.org/stickers#animation-requirements">https://core.telegram.org/stickers#animation-requirements</a> for animated sticker technical requirements), or a <b>WEBM</b> video with the thumbnail up to 32 kilobytes in size; see <a href="https://core.telegram.org/stickers#video-requirements">https://core.telegram.org/stickers#video-requirements</a> for video sticker technical requirements. Pass a <em>FileId</em> as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.</param>
+    /// <param name="format">Format of the thumbnail, must be one of <see cref="StickerFormat.Static">Static</see> for a <b>.WEBP</b> or <b>.PNG</b> image, <see cref="StickerFormat.Animated">Animated</see> for a <b>.TGS</b> animation, or <see cref="StickerFormat.Video">Video</see> for a <b>.WEBM</b> video</param>
+    /// <param name="thumbnail">A <b>.WEBP</b> or <b>.PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a <b>.TGS</b> animation with a thumbnail up to 32 kilobytes in size (see <a href="https://core.telegram.org/stickers#animation-requirements">https://core.telegram.org/stickers#animation-requirements</a> for animated sticker technical requirements), or a <b>.WEBM</b> video with the thumbnail up to 32 kilobytes in size; see <a href="https://core.telegram.org/stickers#video-requirements">https://core.telegram.org/stickers#video-requirements</a> for video sticker technical requirements. Pass a <em>FileId</em> as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task SetStickerSetThumbnail(
         this ITelegramBotClient botClient,
@@ -4385,6 +4385,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="text">Text that will be shown along with the gift; 0-255 characters</param>
     /// <param name="textParseMode">Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Entities other than <see cref="MessageEntityType.Bold">Bold</see>, <see cref="MessageEntityType.Italic">Italic</see>, <see cref="MessageEntityType.Underline">Underline</see>, <see cref="MessageEntityType.Strikethrough">Strikethrough</see>, <see cref="MessageEntityType.Spoiler">Spoiler</see>, and <see cref="MessageEntityType.CustomEmoji">CustomEmoji</see> are ignored.</param>
     /// <param name="textEntities">A list of special entities that appear in the gift text. It can be specified instead of <paramref name="textParseMode"/>. Entities other than <see cref="MessageEntityType.Bold">Bold</see>, <see cref="MessageEntityType.Italic">Italic</see>, <see cref="MessageEntityType.Underline">Underline</see>, <see cref="MessageEntityType.Strikethrough">Strikethrough</see>, <see cref="MessageEntityType.Spoiler">Spoiler</see>, and <see cref="MessageEntityType.CustomEmoji">CustomEmoji</see> are ignored.</param>
+    /// <param name="payForUpgrade">Pass <see langword="true"/> to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task SendGift(
         this ITelegramBotClient botClient,
@@ -4393,6 +4394,7 @@ public static partial class TelegramBotClientExtensions
         string? text = default,
         ParseMode textParseMode = default,
         IEnumerable<MessageEntity>? textEntities = default,
+        bool payForUpgrade = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendGiftRequest
     {
@@ -4401,6 +4403,7 @@ public static partial class TelegramBotClientExtensions
         Text = text,
         TextParseMode = textParseMode,
         TextEntities = textEntities,
+        PayForUpgrade = payForUpgrade,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>We removed all Async suffix from method names. Use <see cref="SendGift">SendGift</see> instead</summary>
@@ -4409,11 +4412,104 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         long userId,
         string giftId,
+        bool payForUpgrade = default,
         string? text = default,
         ParseMode textParseMode = default,
         IEnumerable<MessageEntity>? textEntities = default,
         CancellationToken cancellationToken = default
-    ) => botClient.SendGift(userId, giftId, text, textParseMode, textEntities, cancellationToken);
+    ) => botClient.SendGift(userId, giftId, text, textParseMode, textEntities, payForUpgrade, cancellationToken);
+
+    /// <summary>Verifies a user on behalf of the organization which is represented by the bot.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Unique identifier of the target user</param>
+    /// <param name="customDescription">Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task VerifyUser(
+        this ITelegramBotClient botClient,
+        long userId,
+        string? customDescription = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new VerifyUserRequest
+    {
+        UserId = userId,
+        CustomDescription = customDescription,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="VerifyUser">VerifyUser</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use VerifyUser instead")]
+    public static Task VerifyUserAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        string? customDescription = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.VerifyUser(userId, customDescription, cancellationToken);
+
+    /// <summary>Verifies a chat on behalf of the organization which is represented by the bot.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="customDescription">Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task VerifyChat(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string? customDescription = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new VerifyChatRequest
+    {
+        ChatId = chatId,
+        CustomDescription = customDescription,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="VerifyChat">VerifyChat</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use VerifyChat instead")]
+    public static Task VerifyChatAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string? customDescription = default,
+        CancellationToken cancellationToken = default
+    ) => botClient.VerifyChat(chatId, customDescription, cancellationToken);
+
+    /// <summary>Removes verification from a user who is currently verified on behalf of the organization represented by the bot.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Unique identifier of the target user</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task RemoveUserVerification(
+        this ITelegramBotClient botClient,
+        long userId,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new RemoveUserVerificationRequest
+    {
+        UserId = userId,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="RemoveUserVerification">RemoveUserVerification</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use RemoveUserVerification instead")]
+    public static Task RemoveUserVerificationAsync(
+        this ITelegramBotClient botClient,
+        long userId,
+        CancellationToken cancellationToken = default
+    ) => botClient.RemoveUserVerification(userId, cancellationToken);
+
+    /// <summary>Removes verification from a chat that is currently verified on behalf of the organization represented by the bot.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task RemoveChatVerification(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new RemoveChatVerificationRequest
+    {
+        ChatId = chatId,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>We removed all Async suffix from method names. Use <see cref="RemoveChatVerification">RemoveChatVerification</see> instead</summary>
+    [Obsolete("We removed all Async suffix from method names. Use RemoveChatVerification instead")]
+    public static Task RemoveChatVerificationAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) => botClient.RemoveChatVerification(chatId, cancellationToken);
 
     #endregion
 

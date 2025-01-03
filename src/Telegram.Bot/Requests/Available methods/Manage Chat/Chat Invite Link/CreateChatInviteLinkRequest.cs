@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method <see cref="TelegramBotClientExtensions.RevokeChatInviteLink">RevokeChatInviteLink</see>.<para>Returns: The new invite link as <see cref="ChatInviteLink"/> object.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class CreateChatInviteLinkRequest() : RequestBase<ChatInviteLink>("createChatInviteLink"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>

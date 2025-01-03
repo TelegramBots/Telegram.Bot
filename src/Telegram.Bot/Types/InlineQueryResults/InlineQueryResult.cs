@@ -55,9 +55,6 @@ public partial class InlineQueryResultArticle : InlineQueryResult
     /// <summary><em>Optional</em>. URL of the result</summary>
     public string? Url { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/> if you don't want the URL to be shown in the message</summary>
-    public bool HideUrl { get; set; }
-
     /// <summary><em>Optional</em>. Short description of the result</summary>
     public string? Description { get; set; }
 
@@ -147,7 +144,7 @@ public partial class InlineQueryResultGif : InlineQueryResult
     /// <summary>Type of the result, always <see cref="InlineQueryResultType.Gif"/></summary>
     public override InlineQueryResultType Type => InlineQueryResultType.Gif;
 
-    /// <summary>A valid URL for the GIF file. File size must not exceed 1MB</summary>
+    /// <summary>A valid URL for the GIF file</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GifUrl { get; set; }
 
@@ -187,7 +184,7 @@ public partial class InlineQueryResultGif : InlineQueryResult
 
     /// <summary>Initializes an instance of <see cref="InlineQueryResultGif"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
-    /// <param name="gifUrl">A valid URL for the GIF file. File size must not exceed 1MB</param>
+    /// <param name="gifUrl">A valid URL for the GIF file</param>
     /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
     [SetsRequiredMembers]
     public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl) : base(id)
@@ -206,7 +203,7 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// <summary>Type of the result, always <see cref="InlineQueryResultType.Mpeg4Gif"/></summary>
     public override InlineQueryResultType Type => InlineQueryResultType.Mpeg4Gif;
 
-    /// <summary>A valid URL for the MPEG4 file. File size must not exceed 1MB</summary>
+    /// <summary>A valid URL for the MPEG4 file</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Mpeg4Url { get; set; }
 
@@ -246,7 +243,7 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
 
     /// <summary>Initializes an instance of <see cref="InlineQueryResultMpeg4Gif"/></summary>
     /// <param name="id">Unique identifier for this result, 1-64 bytes</param>
-    /// <param name="mpeg4Url">A valid URL for the MPEG4 file. File size must not exceed 1MB</param>
+    /// <param name="mpeg4Url">A valid URL for the MPEG4 file</param>
     /// <param name="thumbnailUrl">URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result</param>
     [SetsRequiredMembers]
     public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl) : base(id)

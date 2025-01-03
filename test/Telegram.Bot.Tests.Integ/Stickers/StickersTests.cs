@@ -23,7 +23,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.StaticFirst);
 
-        File file = await BotClient.UploadStickerFile(
+        TGFile file = await BotClient.UploadStickerFile(
             userId: classFixture.OwnerUserId,
             sticker: new(stream),
             stickerFormat: StickerFormat.Static
@@ -41,7 +41,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.AnimatedFirst);
 
-        File file = await BotClient.UploadStickerFile(
+        TGFile file = await BotClient.UploadStickerFile(
             userId: classFixture.OwnerUserId,
             sticker: new(stream),
             stickerFormat: StickerFormat.Animated
@@ -59,7 +59,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.VideoFirst);
 
-        File file = await BotClient.UploadStickerFile(
+        TGFile file = await BotClient.UploadStickerFile(
             userId: classFixture.OwnerUserId,
             sticker: new(stream),
             stickerFormat: StickerFormat.Video

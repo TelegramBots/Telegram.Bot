@@ -103,7 +103,7 @@ public class ChannelAdminBotTests(TestsFixture fixture, ChannelAdminBotTestFixtu
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
     public async Task Should_Set_Chat_Photo()
     {
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Photos.Logo);
         await BotClient.WithStreams(stream).SetChatPhoto(
             chatId: classFixture.Chat.Id,
             photo: InputFile.FromStream(stream)

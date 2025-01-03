@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to set a custom title for an administrator in a supergroup promoted by the bot.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetChatAdministratorCustomTitleRequest() : RequestBase<bool>("setChatAdministratorCustomTitle"), IChatTargetable, IUserTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>

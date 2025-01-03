@@ -19,7 +19,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
     public async Task Should_Send_Photo_File()
     {
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Photos.Bot);
         Message message = await BotClient.WithStreams(stream).SendPhoto(
             chatId: Fixture.SupergroupChat.Id,
             photo: InputFile.FromStream(stream),
@@ -72,7 +72,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
             (MessageEntityType.BotCommand, $"/test@{Fixture.BotUser.Username}")
         ];
 
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Photos.Logo);
         Message message = await BotClient.WithStreams(stream).SendPhoto(
             chatId: Fixture.SupergroupChat.Id,
             photo: InputFile.FromStream(stream),
@@ -98,7 +98,7 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
             (MessageEntityType.TextLink, "Text Link", "[Text Link](https://github.com/TelegramBots)")
         ];
 
-        await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+        await using Stream stream = File.OpenRead(Constants.PathToFile.Photos.Logo);
         var caption = string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity));
         Message message = await BotClient.WithStreams(stream).SendPhoto(
             chatId: Fixture.SupergroupChat.Id,

@@ -20,8 +20,8 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
     {
         Message[] messages;
         await using (Stream
-                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
-                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
+                     stream1 = File.OpenRead(Constants.PathToFile.Photos.Logo),
+                     stream2 = File.OpenRead(Constants.PathToFile.Photos.Bot)
                     )
         {
             messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroup(
@@ -109,9 +109,9 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
     {
         Message[] messages;
         await using (Stream
-                     stream0 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
-                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
-                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
+                     stream0 = File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                     stream1 = File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
+                     stream2 = File.OpenRead(Constants.PathToFile.Photos.Bot)
                     )
         {
             messages = await BotClient.WithStreams(stream0, stream1, stream2).SendMediaGroup(
@@ -167,8 +167,8 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
     public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
     {
         await using Stream
-            stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
-            stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
+            stream1 = File.OpenRead(Constants.PathToFile.Photos.Logo),
+            stream2 = File.OpenRead(Constants.PathToFile.Photos.Bot);
 
 
         Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroup(
@@ -210,8 +210,8 @@ public class AlbumMessageTests(TestsFixture fixture, EntitiesFixture<Message> cl
     public async Task Should_Video_With_Thumbnail_In_Album()
     {
         await using Stream
-            stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
-            stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
+            stream1 = File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+            stream2 = File.OpenRead(Constants.PathToFile.Thumbnail.Video);
 
         Message[] messages = await BotClient.WithStreams(stream1, stream2).SendMediaGroup(
             chatId: Fixture.SupergroupChat.Id,

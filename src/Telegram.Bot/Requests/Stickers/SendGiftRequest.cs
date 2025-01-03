@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user.<para>Returns: </para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendGiftRequest() : RequestBase<bool>("sendGift"), IUserTargetable
 {
     /// <summary>Unique identifier of the target user that will receive the gift</summary>
@@ -10,6 +11,9 @@ public partial class SendGiftRequest() : RequestBase<bool>("sendGift"), IUserTar
     /// <summary>Identifier of the gift</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GiftId { get; set; }
+
+    /// <summary>Pass <see langword="true"/> to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver</summary>
+    public bool PayForUpgrade { get; set; }
 
     /// <summary>Text that will be shown along with the gift; 0-255 characters</summary>
     public string? Text { get; set; }

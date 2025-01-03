@@ -6,7 +6,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
 using Xunit.Abstractions;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot.Tests.Integ.Other;
 
@@ -24,7 +23,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixt
         #region Send Document
 
         Message documentMessage;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
+        await using (FileStream stream = File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
             fileSize = stream.Length;
             documentMessage = await BotClient.WithStreams(stream).SendDocument(
@@ -37,7 +36,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixt
 
         #endregion
 
-        File file = await BotClient.GetFile(documentMessage.Document.FileId);
+        TGFile file = await BotClient.GetFile(documentMessage.Document.FileId);
 
         Assert.Equal(fileId, file.FileId);
         Assert.NotNull(file.FileSize);
@@ -56,7 +55,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixt
         string destinationFilePath = $"{Path.GetTempFileName()}.{ClassFixture.FileType}";
         output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
-        await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
+        await using FileStream fileStream = File.OpenWrite(destinationFilePath);
         await BotClient.DownloadFile(
             filePath: classFixture.File.FilePath!,
             destination: fileStream
@@ -74,8 +73,8 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixt
         string destinationFilePath = $"{Path.GetTempFileName()}.{ClassFixture.FileType}";
         output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
-        await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-        File file = await BotClient.GetInfoAndDownloadFile(
+        await using FileStream fileStream = File.OpenWrite(destinationFilePath);
+        TGFile file = await BotClient.GetInfoAndDownloadFile(
             fileId: classFixture.File.FileId,
             destination: fileStream
         );
@@ -114,6 +113,6 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.ClassFixt
     {
         public const string FileType = "pdf";
 
-        public File File { get; set; }
+        public TGFile File { get; set; }
     }
 }

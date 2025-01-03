@@ -1,6 +1,7 @@
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to create a link for an invoice.<para>Returns: The created invoice link as <em>String</em> on success.</para></summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public partial class CreateInvoiceLinkRequest() : RequestBase<string>("createInvoiceLink"), IBusinessConnectable
 {
     /// <summary>Product name, 1-32 characters</summary>

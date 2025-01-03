@@ -278,7 +278,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Answer_Inline_Query_With_Cached_Photo()
     {
         Message photoMessage;
-        await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
+        await using (FileStream stream = File.OpenRead(Constants.PathToFile.Photos.Apes))
         {
             photoMessage = await BotClient.WithStreams(stream).SendPhoto(
                 chatId: Fixture.SupergroupChat,
@@ -505,7 +505,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Answer_Inline_Query_With_Cached_Audio()
     {
         Message audioMessage;
-        await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
+        await using (FileStream stream = File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
             audioMessage = await BotClient.WithStreams(stream).SendAudio(
                 chatId: Fixture.SupergroupChat,
@@ -595,7 +595,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Answer_Inline_Query_With_Cached_Voice()
     {
         Message voiceMessage;
-        await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
+        await using (FileStream stream = File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
             voiceMessage = await BotClient.WithStreams(stream).SendVoice(
                 chatId: Fixture.SupergroupChat,
@@ -685,7 +685,7 @@ public class InlineQueryTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Answer_Inline_Query_With_Cached_Document()
     {
         Message documentMessage;
-        await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
+        await using (FileStream stream = File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
             documentMessage = await BotClient.WithStreams(stream).SendDocument(
                 chatId: Fixture.SupergroupChat,

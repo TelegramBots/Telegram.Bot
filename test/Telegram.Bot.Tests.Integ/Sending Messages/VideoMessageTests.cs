@@ -16,7 +16,7 @@ public class SendingVideoMessageTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Send_Video()
     {
         Message message;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
         {
             message = await BotClient.WithStreams(stream).SendVideo(
                 chatId: Fixture.SupergroupChat.Id,
@@ -53,7 +53,7 @@ public class SendingVideoMessageTests(TestsFixture fixture) : TestClass(fixture)
     public async Task Should_Send_Video_Note()
     {
         Message message;
-        await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
+        await using (Stream stream = File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
         {
             message = await BotClient.WithStreams(stream).SendVideoNote(
                 chatId: Fixture.SupergroupChat.Id,
@@ -84,8 +84,8 @@ public class SendingVideoMessageTests(TestsFixture fixture) : TestClass(fixture)
     {
         Message message;
         await using (Stream
-                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
-                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
+                     stream1 = File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
+                     stream2 = File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
                     )
         {
             message = await BotClient.WithStreams(stream1, stream2).SendVideo(
@@ -111,8 +111,8 @@ public class SendingVideoMessageTests(TestsFixture fixture) : TestClass(fixture)
     {
         Message message;
         await using (Stream
-                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
-                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
+                     stream1 = File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                     stream2 = File.OpenRead(Constants.PathToFile.Thumbnail.Video)
                     )
         {
             message = await BotClient.WithStreams(stream1, stream2).SendVideoNote(
