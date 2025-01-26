@@ -65,6 +65,12 @@ namespace Telegram.Bot.Types
         public override string ToString() => Username != null ? $"@{Username} ({Id})" : $"{FirstName}{LastName?.Insert(0, " ")} ({Id})";
     }
 
+    public partial class ChatMember
+    {
+        /// <summary>Check if the user is in the chat</summary>
+        public bool IsInChat => Status is not ChatMemberStatus.Left and not ChatMemberStatus.Kicked;
+    }
+
     public partial class ReplyParameters
     {
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
