@@ -19,7 +19,7 @@
     <Title>Telegram Bot API Client</Title>
     <Description>This library gives you easy access to Telegram Bot API so you can start building useful bots for Telegram.</Description>
     <PackageId>Telegram.Bot</PackageId>
-    <Authors>RoundRobin,Poulad,tuscen,Wizou</Authors>
+    <Authors>Wizou,tuscen,Poulad,RoundRobin</Authors>
     <Copyright>Copyright © TelegramBots 2016-2024</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
