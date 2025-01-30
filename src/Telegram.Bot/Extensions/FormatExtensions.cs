@@ -158,7 +158,7 @@ public static class HtmlText
                     if (tag[0] == 'a')
                     {
                         if (nextEntity.Type is MessageEntityType.TextLink)
-                            tag = $"<a href=\"{nextEntity.Url}\">";
+                            tag = $"<a href=\"{Escape(nextEntity.Url)}\">";
                         else if (nextEntity.Type is MessageEntityType.TextMention)
                             tag = $"<a href=\"tg://user?id={nextEntity.User?.Id}\">";
                     }
