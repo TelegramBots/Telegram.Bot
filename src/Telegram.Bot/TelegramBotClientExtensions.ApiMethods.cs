@@ -4419,7 +4419,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.SendGift(userId, giftId, text, textParseMode, textEntities, payForUpgrade, cancellationToken);
 
-    /// <summary>Verifies a user on behalf of the organization which is represented by the bot.</summary>
+    /// <summary>Verifies a user <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> which is represented by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="customDescription">Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</param>
@@ -4444,7 +4444,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.VerifyUser(userId, customDescription, cancellationToken);
 
-    /// <summary>Verifies a chat on behalf of the organization which is represented by the bot.</summary>
+    /// <summary>Verifies a chat <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> which is represented by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="customDescription">Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</param>
@@ -4469,7 +4469,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.VerifyChat(chatId, customDescription, cancellationToken);
 
-    /// <summary>Removes verification from a user who is currently verified on behalf of the organization represented by the bot.</summary>
+    /// <summary>Removes verification from a user who is currently verified <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> represented by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -4490,7 +4490,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) => botClient.RemoveUserVerification(userId, cancellationToken);
 
-    /// <summary>Removes verification from a chat that is currently verified on behalf of the organization represented by the bot.</summary>
+    /// <summary>Removes verification from a chat that is currently verified <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> represented by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -4897,7 +4897,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>If you sent an invoice requesting a shipping address and the parameter <em>IsFlexible</em> was specified, the Bot API will send an <see cref="Update"/> with a <em>ShippingQuery</em> field to the bot. Use this method to reply to shipping queries</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="errorMessage">Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.</param>
+    /// <param name="errorMessage">Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task AnswerShippingQuery(
         this ITelegramBotClient botClient,

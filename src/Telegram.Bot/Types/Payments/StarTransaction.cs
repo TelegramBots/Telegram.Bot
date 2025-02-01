@@ -1,6 +1,6 @@
 namespace Telegram.Bot.Types.Payments;
 
-/// <summary>Describes a Telegram Star transaction.</summary>
+/// <summary>Describes a Telegram Star transaction. Note that if the buyer initiates a chargeback with the payment provider from whom they acquired Stars (e.g., Apple, Google) following this transaction, the refunded Stars will be deducted from the bot's balance. This is outside of Telegram's control.</summary>
 public partial class StarTransaction
 {
     /// <summary>Unique identifier of the transaction. Coincides with the identifier of the original transaction for refund transactions. Coincides with <em>SuccessfulPayment.TelegramPaymentChargeId</em> for successful incoming payments from users.</summary>

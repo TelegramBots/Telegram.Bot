@@ -1,6 +1,6 @@
 namespace Telegram.Bot.Types.Payments;
 
-/// <summary>This object contains basic information about a successful payment.</summary>
+/// <summary>This object contains basic information about a successful payment. Note that if the buyer initiates a chargeback with the relevant payment provider following this transaction, the funds may be debited from your balance. This is outside of Telegram's control.</summary>
 public partial class SuccessfulPayment
 {
     /// <summary>Three-letter ISO 4217 <a href="https://core.telegram.org/bots/payments#supported-currencies">currency</a> code, or “XTR” for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a></summary>

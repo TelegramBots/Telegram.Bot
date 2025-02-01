@@ -1,6 +1,6 @@
 namespace Telegram.Bot.Requests;
 
-/// <summary>Removes verification from a user who is currently verified on behalf of the organization represented by the bot.<para>Returns: </para></summary>
+/// <summary>Removes verification from a user who is currently verified <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> represented by the bot.<para>Returns: </para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class RemoveUserVerificationRequest() : RequestBase<bool>("removeUserVerification"), IUserTargetable
 {
