@@ -73,6 +73,20 @@ namespace Telegram.Bot.Types
         public bool IsInChat => Status is not ChatMemberStatus.Left and not ChatMemberStatus.Kicked;
     }
 
+    public partial class ChatPermissions
+    {
+        /// <summary>Initializes a new <see cref="ChatPermissions"/> instance with all fields set to <see langword="false"/>.</summary>
+        public ChatPermissions() { }
+        /// <summary>Initializes a new <see cref="ChatPermissions"/> instance with all fields set to the specified value.</summary>
+        /// <param name="defaultValue"><see langword="true"/> to allow all permissions by default</param>
+        public ChatPermissions(bool defaultValue)
+        {
+            CanSendMessages = CanSendAudios = CanSendDocuments = CanSendPhotos = defaultValue;
+            CanSendVideos = CanSendVideoNotes = CanSendVoiceNotes = CanSendPolls = CanSendOtherMessages = defaultValue;
+            CanAddWebPagePreviews = CanChangeInfo = CanInviteUsers = CanPinMessages = CanManageTopics = defaultValue;
+        }
+    }
+
     public partial class ReplyParameters
     {
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
