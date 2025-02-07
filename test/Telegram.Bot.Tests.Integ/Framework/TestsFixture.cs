@@ -78,7 +78,7 @@ public class TestsFixture : IDisposable
         var text = string.Format(Constants.InstructionsMessageFormat, instructions);
         chatId ??= SupergroupChat.Id;
 
-        IReplyMarkup replyMarkup = startInlineQuery
+        var replyMarkup = startInlineQuery
             ? (InlineKeyboardMarkup)InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
             : default;
 
@@ -235,7 +235,7 @@ public class TestsFixture : IDisposable
             text += $"\n\n{string.Format(Constants.InstructionsMessageFormat, Markdown.Escape(instructions))}";
         }
 
-        IReplyMarkup replyMarkup = switchInlineQuery
+        var replyMarkup = switchInlineQuery
             ? (InlineKeyboardMarkup)InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
             : default;
 

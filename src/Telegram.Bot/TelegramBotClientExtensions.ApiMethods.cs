@@ -209,7 +209,7 @@ public static partial class TelegramBotClientExtensions
         string text,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         LinkPreviewOptions? linkPreviewOptions = default,
         int? messageThreadId = default,
         IEnumerable<MessageEntity>? entities = default,
@@ -251,7 +251,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendMessage(chatId, text, parseMode, replyParameters, replyMarkup, linkPreviewOptions, messageThreadId, entities, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -365,7 +365,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? messageThreadId = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
@@ -406,7 +406,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         bool allowPaidBroadcast = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) => botClient.CopyMessage(chatId, fromChatId, messageId, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, allowPaidBroadcast, cancellationToken);
 
@@ -482,7 +482,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? messageThreadId = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
@@ -529,7 +529,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendPhoto(chatId, photo, caption, parseMode, replyParameters, replyMarkup, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -563,7 +563,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? duration = default,
         string? performer = default,
         string? title = default,
@@ -616,7 +616,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendAudio(chatId, audio, caption, parseMode, replyParameters, replyMarkup, duration, performer, title, thumbnail, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -648,7 +648,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         InputFile? thumbnail = default,
         int? messageThreadId = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -695,7 +695,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendDocument(chatId, document, caption, parseMode, replyParameters, replyMarkup, thumbnail, messageThreadId, captionEntities, disableContentTypeDetection, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -732,7 +732,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? duration = default,
         int? width = default,
         int? height = default,
@@ -794,7 +794,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendVideo(chatId, video, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, supportsStreaming, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -830,7 +830,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? duration = default,
         int? width = default,
         int? height = default,
@@ -889,7 +889,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendAnimation(chatId, animation, caption, parseMode, replyParameters, replyMarkup, duration, width, height, thumbnail, messageThreadId, captionEntities, showCaptionAboveMedia, hasSpoiler, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -920,7 +920,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? duration = default,
         int? messageThreadId = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -964,7 +964,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendVoice(chatId, voice, caption, parseMode, replyParameters, replyMarkup, duration, messageThreadId, captionEntities, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -991,7 +991,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         InputFile videoNote,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? duration = default,
         int? length = default,
         InputFile? thumbnail = default,
@@ -1034,7 +1034,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendVideoNote(chatId, videoNote, replyParameters, replyMarkup, duration, length, thumbnail, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -1065,7 +1065,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? payload = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
@@ -1108,7 +1108,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         bool allowPaidBroadcast = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendPaidMedia(chatId, starCount, media, caption, parseMode, replyParameters, replyMarkup, payload, captionEntities, showCaptionAboveMedia, disableNotification, protectContent, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -1192,7 +1192,7 @@ public static partial class TelegramBotClientExtensions
         double latitude,
         double longitude,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         double? horizontalAccuracy = default,
         int? livePeriod = default,
         int? heading = default,
@@ -1240,7 +1240,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendLocation(chatId, latitude, longitude, replyParameters, replyMarkup, horizontalAccuracy, livePeriod, heading, proximityAlertRadius, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -1274,7 +1274,7 @@ public static partial class TelegramBotClientExtensions
         string title,
         string address,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? foursquareId = default,
         string? foursquareType = default,
         string? googlePlaceId = default,
@@ -1326,7 +1326,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendVenue(chatId, latitude, longitude, title, address, replyParameters, replyMarkup, foursquareId, foursquareType, googlePlaceId, googlePlaceType, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -1356,7 +1356,7 @@ public static partial class TelegramBotClientExtensions
         string? lastName = default,
         string? vcard = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? messageThreadId = default,
         bool disableNotification = default,
         bool protectContent = default,
@@ -1396,7 +1396,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendContact(chatId, phoneNumber, firstName, lastName, vcard, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -1438,7 +1438,7 @@ public static partial class TelegramBotClientExtensions
         bool allowsMultipleAnswers = default,
         int? correctOptionId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? explanation = default,
         ParseMode explanationParseMode = default,
         IEnumerable<MessageEntity>? explanationEntities = default,
@@ -1506,7 +1506,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendPoll(chatId, question, options, isAnonymous, type, allowsMultipleAnswers, correctOptionId, replyParameters, replyMarkup, explanation, explanationParseMode, explanationEntities, questionParseMode, questionEntities, openPeriod, closeDate, isClosed, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -1530,7 +1530,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         string? emoji = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         int? messageThreadId = default,
         bool disableNotification = default,
         bool protectContent = default,
@@ -1564,7 +1564,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendDice(chatId, emoji, replyParameters, replyMarkup, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
@@ -3916,7 +3916,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         InputFile sticker,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? emoji = default,
         int? messageThreadId = default,
         bool disableNotification = default,
@@ -3953,7 +3953,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
-        IReplyMarkup? replyMarkup = default,
+        ReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => botClient.SendSticker(chatId, sticker, replyParameters, replyMarkup, emoji, messageThreadId, disableNotification, protectContent, messageEffectId, businessConnectionId, allowPaidBroadcast, cancellationToken);
