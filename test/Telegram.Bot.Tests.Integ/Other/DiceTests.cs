@@ -28,7 +28,7 @@ public class DiceTests(TestsFixture testsFixture)
     {
         Message message = await testsFixture.BotClient.SendDice(
             testsFixture.SupergroupChat,
-            emoji: Emoji.Darts
+            emoji: DiceEmoji.Darts
         );
 
         Assert.Equal(MessageType.Dice, message.Type);
@@ -43,7 +43,7 @@ public class DiceTests(TestsFixture testsFixture)
     {
         Message message = await testsFixture.BotClient.SendDice(
             testsFixture.SupergroupChat,
-            emoji: Emoji.Basketball
+            emoji: DiceEmoji.Basketball
         );
 
         Assert.Equal(MessageType.Dice, message.Type);
@@ -58,7 +58,7 @@ public class DiceTests(TestsFixture testsFixture)
     {
         Message message = await testsFixture.BotClient.SendDice(
             testsFixture.SupergroupChat,
-            emoji: Emoji.Football
+            emoji: DiceEmoji.Football
         );
 
         Assert.Equal(MessageType.Dice, message.Type);
@@ -72,7 +72,7 @@ public class DiceTests(TestsFixture testsFixture)
     {
         Message message = await testsFixture.BotClient.SendDice(
             testsFixture.SupergroupChat,
-            emoji: Emoji.SlotMachine
+            emoji: DiceEmoji.SlotMachine
         );
 
         Assert.Equal(MessageType.Dice, message.Type);
@@ -87,7 +87,7 @@ public class DiceTests(TestsFixture testsFixture)
     {
         Message message = await testsFixture.BotClient.SendDice(
             testsFixture.SupergroupChat,
-            emoji: Emoji.Bowling
+            emoji: DiceEmoji.Bowling
         );
 
         Assert.Equal(MessageType.Dice, message.Type);

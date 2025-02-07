@@ -1,7 +1,7 @@
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Emoji on which the dice throw animation is based</summary>
-public static class Emoji
+public static class DiceEmoji
 {
     /// <summary>Dice. Resulting value is 1-6</summary>
     public const string Dice = "🎲";

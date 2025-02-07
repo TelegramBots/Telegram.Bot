@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Reaction emoji.</summary>
 [PublicAPI]
-public static class KnownReactionTypeEmoji
+public static class ReactionEmoji
 {
     /// <summary>Thumbs Up Emoji</summary>
     public const string ThumbsUp = "👍";
