@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the position on faces where a mask should be placed by default.</summary>

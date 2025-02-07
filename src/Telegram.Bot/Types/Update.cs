@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This <a href="https://core.telegram.org/bots/api#available-types">object</a> represents an incoming update.<br/>At most <b>one</b> of the optional parameters can be present in any given update.</summary>

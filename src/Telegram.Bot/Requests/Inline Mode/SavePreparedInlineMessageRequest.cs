@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Stores a message that can be sent by a user of a Mini App.<para>Returns: A <see cref="PreparedInlineMessage"/> object.</para></summary>

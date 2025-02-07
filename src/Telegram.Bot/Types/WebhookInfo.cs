@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>Describes the current status of a webhook.</summary>

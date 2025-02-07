@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to set the title of a created sticker set.<para>Returns: </para></summary>

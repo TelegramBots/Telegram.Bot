@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>

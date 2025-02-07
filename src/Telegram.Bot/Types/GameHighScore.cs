@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object represents one row of the high scores table for a game.</summary>

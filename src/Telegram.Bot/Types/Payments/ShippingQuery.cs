@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object contains information about an incoming shipping query.</summary>

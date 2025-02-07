@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object describes the state of a revenue withdrawal operation. Currently, it can be one of<br/><see cref="RevenueWithdrawalStatePending"/>, <see cref="RevenueWithdrawalStateSucceeded"/>, <see cref="RevenueWithdrawalStateFailed"/></summary>

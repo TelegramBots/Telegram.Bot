@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Payments;
 
 /// <summary>Contains a list of Telegram Star transactions.</summary>

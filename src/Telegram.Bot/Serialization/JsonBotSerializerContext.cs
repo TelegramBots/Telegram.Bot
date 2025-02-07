@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 #if NET6_0_OR_GREATER
 using Telegram.Bot.Requests;
 

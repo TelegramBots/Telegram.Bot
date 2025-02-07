@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Refunds a successful payment in <a href="https://t.me/BotNews/90">Telegram Stars</a>.<para>Returns: </para></summary>

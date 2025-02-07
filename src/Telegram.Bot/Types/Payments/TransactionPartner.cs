@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Payments;
 
 /// <summary>This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of<br/><see cref="TransactionPartnerUser"/>, <see cref="TransactionPartnerAffiliateProgram"/>, <see cref="TransactionPartnerFragment"/>, <see cref="TransactionPartnerTelegramAds"/>, <see cref="TransactionPartnerTelegramApi"/>, <see cref="TransactionPartnerOther"/></summary>

@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Returns the bot's Telegram Star transactions in chronological order.<para>Returns: A <see cref="StarTransactions"/> object.</para></summary>

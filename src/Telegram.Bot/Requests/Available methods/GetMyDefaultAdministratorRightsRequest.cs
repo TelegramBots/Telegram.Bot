@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get the current default administrator rights of the bot.<para>Returns: <see cref="ChatAdministratorRights"/> on success.</para></summary>

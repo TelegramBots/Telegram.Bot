@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object describes paid media. Currently, it can be one of<br/><see cref="PaidMediaPreview"/>, <see cref="PaidMediaPhoto"/>, <see cref="PaidMediaVideo"/></summary>

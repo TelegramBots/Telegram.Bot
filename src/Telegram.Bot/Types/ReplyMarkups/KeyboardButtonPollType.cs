@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.</summary>

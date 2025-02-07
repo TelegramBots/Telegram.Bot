@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Payments;
 
 /// <summary>Contains information about the affiliate that received a commission via this transaction.</summary>

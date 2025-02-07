@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to move a sticker in a set created by the bot to a specific position.<para>Returns: </para></summary>

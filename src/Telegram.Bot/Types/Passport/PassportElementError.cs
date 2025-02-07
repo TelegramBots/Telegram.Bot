@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Passport;
 
 /// <summary>This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user. It should be one of:<br/><see cref="PassportElementErrorDataField"/>, <see cref="PassportElementErrorFrontSide"/>, <see cref="PassportElementErrorReverseSide"/>, <see cref="PassportElementErrorSelfie"/>, <see cref="PassportElementErrorFile"/>, <see cref="PassportElementErrorFiles"/>, <see cref="PassportElementErrorTranslationFile"/>, <see cref="PassportElementErrorTranslationFiles"/>, <see cref="PassportElementErrorUnspecified"/></summary>

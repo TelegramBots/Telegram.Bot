@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get the current bot name for the given user language.<para>Returns: <see cref="BotName"/> on success.</para></summary>

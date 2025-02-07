@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get the current list of the bot's commands for the given scope and user language.<para>Returns: An Array of <see cref="BotCommand"/> objects. If commands aren't set, an empty list is returned.</para></summary>

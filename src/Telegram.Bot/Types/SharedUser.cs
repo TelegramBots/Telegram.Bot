@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object contains information about a user that was shared with the bot using a <see cref="KeyboardButtonRequestUsers"/> button.</summary>

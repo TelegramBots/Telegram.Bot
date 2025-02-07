@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get up-to-date information about the chat.<para>Returns: A <see cref="ChatFullInfo"/> object on success.</para></summary>

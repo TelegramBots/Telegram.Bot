@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Passport;
 
 /// <summary>Describes Telegram Passport data shared with the bot by the user.</summary>

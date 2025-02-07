@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get a list of administrators in a chat, which aren't bots.<para>Returns: An Array of <see cref="ChatMember"/> objects.</para></summary>

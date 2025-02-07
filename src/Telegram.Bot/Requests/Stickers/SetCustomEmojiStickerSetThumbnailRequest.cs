@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to set the thumbnail of a custom emoji sticker set.<para>Returns: </para></summary>

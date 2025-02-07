@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to stop updating a live location message before <em>LivePeriod</em> expires.<para>Returns: The edited <see cref="Message"/> is returned</para></summary>

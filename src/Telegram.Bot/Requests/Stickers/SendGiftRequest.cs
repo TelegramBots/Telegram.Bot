@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user.<para>Returns: </para></summary>

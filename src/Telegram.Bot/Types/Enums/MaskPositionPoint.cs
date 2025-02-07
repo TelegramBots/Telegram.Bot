@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary><see cref="MaskPosition"/>: The part of the face relative to which the mask should be placed. One of <see cref="Forehead">Forehead</see>, <see cref="Eyes">Eyes</see>, <see cref="Mouth">Mouth</see>, or <see cref="Chin">Chin</see>.</summary>
