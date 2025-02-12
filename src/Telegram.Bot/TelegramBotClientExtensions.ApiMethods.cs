@@ -4415,7 +4415,7 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().SendRequest(new SendGiftRequest
     {
         ChatId = chatId?.Identifier > 0 ? null : chatId,
-        UserId = chatId?.Identifier > 0 ? chatId?.Identifier : null,
+        UserId = chatId?.Identifier > 0 ? chatId.Identifier : null,
         GiftId = giftId,
         Text = text,
         TextParseMode = textParseMode,
