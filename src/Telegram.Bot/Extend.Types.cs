@@ -68,8 +68,10 @@ namespace Telegram.Bot.Types
     public partial class ChatMember
     {
         /// <summary>Check if the user is chat admin or owner</summary>
+        [JsonIgnore]
         public bool IsAdmin => Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator;
         /// <summary>Check if the user is in the chat</summary>
+        [JsonIgnore]
         public bool IsInChat => Status switch
         {
             ChatMemberStatus.Left or ChatMemberStatus.Kicked => false,
