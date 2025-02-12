@@ -19,6 +19,12 @@ public partial class Video : FileBase
     /// <summary><em>Optional</em>. Video thumbnail</summary>
     public PhotoSize? Thumbnail { get; set; }
 
+    /// <summary><em>Optional</em>. Available sizes of the cover of the video in the message</summary>
+    public PhotoSize[]? Cover { get; set; }
+
+    /// <summary><em>Optional</em>. Timestamp in seconds from which the video will play in the message</summary>
+    public int? StartTimestamp { get; set; }
+
     /// <summary><em>Optional</em>. Original filename as defined by the sender</summary>
     public string? FileName { get; set; }
 

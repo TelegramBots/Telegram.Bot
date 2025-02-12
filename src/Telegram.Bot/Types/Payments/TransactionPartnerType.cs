@@ -17,4 +17,6 @@ public enum TransactionPartnerType
     TelegramApi,
     /// <summary>Describes the affiliate program that issued the affiliate commission received via this transaction.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerAffiliateProgram"/>)</i></summary>
     AffiliateProgram,
+    /// <summary>Describes a transaction with a chat.<br/><br/><i>(<see cref="TransactionPartner"/> can be cast into <see cref="TransactionPartnerChat"/>)</i></summary>
+    Chat,
 }

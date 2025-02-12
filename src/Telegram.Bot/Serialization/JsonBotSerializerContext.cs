@@ -257,6 +257,7 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(RevenueWithdrawalStateSucceeded))]
 [JsonSerializable(typeof(RevenueWithdrawalStateFailed))]
 [JsonSerializable(typeof(TransactionPartnerUser))]
+[JsonSerializable(typeof(TransactionPartnerChat))]
 [JsonSerializable(typeof(TransactionPartnerAffiliateProgram))]
 [JsonSerializable(typeof(TransactionPartnerFragment))]
 [JsonSerializable(typeof(TransactionPartnerTelegramAds))]

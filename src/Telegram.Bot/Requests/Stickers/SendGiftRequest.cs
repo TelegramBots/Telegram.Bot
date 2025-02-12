@@ -1,17 +1,19 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user.<para>Returns: </para></summary>
+/// <summary>Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver.<para>Returns: </para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public partial class SendGiftRequest() : RequestBase<bool>("sendGift"), IUserTargetable
+public partial class SendGiftRequest() : RequestBase<bool>("sendGift")
 {
-    /// <summary>Unique identifier of the target user that will receive the gift</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required long UserId { get; set; }
-
     /// <summary>Identifier of the gift</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GiftId { get; set; }
+
+    /// <summary>Required if <see cref="ChatId">ChatId</see> is not specified. Unique identifier of the target user who will receive the gift.</summary>
+    public long? UserId { get; set; }
+
+    /// <summary>Required if <see cref="UserId">UserId</see> is not specified. Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>) that will receive the gift.</summary>
+    public ChatId? ChatId { get; set; }
 
     /// <summary>Pass <see langword="true"/> to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver</summary>
     public bool PayForUpgrade { get; set; }
