@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
@@ -59,7 +60,7 @@ public partial class SendAnimationRequest() : FileRequestBase<Message>("sendAnim
     public ReplyParameters? ReplyParameters { get; set; }
 
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
-    public IReplyMarkup? ReplyMarkup { get; set; }
+    public ReplyMarkup? ReplyMarkup { get; set; }
 
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     public string? BusinessConnectionId { get; set; }

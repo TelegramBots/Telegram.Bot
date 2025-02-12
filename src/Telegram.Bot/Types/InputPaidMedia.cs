@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object describes the paid media to be sent. Currently, it can be one of<br/><see cref="InputPaidMediaPhoto"/>, <see cref="InputPaidMediaVideo"/></summary>
@@ -31,6 +32,12 @@ public partial class InputPaidMediaVideo : InputPaidMedia, IInputMediaThumb
 
     /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
+
+    /// <summary><em>Optional</em>. Cover for the video in the message. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
+    public string? Cover { get; set; }
+
+    /// <summary><em>Optional</em>. Start timestamp for the video in the message</summary>
+    public int? StartTimestamp { get; set; }
 
     /// <summary><em>Optional</em>. Video width</summary>
     public int Width { get; set; }

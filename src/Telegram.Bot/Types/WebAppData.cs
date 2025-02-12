@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>Describes data sent from a <a href="https://core.telegram.org/bots/webapps">Web App</a> to the bot.</summary>

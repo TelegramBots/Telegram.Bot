@@ -1,9 +1,11 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Payments;
 
-/// <summary>This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of<br/><see cref="TransactionPartnerUser"/>, <see cref="TransactionPartnerAffiliateProgram"/>, <see cref="TransactionPartnerFragment"/>, <see cref="TransactionPartnerTelegramAds"/>, <see cref="TransactionPartnerTelegramApi"/>, <see cref="TransactionPartnerOther"/></summary>
+/// <summary>This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of<br/><see cref="TransactionPartnerUser"/>, <see cref="TransactionPartnerChat"/>, <see cref="TransactionPartnerAffiliateProgram"/>, <see cref="TransactionPartnerFragment"/>, <see cref="TransactionPartnerTelegramAds"/>, <see cref="TransactionPartnerTelegramApi"/>, <see cref="TransactionPartnerOther"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<TransactionPartner>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(TransactionPartnerUser), "user")]
+[CustomJsonDerivedType(typeof(TransactionPartnerChat), "chat")]
 [CustomJsonDerivedType(typeof(TransactionPartnerAffiliateProgram), "affiliate_program")]
 [CustomJsonDerivedType(typeof(TransactionPartnerFragment), "fragment")]
 [CustomJsonDerivedType(typeof(TransactionPartnerTelegramAds), "telegram_ads")]
@@ -42,6 +44,20 @@ public partial class TransactionPartnerUser : TransactionPartner
     public string? PaidMediaPayload { get; set; }
 
     /// <summary><em>Optional</em>. The gift sent to the user by the bot</summary>
+    public Gift? Gift { get; set; }
+}
+
+/// <summary>Describes a transaction with a chat.</summary>
+public partial class TransactionPartnerChat : TransactionPartner
+{
+    /// <summary>Type of the transaction partner, always <see cref="TransactionPartnerType.Chat"/></summary>
+    public override TransactionPartnerType Type => TransactionPartnerType.Chat;
+
+    /// <summary>Information about the chat</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public Chat Chat { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. The gift sent to the chat by the bot</summary>
     public Gift? Gift { get; set; }
 }
 

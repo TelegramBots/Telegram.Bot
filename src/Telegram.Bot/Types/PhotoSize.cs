@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object represents one size of a photo or a <see cref="Document">file</see> / <see cref="Sticker"/> thumbnail.</summary>

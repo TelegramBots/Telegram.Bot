@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the paid media, always <see cref="PaidMedia"/></summary>

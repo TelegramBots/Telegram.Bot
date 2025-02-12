@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionId</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessage">ForwardMessage</see>, but the copied message doesn't have a link to the original message.<para>Returns: The <see cref="MessageId"/> of the sent message on success.</para></summary>
@@ -18,6 +19,9 @@ public partial class CopyMessageRequest() : RequestBase<MessageId>("copyMessage"
 
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     public int? MessageThreadId { get; set; }
+
+    /// <summary>New start timestamp for the copied video in the message</summary>
+    public int? VideoStartTimestamp { get; set; }
 
     /// <summary>New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept</summary>
     public string? Caption { get; set; }
@@ -44,5 +48,5 @@ public partial class CopyMessageRequest() : RequestBase<MessageId>("copyMessage"
     public ReplyParameters? ReplyParameters { get; set; }
 
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
-    public IReplyMarkup? ReplyMarkup { get; set; }
+    public ReplyMarkup? ReplyMarkup { get; set; }
 }

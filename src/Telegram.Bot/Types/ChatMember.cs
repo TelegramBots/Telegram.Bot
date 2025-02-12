@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:<br/><see cref="ChatMemberOwner"/>, <see cref="ChatMemberAdministrator"/>, <see cref="ChatMemberMember"/>, <see cref="ChatMemberRestricted"/>, <see cref="ChatMemberLeft"/>, <see cref="ChatMemberBanned"/></summary>

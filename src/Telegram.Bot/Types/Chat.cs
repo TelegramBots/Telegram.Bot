@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a chat.</summary>
@@ -104,6 +105,9 @@ public partial class ChatFullInfo : Chat
 
     /// <summary><em>Optional</em>. Default chat member permissions, for groups and supergroups</summary>
     public ChatPermissions? Permissions { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if gifts can be sent to the chat</summary>
+    public bool CanSendGift { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.</summary>
     public bool CanSendPaidMedia { get; set; }

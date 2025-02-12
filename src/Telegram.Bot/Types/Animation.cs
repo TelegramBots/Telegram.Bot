@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
 /// <summary>This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).</summary>

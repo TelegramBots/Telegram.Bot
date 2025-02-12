@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.InlineQueryResults;
 
 /// <summary>This object represents a button to be shown above inline query results. You <b>must</b> use exactly one of the optional fields.</summary>

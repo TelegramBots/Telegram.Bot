@@ -65,6 +65,35 @@ namespace Telegram.Bot.Types
         public override string ToString() => Username != null ? $"@{Username} ({Id})" : $"{FirstName}{LastName?.Insert(0, " ")} ({Id})";
     }
 
+    public partial class ChatMember
+    {
+        /// <summary>Check if the user is chat admin or owner</summary>
+        [JsonIgnore]
+        public bool IsAdmin => Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator;
+        /// <summary>Check if the user is in the chat</summary>
+        [JsonIgnore]
+        public bool IsInChat => Status switch
+        {
+            ChatMemberStatus.Left or ChatMemberStatus.Kicked => false,
+            ChatMemberStatus.Restricted => ((ChatMemberRestricted)this).IsMember,
+            _ => true
+        };
+    }
+
+    public partial class ChatPermissions
+    {
+        /// <summary>Initializes a new <see cref="ChatPermissions"/> instance with all fields set to <see langword="false"/>.</summary>
+        public ChatPermissions() { }
+        /// <summary>Initializes a new <see cref="ChatPermissions"/> instance with all fields set to the specified value.</summary>
+        /// <param name="defaultValue"><see langword="true"/> to allow all permissions by default</param>
+        public ChatPermissions(bool defaultValue)
+        {
+            CanSendMessages = CanSendAudios = CanSendDocuments = CanSendPhotos = defaultValue;
+            CanSendVideos = CanSendVideoNotes = CanSendVoiceNotes = CanSendPolls = CanSendOtherMessages = defaultValue;
+            CanAddWebPagePreviews = CanChangeInfo = CanInviteUsers = CanPinMessages = CanManageTopics = defaultValue;
+        }
+    }
+
     public partial class ReplyParameters
     {
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
@@ -162,16 +191,34 @@ namespace Telegram.Bot.Types
 
             /// <summary>Generates a reply keyboard markup with one button</summary>
             /// <param name="text">Button's text</param>
+            [return: NotNullIfNotNull(nameof(text))]
             public static implicit operator ReplyKeyboardMarkup?(string? text) => text is null ? default : new(text);
 
             /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
             /// <param name="texts">Texts of buttons</param>
+            [return: NotNullIfNotNull(nameof(texts))]
             public static implicit operator ReplyKeyboardMarkup?(string[]? texts) => texts is null ? default : new[] { texts };
 
             /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
-            /// <param name="textsItems">Texts of buttons</param>
-            public static implicit operator ReplyKeyboardMarkup?(string[][]? textsItems) => textsItems is null ? default
-                : new ReplyKeyboardMarkup(textsItems.Select(texts => texts.Select(t => new KeyboardButton(t)).ToList()).ToList());
+            /// <param name="texts">Texts of buttons</param>
+            [return: NotNullIfNotNull(nameof(texts))]
+            public static implicit operator ReplyKeyboardMarkup?(string[][]? texts) => texts is null ? default
+                : new ReplyKeyboardMarkup(texts.Select(texts => texts.Select(t => new KeyboardButton(t)).ToList()).ToList());
+
+            /// <summary>Generates a reply keyboard markup with one button</summary>
+            /// <param name="button">Keyboard button</param>
+            [return: NotNullIfNotNull(nameof(button))]
+            public static implicit operator ReplyKeyboardMarkup?(KeyboardButton? button) => button is null ? default : new(button);
+
+            /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator ReplyKeyboardMarkup?(KeyboardButton[]? buttons) => buttons is null ? default : new([buttons]);
+
+            /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator ReplyKeyboardMarkup?(IEnumerable<KeyboardButton>[]? buttons) => buttons is null ? default : new(buttons);
 
             /// <summary>Add a button to the last row</summary>
             /// <param name="button">The button or text to add</param>
@@ -242,19 +289,17 @@ namespace Telegram.Bot.Types
             /// <summary>Generate an inline keyboard markup with one button</summary>
             /// <param name="buttonText">Text of the button</param>
             [return: NotNullIfNotNull(nameof(buttonText))]
-            public static implicit operator InlineKeyboardMarkup?(string? buttonText) => buttonText is null ? default : new(buttonText!);
-
-            /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
-            /// <param name="inlineKeyboard">Keyboard buttons</param>
-            [return: NotNullIfNotNull(nameof(inlineKeyboard))]
-            public static implicit operator InlineKeyboardMarkup?(IEnumerable<InlineKeyboardButton>[]? inlineKeyboard)
-                => inlineKeyboard is null ? default : new(inlineKeyboard);
+            public static implicit operator InlineKeyboardMarkup?(string? buttonText) => buttonText is null ? default : new(buttonText);
 
             /// <summary>Generate an inline keyboard markup from multiple buttons on 1 row</summary>
-            /// <param name="inlineKeyboard">Keyboard buttons</param>
-            [return: NotNullIfNotNull(nameof(inlineKeyboard))]
-            public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton[]? inlineKeyboard)
-                => inlineKeyboard is null ? default : new(inlineKeyboard);
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton[]? buttons) => buttons is null ? default : new(buttons);
+
+            /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator InlineKeyboardMarkup?(IEnumerable<InlineKeyboardButton>[]? buttons) => buttons is null ? default : new(buttons);
 
             /// <summary>Add a button to the last row</summary>
             /// <param name="button">The button to add</param>
@@ -297,6 +342,19 @@ namespace Telegram.Bot.Types
 
         public partial class InlineKeyboardButton
         {
+            /// <summary>Creates an inline keyboard button for external URL or for data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes</summary>
+            /// <param name="text">Label text on the button</param>
+            /// <param name="callbackDataOrUrl">URL (starting with http:// or https://) to be opened, or data (1-64 characters) to be sent in a <see cref="CallbackQuery">callback query</see> to the bot, when the button is pressed</param>
+            [SetsRequiredMembers]
+            public InlineKeyboardButton(string text, string callbackDataOrUrl)
+            {
+                Text = text;
+                if (callbackDataOrUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || callbackDataOrUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    Url = callbackDataOrUrl;
+                else
+                    CallbackData = callbackDataOrUrl;
+            }
+
             /// <summary>Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/> with callback data</summary>
             /// <param name="textAndCallbackData">Label text and callback data of the button</param>
             /// <returns>The result of the conversion.</returns>

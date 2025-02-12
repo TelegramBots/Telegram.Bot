@@ -1,7 +1,8 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>This object represents an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a> that appears right next to the message it belongs to.</summary>
-public partial class InlineKeyboardMarkup : IReplyMarkup
+public partial class InlineKeyboardMarkup : ReplyMarkup
 {
     /// <summary>Array of button rows, each represented by an Array of <see cref="InlineKeyboardButton"/> objects</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

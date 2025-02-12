@@ -1,3 +1,4 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to get information about the connection of the bot with a business account.<para>Returns: A <see cref="BusinessConnection"/> object on success.</para></summary>
