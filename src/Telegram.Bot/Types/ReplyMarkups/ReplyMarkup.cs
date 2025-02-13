@@ -35,7 +35,7 @@ public abstract class ReplyMarkup
     /// <param name="buttons">Keyboard buttons</param>
     public static implicit operator ReplyMarkup?(IEnumerable<KeyboardButton>[]? buttons) => buttons is null ? default : new ReplyKeyboardMarkup(buttons) { ResizeKeyboard = true };
 
-
+    /// <summary>Generate an inline keyboard markup from a single button</summary>
     /// <param name="button">Inline keyboard button</param>
     [return: NotNullIfNotNull(nameof(button))]
     public static implicit operator ReplyMarkup?(InlineKeyboardButton? button) => button is null ? default : new InlineKeyboardMarkup(button);
