@@ -355,11 +355,17 @@ namespace Telegram.Bot.Types
                     CallbackData = callbackDataOrUrl;
             }
 
-            /// <summary>Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/> with callback data</summary>
-            /// <param name="textAndCallbackData">Label text and callback data of the button</param>
+            /// <summary>Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/></summary>
+            /// <param name="textAndCallbackDataOrUrl">Text serving as the label of the button, as well as the URL to be opened or the callback data to be sent</param>
             /// <returns>The result of the conversion.</returns>
-            public static implicit operator InlineKeyboardButton(string textAndCallbackData)
-                => new(textAndCallbackData) { CallbackData = textAndCallbackData };
+            public static implicit operator InlineKeyboardButton(string textAndCallbackDataOrUrl)
+                => new(textAndCallbackDataOrUrl, textAndCallbackDataOrUrl);
+
+            /// <summary>Performs an implicit conversion from (<see cref="string"/>, <see cref="string"/>) tuple to <see cref="InlineKeyboardButton"/></summary>
+            /// <param name="tuple">Tuple with label text, and the URL to be opened or the callback data</param>
+            /// <returns>The result of the conversion.</returns>
+            public static implicit operator InlineKeyboardButton((string text, string callbackDataOrUrl) tuple)
+                => new(tuple.text, tuple.callbackDataOrUrl);
 
             /// <summary>Creates an inline keyboard button that sends <see cref="CallbackQuery"/> to bot when pressed</summary>
             /// <param name="textAndCallbackData">Text and data of the button to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when button is pressed, 1-64 bytes</param>
