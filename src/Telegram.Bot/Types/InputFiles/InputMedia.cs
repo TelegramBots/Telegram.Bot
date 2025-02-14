@@ -68,7 +68,7 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Cover for the video in the message. Pass a FileId to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
-    public string? Cover { get; set; }
+    public InputFile? Cover { get; set; }
 
     /// <summary><em>Optional</em>. Start timestamp for the video in the message</summary>
     public int? StartTimestamp { get; set; }
