@@ -132,9 +132,9 @@ namespace Telegram.Bot.Types
     {
         /// <summary>Instantiates a new BotCommand</summary>
         /// <param name="command">Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores</param>
-        /// <param name="description">Description of the command, 1-256 characters</param></param>
+        /// <param name="description">Description of the command, 1-256 characters</param>
         public BotCommand(string command, string description) { Command = command; Description = description; }
-        /// <summary>Instantiates a new BotCommand like this: <code>new BotCommand { Command = "/start", Description = "Welcome message" }</code></summary>
+        /// <summary>Instantiates a new BotCommand like this: <code>new BotCommand { Command = "/start", Description = "Start the bot" }</code></summary>
         public BotCommand() { }
         /// <summary>Instantiates a new BotCommand from a tuple</summary>
         public static implicit operator BotCommand((string text, string description) tuple) => new(tuple.text, tuple.description);
