@@ -128,6 +128,18 @@ namespace Telegram.Bot.Types
         public static implicit operator InputPollOption(string text) => new() { Text = text };
     }
 
+    public partial class BotCommand
+    {
+        /// <summary>Instantiates a new BotCommand</summary>
+        /// <param name="command">Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores</param>
+        /// <param name="description">Description of the command, 1-256 characters</param></param>
+        public BotCommand(string command, string description) { Command = command; Description = description; }
+        /// <summary>Instantiates a new BotCommand like this: <code>new BotCommand { Command = "/start", Description = "Welcome message" }</code></summary>
+        public BotCommand() { }
+        /// <summary>Instantiates a new BotCommand from a tuple</summary>
+        public static implicit operator BotCommand((string text, string description) tuple) => new(tuple.text, tuple.description);
+    }
+
     public partial class BotCommandScope
     {
         /// <summary>Create a default <see cref="BotCommandScope"/> instance</summary>
@@ -154,7 +166,7 @@ namespace Telegram.Bot.Types
     {
         public partial class LabeledPrice
         {
-            /// <summary>Instantiates a new <see cref="LabeledPrice"/></summary>
+            /// <summary>Instantiates a new <see cref="LabeledPrice"/> from a tuple</summary>
             public static implicit operator LabeledPrice((string label, int amount) t) => new(t.label, t.amount);
         }
     }
