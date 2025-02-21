@@ -16,26 +16,25 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		CHANGELOG.md = CHANGELOG.md
-		CONTRIBUTING.md = CONTRIBUTING.md
-		global.json = global.json
-		README.md = README.md
-		THIRD_PARTY_NOTICES = THIRD_PARTY_NOTICES
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.gitpod.yml = .gitpod.yml
-		LICENSE = LICENSE
+		CHANGELOG.md = CHANGELOG.md
+		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+		THIRD_PARTY_NOTICES = THIRD_PARTY_NOTICES
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-pipelines", "{71662597-40F2-4192-AC4D-5FB9A1F12642}"
 	ProjectSection(SolutionItems) = preProject
 		.azure-pipelines\ci.yml = .azure-pipelines\ci.yml
+		.azure-pipelines\external-release-publish.yml = .azure-pipelines\external-release-publish.yml
 		.azure-pipelines\full-integration-tests.yml = .azure-pipelines\full-integration-tests.yml
 		.azure-pipelines\non-interactive-integration-tests.yml = .azure-pipelines\non-interactive-integration-tests.yml
 		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
 		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
-		.azure-pipelines\external-release-publish.yml = .azure-pipelines\external-release-publish.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{C20A563E-603B-49E8-A954-DB90D4F351DE}"
@@ -50,8 +49,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
 		.devcontainer\Dockerfile = .devcontainer\Dockerfile
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumSerializer.Generator", "src\EnumSerializer.Generator\EnumSerializer.Generator.csproj", "{C246B54F-018B-4589-B26D-C38D7846FFF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,10 +68,6 @@ Global
 		{AAB9E3BA-D749-4D38-9021-EBD8D0BC8975}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAB9E3BA-D749-4D38-9021-EBD8D0BC8975}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAB9E3BA-D749-4D38-9021-EBD8D0BC8975}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,7 +79,6 @@ Global
 		{71662597-40F2-4192-AC4D-5FB9A1F12642} = {C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}
 		{C20A563E-603B-49E8-A954-DB90D4F351DE} = {71662597-40F2-4192-AC4D-5FB9A1F12642}
 		{4897F36C-2F57-48A7-B425-D8F695E0AC0D} = {C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}
-		{C246B54F-018B-4589-B26D-C38D7846FFF2} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6A9C4CA-DF26-4772-9119-627935D70E7C}
