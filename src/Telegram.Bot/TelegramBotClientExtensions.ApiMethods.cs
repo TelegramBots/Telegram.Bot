@@ -1,3 +1,4 @@
+// MOSTLY GENERATED FILE - DO NOT MODIFY MANUALLY unless you know what you're doing
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;

@@ -54,14 +54,21 @@ public interface ITelegramBotClient
     /// <returns><see langword="true"/> if token is valid</returns>
     Task<bool> TestApi(CancellationToken cancellationToken = default);
 
-    /// <summary>Use this method to download a file. Get <paramref name="filePath"/> by calling
-    /// <see cref="TelegramBotClientExtensions.GetFile(ITelegramBotClient, string, CancellationToken)"/></summary>
-    /// <param name="filePath">Path to file on server</param>
+    /// <summary>Use this method to download a file after calling <see cref="TelegramBotClientExtensions.GetFile">GetFile</see></summary>
+    /// <param name="filePath">Path to file on Telegram</param>
     /// <param name="destination">Destination stream to write file to</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     /// <exception cref="ArgumentException">filePath is <see langword="null"/>, empty or too short</exception>
     /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <see langword="null"/></exception>
     Task DownloadFile(string filePath, Stream destination, CancellationToken cancellationToken = default);
+
+    /// <summary>Use this method to download a file after calling <see cref="TelegramBotClientExtensions.GetFile">GetFile</see></summary>
+    /// <param name="file">File on Telegram</param>
+    /// <param name="destination">Destination stream to write file to</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    /// <exception cref="ArgumentException">filePath is <see langword="null"/>, empty or too short</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <see langword="null"/></exception>
+    Task DownloadFile(TGFile file, Stream destination, CancellationToken cancellationToken = default);
 }
 
 public static partial class TelegramBotClientExtensions
