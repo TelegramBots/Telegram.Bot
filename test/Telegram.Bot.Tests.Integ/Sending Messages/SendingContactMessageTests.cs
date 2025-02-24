@@ -35,8 +35,7 @@ public class SendingContactMessageTests(TestsFixture fixture) : TestClass(fixtur
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
     public async Task Should_Send_Contact_With_VCard()
     {
-        string vcard =
-            """
+        string vcard = """
             BEGIN:VCARD
             VERSION:2.1
             N:Gump;Forrest;;Mr.
@@ -52,7 +51,7 @@ public class SendingContactMessageTests(TestsFixture fixture) : TestClass(fixtur
             EMAIL:forrestgump@example.org
             REV:20080424T195243Z
             END:VCARD
-            """.Replace("\r", "");
+            """;
 
         Message message = await BotClient.SendContact(
             chatId: Fixture.SupergroupChat,
@@ -63,6 +62,6 @@ public class SendingContactMessageTests(TestsFixture fixture) : TestClass(fixtur
 
         Assert.Equal(MessageType.Contact, message.Type);
         Assert.NotNull(message.Contact);
-        Assert.Equal(vcard, message.Contact.Vcard);
+        Assert.Equal(vcard.Replace("\r", ""), message.Contact.Vcard);
     }
 }

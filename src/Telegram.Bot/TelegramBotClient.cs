@@ -217,6 +217,10 @@ public class TelegramBotClient : ITelegramBotClient
     public static FileIdType GetFileIdType(string fileId) => (FileIdType)Convert.FromBase64String(fileId[0..4])[0];
 
     /// <inheritdoc/>
+    public Task DownloadFile(TGFile file, Stream destination, CancellationToken cancellationToken = default)
+        => DownloadFile(file.FilePath!, destination, cancellationToken);
+
+    /// <inheritdoc/>
     public async Task DownloadFile(string filePath, Stream destination, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(filePath) || filePath.Length < 2)
