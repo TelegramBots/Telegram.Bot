@@ -10,7 +10,7 @@ using Telegram.Bot.Requests;
 using System.Net.Http.Json;
 #endif
 
-#pragma warning disable CA1001 // _receivingEvents isn't used with timer or WaitHandle, so needn't be disposed
+#pragma warning disable CA1001 // _receivingEvents isn't used with timer or WaitHandle, so needn't be disposed 
 
 namespace Telegram.Bot;
 
