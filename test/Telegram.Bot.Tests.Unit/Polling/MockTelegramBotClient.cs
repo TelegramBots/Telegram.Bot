@@ -30,6 +30,7 @@ public class MockTelegramBotClient : ITelegramBotClient
     public int MessageGroupsLeft => _messages.Count;
     public MockClientOptions Options { get; }
 
+#pragma warning disable IDE0306
     public MockTelegramBotClient(MockClientOptions? options = default)
     {
         Options = options ?? new();
@@ -41,6 +42,7 @@ public class MockTelegramBotClient : ITelegramBotClient
         Options = new();
         _messages = new(messages.Select(message => message.Split('-')));
     }
+#pragma warning restore IDE0306
 
     public async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {

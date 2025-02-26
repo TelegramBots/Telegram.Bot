@@ -1,14 +1,12 @@
 using System.Runtime.CompilerServices;
 using Telegram.Bot;
+
 #if NET6_0_OR_GREATER
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.WebUtilities;
 using System.Linq;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 #endif
 
 #pragma warning disable IDE0130, MA0003
@@ -39,56 +37,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection ConfigureTelegramBot<TOptions>(this IServiceCollection services, Func<TOptions, JsonSerializerOptions> opt)
             where TOptions : class
             => services.Configure<TOptions>(options => JsonBotAPI.Configure(opt(options)));
-
-#if NET6_0_OR_GREATER
-        /// <summary>Configure ASP.NET MVC Json (de)serialization for Telegram.Bot types</summary>
-        /// <param name="services">The IServiceCollection to add the services to.</param>
-        public static IServiceCollection ConfigureTelegramBotMvc(this IServiceCollection services)
-            => services.Configure<MvcOptions>(options =>
-            {
-                options.InputFormatters.Insert(0, InputFormatter);
-                options.OutputFormatters.Insert(0, OutputFormatter);
-            });
-
-        private static readonly TelegramBotOutputFormatter OutputFormatter = new();
-        private static readonly TelegramBotInputFormatter InputFormatter = new();
-
-#pragma warning disable MA0004 // See https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/custom-formatters?view=aspnetcore-8.0
-        private class TelegramBotInputFormatter : TextInputFormatter
-        {
-            public TelegramBotInputFormatter()
-            {
-                SupportedEncodings.Add(Encoding.UTF8);
-                SupportedMediaTypes.Add("application/json");
-            }
-
-            protected override bool CanReadType(Type type) => type == typeof(Update);
-
-            public sealed override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
-            {
-                var model = await JsonSerializer.DeserializeAsync(context.HttpContext.Request.Body, context.ModelType, JsonBotAPI.Options, context.HttpContext.RequestAborted);
-                return await InputFormatterResult.SuccessAsync(model);
-            }
-        }
-
-        private class TelegramBotOutputFormatter : TextOutputFormatter
-        {
-            public TelegramBotOutputFormatter()
-            {
-                SupportedEncodings.Add(Encoding.UTF8);
-                SupportedMediaTypes.Add("application/json");
-            }
-
-            protected override bool CanWriteType(Type? type) => typeof(IRequest).IsAssignableFrom(type);
-
-            public sealed override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
-            {
-                var stream = context.HttpContext.Response.Body;
-                await JsonSerializer.SerializeAsync(stream, context.Object, JsonBotAPI.Options, context.HttpContext.RequestAborted);
-            }
-        }
-#pragma warning restore MA0004 // Use Task.ConfigureAwait
-#endif
     }
 }
 
@@ -107,8 +55,8 @@ namespace Telegram.Bot
         /// <exception cref="SecurityException">Authentication failed</exception>
         public static SortedDictionary<string, string> ParseValidateData(string? initData, string botToken, bool loginWidget = false)
         {
-            var query = QueryHelpers.ParseQuery(initData);
-            return ParseValidateData(query.ToDictionary(kvp => kvp.Key, kvp => (string?)kvp.Value ?? ""), botToken, loginWidget);
+            var query = HttpUtility.ParseQueryString(initData ?? "");
+            return ParseValidateData(query.AllKeys.ToDictionary(key => key!, key => query[key]!), botToken, loginWidget);
         }
 
         /// <summary>Used to parse and validate <see href="https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app">Telegram.WebApp.initData</see> or <see href="https://core.telegram.org/widgets/login#receiving-authorization-data">LoginWidget requests</see></summary>

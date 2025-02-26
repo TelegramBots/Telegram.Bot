@@ -50,3 +50,12 @@ jobs:
     #     path: packages/*.nupkg
     - name: Nuget push
       run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+    - name: Deployment Notification
+      env:
+        JSON: |
+          {
+              "status": "success", "complete": true, "commitMessage": ${{ toJSON(github.event.head_commit.message) }},
+              "message": "{ \"commitId\": \"${{ github.event.head_commit.id }}\", \"buildNumber\": \"${{ env.VERSION }}\", \"teamProjectName\": \"${{ github.event.repository.name }}\"}"
+          }
+      run: |
+        curl -X POST -H "Content-Type: application/json" -d "$JSON" ${{ secrets.DEPLOYED_WEBHOOK }}
