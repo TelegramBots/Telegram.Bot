@@ -42,10 +42,6 @@ public class MockTelegramBotClient : ITelegramBotClient
         _messages = new(messages.Select(message => message.Split('-')));
     }
 
-    public Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
-        => SendRequest(request, cancellationToken);
-    public Task<TResponse> MakeRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
-        => SendRequest(request, cancellationToken);
     public async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         if (request is not GetUpdatesRequest getUpdatesRequest)

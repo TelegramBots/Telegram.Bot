@@ -96,16 +96,6 @@ public class TelegramBotClient : ITelegramBotClient
     { }
 
     /// <inheritdoc/>
-    [Obsolete("Method MakeRequestAsync was renamed as SendRequest")]
-    public Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
-        => SendRequest(request, cancellationToken);
-
-    /// <inheritdoc/>
-    [Obsolete("Method MakeRequest was renamed as SendRequest")]
-    public Task<TResponse> MakeRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
-        => SendRequest(request, cancellationToken);
-
-    /// <inheritdoc/>
     public virtual async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         if (request is null) { throw new ArgumentNullException(nameof(request)); }

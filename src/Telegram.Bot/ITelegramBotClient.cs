@@ -41,14 +41,6 @@ public interface ITelegramBotClient
     /// <returns>Result of the API request</returns>
     Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
 
-    /// <summary>Method MakeRequest was renamed as <see cref="SendRequest">SendRequest</see></summary>
-    [Obsolete("Method MakeRequest was renamed as SendRequest")]
-    Task<TResponse> MakeRequest<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
-
-    /// <summary>Method MakeRequestAsync was renamed as <see cref="SendRequest">SendRequest</see></summary>
-    [Obsolete("Method MakeRequestAsync was renamed as SendRequest")]
-    Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
-
     /// <summary>Test the API token</summary>
     /// <param name="cancellationToken"></param>
     /// <returns><see langword="true"/> if token is valid</returns>
