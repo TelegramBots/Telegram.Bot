@@ -56,8 +56,8 @@ jobs:
     #   with:
     #     name: packages
     #     path: packages/*.nupkg
-    # - name: Nuget push
-    #   run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+    - name: Nuget push
+      run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
     - name: Git tag
       run: |
         git tag v$VERSION

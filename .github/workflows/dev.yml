@@ -43,10 +43,10 @@ jobs:
       run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
     - name: Pack
       run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=$RELEASE_NOTES" --output packages
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: packages
-        path: packages/*.nupkg
+    # - name: Upload artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: packages
+    #     path: packages/*.nupkg
     - name: Nuget push
       run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
