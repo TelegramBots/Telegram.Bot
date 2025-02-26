@@ -70,7 +70,7 @@
 
   <!-- Make build deterministic only in CI environment to make local development easier with non-trimmed paths -->
   <!-- TF_BUILD is a predefined variable in Azure Pipelines -->
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true' Or '$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Deterministic>true</Deterministic>
   </PropertyGroup>

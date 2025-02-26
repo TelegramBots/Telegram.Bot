@@ -1,0 +1,64 @@
+name: Release build
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_notes:
+        description: 'Release notes'
+        required: true
+      version:
+        description: "Release version (leave empty for automatic versioning)"
+
+run-name: '📌 Release build ${{ inputs.version }}'
+
+env:
+  PROJECT_PATH: src/Telegram.Bot/Telegram.Bot.csproj
+  UNITTEST_PATH: test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
+  CONFIGURATION: Release
+  RELEASE_NOTES: ${{ inputs.release_notes }}
+  VERSION: ${{ inputs.version }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write               # For git tag
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 100
+    - name: Determine version
+      if: ${{ env.VERSION == '' }}
+      run: |
+        git fetch --depth=100 --tags
+        DESCR_TAG=$(git describe --tags)
+        DESCR_TAG=${DESCR_TAG#v}
+        LAST_TAG=${DESCR_TAG%%-*}
+        NEXT_VERSION=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))
+        RELEASE_VERSION=${{vars.RELEASE_VERSION}}
+        if [[ "$RELEASE_VERSION" > "$NEXT_VERSION" ]] then VERSION=$RELEASE_VERSION; else VERSION=$NEXT_VERSION; fi
+        echo Last tag: $LAST_TAG · Next version: $NEXT_VERSION · Release version: $RELEASE_VERSION · Build version: $VERSION
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build $PROJECT_PATH --no-restore --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=$RELEASE_NOTES"
+    - name: Test
+      run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
+    - name: Pack
+      run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=$RELEASE_NOTES" --output packages
+    # - name: Upload artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: packages
+    #     path: packages/*.nupkg
+    # - name: Nuget push
+    #   run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+    - name: Git tag
+      run: |
+        git tag v$VERSION
+        git push --tags
