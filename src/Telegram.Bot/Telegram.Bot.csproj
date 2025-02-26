@@ -17,12 +17,16 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot API Client</Title>
-    <Description>This library gives you easy access to Telegram Bot API so you can start building useful bots for Telegram.</Description>
+    <Description>This library gives you easy access to Telegram Bot API so you can start building useful bots for Telegram.
+
+Release Notes:
+$(ReleaseNotes.Replace("|", "%0D%0A").Replace(" - ","%0D%0A- ").Replace("  ", "%0D%0A%0D%0A"))</Description>
     <PackageId>Telegram.Bot</PackageId>
     <Authors>Wizou,tuscen,Poulad,RoundRobin</Authors>
     <Copyright>Copyright © TelegramBots 2016-2025</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>$(ReleaseNotes.Replace("|", "%0D%0A").Replace(" - ","%0D%0A- ").Replace("  ", "%0D%0A%0D%0A"))</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
