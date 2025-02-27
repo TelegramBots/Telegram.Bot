@@ -272,6 +272,12 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(PassportElementErrorTranslationFile))]
 [JsonSerializable(typeof(PassportElementErrorTranslationFiles))]
 [JsonSerializable(typeof(PassportElementErrorUnspecified))]
+[JsonSerializable(typeof(PassportScope))]
+[JsonSerializable(typeof(PassportScopeElementOneOfSeveral))]
+[JsonSerializable(typeof(PersonalDetails))]
+[JsonSerializable(typeof(ResidentialAddress))]
+[JsonSerializable(typeof(IdDocumentData))]
+[JsonSerializable(typeof(Credentials))]
 [JsonSerializable(typeof(FileBase))]
 public partial class JsonBotSerializerContext : JsonSerializerContext;
 #endif

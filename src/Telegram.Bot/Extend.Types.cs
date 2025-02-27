@@ -407,4 +407,19 @@ namespace Telegram.Bot.Types
                 => new(text) { RequestChat = new(requestId, chatIsChannel) };
         }
     }
+
+    namespace Passport
+    {
+        public partial class IdDocumentData
+        {
+            /// <summary>Date of expiry if available</summary>
+            public DateTime? Expiry => DateTime.TryParseExact(ExpiryDate, "dd.MM.yyyy", null, DateTimeStyles.None, out var result) ? result : null;
+        }
+
+        public partial class PersonalDetails
+        {
+            /// <summary>Date of birth</summary>
+            public DateTime Birthday => DateTime.ParseExact(BirthDate, "dd.MM.yyyy", null, DateTimeStyles.None);
+        }
+    }
 }

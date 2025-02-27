@@ -8,7 +8,7 @@ public partial class EncryptedPassportElement
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public EncryptedPassportElementType Type { get; set; }
 
-    /// <summary><em>Optional</em>. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for “PersonalDetails”, “passport”, “DriverLicense”, “IdentityCard”, “InternalPassport” and “address” types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.</summary>
+    /// <summary><em>Optional</em>. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for <see cref="PersonalDetails"/>, “passport”, “DriverLicense”, “IdentityCard”, “InternalPassport” and “address” types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.</summary>
     public string? Data { get; set; }
 
     /// <summary><em>Optional</em>. User's verified phone number; available only for “<see cref="PhoneNumber">PhoneNumber</see>” type</summary>
