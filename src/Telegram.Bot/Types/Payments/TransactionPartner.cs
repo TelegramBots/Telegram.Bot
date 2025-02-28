@@ -32,15 +32,19 @@ public partial class TransactionPartnerUser : TransactionPartner
     public AffiliateInfo? Affiliate { get; set; }
 
     /// <summary><em>Optional</em>. Bot-specified invoice payload</summary>
+    [JsonPropertyName("invoice_payload")]
     public string? InvoicePayload { get; set; }
 
     /// <summary><em>Optional</em>. The duration of the paid subscription</summary>
+    [JsonPropertyName("subscription_period")]
     public int? SubscriptionPeriod { get; set; }
 
     /// <summary><em>Optional</em>. Information about the paid media bought by the user</summary>
+    [JsonPropertyName("paid_media")]
     public PaidMedia[]? PaidMedia { get; set; }
 
     /// <summary><em>Optional</em>. Bot-specified paid media payload</summary>
+    [JsonPropertyName("paid_media_payload")]
     public string? PaidMediaPayload { get; set; }
 
     /// <summary><em>Optional</em>. The gift sent to the user by the bot</summary>
@@ -68,9 +72,11 @@ public partial class TransactionPartnerAffiliateProgram : TransactionPartner
     public override TransactionPartnerType Type => TransactionPartnerType.AffiliateProgram;
 
     /// <summary><em>Optional</em>. Information about the bot that sponsored the affiliate program</summary>
+    [JsonPropertyName("sponsor_user")]
     public User? SponsorUser { get; set; }
 
     /// <summary>The number of Telegram Stars received by the bot for each 1000 Telegram Stars received by the affiliate program sponsor from referred users</summary>
+    [JsonPropertyName("commission_per_mille")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int CommissionPerMille { get; set; }
 }
@@ -82,6 +88,7 @@ public partial class TransactionPartnerFragment : TransactionPartner
     public override TransactionPartnerType Type => TransactionPartnerType.Fragment;
 
     /// <summary><em>Optional</em>. State of the transaction if the transaction is outgoing</summary>
+    [JsonPropertyName("withdrawal_state")]
     public RevenueWithdrawalState? WithdrawalState { get; set; }
 }
 
@@ -99,6 +106,7 @@ public partial class TransactionPartnerTelegramApi : TransactionPartner
     public override TransactionPartnerType Type => TransactionPartnerType.TelegramApi;
 
     /// <summary>The number of successful requests that exceeded regular limits and were therefore billed</summary>
+    [JsonPropertyName("request_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int RequestCount { get; set; }
 }

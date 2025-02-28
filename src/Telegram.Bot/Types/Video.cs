@@ -23,11 +23,14 @@ public partial class Video : FileBase
     public PhotoSize[]? Cover { get; set; }
 
     /// <summary><em>Optional</em>. Timestamp in seconds from which the video will play in the message</summary>
+    [JsonPropertyName("start_timestamp")]
     public int? StartTimestamp { get; set; }
 
     /// <summary><em>Optional</em>. Original filename as defined by the sender</summary>
+    [JsonPropertyName("file_name")]
     public string? FileName { get; set; }
 
     /// <summary><em>Optional</em>. MIME type of the file as defined by the sender</summary>
+    [JsonPropertyName("mime_type")]
     public string? MimeType { get; set; }
 }

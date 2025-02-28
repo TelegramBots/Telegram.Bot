@@ -13,10 +13,12 @@ public partial class ShippingQuery
     public User From { get; set; } = default!;
 
     /// <summary>Bot-specified invoice payload</summary>
+    [JsonPropertyName("invoice_payload")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string InvoicePayload { get; set; } = default!;
 
     /// <summary>User specified shipping address</summary>
+    [JsonPropertyName("shipping_address")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ShippingAddress ShippingAddress { get; set; } = default!;
 }

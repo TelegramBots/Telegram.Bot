@@ -9,10 +9,12 @@ public partial class ChatBoostRemoved
     public Chat Chat { get; set; } = default!;
 
     /// <summary>Unique identifier of the boost</summary>
+    [JsonPropertyName("boost_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string BoostId { get; set; } = default!;
 
     /// <summary>Point in time when the boost was removed</summary>
+    [JsonPropertyName("remove_date")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime RemoveDate { get; set; }

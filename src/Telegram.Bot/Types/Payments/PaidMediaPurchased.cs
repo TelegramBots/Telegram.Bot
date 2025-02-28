@@ -9,6 +9,7 @@ public partial class PaidMediaPurchased
     public User From { get; set; } = default!;
 
     /// <summary>Bot-specified paid media payload</summary>
+    [JsonPropertyName("paid_media_payload")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string PaidMediaPayload { get; set; } = default!;
 }

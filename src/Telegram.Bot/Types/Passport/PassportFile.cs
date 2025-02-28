@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types.Passport;
 public partial class PassportFile : FileBase
 {
     /// <summary>DateTime when the file was uploaded</summary>
+    [JsonPropertyName("file_date")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime FileDate { get; set; }

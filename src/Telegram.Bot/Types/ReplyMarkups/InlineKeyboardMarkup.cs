@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 public partial class InlineKeyboardMarkup : ReplyMarkup
 {
     /// <summary>Array of button rows, each represented by an Array of <see cref="InlineKeyboardButton"/> objects</summary>
+    [JsonPropertyName("inline_keyboard")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; set; }
 

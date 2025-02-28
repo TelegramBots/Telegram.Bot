@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class ReplaceStickerInSetRequest() : FileRequestBase<bool>("replaceStickerInSet"), IUserTargetable
 {
     /// <summary>User identifier of the sticker set owner</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
@@ -14,6 +15,7 @@ public partial class ReplaceStickerInSetRequest() : FileRequestBase<bool>("repla
     public required string Name { get; set; }
 
     /// <summary>File identifier of the replaced sticker</summary>
+    [JsonPropertyName("old_sticker")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string OldSticker { get; set; }
 

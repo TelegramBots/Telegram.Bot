@@ -37,6 +37,7 @@ public partial class InputPaidMediaVideo : InputPaidMedia, IInputMediaThumb
     public InputFile? Cover { get; set; }
 
     /// <summary><em>Optional</em>. Start timestamp for the video in the message</summary>
+    [JsonPropertyName("start_timestamp")]
     public int? StartTimestamp { get; set; }
 
     /// <summary><em>Optional</em>. Video width</summary>
@@ -49,5 +50,6 @@ public partial class InputPaidMediaVideo : InputPaidMedia, IInputMediaThumb
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the uploaded video is suitable for streaming</summary>
+    [JsonPropertyName("supports_streaming")]
     public bool SupportsStreaming { get; set; }
 }

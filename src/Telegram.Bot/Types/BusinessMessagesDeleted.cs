@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class BusinessMessagesDeleted
 {
     /// <summary>Unique identifier of the business connection</summary>
+    [JsonPropertyName("business_connection_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string BusinessConnectionId { get; set; } = default!;
 
@@ -13,6 +14,7 @@ public partial class BusinessMessagesDeleted
     public Chat Chat { get; set; } = default!;
 
     /// <summary>The list of identifiers of deleted messages in the chat of the business account</summary>
+    [JsonPropertyName("message_ids")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int[] MessageIds { get; set; } = default!;
 }

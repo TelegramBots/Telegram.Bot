@@ -6,10 +6,12 @@ namespace Telegram.Bot.Requests;
 public partial class SetMessageReactionRequest() : RequestBase<bool>("setMessageReaction"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
@@ -17,5 +19,6 @@ public partial class SetMessageReactionRequest() : RequestBase<bool>("setMessage
     public IEnumerable<ReactionType>? Reaction { get; set; }
 
     /// <summary>Pass <see langword="true"/> to set the reaction with a big animation</summary>
+    [JsonPropertyName("is_big")]
     public bool IsBig { get; set; }
 }

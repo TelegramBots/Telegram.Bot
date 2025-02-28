@@ -43,6 +43,7 @@ public partial class ChatBoostSourceGiveaway : ChatBoostSource
     public override ChatBoostSourceType Source => ChatBoostSourceType.Giveaway;
 
     /// <summary>Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.</summary>
+    [JsonPropertyName("giveaway_message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int GiveawayMessageId { get; set; }
 
@@ -50,8 +51,10 @@ public partial class ChatBoostSourceGiveaway : ChatBoostSource
     public User? User { get; set; }
 
     /// <summary><em>Optional</em>. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only</summary>
+    [JsonPropertyName("prize_star_count")]
     public int? PrizeStarCount { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the giveaway was completed, but there was no user to win the prize</summary>
+    [JsonPropertyName("is_unclaimed")]
     public bool IsUnclaimed { get; set; }
 }

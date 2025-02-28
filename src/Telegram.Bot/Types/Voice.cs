@@ -9,5 +9,6 @@ public partial class Voice : FileBase
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. MIME type of the file as defined by the sender</summary>
+    [JsonPropertyName("mime_type")]
     public string? MimeType { get; set; }
 }

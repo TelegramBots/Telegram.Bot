@@ -12,27 +12,35 @@ public partial class InlineKeyboardButton : IKeyboardButton
     public string? Url { get; set; }
 
     /// <summary><em>Optional</em>. Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes</summary>
+    [JsonPropertyName("callback_data")]
     public string? CallbackData { get; set; }
 
     /// <summary><em>Optional</em>. Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    [JsonPropertyName("web_app")]
     public WebAppInfo? WebApp { get; set; }
 
     /// <summary><em>Optional</em>. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
+    [JsonPropertyName("login_url")]
     public LoginUrl? LoginUrl { get; set; }
 
     /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    [JsonPropertyName("switch_inline_query")]
     public string? SwitchInlineQuery { get; set; }
 
     /// <summary><em>Optional</em>. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.</summary>
+    [JsonPropertyName("switch_inline_query_current_chat")]
     public string? SwitchInlineQueryCurrentChat { get; set; }
 
     /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    [JsonPropertyName("switch_inline_query_chosen_chat")]
     public SwitchInlineQueryChosenChat? SwitchInlineQueryChosenChat { get; set; }
 
     /// <summary><em>Optional</em>. Description of the button that copies the specified text to the clipboard.</summary>
+    [JsonPropertyName("copy_text")]
     public CopyTextButton? CopyText { get; set; }
 
     /// <summary><em>Optional</em>. Description of the game that will be launched when the user presses the button.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.</summary>
+    [JsonPropertyName("callback_game")]
     public CallbackGame? CallbackGame { get; set; }
 
     /// <summary><em>Optional</em>. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>. Substrings “⭐” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row and can only be used in invoice messages.</summary>

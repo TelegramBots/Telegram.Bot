@@ -32,6 +32,7 @@ public partial class ReactionTypeCustomEmoji : ReactionType
     public override ReactionTypeKind Type => ReactionTypeKind.CustomEmoji;
 
     /// <summary>Custom emoji identifier</summary>
+    [JsonPropertyName("custom_emoji_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string CustomEmojiId { get; set; } = default!;
 }

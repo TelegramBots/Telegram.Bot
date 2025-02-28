@@ -6,9 +6,11 @@ namespace Telegram.Bot.Requests;
 public partial class VerifyChatRequest() : RequestBase<bool>("verifyChat"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</summary>
+    [JsonPropertyName("custom_description")]
     public string? CustomDescription { get; set; }
 }

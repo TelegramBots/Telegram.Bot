@@ -26,6 +26,7 @@ public partial class BackgroundTypeFill : BackgroundType
     public BackgroundFill Fill { get; set; } = default!;
 
     /// <summary>Dimming of the background in dark themes, as a percentage; 0-100</summary>
+    [JsonPropertyName("dark_theme_dimming")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int DarkThemeDimming { get; set; }
 }
@@ -41,13 +42,16 @@ public partial class BackgroundTypeWallpaper : BackgroundType
     public Document Document { get; set; } = default!;
 
     /// <summary>Dimming of the background in dark themes, as a percentage; 0-100</summary>
+    [JsonPropertyName("dark_theme_dimming")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int DarkThemeDimming { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the wallpaper is downscaled to fit in a 450x450 square and then box-blurred with radius 12</summary>
+    [JsonPropertyName("is_blurred")]
     public bool IsBlurred { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the background moves slightly when the device is tilted</summary>
+    [JsonPropertyName("is_moving")]
     public bool IsMoving { get; set; }
 }
 
@@ -70,9 +74,11 @@ public partial class BackgroundTypePattern : BackgroundType
     public int Intensity { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only</summary>
+    [JsonPropertyName("is_inverted")]
     public bool IsInverted { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the background moves slightly when the device is tilted</summary>
+    [JsonPropertyName("is_moving")]
     public bool IsMoving { get; set; }
 }
 
@@ -83,6 +89,7 @@ public partial class BackgroundTypeChatTheme : BackgroundType
     public override BackgroundTypeKind Type => BackgroundTypeKind.ChatTheme;
 
     /// <summary>Name of the chat theme, which is usually an emoji</summary>
+    [JsonPropertyName("theme_name")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ThemeName { get; set; } = default!;
 }

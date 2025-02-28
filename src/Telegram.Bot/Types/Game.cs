@@ -20,6 +20,7 @@ public partial class Game
     public string? Text { get; set; }
 
     /// <summary><em>Optional</em>. Special entities that appear in <see cref="Text">Text</see>, such as usernames, URLs, bot commands, etc.</summary>
+    [JsonPropertyName("text_entities")]
     public MessageEntity[]? TextEntities { get; set; }
 
     /// <summary><em>Optional</em>. Animation that will be displayed in the game message in chats. Upload via <a href="https://t.me/botfather">@BotFather</a></summary>

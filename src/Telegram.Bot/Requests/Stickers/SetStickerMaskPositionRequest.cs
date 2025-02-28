@@ -10,5 +10,6 @@ public partial class SetStickerMaskPositionRequest() : RequestBase<bool>("setSti
     public required InputFileId Sticker { get; set; }
 
     /// <summary>An object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.</summary>
+    [JsonPropertyName("mask_position")]
     public MaskPosition? MaskPosition { get; set; }
 }

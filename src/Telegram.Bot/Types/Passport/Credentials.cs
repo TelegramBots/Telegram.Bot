@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types.Passport;
 public partial class Credentials : IDecryptedValue
 {
     /// <summary>Credentials for encrypted data</summary>
+    [JsonPropertyName("secure_data")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public SecureData SecureData { get; set; } = default!;
 

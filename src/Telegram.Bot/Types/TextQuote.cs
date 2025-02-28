@@ -16,5 +16,6 @@ public partial class TextQuote
     public int Position { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.</summary>
+    [JsonPropertyName("is_manual")]
     public bool IsManual { get; set; }
 }

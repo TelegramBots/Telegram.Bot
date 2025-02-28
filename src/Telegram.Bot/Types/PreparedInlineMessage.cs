@@ -9,6 +9,7 @@ public partial class PreparedInlineMessage
     public string Id { get; set; } = default!;
 
     /// <summary>Expiration date of the prepared message,. Expired prepared messages can no longer be used</summary>
+    [JsonPropertyName("expiration_date")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime ExpirationDate { get; set; }

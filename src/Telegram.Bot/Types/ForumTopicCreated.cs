@@ -9,9 +9,11 @@ public partial class ForumTopicCreated
     public string Name { get; set; } = default!;
 
     /// <summary>Color of the topic icon in RGB format</summary>
+    [JsonPropertyName("icon_color")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int IconColor { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the custom emoji shown as the topic icon</summary>
+    [JsonPropertyName("icon_custom_emoji_id")]
     public string? IconCustomEmojiId { get; set; }
 }

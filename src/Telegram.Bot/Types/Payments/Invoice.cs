@@ -13,6 +13,7 @@ public partial class Invoice
     public string Description { get; set; } = default!;
 
     /// <summary>Unique bot deep-linking parameter that can be used to generate this invoice</summary>
+    [JsonPropertyName("start_parameter")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string StartParameter { get; set; } = default!;
 
@@ -21,6 +22,7 @@ public partial class Invoice
     public string Currency { get; set; } = default!;
 
     /// <summary>Total price in the <em>smallest units</em> of the currency (integer, <b>not</b> float/double). For example, for a price of <c>US$ 1.45</c> pass <c>amount = 145</c>. See the <em>exp</em> parameter in <a href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</a>, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).</summary>
+    [JsonPropertyName("total_amount")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TotalAmount { get; set; }
 }

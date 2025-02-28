@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class GetFileRequest() : RequestBase<TGFile>("getFile")
 {
     /// <summary>File identifier to get information about</summary>
+    [JsonPropertyName("file_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FileId { get; set; }
 }

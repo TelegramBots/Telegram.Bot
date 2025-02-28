@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class UsersShared
 {
     /// <summary>Identifier of the request</summary>
+    [JsonPropertyName("request_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int RequestId { get; set; }
 

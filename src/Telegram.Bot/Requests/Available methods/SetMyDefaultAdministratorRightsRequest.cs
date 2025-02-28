@@ -9,5 +9,6 @@ public partial class SetMyDefaultAdministratorRightsRequest() : RequestBase<bool
     public ChatAdministratorRights? Rights { get; set; }
 
     /// <summary>Pass <see langword="true"/> to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.</summary>
+    [JsonPropertyName("for_channels")]
     public bool ForChannels { get; set; }
 }

@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class ChatBoostAdded
 {
     /// <summary>Number of boosts added by the user</summary>
+    [JsonPropertyName("boost_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int BoostCount { get; set; }
 

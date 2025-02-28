@@ -7,6 +7,7 @@ namespace Telegram.Bot.Requests;
 public partial class ExportChatInviteLinkRequest() : RequestBase<string>("exportChatInviteLink"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 }

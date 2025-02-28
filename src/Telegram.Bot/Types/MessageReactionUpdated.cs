@@ -9,6 +9,7 @@ public partial class MessageReactionUpdated
     public Chat Chat { get; set; } = default!;
 
     /// <summary>Unique identifier of the message inside the chat</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 
@@ -16,6 +17,7 @@ public partial class MessageReactionUpdated
     public User? User { get; set; }
 
     /// <summary><em>Optional</em>. The chat on behalf of which the reaction was changed, if the user is anonymous</summary>
+    [JsonPropertyName("actor_chat")]
     public Chat? ActorChat { get; set; }
 
     /// <summary>Date of the change</summary>
@@ -24,10 +26,12 @@ public partial class MessageReactionUpdated
     public DateTime Date { get; set; }
 
     /// <summary>Previous list of reaction types that were set by the user</summary>
+    [JsonPropertyName("old_reaction")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ReactionType[] OldReaction { get; set; } = default!;
 
     /// <summary>New list of reaction types that have been set by the user</summary>
+    [JsonPropertyName("new_reaction")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ReactionType[] NewReaction { get; set; } = default!;
 }

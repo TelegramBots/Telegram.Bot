@@ -6,10 +6,12 @@ namespace Telegram.Bot.Requests;
 public partial class RefundStarPaymentRequest() : RequestBase<bool>("refundStarPayment"), IUserTargetable
 {
     /// <summary>Identifier of the user whose payment will be refunded</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>Telegram payment identifier</summary>
+    [JsonPropertyName("telegram_payment_charge_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string TelegramPaymentChargeId { get; set; }
 }

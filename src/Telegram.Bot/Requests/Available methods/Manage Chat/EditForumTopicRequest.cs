@@ -6,10 +6,12 @@ namespace Telegram.Bot.Requests;
 public partial class EditForumTopicRequest() : RequestBase<bool>("editForumTopic"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>Unique identifier for the target message thread of the forum topic</summary>
+    [JsonPropertyName("message_thread_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageThreadId { get; set; }
 
@@ -17,5 +19,6 @@ public partial class EditForumTopicRequest() : RequestBase<bool>("editForumTopic
     public string? Name { get; set; }
 
     /// <summary>New unique identifier of the custom emoji shown as the topic icon. Use <see cref="TelegramBotClientExtensions.GetForumTopicIconStickers">GetForumTopicIconStickers</see> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept</summary>
+    [JsonPropertyName("icon_custom_emoji_id")]
     public string? IconCustomEmojiId { get; set; }
 }

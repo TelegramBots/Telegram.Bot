@@ -16,5 +16,6 @@ public partial class GetUpdatesRequest() : RequestBase<Update[]>("getUpdates")
     public int? Timeout { get; set; }
 
     /// <summary>A list of the update types you want your bot to receive. For example, specify <c>["message", "EditedChannelPost", "CallbackQuery"]</c> to only receive updates of these types. See <see cref="Update"/> for a complete list of available update types. Specify an empty list to receive all update types except <em>ChatMember</em>, <em>MessageReaction</em>, and <em>MessageReactionCount</em> (default). If not specified, the previous setting will be used.<br/><br/>Please note that this parameter doesn't affect updates created before the call to getUpdates, so unwanted updates may be received for a short period of time.</summary>
+    [JsonPropertyName("allowed_updates")]
     public IEnumerable<UpdateType>? AllowedUpdates { get; set; }
 }

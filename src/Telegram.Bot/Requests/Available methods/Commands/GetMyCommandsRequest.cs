@@ -9,5 +9,6 @@ public partial class GetMyCommandsRequest() : RequestBase<BotCommand[]>("getMyCo
     public BotCommandScope? Scope { get; set; }
 
     /// <summary>A two-letter ISO 639-1 language code or an empty string</summary>
+    [JsonPropertyName("language_code")]
     public string? LanguageCode { get; set; }
 }

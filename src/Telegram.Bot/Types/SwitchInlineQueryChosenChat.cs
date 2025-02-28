@@ -8,14 +8,18 @@ public partial class SwitchInlineQueryChosenChat
     public string? Query { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if private chats with users can be chosen</summary>
+    [JsonPropertyName("allow_user_chats")]
     public bool AllowUserChats { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if private chats with bots can be chosen</summary>
+    [JsonPropertyName("allow_bot_chats")]
     public bool AllowBotChats { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if group and supergroup chats can be chosen</summary>
+    [JsonPropertyName("allow_group_chats")]
     public bool AllowGroupChats { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if channel chats can be chosen</summary>
+    [JsonPropertyName("allow_channel_chats")]
     public bool AllowChannelChats { get; set; }
 }

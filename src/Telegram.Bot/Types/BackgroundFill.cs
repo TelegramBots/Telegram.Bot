@@ -32,14 +32,17 @@ public partial class BackgroundFillGradient : BackgroundFill
     public override BackgroundFillType Type => BackgroundFillType.Gradient;
 
     /// <summary>Top color of the gradient in the RGB24 format</summary>
+    [JsonPropertyName("top_color")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TopColor { get; set; }
 
     /// <summary>Bottom color of the gradient in the RGB24 format</summary>
+    [JsonPropertyName("bottom_color")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int BottomColor { get; set; }
 
     /// <summary>Clockwise rotation angle of the background fill in degrees; 0-359</summary>
+    [JsonPropertyName("rotation_angle")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int RotationAngle { get; set; }
 }

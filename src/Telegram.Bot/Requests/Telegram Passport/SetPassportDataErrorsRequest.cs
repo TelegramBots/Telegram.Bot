@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class SetPassportDataErrorsRequest() : RequestBase<bool>("setPassportDataErrors"), IUserTargetable
 {
     /// <summary>User identifier</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 

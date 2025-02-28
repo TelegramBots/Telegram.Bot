@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class ReopenGeneralForumTopicRequest() : RequestBase<bool>("reopenGeneralForumTopic"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 }

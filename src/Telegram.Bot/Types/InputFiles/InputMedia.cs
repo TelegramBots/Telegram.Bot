@@ -23,9 +23,11 @@ public abstract partial class InputMedia
     public string? Caption { get; set; }
 
     /// <summary><em>Optional</em>. Mode for parsing entities in the InputMedia caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
+    [JsonPropertyName("parse_mode")]
     public ParseMode ParseMode { get; set; }
 
     /// <summary><em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see></summary>
+    [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMedia"/></summary>
@@ -44,9 +46,11 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia
     public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation</summary>
+    [JsonPropertyName("has_spoiler")]
     public bool HasSpoiler { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaPhoto"/></summary>
@@ -71,9 +75,11 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     public InputFile? Cover { get; set; }
 
     /// <summary><em>Optional</em>. Start timestamp for the video in the message</summary>
+    [JsonPropertyName("start_timestamp")]
     public int? StartTimestamp { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary><em>Optional</em>. Video width</summary>
@@ -86,9 +92,11 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the uploaded video is suitable for streaming</summary>
+    [JsonPropertyName("supports_streaming")]
     public bool SupportsStreaming { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the video needs to be covered with a spoiler animation</summary>
+    [JsonPropertyName("has_spoiler")]
     public bool HasSpoiler { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaVideo"/></summary>
@@ -110,6 +118,7 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
     /// <summary><em>Optional</em>. Animation width</summary>
@@ -122,6 +131,7 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb
     public int Duration { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation</summary>
+    [JsonPropertyName("has_spoiler")]
     public bool HasSpoiler { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaAnimation"/></summary>
@@ -170,6 +180,7 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
     public InputFile? Thumbnail { get; set; }
 
     /// <summary><em>Optional</em>. Disables automatic server-side content type detection for files uploaded using <see cref="InputFileStream"/>. Always <see langword="true"/>, if the document is sent as part of an album.</summary>
+    [JsonPropertyName("disable_content_type_detection")]
     public bool DisableContentTypeDetection { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputMediaDocument"/></summary>

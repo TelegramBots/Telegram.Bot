@@ -27,6 +27,7 @@ public partial class MessageOriginUser : MessageOrigin
     public override MessageOriginType Type => MessageOriginType.User;
 
     /// <summary>User that sent the message originally</summary>
+    [JsonPropertyName("sender_user")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User SenderUser { get; set; } = default!;
 }
@@ -38,6 +39,7 @@ public partial class MessageOriginHiddenUser : MessageOrigin
     public override MessageOriginType Type => MessageOriginType.HiddenUser;
 
     /// <summary>Name of the user that sent the message originally</summary>
+    [JsonPropertyName("sender_user_name")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string SenderUserName { get; set; } = default!;
 }
@@ -49,10 +51,12 @@ public partial class MessageOriginChat : MessageOrigin
     public override MessageOriginType Type => MessageOriginType.Chat;
 
     /// <summary>Chat that sent the message originally</summary>
+    [JsonPropertyName("sender_chat")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Chat SenderChat { get; set; } = default!;
 
     /// <summary><em>Optional</em>. For messages originally sent by an anonymous chat administrator, original message author signature</summary>
+    [JsonPropertyName("author_signature")]
     public string? AuthorSignature { get; set; }
 }
 
@@ -67,9 +71,11 @@ public partial class MessageOriginChannel : MessageOrigin
     public Chat Chat { get; set; } = default!;
 
     /// <summary>Unique message identifier inside the chat</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 
     /// <summary><em>Optional</em>. Signature of the original post author</summary>
+    [JsonPropertyName("author_signature")]
     public string? AuthorSignature { get; set; }
 }

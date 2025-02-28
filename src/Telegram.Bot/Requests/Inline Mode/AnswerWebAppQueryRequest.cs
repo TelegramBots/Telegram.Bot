@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class AnswerWebAppQueryRequest() : RequestBase<SentWebAppMessage>("answerWebAppQuery")
 {
     /// <summary>Unique identifier for the query to be answered</summary>
+    [JsonPropertyName("web_app_query_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string WebAppQueryId { get; set; }
 

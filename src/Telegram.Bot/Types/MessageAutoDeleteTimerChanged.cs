@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class MessageAutoDeleteTimerChanged
 {
     /// <summary>New auto-delete time for messages in the chat; in seconds</summary>
+    [JsonPropertyName("message_auto_delete_time")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageAutoDeleteTime { get; set; }
 

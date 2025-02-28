@@ -10,6 +10,7 @@ public partial class SetStickerEmojiListRequest() : RequestBase<bool>("setSticke
     public required InputFileId Sticker { get; set; }
 
     /// <summary>A list of 1-20 emoji associated with the sticker</summary>
+    [JsonPropertyName("emoji_list")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<string> EmojiList { get; set; }
 }

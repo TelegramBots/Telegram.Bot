@@ -7,14 +7,17 @@ namespace Telegram.Bot.Requests;
 public partial class GetGameHighScoresRequest() : RequestBase<GameHighScore[]>("getGameHighScores"), IChatTargetable, IUserTargetable
 {
     /// <summary>Target user id</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>Unique identifier for the target chat</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
     /// <summary>Identifier of the sent message</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 

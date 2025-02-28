@@ -5,9 +5,11 @@ namespace Telegram.Bot.Types.Passport;
 public partial class IdDocumentData : IDecryptedValue
 {
     /// <summary>Document number</summary>
+    [JsonPropertyName("document_no")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string DocumentNo { get; set; } = default!;
 
     /// <summary><em>Optional.</em> Date of expiry, in DD.MM.YYYY format</summary>
+    [JsonPropertyName("expiry_date")]
     public string? ExpiryDate { get; set; }
 }

@@ -10,11 +10,14 @@ public partial class LoginUrl
     public string Url { get; set; } = default!;
 
     /// <summary><em>Optional</em>. New text of the button in forwarded messages.</summary>
+    [JsonPropertyName("forward_text")]
     public string? ForwardText { get; set; }
 
     /// <summary><em>Optional</em>. Username of a bot, which will be used for user authorization. See <a href="https://core.telegram.org/widgets/login#setting-up-a-bot">Setting up a bot</a> for more details. If not specified, the current bot's username will be assumed. The <see cref="Url">Url</see>'s domain must be the same as the domain linked with the bot. See <a href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot">Linking your domain to the bot</a> for more details.</summary>
+    [JsonPropertyName("bot_username")]
     public string? BotUsername { get; set; }
 
     /// <summary><em>Optional</em>. Pass <see langword="true"/> to request the permission for your bot to send messages to the user.</summary>
+    [JsonPropertyName("request_write_access")]
     public bool RequestWriteAccess { get; set; }
 }

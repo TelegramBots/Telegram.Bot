@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types.Passport;
 public partial class FileCredentials
 {
     /// <summary>Checksum of encrypted file</summary>
+    [JsonPropertyName("file_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 

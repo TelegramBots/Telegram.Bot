@@ -10,5 +10,6 @@ public partial class SetCustomEmojiStickerSetThumbnailRequest() : RequestBase<bo
     public required string Name { get; set; }
 
     /// <summary>Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.</summary>
+    [JsonPropertyName("custom_emoji_id")]
     public string? CustomEmojiId { get; set; }
 }

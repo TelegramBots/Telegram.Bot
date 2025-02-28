@@ -9,5 +9,6 @@ public partial class SetMyNameRequest() : RequestBase<bool>("setMyName")
     public string? Name { get; set; }
 
     /// <summary>A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no dedicated name.</summary>
+    [JsonPropertyName("language_code")]
     public string? LanguageCode { get; set; }
 }

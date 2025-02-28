@@ -6,13 +6,16 @@ namespace Telegram.Bot.Requests;
 public partial class SetUserEmojiStatusRequest() : RequestBase<bool>("setUserEmojiStatus"), IUserTargetable
 {
     /// <summary>Unique identifier of the target user</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.</summary>
+    [JsonPropertyName("emoji_status_custom_emoji_id")]
     public string? EmojiStatusCustomEmojiId { get; set; }
 
     /// <summary>Expiration date of the emoji status, if any</summary>
+    [JsonPropertyName("emoji_status_expiration_date")]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? EmojiStatusExpirationDate { get; set; }
 }

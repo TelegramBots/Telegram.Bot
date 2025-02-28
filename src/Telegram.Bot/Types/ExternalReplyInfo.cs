@@ -12,9 +12,11 @@ public partial class ExternalReplyInfo
     public Chat? Chat { get; set; }
 
     /// <summary><em>Optional</em>. Unique message identifier inside the original chat. Available only if the original chat is a supergroup or a channel.</summary>
+    [JsonPropertyName("message_id")]
     public int? MessageId { get; set; }
 
     /// <summary><em>Optional</em>. Options used for link preview generation for the original message, if it is a text message</summary>
+    [JsonPropertyName("link_preview_options")]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <summary><em>Optional</em>. Message is an animation, information about the animation</summary>
@@ -27,6 +29,7 @@ public partial class ExternalReplyInfo
     public Document? Document { get; set; }
 
     /// <summary><em>Optional</em>. Message contains paid media; information about the paid media</summary>
+    [JsonPropertyName("paid_media")]
     public PaidMediaInfo? PaidMedia { get; set; }
 
     /// <summary><em>Optional</em>. Message is a photo, available sizes of the photo</summary>
@@ -42,12 +45,14 @@ public partial class ExternalReplyInfo
     public Video? Video { get; set; }
 
     /// <summary><em>Optional</em>. Message is a <a href="https://telegram.org/blog/video-messages-and-telescope">video note</a>, information about the video message</summary>
+    [JsonPropertyName("video_note")]
     public VideoNote? VideoNote { get; set; }
 
     /// <summary><em>Optional</em>. Message is a voice message, information about the file</summary>
     public Voice? Voice { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the message media is covered by a spoiler animation</summary>
+    [JsonPropertyName("has_media_spoiler")]
     public bool HasMediaSpoiler { get; set; }
 
     /// <summary><em>Optional</em>. Message is a shared contact, information about the contact</summary>
@@ -63,6 +68,7 @@ public partial class ExternalReplyInfo
     public Giveaway? Giveaway { get; set; }
 
     /// <summary><em>Optional</em>. A giveaway with public winners was completed</summary>
+    [JsonPropertyName("giveaway_winners")]
     public GiveawayWinners? GiveawayWinners { get; set; }
 
     /// <summary><em>Optional</em>. Message is an invoice for a <a href="https://core.telegram.org/bots/api#payments">payment</a>, information about the invoice. <a href="https://core.telegram.org/bots/api#payments">More about payments »</a></summary>

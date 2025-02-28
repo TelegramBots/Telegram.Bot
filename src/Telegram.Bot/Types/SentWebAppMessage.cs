@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class SentWebAppMessage
 {
     /// <summary><em>Optional</em>. Identifier of the sent inline message. Available only if there is an <see cref="InlineKeyboardMarkup">inline keyboard</see> attached to the message.</summary>
+    [JsonPropertyName("inline_message_id")]
     public string? InlineMessageId { get; set; }
 
     /// <summary>Implicit conversion to string (InlineMessageId)</summary>

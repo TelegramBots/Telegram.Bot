@@ -9,6 +9,7 @@ public partial class MessageReactionCountUpdated
     public Chat Chat { get; set; } = default!;
 
     /// <summary>Unique message identifier inside the chat</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 

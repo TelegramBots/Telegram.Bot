@@ -7,6 +7,7 @@ namespace Telegram.Bot.Requests;
 public partial class SetGameScoreRequest() : RequestBase<Message>("setGameScore"), IChatTargetable, IUserTargetable
 {
     /// <summary>User identifier</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
@@ -15,10 +16,12 @@ public partial class SetGameScoreRequest() : RequestBase<Message>("setGameScore"
     public required int Score { get; set; }
 
     /// <summary>Unique identifier for the target chat</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
     /// <summary>Identifier of the sent message</summary>
+    [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
@@ -26,6 +29,7 @@ public partial class SetGameScoreRequest() : RequestBase<Message>("setGameScore"
     public bool Force { get; set; }
 
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
+    [JsonPropertyName("disable_edit_message")]
     public bool DisableEditMessage { get; set; }
 
     /// <inheritdoc/>

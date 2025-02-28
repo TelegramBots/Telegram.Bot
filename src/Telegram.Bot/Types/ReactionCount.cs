@@ -9,6 +9,7 @@ public partial class ReactionCount
     public ReactionType Type { get; set; } = default!;
 
     /// <summary>Number of times the reaction was added</summary>
+    [JsonPropertyName("total_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TotalCount { get; set; }
 }

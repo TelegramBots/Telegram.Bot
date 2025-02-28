@@ -7,6 +7,7 @@ namespace Telegram.Bot.Requests;
 public partial class SetInlineGameScoreRequest() : RequestBase<bool>("setGameScore"), IUserTargetable
 {
     /// <summary>User identifier</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
@@ -15,6 +16,7 @@ public partial class SetInlineGameScoreRequest() : RequestBase<bool>("setGameSco
     public required int Score { get; set; }
 
     /// <summary>Identifier of the inline message</summary>
+    [JsonPropertyName("inline_message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 
@@ -22,5 +24,6 @@ public partial class SetInlineGameScoreRequest() : RequestBase<bool>("setGameSco
     public bool Force { get; set; }
 
     /// <summary>Pass <see langword="true"/> if the game message should not be automatically edited to include the current scoreboard</summary>
+    [JsonPropertyName("disable_edit_message")]
     public bool DisableEditMessage { get; set; }
 }

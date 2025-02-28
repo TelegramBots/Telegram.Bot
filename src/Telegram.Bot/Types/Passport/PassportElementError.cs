@@ -35,10 +35,12 @@ public partial class PassportElementErrorDataField : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.Data;
 
     /// <summary>Name of the data field which has the error</summary>
+    [JsonPropertyName("field_name")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FieldName { get; set; } = default!;
 
     /// <summary>Base64-encoded data hash</summary>
+    [JsonPropertyName("data_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string DataHash { get; set; } = default!;
 }
@@ -50,6 +52,7 @@ public partial class PassportElementErrorFrontSide : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.FrontSide;
 
     /// <summary>Base64-encoded hash of the file with the front side of the document</summary>
+    [JsonPropertyName("file_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -61,6 +64,7 @@ public partial class PassportElementErrorReverseSide : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.ReverseSide;
 
     /// <summary>Base64-encoded hash of the file with the reverse side of the document</summary>
+    [JsonPropertyName("file_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -72,6 +76,7 @@ public partial class PassportElementErrorSelfie : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.Selfie;
 
     /// <summary>Base64-encoded hash of the file with the selfie</summary>
+    [JsonPropertyName("file_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -83,6 +88,7 @@ public partial class PassportElementErrorFile : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.File;
 
     /// <summary>Base64-encoded file hash</summary>
+    [JsonPropertyName("file_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -94,6 +100,7 @@ public partial class PassportElementErrorFiles : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.Files;
 
     /// <summary>List of base64-encoded file hashes</summary>
+    [JsonPropertyName("file_hashes")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string[] FileHashes { get; set; } = default!;
 }
@@ -105,6 +112,7 @@ public partial class PassportElementErrorTranslationFile : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.TranslationFile;
 
     /// <summary>Base64-encoded file hash</summary>
+    [JsonPropertyName("file_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string FileHash { get; set; } = default!;
 }
@@ -116,6 +124,7 @@ public partial class PassportElementErrorTranslationFiles : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.TranslationFiles;
 
     /// <summary>List of base64-encoded file hashes</summary>
+    [JsonPropertyName("file_hashes")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string[] FileHashes { get; set; } = default!;
 }
@@ -127,6 +136,7 @@ public partial class PassportElementErrorUnspecified : PassportElementError
     public override PassportElementErrorSource Source => PassportElementErrorSource.Unspecified;
 
     /// <summary>Base64-encoded element hash</summary>
+    [JsonPropertyName("element_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ElementHash { get; set; } = default!;
 }

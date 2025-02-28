@@ -6,10 +6,12 @@ namespace Telegram.Bot.Requests;
 public partial class ApproveChatJoinRequest() : RequestBase<bool>("approveChatJoinRequest"), IChatTargetable, IUserTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>Unique identifier of the target user</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 }

@@ -14,17 +14,22 @@ public partial class SetWebhookRequest() : FileRequestBase<bool>("setWebhook")
     public InputFileStream? Certificate { get; set; }
 
     /// <summary>The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS</summary>
+    [JsonPropertyName("ip_address")]
     public string? IpAddress { get; set; }
 
     /// <summary>The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to <em>40</em>. Use lower values to limit the load on your bot's server, and higher values to increase your bot's throughput.</summary>
+    [JsonPropertyName("max_connections")]
     public int? MaxConnections { get; set; }
 
     /// <summary>A list of the update types you want your bot to receive. For example, specify <c>["message", "EditedChannelPost", "CallbackQuery"]</c> to only receive updates of these types. See <see cref="Update"/> for a complete list of available update types. Specify an empty list to receive all update types except <em>ChatMember</em>, <em>MessageReaction</em>, and <em>MessageReactionCount</em> (default). If not specified, the previous setting will be used.<br/>Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.</summary>
+    [JsonPropertyName("allowed_updates")]
     public IEnumerable<UpdateType>? AllowedUpdates { get; set; }
 
     /// <summary>Pass <see langword="true"/> to drop all pending updates</summary>
+    [JsonPropertyName("drop_pending_updates")]
     public bool DropPendingUpdates { get; set; }
 
     /// <summary>A secret token to be sent in a header “X-Telegram-Bot-Api-Secret-Token” in every webhook request, 1-256 characters. Only characters <c>A-Z</c>, <c>a-z</c>, <c>0-9</c>, <c>_</c> and <c>-</c> are allowed. The header is useful to ensure that the request comes from a webhook set by you.</summary>
+    [JsonPropertyName("secret_token")]
     public string? SecretToken { get; set; }
 }

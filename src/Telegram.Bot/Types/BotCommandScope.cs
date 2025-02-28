@@ -53,6 +53,7 @@ public partial class BotCommandScopeChat : BotCommandScope
     public override BotCommandScopeType Type => BotCommandScopeType.Chat;
 
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
@@ -64,6 +65,7 @@ public partial class BotCommandScopeChatAdministrators : BotCommandScope
     public override BotCommandScopeType Type => BotCommandScopeType.ChatAdministrators;
 
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
@@ -75,10 +77,12 @@ public partial class BotCommandScopeChatMember : BotCommandScope
     public override BotCommandScopeType Type => BotCommandScopeType.ChatMember;
 
     /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 
     /// <summary>Unique identifier of the target user</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public long UserId { get; set; }
 }

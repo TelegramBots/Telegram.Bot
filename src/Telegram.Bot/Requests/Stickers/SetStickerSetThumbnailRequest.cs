@@ -10,6 +10,7 @@ public partial class SetStickerSetThumbnailRequest() : FileRequestBase<bool>("se
     public required string Name { get; set; }
 
     /// <summary>User identifier of the sticker set owner</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 

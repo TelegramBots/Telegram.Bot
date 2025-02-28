@@ -7,6 +7,7 @@ namespace Telegram.Bot.Requests;
 public partial class SendChatActionRequest() : RequestBase<bool>("sendChatAction"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
@@ -15,8 +16,10 @@ public partial class SendChatActionRequest() : RequestBase<bool>("sendChatAction
     public required ChatAction Action { get; set; }
 
     /// <summary>Unique identifier for the target message thread; for supergroups only</summary>
+    [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
     /// <summary>Unique identifier of the business connection on behalf of which the action will be sent</summary>
+    [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
 }

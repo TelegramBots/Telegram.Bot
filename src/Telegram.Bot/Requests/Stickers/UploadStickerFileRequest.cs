@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class UploadStickerFileRequest() : FileRequestBase<TGFile>("uploadStickerFile"), IUserTargetable
 {
     /// <summary>User identifier of sticker file owner</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
@@ -14,6 +15,7 @@ public partial class UploadStickerFileRequest() : FileRequestBase<TGFile>("uploa
     public required InputFileStream Sticker { get; set; }
 
     /// <summary>Format of the sticker, must be one of <see cref="StickerFormat.Static">Static</see>, <see cref="StickerFormat.Animated">Animated</see>, <see cref="StickerFormat.Video">Video</see></summary>
+    [JsonPropertyName("sticker_format")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required StickerFormat StickerFormat { get; set; }
 }

@@ -6,6 +6,7 @@ namespace Telegram.Bot.Requests;
 public partial class AnswerShippingQueryRequest() : RequestBase<bool>("answerShippingQuery")
 {
     /// <summary>Unique identifier for the query to be answered</summary>
+    [JsonPropertyName("shipping_query_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ShippingQueryId { get; set; }
 
@@ -14,8 +15,10 @@ public partial class AnswerShippingQueryRequest() : RequestBase<bool>("answerShi
     public required bool Ok { get; set; }
 
     /// <summary>A array of available shipping options.</summary>
+    [JsonPropertyName("shipping_options")]
     public IEnumerable<ShippingOption>? ShippingOptions { get; set; }
 
     /// <summary>Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.</summary>
+    [JsonPropertyName("error_message")]
     public string? ErrorMessage { get; set; }
 }

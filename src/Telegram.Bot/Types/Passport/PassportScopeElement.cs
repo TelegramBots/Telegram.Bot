@@ -12,6 +12,7 @@ public abstract partial class PassportScopeElement;
 public partial class PassportScopeElementOneOfSeveral : PassportScopeElement
 {
     /// <summary>List of elements one of which must be provided; must contain either several of “passport”, “DriverLicense”, “IdentityCard”, “InternalPassport” <b>or</b> several of “UtilityBill”, “BankStatement”, “RentalAgreement”, “PassportRegistration”, “TemporaryRegistration”</summary>
+    [JsonPropertyName("one_of")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public PassportScopeElementOne[] OneOf { get; set; } = default!;
 
@@ -36,5 +37,6 @@ public partial class PassportScopeElementOne : PassportScopeElement
     public bool Translation { get; set; }
 
     /// <summary><em>Optional.</em> Use this parameter to request the first, last and middle name of the user in the language of the user's country of residence. Available for "PersonalDetails"</summary>
+    [JsonPropertyName("native_names")]
     public bool NativeNames { get; set; }
 }

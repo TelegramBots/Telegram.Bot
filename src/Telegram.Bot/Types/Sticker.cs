@@ -17,9 +17,11 @@ public partial class Sticker : FileBase
     public int Height { get; set; }
 
     /// <summary><see langword="true"/>, if the sticker is <a href="https://telegram.org/blog/animated-stickers">animated</a></summary>
+    [JsonPropertyName("is_animated")]
     public bool IsAnimated { get; set; }
 
     /// <summary><see langword="true"/>, if the sticker is a <a href="https://telegram.org/blog/video-stickers-better-reactions">video sticker</a></summary>
+    [JsonPropertyName("is_video")]
     public bool IsVideo { get; set; }
 
     /// <summary><em>Optional</em>. Sticker thumbnail in the .WEBP or .JPG format</summary>
@@ -29,17 +31,22 @@ public partial class Sticker : FileBase
     public string? Emoji { get; set; }
 
     /// <summary><em>Optional</em>. Name of the sticker set to which the sticker belongs</summary>
+    [JsonPropertyName("set_name")]
     public string? SetName { get; set; }
 
     /// <summary><em>Optional</em>. For premium regular stickers, premium animation for the sticker</summary>
+    [JsonPropertyName("premium_animation")]
     public TGFile? PremiumAnimation { get; set; }
 
     /// <summary><em>Optional</em>. For mask stickers, the position where the mask should be placed</summary>
+    [JsonPropertyName("mask_position")]
     public MaskPosition? MaskPosition { get; set; }
 
     /// <summary><em>Optional</em>. For custom emoji stickers, unique identifier of the custom emoji</summary>
+    [JsonPropertyName("custom_emoji_id")]
     public string? CustomEmojiId { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places</summary>
+    [JsonPropertyName("needs_repainting")]
     public bool NeedsRepainting { get; set; }
 }

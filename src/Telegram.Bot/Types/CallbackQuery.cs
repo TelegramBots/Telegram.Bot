@@ -17,9 +17,11 @@ public partial class CallbackQuery
     public Message? Message { get; set; }
 
     /// <summary><em>Optional</em>. Identifier of the message sent via the bot in inline mode, that originated the query.</summary>
+    [JsonPropertyName("inline_message_id")]
     public string? InlineMessageId { get; set; }
 
     /// <summary>Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in <a href="https://core.telegram.org/bots/api#games">games</a>.</summary>
+    [JsonPropertyName("chat_instance")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ChatInstance { get; set; } = default!;
 
@@ -27,5 +29,6 @@ public partial class CallbackQuery
     public string? Data { get; set; }
 
     /// <summary><em>Optional</em>. Short name of a <a href="https://core.telegram.org/bots/api#games">Game</a> to be returned, serves as the unique identifier for the game</summary>
+    [JsonPropertyName("game_short_name")]
     public string? GameShortName { get; set; }
 }

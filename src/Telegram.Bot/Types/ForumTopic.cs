@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class ForumTopic
 {
     /// <summary>Unique identifier of the forum topic</summary>
+    [JsonPropertyName("message_thread_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageThreadId { get; set; }
 
@@ -13,9 +14,11 @@ public partial class ForumTopic
     public string Name { get; set; } = default!;
 
     /// <summary>Color of the topic icon in RGB format</summary>
+    [JsonPropertyName("icon_color")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int IconColor { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the custom emoji shown as the topic icon</summary>
+    [JsonPropertyName("icon_custom_emoji_id")]
     public string? IconCustomEmojiId { get; set; }
 }

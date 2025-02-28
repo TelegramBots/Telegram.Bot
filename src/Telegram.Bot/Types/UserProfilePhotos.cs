@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class UserProfilePhotos
 {
     /// <summary>Total number of profile pictures the target user has</summary>
+    [JsonPropertyName("total_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int TotalCount { get; set; }
 

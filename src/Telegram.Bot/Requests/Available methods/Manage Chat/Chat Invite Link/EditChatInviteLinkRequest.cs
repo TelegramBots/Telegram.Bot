@@ -6,10 +6,12 @@ namespace Telegram.Bot.Requests;
 public partial class EditChatInviteLinkRequest() : RequestBase<ChatInviteLink>("editChatInviteLink"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>The invite link to edit</summary>
+    [JsonPropertyName("invite_link")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InviteLink { get; set; }
 
@@ -17,12 +19,15 @@ public partial class EditChatInviteLinkRequest() : RequestBase<ChatInviteLink>("
     public string? Name { get; set; }
 
     /// <summary>Point in time when the link will expire</summary>
+    [JsonPropertyName("expire_date")]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? ExpireDate { get; set; }
 
     /// <summary>The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</summary>
+    [JsonPropertyName("member_limit")]
     public int? MemberLimit { get; set; }
 
     /// <summary><see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators. If <see langword="true"/>, <see cref="MemberLimit">MemberLimit</see> can't be specified</summary>
+    [JsonPropertyName("creates_join_request")]
     public bool CreatesJoinRequest { get; set; }
 }

@@ -6,5 +6,6 @@ namespace Telegram.Bot.Requests;
 public partial class GetMyNameRequest() : RequestBase<BotName>("getMyName")
 {
     /// <summary>A two-letter ISO 639-1 language code or an empty string</summary>
+    [JsonPropertyName("language_code")]
     public string? LanguageCode { get; set; }
 }

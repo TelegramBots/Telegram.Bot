@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class GiveawayCreated
 {
     /// <summary><em>Optional</em>. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only</summary>
+    [JsonPropertyName("prize_star_count")]
     public int? PrizeStarCount { get; set; }
 
     /// <summary>Implicit conversion to int (PrizeStarCount)</summary>

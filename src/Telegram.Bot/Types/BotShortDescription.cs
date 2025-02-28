@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 public partial class BotShortDescription
 {
     /// <summary>The bot's short description</summary>
+    [JsonPropertyName("short_description")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ShortDescription { get; set; } = default!;
 

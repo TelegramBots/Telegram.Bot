@@ -6,26 +6,33 @@ namespace Telegram.Bot.Requests;
 public partial class CopyMessagesRequest() : RequestBase<MessageId[]>("copyMessages"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
     /// <summary>Unique identifier for the chat where the original messages were sent (or channel username in the format <c>@channelusername</c>)</summary>
+    [JsonPropertyName("from_chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId FromChatId { get; set; }
 
     /// <summary>A list of 1-100 identifiers of messages in the chat <see cref="FromChatId">FromChatId</see> to copy. The identifiers must be specified in a strictly increasing order.</summary>
+    [JsonPropertyName("message_ids")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<int> MessageIds { get; set; }
 
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
+    [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
     /// <summary>Sends the messages <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
+    [JsonPropertyName("disable_notification")]
     public bool DisableNotification { get; set; }
 
     /// <summary>Protects the contents of the sent messages from forwarding and saving</summary>
+    [JsonPropertyName("protect_content")]
     public bool ProtectContent { get; set; }
 
     /// <summary>Pass <see langword="true"/> to copy the messages without their captions</summary>
+    [JsonPropertyName("remove_caption")]
     public bool RemoveCaption { get; set; }
 }

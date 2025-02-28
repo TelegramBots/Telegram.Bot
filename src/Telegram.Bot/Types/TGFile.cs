@@ -6,5 +6,6 @@ namespace Telegram.Bot.Types;
 public partial class TGFile : FileBase
 {
     /// <summary><em>Optional</em>. File path. Use <see cref="TelegramBotClient.DownloadFile">DownloadFile</see> to get the file.</summary>
+    [JsonPropertyName("file_path")]
     public string? FilePath { get; set; }
 }

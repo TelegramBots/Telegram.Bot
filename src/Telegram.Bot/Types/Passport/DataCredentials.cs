@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types.Passport;
 public partial class DataCredentials
 {
     /// <summary>Checksum of encrypted data</summary>
+    [JsonPropertyName("data_hash")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string DataHash { get; set; } = default!;
 

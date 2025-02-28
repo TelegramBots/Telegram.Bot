@@ -7,10 +7,12 @@ namespace Telegram.Bot.Requests;
 public partial class GetInlineGameHighScoresRequest() : RequestBase<GameHighScore[]>("getGameHighScores"), IUserTargetable
 {
     /// <summary>Target user id</summary>
+    [JsonPropertyName("user_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
     /// <summary>Identifier of the inline message</summary>
+    [JsonPropertyName("inline_message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 }

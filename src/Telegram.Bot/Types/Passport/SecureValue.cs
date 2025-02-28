@@ -8,9 +8,11 @@ public partial class SecureValue
     public DataCredentials? Data { get; set; }
 
     /// <summary><em>Optional.</em> Credentials for an encrypted document's front side. Available for "passport", "DriverLicense", "IdentityCard" and "InternalPassport".</summary>
+    [JsonPropertyName("front_side")]
     public FileCredentials? FrontSide { get; set; }
 
     /// <summary><em>Optional.</em> Credentials for an encrypted document's reverse side. Available for "DriverLicense" and "IdentityCard".</summary>
+    [JsonPropertyName("reverse_side")]
     public FileCredentials? ReverseSide { get; set; }
 
     /// <summary><em>Optional.</em> Credentials for an encrypted selfie of the user with a document. Available for "passport", "DriverLicense", "IdentityCard" and "InternalPassport".</summary>

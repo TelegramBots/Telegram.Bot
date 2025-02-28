@@ -15,9 +15,11 @@ public partial class Audio : FileBase
     public string? Title { get; set; }
 
     /// <summary><em>Optional</em>. Original filename as defined by the sender</summary>
+    [JsonPropertyName("file_name")]
     public string? FileName { get; set; }
 
     /// <summary><em>Optional</em>. MIME type of the file as defined by the sender</summary>
+    [JsonPropertyName("mime_type")]
     public string? MimeType { get; set; }
 
     /// <summary><em>Optional</em>. Thumbnail of the album cover to which the music file belongs</summary>

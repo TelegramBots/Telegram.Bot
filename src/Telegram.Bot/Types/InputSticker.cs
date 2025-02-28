@@ -13,10 +13,12 @@ public partial class InputSticker
     public required StickerFormat Format { get; set; }
 
     /// <summary>List of 1-20 emoji associated with the sticker</summary>
+    [JsonPropertyName("emoji_list")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<string> EmojiList { get; set; }
 
     /// <summary><em>Optional</em>. Position where the mask should be placed on faces. For “mask” stickers only.</summary>
+    [JsonPropertyName("mask_position")]
     public MaskPosition? MaskPosition { get; set; }
 
     /// <summary><em>Optional</em>. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “CustomEmoji” stickers only.</summary>
