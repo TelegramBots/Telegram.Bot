@@ -305,7 +305,7 @@ public static class HtmlText
         }
         return index == len ? html : html[..index] + suffix + closingTags.ToString();
     }
-
+ 
 #if !NET6_0_OR_GREATER
     private static StringBuilder Append(this StringBuilder sb, ReadOnlySpan<char> value) => sb.Append(value.ToString());
     private static StringBuilder Insert(this StringBuilder sb, int index, ReadOnlySpan<char> value) => sb.Insert(index, value.ToString());
