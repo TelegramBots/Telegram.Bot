@@ -210,4 +210,104 @@ public static class HtmlText
     [return: NotNullIfNotNull(nameof(text))]
     public static string? Escape(string? text)
         => text?.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+
+    /// <summary>Calculate the length of the plain text (excluding the &lt;tags&gt;) from the HTML text</summary>
+    /// <param name="html">HTML text</param>
+    /// <returns>Number of characters (HTML &amp;entities; are counted as 1)</returns>
+    public static int PlainLength(string html)
+    {
+        var span = html.AsSpan();
+        int len = 0, index;
+        while ((index = span.IndexOfAny('&', '<')) != -1)
+        {
+            len += index;
+            var c = span[index];
+            if (c == '<') c = '>'; else { c = ';'; len++; }
+            span = span[(index + 1)..];
+            index = span.IndexOf(c);
+            if (index < 0) { span = default; break; }
+            span = span[(index + 1)..];
+        }
+        return len + span.Length;
+    }
+
+    /// <summary>Convert the HTML text to plain text (excluding the &lt;tags&gt;)</summary>
+    /// <param name="html">HTML text</param>
+    /// <returns>Plain text (only &amp;lt; &amp;gt; &amp;amp; &amp;quot; entities are converted)</returns>
+    public static string ToPlain(string html)
+    {
+        var sb = new StringBuilder(html.Length);
+        var span = html.AsSpan();
+        int index;
+        while ((index = span.IndexOfAny('&', '<')) != -1)
+        {
+            sb.Append(span[..index]);
+            var c = span[index];
+            span = span[(index + 1)..];
+            c = c == '<' ? '>' : ';';
+            index = span.IndexOf(c);
+            if (index < 0) { span = default; break; }
+            if (c == ';')
+                if (index == 2 && span[0] == 'l' && span[1] == 't') sb.Append('<');
+                else if (index == 2 && span[0] == 'g' && span[1] == 't') sb.Append('>');
+                else if (index == 3 && span[0] == 'a' && span[1] == 'm' && span[2] == 'p') sb.Append('&');
+                else if (index == 4 && span[0] == 'q' && span[1] == 'u' && span[2] == 'o' && span[3] == 't') sb.Append('"');
+                else sb.Append('&').Append(span[..(index + 1)]);
+            span = span[(index + 1)..];
+        }
+        sb.Append(span);
+        return sb.ToString();
+    }
+
+    /// <summary>Truncate the HTML text to the specified number of plain-text characters</summary>
+    /// <param name="html">HTML text</param>
+    /// <param name="count">Target count of Unicode characters (including the suffix)</param>
+    /// <param name="suffix">Suffix to append if a truncation was done</param>
+    /// <returns>The HTML eventually truncated</returns>
+    public static string Truncate(string html, int count, string suffix = "…")
+    {
+        int len = html.Length;
+        if (len <= count) return html;
+        count -= suffix.Length;
+        if (count < 0) throw new ArgumentException("Invalid count", nameof(count));
+        var closingTags = new StringBuilder();
+        int index = 0;
+        for (; count > 0 && index < len; index++)
+        {
+            var c = html[index];
+            if (c == '&')
+                index = html.IndexOf(';', index + 1);
+            else if (c == '<')
+            {
+                int end = html.IndexOf('>', index + 1);
+                if (html[index + 1] == '/')
+                {
+                    int idx = 3;
+                    while (closingTags[idx++] != '>') { }
+                    closingTags.Remove(0, idx);
+                }
+                else if (html[end - 1] != '/')
+                {
+                    int gap = html.IndexOf(' ', index + 2, end - index - 2);
+                    var tag = html.AsSpan()[(index == 0 ? 0 : index - 1)..(gap < 0 ? end + 1 : gap + 1)];
+                    closingTags.Insert(0, tag);
+                    closingTags[tag.Length - 1] = '>';
+                    if (index == 0) closingTags.Insert(0, '<');
+                    else closingTags[0] = '<';
+                    closingTags[1] = '/';
+                }
+                index = end;
+                continue;
+            }
+            else if (char.IsLowSurrogate(c)) // surrogate pairs are counted as 1
+                continue;
+            count--;
+        }
+        return index == len ? html : html[..index] + suffix + closingTags.ToString();
+    }
+
+#if !NET6_0_OR_GREATER
+    private static StringBuilder Append(this StringBuilder sb, ReadOnlySpan<char> value) => sb.Append(value.ToString());
+    private static StringBuilder Insert(this StringBuilder sb, int index, ReadOnlySpan<char> value) => sb.Insert(index, value.ToString());
+#endif
 }
