@@ -46,11 +46,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build $PROJECT_PATH --no-restore --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=$RELEASE_NOTES"
+      run: dotnet build $PROJECT_PATH --no-restore --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\""
     - name: Test
       run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
     - name: Pack
-      run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=$RELEASE_NOTES" --output packages
+      run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\"" --output packages
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4
     #   with:
