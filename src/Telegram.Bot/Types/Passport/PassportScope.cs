@@ -10,5 +10,5 @@ public partial class PassportScope
 
     /// <summary>Scope version, must be <em>1</em></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int V { get; set; }
+    public int V { get; set; } = 1;
 }

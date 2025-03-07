@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Linq;
 
+#pragma warning disable IDE0290 // Use primary constructor
+
 namespace Telegram.Bot.Types
 {
     public partial class Message
@@ -420,6 +422,12 @@ namespace Telegram.Bot.Types
         {
             /// <summary>Date of birth</summary>
             public DateTime Birthday => DateTime.ParseExact(BirthDate, "dd.MM.yyyy", null, DateTimeStyles.None);
+        }
+
+        public partial class PassportScopeElementOne
+        {
+            /// <summary>Initializes a new instance of the <see cref="PassportScopeElementOne"/> class with the specified type</summary>
+            public PassportScopeElementOne(EncryptedPassportElementType type) => Type = type;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types.Passport;
 public class AuthorizationRequestParameters
 {
     /// <summary>Unique identifier for the bot. You can get it from bot token. For example, for the bot token "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy", the bot id is 1234567.</summary>
-    public int BotId { get; }
+    public long BotId { get; }
 
     /// <summary>Public key of the bot</summary>
     public string PublicKey { get; }
@@ -40,7 +40,7 @@ public class AuthorizationRequestParameters
     /// In particular, it should be long enough and it should be generated using a cryptographically secure
     /// pseudorandom number generator. You should never accept credentials with the same nonce twice.</param>
     /// <param name="scope">Description of the data you want to request</param>
-    public AuthorizationRequestParameters(int botId, string publicKey, string nonce, PassportScope scope)
+    public AuthorizationRequestParameters(long botId, string publicKey, string nonce, PassportScope scope)
     {
         BotId = botId;
         PublicKey = publicKey ?? throw new ArgumentNullException(nameof(publicKey));
@@ -48,8 +48,7 @@ public class AuthorizationRequestParameters
         PassportScope = scope ?? throw new ArgumentNullException(nameof(PassportScope));
 
         var scopeJson = JsonSerializer.Serialize(scope, JsonBotAPI.Options);
-        Query = "domain=telegrampassport" +
-                $"&bot_id={System.Uri.EscapeDataString(botId + "")}" +
+        Query = $"domain=telegrampassport&bot_id={botId}" +
                 $"&scope={System.Uri.EscapeDataString(scopeJson)}" +
                 $"&public_key={System.Uri.EscapeDataString(publicKey)}" +
                 $"&nonce={System.Uri.EscapeDataString(nonce)}";
