@@ -96,6 +96,20 @@ namespace Telegram.Bot.Types
         }
     }
 
+    public partial class ChatAdministratorRights
+    {
+        /// <summary>Initializes a new <see cref="ChatAdministratorRights"/> instance with all fields set to <see langword="false"/>.</summary>
+        public ChatAdministratorRights() { }
+        /// <summary>Initializes a new <see cref="ChatAdministratorRights"/> instance with all <c>Can*</c> fields set to the specified value.</summary>
+        /// <param name="defaultValue"><see langword="true"/> to allow all permissions by default</param>
+        public ChatAdministratorRights(bool defaultValue)
+        {
+            CanManageChat = CanDeleteMessages = CanManageVideoChats = CanRestrictMembers = CanPromoteMembers = defaultValue;
+            CanChangeInfo = CanInviteUsers = CanPostStories = CanEditStories = CanDeleteStories = defaultValue;
+            CanPostMessages = CanEditMessages = CanPinMessages = CanManageTopics = defaultValue;
+        }
+    }
+
     public partial class ReplyParameters
     {
         /// <summary>Implicit operator when you just want to reply to a message in same chat</summary>
