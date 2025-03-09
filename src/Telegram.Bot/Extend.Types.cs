@@ -49,6 +49,17 @@ namespace Telegram.Bot.Types
             ? $"https://t.me/c/{(-1000000000000 - Chat.Id).ToString(CultureInfo.InvariantCulture)}/{Id.ToString(CultureInfo.InvariantCulture)}"
             : $"https://t.me/{Chat.Username}/{Id.ToString(CultureInfo.InvariantCulture)}"
             : null;
+
+        /// <summary><see langword="true"/> if it's a service message, <see langword="false"/> if it's a content message</summary>
+        [JsonIgnore]
+        public bool IsServiceMessage => this switch
+        {
+            { Text: { } } or { Animation: { } } or { Audio: { } } or { Document: { } } or { PaidMedia: { } } or
+            { Photo: { } } or { Sticker: { } } or { Story: { } } or { Video: { } } or { VideoNote: { } } or { Voice: { } } or
+            { Contact: { } } or { Dice: { } } or { Game: { } } or { Poll: { } } or { Venue: { } } or { Location: { } } or
+            { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } => false,
+            _ => true
+        };
     }
 
     public partial class Chat

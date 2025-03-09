@@ -55,7 +55,7 @@ jobs:
         JSON: |
           {
               "status": "success", "complete": true, "commitMessage": ${{ toJSON(github.event.head_commit.message) }},
-              "message": "{ \"commitId\": \"${{ github.event.head_commit.id }}\", \"buildNumber\": \"${{ env.VERSION }}\", \"teamProjectName\": \"${{ github.event.repository.name }}\"}"
+              "message": "{ \"commitId\": \"${{ github.sha }}\", \"buildNumber\": \"${{ env.VERSION }}\", \"repoName\": \"${{ github.repository }}\"}"
           }
       run: |
         curl -X POST -H "Content-Type: application/json" -d "$JSON" ${{ secrets.DEPLOYED_WEBHOOK }}
