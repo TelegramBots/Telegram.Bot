@@ -3329,41 +3329,27 @@ public static partial class TelegramBotClientExtensions
     /// <summary>If you sent an invoice requesting a shipping address and the parameter <em>IsFlexible</em> was specified, the Bot API will send an <see cref="Update"/> with a <em>ShippingQuery</em> field to the bot. Use this method to reply to shipping queries</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="shippingOptions">A array of available shipping options.</param>
+    /// <param name="shippingOptions">Required on success. A array of available shipping options.</param>
+    /// <param name="errorMessage">Required on failure. Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task AnswerShippingQuery(
         this ITelegramBotClient botClient,
         string shippingQueryId,
-        IEnumerable<ShippingOption> shippingOptions,
+        IEnumerable<ShippingOption>? shippingOptions = default,
+        string? errorMessage = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new AnswerShippingQueryRequest
     {
         ShippingQueryId = shippingQueryId,
-        Ok = true,
+        Ok = errorMessage == null,
         ShippingOptions = shippingOptions,
-    }, cancellationToken).ConfigureAwait(false);
-
-    /// <summary>If you sent an invoice requesting a shipping address and the parameter <em>IsFlexible</em> was specified, the Bot API will send an <see cref="Update"/> with a <em>ShippingQuery</em> field to the bot. Use this method to reply to shipping queries</summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="errorMessage">Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.</param>
-    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    public static async Task AnswerShippingQuery(
-        this ITelegramBotClient botClient,
-        string shippingQueryId,
-        string errorMessage,
-        CancellationToken cancellationToken = default
-    ) => await botClient.ThrowIfNull().SendRequest(new AnswerShippingQueryRequest
-    {
-        ShippingQueryId = shippingQueryId,
-        Ok = false,
         ErrorMessage = errorMessage,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Update"/> with the field <em>PreCheckoutQuery</em>. Use this method to respond to such pre-checkout queries <b>Note:</b> The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="errorMessage">Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.<para/>Leave <see langword="null"/> if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order</param>
+    /// <param name="errorMessage">Required on failure. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task AnswerPreCheckoutQuery(
         this ITelegramBotClient botClient,

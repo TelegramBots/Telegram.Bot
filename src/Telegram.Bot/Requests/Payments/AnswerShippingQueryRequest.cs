@@ -14,11 +14,11 @@ public partial class AnswerShippingQueryRequest() : RequestBase<bool>("answerShi
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required bool Ok { get; set; }
 
-    /// <summary>A array of available shipping options.</summary>
+    /// <summary>Required on success. A array of available shipping options.</summary>
     [JsonPropertyName("shipping_options")]
     public IEnumerable<ShippingOption>? ShippingOptions { get; set; }
 
-    /// <summary>Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.</summary>
+    /// <summary>Required on failure. Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.</summary>
     [JsonPropertyName("error_message")]
     public string? ErrorMessage { get; set; }
 }
