@@ -1563,7 +1563,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         long userId,
         CancellationToken cancellationToken = default
-    ) => await botClient.ThrowIfNull().SendRequest(new ApproveChatJoinRequest
+    ) => await botClient.ThrowIfNull().SendRequest(new ApproveChatJoinRequestRequest
     {
         ChatId = chatId,
         UserId = userId,
@@ -1579,7 +1579,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         long userId,
         CancellationToken cancellationToken = default
-    ) => await botClient.ThrowIfNull().SendRequest(new DeclineChatJoinRequest
+    ) => await botClient.ThrowIfNull().SendRequest(new DeclineChatJoinRequestRequest
     {
         ChatId = chatId,
         UserId = userId,

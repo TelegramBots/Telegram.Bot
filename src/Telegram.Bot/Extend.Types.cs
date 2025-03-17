@@ -440,13 +440,13 @@ namespace Telegram.Bot.Types
         public partial class IdDocumentData
         {
             /// <summary>Date of expiry if available</summary>
-            public DateTime? Expiry => DateTime.TryParseExact(ExpiryDate, "dd.MM.yyyy", null, DateTimeStyles.None, out var result) ? result : null;
+            public DateTime? Expiry => DateTime.TryParseExact(ExpiryDate, "dd.MM.yyyy", provider: null, DateTimeStyles.None, out var result) ? result : null;
         }
 
         public partial class PersonalDetails
         {
             /// <summary>Date of birth</summary>
-            public DateTime Birthday => DateTime.ParseExact(BirthDate, "dd.MM.yyyy", null, DateTimeStyles.None);
+            public DateTime Birthday => DateTime.ParseExact(BirthDate, "dd.MM.yyyy", provider: null, DateTimeStyles.None);
         }
 
         public partial class PassportScopeElementOne
