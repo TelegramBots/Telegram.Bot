@@ -219,7 +219,7 @@ public class PaymentsBuilder
         if (errorMessage is null)
             await fixture.BotClient.AnswerShippingQuery(shippingQueryId, _shippingOptions);
         else
-            await fixture.BotClient.AnswerShippingQuery(shippingQueryId, errorMessage);
+            await fixture.BotClient.AnswerShippingQuery(shippingQueryId, errorMessage: errorMessage);
     }
 
     public PaymentsBuilder WithProduct(Action<ProductBuilder> builder)
