@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to change the bot's menu button in a private chat, or the default menu button.<para>Returns: </para></summary>
+/// <summary>Use this method to change the bot's menu button in a private chat, or the default menu button.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetChatMenuButtonRequest() : RequestBase<bool>("setChatMenuButton")
 {

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to set the thumbnail of a custom emoji sticker set.<para>Returns: </para></summary>
+/// <summary>Use this method to set the thumbnail of a custom emoji sticker set.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetCustomEmojiStickerSetThumbnailRequest() : RequestBase<bool>("setCustomEmojiStickerSetThumbnail")
 {

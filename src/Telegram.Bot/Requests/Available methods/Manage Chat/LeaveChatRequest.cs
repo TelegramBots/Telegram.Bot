@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method for your bot to leave a group, supergroup or channel.<para>Returns: </para></summary>
+/// <summary>Use this method for your bot to leave a group, supergroup or channel.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class LeaveChatRequest() : RequestBase<bool>("leaveChat"), IChatTargetable
 {

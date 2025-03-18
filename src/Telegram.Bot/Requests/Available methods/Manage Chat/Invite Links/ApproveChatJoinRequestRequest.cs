@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the <em>CanInviteUsers</em> administrator right.<para>Returns: </para></summary>
+/// <summary>Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the <em>CanInviteUsers</em> administrator right.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class ApproveChatJoinRequestRequest() : RequestBase<bool>("approveChatJoinRequest"), IChatTargetable, IUserTargetable
 {

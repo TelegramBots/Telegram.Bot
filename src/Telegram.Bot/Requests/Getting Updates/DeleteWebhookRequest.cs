@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to remove webhook integration if you decide to switch back to <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see>.<para>Returns: </para></summary>
+/// <summary>Use this method to remove webhook integration if you decide to switch back to <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see>.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class DeleteWebhookRequest() : RequestBase<bool>("deleteWebhook")
 {

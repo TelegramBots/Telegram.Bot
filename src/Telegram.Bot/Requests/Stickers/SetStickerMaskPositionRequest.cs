@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to change the <see cref="MaskPosition">mask position</see> of a mask sticker. The sticker must belong to a sticker set that was created by the bot.<para>Returns: </para></summary>
+/// <summary>Use this method to change the <see cref="MaskPosition">mask position</see> of a mask sticker. The sticker must belong to a sticker set that was created by the bot.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetStickerMaskPositionRequest() : RequestBase<bool>("setStickerMaskPosition")
 {

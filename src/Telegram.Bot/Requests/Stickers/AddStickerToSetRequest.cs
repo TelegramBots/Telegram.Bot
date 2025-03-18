@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers.<para>Returns: </para></summary>
+/// <summary>Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class AddStickerToSetRequest() : FileRequestBase<bool>("addStickerToSet"), IUserTargetable
 {

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Verifies a user <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> which is represented by the bot.<para>Returns: </para></summary>
+/// <summary>Verifies a user <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> which is represented by the bot.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class VerifyUserRequest() : RequestBase<bool>("verifyUser"), IUserTargetable
 {

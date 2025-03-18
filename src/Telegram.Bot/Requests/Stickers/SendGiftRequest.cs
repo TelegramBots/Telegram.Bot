@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver.<para>Returns: </para></summary>
+/// <summary>Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendGiftRequest() : RequestBase<bool>("sendGift")
 {

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to set a custom title for an administrator in a supergroup promoted by the bot.<para>Returns: </para></summary>
+/// <summary>Use this method to set a custom title for an administrator in a supergroup promoted by the bot.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SetChatAdministratorCustomTitleRequest() : RequestBase<bool>("setChatAdministratorCustomTitle"), IChatTargetable, IUserTargetable
 {

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created.<para>Returns: </para></summary>
+/// <summary>Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class CreateNewStickerSetRequest() : FileRequestBase<bool>("createNewStickerSet"), IUserTargetable
 {

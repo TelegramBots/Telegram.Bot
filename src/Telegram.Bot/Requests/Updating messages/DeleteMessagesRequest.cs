@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped.<para>Returns: </para></summary>
+/// <summary>Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class DeleteMessagesRequest() : RequestBase<bool>("deleteMessages"), IChatTargetable
 {
