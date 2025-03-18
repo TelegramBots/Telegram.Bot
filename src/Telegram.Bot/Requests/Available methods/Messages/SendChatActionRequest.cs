@@ -15,11 +15,11 @@ public partial class SendChatActionRequest() : RequestBase<bool>("sendChatAction
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatAction Action { get; set; }
 
-    /// <summary>Unique identifier for the target message thread; for supergroups only</summary>
-    [JsonPropertyName("message_thread_id")]
-    public int? MessageThreadId { get; set; }
-
     /// <summary>Unique identifier of the business connection on behalf of which the action will be sent</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
+
+    /// <summary>Unique identifier for the target message thread; for supergroups only</summary>
+    [JsonPropertyName("message_thread_id")]
+    public int? MessageThreadId { get; set; }
 }

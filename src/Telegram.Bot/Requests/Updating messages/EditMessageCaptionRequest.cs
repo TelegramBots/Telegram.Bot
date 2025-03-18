@@ -15,6 +15,10 @@ public partial class EditMessageCaptionRequest() : RequestBase<Message>("editMes
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>New caption of the message, 0-1024 characters after entities parsing</summary>
     public string? Caption { get; set; }
 
@@ -33,8 +37,4 @@ public partial class EditMessageCaptionRequest() : RequestBase<Message>("editMes
     /// <summary>An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

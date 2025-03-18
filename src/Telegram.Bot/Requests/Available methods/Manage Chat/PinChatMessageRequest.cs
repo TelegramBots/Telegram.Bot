@@ -15,11 +15,11 @@ public partial class PinChatMessageRequest() : RequestBase<bool>("pinChatMessage
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
-    /// <summary>Pass <see langword="true"/> if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.</summary>
-    [JsonPropertyName("disable_notification")]
-    public bool DisableNotification { get; set; }
-
     /// <summary>Unique identifier of the business connection on behalf of which the message will be pinned</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
+
+    /// <summary>Pass <see langword="true"/> if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.</summary>
+    [JsonPropertyName("disable_notification")]
+    public bool DisableNotification { get; set; }
 }

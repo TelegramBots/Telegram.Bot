@@ -14,6 +14,10 @@ public partial class SendMediaGroupRequest() : FileRequestBase<Message[]>("sendM
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IAlbumInputMedia> Media { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
@@ -37,8 +41,4 @@ public partial class SendMediaGroupRequest() : FileRequestBase<Message[]>("sendM
     /// <summary>Description of the message to reply to</summary>
     [JsonPropertyName("reply_parameters")]
     public ReplyParameters? ReplyParameters { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

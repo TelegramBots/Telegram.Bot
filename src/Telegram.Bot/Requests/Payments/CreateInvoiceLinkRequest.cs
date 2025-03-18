@@ -25,6 +25,10 @@ public partial class CreateInvoiceLinkRequest() : RequestBase<string>("createInv
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<LabeledPrice> Prices { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the link will be created. For payments in <a href="https://t.me/BotNews/90">Telegram Stars</a> only.</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>. Pass an empty string for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     [JsonPropertyName("provider_token")]
     public string? ProviderToken { get; set; }
@@ -88,8 +92,4 @@ public partial class CreateInvoiceLinkRequest() : RequestBase<string>("createInv
     /// <summary>Pass <see langword="true"/> if the final price depends on the shipping method. Ignored for payments in <a href="https://t.me/BotNews/90">Telegram Stars</a>.</summary>
     [JsonPropertyName("is_flexible")]
     public bool IsFlexible { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the link will be created. For payments in <a href="https://t.me/BotNews/90">Telegram Stars</a> only.</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

@@ -15,6 +15,10 @@ public partial class SendAudioRequest() : FileRequestBase<Message>("sendAudio"),
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFile Audio { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
@@ -65,8 +69,4 @@ public partial class SendAudioRequest() : FileRequestBase<Message>("sendAudio"),
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
     [JsonPropertyName("reply_markup")]
     public ReplyMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

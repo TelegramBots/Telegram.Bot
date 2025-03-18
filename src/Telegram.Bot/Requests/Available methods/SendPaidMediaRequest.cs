@@ -19,6 +19,10 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputPaidMedia> Media { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</summary>
     public string? Payload { get; set; }
 
@@ -56,8 +60,4 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     /// <summary>Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</summary>
     [JsonPropertyName("reply_markup")]
     public ReplyMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

@@ -19,6 +19,10 @@ public partial class EditMessageTextRequest() : RequestBase<Message>("editMessag
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
     [JsonPropertyName("parse_mode")]
     public ParseMode ParseMode { get; set; }
@@ -33,8 +37,4 @@ public partial class EditMessageTextRequest() : RequestBase<Message>("editMessag
     /// <summary>An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

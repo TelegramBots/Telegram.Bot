@@ -15,6 +15,10 @@ public partial class SendGameRequest() : RequestBase<Message>("sendGame"), IChat
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GameShortName { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
@@ -42,10 +46,6 @@ public partial class SendGameRequest() : RequestBase<Message>("sendGame"), IChat
     /// <summary>An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>. If empty, one 'Play GameTitle' button will be shown. If not empty, the first button must launch the game.</summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 
     /// <inheritdoc/>
     ChatId IChatTargetable.ChatId => ChatId;

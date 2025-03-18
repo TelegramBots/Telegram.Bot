@@ -23,6 +23,10 @@ public partial class EditMessageLiveLocationRequest() : RequestBase<Message>("ed
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required double Longitude { get; set; }
 
+    /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
+    [JsonPropertyName("business_connection_id")]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current <see cref="LivePeriod">LivePeriod</see> by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then <see cref="LivePeriod">LivePeriod</see> remains unchanged</summary>
     [JsonPropertyName("live_period")]
     public int? LivePeriod { get; set; }
@@ -41,8 +45,4 @@ public partial class EditMessageLiveLocationRequest() : RequestBase<Message>("ed
     /// <summary>An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
-    /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
-    [JsonPropertyName("business_connection_id")]
-    public string? BusinessConnectionId { get; set; }
 }

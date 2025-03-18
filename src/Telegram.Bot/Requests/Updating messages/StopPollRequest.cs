@@ -15,11 +15,11 @@ public partial class StopPollRequest() : RequestBase<Poll>("stopPoll"), IChatTar
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
-    /// <summary>An object for a new message <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</summary>
-    [JsonPropertyName("reply_markup")]
-    public InlineKeyboardMarkup? ReplyMarkup { get; set; }
-
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
+
+    /// <summary>An object for a new message <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</summary>
+    [JsonPropertyName("reply_markup")]
+    public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 }
