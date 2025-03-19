@@ -1,12 +1,12 @@
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>Type of <see cref="Poll"/></summary>
-/// <remarks>This enum is used only in the library APIs and is not present in types that are coming from Telegram servers for compatibility reasons</remarks>
+/// <summary><see cref="Poll"/>: Poll type, currently can be <see cref="Regular">Regular</see> or <see cref="Quiz">Quiz</see></summary>
 [JsonConverter(typeof(EnumConverter<PollType>))]
 public enum PollType
 {
-    /// <summary>Regular poll</summary>
+    /// <summary>“regular” type</summary>
     Regular = 1,
-    /// <summary>Quiz</summary>
+    /// <summary>“quiz” type</summary>
     Quiz,
 }

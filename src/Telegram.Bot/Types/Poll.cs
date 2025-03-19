@@ -33,9 +33,9 @@ public partial class Poll
     [JsonPropertyName("is_anonymous")]
     public bool IsAnonymous { get; set; }
 
-    /// <summary>Poll type, currently can be “regular” or “quiz”</summary>
+    /// <summary>Poll type, currently can be <see cref="PollType.Regular">Regular</see> or <see cref="PollType.Quiz">Quiz</see></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public string Type { get; set; } = default!;
+    public PollType Type { get; set; }
 
     /// <summary><see langword="true"/>, if the poll allows multiple answers</summary>
     [JsonPropertyName("allows_multiple_answers")]
