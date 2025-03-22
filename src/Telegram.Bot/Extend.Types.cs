@@ -45,10 +45,15 @@ namespace Telegram.Bot.Types
         public IEnumerable<string>? CaptionEntityValues => Caption is null ? default : CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
 
         /// <summary>Returns the <a href="t.me">t.me</a> link to this message, or null if the message was not in a Supergroup or Channel</summary>
-        public string? MessageLink() => Chat.Type is ChatType.Channel or ChatType.Supergroup ? Chat.Username is null
-            ? $"https://t.me/c/{(-1000000000000 - Chat.Id).ToString(CultureInfo.InvariantCulture)}/{Id.ToString(CultureInfo.InvariantCulture)}"
-            : $"https://t.me/{Chat.Username}/{Id.ToString(CultureInfo.InvariantCulture)}"
-            : null;
+        public string? MessageLink()
+        {
+            var threadPart = MessageThreadId.HasValue ? $"{MessageThreadId.Value.ToString(CultureInfo.InvariantCulture)}/" : string.Empty;
+
+            return Chat.Type is ChatType.Channel or ChatType.Supergroup ? Chat.Username is null
+                ? $"https://t.me/c/{(-1000000000000 - Chat.Id).ToString(CultureInfo.InvariantCulture)}/{threadPart}{Id.ToString(CultureInfo.InvariantCulture)}"
+                : $"https://t.me/{Chat.Username}/{threadPart}{Id.ToString(CultureInfo.InvariantCulture)}"
+                : null;
+        }
 
         /// <summary><see langword="true"/> if it's a service message, <see langword="false"/> if it's a content message</summary>
         [JsonIgnore]
