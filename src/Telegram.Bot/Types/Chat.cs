@@ -128,9 +128,10 @@ public partial class ChatFullInfo : Chat
     /// <summary><em>Optional</em>. Default chat member permissions, for groups and supergroups</summary>
     public ChatPermissions? Permissions { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if gifts can be sent to the chat</summary>
-    [JsonPropertyName("can_send_gift")]
-    public bool CanSendGift { get; set; }
+    /// <summary>Information about types of gifts that are accepted by the chat or by the corresponding user for private chats</summary>
+    [JsonPropertyName("accepted_gift_types")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public AcceptedGiftTypes AcceptedGiftTypes { get; set; } = default!;
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.</summary>
     [JsonPropertyName("can_send_paid_media")]

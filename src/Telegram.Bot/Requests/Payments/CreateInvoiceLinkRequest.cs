@@ -33,7 +33,7 @@ public partial class CreateInvoiceLinkRequest() : RequestBase<string>("createInv
     [JsonPropertyName("provider_token")]
     public string? ProviderToken { get; set; }
 
-    /// <summary>The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 2500 Telegram Stars.</summary>
+    /// <summary>The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 10000 Telegram Stars.</summary>
     [JsonPropertyName("subscription_period")]
     public int? SubscriptionPeriod { get; set; }
 

@@ -29,7 +29,9 @@ public enum FileIdType
     CallLog,
     PhotoStory,
     VideoStory,
-    Size,
-    None,
+    SelfDestructingPhoto,
+    SelfDestructingVideo,
+    SelfDestructingVideoNote,
+    SelfDestructingVoiceNote,
 }
 

@@ -22,9 +22,8 @@ public partial class BusinessConnection
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }
 
-    /// <summary><see langword="true"/>, if the bot can act on behalf of the business account in chats that were active in the last 24 hours</summary>
-    [JsonPropertyName("can_reply")]
-    public bool CanReply { get; set; }
+    /// <summary><em>Optional</em>. Rights of the business bot</summary>
+    public BusinessBotRights? Rights { get; set; }
 
     /// <summary><see langword="true"/>, if the connection is active</summary>
     [JsonPropertyName("is_enabled")]

@@ -93,6 +93,10 @@ public partial class Message
     [JsonPropertyName("author_signature")]
     public string? AuthorSignature { get; set; }
 
+    /// <summary><em>Optional</em>. The number of Telegram Stars that were paid by the sender of the message to send it</summary>
+    [JsonPropertyName("paid_star_count")]
+    public int? PaidStarCount { get; set; }
+
     /// <summary><em>Optional</em>. For text messages, the actual text of the message</summary>
     public string? Text { get; set; }
 
@@ -239,6 +243,13 @@ public partial class Message
     [JsonPropertyName("chat_shared")]
     public ChatShared? ChatShared { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: a regular gift was sent or received</summary>
+    public GiftInfo? Gift { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: a unique gift was sent or received</summary>
+    [JsonPropertyName("unique_gift")]
+    public UniqueGiftInfo? UniqueGift { get; set; }
+
     /// <summary><em>Optional</em>. The domain name of the website on which the user has logged in. <a href="https://core.telegram.org/widgets/login">More about Telegram Login »</a></summary>
     [JsonPropertyName("connected_website")]
     public string? ConnectedWebsite { get; set; }
@@ -301,6 +312,10 @@ public partial class Message
     /// <summary><em>Optional</em>. Service message: a giveaway without public winners was completed</summary>
     [JsonPropertyName("giveaway_completed")]
     public GiveawayCompleted? GiveawayCompleted { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: the price for paid messages has changed in the chat</summary>
+    [JsonPropertyName("paid_message_price_changed")]
+    public PaidMessagePriceChanged? PaidMessagePriceChanged { get; set; }
 
     /// <summary><em>Optional</em>. Service message: video chat scheduled</summary>
     [JsonPropertyName("video_chat_scheduled")]
@@ -365,6 +380,8 @@ public partial class Message
         { RefundedPayment: not null }                   => MessageType.RefundedPayment,
         { UsersShared: not null }                       => MessageType.UsersShared,
         { ChatShared: not null }                        => MessageType.ChatShared,
+        { Gift: not null }                              => MessageType.Gift,
+        { UniqueGift: not null }                        => MessageType.UniqueGift,
         { ConnectedWebsite: not null }                  => MessageType.ConnectedWebsite,
         { WriteAccessAllowed: not null }                => MessageType.WriteAccessAllowed,
         { PassportData: not null }                      => MessageType.PassportData,
@@ -381,6 +398,7 @@ public partial class Message
         { Giveaway: not null }                          => MessageType.Giveaway,
         { GiveawayWinners: not null }                   => MessageType.GiveawayWinners,
         { GiveawayCompleted: not null }                 => MessageType.GiveawayCompleted,
+        { PaidMessagePriceChanged: not null }           => MessageType.PaidMessagePriceChanged,
         { VideoChatScheduled: not null }                => MessageType.VideoChatScheduled,
         { VideoChatStarted: not null }                  => MessageType.VideoChatStarted,
         { VideoChatEnded: not null }                    => MessageType.VideoChatEnded,

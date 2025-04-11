@@ -24,31 +24,40 @@ public partial class TransactionPartnerUser : TransactionPartner
     /// <summary>Type of the transaction partner, always <see cref="TransactionPartnerType.User"/></summary>
     public override TransactionPartnerType Type => TransactionPartnerType.User;
 
+    /// <summary>Type of the transaction, currently one of <see cref="TransactionPartnerUserTransactionType.InvoicePayment">InvoicePayment</see> for payments via invoices, <see cref="TransactionPartnerUserTransactionType.PaidMediaPayment">PaidMediaPayment</see> for payments for paid media, <see cref="TransactionPartnerUserTransactionType.GiftPurchase">GiftPurchase</see> for gifts sent by the bot, <see cref="TransactionPartnerUserTransactionType.PremiumPurchase">PremiumPurchase</see> for Telegram Premium subscriptions gifted by the bot, <see cref="TransactionPartnerUserTransactionType.BusinessAccountTransfer">BusinessAccountTransfer</see> for direct transfers from managed business accounts</summary>
+    [JsonPropertyName("transaction_type")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public TransactionPartnerUserTransactionType TransactionType { get; set; }
+
     /// <summary>Information about the user</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User User { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. Information about the affiliate that received a commission via this transaction</summary>
+    /// <summary><em>Optional</em>. Information about the affiliate that received a commission via this transaction. Can be available only for “InvoicePayment” and “PaidMediaPayment” transactions.</summary>
     public AffiliateInfo? Affiliate { get; set; }
 
-    /// <summary><em>Optional</em>. Bot-specified invoice payload</summary>
+    /// <summary><em>Optional</em>. Bot-specified invoice payload. Can be available only for “InvoicePayment” transactions.</summary>
     [JsonPropertyName("invoice_payload")]
     public string? InvoicePayload { get; set; }
 
-    /// <summary><em>Optional</em>. The duration of the paid subscription</summary>
+    /// <summary><em>Optional</em>. The duration of the paid subscription. Can be available only for “InvoicePayment” transactions.</summary>
     [JsonPropertyName("subscription_period")]
     public int? SubscriptionPeriod { get; set; }
 
-    /// <summary><em>Optional</em>. Information about the paid media bought by the user</summary>
+    /// <summary><em>Optional</em>. Information about the paid media bought by the user; for “PaidMediaPayment” transactions only</summary>
     [JsonPropertyName("paid_media")]
     public PaidMedia[]? PaidMedia { get; set; }
 
-    /// <summary><em>Optional</em>. Bot-specified paid media payload</summary>
+    /// <summary><em>Optional</em>. Bot-specified paid media payload. Can be available only for “PaidMediaPayment” transactions.</summary>
     [JsonPropertyName("paid_media_payload")]
     public string? PaidMediaPayload { get; set; }
 
-    /// <summary><em>Optional</em>. The gift sent to the user by the bot</summary>
+    /// <summary><em>Optional</em>. The gift sent to the user by the bot; for “GiftPurchase” transactions only</summary>
     public Gift? Gift { get; set; }
+
+    /// <summary><em>Optional</em>. Number of months the gifted Telegram Premium subscription will be active for; for “PremiumPurchase” transactions only</summary>
+    [JsonPropertyName("premium_subscription_duration")]
+    public int? PremiumSubscriptionDuration { get; set; }
 }
 
 /// <summary>Describes a transaction with a chat.</summary>

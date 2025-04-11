@@ -15,7 +15,7 @@ public partial class CreateChatSubscriptionInviteLinkRequest() : RequestBase<Cha
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int SubscriptionPeriod { get; set; }
 
-    /// <summary>The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-2500</summary>
+    /// <summary>The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-10000</summary>
     [JsonPropertyName("subscription_price")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int SubscriptionPrice { get; set; }

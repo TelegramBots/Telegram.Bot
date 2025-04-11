@@ -117,4 +117,10 @@ public enum MessageType
     PaidMedia,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.RefundedPayment"/></summary>
     RefundedPayment,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.Gift"/></summary>
+    Gift,
+    /// <summary>The <see cref="Message"/> contains an <see cref="Message.UniqueGift"/></summary>
+    UniqueGift,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.PaidMessagePriceChanged"/></summary>
+    PaidMessagePriceChanged,
 }

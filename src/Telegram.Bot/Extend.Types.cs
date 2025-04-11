@@ -62,7 +62,7 @@ namespace Telegram.Bot.Types
             { Text: { } } or { Animation: { } } or { Audio: { } } or { Document: { } } or { PaidMedia: { } } or
             { Photo: { } } or { Sticker: { } } or { Story: { } } or { Video: { } } or { VideoNote: { } } or { Voice: { } } or
             { Contact: { } } or { Dice: { } } or { Game: { } } or { Poll: { } } or { Venue: { } } or { Location: { } } or
-            { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } => false,
+            { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } or { Gift: { } } or { UniqueGift: { } } => false,
             _ => true
         };
     }
