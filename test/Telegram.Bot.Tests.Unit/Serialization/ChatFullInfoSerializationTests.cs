@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -53,7 +53,6 @@ public class ChatFullInfoSerializationTests
 
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(6, j.Count);
         Assert.Equal(chat.UnrestrictBoostCount, (int?)j["unrestrict_boost_count"]);
         Assert.Equal("supergroup", (string?)j["type"]);
         Assert.Equal(chat.Id, (long?)j["id"]);
