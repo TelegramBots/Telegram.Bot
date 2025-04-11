@@ -34,7 +34,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture)
         Assert.NotEmpty(message.Poll.Id);
         Assert.False(message.Poll.IsClosed);
         Assert.False(message.Poll.IsAnonymous);
-        Assert.Equal("quiz", message.Poll.Type);
+        Assert.Equal(PollType.Quiz, message.Poll.Type);
         Assert.False(message.Poll.AllowsMultipleAnswers);
         Assert.Equal(2, message.Poll.CorrectOptionId);
         Assert.Null(message.Poll.OpenPeriod);

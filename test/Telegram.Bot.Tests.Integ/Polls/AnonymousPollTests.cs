@@ -30,7 +30,7 @@ public class AnonymousPollTests(AnonymousPollTestsFixture classFixture)
         Assert.NotEmpty(message.Poll.Id);
         Assert.False(message.Poll.IsClosed);
         Assert.True(message.Poll.IsAnonymous);
-        Assert.Equal("regular", message.Poll.Type);
+        Assert.Equal(PollType.Regular, message.Poll.Type);
         Assert.False(message.Poll.AllowsMultipleAnswers);
         Assert.Null(message.Poll.CorrectOptionId);
         Assert.Null(message.Poll.OpenPeriod);
