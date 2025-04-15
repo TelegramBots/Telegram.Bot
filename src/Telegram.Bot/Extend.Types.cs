@@ -98,6 +98,14 @@ namespace Telegram.Bot.Types
         };
     }
 
+    public partial class ChatMemberRestricted
+    {
+        /// <summary>Check if all CanSend* fields are false</summary>
+        [JsonIgnore]
+        public bool IsMuted => !CanSendMessages && !CanSendAudios && !CanSendDocuments && !CanSendPhotos && !CanSendVideos
+            && !CanSendVideoNotes && !CanSendVoiceNotes && !CanSendPolls && !CanSendOtherMessages;
+    }
+
     public partial class ChatPermissions
     {
         /// <summary>Initializes a new <see cref="ChatPermissions"/> instance with all fields set to <see langword="false"/>.</summary>
