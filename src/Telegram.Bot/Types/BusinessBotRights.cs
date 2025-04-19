@@ -13,8 +13,8 @@ public partial class BusinessBotRights
     public bool CanReadMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can delete messages sent by the bot</summary>
-    [JsonPropertyName("can_delete_outgoing_messages")]
-    public bool CanDeleteOutgoingMessages { get; set; }
+    [JsonPropertyName("can_delete_sent_messages")]
+    public bool CanDeleteSentMessages { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can delete all private messages in managed chats</summary>
     [JsonPropertyName("can_delete_all_messages")]

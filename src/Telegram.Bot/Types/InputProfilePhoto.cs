@@ -8,7 +8,7 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(InputProfilePhotoAnimated), "animated")]
 public abstract partial class InputProfilePhoto
 {
-    /// <summary>Type of the profile photo, must be <see cref="InputProfilePhoto"/></summary>
+    /// <summary>Type of the profile photo</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract InputProfilePhotoType Type { get; }
 }

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>Type of the content, must be <see cref="InputStoryContent"/></summary>
+/// <summary>Type of the content</summary>
 [JsonConverter(typeof(EnumConverter<InputStoryContentType>))]
 public enum InputStoryContentType
 {

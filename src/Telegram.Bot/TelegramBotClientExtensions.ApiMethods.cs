@@ -2807,7 +2807,7 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Delete messages on behalf of a business account. Requires the <em>CanDeleteOutgoingMessages</em> business bot right to delete messages sent by the bot itself, or the <em>CanDeleteAllMessages</em> business bot right to delete any message.</summary>
+    /// <summary>Delete messages on behalf of a business account. Requires the <em>CanDeleteSentMessages</em> business bot right to delete messages sent by the bot itself, or the <em>CanDeleteAllMessages</em> business bot right to delete any message.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which to delete the messages</param>
     /// <param name="messageIds">A list of 1-100 identifiers of messages to delete. All messages must be from the same chat. See <see cref="TelegramBotClientExtensions.DeleteMessage">DeleteMessage</see> for limitations on which messages can be deleted</param>

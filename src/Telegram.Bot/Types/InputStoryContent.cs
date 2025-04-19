@@ -8,7 +8,7 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(InputStoryContentVideo), "video")]
 public abstract partial class InputStoryContent
 {
-    /// <summary>Type of the content, must be <see cref="InputStoryContent"/></summary>
+    /// <summary>Type of the content</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract InputStoryContentType Type { get; }
 }

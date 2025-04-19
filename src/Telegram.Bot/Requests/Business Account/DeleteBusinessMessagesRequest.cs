@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Delete messages on behalf of a business account. Requires the <em>CanDeleteOutgoingMessages</em> business bot right to delete messages sent by the bot itself, or the <em>CanDeleteAllMessages</em> business bot right to delete any message.</summary>
+/// <summary>Delete messages on behalf of a business account. Requires the <em>CanDeleteSentMessages</em> business bot right to delete messages sent by the bot itself, or the <em>CanDeleteAllMessages</em> business bot right to delete any message.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class DeleteBusinessMessagesRequest() : RequestBase<bool>("deleteBusinessMessages"), IBusinessConnectable
 {

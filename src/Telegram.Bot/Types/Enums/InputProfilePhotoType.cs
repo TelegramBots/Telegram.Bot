@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>Type of the profile photo, must be <see cref="InputProfilePhoto"/></summary>
+/// <summary>Type of the profile photo</summary>
 [JsonConverter(typeof(EnumConverter<InputProfilePhotoType>))]
 public enum InputProfilePhotoType
 {
