@@ -1,5 +1,4 @@
 using JetBrains.Annotations;
-using System.IO;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;
@@ -48,4 +47,82 @@ public abstract class InputFile
 
     /// <summary>Implicit operator, using <see cref="FileBase.FileId"/> property</summary>
     public static implicit operator InputFile(FileBase file) => FromFileId(file.FileId);
+}
+
+/// <summary>This object represents a file that is already stored somewhere on the Telegram servers</summary>
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
+public class InputFileId : InputFile
+{
+    /// <inheritdoc/>
+    public override FileType FileType => FileType.Id;
+
+    /// <summary>A file identifier</summary>
+    public required string Id { get; set; }
+
+    /// <summary>This object represents a file that is already stored somewhere on the Telegram servers</summary>
+    public InputFileId() { }
+
+    /// <summary>This object represents a file that is already stored somewhere on the Telegram servers</summary>
+    /// <param name="id">A file identifier</param>
+    [SetsRequiredMembers]
+    public InputFileId(string id) => Id = id;
+
+    /// <summary>Implicit operator, same as <see cref="InputFileId(string)"/></summary>
+    public static implicit operator InputFileId(string fileId) => new(fileId);
+}
+
+/// <summary>This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser</summary>
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
+public class InputFileStream : InputFile
+{
+    /// <inheritdoc/>
+    public override FileType FileType => FileType.Stream;
+
+    /// <summary>File content to upload</summary>
+    public required Stream Content { get; set; }
+
+    /// <summary>Name of a file to upload using multipart/form-data</summary>
+    public string? FileName { get; }
+
+    /// <summary>This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.</summary>
+    /// <param name="content">File content to upload</param>
+    /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
+    [SetsRequiredMembers]
+    public InputFileStream(Stream content, string? fileName = default) => (Content, FileName) = (content, fileName);
+
+    /// <summary>This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.</summary>
+    public InputFileStream() { }
+
+    /// <summary>Implicit operator, same as <see cref="InputFileStream(Stream,string)"/> without given filename</summary>
+    public static implicit operator InputFileStream(Stream stream) => new(stream);
+}
+
+/// <summary>This object represents an HTTP URL for the file to be sent</summary>
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
+public class InputFileUrl : InputFile
+{
+    /// <inheritdoc/>
+    public override FileType FileType => FileType.Url;
+
+    /// <summary>HTTP URL for the file to be sent</summary>
+    public required Uri Url { get; set; }
+
+    /// <summary>This object represents an HTTP URL for the file to be sent</summary>
+    /// <param name="url">HTTP URL for the file to be sent</param>
+    [SetsRequiredMembers]
+    public InputFileUrl(string url) => Url = new(url);
+
+    /// <summary>This object represents an HTTP URL for the file to be sent</summary>
+    /// <param name="uri">HTTP URL for the file to be sent</param>
+    [SetsRequiredMembers]
+    public InputFileUrl(Uri uri) => Url = uri;
+
+    /// <summary>This object represents an HTTP URL for the file to be sent</summary>
+    public InputFileUrl() { }
+
+    /// <summary>Implicit operator, same as <see cref="InputFileUrl(string)"/></summary>
+    public static implicit operator InputFileUrl(string url) => new(url);
 }

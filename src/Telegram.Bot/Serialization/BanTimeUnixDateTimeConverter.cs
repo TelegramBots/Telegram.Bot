@@ -6,19 +6,10 @@ internal sealed class BanTimeConverter : JsonConverter<DateTime?>
     {
         var underlyingType = Nullable.GetUnderlyingType(typeToConvert);
         if (reader.TokenType is JsonTokenType.Null)
-        {
-            if (underlyingType is null)
-                throw new JsonException($"Cannot convert null value to {typeToConvert}.");
-
-            return default;
-        }
-
+            return underlyingType is not null ? null : throw new JsonException($"Cannot convert null value to {typeToConvert}.");
         var clonedReader = reader;
         var value = clonedReader.GetInt64();
-
-        return value is 0L
-            ? null
-            : UnixDateTimeConverterUtil.Read(ref reader, typeToConvert);
+        return value is 0L ? null : UnixDateTimeConverterUtil.Read(ref reader, typeToConvert);
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
