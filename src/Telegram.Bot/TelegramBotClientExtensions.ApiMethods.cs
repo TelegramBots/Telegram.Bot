@@ -3045,7 +3045,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         string businessConnectionId,
         string ownedGiftId,
-        int newOwnerChatId,
+        long newOwnerChatId,
         int? starCount = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new TransferGiftRequest

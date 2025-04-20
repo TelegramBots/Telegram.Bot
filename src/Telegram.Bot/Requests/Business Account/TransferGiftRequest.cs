@@ -18,7 +18,7 @@ public partial class TransferGiftRequest() : RequestBase<bool>("transferGift"), 
     /// <summary>Unique identifier of the chat which will own the gift. The chat must be active in the last 24 hours.</summary>
     [JsonPropertyName("new_owner_chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int NewOwnerChatId { get; set; }
+    public required long NewOwnerChatId { get; set; }
 
     /// <summary>The amount of Telegram Stars that will be paid for the transfer from the business account balance. If positive, then the <em>CanTransferStars</em> business bot right is required.</summary>
     [JsonPropertyName("star_count")]
