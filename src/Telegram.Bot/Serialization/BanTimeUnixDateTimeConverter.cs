@@ -1,6 +1,6 @@
 namespace Telegram.Bot.Serialization;
 
-internal class BanTimeConverter : JsonConverter<DateTime?>
+internal sealed class BanTimeConverter : JsonConverter<DateTime?>
 {
     public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

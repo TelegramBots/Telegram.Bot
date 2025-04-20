@@ -38,7 +38,7 @@ public class QueuedUpdateReceiver(ITelegramBotClient botClient, ReceiverOptions?
         return _enumerator = new(receiver: this, cancellationToken: cancellationToken);
     }
 
-    private class Enumerator : IAsyncEnumerator<Update>
+    private sealed class Enumerator : IAsyncEnumerator<Update>
     {
         private readonly QueuedUpdateReceiver _receiver;
         private readonly CancellationTokenSource _cts;

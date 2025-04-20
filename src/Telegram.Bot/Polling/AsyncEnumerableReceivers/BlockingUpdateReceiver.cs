@@ -30,7 +30,7 @@ public class BlockingUpdateReceiver(ITelegramBotClient botClient, ReceiverOption
         return new Enumerator(receiver: this, cancellationToken: cancellationToken);
     }
 
-    private class Enumerator : IAsyncEnumerator<Update>
+    private sealed class Enumerator : IAsyncEnumerator<Update>
     {
         private readonly BlockingUpdateReceiver _receiver;
         private readonly CancellationTokenSource _cts;

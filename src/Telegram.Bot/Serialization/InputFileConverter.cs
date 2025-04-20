@@ -2,7 +2,7 @@ using System.Threading;
 
 namespace Telegram.Bot.Serialization;
 
-internal class InputFileConverter : JsonConverter<InputFile?>
+internal sealed class InputFileConverter : JsonConverter<InputFile?>
 {
     internal static readonly AsyncLocal<List<InputFileStream>?> Attachments = new();
 
