@@ -6,9 +6,10 @@ public partial class StarAmount
 {
     /// <summary>Integer amount of Telegram Stars, rounded to 0; can be negative</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int Amount { get; set; }
+    [JsonPropertyName("star_count")]
+    public int StarCount { get; set; }
 
     /// <summary><em>Optional</em>. The number of 1/1000000000 shares of Telegram Stars; from -999999999 to 999999999; can be negative if and only if <see cref="Amount">Amount</see> is non-positive</summary>
-    [JsonPropertyName("nanostar_amount")]
-    public int? NanostarAmount { get; set; }
+    [JsonPropertyName("nanostar_count")]
+    public int? NanostarCount { get; set; }
 }
