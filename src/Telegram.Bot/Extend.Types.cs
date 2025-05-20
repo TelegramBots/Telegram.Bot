@@ -47,7 +47,7 @@ namespace Telegram.Bot.Types
         /// <summary>Returns the <a href="t.me">t.me</a> link to this message, or null if the message was not in a Supergroup or Channel</summary>
         public string? MessageLink()
         {
-            var threadPart = MessageThreadId.HasValue ? $"{MessageThreadId.Value.ToString(CultureInfo.InvariantCulture)}/" : string.Empty;
+            var threadPart = Chat.IsForum && MessageThreadId.HasValue ? $"{MessageThreadId.Value.ToString(CultureInfo.InvariantCulture)}/" : string.Empty;
 
             return Chat.Type is ChatType.Channel or ChatType.Supergroup ? Chat.Username is null
                 ? $"https://t.me/c/{(-1000000000000 - Chat.Id).ToString(CultureInfo.InvariantCulture)}/{threadPart}{Id.ToString(CultureInfo.InvariantCulture)}"
