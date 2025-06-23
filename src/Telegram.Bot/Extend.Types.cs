@@ -59,9 +59,9 @@ namespace Telegram.Bot.Types
         [JsonIgnore]
         public bool IsServiceMessage => this switch
         {
-            { Text: { } } or { Animation: { } } or { Audio: { } } or { Document: { } } or { PaidMedia: { } } or
-            { Photo: { } } or { Sticker: { } } or { Story: { } } or { Video: { } } or { VideoNote: { } } or { Voice: { } } or
-            { Contact: { } } or { Dice: { } } or { Game: { } } or { Poll: { } } or { Venue: { } } or { Location: { } } or
+            { Text: { } } or { Caption: { } } or { Photo: { } } or { Video: { } } or { Document: { } } or { Sticker: { } } or
+            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { Dice: { } } or { Game: { } } or
+            { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or { Venue: { } } or 
             { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } or { Gift: { } } or { UniqueGift: { } } => false,
             _ => true
         };
