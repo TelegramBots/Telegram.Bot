@@ -123,4 +123,12 @@ public enum MessageType
     UniqueGift,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.PaidMessagePriceChanged"/></summary>
     PaidMessagePriceChanged,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.Checklist"/></summary>
+    Checklist,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.ChecklistTasksDone"/></summary>
+    ChecklistTasksDone,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.ChecklistTasksAdded"/></summary>
+    ChecklistTasksAdded,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.DirectMessagePriceChanged"/></summary>
+    DirectMessagePriceChanged,
 }

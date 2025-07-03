@@ -1,7 +1,7 @@
 # .NET Client for Telegram Bot API
 
 [![Nuget](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square&color=d8b541)](https://www.nuget.org/packages/Telegram.Bot)
-[![Bot API 9.0](https://img.shields.io/badge/Bot_API-9.0-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
+[![Bot API 9.1](https://img.shields.io/badge/Bot_API-9.1-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
 [![Documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/)
 [![Telegram Chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)  
 [![Master build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/6?style=flat-square&label=master)](https://dev.azure.com/tgbots/Telegram.Bot/_build/latest?definitionId=6&branchName=master)

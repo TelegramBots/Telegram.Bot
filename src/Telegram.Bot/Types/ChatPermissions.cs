@@ -32,7 +32,7 @@ public partial class ChatPermissions
     [JsonPropertyName("can_send_voice_notes")]
     public bool CanSendVoiceNotes { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to send polls</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to send polls and checklists</summary>
     [JsonPropertyName("can_send_polls")]
     public bool CanSendPolls { get; set; }
 

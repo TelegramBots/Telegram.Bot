@@ -19,11 +19,11 @@ public partial class PromoteChatMemberRequest() : RequestBase<bool>("promoteChat
     [JsonPropertyName("is_anonymous")]
     public bool IsAnonymous { get; set; }
 
-    /// <summary>Pass <see langword="true"/> if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.</summary>
+    /// <summary>Pass <see langword="true"/> if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages, ignore slow mode, and send messages to the chat without paying Telegram Stars. Implied by any other administrator privilege.</summary>
     [JsonPropertyName("can_manage_chat")]
     public bool CanManageChat { get; set; }
 
-    /// <summary>Pass <see langword="true"/> if the administrator can post messages in the channel, or access channel statistics; for channels only</summary>
+    /// <summary>Pass <see langword="true"/> if the administrator can post messages in the channel, approve suggested posts, or access channel statistics; for channels only</summary>
     [JsonPropertyName("can_post_messages")]
     public bool CanPostMessages { get; set; }
 

@@ -158,6 +158,9 @@ public partial class Message
     [JsonPropertyName("has_media_spoiler")]
     public bool HasMediaSpoiler { get; set; }
 
+    /// <summary><em>Optional</em>. Message is a checklist</summary>
+    public Checklist? Checklist { get; set; }
+
     /// <summary><em>Optional</em>. Message is a shared contact, information about the contact</summary>
     public Contact? Contact { get; set; }
 
@@ -274,6 +277,18 @@ public partial class Message
     [JsonPropertyName("chat_background_set")]
     public ChatBackground? ChatBackgroundSet { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: some tasks in a checklist were marked as done or not done</summary>
+    [JsonPropertyName("checklist_tasks_done")]
+    public ChecklistTasksDone? ChecklistTasksDone { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: tasks were added to a checklist</summary>
+    [JsonPropertyName("checklist_tasks_added")]
+    public ChecklistTasksAdded? ChecklistTasksAdded { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed</summary>
+    [JsonPropertyName("direct_message_price_changed")]
+    public DirectMessagePriceChanged? DirectMessagePriceChanged { get; set; }
+
     /// <summary><em>Optional</em>. Service message: forum topic created</summary>
     [JsonPropertyName("forum_topic_created")]
     public ForumTopicCreated? ForumTopicCreated { get; set; }
@@ -357,6 +372,7 @@ public partial class Message
         { Video: not null }                             => MessageType.Video,
         { VideoNote: not null }                         => MessageType.VideoNote,
         { Voice: not null }                             => MessageType.Voice,
+        { Checklist: not null }                         => MessageType.Checklist,
         { Contact: not null }                           => MessageType.Contact,
         { Dice: not null }                              => MessageType.Dice,
         { Game: not null }                              => MessageType.Game,
@@ -388,6 +404,9 @@ public partial class Message
         { ProximityAlertTriggered: not null }           => MessageType.ProximityAlertTriggered,
         { BoostAdded: not null }                        => MessageType.BoostAdded,
         { ChatBackgroundSet: not null }                 => MessageType.ChatBackgroundSet,
+        { ChecklistTasksDone: not null }                => MessageType.ChecklistTasksDone,
+        { ChecklistTasksAdded: not null }               => MessageType.ChecklistTasksAdded,
+        { DirectMessagePriceChanged: not null }         => MessageType.DirectMessagePriceChanged,
         { ForumTopicCreated: not null }                 => MessageType.ForumTopicCreated,
         { ForumTopicEdited: not null }                  => MessageType.ForumTopicEdited,
         { ForumTopicClosed: not null }                  => MessageType.ForumTopicClosed,

@@ -14,7 +14,7 @@ public partial class SendPollRequest() : RequestBase<Message>("sendPoll"), IChat
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Question { get; set; }
 
-    /// <summary>A list of 2-10 answer options</summary>
+    /// <summary>A list of 2-12 answer options</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputPollOption> Options { get; set; }
 

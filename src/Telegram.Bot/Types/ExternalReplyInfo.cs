@@ -55,6 +55,9 @@ public partial class ExternalReplyInfo
     [JsonPropertyName("has_media_spoiler")]
     public bool HasMediaSpoiler { get; set; }
 
+    /// <summary><em>Optional</em>. Message is a checklist</summary>
+    public Checklist? Checklist { get; set; }
+
     /// <summary><em>Optional</em>. Message is a shared contact, information about the contact</summary>
     public Contact? Contact { get; set; }
 

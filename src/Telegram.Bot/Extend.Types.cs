@@ -60,9 +60,10 @@ namespace Telegram.Bot.Types
         public bool IsServiceMessage => this switch
         {
             { Text: { } } or { Caption: { } } or { Photo: { } } or { Video: { } } or { Document: { } } or { Sticker: { } } or
-            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { Dice: { } } or { Game: { } } or
-            { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or { Venue: { } } or 
-            { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } or { Gift: { } } or { UniqueGift: { } } => false,
+            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { Dice: { } } or { Checklist: { } } or
+            { Game: { } } or { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or
+            { Venue: { } } or { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } or { Gift: { } } or { UniqueGift: { } }
+              => false,
             _ => true
         };
     }
