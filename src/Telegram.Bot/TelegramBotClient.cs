@@ -16,8 +16,11 @@ namespace Telegram.Bot;
 
 /// <summary>A client to use the Telegram Bot API</summary>
 [PublicAPI]
-public class TelegramBotClient : ITelegramBotClient
+public class TelegramBotClient : ITelegramBotClient, IDisposable
 {
+    private volatile bool _disposed;
+    private readonly bool _disposeHttpClient;
+
     private readonly TelegramBotClientOptions _options;
 
     private readonly HttpClient _httpClient;
@@ -72,27 +75,55 @@ public class TelegramBotClient : ITelegramBotClient
 
     /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
     /// <param name="options">Configuration for <see cref="TelegramBotClient" /></param>
-    /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is <see langword="null"/></exception>
-    public TelegramBotClient(TelegramBotClientOptions options, HttpClient? httpClient = default, CancellationToken cancellationToken = default)
+    public TelegramBotClient(TelegramBotClientOptions options, CancellationToken cancellationToken = default)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
 #if NET6_0_OR_GREATER
-        _httpClient = httpClient ?? new HttpClient(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(3) });
+        _httpClient = new HttpClient(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(3) }, disposeHandler: true);
 #else
-        _httpClient = httpClient ?? new HttpClient();
+        _httpClient = new HttpClient();
 #endif
         GlobalCancelToken = cancellationToken;
     }
 
     /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
     /// <param name="token">The bot token</param>
-    /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
     /// <param name="cancellationToken">Global cancellation token</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-    public TelegramBotClient(string token, HttpClient? httpClient = null, CancellationToken cancellationToken = default)
-        : this(new TelegramBotClientOptions(token), httpClient, cancellationToken)
+    public TelegramBotClient(string token, CancellationToken cancellationToken = default)
+        : this(new TelegramBotClientOptions(token), cancellationToken)
+    { }
+
+    /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
+    /// <param name="options">Configuration for <see cref="TelegramBotClient" /></param>
+    /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+    /// <param name="disposeHttpClient">
+    /// <see langword="true"/> to have the <see cref="HttpClient"/> disposed when the <see cref="TelegramBotClient"/> itself is disposed;
+    /// <see langword="false"/> to leave the <see cref="HttpClient"/> open for external management.
+    /// </param>
+    /// <param name="cancellationToken">Global cancellation token</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is <see langword="null"/></exception>
+    public TelegramBotClient(TelegramBotClientOptions options, HttpClient httpClient, bool disposeHttpClient = true, CancellationToken cancellationToken = default)
+    {
+        _options = options ?? throw new ArgumentNullException(nameof(options));
+        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        _disposeHttpClient = disposeHttpClient;
+        GlobalCancelToken = cancellationToken;
+    }
+
+    /// <summary>Create a new <see cref="TelegramBotClient"/> instance.</summary>
+    /// <param name="token">The bot token</param>
+    /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+    /// <param name="disposeHttpClient">
+    /// <see langword="true"/> to have the <see cref="HttpClient"/> disposed when the <see cref="TelegramBotClient"/> itself is disposed;
+    /// <see langword="false"/> to leave the <see cref="HttpClient"/> open for external management.
+    /// </param>
+    /// <param name="cancellationToken">Global cancellation token</param>
+    /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
+    public TelegramBotClient(string token, HttpClient httpClient, bool disposeHttpClient = true, CancellationToken cancellationToken = default)
+        : this(new TelegramBotClientOptions(token), httpClient, disposeHttpClient, cancellationToken)
     { }
 
     /// <inheritdoc/>
@@ -265,6 +296,27 @@ public class TelegramBotClient : ITelegramBotClient
                 throw new RequestException("Exception during file download", exception);
             }
             return httpResponse;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <inheritdoc/>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing && !_disposed)
+        {
+            _disposed = true;
+
+            if (_disposeHttpClient)
+            {
+                _httpClient.Dispose();
+            }
         }
     }
 
