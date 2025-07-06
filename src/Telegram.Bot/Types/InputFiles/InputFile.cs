@@ -1,3 +1,4 @@
+// This file is NOT auto-generated
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
@@ -42,8 +43,9 @@ public abstract class InputFile
     /// <summary>Implicit operator, same as <see cref="FromStream"/></summary>
     public static implicit operator InputFile(Stream stream) => FromStream(stream);
 
-    /// <summary>Implicit operator, same as <see cref="FromString"/></summary>
-    public static implicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);
+    /// <summary>Implicit operator, same as <see cref="FromString"/>, but returns null for a null string</summary>
+    [return:NotNullIfNotNull(nameof(urlOrFileId))]
+    public static implicit operator InputFile?(string? urlOrFileId) => urlOrFileId is null ? null : FromString(urlOrFileId);
 
     /// <summary>Implicit operator, using <see cref="FileBase.FileId"/> property</summary>
     public static implicit operator InputFile(FileBase file) => FromFileId(file.FileId);
@@ -68,8 +70,9 @@ public class InputFileId : InputFile
     [SetsRequiredMembers]
     public InputFileId(string id) => Id = id;
 
-    /// <summary>Implicit operator, same as <see cref="InputFileId(string)"/></summary>
-    public static implicit operator InputFileId(string fileId) => new(fileId);
+    /// <summary>Implicit operator, same as <see cref="InputFileId(string)"/>, but returns null for a null string</summary>
+    [return:NotNullIfNotNull(nameof(fileId))]
+    public static implicit operator InputFileId?(string? fileId) => fileId is null ? null : new(fileId);
 }
 
 /// <summary>This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser</summary>
