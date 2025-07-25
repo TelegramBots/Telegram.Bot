@@ -97,6 +97,16 @@ namespace Telegram.Bot.Types
             ChatMemberStatus.Restricted => ((ChatMemberRestricted)this).IsMember,
             _ => true
         };
+
+        /// <summary>Date when restrictions will be lifted for this user (null if forever) or expiration of member's subscription</summary>
+        [JsonIgnore]
+        public DateTime? ExpireDate => this switch
+        {
+            ChatMemberBanned banned => banned.UntilDate,
+            ChatMemberRestricted restricted => restricted.UntilDate,
+            ChatMemberMember member => member.UntilDate,
+            _ => null
+        };
     }
 
     public partial class ChatMemberRestricted
