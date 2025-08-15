@@ -70,12 +70,23 @@ namespace Telegram.Bot.Types
 
     public partial class Chat
     {
+        /// <summary><em>Optional</em>. <see langword="true"/>, if this is a direct messages chat</summary>
+        [JsonPropertyName("is_direct_messages")]
+        public bool IsDirectMessages { get; set; }
+
         /// <inheritdoc/>
         public override string ToString() => Type switch
         {
             ChatType.Private => Username != null ? $"Private chat with @{Username} ({Id})" : $"Private chat with {FirstName}{LastName?.Insert(0, " ")} ({Id})",
             _ => $"{Type} \"{Title}\" ({Id})"
         };
+    }
+
+    public partial class ChatFullInfo : Chat
+    {
+        /// <summary><em>Optional</em>. Info for the channel associated with this direct messages chat</summary>
+        [JsonPropertyName("parent_chat")]
+        public Chat? ParentChat { get; set; }
     }
 
     public partial class User
