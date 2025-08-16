@@ -24,6 +24,10 @@ public partial class ForwardMessagesRequest() : RequestBase<MessageId[]>("forwar
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
+    /// <summary>Identifier of the direct messages topic to which the messages will be forwarded; required if the messages are forwarded to a direct messages chat</summary>
+    [JsonPropertyName("direct_messages_topic_id")]
+    public int? DirectMessagesTopicId { get; set; }
+
     /// <summary>Sends the messages <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
     [JsonPropertyName("disable_notification")]
     public bool DisableNotification { get; set; }

@@ -74,4 +74,8 @@ public partial class PromoteChatMemberRequest() : RequestBase<bool>("promoteChat
     /// <summary>Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</summary>
     [JsonPropertyName("can_manage_topics")]
     public bool CanManageTopics { get; set; }
+
+    /// <summary>Pass <see langword="true"/> if the administrator can manage direct messages within the channel and decline suggested posts; for channels only</summary>
+    [JsonPropertyName("can_manage_direct_messages")]
+    public bool CanManageDirectMessages { get; set; }
 }

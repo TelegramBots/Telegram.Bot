@@ -6,7 +6,7 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendChatActionRequest() : RequestBase<bool>("sendChatAction"), IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>). Channel chats and channel direct messages chats aren't supported.</summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }

@@ -28,4 +28,8 @@ public partial class UniqueGift
     /// <summary>Backdrop of the gift</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public UniqueGiftBackdrop Backdrop { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Information about the chat that published the gift</summary>
+    [JsonPropertyName("publisher_chat")]
+    public Chat? PublisherChat { get; set; }
 }

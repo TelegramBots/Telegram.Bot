@@ -23,15 +23,15 @@ public partial class InlineKeyboardButton : IKeyboardButton
     [JsonPropertyName("login_url")]
     public LoginUrl? LoginUrl { get; set; }
 
-    /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     [JsonPropertyName("switch_inline_query")]
     public string? SwitchInlineQuery { get; set; }
 
-    /// <summary><em>Optional</em>. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary><em>Optional</em>. If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     [JsonPropertyName("switch_inline_query_current_chat")]
     public string? SwitchInlineQueryCurrentChat { get; set; }
 
-    /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary><em>Optional</em>. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     [JsonPropertyName("switch_inline_query_chosen_chat")]
     public SwitchInlineQueryChosenChat? SwitchInlineQueryChosenChat { get; set; }
 
@@ -78,21 +78,21 @@ public partial class InlineKeyboardButton : IKeyboardButton
     public static InlineKeyboardButton WithLoginUrl(string text, LoginUrl loginUrl) =>
         new(text) { LoginUrl = loginUrl };
 
-    /// <summary>Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary>Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="switchInlineQuery">If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent on behalf of a Telegram Business account.</param>
+    /// <param name="switchInlineQuery">If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. May be empty, in which case just the bot's username will be inserted. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithSwitchInlineQuery(string text, string switchInlineQuery = "") =>
         new(text) { SwitchInlineQuery = switchInlineQuery };
 
-    /// <summary>Creates an inline keyboard button. Pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary>Creates an inline keyboard button. Pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="switchInlineQueryCurrentChat">If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent on behalf of a Telegram Business account.</param>
+    /// <param name="switchInlineQueryCurrentChat">If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field. May be empty, in which case only the bot's username will be inserted.<br/><br/>This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options. Not supported in channels and for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string switchInlineQueryCurrentChat = "") =>
         new(text) { SwitchInlineQueryCurrentChat = switchInlineQueryCurrentChat };
 
-    /// <summary>Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <summary>Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="switchInlineQueryChosenChat">If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.</param>
+    /// <param name="switchInlineQueryChosenChat">If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) =>
         new(text) { SwitchInlineQueryChosenChat = switchInlineQueryChosenChat };
 

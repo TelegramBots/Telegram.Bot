@@ -5,7 +5,7 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendGameRequest() : RequestBase<Message>("sendGame"), IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat</summary>
+    /// <summary>Unique identifier for the target chat. Games can't be sent to channel direct messages chats and channel chats.</summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }

@@ -9,7 +9,7 @@ public partial class ReplyParameters
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int MessageId { get; set; }
 
-    /// <summary><em>Optional</em>. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>). Not supported for messages sent on behalf of a business account.</summary>
+    /// <summary><em>Optional</em>. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>). Not supported for messages sent on behalf of a business account and messages from channel direct messages chats.</summary>
     [JsonPropertyName("chat_id")]
     public ChatId? ChatId { get; set; }
 
@@ -31,4 +31,8 @@ public partial class ReplyParameters
     /// <summary><em>Optional</em>. Position of the quote in the original message in UTF-16 code units</summary>
     [JsonPropertyName("quote_position")]
     public int? QuotePosition { get; set; }
+
+    /// <summary><em>Optional</em>. Identifier of the specific checklist task to be replied to</summary>
+    [JsonPropertyName("checklist_task_id")]
+    public int? ChecklistTaskId { get; set; }
 }

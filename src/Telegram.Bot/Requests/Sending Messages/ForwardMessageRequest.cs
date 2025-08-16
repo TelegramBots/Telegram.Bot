@@ -24,6 +24,10 @@ public partial class ForwardMessageRequest() : RequestBase<Message>("forwardMess
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
+    /// <summary>Identifier of the direct messages topic to which the message will be forwarded; required if the message is forwarded to a direct messages chat</summary>
+    [JsonPropertyName("direct_messages_topic_id")]
+    public int? DirectMessagesTopicId { get; set; }
+
     /// <summary>New start timestamp for the forwarded video in the message</summary>
     [JsonPropertyName("video_start_timestamp")]
     public int? VideoStartTimestamp { get; set; }
@@ -35,4 +39,8 @@ public partial class ForwardMessageRequest() : RequestBase<Message>("forwardMess
     /// <summary>Protects the contents of the forwarded message from forwarding and saving</summary>
     [JsonPropertyName("protect_content")]
     public bool ProtectContent { get; set; }
+
+    /// <summary>An object containing the parameters of the suggested post to send; for direct messages chats only</summary>
+    [JsonPropertyName("suggested_post_parameters")]
+    public SuggestedPostParameters? SuggestedPostParameters { get; set; }
 }

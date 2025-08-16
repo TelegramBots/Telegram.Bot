@@ -28,4 +28,8 @@ public partial class Gift
     /// <summary><em>Optional</em>. The number of remaining gifts of this type that can be sent; for limited gifts only</summary>
     [JsonPropertyName("remaining_count")]
     public int? RemainingCount { get; set; }
+
+    /// <summary><em>Optional</em>. Information about the chat that published the gift</summary>
+    [JsonPropertyName("publisher_chat")]
+    public Chat? PublisherChat { get; set; }
 }

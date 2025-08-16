@@ -29,6 +29,10 @@ public partial class Chat
     /// <summary><em>Optional</em>. <see langword="true"/>, if the supergroup chat is a forum (has <a href="https://telegram.org/blog/topics-in-groups-collectible-usernames#topics-in-groups">topics</a> enabled)</summary>
     [JsonPropertyName("is_forum")]
     public bool IsForum { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the chat is the direct messages chat of a channel</summary>
+    [JsonPropertyName("is_direct_messages")]
+    public bool IsDirectMessages { get; set; }
 }
 
 /// <summary>This object contains full information about a chat.</summary>
@@ -69,6 +73,10 @@ public partial class ChatFullInfo : Chat
     /// <summary><em>Optional</em>. For private chats, the personal channel of the user</summary>
     [JsonPropertyName("personal_chat")]
     public Chat? PersonalChat { get; set; }
+
+    /// <summary><em>Optional</em>. Information about the corresponding channel chat; for direct messages chats only</summary>
+    [JsonPropertyName("parent_chat")]
+    public Chat? ParentChat { get; set; }
 
     /// <summary><em>Optional</em>. List of available reactions allowed in the chat. If omitted, then all <see cref="ReactionTypeEmoji">emoji reactions</see> are allowed.</summary>
     [JsonPropertyName("available_reactions")]

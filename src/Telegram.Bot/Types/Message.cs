@@ -13,6 +13,10 @@ public partial class Message
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
+    /// <summary><em>Optional</em>. Information about the direct messages chat topic that contains the message</summary>
+    [JsonPropertyName("direct_messages_topic")]
+    public DirectMessagesTopic? DirectMessagesTopic { get; set; }
+
     /// <summary><em>Optional</em>. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats</summary>
     public User? From { get; set; }
 
@@ -53,7 +57,7 @@ public partial class Message
     [JsonPropertyName("is_automatic_forward")]
     public bool IsAutomaticForward { get; set; }
 
-    /// <summary><em>Optional</em>. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further <see cref="ReplyToMessage">ReplyToMessage</see> fields even if it itself is a reply.</summary>
+    /// <summary><em>Optional</em>. For replies in the same chat and message thread, the original message. Note that the <see cref="Message"/> object in this field will not contain further <see cref="ReplyToMessage">ReplyToMessage</see> fields even if it itself is a reply.</summary>
     [JsonPropertyName("reply_to_message")]
     public Message? ReplyToMessage { get; set; }
 
@@ -67,6 +71,10 @@ public partial class Message
     /// <summary><em>Optional</em>. For replies to a story, the original story</summary>
     [JsonPropertyName("reply_to_story")]
     public Story? ReplyToStory { get; set; }
+
+    /// <summary><em>Optional</em>. Identifier of the specific checklist task that is being replied to</summary>
+    [JsonPropertyName("reply_to_checklist_task_id")]
+    public int? ReplyToChecklistTaskId { get; set; }
 
     /// <summary><em>Optional</em>. Bot through which the message was sent</summary>
     [JsonPropertyName("via_bot")]
@@ -84,6 +92,10 @@ public partial class Message
     /// <summary><em>Optional</em>. <see langword="true"/>, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message</summary>
     [JsonPropertyName("is_from_offline")]
     public bool IsFromOffline { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.</summary>
+    [JsonPropertyName("is_paid_post")]
+    public bool IsPaidPost { get; set; }
 
     /// <summary><em>Optional</em>. The unique identifier of a media message group this message belongs to</summary>
     [JsonPropertyName("media_group_id")]
@@ -106,6 +118,10 @@ public partial class Message
     /// <summary><em>Optional</em>. Options used for link preview generation for the message, if it is a text message and link preview options were changed</summary>
     [JsonPropertyName("link_preview_options")]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
+
+    /// <summary><em>Optional</em>. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.</summary>
+    [JsonPropertyName("suggested_post_info")]
+    public SuggestedPostInfo? SuggestedPostInfo { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the message effect added to the message</summary>
     [JsonPropertyName("effect_id")]
@@ -223,7 +239,7 @@ public partial class Message
     [JsonPropertyName("migrate_from_chat_id")]
     public long? MigrateFromChatId { get; set; }
 
-    /// <summary><em>Optional</em>. Specified message was pinned. Note that the Message object in this field will not contain further <see cref="ReplyToMessage">ReplyToMessage</see> fields even if it itself is a reply.</summary>
+    /// <summary><em>Optional</em>. Specified message was pinned. Note that the <see cref="Message"/> object in this field will not contain further <see cref="ReplyToMessage">ReplyToMessage</see> fields even if it itself is a reply.</summary>
     [JsonPropertyName("pinned_message")]
     public Message? PinnedMessage { get; set; }
 
@@ -332,6 +348,26 @@ public partial class Message
     [JsonPropertyName("paid_message_price_changed")]
     public PaidMessagePriceChanged? PaidMessagePriceChanged { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: a suggested post was approved</summary>
+    [JsonPropertyName("suggested_post_approved")]
+    public SuggestedPostApproved? SuggestedPostApproved { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: approval of a suggested post has failed</summary>
+    [JsonPropertyName("suggested_post_approval_failed")]
+    public SuggestedPostApprovalFailed? SuggestedPostApprovalFailed { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: a suggested post was declined</summary>
+    [JsonPropertyName("suggested_post_declined")]
+    public SuggestedPostDeclined? SuggestedPostDeclined { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: payment for a suggested post was received</summary>
+    [JsonPropertyName("suggested_post_paid")]
+    public SuggestedPostPaid? SuggestedPostPaid { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: payment for a suggested post was refunded</summary>
+    [JsonPropertyName("suggested_post_refunded")]
+    public SuggestedPostRefunded? SuggestedPostRefunded { get; set; }
+
     /// <summary><em>Optional</em>. Service message: video chat scheduled</summary>
     [JsonPropertyName("video_chat_scheduled")]
     public VideoChatScheduled? VideoChatScheduled { get; set; }
@@ -418,6 +454,11 @@ public partial class Message
         { GiveawayWinners: not null }                   => MessageType.GiveawayWinners,
         { GiveawayCompleted: not null }                 => MessageType.GiveawayCompleted,
         { PaidMessagePriceChanged: not null }           => MessageType.PaidMessagePriceChanged,
+        { SuggestedPostApproved: not null }             => MessageType.SuggestedPostApproved,
+        { SuggestedPostApprovalFailed: not null }       => MessageType.SuggestedPostApprovalFailed,
+        { SuggestedPostDeclined: not null }             => MessageType.SuggestedPostDeclined,
+        { SuggestedPostPaid: not null }                 => MessageType.SuggestedPostPaid,
+        { SuggestedPostRefunded: not null }             => MessageType.SuggestedPostRefunded,
         { VideoChatScheduled: not null }                => MessageType.VideoChatScheduled,
         { VideoChatStarted: not null }                  => MessageType.VideoChatStarted,
         { VideoChatEnded: not null }                    => MessageType.VideoChatEnded,

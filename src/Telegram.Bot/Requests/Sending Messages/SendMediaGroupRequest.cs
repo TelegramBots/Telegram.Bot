@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.<para>Returns: An array of <see cref="Message">Messages</see> that were sent is returned.</para></summary>
+/// <summary>Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.<para>Returns: An array of <see cref="Message"/> objects that were sent is returned.</para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendMediaGroupRequest() : FileRequestBase<Message[]>("sendMediaGroup"), IChatTargetable, IBusinessConnectable
 {
@@ -21,6 +21,10 @@ public partial class SendMediaGroupRequest() : FileRequestBase<Message[]>("sendM
     /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
+
+    /// <summary>Identifier of the direct messages topic to which the messages will be sent; required if the messages are sent to a direct messages chat</summary>
+    [JsonPropertyName("direct_messages_topic_id")]
+    public int? DirectMessagesTopicId { get; set; }
 
     /// <summary>Sends messages <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
     [JsonPropertyName("disable_notification")]

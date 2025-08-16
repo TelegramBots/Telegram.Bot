@@ -52,7 +52,7 @@ public partial class BotCommandScopeChat : BotCommandScope
     /// <summary>Scope type, always <see cref="BotCommandScopeType.Chat"/></summary>
     public override BotCommandScopeType Type => BotCommandScopeType.Chat;
 
-    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>). Channel direct messages chats and channel chats aren't supported.</summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
@@ -64,7 +64,7 @@ public partial class BotCommandScopeChatAdministrators : BotCommandScope
     /// <summary>Scope type, always <see cref="BotCommandScopeType.ChatAdministrators"/></summary>
     public override BotCommandScopeType Type => BotCommandScopeType.ChatAdministrators;
 
-    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>). Channel direct messages chats and channel chats aren't supported.</summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
@@ -76,7 +76,7 @@ public partial class BotCommandScopeChatMember : BotCommandScope
     /// <summary>Scope type, always <see cref="BotCommandScopeType.ChatMember"/></summary>
     public override BotCommandScopeType Type => BotCommandScopeType.ChatMember;
 
-    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</summary>
+    /// <summary>Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>). Channel direct messages chats and channel chats aren't supported.</summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;

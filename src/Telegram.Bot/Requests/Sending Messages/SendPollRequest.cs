@@ -5,7 +5,7 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendPollRequest() : RequestBase<Message>("sendPoll"), IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</summary>
+    /// <summary>Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>). Polls can't be sent to channel direct messages chats.</summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }

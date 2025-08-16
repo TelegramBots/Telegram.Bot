@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'CanPinMessages' administrator right in a supergroup or 'CanEditMessages' administrator right in a channel.</summary>
+/// <summary>Use this method to add a message to the list of pinned messages in a chat. In private chats and channel direct messages chats, all non-service messages can be pinned. Conversely, the bot must be an administrator with the 'CanPinMessages' right or the 'CanEditMessages' right to pin messages in groups and channels respectively.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class PinChatMessageRequest() : RequestBase<bool>("pinChatMessage"), IChatTargetable, IBusinessConnectable
 {

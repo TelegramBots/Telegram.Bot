@@ -106,6 +106,10 @@ public partial class ChatMemberAdministrator : ChatMember
     [JsonPropertyName("can_manage_topics")]
     public bool CanManageTopics { get; set; }
 
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only</summary>
+    [JsonPropertyName("can_manage_direct_messages")]
+    public bool CanManageDirectMessages { get; set; }
+
     /// <summary><em>Optional</em>. Custom title for this user</summary>
     [JsonPropertyName("custom_title")]
     public string? CustomTitle { get; set; }

@@ -18,6 +18,10 @@ public partial class SendDiceRequest() : RequestBase<Message>("sendDice"), IChat
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
+    /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
+    [JsonPropertyName("direct_messages_topic_id")]
+    public int? DirectMessagesTopicId { get; set; }
+
     /// <summary>Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”</summary>
     public string? Emoji { get; set; }
 
@@ -36,6 +40,10 @@ public partial class SendDiceRequest() : RequestBase<Message>("sendDice"), IChat
     /// <summary>Unique identifier of the message effect to be added to the message; for private chats only</summary>
     [JsonPropertyName("message_effect_id")]
     public string? MessageEffectId { get; set; }
+
+    /// <summary>An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</summary>
+    [JsonPropertyName("suggested_post_parameters")]
+    public SuggestedPostParameters? SuggestedPostParameters { get; set; }
 
     /// <summary>Description of the message to reply to</summary>
     [JsonPropertyName("reply_parameters")]

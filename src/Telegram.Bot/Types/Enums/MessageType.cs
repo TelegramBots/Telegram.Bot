@@ -131,4 +131,14 @@ public enum MessageType
     ChecklistTasksAdded,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.DirectMessagePriceChanged"/></summary>
     DirectMessagePriceChanged,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.SuggestedPostApproved"/></summary>
+    SuggestedPostApproved = 64,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.SuggestedPostApprovalFailed"/></summary>
+    SuggestedPostApprovalFailed,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.SuggestedPostDeclined"/></summary>
+    SuggestedPostDeclined,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.SuggestedPostPaid"/></summary>
+    SuggestedPostPaid,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.SuggestedPostRefunded"/></summary>
+    SuggestedPostRefunded,
 }
