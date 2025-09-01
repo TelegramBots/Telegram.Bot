@@ -332,7 +332,7 @@ public static class HtmlText
             replyMarkup = ParseHtmlKeyboard(span[(index + 9)..^11]);
             span = span[..index].TrimEnd();
         }
-        //TO-DO: support <preview> tag to control LinkPreviewOptions
+        //TO-DO: support a <preview> tag to control LinkPreviewOptions
         List<IAlbumInputMedia>? media = null;
         bool captionAbove = false;
         InputMedia? im = null;
