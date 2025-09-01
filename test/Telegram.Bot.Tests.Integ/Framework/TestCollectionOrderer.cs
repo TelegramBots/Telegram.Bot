@@ -42,6 +42,7 @@ public class TestCollectionOrderer : ITestCollectionOrderer
         Constants.TestCollections.SendPhotoMessage,
         Constants.TestCollections.SendVideoMessage,
         Constants.TestCollections.AlbumMessage,
+        Constants.TestCollections.SendHtmlMessage,
         Constants.TestCollections.ObsoleteSendMediaGroup,
         Constants.TestCollections.ReplyMarkup,
         Constants.TestCollections.LiveLocation,

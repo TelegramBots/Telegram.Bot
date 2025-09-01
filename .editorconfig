@@ -50,3 +50,4 @@ csharp_style_var_for_built_in_types = false
 dotnet_diagnostic.IDE0008.severity = silent
 dotnet_diagnostic.IDE0055.severity = silent
 dotnet_diagnostic.IDE0045.severity = silent
+dotnet_diagnostic.MA0071.severity = silent

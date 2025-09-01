@@ -50,6 +50,8 @@ public static class Constants
 
         public const string SendContactMessage = "Sending Contact Messages";
 
+        public const string SendHtmlMessage = "Sending HTML Messages";
+
         public const string NativePolls = "Native Polls";
 
         public const string ReplyMarkup = "Messages with Reply Markup";
@@ -319,6 +321,8 @@ public static class Constants
         public const string SendDocument = "sendDocument";
 
         public const string SendContact = "sendContact";
+
+        public const string SendHtml = "sendHtml";
 
         public const string EditMessageText = "editMessageText";
 
