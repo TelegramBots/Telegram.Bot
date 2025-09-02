@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -60,7 +61,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
     public async Task Send_Video_Spoiler()
     {
-        var msg = await BotClient.SendHtml(Fixture.SupergroupChat.Id, $"""
+        var msg = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
                 <video src="https://cdn.pixabay.com/video/2017/07/19/10737-226624883_medium.mp4" spoiler>
                 """);
         Assert.Equal(MessageType.Video, msg.Type);
@@ -90,7 +91,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
     public async Task Send_Album_CaptionAbove()
     {
-        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, $"""
+        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
                 Single caption above medias
                 <img src="https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg" spoiler>
                 <video src="https://pixabay.com/en/videos/download/video-10737_medium.mp4">
@@ -103,7 +104,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
     public async Task Send_Album_MultiCaption()
     {
-        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, $"""
+        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
                 <img src="https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg">
                 <b><i>Fox</i></b>
                 <img src="https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg">
@@ -116,7 +117,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
     public async Task Send_Audio_Files()
     {
-        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, $"""
+        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
                 <file src="https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3">
                 Caption attached to 1st file
                 <file src="https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3">
@@ -129,11 +130,36 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
     public async Task Send_Multi_Files()
     {
-        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, $"""
+        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
                 <file src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
                 <file src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
                 Caption attached to last file
                 """);
         Assert.Equal(MessageType.Document, message.Type);
+    }
+
+    [OrderedFact("Send a photo album via 2 streams")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
+    public async Task Send_Uploaded_Photo_Album()
+    {
+        await using var stream0 = File.OpenRead(Constants.PathToFile.Photos.Logo);
+        await using var stream1 = File.OpenRead(Constants.PathToFile.Photos.Bot);
+        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
+                <img src="bot.gif">
+                <img src="stream://0">
+                """, streams: [stream0, stream1]);
+        Assert.Equal(MessageType.Photo, message.Type);
+    }
+
+    [OrderedFact("Send a text message with a custom preview")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendHtml)]
+    public async Task Send_Custom_Preview()
+    {
+        Message message = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
+                Hello, world
+                <preview url="https://github.com/TelegramBots/book" small above>
+                """);
+        Assert.Equal(MessageType.Text, message.Type);
+        Asserts.JsonEquals(new LinkPreviewOptions() { Url = "https://github.com/TelegramBots/book", PreferSmallMedia = true, ShowAboveText = true }, message.LinkPreviewOptions);
     }
 }
