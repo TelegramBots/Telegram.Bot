@@ -10,5 +10,5 @@ public partial class DirectMessagePriceChanged
 
     /// <summary><em>Optional</em>. The new number of Telegram Stars that must be paid by users for each direct message sent to the channel. Does not apply to users who have been exempted by administrators. Defaults to 0.</summary>
     [JsonPropertyName("direct_message_star_count")]
-    public int? DirectMessageStarCount { get; set; }
+    public long? DirectMessageStarCount { get; set; }
 }

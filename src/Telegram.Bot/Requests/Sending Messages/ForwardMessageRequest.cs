@@ -26,7 +26,7 @@ public partial class ForwardMessageRequest() : RequestBase<Message>("forwardMess
 
     /// <summary>Identifier of the direct messages topic to which the message will be forwarded; required if the message is forwarded to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>New start timestamp for the forwarded video in the message</summary>
     [JsonPropertyName("video_start_timestamp")]

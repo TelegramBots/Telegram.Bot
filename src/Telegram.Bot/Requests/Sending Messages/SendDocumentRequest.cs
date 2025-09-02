@@ -25,7 +25,7 @@ public partial class SendDocumentRequest() : FileRequestBase<Message>("sendDocum
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }

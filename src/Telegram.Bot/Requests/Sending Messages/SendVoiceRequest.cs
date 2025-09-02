@@ -25,7 +25,7 @@ public partial class SendVoiceRequest() : FileRequestBase<Message>("sendVoice"),
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>Voice message caption, 0-1024 characters after entities parsing</summary>
     public string? Caption { get; set; }

@@ -26,7 +26,7 @@ public partial class CopyMessageRequest() : RequestBase<MessageId>("copyMessage"
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>New start timestamp for the copied video in the message</summary>
     [JsonPropertyName("video_start_timestamp")]

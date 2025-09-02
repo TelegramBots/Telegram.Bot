@@ -24,7 +24,7 @@ public partial class SendStickerRequest() : FileRequestBase<Message>("sendSticke
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>Emoji associated with the sticker; only for just uploaded stickers</summary>
     public string? Emoji { get; set; }

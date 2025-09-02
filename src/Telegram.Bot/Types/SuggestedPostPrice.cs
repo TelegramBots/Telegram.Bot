@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>Desribes price of a suggested post.</summary>
+/// <summary>Describes the price of a suggested post.</summary>
 public partial class SuggestedPostPrice
 {
     /// <summary>Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or “TON” for toncoins</summary>

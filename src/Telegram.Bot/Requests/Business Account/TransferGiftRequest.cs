@@ -22,5 +22,5 @@ public partial class TransferGiftRequest() : RequestBase<bool>("transferGift"), 
 
     /// <summary>The amount of Telegram Stars that will be paid for the transfer from the business account balance. If positive, then the <em>CanTransferStars</em> business bot right is required.</summary>
     [JsonPropertyName("star_count")]
-    public int? StarCount { get; set; }
+    public long? StarCount { get; set; }
 }

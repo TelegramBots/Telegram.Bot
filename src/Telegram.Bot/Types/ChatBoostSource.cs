@@ -52,7 +52,7 @@ public partial class ChatBoostSourceGiveaway : ChatBoostSource
 
     /// <summary><em>Optional</em>. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only</summary>
     [JsonPropertyName("prize_star_count")]
-    public int? PrizeStarCount { get; set; }
+    public long? PrizeStarCount { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the giveaway was completed, but there was no user to win the prize</summary>
     [JsonPropertyName("is_unclaimed")]

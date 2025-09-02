@@ -107,7 +107,7 @@ public partial class Message
 
     /// <summary><em>Optional</em>. The number of Telegram Stars that were paid by the sender of the message to send it</summary>
     [JsonPropertyName("paid_star_count")]
-    public int? PaidStarCount { get; set; }
+    public long? PaidStarCount { get; set; }
 
     /// <summary><em>Optional</em>. For text messages, the actual text of the message</summary>
     public string? Text { get; set; }

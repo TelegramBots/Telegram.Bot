@@ -34,7 +34,7 @@ public partial class GiveawayWinners
 
     /// <summary><em>Optional</em>. The number of Telegram Stars that were split between giveaway winners; for Telegram Star giveaways only</summary>
     [JsonPropertyName("prize_star_count")]
-    public int? PrizeStarCount { get; set; }
+    public long? PrizeStarCount { get; set; }
 
     /// <summary><em>Optional</em>. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only</summary>
     [JsonPropertyName("premium_subscription_month_count")]

@@ -36,7 +36,7 @@ public partial class SendVenueRequest() : RequestBase<Message>("sendVenue"), ICh
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>Foursquare identifier of the venue</summary>
     [JsonPropertyName("foursquare_id")]

@@ -13,5 +13,5 @@ public partial class TransferBusinessAccountStarsRequest() : RequestBase<bool>("
     /// <summary>Number of Telegram Stars to transfer; 1-10000</summary>
     [JsonPropertyName("star_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int StarCount { get; set; }
+    public required long StarCount { get; set; }
 }

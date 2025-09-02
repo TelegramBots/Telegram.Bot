@@ -14,7 +14,7 @@ public partial class UniqueGiftInfo
 
     /// <summary><em>Optional</em>. For gifts bought from other users, the price paid for the gift</summary>
     [JsonPropertyName("last_resale_star_count")]
-    public int? LastResaleStarCount { get; set; }
+    public long? LastResaleStarCount { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts</summary>
     [JsonPropertyName("owned_gift_id")]
@@ -22,7 +22,7 @@ public partial class UniqueGiftInfo
 
     /// <summary><em>Optional</em>. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift</summary>
     [JsonPropertyName("transfer_star_count")]
-    public int? TransferStarCount { get; set; }
+    public long? TransferStarCount { get; set; }
 
     /// <summary><em>Optional</em>. Point in time when the gift can be transferred. If it is in the past, then the gift can be transferred now</summary>
     [JsonPropertyName("next_transfer_date")]

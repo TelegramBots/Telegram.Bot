@@ -14,11 +14,11 @@ public partial class GiftInfo
 
     /// <summary><em>Optional</em>. Number of Telegram Stars that can be claimed by the receiver by converting the gift; omitted if conversion to Telegram Stars is impossible</summary>
     [JsonPropertyName("convert_star_count")]
-    public int? ConvertStarCount { get; set; }
+    public long? ConvertStarCount { get; set; }
 
     /// <summary><em>Optional</em>. Number of Telegram Stars that were prepaid by the sender for the ability to upgrade the gift</summary>
     [JsonPropertyName("prepaid_upgrade_star_count")]
-    public int? PrepaidUpgradeStarCount { get; set; }
+    public long? PrepaidUpgradeStarCount { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the gift can be upgraded to a unique gift</summary>
     [JsonPropertyName("can_be_upgraded")]

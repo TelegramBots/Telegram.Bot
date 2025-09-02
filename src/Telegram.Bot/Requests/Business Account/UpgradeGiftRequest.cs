@@ -21,5 +21,5 @@ public partial class UpgradeGiftRequest() : RequestBase<bool>("upgradeGift"), IB
 
     /// <summary>The amount of Telegram Stars that will be paid for the upgrade from the business account balance. If <c>gift.PrepaidUpgradeStarCount &gt; 0</c>, then pass 0, otherwise, the <em>CanTransferStars</em> business bot right is required and <c>gift.UpgradeStarCount</c> must be passed.</summary>
     [JsonPropertyName("star_count")]
-    public int? StarCount { get; set; }
+    public long? StarCount { get; set; }
 }

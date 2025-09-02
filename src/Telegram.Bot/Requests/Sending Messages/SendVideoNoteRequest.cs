@@ -25,7 +25,7 @@ public partial class SendVideoNoteRequest() : FileRequestBase<Message>("sendVide
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>Duration of sent video in seconds</summary>
     public int? Duration { get; set; }

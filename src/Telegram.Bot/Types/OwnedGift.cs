@@ -61,11 +61,11 @@ public partial class OwnedGiftRegular : OwnedGift
 
     /// <summary><em>Optional</em>. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars</summary>
     [JsonPropertyName("convert_star_count")]
-    public int? ConvertStarCount { get; set; }
+    public long? ConvertStarCount { get; set; }
 
     /// <summary><em>Optional</em>. Number of Telegram Stars that were paid by the sender for the ability to upgrade the gift</summary>
     [JsonPropertyName("prepaid_upgrade_star_count")]
-    public int? PrepaidUpgradeStarCount { get; set; }
+    public long? PrepaidUpgradeStarCount { get; set; }
 }
 
 /// <summary>Describes a unique gift received and owned by a user or a chat.</summary>
@@ -84,7 +84,7 @@ public partial class OwnedGiftUnique : OwnedGift
 
     /// <summary><em>Optional</em>. Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer the gift</summary>
     [JsonPropertyName("transfer_star_count")]
-    public int? TransferStarCount { get; set; }
+    public long? TransferStarCount { get; set; }
 
     /// <summary><em>Optional</em>. Point in time when the gift can be transferred. If it is in the past, then the gift can be transferred now</summary>
     [JsonPropertyName("next_transfer_date")]

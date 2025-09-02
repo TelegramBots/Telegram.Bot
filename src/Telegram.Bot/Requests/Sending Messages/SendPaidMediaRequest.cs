@@ -13,7 +13,7 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     /// <summary>The number of Telegram Stars that must be paid to buy access to the media; 1-10000</summary>
     [JsonPropertyName("star_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int StarCount { get; set; }
+    public required long StarCount { get; set; }
 
     /// <summary>A array describing the media to be sent; up to 10 items</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -29,7 +29,7 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</summary>
     public string? Payload { get; set; }

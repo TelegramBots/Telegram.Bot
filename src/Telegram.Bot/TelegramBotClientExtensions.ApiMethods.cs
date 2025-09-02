@@ -159,7 +159,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendMessageRequest
@@ -203,7 +203,7 @@ public static partial class TelegramBotClientExtensions
         bool disableNotification = default,
         bool protectContent = default,
         int? videoStartTimestamp = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new ForwardMessageRequest
@@ -238,7 +238,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool disableNotification = default,
         bool protectContent = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new ForwardMessagesRequest
     {
@@ -287,7 +287,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         bool allowPaidBroadcast = default,
         int? videoStartTimestamp = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new CopyMessageRequest
@@ -331,7 +331,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool disableNotification = default,
         bool protectContent = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new CopyMessagesRequest
     {
@@ -383,7 +383,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendPhotoRequest
@@ -450,7 +450,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendAudioRequest
@@ -515,7 +515,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendDocumentRequest
@@ -592,7 +592,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         InputFile? cover = default,
         int? startTimestamp = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVideoRequest
@@ -670,7 +670,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendAnimationRequest
@@ -735,7 +735,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVoiceRequest
@@ -792,7 +792,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVideoNoteRequest
@@ -838,7 +838,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendPaidMedia(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        int starCount,
+        long starCount,
         IEnumerable<InputPaidMedia> media,
         string? caption = default,
         ParseMode parseMode = default,
@@ -852,7 +852,7 @@ public static partial class TelegramBotClientExtensions
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
         int? messageThreadId = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendPaidMediaRequest
@@ -901,7 +901,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendMediaGroupRequest
     {
@@ -955,7 +955,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendLocationRequest
@@ -1021,7 +1021,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVenueRequest
@@ -1081,7 +1081,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendContactRequest
@@ -1246,7 +1246,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendDiceRequest
@@ -2454,7 +2454,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         long userId,
         int monthCount,
-        int starCount,
+        long starCount,
         string? text = default,
         ParseMode textParseMode = default,
         IEnumerable<MessageEntity>? textEntities = default,
@@ -2689,7 +2689,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task TransferBusinessAccountStars(
         this ITelegramBotClient botClient,
         string businessConnectionId,
-        int starCount,
+        long starCount,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new TransferBusinessAccountStarsRequest
     {
@@ -2763,7 +2763,7 @@ public static partial class TelegramBotClientExtensions
         string businessConnectionId,
         string ownedGiftId,
         bool keepOriginalDetails = default,
-        int? starCount = default,
+        long? starCount = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new UpgradeGiftRequest
     {
@@ -2785,7 +2785,7 @@ public static partial class TelegramBotClientExtensions
         string businessConnectionId,
         string ownedGiftId,
         long newOwnerChatId,
-        int? starCount = default,
+        long? starCount = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new TransferGiftRequest
     {
@@ -3380,7 +3380,7 @@ public static partial class TelegramBotClientExtensions
         string? messageEffectId = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendStickerRequest
@@ -3809,7 +3809,7 @@ public static partial class TelegramBotClientExtensions
         bool protectContent = default,
         string? messageEffectId = default,
         bool allowPaidBroadcast = default,
-        int? directMessagesTopicId = default,
+        long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendInvoiceRequest

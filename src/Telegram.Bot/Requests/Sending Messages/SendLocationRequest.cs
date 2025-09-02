@@ -28,7 +28,7 @@ public partial class SendLocationRequest() : RequestBase<Message>("sendLocation"
 
     /// <summary>Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</summary>
     [JsonPropertyName("direct_messages_topic_id")]
-    public int? DirectMessagesTopicId { get; set; }
+    public long? DirectMessagesTopicId { get; set; }
 
     /// <summary>The radius of uncertainty for the location, measured in meters; 0-1500</summary>
     [JsonPropertyName("horizontal_accuracy")]

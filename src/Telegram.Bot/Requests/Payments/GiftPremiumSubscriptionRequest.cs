@@ -18,7 +18,7 @@ public partial class GiftPremiumSubscriptionRequest() : RequestBase<bool>("giftP
     /// <summary>Number of Telegram Stars to pay for the Telegram Premium subscription; must be 1000 for 3 months, 1500 for 6 months, and 2500 for 12 months</summary>
     [JsonPropertyName("star_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int StarCount { get; set; }
+    public required long StarCount { get; set; }
 
     /// <summary>Text that will be shown along with the service message about the subscription; 0-128 characters</summary>
     public string? Text { get; set; }

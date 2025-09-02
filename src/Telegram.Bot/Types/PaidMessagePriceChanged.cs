@@ -7,10 +7,10 @@ public partial class PaidMessagePriceChanged
     /// <summary>The new number of Telegram Stars that must be paid by non-administrator users of the supergroup chat for each sent message</summary>
     [JsonPropertyName("paid_message_star_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int PaidMessageStarCount { get; set; }
+    public long PaidMessageStarCount { get; set; }
 
-    /// <summary>Implicit conversion to int (PaidMessageStarCount)</summary>
-    public static implicit operator int(PaidMessagePriceChanged self) => self.PaidMessageStarCount;
-    /// <summary>Implicit conversion from int (PaidMessageStarCount)</summary>
-    public static implicit operator PaidMessagePriceChanged(int paidMessageStarCount) => new() { PaidMessageStarCount = paidMessageStarCount };
+    /// <summary>Implicit conversion to long (PaidMessageStarCount)</summary>
+    public static implicit operator long(PaidMessagePriceChanged self) => self.PaidMessageStarCount;
+    /// <summary>Implicit conversion from long (PaidMessageStarCount)</summary>
+    public static implicit operator PaidMessagePriceChanged(long paidMessageStarCount) => new() { PaidMessageStarCount = paidMessageStarCount };
 }
