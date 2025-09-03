@@ -10,7 +10,7 @@ public partial class StarTransaction
 
     /// <summary>Integer amount of Telegram Stars transferred by the transaction</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int Amount { get; set; }
+    public long Amount { get; set; }
 
     /// <summary><em>Optional</em>. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999</summary>
     [JsonPropertyName("nanostar_amount")]

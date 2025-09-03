@@ -170,7 +170,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
 
         PreliminaryInvoice preliminaryInvoice = paymentsBuilder.GetPreliminaryInvoice();
-        int totalAmount = paymentsBuilder.GetTotalAmount();
+        long totalAmount = paymentsBuilder.GetTotalAmount();
 
         Assert.Equal(UpdateType.PreCheckoutQuery, preCheckoutUpdate.Type);
         Assert.NotNull(query.Id);
@@ -246,7 +246,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
         SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
-        int totalAmount = paymentsBuilder.GetTotalAmount();
+        long totalAmount = paymentsBuilder.GetTotalAmount();
 
         Assert.Equal(totalAmount, successfulPayment!.TotalAmount);
         Assert.Equal("<my-payload>", successfulPayment.InvoicePayload);
@@ -308,10 +308,10 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
         SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
-        int totalAmount = paymentsBuilder.GetTotalAmount();
+        long totalAmount = paymentsBuilder.GetTotalAmount();
 
         int[] suggestedTips = [100, 150, 200];
-        int[] totalAmountWithTip = suggestedTips.Select(_ => _ + totalAmount).ToArray();
+        long[] totalAmountWithTip = [.. suggestedTips.Select(_ => _ + totalAmount)];
 
         Assert.Contains(totalAmountWithTip, _ => _ == successfulPayment!.TotalAmount);
         Assert.Equal("<my-payload>", successfulPayment!.InvoicePayload);
@@ -653,5 +653,5 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 public static class Extensions
 {
     // ReSharper disable once PossibleLossOfFraction
-    public static double CurrencyFormat(this int amount) => amount * 0.01;
+    public static double CurrencyFormat(this long amount) => amount * 0.01;
 }

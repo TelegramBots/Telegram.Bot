@@ -19,7 +19,7 @@ public partial class AffiliateInfo
 
     /// <summary>Integer amount of Telegram Stars received by the affiliate from the transaction, rounded to 0; can be negative for refunds</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int Amount { get; set; }
+    public long Amount { get; set; }
 
     /// <summary><em>Optional</em>. The number of 1/1000000000 shares of Telegram Stars received by the affiliate; from -999999999 to 999999999; can be negative for refunds</summary>
     [JsonPropertyName("nanostar_amount")]

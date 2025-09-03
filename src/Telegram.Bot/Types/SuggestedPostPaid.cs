@@ -13,7 +13,7 @@ public partial class SuggestedPostPaid
     public string Currency { get; set; } = default!;
 
     /// <summary><em>Optional</em>. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only</summary>
-    public int? Amount { get; set; }
+    public long? Amount { get; set; }
 
     /// <summary><em>Optional</em>. The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only</summary>
     [JsonPropertyName("star_amount")]

@@ -218,7 +218,7 @@ namespace Telegram.Bot.Types
         public partial class LabeledPrice
         {
             /// <summary>Instantiates a new <see cref="LabeledPrice"/> from a tuple</summary>
-            public static implicit operator LabeledPrice((string label, int amount) t) => new(t.label, t.amount);
+            public static implicit operator LabeledPrice((string label, long amount) t) => new(t.label, t.amount);
         }
     }
 

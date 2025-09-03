@@ -170,13 +170,11 @@ public class PaymentsBuilder
         };
     }
 
-    public Shipping GetShippingOptions() => new([.. _shippingOptions]);
-
-    public int GetTotalAmount() =>
+    public long GetTotalAmount() =>
         (_product?.ProductPrices.Sum(price => price.Amount) ?? 0) +
-        _shippingOptions.Take(1).Sum(x => x.Prices.Sum(p => p.Amount));
+        (_shippingOptions.FirstOrDefault()?.Prices.Sum(p => p.Amount) ?? 0);
 
-    public int GetTotalAmountWithoutShippingCost() => _product?.ProductPrices.Sum(price => price.Amount) ?? 0;
+    public long GetTotalAmountWithoutShippingCost() => _product?.ProductPrices.Sum(price => price.Amount) ?? 0;
 
     public async Task<Types.Message> MakeInvoiceRequest(TestsFixture fixture)
     {
@@ -357,11 +355,6 @@ public class PaymentsBuilder
         public string Description { get; init; } = default!;
         public string? StartParameter { get; init; }
         public string Currency { get; init; } = default!;
-        public int TotalAmount { get; init; }
-    }
-
-    public record Shipping(IReadOnlyList<ShippingOption> ShippingOptions)
-    {
-        public int TotalAmount => ShippingOptions.Sum(x => x.Prices.Sum(p => p.Amount));
+        public long TotalAmount { get; init; }
     }
 }
