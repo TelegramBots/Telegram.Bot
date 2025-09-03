@@ -126,11 +126,11 @@ public class TelegramBotClient : ITelegramBotClient
             catch (TaskCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested) throw;
-                throw new RequestException("Request timed out", exception);
+                throw new RequestException("Bot API Request timed out", exception);
             }
             catch (Exception exception)
             {
-                throw new RequestException("Exception during making request", exception);
+                throw new RequestException($"Bot API Service Failure: {exception.GetType().Name}: {exception.Message}", exception);
             }
             using (httpResponse)
             {

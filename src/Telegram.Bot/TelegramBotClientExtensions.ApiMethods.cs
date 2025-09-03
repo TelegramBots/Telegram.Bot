@@ -824,13 +824,13 @@ public static partial class TelegramBotClientExtensions
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user</param>
     /// <param name="payload">Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media</param>
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance</param>
-    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -845,13 +845,13 @@ public static partial class TelegramBotClientExtensions
         ReplyParameters? replyParameters = default,
         ReplyMarkup? replyMarkup = default,
         string? payload = default,
+        int? messageThreadId = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
         bool disableNotification = default,
         bool protectContent = default,
         string? businessConnectionId = default,
         bool allowPaidBroadcast = default,
-        int? messageThreadId = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
         CancellationToken cancellationToken = default
@@ -865,13 +865,13 @@ public static partial class TelegramBotClientExtensions
         ReplyParameters = replyParameters,
         ReplyMarkup = replyMarkup,
         Payload = payload,
+        MessageThreadId = messageThreadId,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
         DisableNotification = disableNotification,
         ProtectContent = protectContent,
         BusinessConnectionId = businessConnectionId,
         AllowPaidBroadcast = allowPaidBroadcast,
-        MessageThreadId = messageThreadId,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
     }, cancellationToken).ConfigureAwait(false);
