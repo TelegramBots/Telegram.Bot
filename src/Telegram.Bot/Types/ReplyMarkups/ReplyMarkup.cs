@@ -18,10 +18,20 @@ public abstract class ReplyMarkup
     /// <param name="texts">Texts of buttons</param>
     public static implicit operator ReplyMarkup?(string[]? texts) => texts is null ? default : new[] { texts };
 
+    /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
+    /// <param name="texts">Texts of buttons</param>
+    public static implicit operator ReplyMarkup?(List<string>? texts) => texts is null ? default
+        : new ReplyKeyboardMarkup([texts.Select(t => new KeyboardButton(t))]) { ResizeKeyboard = true };
+
+    /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
+    /// <param name="textsItems">Texts of buttons</param>
+    public static implicit operator ReplyMarkup?(List<List<string>>? textsItems) => textsItems is null ? default
+            : new ReplyKeyboardMarkup(textsItems.Select(texts => texts.Select(t => new KeyboardButton(t)))) { ResizeKeyboard = true };
+
     /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
     /// <param name="textsItems">Texts of buttons</param>
     public static implicit operator ReplyMarkup?(string[][]? textsItems) => textsItems is null ? default
-        : new ReplyKeyboardMarkup(textsItems.Select(texts => texts.Select(t => new KeyboardButton(t)).ToList()).ToList()) { ResizeKeyboard = true };
+        : new ReplyKeyboardMarkup(textsItems.Select(texts => texts.Select(t => new KeyboardButton(t)))) { ResizeKeyboard = true };
 
     /// <summary>Generates a reply keyboard markup with one button</summary>
     /// <param name="button">Keyboard button</param>
@@ -30,6 +40,14 @@ public abstract class ReplyMarkup
     /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
     /// <param name="buttons">Keyboard buttons</param>
     public static implicit operator ReplyMarkup?(KeyboardButton[]? buttons) => buttons is null ? default : new ReplyKeyboardMarkup([buttons]) { ResizeKeyboard = true };
+
+    /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
+    /// <param name="buttons">Keyboard buttons</param>
+    public static implicit operator ReplyMarkup?(List<KeyboardButton>? buttons) => buttons is null ? default : new ReplyKeyboardMarkup(buttons) { ResizeKeyboard = true };
+
+    /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
+    /// <param name="buttons">Keyboard buttons</param>
+    public static implicit operator ReplyMarkup?(List<List<KeyboardButton>>? buttons) => buttons is null ? default : new ReplyKeyboardMarkup(buttons) { ResizeKeyboard = true };
 
     /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
     /// <param name="buttons">Keyboard buttons</param>
@@ -44,6 +62,16 @@ public abstract class ReplyMarkup
     /// <param name="inlineKeyboard">Keyboard buttons</param>
     [return: NotNullIfNotNull(nameof(inlineKeyboard))]
     public static implicit operator ReplyMarkup?(InlineKeyboardButton[]? inlineKeyboard) => inlineKeyboard is null ? default : new InlineKeyboardMarkup(inlineKeyboard);
+
+    /// <summary>Generate an inline keyboard markup from multiple buttons on 1 row</summary>
+    /// <param name="inlineKeyboard">Keyboard buttons</param>
+    [return: NotNullIfNotNull(nameof(inlineKeyboard))]
+    public static implicit operator ReplyMarkup?(List<InlineKeyboardButton>? inlineKeyboard) => inlineKeyboard is null ? default : new InlineKeyboardMarkup(inlineKeyboard);
+
+    /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
+    /// <param name="inlineKeyboard">Keyboard buttons</param>
+    [return: NotNullIfNotNull(nameof(inlineKeyboard))]
+    public static implicit operator ReplyMarkup?(List<List<InlineKeyboardButton>>? inlineKeyboard) => inlineKeyboard is null ? default : new InlineKeyboardMarkup(inlineKeyboard);
 
     /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
     /// <param name="inlineKeyboard">Keyboard buttons</param>

@@ -278,6 +278,16 @@ namespace Telegram.Bot.Types
             [return: NotNullIfNotNull(nameof(buttons))]
             public static implicit operator ReplyKeyboardMarkup?(KeyboardButton[]? buttons) => buttons is null ? default : new([buttons]);
 
+            /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator ReplyKeyboardMarkup?(List<KeyboardButton>? buttons) => buttons is null ? default : new(buttons);
+
+            /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator ReplyKeyboardMarkup?(List<List<KeyboardButton>>? buttons) => buttons is null ? default : new(buttons);
+
             /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
             /// <param name="buttons">Keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(buttons))]
@@ -358,6 +368,16 @@ namespace Telegram.Bot.Types
             /// <param name="buttons">Keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(buttons))]
             public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton[]? buttons) => buttons is null ? default : new(buttons);
+
+            /// <summary>Generate an inline keyboard markup from multiple buttons on 1 row</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator InlineKeyboardMarkup?(List<InlineKeyboardButton>? buttons) => buttons is null ? default : new(buttons);
+
+            /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
+            /// <param name="buttons">Keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttons))]
+            public static implicit operator InlineKeyboardMarkup?(List<List<InlineKeyboardButton>>? buttons) => buttons is null ? default : new(buttons);
 
             /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
             /// <param name="buttons">Keyboard buttons</param>
