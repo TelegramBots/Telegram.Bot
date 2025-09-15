@@ -8,9 +8,8 @@ public partial class InputChecklist
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Title { get; set; } = default!;
 
-    /// <summary>Optional. Mode for parsing entities in the title. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
+    /// <summary><em>Optional</em>. Mode for parsing entities in the title. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
     [JsonPropertyName("parse_mode")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ParseMode ParseMode { get; set; }
 
     /// <summary><em>Optional</em>. List of special entities that appear in the title, which can be specified instead of <see cref="ParseMode">ParseMode</see>. Currently, only <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, and <em>CustomEmoji</em> entities are allowed.</summary>

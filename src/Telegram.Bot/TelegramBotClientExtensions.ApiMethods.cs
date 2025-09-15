@@ -2891,9 +2891,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
-    /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
-    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
+    /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The edited <see cref="Message"/> is returned</returns>
@@ -2903,9 +2903,9 @@ public static partial class TelegramBotClientExtensions
         int messageId,
         string text,
         ParseMode parseMode = default,
-        IEnumerable<MessageEntity>? entities = default,
-        LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
+        IEnumerable<MessageEntity>? entities = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditMessageTextRequest
@@ -2914,9 +2914,9 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
         Text = text,
         ParseMode = parseMode,
-        Entities = entities,
-        LinkPreviewOptions = linkPreviewOptions,
         ReplyMarkup = replyMarkup,
+        LinkPreviewOptions = linkPreviewOptions,
+        Entities = entities,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
@@ -2925,9 +2925,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
-    /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
-    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
+    /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageText(
@@ -2935,9 +2935,9 @@ public static partial class TelegramBotClientExtensions
         string inlineMessageId,
         string text,
         ParseMode parseMode = default,
-        IEnumerable<MessageEntity>? entities = default,
-        LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
+        IEnumerable<MessageEntity>? entities = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditInlineMessageTextRequest
@@ -2945,9 +2945,9 @@ public static partial class TelegramBotClientExtensions
         InlineMessageId = inlineMessageId,
         Text = text,
         ParseMode = parseMode,
-        Entities = entities,
-        LinkPreviewOptions = linkPreviewOptions,
         ReplyMarkup = replyMarkup,
+        LinkPreviewOptions = linkPreviewOptions,
+        Entities = entities,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
@@ -2957,9 +2957,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
+    /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media. Supported only for animation, photo and video messages.</param>
-    /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The edited <see cref="Message"/> is returned</returns>
@@ -2969,9 +2969,9 @@ public static partial class TelegramBotClientExtensions
         int messageId,
         string? caption,
         ParseMode parseMode = default,
+        InlineKeyboardMarkup? replyMarkup = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
-        InlineKeyboardMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditMessageCaptionRequest
@@ -2980,9 +2980,9 @@ public static partial class TelegramBotClientExtensions
         MessageId = messageId,
         Caption = caption,
         ParseMode = parseMode,
+        ReplyMarkup = replyMarkup,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
@@ -2991,9 +2991,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
+    /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
     /// <param name="showCaptionAboveMedia">Pass <see langword="true"/>, if the caption must be shown above the message media. Supported only for animation, photo and video messages.</param>
-    /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>.</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageCaption(
@@ -3001,9 +3001,9 @@ public static partial class TelegramBotClientExtensions
         string inlineMessageId,
         string? caption,
         ParseMode parseMode = default,
+        InlineKeyboardMarkup? replyMarkup = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         bool showCaptionAboveMedia = default,
-        InlineKeyboardMarkup? replyMarkup = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditInlineMessageCaptionRequest
@@ -3011,9 +3011,9 @@ public static partial class TelegramBotClientExtensions
         InlineMessageId = inlineMessageId,
         Caption = caption,
         ParseMode = parseMode,
+        ReplyMarkup = replyMarkup,
         CaptionEntities = captionEntities,
         ShowCaptionAboveMedia = showCaptionAboveMedia,
-        ReplyMarkup = replyMarkup,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 

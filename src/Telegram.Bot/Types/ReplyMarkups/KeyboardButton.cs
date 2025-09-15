@@ -8,11 +8,11 @@ public partial class KeyboardButton : IKeyboardButton
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
 
-    /// <summary><em>Optional.</em> If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
+    /// <summary><em>Optional</em>. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
     [JsonPropertyName("request_users")]
     public KeyboardButtonRequestUsers? RequestUsers { get; set; }
 
-    /// <summary><em>Optional.</em> If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
+    /// <summary><em>Optional</em>. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
     [JsonPropertyName("request_chat")]
     public KeyboardButtonRequestChat? RequestChat { get; set; }
 
