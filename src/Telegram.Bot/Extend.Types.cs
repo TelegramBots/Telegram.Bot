@@ -171,6 +171,8 @@ namespace Telegram.Bot.Types
     {
         /// <summary>To get the same behaviour as previous parameter <c>disableWebPagePreview:</c></summary>
         public static implicit operator LinkPreviewOptions(bool disabled) => new() { IsDisabled = disabled };
+        /// <summary>Simply pass a URL string to request a preview of that link</summary>
+        public static implicit operator LinkPreviewOptions(string url) => new() { Url = url };
     }
 
     public partial class InputPollOption
