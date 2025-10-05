@@ -20,8 +20,8 @@ public static partial class TelegramBotClientExtensions
             await botClient.GetUpdates(updates[^1].Id + 1, 1, 0, allowedUpdates: null, cancellationToken).ConfigureAwait(false);
     }
 
-    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-    /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para></summary>
+    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync">IUpdateHandler.HandleUpdateAsync</see> for each.
+    /// <para>This method does not block. A background polling loop is initiated, calling GetUpdates then your handler for each update</para></summary>
     /// <typeparam name="TUpdateHandler"> The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="receiverOptions">Options used to configure getUpdates request</param>
@@ -31,7 +31,7 @@ public static partial class TelegramBotClientExtensions
         => StartReceiving(botClient, new TUpdateHandler(), receiverOptions, cancellationToken);
 
     /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking  <paramref name="updateHandler"/> for each.
-    /// <para>This method does not block. GetUpdates will be called AFTER the <paramref name="updateHandler"/> returns</para></summary>
+    /// <para>This method does not block. A background polling loop is initiated, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
     /// <param name="errorHandler">Delegate used for processing polling errors</param>
@@ -44,7 +44,7 @@ public static partial class TelegramBotClientExtensions
         => StartReceiving(botClient, new DefaultUpdateHandler(updateHandler, errorHandler), receiverOptions, cancellationToken);
 
     /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking  <paramref name="updateHandler"/> for each.
-    /// <para>This method does not block. GetUpdates will be called AFTER the <paramref name="updateHandler"/> returns</para></summary>
+    /// <para>This method does not block. A background polling loop is initiated, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
     /// <param name="errorHandler">Delegate used for processing polling errors</param>
@@ -57,7 +57,7 @@ public static partial class TelegramBotClientExtensions
         => StartReceiving(botClient, new DefaultUpdateHandler(updateHandler, errorHandler), receiverOptions, cancellationToken);
 
     /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking  <paramref name="updateHandler"/> for each.
-    /// <para>This method does not block. GetUpdates will be called AFTER the <paramref name="updateHandler"/> returns</para></summary>
+    /// <para>This method does not block. A background polling loop is initiated, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
     /// <param name="errorHandler">Delegate used for processing polling errors</param>
@@ -72,8 +72,8 @@ public static partial class TelegramBotClientExtensions
                 (bot, exception, source, token) => { errorHandler(bot, exception, token); return Task.CompletedTask; }
             ), receiverOptions, cancellationToken);
 
-    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-    /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para></summary>
+    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync">IUpdateHandler.HandleUpdateAsync</see> for each.
+    /// <para>This method does not block. A background polling loop is initiated, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
     /// <param name="receiverOptions">Options used to configure getUpdates request</param>
@@ -109,8 +109,8 @@ public static partial class TelegramBotClientExtensions
         }, cancellationToken);
     }
 
-    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-    /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para></summary>
+    /// <summary>Wait for incoming <see cref="Update"/>s, invoking <see cref="IUpdateHandler.HandleUpdateAsync">IUpdateHandler.HandleUpdateAsync</see> for each.
+    /// <para>This method will block if awaited. It runs a polling loop, calling GetUpdates then your handler for each update</para></summary>
     /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="receiverOptions">Options used to configure getUpdates request</param>
@@ -120,8 +120,8 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default) where TUpdateHandler : IUpdateHandler, new()
         => await ReceiveAsync(botClient, new TUpdateHandler(), receiverOptions, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-    /// <para>This method will block if awaited. GetUpdates will be called AFTER the <paramref name="updateHandler"/>returns</para></summary>
+    /// <summary>Wait for incoming <see cref="Update"/>s, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
+    /// <para>This method will block if awaited. It runs a polling loop, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
     /// <param name="errorHandler">Delegate used for processing polling errors</param>
@@ -134,8 +134,8 @@ public static partial class TelegramBotClientExtensions
         ReceiverOptions? receiverOptions = default, CancellationToken cancellationToken = default)
         => await ReceiveAsync(botClient, new DefaultUpdateHandler(updateHandler, errorHandler), receiverOptions, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-    /// <para>This method will block if awaited. GetUpdates will be called AFTER the <paramref name="updateHandler"/>returns</para></summary>
+    /// <summary>Wait for incoming <see cref="Update"/>s, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
+    /// <para>This method will block if awaited. It runs a polling loop, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
     /// <param name="errorHandler">Delegate used for processing polling errors</param>
@@ -151,8 +151,8 @@ public static partial class TelegramBotClientExtensions
                 (bot, exception, source, token) => { errorHandler(bot, exception, token); return Task.CompletedTask; }
             ), receiverOptions, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-    /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para></summary>
+    /// <summary>Wait for incoming <see cref="Update"/>s, invoking <see cref="IUpdateHandler.HandleUpdateAsync">IUpdateHandler.HandleUpdateAsync</see> for each.
+    /// <para>This method will block if awaited. It runs a polling loop, calling GetUpdates then your handler for each update</para></summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
     /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
@@ -160,5 +160,80 @@ public static partial class TelegramBotClientExtensions
     /// <returns>A <see cref="Task"/> that will be completed when cancellation will be requested through <paramref name="cancellationToken"/></returns>
     public static async Task ReceiveAsync(this ITelegramBotClient botClient, IUpdateHandler updateHandler, ReceiverOptions? receiverOptions = default,
         CancellationToken cancellationToken = default)
-        => await new DefaultUpdateReceiver(botClient, receiverOptions).ReceiveAsync(updateHandler, cancellationToken).ConfigureAwait(false);
+    {
+        if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
+
+        var allowedUpdates = receiverOptions?.AllowedUpdates;
+        var limit = receiverOptions?.Limit ?? 100;
+        var messageOffset = receiverOptions?.Offset ?? 0;
+        var emptyUpdates = Array.Empty<Update>();
+
+        if (receiverOptions?.DropPendingUpdates is true)
+        {
+            try
+            {
+                var updates = await botClient.GetUpdates(-1, 1, 0, [], cancellationToken).ConfigureAwait(false);
+                messageOffset = updates.Length == 0 ? 0 : updates[^1].Id + 1;
+            }
+            catch (OperationCanceledException)
+            {
+                // ignored
+            }
+        }
+        var request = new Requests.GetUpdatesRequest
+        {
+            Limit = limit,
+            Offset = messageOffset,
+            AllowedUpdates = allowedUpdates,
+        };
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            request.Timeout = (int)botClient.Timeout.TotalSeconds;
+
+            var updates = emptyUpdates;
+            try
+            {
+                updates = await botClient.SendRequest(request, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception exception)
+            {
+                try
+                {
+                    await updateHandler.HandleErrorAsync(botClient, exception, HandleErrorSource.PollingError, cancellationToken).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+            }
+
+            foreach (var update in updates)
+            {
+                try
+                {
+                    request.Offset = update.Id + 1;
+                    await updateHandler.HandleUpdateAsync(botClient, update, cancellationToken).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        await updateHandler.HandleErrorAsync(botClient, ex, HandleErrorSource.HandleUpdateError, cancellationToken).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // ignored
+                    }
+                }
+            }
+        }
+    }
 }

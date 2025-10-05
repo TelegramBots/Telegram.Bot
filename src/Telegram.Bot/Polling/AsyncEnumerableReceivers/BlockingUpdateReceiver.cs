@@ -13,6 +13,7 @@ namespace Telegram.Bot.Polling;
 /// <param name="receiverOptions"></param>
 /// <param name="pollingErrorHandler">The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests</param>
 [PublicAPI]
+[Obsolete("I think no one is using this class. So I will probably remove it in future releases. Report to us if you really need this feature")]
 public class BlockingUpdateReceiver(ITelegramBotClient botClient, ReceiverOptions? receiverOptions = default,
     Func<Exception, CancellationToken, Task>? pollingErrorHandler = default) : IAsyncEnumerable<Update>
 {
