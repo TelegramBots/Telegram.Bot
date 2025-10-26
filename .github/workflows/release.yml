@@ -43,14 +43,15 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+    # - name: Restore dependencies
+    #   run: dotnet restore
     - name: Build
-      run: dotnet build $PROJECT_PATH --no-restore --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\""
+      run: |
+        dotnet build $PROJECT_PATH --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=${RELEASE_NOTES//\"/%22}" --output packages
     - name: Test
       run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
-    - name: Pack
-      run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\"" --output packages
+    # - name: Pack
+    #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\"" --output packages
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4
     #   with:

@@ -17,10 +17,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 100
+        fetch-depth: 30
     - name: Determine version
       run: |
-        git fetch --depth=100 --tags
+        git fetch --depth=30 --tags
         DESCR_TAG=$(git describe --tags)
         DESCR_TAG=${DESCR_TAG#v}
         COMMITS=${DESCR_TAG#*-}
@@ -31,18 +31,19 @@ jobs:
         if [[ "$RELEASE_VERSION" > "$NEXT_VERSION" ]] then VERSION=$RELEASE_VERSION; else VERSION=$NEXT_VERSION; fi
         echo Last tag: $LAST_TAG · Next version: $NEXT_VERSION · Release version: $RELEASE_VERSION · Build version: $VERSION
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+    # - name: Setup .NET
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: 9.0.x
+    # - name: Restore dependencies
+    #   run: dotnet restore
     - name: Build
-      run: dotnet build $PROJECT_PATH --no-restore --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\""
+      run: |
+        dotnet build $PROJECT_PATH --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=${RELEASE_NOTES//\"/%22}" --output packages
     - name: Test
       run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
-    - name: Pack
-      run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\"" --output packages
+    # - name: Pack
+    #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\"" --output packages
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4
     #   with:
