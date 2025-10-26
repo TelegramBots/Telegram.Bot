@@ -496,6 +496,7 @@ public static class HtmlText
                             if (Enum.TryParse<SwitchInlineTarget>(target, ignoreCase: true, out var targets))
                                 inline.AddButton(InlineKeyboardButton.WithSwitchInlineQueryChosenChat(text, new()
                                 {
+                                    Query = query,
                                     AllowUserChats = targets.HasFlag(SwitchInlineTarget.User),
                                     AllowBotChats = targets.HasFlag(SwitchInlineTarget.Bot),
                                     AllowGroupChats = targets.HasFlag(SwitchInlineTarget.Group),
