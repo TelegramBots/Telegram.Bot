@@ -228,72 +228,73 @@ namespace Telegram.Bot.Types
     {
         public partial class ReplyKeyboardMarkup
         {
-            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/> with one button</summary>
+            /// <summary>Creates a <see cref="ReplyKeyboardMarkup"/> with one button</summary>
             /// <param name="button">Button or text on keyboard</param>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(KeyboardButton button) : this(new List<List<KeyboardButton>> { new() { button } }) { }
+            public ReplyKeyboardMarkup(KeyboardButton button) => Keyboard = new List<List<KeyboardButton>> { new() { button } };
 
-            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/></summary>
-            /// <param name="keyboardRow">The keyboard row.</param>
+            /// <summary>Creates a <see cref="ReplyKeyboardMarkup"/> with multiple buttons on one row</summary>
+            /// <param name="keyboardRow">Reply keyboard buttons</param>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow) : this(new List<List<KeyboardButton>> { keyboardRow.ToList() }) { }
+            public ReplyKeyboardMarkup(params KeyboardButton[] keyboardRow) => Keyboard = new List<List<KeyboardButton>> { keyboardRow.ToList() };
+
+            /// <summary>Creates a <see cref="ReplyKeyboardMarkup"/> with multiple buttons on one row</summary>
+            /// <param name="keyboardRow">Reply keyboard buttons</param>
+            [SetsRequiredMembers]
+            public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow) => Keyboard = new List<List<KeyboardButton>> { keyboardRow.ToList() };
 
 #pragma warning disable MA0016 // Prefer using collection abstraction instead of implementation
-            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/></summary>
-            /// <param name="keyboardRow">The keyboard row.</param>
+            /// <summary>Creates a <see cref="ReplyKeyboardMarkup"/> with multiple buttons on one row</summary>
+            /// <param name="keyboardRow">Reply keyboard buttons</param>
             [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(List<KeyboardButton> keyboardRow) : this(new List<List<KeyboardButton>> { keyboardRow }) { }
+            public ReplyKeyboardMarkup(List<KeyboardButton> keyboardRow) => Keyboard = new List<List<KeyboardButton>> { keyboardRow };
 #pragma warning restore MA0016 // Prefer using collection abstraction instead of implementation
 
-            /// <summary>Initializes a new instance of <see cref="ReplyKeyboardMarkup"/></summary>
-            /// <param name="keyboardRow">A row of buttons or texts.</param>
-            [SetsRequiredMembers]
-            public ReplyKeyboardMarkup(params KeyboardButton[] keyboardRow) : this(new List<List<KeyboardButton>> { keyboardRow.ToList() }) { }
-
             /// <summary>Instantiates a new <see cref="ReplyKeyboardMarkup"/></summary>
+            /// <param name="resizeKeyboard">Request to resize the keyboard vertically for optimal fit</param>
             [SetsRequiredMembers]
             public ReplyKeyboardMarkup(bool resizeKeyboard) : this() => ResizeKeyboard = resizeKeyboard;
 
             /// <summary>Generates a reply keyboard markup with one button</summary>
-            /// <param name="text">Button's text</param>
+            /// <param name="text">Button text</param>
             [return: NotNullIfNotNull(nameof(text))]
             public static implicit operator ReplyKeyboardMarkup?(string? text) => text is null ? default : new(text);
 
             /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
-            /// <param name="texts">Texts of buttons</param>
+            /// <param name="texts">Buttons text</param>
             [return: NotNullIfNotNull(nameof(texts))]
             public static implicit operator ReplyKeyboardMarkup?(string[]? texts) => texts is null ? default : new[] { texts };
 
-            /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
-            /// <param name="texts">Texts of buttons</param>
-            [return: NotNullIfNotNull(nameof(texts))]
-            public static implicit operator ReplyKeyboardMarkup?(string[][]? texts) => texts is null ? default
-                : new ReplyKeyboardMarkup(texts.Select(texts => texts.Select(t => new KeyboardButton(t)).ToList()).ToList());
+            /// <summary>Generates a reply keyboard markup with multiple rows of buttons</summary>
+            /// <param name="textRows">Rows of buttons text</param>
+            [return: NotNullIfNotNull(nameof(textRows))]
+            public static implicit operator ReplyKeyboardMarkup?(string[][]? textRows) => textRows is null ? default
+                : new ReplyKeyboardMarkup(textRows.Select(texts => texts.Select(t => new KeyboardButton(t)).ToList()).ToList());
 
             /// <summary>Generates a reply keyboard markup with one button</summary>
-            /// <param name="button">Keyboard button</param>
+            /// <param name="button">Reply keyboard button</param>
             [return: NotNullIfNotNull(nameof(button))]
             public static implicit operator ReplyKeyboardMarkup?(KeyboardButton? button) => button is null ? default : new(button);
 
             /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
-            /// <param name="buttons">Keyboard buttons</param>
+            /// <param name="buttons">Reply keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(buttons))]
-            public static implicit operator ReplyKeyboardMarkup?(KeyboardButton[]? buttons) => buttons is null ? default : new([buttons]);
+            public static implicit operator ReplyKeyboardMarkup?(KeyboardButton[]? buttons) => buttons is null ? default : new(buttons);
 
             /// <summary>Generates a reply keyboard markup with multiple buttons on one row</summary>
-            /// <param name="buttons">Keyboard buttons</param>
+            /// <param name="buttons">Reply keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(buttons))]
             public static implicit operator ReplyKeyboardMarkup?(List<KeyboardButton>? buttons) => buttons is null ? default : new(buttons);
 
-            /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
-            /// <param name="buttons">Keyboard buttons</param>
-            [return: NotNullIfNotNull(nameof(buttons))]
-            public static implicit operator ReplyKeyboardMarkup?(List<List<KeyboardButton>>? buttons) => buttons is null ? default : new(buttons);
+            /// <summary>Generates a reply keyboard markup with multiple rows of buttons</summary>
+            /// <param name="buttonRows">Rows of reply keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttonRows))]
+            public static implicit operator ReplyKeyboardMarkup?(List<List<KeyboardButton>>? buttonRows) => buttonRows is null ? default : new(buttonRows);
 
-            /// <summary>Generates a reply keyboard markup with multiple buttons</summary>
-            /// <param name="buttons">Keyboard buttons</param>
-            [return: NotNullIfNotNull(nameof(buttons))]
-            public static implicit operator ReplyKeyboardMarkup?(IEnumerable<KeyboardButton>[]? buttons) => buttons is null ? default : new(buttons);
+            /// <summary>Generates a reply keyboard markup with multiple rows of buttons</summary>
+            /// <param name="buttonRows">Rows of reply keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttonRows))]
+            public static implicit operator ReplyKeyboardMarkup?(IEnumerable<KeyboardButton>[]? buttonRows) => buttonRows is null ? default : new(buttonRows);
 
             /// <summary>Add a button to the last row</summary>
             /// <param name="button">The button or text to add</param>
@@ -330,27 +331,31 @@ namespace Telegram.Bot.Types
 
         public partial class InlineKeyboardMarkup
         {
-            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button</summary>
-            /// <param name="inlineKeyboardButton">Keyboard button</param>
+            /// <summary>Creates an <see cref="InlineKeyboardMarkup"/> with one button</summary>
+            /// <param name="inlineKeyboardButton">Inline keyboard button</param>
             [SetsRequiredMembers]
-            public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton) : this(new List<List<InlineKeyboardButton>> { new() { inlineKeyboardButton } }) { }
+            public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
+                => InlineKeyboard = new List<List<InlineKeyboardButton>> { new() { inlineKeyboardButton } };
+
+            /// <summary>Creates an <see cref="InlineKeyboardMarkup"/> with multiple buttons on one row</summary>
+            /// <param name="inlineKeyboardRow">Rows of inline keyboard buttons</param>
+            [SetsRequiredMembers]
+            public InlineKeyboardMarkup(params InlineKeyboardButton[] inlineKeyboardRow)
+                => InlineKeyboard = new List<List<InlineKeyboardButton>> { inlineKeyboardRow.ToList() };
+
+            /// <summary>Creates an <see cref="InlineKeyboardMarkup"/> with multiple buttons on one row</summary>
+            /// <param name="inlineKeyboardRow">Rows of inline keyboard buttons</param>
+            [SetsRequiredMembers]
+            public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow)
+                => InlineKeyboard = new List<List<InlineKeyboardButton>> { inlineKeyboardRow.ToList() };
 
 #pragma warning disable MA0016 // Prefer using collection abstraction instead of implementation
-            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard</summary>
-            /// <param name="inlineKeyboardRow">The inline keyboard row</param>
+            /// <summary>Creates an <see cref="InlineKeyboardMarkup"/> with multiple buttons on one row</summary>
+            /// <param name="inlineKeyboardRow">Rows of inline keyboard buttons</param>
             [SetsRequiredMembers]
-            public InlineKeyboardMarkup(List<InlineKeyboardButton> inlineKeyboardRow) : this(new List<List<InlineKeyboardButton>> { inlineKeyboardRow }) { }
+            public InlineKeyboardMarkup(List<InlineKeyboardButton> inlineKeyboardRow)
+                => InlineKeyboard = new List<List<InlineKeyboardButton>> { inlineKeyboardRow };
 #pragma warning restore MA0016 // Prefer using collection abstraction instead of implementation
-
-            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard</summary>
-            /// <param name="inlineKeyboardRow">The inline keyboard row</param>
-            [SetsRequiredMembers]
-            public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow) : this(new List<List<InlineKeyboardButton>> { inlineKeyboardRow.ToList() }) { }
-
-            /// <summary>Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard</summary>
-            /// <param name="inlineKeyboardRow">The inline keyboard row</param>
-            [SetsRequiredMembers]
-            public InlineKeyboardMarkup(params InlineKeyboardButton[] inlineKeyboardRow) : this(new List<List<InlineKeyboardButton>> { inlineKeyboardRow.ToList() }) { }
 
             /// <summary>Generate an empty inline keyboard markup</summary>
             /// <returns>Empty inline keyboard markup</returns>
@@ -362,29 +367,29 @@ namespace Telegram.Bot.Types
             public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton? button) => button is null ? default : new(button);
 
             /// <summary>Generate an inline keyboard markup with one button</summary>
-            /// <param name="buttonText">Text of the button</param>
+            /// <param name="buttonText">Text serving as the label of the button, as well as the URL to be opened or the callback data to be sent</param>
             [return: NotNullIfNotNull(nameof(buttonText))]
             public static implicit operator InlineKeyboardMarkup?(string? buttonText) => buttonText is null ? default : new(buttonText);
 
-            /// <summary>Generate an inline keyboard markup from multiple buttons on 1 row</summary>
-            /// <param name="buttons">Keyboard buttons</param>
+            /// <summary>Generate an inline keyboard markup with multiple buttons on one row</summary>
+            /// <param name="buttons">Inline keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(buttons))]
             public static implicit operator InlineKeyboardMarkup?(InlineKeyboardButton[]? buttons) => buttons is null ? default : new(buttons);
 
-            /// <summary>Generate an inline keyboard markup from multiple buttons on 1 row</summary>
-            /// <param name="buttons">Keyboard buttons</param>
+            /// <summary>Generate an inline keyboard markup with multiple buttons on one row</summary>
+            /// <param name="buttons">Inline keyboard buttons</param>
             [return: NotNullIfNotNull(nameof(buttons))]
             public static implicit operator InlineKeyboardMarkup?(List<InlineKeyboardButton>? buttons) => buttons is null ? default : new(buttons);
 
-            /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
-            /// <param name="buttons">Keyboard buttons</param>
-            [return: NotNullIfNotNull(nameof(buttons))]
-            public static implicit operator InlineKeyboardMarkup?(List<List<InlineKeyboardButton>>? buttons) => buttons is null ? default : new(buttons);
+            /// <summary>Generate an inline keyboard markup with multiple rows of buttons</summary>
+            /// <param name="buttonRows">Rows of inline keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttonRows))]
+            public static implicit operator InlineKeyboardMarkup?(List<List<InlineKeyboardButton>>? buttonRows) => buttonRows is null ? default : new(buttonRows);
 
-            /// <summary>Generate an inline keyboard markup from multiple buttons</summary>
-            /// <param name="buttons">Keyboard buttons</param>
-            [return: NotNullIfNotNull(nameof(buttons))]
-            public static implicit operator InlineKeyboardMarkup?(IEnumerable<InlineKeyboardButton>[]? buttons) => buttons is null ? default : new(buttons);
+            /// <summary>Generate an inline keyboard markup with multiple rows of buttons</summary>
+            /// <param name="buttonRows">Rows of inline keyboard buttons</param>
+            [return: NotNullIfNotNull(nameof(buttonRows))]
+            public static implicit operator InlineKeyboardMarkup?(IEnumerable<InlineKeyboardButton>[]? buttonRows) => buttonRows is null ? default : new(buttonRows);
 
             /// <summary>Add a button to the last row</summary>
             /// <param name="button">The button to add</param>
