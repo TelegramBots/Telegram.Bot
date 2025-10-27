@@ -20,13 +20,13 @@
     <Description>This library gives you easy access to Telegram Bot API so you can start building useful bots for Telegram.
 
 Release Notes:
-$(ReleaseNotes.Replace("|", "%0D%0A").Replace(" - ","%0D%0A- ").Replace("  ", "%0D%0A%0D%0A"))</Description>
+$(ReleaseNotes)</Description>
     <PackageId>Telegram.Bot</PackageId>
     <Authors>Wizou,tuscen,Poulad,RoundRobin</Authors>
     <Copyright>Copyright © TelegramBots 2016-2025</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>$(ReleaseNotes.Replace("|", "%0D%0A").Replace(" - ","%0D%0A- ").Replace("  ", "%0D%0A%0D%0A"))</PackageReleaseNotes>
+    <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.git</RepositoryUrl>

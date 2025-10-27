@@ -47,6 +47,9 @@ jobs:
     #   run: dotnet restore
     - name: Build
       run: |
+        RELEASE_NOTES=${RELEASE_NOTES//|/%0A}
+        RELEASE_NOTES=${RELEASE_NOTES// - /%0A- }
+        RELEASE_NOTES=${RELEASE_NOTES//  /%0A%0A}
         RELEASE_NOTES=${RELEASE_NOTES//$'\n'/%0A}
         RELEASE_NOTES=${RELEASE_NOTES//\"/%22}
         RELEASE_NOTES=${RELEASE_NOTES//,/%2C}
