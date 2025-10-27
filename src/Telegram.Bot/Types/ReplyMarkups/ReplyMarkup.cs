@@ -116,4 +116,4 @@ public abstract class ReplyMarkup
     [return: NotNullIfNotNull(nameof(buttonRows))]
     public static implicit operator ReplyMarkup((string text, string callbackDataOrUrl)[][] buttonRows)
         => new InlineKeyboardMarkup(buttonRows.Select(buttons => buttons.Select(tuple => (InlineKeyboardButton)tuple)));
-}
+} 

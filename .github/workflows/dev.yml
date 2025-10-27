@@ -39,11 +39,15 @@ jobs:
     #   run: dotnet restore
     - name: Build
       run: |
-        dotnet build $PROJECT_PATH --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=${RELEASE_NOTES//\"/%22}" --output packages
+        RELEASE_NOTES=${RELEASE_NOTES//$'\n'/%0A}
+        RELEASE_NOTES=${RELEASE_NOTES//\"/%22}
+        RELEASE_NOTES=${RELEASE_NOTES//,/%2C}
+        RELEASE_NOTES=${RELEASE_NOTES//;/%3B}
+        dotnet build $PROJECT_PATH --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES" --output packages
     - name: Test
       run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
     # - name: Pack
-    #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION "-p:ReleaseNotes=\"$RELEASE_NOTES\"" --output packages
+    #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES" --output packages
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4
     #   with:
