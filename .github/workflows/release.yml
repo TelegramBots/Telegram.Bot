@@ -15,6 +15,7 @@ env:
   PROJECT_PATH: src/Telegram.Bot/Telegram.Bot.csproj
   UNITTEST_PATH: test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
   CONFIGURATION: Release
+  PACKAGES_PATH: src/Telegram.Bot/bin/Release
   RELEASE_NOTES: ${{ inputs.release_notes }}
   VERSION: ${{ inputs.version }}
 
@@ -22,7 +23,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write               # For git tag
+      contents: write  # For git tag
+      id-token: write  # enable GitHub OIDC token issuance for this job
     steps:
     - uses: actions/checkout@v4
       with:
@@ -39,6 +41,7 @@ jobs:
         if [[ "$RELEASE_VERSION" > "$NEXT_VERSION" ]] then VERSION=$RELEASE_VERSION; else VERSION=$NEXT_VERSION; fi
         echo Last tag: $LAST_TAG · Next version: $NEXT_VERSION · Release version: $RELEASE_VERSION · Build version: $VERSION
         echo "VERSION=$VERSION" >> $GITHUB_ENV
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -54,18 +57,26 @@ jobs:
         RELEASE_NOTES=${RELEASE_NOTES//\"/%22}
         RELEASE_NOTES=${RELEASE_NOTES//,/%2C}
         RELEASE_NOTES=${RELEASE_NOTES//;/%3B}
-        dotnet build $PROJECT_PATH --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES" --output packages
+        dotnet build $PROJECT_PATH --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES"
     - name: Test
       run: dotnet test $UNITTEST_PATH --verbosity normal --configuration $CONFIGURATION
     # - name: Pack
-    #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES" --output packages
+    #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES"
     # - name: Upload artifact
     #   uses: actions/upload-artifact@v4
     #   with:
     #     name: packages
-    #     path: packages/*.nupkg
+    #     path: $PACKAGES_PATH/*.nupkg
+
+    - name: NuGet login (OIDC → temp API key)
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ secrets.NUGET_USER }}
     - name: Nuget push
-      run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push $PACKAGES_PATH/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+    # run: dotnet nuget push $PACKAGES_PATH/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+
     - name: Git tag
       run: |
         git tag v$VERSION

@@ -51,3 +51,6 @@ dotnet_diagnostic.IDE0008.severity = silent
 dotnet_diagnostic.IDE0055.severity = silent
 dotnet_diagnostic.IDE0045.severity = silent
 dotnet_diagnostic.MA0071.severity = silent
+
+# Ignore missing trailing comma on catch-all arms in switch expressions
+MA0007.IgnoreCatchAllArm = true
