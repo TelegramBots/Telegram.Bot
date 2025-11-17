@@ -210,7 +210,7 @@ public static class HtmlText
     /// <returns>The HTML-safe text (may return null if input is null)</returns>
     [return: NotNullIfNotNull(nameof(text))]
     public static string? Escape(string? text)
-        => text?.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+        => text?.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;");
 
     /// <summary>Calculate the length of the plain text (excluding the &lt;tags&gt;) from the HTML text</summary>
     /// <param name="html">HTML text</param>
@@ -339,11 +339,11 @@ public static class HtmlText
         InputMedia? im = null;
         while (true)
         {
-            int iImg = span.IndexOf("<img src=\"", StringComparison.OrdinalIgnoreCase);
-            int iVid = span.IndexOf("<video src=\"", StringComparison.OrdinalIgnoreCase);
-            int iFile = span.IndexOf("<file src=\"", StringComparison.OrdinalIgnoreCase);
+            int iImg = span.IndexOf("<img ", StringComparison.OrdinalIgnoreCase);
+            int iVid = span.IndexOf("<video ", StringComparison.OrdinalIgnoreCase);
+            int iFile = span.IndexOf("<file ", StringComparison.OrdinalIgnoreCase);
             int index = (uint)iImg < (uint)iVid ? (uint)iImg < (uint)iFile ? iImg : iFile : (uint)iVid < (uint)iFile ? iVid : iFile;
-            //static readonly SearchValues<string> SpecialHtmlTags = SearchValues.Create(["<img src=\"", "<video src=\"", "<file src=\""], StringComparison.OrdinalIgnoreCase);
+            //static readonly SearchValues<string> SpecialHtmlTags = SearchValues.Create(["<img ", "<video ", "<file "], StringComparison.OrdinalIgnoreCase);
             //var index = span.IndexOfAny(SpecialHtmlTags);
             if (index < 0)
             {
@@ -366,30 +366,27 @@ public static class HtmlText
                     captionAbove = true;
             if (index == iImg)
             {
-                var end = span[(index + 10)..].IndexOf('"');
-                if (end < 0) throw new FormatException("Invalid <img> tag");
-                var imp = new InputMediaPhoto(ParseInputFile(span.Slice(index + 10, end), streams));
-                span = span[(index + 11 + end)..];
+                span = span[5..];
+                CheckHtmlArg(ref span, "src=\"", out var src);
+                var imp = new InputMediaPhoto(ParseInputFile(src, streams));
                 if (captionAbove) imp.ShowCaptionAboveMedia = true;
-                if (span.StartsWith(" spoiler", StringComparison.OrdinalIgnoreCase)) imp.HasSpoiler = true;
+                if (CheckHtmlArg(ref span, " spoiler", out _)) imp.HasSpoiler = true;
                 im = imp;
             }
             else if (index == iVid)
             {
-                var end = span[(index + 12)..].IndexOf('"');
-                if (end < 0) throw new FormatException("Invalid <video> tag");
-                var imv = new InputMediaVideo(ParseInputFile(span.Slice(index + 12, end), streams)) { SupportsStreaming = true };
-                span = span[(index + 13 + end)..];
+                span = span[7..];
+                CheckHtmlArg(ref span, "src=\"", out var src);
+                var imv = new InputMediaVideo(ParseInputFile(src, streams)) { SupportsStreaming = true };
                 if (captionAbove) imv.ShowCaptionAboveMedia = true;
-                if (span.StartsWith(" spoiler", StringComparison.OrdinalIgnoreCase)) imv.HasSpoiler = true;
+                if (CheckHtmlArg(ref span, " spoiler", out _)) imv.HasSpoiler = true;
                 im = imv;
             }
             else
             {
-                var end = span[(index + 11)..].IndexOf('"');
-                if (end < 0) throw new FormatException("Invalid <file> tag");
-                im = new InputMediaDocument(ParseInputFile(span.Slice(index + 11, end), streams));
-                span = span[(index + 12 + end)..];
+                span = span[6..];
+                CheckHtmlArg(ref span, "src=\"", out var src);
+                im = new InputMediaDocument(ParseInputFile(src, streams));
             }
             if (caption.Length > 0)
             {
@@ -538,7 +535,7 @@ public static class HtmlText
         if (match[^1] != '"') { arg = ""; return true; }
         var end = kb.IndexOf('"');
         if (end < 0) throw new FormatException("Quote missing in <button> tag");
-        arg = kb[..end].ToString();
+        arg = kb[..end].ToString().Replace("&quot;", "\"").Replace("&gt;", ">").Replace("&lt;", "<").Replace("&amp;", "&");
         kb = kb[(end + 1)..];
         return true;
     }
