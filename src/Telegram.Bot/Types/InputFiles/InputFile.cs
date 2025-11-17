@@ -73,6 +73,9 @@ public class InputFileId : InputFile
     /// <summary>Implicit operator, same as <see cref="InputFileId(string)"/>, but returns null for a null string</summary>
     [return:NotNullIfNotNull(nameof(fileId))]
     public static implicit operator InputFileId?(string? fileId) => fileId is null ? null : new(fileId);
+
+    /// <summary>Returns the Id</summary>
+    public override string ToString() => Id;
 }
 
 /// <summary>This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser</summary>
@@ -100,6 +103,9 @@ public class InputFileStream : InputFile
 
     /// <summary>Implicit operator, same as <see cref="InputFileStream(Stream,string)"/> without given filename</summary>
     public static implicit operator InputFileStream(Stream stream) => new(stream);
+
+    /// <summary>Returns "stream://realfilename" for a FileStream content, or "stream://0" otherwise</summary>
+    public override string ToString() => Content is FileStream fs ? "stream://" + Path.GetFileName(fs.Name) : "stream://0";
 }
 
 /// <summary>This object represents an HTTP URL for the file to be sent</summary>
@@ -128,4 +134,7 @@ public class InputFileUrl : InputFile
 
     /// <summary>Implicit operator, same as <see cref="InputFileUrl(string)"/></summary>
     public static implicit operator InputFileUrl(string url) => new(url);
+
+    /// <summary>Returns the Url</summary>
+    public override string ToString() => Url.ToString();
 }
