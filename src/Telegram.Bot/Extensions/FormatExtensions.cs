@@ -424,8 +424,12 @@ public static class HtmlText
                 businessConnectionId: businessConnectionId).ConfigureAwait(false);
         }
         if (replyMarkup == null)
-            return (await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId).ConfigureAwait(false))[0];
+        {
+            var sentMsgs = await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
+                businessConnectionId: businessConnectionId).ConfigureAwait(false);
+            sentMsgs[0].MigrateToChatId = sentMsgs.Length;
+            return sentMsgs[0];
+        }
         if (media.Count > 1)
             throw new FormatException("Cannot use keyboard with media group");
         return media[0] switch
