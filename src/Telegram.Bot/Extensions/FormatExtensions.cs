@@ -184,6 +184,7 @@ public static class HtmlText
                 case '&': sb.Insert(i + 1, "amp;"); i += 4; break;
                 case '<': sb.Insert(i, "&lt"); sb[i += 3] = ';'; break;
                 case '>': sb.Insert(i, "&gt"); sb[i += 3] = ';'; break;
+                case '"': sb.Insert(i, "&quot"); sb[i += 5] = ';'; break;
             }
         }
         return sb.ToString();
