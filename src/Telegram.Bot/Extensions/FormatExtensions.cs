@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Telegram.Bot.Extensions;
 
-#pragma warning disable MA0001, MA0076, IDE0055
+#pragma warning disable MA0001, MA0007, MA0076, IDE0055
 
 /// <summary>Helpers/Extensions for MarkdownV2 texts</summary>
 public static class Markdown
@@ -323,7 +323,7 @@ public static class HtmlText
     /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
     /// <returns>The sent <see cref="Message"/> is returned. (the first one for media group)</returns>
     /// <exception cref="FormatException">Malformed HTML</exception>
-    public static async Task<Message> SendHtml(this ITelegramBotClient botClient, ChatId chatId, string html,
+    public static async Task<Message[]> SendHtml(this ITelegramBotClient botClient, ChatId chatId, string html,
         ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, IList<Stream>? streams = null)
     {
         var span = html.AsSpan().Trim();
@@ -365,6 +365,7 @@ public static class HtmlText
                 }
                 else
                     captionAbove = true;
+            span = span[index..];
             if (index == iImg)
             {
                 span = span[5..];
@@ -419,20 +420,16 @@ public static class HtmlText
                     if (CheckHtmlArg(ref preview, " above", out _)) linkPreviewOptions.ShowAboveText = true;
                 }
             }
-            return await botClient.SendMessage(chatId, Truncate(span.Trim().ToString(), 4095), ParseMode.Html, replyParameters,
+            return [await botClient.SendMessage(chatId, Truncate(span.Trim().ToString(), 4095), ParseMode.Html, replyParameters,
                 replyMarkup, linkPreviewOptions: linkPreviewOptions, messageThreadId: messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId).ConfigureAwait(false);
+                businessConnectionId: businessConnectionId).ConfigureAwait(false)];
         }
         if (replyMarkup == null)
-        {
-            var sentMsgs = await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
+            return await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
                 businessConnectionId: businessConnectionId).ConfigureAwait(false);
-            sentMsgs[0].MigrateToChatId = sentMsgs.Length;
-            return sentMsgs[0];
-        }
         if (media.Count > 1)
             throw new FormatException("Cannot use keyboard with media group");
-        return media[0] switch
+        return [media[0] switch
         {
             InputMediaPhoto p => await botClient.SendPhoto(chatId, p.Media, p.Caption, ParseMode.Html, replyParameters, replyMarkup,
                 messageThreadId: messageThreadId, showCaptionAboveMedia: p.ShowCaptionAboveMedia, hasSpoiler: p.HasSpoiler,
@@ -443,7 +440,7 @@ public static class HtmlText
             InputMediaDocument d => await botClient.SendDocument(chatId, d.Media, d.Caption, ParseMode.Html, replyParameters, replyMarkup,
                 messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
             _ => throw new FormatException("Unsupported media type")
-        };
+        }];
 
         static InputFile ParseInputFile(ReadOnlySpan<char> urlOrFileId, IList<Stream>? streams)
         {
@@ -545,6 +542,7 @@ public static class HtmlText
         return true;
     }
 #else //!NET6_0_OR_GREATER
+    #pragma warning disable MA0028
     private static StringBuilder Append(this StringBuilder sb, ReadOnlySpan<char> value) => sb.Append(value.ToString());
     private static StringBuilder Insert(this StringBuilder sb, int index, ReadOnlySpan<char> value) => sb.Insert(index, value.ToString());
 #endif
