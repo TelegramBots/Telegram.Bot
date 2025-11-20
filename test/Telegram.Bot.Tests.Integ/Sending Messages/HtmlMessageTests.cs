@@ -31,7 +31,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
                 </row>
                 </keyboard>
                 """);
-        Assert.Equal(1, msgs.Length);
+        Assert.Single(msgs);
         Assert.Equal(MessageType.Text, msgs[0].Type);
     }
 
@@ -43,7 +43,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
                 <img src="https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg">
                 <u>Giraffe</u>
                 """);
-        Assert.Equal(1, msgs.Length);
+        Assert.Single(msgs);
         Assert.Equal(MessageType.Photo, msgs[0].Type);
         classFixture.Entity = msgs[0];
     }
@@ -56,7 +56,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
                 <b><i>Giraffe</i></b>
                 <img src="{classFixture.Entity.Photo[^1].FileId}">
                 """);
-        Assert.Equal(1, msgs.Length);
+        Assert.Single(msgs);
         Assert.Equal(MessageType.Photo, msgs[0].Type);
     }
 
@@ -67,7 +67,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
         var msgs = await BotClient.SendHtml(Fixture.SupergroupChat.Id, """
                 <video src="https://cdn.pixabay.com/video/2017/07/19/10737-226624883_medium.mp4" spoiler>
                 """);
-        Assert.Equal(1, msgs.Length);
+        Assert.Single(msgs);
         Assert.Equal(MessageType.Video, msgs[0].Type);
         Assert.Null(msgs[0].Caption);
         Assert.True(msgs[0].HasMediaSpoiler);
@@ -169,7 +169,7 @@ public class HtmlMessageTests(TestsFixture fixture, EntityFixture<Message> class
                 Hello, world
                 <preview url="https://github.com/TelegramBots/book" small above>
                 """);
-        Assert.Equal(1, msgs.Length);
+        Assert.Single(msgs);
         Assert.Equal(MessageType.Text, msgs[0].Type);
         Asserts.JsonEquals(new LinkPreviewOptions() { Url = "https://github.com/TelegramBots/book", PreferSmallMedia = true, ShowAboveText = true }, msgs[0].LinkPreviewOptions);
     }

@@ -171,7 +171,7 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(SetInlineGameScoreRequest))]
 [JsonSerializable(typeof(GetGameHighScoresRequest))]
 [JsonSerializable(typeof(GetInlineGameHighScoresRequest))]
-[JsonSerializable(typeof(ApiResponse))]
+[JsonSerializable(typeof(Telegram.Bot.Exceptions.ApiResponse))]
 [JsonSerializable(typeof(ApiResponse<Update[]>))]
 [JsonSerializable(typeof(ApiResponse<bool>))]
 [JsonSerializable(typeof(ApiResponse<WebhookInfo>))]
