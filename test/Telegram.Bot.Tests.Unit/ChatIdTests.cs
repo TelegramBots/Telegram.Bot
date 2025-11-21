@@ -123,7 +123,13 @@ public class ChatIdTestData : IEnumerable<object[]>
         yield return [new ChatId(50), new ChatId(50), true];
         yield return [new ChatId(100), new ChatId(50), false];
         yield return [new ChatId("@user"), new ChatId("@user"), true];
+        yield return [new ChatId("@user"), new ChatId("@USER"), true];
+        yield return [new ChatId(50), new ChatId("@user"), false];
         yield return [new ChatId(50), new ChatId("@50"), false];
+        yield return [new ChatId(50), new ChatId("50"), true];
+        yield return [new ChatId(50), null!, false];
+        yield return [null!, new ChatId(50), false];
+        yield return [null!, null!, true];
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

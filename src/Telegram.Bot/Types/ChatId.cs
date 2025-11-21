@@ -68,12 +68,9 @@ public class ChatId : IEquatable<ChatId>
     /// <summary>Compares two ChatId objects</summary>
     public static bool operator ==(ChatId? obj1, ChatId? obj2)
     {
+        if (ReferenceEquals(obj1, obj2)) return true;
         if (obj1 is null || obj2 is null) return false;
-        if (obj1.Identifier is not null && obj2.Identifier is not null)
-            return obj1.Identifier == obj2.Identifier;
-        if (obj1.Username is not null && obj2.Username is not null)
-            return string.Equals(obj1.Username, obj2.Username, StringComparison.Ordinal);
-        return false;
+        return obj1.Identifier == obj2.Identifier && string.Equals(obj1.Username, obj2.Username, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>Compares two ChatId objects</summary>
