@@ -17,6 +17,7 @@ jobs:
   build:
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
+      packages: write  # For publishing to GitHub Packages
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -36,10 +37,10 @@ jobs:
         echo Last tag: $LAST_TAG · Next version: $NEXT_VERSION · Release version: $RELEASE_VERSION · Build version: $VERSION
         echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-    # - name: Setup .NET
-    #   uses: actions/setup-dotnet@v4
-    #   with:
-    #     dotnet-version: 9.0.x
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
     # - name: Restore dependencies
     #   run: dotnet restore
     - name: Build
@@ -67,6 +68,9 @@ jobs:
     - name: Nuget push
       run: dotnet nuget push $PACKAGES_PATH/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
     # run: dotnet nuget push $PACKAGES_PATH/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+
+    - name: GitHub Packages push
+      run: dotnet nuget push $PACKAGES_PATH/*.nupkg --api-key ${{secrets.GITHUB_TOKEN}} --skip-duplicate --source https://nuget.pkg.github.com/TelegramBots/index.json
 
     - name: Deployment Notification
       env:
