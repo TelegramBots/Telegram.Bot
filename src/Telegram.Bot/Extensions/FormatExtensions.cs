@@ -277,8 +277,11 @@ public static class HtmlText
         for (; count > 0 && index < len; index++)
         {
             var c = html[index];
-            if (c == '&')
-                index = html.IndexOf(';', index + 1);
+			if (c == '&' && index + 1 < len && html[index + 1] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or '#')
+			{
+				int end = html.IndexOf(';', index + 1);
+				if (end > 0 && end - index < 10) index = end;
+			}
             else if (c == '<')
             {
                 int end = html.IndexOf('>', index + 1);

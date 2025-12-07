@@ -65,7 +65,7 @@ public interface ITelegramBotClient
 
 public static partial class TelegramBotClientExtensions
 {
-    /// <summary>Use this method to get basic info about a file download it. For the moment, bots can download filesof up to 20MB in size.</summary>
+    /// <summary>Use this method to get basic info about a file and download it. For the moment, bots can download filesof up to 20MB in size.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="fileId">File identifier to get info about</param>
     /// <param name="destination">Destination stream to write file to</param>
