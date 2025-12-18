@@ -6,11 +6,17 @@ using JetBrains.Annotations;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Serialization;
+using System.Text.Json.Serialization.Metadata;
+
+
 #if NET6_0_OR_GREATER
 using System.Net.Http.Json;
+#else
+using System.Text.Json;
 #endif
 
-#pragma warning disable CA1001 // _receivingEvents isn't used with timer or WaitHandle, so needn't be disposed 
+#pragma warning disable CA1001 // _receivingEvents isn't used with timer or WaitHandle, so needn't be disposed
 
 namespace Telegram.Bot;
 
@@ -172,7 +178,7 @@ public class TelegramBotClient : ITelegramBotClient
         try
         {
 #if NET6_0_OR_GREATER
-            deserializedObject = await httpResponse.Content.ReadFromJsonAsync<T>(JsonBotAPI.Options, cancellationToken).ConfigureAwait(false);
+            deserializedObject = await httpResponse.Content.ReadFromJsonAsync((JsonTypeInfo<T>)JsonBotSerializerContext.Default.GetTypeInfo(typeof(T))!, cancellationToken).ConfigureAwait(false);
 #else
             using var contentStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
             deserializedObject = await JsonSerializer.DeserializeAsync<T>(contentStream, JsonBotAPI.Options,

@@ -1,4 +1,5 @@
 using System.Text;
+using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Requests;
 
@@ -13,7 +14,12 @@ public abstract class FileRequestBase<TResponse>(string methodName) : RequestBas
     public override HttpContent? ToHttpContent()
     {
         InputFileConverter.Attachments.Value = null;
-        var utf8Json = JsonSerializer.SerializeToUtf8Bytes(this, GetType(), JsonBotAPI.Options);
+        var utf8Json =
+#if NET6_0_OR_GREATER
+            JsonSerializer.SerializeToUtf8Bytes(this, GetType(), JsonBotSerializerContext.Default);
+#else
+            JsonSerializer.SerializeToUtf8Bytes(this, GetType(), JsonBotAPI.Options);
+#endif
         var attachments = InputFileConverter.Attachments.Value;
         if (attachments == null)
             return new ByteArrayContent(utf8Json) { Headers = { ContentType = new("application/json") { CharSet = "utf-8" } } };

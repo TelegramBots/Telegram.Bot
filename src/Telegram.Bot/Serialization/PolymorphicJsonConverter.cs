@@ -49,13 +49,25 @@ internal sealed class PolymorphicJsonConverter<T> : JsonConverter<T>
         if (!_discriminatorToSubtype.TryGetValue(typeName, out var type))
             throw new JsonException($"Unknown type: {typeName}");
 
-        return (T)JsonSerializer.Deserialize(ref reader, type, options)!;
+        return (T)
+#if NET6_0_OR_GREATER
+            JsonSerializer.Deserialize(ref reader, type, JsonBotSerializerContext.Default)!
+#else
+            JsonSerializer.Deserialize(ref reader, type, options)!
+#endif
+            ;
     }
 
     public override void Write(
         Utf8JsonWriter writer, T? value, JsonSerializerOptions options)
     {
         var type = value!.GetType();
-        JsonSerializer.Serialize(writer, value, type, options);
+        JsonSerializer.Serialize(writer, value, type,
+#if NET6_0_OR_GREATER
+            JsonBotSerializerContext.Default
+#else
+            options
+#endif
+        );
     }
 }

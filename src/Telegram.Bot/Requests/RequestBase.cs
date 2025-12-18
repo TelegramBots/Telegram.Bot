@@ -1,3 +1,5 @@
+using Telegram.Bot.Serialization;
+
 namespace Telegram.Bot.Requests;
 
 /// <summary>Represents an API request</summary>
@@ -25,7 +27,11 @@ public abstract class RequestBase<TResponse>(string methodName) : IRequest<TResp
     /// <returns>Content of HTTP request</returns>
     public virtual HttpContent? ToHttpContent() =>
 #if NET6_0_OR_GREATER
-        System.Net.Http.Json.JsonContent.Create(this, GetType(), options: JsonBotAPI.Options);
+        // Use source-generated metadata to stay AOT-safe and avoid reflection-based serialization.
+        new ByteArrayContent(JsonSerializer.SerializeToUtf8Bytes(this, GetType(), JsonBotSerializerContext.Default))
+        {
+            Headers = { ContentType = new("application/json") { CharSet = "utf-8" } }
+        };
 #else
         new StringContent(JsonSerializer.Serialize(this, GetType(), JsonBotAPI.Options), System.Text.Encoding.UTF8, "application/json");
 #endif
