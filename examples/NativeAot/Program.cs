@@ -26,7 +26,7 @@ Console.CancelKeyPress += (_, e) =>
 
 var receiverOptions = new ReceiverOptions
 {
-    AllowedUpdates = [UpdateType.Message],
+    AllowedUpdates = new[] { UpdateType.Message },
     DropPendingUpdates = true,
     Limit = 5,
 };
