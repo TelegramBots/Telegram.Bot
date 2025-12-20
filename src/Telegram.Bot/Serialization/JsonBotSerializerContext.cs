@@ -5,7 +5,8 @@ using Telegram.Bot.Requests;
 namespace Telegram.Bot;
 
 /// <summary>JsonSerializerContext for Bot API serialization with source generation</summary>
-[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.SnakeCaseLower, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault)][JsonSerializable(typeof(GetUpdatesRequest))]
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.SnakeCaseLower, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault)]
+[JsonSerializable(typeof(GetUpdatesRequest))]
 [JsonSerializable(typeof(SetWebhookRequest))]
 [JsonSerializable(typeof(DeleteWebhookRequest))]
 [JsonSerializable(typeof(GetWebhookInfoRequest))]

@@ -10,6 +10,7 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <PublishTrimmed>$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))</PublishTrimmed>
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+    <VerifyReferenceAotCompatibility Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</VerifyReferenceAotCompatibility>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">
