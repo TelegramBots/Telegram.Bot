@@ -1,5 +1,7 @@
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Extensions;
 
@@ -312,22 +314,7 @@ public static class HtmlText
     }
 
 #if NET6_0_OR_GREATER
-    /// <summary>
-    /// All-in-one helper method to send messages from HTML string with optional (multiple) media and keyboard attached.
-    /// <para>Media caption can be placed above or below their tag</para>
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-    /// <param name="html">The message in Html, with optional &lt;img&gt;, &lt;video&gt;, &lt;file&gt; tags for media, &lt;preview&gt; for text, and inline/reply &lt;keyboard&gt;</param>
-    /// <param name="replyParameters">Description of the message to reply to</param>
-    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
-    /// <param name="protectContent">Protects the contents of the sent messages from forwarding and saving</param>
-    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
-    /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
-    /// <returns>The sent <see cref="Message"/> is returned. (the first one for media group)</returns>
-    /// <exception cref="FormatException">Malformed HTML</exception>
-    public static async Task<Message[]> SendHtml(this ITelegramBotClient botClient, ChatId chatId, string html,
-        ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, IList<Stream>? streams = null)
+    static (ReplyMarkup?, List<IAlbumInputMedia>?, LinkPreviewOptions?) PrepareHtml(IList<Stream>? streams, ref string html)
     {
         var span = html.AsSpan().Trim();
         ReplyMarkup? replyMarkup = null;
@@ -335,7 +322,7 @@ public static class HtmlText
         {
             var index = span.LastIndexOf("<keyboard", StringComparison.OrdinalIgnoreCase);
             if (index < 0) throw new FormatException("Invalid <keyboard> tag");
-            replyMarkup = ParseHtmlKeyboard(span[(index + 9)..^11]);
+            replyMarkup = ParseHtmlKeyboard(span[(index + 9)..^11].Trim());
             span = span[..index].TrimEnd();
         }
         List<IAlbumInputMedia>? media = null;
@@ -368,14 +355,14 @@ public static class HtmlText
                 }
                 else
                     captionAbove = true;
-            span = span[index..];
+            span = span[index..].TrimStart();
             if (index == iImg)
             {
                 span = span[5..];
                 CheckHtmlArg(ref span, "src=\"", out var src);
                 var imp = new InputMediaPhoto(ParseInputFile(src, streams));
                 if (captionAbove) imp.ShowCaptionAboveMedia = true;
-                if (CheckHtmlArg(ref span, " spoiler", out _)) imp.HasSpoiler = true;
+                if (CheckHtmlArg(ref span, "spoiler", out _)) imp.HasSpoiler = true;
                 im = imp;
             }
             else if (index == iVid)
@@ -384,7 +371,7 @@ public static class HtmlText
                 CheckHtmlArg(ref span, "src=\"", out var src);
                 var imv = new InputMediaVideo(ParseInputFile(src, streams)) { SupportsStreaming = true };
                 if (captionAbove) imv.ShowCaptionAboveMedia = true;
-                if (CheckHtmlArg(ref span, " spoiler", out _)) imv.HasSpoiler = true;
+                if (CheckHtmlArg(ref span, "spoiler", out _)) imv.HasSpoiler = true;
                 im = imv;
             }
             else
@@ -411,39 +398,22 @@ public static class HtmlText
             if (index >= 0)
             {
                 linkPreviewOptions = new();
-                var preview = span[(index + 8)..];
+                var preview = span[(index + 8)..].TrimStart();
                 span = span[..index].TrimEnd();
-                if (preview.StartsWith(" disable", StringComparison.OrdinalIgnoreCase))
+                if (preview.StartsWith("disable", StringComparison.OrdinalIgnoreCase))
                     linkPreviewOptions.IsDisabled = true;
                 else
                 {
-                    if (CheckHtmlArg(ref preview, " url=\"", out var url)) linkPreviewOptions.Url = url;
-                    if (CheckHtmlArg(ref preview, " small", out _)) linkPreviewOptions.PreferSmallMedia = true;
-                    if (CheckHtmlArg(ref preview, " large", out _)) linkPreviewOptions.PreferLargeMedia = true;
-                    if (CheckHtmlArg(ref preview, " above", out _)) linkPreviewOptions.ShowAboveText = true;
+                    if (CheckHtmlArg(ref preview, "url=\"", out var url)) linkPreviewOptions.Url = url;
+                    if (CheckHtmlArg(ref preview, "small", out _)) linkPreviewOptions.PreferSmallMedia = true;
+                    if (CheckHtmlArg(ref preview, "large", out _)) linkPreviewOptions.PreferLargeMedia = true;
+                    if (CheckHtmlArg(ref preview, "above", out _)) linkPreviewOptions.ShowAboveText = true;
                 }
             }
-            return [await botClient.SendMessage(chatId, Truncate(span.Trim().ToString(), 4095), ParseMode.Html, replyParameters,
-                replyMarkup, linkPreviewOptions: linkPreviewOptions, messageThreadId: messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId).ConfigureAwait(false)];
+            html = Truncate(span.Trim().ToString(), 4095);
+            return (replyMarkup, null, linkPreviewOptions);
         }
-        if (replyMarkup == null)
-            return await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId).ConfigureAwait(false);
-        if (media.Count > 1)
-            throw new FormatException("Cannot use keyboard with media group");
-        return [media[0] switch
-        {
-            InputMediaPhoto p => await botClient.SendPhoto(chatId, p.Media, p.Caption, ParseMode.Html, replyParameters, replyMarkup,
-                messageThreadId: messageThreadId, showCaptionAboveMedia: p.ShowCaptionAboveMedia, hasSpoiler: p.HasSpoiler,
-                protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
-            InputMediaVideo v => await botClient.SendVideo(chatId, v.Media, v.Caption, ParseMode.Html, replyParameters, replyMarkup,
-                messageThreadId: messageThreadId, showCaptionAboveMedia: v.ShowCaptionAboveMedia, hasSpoiler: v.HasSpoiler, supportsStreaming: v.SupportsStreaming,
-                protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
-            InputMediaDocument d => await botClient.SendDocument(chatId, d.Media, d.Caption, ParseMode.Html, replyParameters, replyMarkup,
-                messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
-            _ => throw new FormatException("Unsupported media type")
-        }];
+        return (replyMarkup, media, null);
 
         static InputFile ParseInputFile(ReadOnlySpan<char> urlOrFileId, IList<Stream>? streams)
         {
@@ -466,13 +436,132 @@ public static class HtmlText
         }
     }
 
+    /// <summary>
+    /// All-in-one helper method to send messages from HTML string with optional (multiple) media and keyboard attached.
+    /// <para>Media caption can be placed above or below their tag</para>
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="html">The message in Html, with optional &lt;img&gt;, &lt;video&gt;, &lt;file&gt; tags for media, &lt;preview&gt; for text, and inline/reply &lt;keyboard&gt;</param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
+    /// <param name="protectContent">Protects the contents of the sent messages from forwarding and saving</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
+    /// <returns>Array of the sent <see cref="Message"/>s</returns>
+    /// <exception cref="FormatException">Malformed HTML</exception>
+    public static async Task<Message[]> SendHtml(this ITelegramBotClient botClient, ChatId chatId, string html,
+        ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, IList<Stream>? streams = null)
+    {
+        var (replyMarkup, media, linkPreviewOptions) = PrepareHtml(streams, ref html);
+        if (media == null)
+        {
+            return [await botClient.SendMessage(chatId, html, ParseMode.Html, replyParameters,
+                replyMarkup, linkPreviewOptions: linkPreviewOptions, messageThreadId: messageThreadId, protectContent: protectContent,
+                businessConnectionId: businessConnectionId).ConfigureAwait(false)];
+        }
+        if (replyMarkup == null)
+            return await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
+                businessConnectionId: businessConnectionId).ConfigureAwait(false);
+        if (media.Count > 1)
+            throw new FormatException("Cannot use keyboard with media group");
+        return [media[0] switch
+        {
+            InputMediaPhoto p => await botClient.SendPhoto(chatId, p.Media, p.Caption, ParseMode.Html, replyParameters, replyMarkup,
+                messageThreadId: messageThreadId, showCaptionAboveMedia: p.ShowCaptionAboveMedia, hasSpoiler: p.HasSpoiler,
+                protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
+            InputMediaVideo v => await botClient.SendVideo(chatId, v.Media, v.Caption, ParseMode.Html, replyParameters, replyMarkup,
+                messageThreadId: messageThreadId, showCaptionAboveMedia: v.ShowCaptionAboveMedia, hasSpoiler: v.HasSpoiler, supportsStreaming: v.SupportsStreaming,
+                protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
+            InputMediaDocument d => await botClient.SendDocument(chatId, d.Media, d.Caption, ParseMode.Html, replyParameters, replyMarkup,
+                messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
+            _ => throw new FormatException("Unsupported media type")
+        }];
+    }
+
+    /// <summary>
+    /// Helper method to edit a single message via an HTML string with optional (single) media and inline keyboard attached.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="messageId">Identifier of the message to edit</param>
+    /// <param name="html">The message in Html, with optional &lt;img&gt;, &lt;video&gt;, &lt;file&gt; tags for media, &lt;preview&gt; for text, and inline/reply &lt;keyboard&gt;</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="stream">Stream for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being 0 (zero), or the filename for <c>FileStream</c>s</param>
+    /// <returns>The modified <see cref="Message"/></returns>
+    /// <remarks>A media message cannot be converted to a text-only message. But the opposite is possible</remarks>
+    /// <exception cref="FormatException">Malformed or incompatible HTML</exception>
+    public static async Task<Message> EditHtml(this ITelegramBotClient botClient, ChatId chatId, int messageId, string html,
+        string? businessConnectionId = null, Stream? stream = null)
+        => (await EditHtml(botClient, chatId, [messageId], html, businessConnectionId, stream == null ? null : [stream]).ConfigureAwait(false))[0];
+
+    /// <summary>
+    /// Helper method to edit media group messages via an HTML string with optional (multiple) media.
+    /// <br/>Inline keyboard cannot be attached to media group.
+    /// <para>Number of media must match the number of <paramref name="messageIds"/></para>
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="messageIds">Identifiers of the messages to edit (used to edit a media group)</param>
+    /// <param name="html">The message in Html, with optional &lt;img&gt;, &lt;video&gt;, &lt;file&gt; tags for media, &lt;preview&gt; for text, and inline/reply &lt;keyboard&gt;</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
+    /// <returns>Array of the modified <see cref="Message"/>s</returns>
+    /// <remarks>Some (mix of) media types are unsupported by Telegram in a media group</remarks>
+    /// <exception cref="FormatException">Malformed or incompatible HTML</exception>
+    public static async Task<Message[]> EditHtml(this ITelegramBotClient botClient, ChatId chatId, IList<int> messageIds, string html,
+        string? businessConnectionId = null, IList<Stream>? streams = null)
+    {
+        var (rm, media, linkPreviewOptions) = PrepareHtml(streams, ref html);
+        var replyMarkup = rm as InlineKeyboardMarkup;
+        if (rm != null && replyMarkup == null) throw new FormatException("Only Inline Keyboard is allowed in EditHtml");
+        int msgCount = media?.Count ?? 1;
+        if (msgCount != messageIds.Count) throw new FormatException($"Media group size mismatch ({msgCount}/{messageIds.Count})");
+        if (media == null)
+        {
+            return [await botClient.EditMessageText(chatId, messageIds[0], html, ParseMode.Html,
+                replyMarkup, linkPreviewOptions: linkPreviewOptions, businessConnectionId: businessConnectionId).ConfigureAwait(false)];
+        }
+        var tasks = new Task<Message>[msgCount];
+        for (int i = 0; i < msgCount; i++)
+        {
+            tasks[i] = botClient.EditMessageMedia(chatId, messageIds[i], (InputMedia)media[i], replyMarkup, businessConnectionId);
+            replyMarkup = null;
+        }
+        return await Task.WhenAll(tasks).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Helper method to edit an inline message via an HTML string with optional (single) media and inline keyboard attached.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="inlineMessageId">Identifier of the inline message</param>
+    /// <param name="html">The message in Html, with optional &lt;img&gt;, &lt;video&gt;, &lt;file&gt; tags for media, &lt;preview&gt; for text, and inline/reply &lt;keyboard&gt;</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="stream">Stream for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being 0 (zero), or the filename for <c>FileStream</c>s</param>
+    /// <remarks>A media message cannot be converted to a text-only message. But the opposite is possible</remarks>
+    /// <exception cref="FormatException">Malformed or incompatible HTML</exception>
+    public static async Task EditHtmlInline(this ITelegramBotClient botClient, string inlineMessageId, string html,
+        string? businessConnectionId = null, Stream? stream = null)
+    {
+        var (rm, media, linkPreviewOptions) = PrepareHtml(stream == null ? null : [stream], ref html);
+        var replyMarkup = rm as InlineKeyboardMarkup;
+        if (rm != null && replyMarkup == null) throw new FormatException("Only Inline Keyboard is allowed in EditHtml");
+        if (media?.Count > 1) throw new FormatException("Inline message cannot be turned to a media group");
+        if (media == null)
+            await botClient.EditMessageText(inlineMessageId, html, ParseMode.Html,
+                        replyMarkup, linkPreviewOptions: linkPreviewOptions, businessConnectionId: businessConnectionId).ConfigureAwait(false);
+        else
+            await botClient.EditMessageMedia(inlineMessageId, (InputMedia)media[0], replyMarkup, businessConnectionId).ConfigureAwait(false);
+    }
+
     [Flags] enum SwitchInlineTarget { User, Bot, Group, Channel }
     private static ReplyMarkup ParseHtmlKeyboard(ReadOnlySpan<char> keyboard)
     {
-        var isReply = keyboard.StartsWith(" reply", StringComparison.OrdinalIgnoreCase);
+        var isReply = keyboard.StartsWith("reply", StringComparison.OrdinalIgnoreCase);
         if (isReply)
-            if (keyboard.StartsWith(" reply_remove", StringComparison.OrdinalIgnoreCase)) return new ReplyKeyboardRemove();
-            else if (CheckHtmlArg(ref keyboard, " reply_force=\"", out var placeholder)) return new ForceReplyMarkup { InputFieldPlaceholder = placeholder };
+            if (keyboard.StartsWith("reply_remove", StringComparison.OrdinalIgnoreCase)) return new ReplyKeyboardRemove();
+            else if (CheckHtmlArg(ref keyboard, "reply_force=\"", out var placeholder)) return new ForceReplyMarkup { InputFieldPlaceholder = placeholder };
         ReplyKeyboardMarkup? reply = isReply ? new(resizeKeyboard: true) : null;
         InlineKeyboardMarkup? inline = isReply ? null : new();
         keyboard = keyboard[(keyboard.IndexOf('>') + 1)..].Trim();
@@ -485,16 +574,16 @@ public static class HtmlText
             {
                 if (inline != null)
                 {
-                    if (CheckHtmlArg(ref keyboard, " url=\"", out var url))
+                    if (CheckHtmlArg(ref keyboard, "url=\"", out var url))
                         inline.AddButton(InlineKeyboardButton.WithUrl(text, url));
-                    else if (CheckHtmlArg(ref keyboard, " callback=\"", out var data))
+                    else if (CheckHtmlArg(ref keyboard, "callback=\"", out var data))
                         inline.AddButton(InlineKeyboardButton.WithCallbackData(text, data));
-                    else if (CheckHtmlArg(ref keyboard, " app=\"", out var app))
+                    else if (CheckHtmlArg(ref keyboard, "app=\"", out var app))
                         inline.AddButton(InlineKeyboardButton.WithWebApp(text, app));
-                    else if (CheckHtmlArg(ref keyboard, " copy=\"", out var copy))
+                    else if (CheckHtmlArg(ref keyboard, "copy=\"", out var copy))
                         inline.AddButton(InlineKeyboardButton.WithCopyText(text, copy));
-                    else if (CheckHtmlArg(ref keyboard, " switch_inline=\"", out var query))
-                        if (CheckHtmlArg(ref keyboard, " target=\"", out var target))
+                    else if (CheckHtmlArg(ref keyboard, "switch_inline=\"", out var query))
+                        if (CheckHtmlArg(ref keyboard, "target=\"", out var target))
                             if (Enum.TryParse<SwitchInlineTarget>(target, ignoreCase: true, out var targets))
                                 inline.AddButton(InlineKeyboardButton.WithSwitchInlineQueryChosenChat(text, new()
                                 {
@@ -513,16 +602,16 @@ public static class HtmlText
                 }
                 else if (reply != null)
                 {
-                    if (keyboard[0] == '>')
+                    if (keyboard[0] is '>' or '/')
                         reply.AddButton(text);
-                    else if (CheckHtmlArg(ref keyboard, " request_contact", out _))
+                    else if (CheckHtmlArg(ref keyboard, "request_contact", out _))
                         reply.AddButton(KeyboardButton.WithRequestContact(text));
-                    else if (CheckHtmlArg(ref keyboard, " request_location", out _))
+                    else if (CheckHtmlArg(ref keyboard, "request_location", out _))
                         reply.AddButton(KeyboardButton.WithRequestLocation(text));
-                    else if (CheckHtmlArg(ref keyboard, " request_poll=\"", out var pollType))
+                    else if (CheckHtmlArg(ref keyboard, "request_poll=\"", out var pollType))
                         reply.AddButton(KeyboardButton.WithRequestPoll(text, pollType is "" or "any" ? (PollType?)null : Enum.Parse<PollType>(pollType, ignoreCase: true)));
                     //TO-DO: support request_users and request_chat?
-                    else if (CheckHtmlArg(ref keyboard, " app=\"", out var app))
+                    else if (CheckHtmlArg(ref keyboard, "app=\"", out var app))
                         reply.AddButton(KeyboardButton.WithWebApp(text, app));
                     else
                         throw new FormatException("Unrecognized reply <button> type");
@@ -537,11 +626,11 @@ public static class HtmlText
     {
         if (!kb.StartsWith(match, StringComparison.OrdinalIgnoreCase)) { arg = null; return false; }
         kb = kb[match.Length..];
-        if (match[^1] != '"') { arg = ""; return true; }
+        if (match[^1] != '"') { kb = kb.TrimStart(); arg = ""; return true; }
         var end = kb.IndexOf('"');
         if (end < 0) throw new FormatException("Quote missing in <button> tag");
         arg = kb[..end].ToString().Replace("&quot;", "\"").Replace("&gt;", ">").Replace("&lt;", "<").Replace("&amp;", "&");
-        kb = kb[(end + 1)..];
+        kb = kb[(end + 1)..].TrimStart();
         return true;
     }
 #else //!NET6_0_OR_GREATER
