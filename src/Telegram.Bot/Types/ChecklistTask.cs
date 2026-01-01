@@ -16,9 +16,13 @@ public partial class ChecklistTask
     [JsonPropertyName("text_entities")]
     public MessageEntity[]? TextEntities { get; set; }
 
-    /// <summary><em>Optional</em>. User that completed the task; omitted if the task wasn't completed</summary>
+    /// <summary><em>Optional</em>. User that completed the task; omitted if the task wasn't completed by a user</summary>
     [JsonPropertyName("completed_by_user")]
     public User? CompletedByUser { get; set; }
+
+    /// <summary><em>Optional</em>. Chat that completed the task; omitted if the task wasn't completed by a chat</summary>
+    [JsonPropertyName("completed_by_chat")]
+    public Chat? CompletedByChat { get; set; }
 
     /// <summary><em>Optional</em>. Point in time when the task was completed; 0 if the task wasn't completed</summary>
     [JsonPropertyName("completion_date")]

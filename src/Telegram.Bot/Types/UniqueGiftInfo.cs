@@ -8,13 +8,17 @@ public partial class UniqueGiftInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public UniqueGift Gift { get; set; } = default!;
 
-    /// <summary>Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, or “resale” for gifts bought from other users</summary>
+    /// <summary>Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, “resale” for gifts bought from other users, “GiftedUpgrade” for upgrades purchased after the gift was sent, or “offer” for gifts bought or sold through gift purchase offers</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Origin { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. For gifts bought from other users, the price paid for the gift</summary>
-    [JsonPropertyName("last_resale_star_count")]
-    public long? LastResaleStarCount { get; set; }
+    /// <summary><em>Optional</em>. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.</summary>
+    [JsonPropertyName("last_resale_currency")]
+    public string? LastResaleCurrency { get; set; }
+
+    /// <summary><em>Optional</em>. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins</summary>
+    [JsonPropertyName("last_resale_amount")]
+    public int? LastResaleAmount { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts</summary>
     [JsonPropertyName("owned_gift_id")]

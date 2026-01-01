@@ -16,9 +16,13 @@ public partial class GiftInfo
     [JsonPropertyName("convert_star_count")]
     public long? ConvertStarCount { get; set; }
 
-    /// <summary><em>Optional</em>. Number of Telegram Stars that were prepaid by the sender for the ability to upgrade the gift</summary>
+    /// <summary><em>Optional</em>. Number of Telegram Stars that were prepaid for the ability to upgrade the gift</summary>
     [JsonPropertyName("prepaid_upgrade_star_count")]
     public long? PrepaidUpgradeStarCount { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the gift's upgrade was purchased after the gift was sent</summary>
+    [JsonPropertyName("is_upgrade_separate")]
+    public bool IsUpgradeSeparate { get; set; }
 
     /// <summary><em>Optional</em>. <see langword="true"/>, if the gift can be upgraded to a unique gift</summary>
     [JsonPropertyName("can_be_upgraded")]
@@ -33,4 +37,8 @@ public partial class GiftInfo
     /// <summary><em>Optional</em>. <see langword="true"/>, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them</summary>
     [JsonPropertyName("is_private")]
     public bool IsPrivate { get; set; }
+
+    /// <summary><em>Optional</em>. Unique number reserved for this gift when upgraded. See the <em>number</em> field in <see cref="UniqueGift"/></summary>
+    [JsonPropertyName("unique_gift_number")]
+    public int? UniqueGiftNumber { get; set; }
 }

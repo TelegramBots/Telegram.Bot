@@ -191,4 +191,15 @@ public partial class ChatFullInfo : Chat
 
     /// <summary><em>Optional</em>. For supergroups, the location to which the supergroup is connected</summary>
     public ChatLocation? Location { get; set; }
+
+    /// <summary><em>Optional</em>. For private chats, the rating of the user if any</summary>
+    public UserRating? Rating { get; set; }
+
+    /// <summary><em>Optional</em>. The color scheme based on a unique gift that must be used for the chat's name, message replies and link previews</summary>
+    [JsonPropertyName("unique_gift_colors")]
+    public UniqueGiftColors? UniqueGiftColors { get; set; }
+
+    /// <summary><em>Optional</em>. The number of Telegram Stars a general user have to pay to send a message to the chat</summary>
+    [JsonPropertyName("paid_message_star_count")]
+    public long? PaidMessageStarCount { get; set; }
 }

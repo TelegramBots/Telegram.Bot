@@ -9,7 +9,7 @@ public partial class Message
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Id { get; set; }
 
-    /// <summary><em>Optional</em>. Unique identifier of a message thread to which the message belongs; for supergroups only</summary>
+    /// <summary><em>Optional</em>. Unique identifier of a message thread or forum topic to which the message belongs; for supergroups and private chats only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
@@ -49,7 +49,7 @@ public partial class Message
     [JsonPropertyName("forward_origin")]
     public MessageOrigin? ForwardOrigin { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the message is sent to a forum topic</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the message is sent to a topic in a forum supergroup or a private chat with the bot</summary>
     [JsonPropertyName("is_topic_message")]
     public bool IsTopicMessage { get; set; }
 
@@ -269,6 +269,10 @@ public partial class Message
     [JsonPropertyName("unique_gift")]
     public UniqueGiftInfo? UniqueGift { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: upgrade of a gift was purchased after the gift was sent</summary>
+    [JsonPropertyName("gift_upgrade_sent")]
+    public GiftInfo? GiftUpgradeSent { get; set; }
+
     /// <summary><em>Optional</em>. The domain name of the website on which the user has logged in. <a href="https://core.telegram.org/widgets/login">More about Telegram Login »</a></summary>
     [JsonPropertyName("connected_website")]
     public string? ConnectedWebsite { get; set; }
@@ -434,6 +438,7 @@ public partial class Message
         { ChatShared: not null }                        => MessageType.ChatShared,
         { Gift: not null }                              => MessageType.Gift,
         { UniqueGift: not null }                        => MessageType.UniqueGift,
+        { GiftUpgradeSent: not null }                   => MessageType.GiftUpgradeSent,
         { ConnectedWebsite: not null }                  => MessageType.ConnectedWebsite,
         { WriteAccessAllowed: not null }                => MessageType.WriteAccessAllowed,
         { PassportData: not null }                      => MessageType.PassportData,

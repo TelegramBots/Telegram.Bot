@@ -19,4 +19,8 @@ public partial class AcceptedGiftTypes
     /// <summary><see langword="true"/>, if a Telegram Premium subscription is accepted</summary>
     [JsonPropertyName("premium_subscription")]
     public bool PremiumSubscription { get; set; }
+
+    /// <summary><see langword="true"/>, if transfers of unique gifts from channels are accepted</summary>
+    [JsonPropertyName("gifts_from_channels")]
+    public bool GiftsFromChannels { get; set; }
 }

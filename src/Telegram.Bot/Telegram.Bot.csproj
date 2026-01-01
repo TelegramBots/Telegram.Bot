@@ -23,7 +23,7 @@ Release Notes:
 $(ReleaseNotes)</Description>
     <PackageId>Telegram.Bot</PackageId>
     <Authors>Wizou,tuscen,Poulad,RoundRobin</Authors>
-    <Copyright>Copyright © TelegramBots 2016-2025</Copyright>
+    <Copyright>Copyright © TelegramBots 2016-2026</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>

@@ -59,13 +59,21 @@ public partial class OwnedGiftRegular : OwnedGift
     [JsonPropertyName("was_refunded")]
     public bool WasRefunded { get; set; }
 
-    /// <summary><em>Optional</em>. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars</summary>
+    /// <summary><em>Optional</em>. Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the gift cannot be converted to Telegram Stars; for gifts received on behalf of business accounts only</summary>
     [JsonPropertyName("convert_star_count")]
     public long? ConvertStarCount { get; set; }
 
-    /// <summary><em>Optional</em>. Number of Telegram Stars that were paid by the sender for the ability to upgrade the gift</summary>
+    /// <summary><em>Optional</em>. Number of Telegram Stars that were paid for the ability to upgrade the gift</summary>
     [JsonPropertyName("prepaid_upgrade_star_count")]
     public long? PrepaidUpgradeStarCount { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of business accounts only</summary>
+    [JsonPropertyName("is_upgrade_separate")]
+    public bool IsUpgradeSeparate { get; set; }
+
+    /// <summary><em>Optional</em>. Unique number reserved for this gift when upgraded. See the <em>number</em> field in <see cref="UniqueGift"/></summary>
+    [JsonPropertyName("unique_gift_number")]
+    public int? UniqueGiftNumber { get; set; }
 }
 
 /// <summary>Describes a unique gift received and owned by a user or a chat.</summary>

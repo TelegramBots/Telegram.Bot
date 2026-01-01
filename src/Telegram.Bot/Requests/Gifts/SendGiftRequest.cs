@@ -5,7 +5,7 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendGiftRequest() : RequestBase<bool>("sendGift")
 {
-    /// <summary>Identifier of the gift</summary>
+    /// <summary>Identifier of the gift; limited gifts can't be sent to channel chats</summary>
     [JsonPropertyName("gift_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GiftId { get; set; }

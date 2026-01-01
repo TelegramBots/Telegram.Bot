@@ -51,7 +51,7 @@ public partial class PromoteChatMemberRequest() : RequestBase<bool>("promoteChat
     [JsonPropertyName("can_manage_video_chats")]
     public bool CanManageVideoChats { get; set; }
 
-    /// <summary>Pass <see langword="true"/> if the administrator can restrict, ban or unban chat members, or access supergroup statistics</summary>
+    /// <summary>Pass <see langword="true"/> if the administrator can restrict, ban or unban chat members, or access supergroup statistics. For backward compatibility, defaults to <see langword="true"/> for promotions of channel administrators</summary>
     [JsonPropertyName("can_restrict_members")]
     public bool CanRestrictMembers { get; set; }
 

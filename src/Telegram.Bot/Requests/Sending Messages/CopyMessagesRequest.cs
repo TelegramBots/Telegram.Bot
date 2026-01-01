@@ -20,7 +20,7 @@ public partial class CopyMessagesRequest() : RequestBase<MessageId[]>("copyMessa
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<int> MessageIds { get; set; }
 
-    /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
+    /// <summary>Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 

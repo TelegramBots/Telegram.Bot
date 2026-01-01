@@ -55,4 +55,8 @@ public partial class User
     /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has a main Web App. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     [JsonPropertyName("has_main_web_app")]
     public bool HasMainWebApp { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has forum topic mode enabled in private chats. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    [JsonPropertyName("has_topics_enabled")]
+    public bool HasTopicsEnabled { get; set; }
 }

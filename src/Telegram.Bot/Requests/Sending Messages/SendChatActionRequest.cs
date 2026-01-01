@@ -19,7 +19,7 @@ public partial class SendChatActionRequest() : RequestBase<bool>("sendChatAction
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Unique identifier for the target message thread; for supergroups only</summary>
+    /// <summary>Unique identifier for the target message thread or topic of a forum; for supergroups and private chats of bots with forum topic mode enabled only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 }

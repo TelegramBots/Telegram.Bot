@@ -21,4 +21,8 @@ public partial class ForumTopic
     /// <summary><em>Optional</em>. Unique identifier of the custom emoji shown as the topic icon</summary>
     [JsonPropertyName("icon_custom_emoji_id")]
     public string? IconCustomEmojiId { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the name of the topic wasn't specified explicitly by its creator and likely needs to be changed by the bot</summary>
+    [JsonPropertyName("is_name_implicit")]
+    public bool IsNameImplicit { get; set; }
 }

@@ -141,4 +141,6 @@ public enum MessageType
     SuggestedPostPaid,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.SuggestedPostRefunded"/></summary>
     SuggestedPostRefunded,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.GiftUpgradeSent"/></summary>
+    GiftUpgradeSent,
 }

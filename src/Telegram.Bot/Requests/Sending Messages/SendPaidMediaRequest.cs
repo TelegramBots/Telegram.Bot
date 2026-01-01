@@ -10,7 +10,7 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>The number of Telegram Stars that must be paid to buy access to the media; 1-10000</summary>
+    /// <summary>The number of Telegram Stars that must be paid to buy access to the media; 1-25000</summary>
     [JsonPropertyName("star_count")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long StarCount { get; set; }
@@ -23,7 +23,7 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
 
-    /// <summary>Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</summary>
+    /// <summary>Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
 
