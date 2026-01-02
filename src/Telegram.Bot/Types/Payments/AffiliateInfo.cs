@@ -23,5 +23,5 @@ public partial class AffiliateInfo
 
     /// <summary><em>Optional</em>. The number of 1/1000000000 shares of Telegram Stars received by the affiliate; from -999999999 to 999999999; can be negative for refunds</summary>
     [JsonPropertyName("nanostar_amount")]
-    public int? NanostarAmount { get; set; }
+    public long? NanostarAmount { get; set; }
 }

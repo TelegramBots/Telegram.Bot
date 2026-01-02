@@ -24,5 +24,5 @@ public partial class Invoice
     /// <summary>Total price in the <em>smallest units</em> of the currency (integer, <b>not</b> float/double). For example, for a price of <c>US$ 1.45</c> pass <c>amount = 145</c>. See the <em>exp</em> parameter in <a href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</a>, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).</summary>
     [JsonPropertyName("total_amount")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int TotalAmount { get; set; }
+    public long TotalAmount { get; set; }
 }

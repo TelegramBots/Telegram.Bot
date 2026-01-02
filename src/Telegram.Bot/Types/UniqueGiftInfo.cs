@@ -18,7 +18,7 @@ public partial class UniqueGiftInfo
 
     /// <summary><em>Optional</em>. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins</summary>
     [JsonPropertyName("last_resale_amount")]
-    public int? LastResaleAmount { get; set; }
+    public long? LastResaleAmount { get; set; }
 
     /// <summary><em>Optional</em>. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts</summary>
     [JsonPropertyName("owned_gift_id")]
