@@ -10,14 +10,14 @@ public partial class UserRating
 
     /// <summary>Numerical value of the user's rating; the higher the rating, the better</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int Rating { get; set; }
+    public long Rating { get; set; }
 
     /// <summary>The rating value required to get the current level</summary>
     [JsonPropertyName("current_level_rating")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int CurrentLevelRating { get; set; }
+    public long CurrentLevelRating { get; set; }
 
     /// <summary><em>Optional</em>. The rating value required to get to the next level; omitted if the maximum level was reached</summary>
     [JsonPropertyName("next_level_rating")]
-    public int? NextLevelRating { get; set; }
+    public long? NextLevelRating { get; set; }
 }
