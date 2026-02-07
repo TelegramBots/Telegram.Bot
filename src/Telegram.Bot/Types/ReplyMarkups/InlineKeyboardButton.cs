@@ -46,6 +46,11 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary><em>Optional</em>. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>. Substrings “⭐” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row and can only be used in invoice messages.</summary>
     public bool Pay { get; set; }
 
+    public KeyboardButtonStyle Style { get; set; }
+
+    [JsonPropertyName("icon_custom_emoji_id")]
+    public string? IconCustomEmojiId { get; set; }
+
     /// <summary>Initializes an instance of <see cref="InlineKeyboardButton"/></summary>
     /// <param name="text">Label text on the button</param>
     [SetsRequiredMembers]

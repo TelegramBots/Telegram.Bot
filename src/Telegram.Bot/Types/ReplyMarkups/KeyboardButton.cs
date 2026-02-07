@@ -1,6 +1,8 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.ReplyMarkups;
 
+[JsonConverter(typeof(EnumConverter<KeyboardButtonStyle>))]
+public enum KeyboardButtonStyle { None = 0, Primary = 1, Danger = 2, Success = 3 }
 /// <summary>This object represents one button of the reply keyboard. At most one of the optional fields must be used to specify type of the button. For simple text buttons, <em>String</em> can be used instead of this object to specify the button text.<br/><b>Note:</b> <see cref="RequestUsers">RequestUsers</see> and <see cref="RequestChat">RequestChat</see> options will only work in Telegram versions released after 3 February, 2023. Older clients will display <em>unsupported message</em>.</summary>
 public partial class KeyboardButton : IKeyboardButton
 {
@@ -31,6 +33,10 @@ public partial class KeyboardButton : IKeyboardButton
     /// <summary><em>Optional</em>. If specified, the described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</summary>
     [JsonPropertyName("web_app")]
     public WebAppInfo? WebApp { get; set; }
+
+    public KeyboardButtonStyle Style { get; set; }
+    [JsonPropertyName("icon_custom_emoji_id")]
+    public string? IconCustomEmojiId { get; set; }
 
     /// <summary>Initializes an instance of <see cref="KeyboardButton"/></summary>
     /// <param name="text">Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed</param>
