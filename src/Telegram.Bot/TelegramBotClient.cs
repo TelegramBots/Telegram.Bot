@@ -38,11 +38,6 @@ public class TelegramBotClient : ITelegramBotClient
         set => _httpClient.Timeout = value;
     }
 
-    #region For testing purposes
-    internal string BaseRequestUrl => _options.BaseRequestUrl;
-    internal string BaseFileUrl => _options.BaseFileUrl;
-    #endregion
-
 #pragma warning disable CS1591
     public delegate Task OnUpdateHandler(Update update);
     public delegate Task OnMessageHandler(Message message, UpdateType type);

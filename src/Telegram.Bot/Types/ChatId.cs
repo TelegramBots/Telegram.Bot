@@ -65,6 +65,10 @@ public class ChatId : IEquatable<ChatId>
     [return: NotNullIfNotNull(nameof(chatFullInfo))]
     public static implicit operator ChatId?(ChatFullInfo? chatFullInfo) => chatFullInfo is null ? null : new(chatFullInfo.Id);
 
+    /// <summary>Convert a <see cref="User"/> object to a <see cref="ChatId"/></summary>
+    [return: NotNullIfNotNull(nameof(user))]
+    public static implicit operator ChatId?(User? user) => user is null ? null : new(user.Id);
+
     /// <summary>Compares two ChatId objects</summary>
     public static bool operator ==(ChatId? obj1, ChatId? obj2)
     {
