@@ -38,6 +38,10 @@ public partial class UniqueGift
     [JsonPropertyName("is_premium")]
     public bool IsPremium { get; set; }
 
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the gift was used to craft another gift and isn't available anymore</summary>
+    [JsonPropertyName("is_burned")]
+    public bool IsBurned { get; set; }
+
     /// <summary><em>Optional</em>. <see langword="true"/>, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram</summary>
     [JsonPropertyName("is_from_blockchain")]
     public bool IsFromBlockchain { get; set; }

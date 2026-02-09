@@ -203,6 +203,14 @@ public partial class Message
     [JsonPropertyName("left_chat_member")]
     public User? LeftChatMember { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: chat owner has left</summary>
+    [JsonPropertyName("chat_owner_left")]
+    public ChatOwnerLeft? ChatOwnerLeft { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: chat owner has changed</summary>
+    [JsonPropertyName("chat_owner_changed")]
+    public ChatOwnerChanged? ChatOwnerChanged { get; set; }
+
     /// <summary><em>Optional</em>. A chat title was changed to this value</summary>
     [JsonPropertyName("new_chat_title")]
     public string? NewChatTitle { get; set; }
@@ -421,6 +429,8 @@ public partial class Message
         { Location: not null }                          => MessageType.Location,
         { NewChatMembers: not null }                    => MessageType.NewChatMembers,
         { LeftChatMember: not null }                    => MessageType.LeftChatMember,
+        { ChatOwnerLeft: not null }                     => MessageType.ChatOwnerLeft,
+        { ChatOwnerChanged: not null }                  => MessageType.ChatOwnerChanged,
         { NewChatTitle: not null }                      => MessageType.NewChatTitle,
         { NewChatPhoto: not null }                      => MessageType.NewChatPhoto,
         { DeleteChatPhoto: not null }                   => MessageType.DeleteChatPhoto,

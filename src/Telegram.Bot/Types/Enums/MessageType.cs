@@ -143,4 +143,8 @@ public enum MessageType
     SuggestedPostRefunded,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.GiftUpgradeSent"/></summary>
     GiftUpgradeSent,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.ChatOwnerLeft"/></summary>
+    ChatOwnerLeft,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.ChatOwnerChanged"/></summary>
+    ChatOwnerChanged,
 }

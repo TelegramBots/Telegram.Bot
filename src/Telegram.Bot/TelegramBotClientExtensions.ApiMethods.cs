@@ -1364,6 +1364,26 @@ public static partial class TelegramBotClientExtensions
         Limit = limit,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to get a list of profile audios for a user.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="userId">Unique identifier of the target user</param>
+    /// <param name="offset">Sequential number of the first audio to be returned. By default, all audios are returned.</param>
+    /// <param name="limit">Limits the number of audios to be retrieved. Values between 1-100 are accepted. Defaults to 100.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>A <see cref="UserProfileAudios"/> object.</returns>
+    public static async Task<UserProfileAudios> GetUserProfileAudios(
+        this ITelegramBotClient botClient,
+        long userId,
+        int? offset = default,
+        int? limit = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new GetUserProfileAudiosRequest
+    {
+        UserId = userId,
+        Offset = offset,
+        Limit = limit,
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">requestEmojiStatusAccess</a>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Unique identifier of the target user</param>
@@ -1986,7 +2006,7 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.</summary>
+    /// <summary>Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator right.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
     /// <param name="name">Topic name, 1-128 characters</param>
@@ -2373,6 +2393,29 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().SendRequest(new GetMyShortDescriptionRequest
     {
         LanguageCode = languageCode,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Changes the profile photo of the bot.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="photo">The new profile photo to set</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SetMyProfilePhoto(
+        this ITelegramBotClient botClient,
+        InputProfilePhoto photo,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SetMyProfilePhotoRequest
+    {
+        Photo = photo,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Removes the profile photo of the bot.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task RemoveMyProfilePhoto(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new RemoveMyProfilePhotoRequest
+    {
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to change the bot's menu button in a private chat, or the default menu button.</summary>

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator rights.<para>Returns: Information about the created topic as a <see cref="ForumTopic"/> object.</para></summary>
+/// <summary>Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator right.<para>Returns: Information about the created topic as a <see cref="ForumTopic"/> object.</para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class CreateForumTopicRequest() : RequestBase<ForumTopic>("createForumTopic"), IChatTargetable
 {

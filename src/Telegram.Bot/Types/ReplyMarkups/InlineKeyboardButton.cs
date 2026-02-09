@@ -1,12 +1,19 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.ReplyMarkups;
 
-/// <summary>This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.</summary>
+/// <summary>This object represents one button of an inline keyboard. Exactly one of the fields other than <see cref="Text">Text</see>, <see cref="IconCustomEmojiId">IconCustomEmojiId</see>, and <see cref="Style">Style</see> must be used to specify the type of the button.</summary>
 public partial class InlineKeyboardButton : IKeyboardButton
 {
     /// <summary>Label text on the button</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
+
+    /// <summary><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</summary>
+    [JsonPropertyName("icon_custom_emoji_id")]
+    public string? IconCustomEmojiId { get; set; }
+
+    /// <summary><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</summary>
+    public KeyboardButtonStyle? Style { get; set; }
 
     /// <summary><em>Optional</em>. HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;UserId&gt;</c> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.</summary>
     public string? Url { get; set; }
@@ -46,11 +53,6 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary><em>Optional</em>. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>. Substrings “⭐” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row and can only be used in invoice messages.</summary>
     public bool Pay { get; set; }
 
-    public KeyboardButtonStyle Style { get; set; }
-
-    [JsonPropertyName("icon_custom_emoji_id")]
-    public string? IconCustomEmojiId { get; set; }
-
     /// <summary>Initializes an instance of <see cref="InlineKeyboardButton"/></summary>
     /// <param name="text">Label text on the button</param>
     [SetsRequiredMembers]
@@ -58,6 +60,18 @@ public partial class InlineKeyboardButton : IKeyboardButton
 
     /// <summary>Instantiates a new <see cref="InlineKeyboardButton"/></summary>
     public InlineKeyboardButton() { }
+
+    /// <summary>Creates an inline keyboard button with unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    public static InlineKeyboardButton WithIconCustomEmojiId(string text, string iconCustomEmojiId) =>
+        new(text) { IconCustomEmojiId = iconCustomEmojiId };
+
+    /// <summary>Creates an inline keyboard button with style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="style">Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static InlineKeyboardButton WithStyle(string text, KeyboardButtonStyle style) =>
+        new(text) { Style = style };
 
     /// <summary>Creates an inline keyboard button with HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;UserId&gt;</c> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.</summary>
     /// <param name="text">Label text on the button</param>

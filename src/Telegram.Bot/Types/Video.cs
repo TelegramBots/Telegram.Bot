@@ -26,6 +26,9 @@ public partial class Video : FileBase
     [JsonPropertyName("start_timestamp")]
     public int? StartTimestamp { get; set; }
 
+    /// <summary><em>Optional</em>. List of available qualities of the video</summary>
+    public VideoQuality[]? Qualities { get; set; }
+
     /// <summary><em>Optional</em>. Original filename as defined by the sender</summary>
     [JsonPropertyName("file_name")]
     public string? FileName { get; set; }
