@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -633,8 +634,58 @@ public static class HtmlText
         kb = kb[(end + 1)..].TrimStart();
         return true;
     }
+
+    /// <summary>Generate HTML text (for use with SendHtml method) from the Message Text or Caption</summary>
+    /// <param name="msg">The message</param>
+    /// <param name="withMedia">Include img/video/file tag for the message media (if any)</param>
+    /// <param name="withPreview">Include the link preview tag for the message (if any)</param>
+    /// <param name="withKeyboard">Include the tags for the inline keyboard markup (if any)</param>
+    public static string? ToHtml(this Message msg, bool withMedia, bool withPreview = true, bool withKeyboard = false)
+    {
+        var html = msg.ToHtml();
+        if (withMedia)
+        {
+            var media = msg switch
+            {
+                { Photo: { } photo } => $"<img src=\"{photo[^1].FileId}\"{(msg.HasMediaSpoiler ? " spoiler>" : ">")}",
+                { Video: { } video } => $"<video src=\"{video.FileId}\"{(msg.HasMediaSpoiler ? " spoiler>" : ">")}",
+                { Animation: { } animation } => $"<video src=\"{animation.FileId}\"{(msg.HasMediaSpoiler ? " spoiler>" : ">")}",
+                { Document: { } document } => $"<file src=\"{document.FileId}\">",
+                { Sticker: { } sticker } => $"<file src=\"{sticker.FileId}\">",
+                { Audio: { } audio } => $"<file src=\"{audio.FileId}\">",
+                { Voice: { } voice } => $"<file src=\"{voice.FileId}\">",
+                { VideoNote: { } videoNote } => $"<file src=\"{videoNote.FileId}\">",
+                _ => null
+            };
+            if (media != null) html = html == null ? media : msg.ShowCaptionAboveMedia ? $"{html}\n{media}" : $"{media}\n{html}";
+        }
+        if (withPreview && msg.LinkPreviewOptions is { } lpo)
+            if (lpo.IsDisabled)
+                html = $"{html}\n<preview disable>";
+            else
+                html = $"{html}\n<preview url=\"{Escape(lpo.Url)}\"{(lpo.PreferSmallMedia ? " small" : lpo.PreferLargeMedia ? " large" : "")}{(lpo.ShowAboveText ? " above>" : ">")}";
+        if (withKeyboard && msg.ReplyMarkup is { } ikm)
+        {
+            var keyboard = string.Join("\n<row>", ikm.InlineKeyboard.Select(row => string.Concat(row.Select(btn =>
+                $"\n<button text=\"{Escape(btn.Text)}\"{btn switch
+                {
+                    { Url: { } } => $" url=\"{Escape(btn.Url)}\" />",
+                    { CallbackData: { } } => $" callback=\"{Escape(btn.CallbackData)}\" />",
+                    { WebApp: { } } => $" app=\"{Escape(btn.WebApp.Url)}\" />",
+                    { CopyText: { } } => $" copy=\"{Escape(btn.CopyText)}\" />",
+                    { SwitchInlineQuery: { } } => $" switch_inline=\"{Escape(btn.SwitchInlineQuery)}\" target=\"*\" />",
+                    { SwitchInlineQueryCurrentChat: { } } => $" switch_inline=\"{Escape(btn.SwitchInlineQueryCurrentChat)}\" />",
+                    { SwitchInlineQueryChosenChat: { } siqcc } => $" switch_inline=\"{Escape(siqcc.Query)}\" target=\"{string.Join(',', new[]
+                        { (siqcc.AllowUserChats, "user"), (siqcc.AllowBotChats, "bot"), (siqcc.AllowGroupChats, "group"), (siqcc.AllowChannelChats, "channel")
+                        }.Where(t => t.Item1).Select(t => t.Item2))}\" />",
+                    _ => "/>"
+                }}"))));
+            html = $"{html}\n<keyboard>{keyboard}\n</keyboard>";
+        }
+        return html;
+    }
 #else //!NET6_0_OR_GREATER
-    #pragma warning disable MA0028
+#pragma warning disable MA0028
     private static StringBuilder Append(this StringBuilder sb, ReadOnlySpan<char> value) => sb.Append(value.ToString());
     private static StringBuilder Insert(this StringBuilder sb, int index, ReadOnlySpan<char> value) => sb.Insert(index, value.ToString());
 #endif

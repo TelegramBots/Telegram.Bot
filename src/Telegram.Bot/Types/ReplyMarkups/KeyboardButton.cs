@@ -47,18 +47,6 @@ public partial class KeyboardButton : IKeyboardButton
     /// <summary>Instantiates a new <see cref="KeyboardButton"/></summary>
     public KeyboardButton() { }
 
-    /// <summary>Creates a keyboard button with unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</summary>
-    /// <param name="text">Button's text</param>
-    /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
-    public static KeyboardButton WithIconCustomEmojiId(string text, string iconCustomEmojiId) =>
-        new(text) { IconCustomEmojiId = iconCustomEmojiId };
-
-    /// <summary>Creates a keyboard button with style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</summary>
-    /// <param name="text">Button's text</param>
-    /// <param name="style">Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
-    public static KeyboardButton WithStyle(string text, KeyboardButtonStyle style) =>
-        new(text) { Style = style };
-
     /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestUsers">If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</param>

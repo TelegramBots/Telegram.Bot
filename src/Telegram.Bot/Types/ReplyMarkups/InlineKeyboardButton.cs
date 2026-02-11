@@ -61,18 +61,6 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary>Instantiates a new <see cref="InlineKeyboardButton"/></summary>
     public InlineKeyboardButton() { }
 
-    /// <summary>Creates an inline keyboard button with unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</summary>
-    /// <param name="text">Label text on the button</param>
-    /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
-    public static InlineKeyboardButton WithIconCustomEmojiId(string text, string iconCustomEmojiId) =>
-        new(text) { IconCustomEmojiId = iconCustomEmojiId };
-
-    /// <summary>Creates an inline keyboard button with style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</summary>
-    /// <param name="text">Label text on the button</param>
-    /// <param name="style">Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
-    public static InlineKeyboardButton WithStyle(string text, KeyboardButtonStyle style) =>
-        new(text) { Style = style };
-
     /// <summary>Creates an inline keyboard button with HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;UserId&gt;</c> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.</summary>
     /// <param name="text">Label text on the button</param>
     /// <param name="url">HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;UserId&gt;</c> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.</param>
