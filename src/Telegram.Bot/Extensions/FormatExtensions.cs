@@ -329,7 +329,7 @@ public static class HtmlText
         List<IAlbumInputMedia>? media = null;
         bool captionAbove = false;
         InputMedia? im = null;
-        while (true)
+        while (!span.IsEmpty)
         {
             int iImg = span.IndexOf("<img ", StringComparison.OrdinalIgnoreCase);
             int iVid = span.IndexOf("<video ", StringComparison.OrdinalIgnoreCase);
@@ -339,11 +339,14 @@ public static class HtmlText
             //var index = span.IndexOfAny(SpecialHtmlTags);
             if (index < 0)
             {
-                if (im is { Caption: null })
-                {
-                    im.Caption = Truncate(span.ToString(), 1024);
-                    im.ParseMode = ParseMode.Html;
-                }
+                if (im is not null)
+                    if (im.Caption == null)
+                    {
+                        im.Caption = Truncate(span.ToString(), 1024);
+                        im.ParseMode = ParseMode.Html;
+                    }
+                    else
+                        im.Caption = Truncate($"{im.Caption}\n\n{span}", 1024);
                 break;
             }
             var caption = span[..index].Trim();
@@ -637,7 +640,7 @@ public static class HtmlText
 
     /// <summary>Generate HTML text (for use with SendHtml method) from the Message Text or Caption</summary>
     /// <param name="msg">The message</param>
-    /// <param name="withMedia">Include img/video/file tag for the message media (if any)</param>
+    /// <param name="withMedia">Include img/video/file tag with file_id for the message media (if any)</param>
     /// <param name="withPreview">Include the link preview tag for the message (if any)</param>
     /// <param name="withKeyboard">Include the tags for the inline keyboard markup (if any)</param>
     public static string? ToHtml(this Message msg, bool withMedia, bool withPreview = true, bool withKeyboard = false)
