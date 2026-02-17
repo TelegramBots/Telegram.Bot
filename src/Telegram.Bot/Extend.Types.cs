@@ -57,12 +57,12 @@ namespace Telegram.Bot.Types
 
         /// <summary><see langword="true"/> if it's a service message, <see langword="false"/> if it's a content message</summary>
         [JsonIgnore]
-        public bool IsServiceMessage => this switch
+        public bool IsServiceMessage => this switch // see https://github.com/tdlib/td/blob/master/td/telegram/MessageContentType.cpp#L506
         {
             { Text: { } } or { Caption: { } } or { Photo: { } } or { Video: { } } or { Document: { } } or { Sticker: { } } or
             { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { Dice: { } } or { Checklist: { } } or
             { Game: { } } or { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or
-            { Venue: { } } or { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } } or { Gift: { } } or { UniqueGift: { } }
+            { Venue: { } } or { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } }
               => false,
             _ => true
         };
