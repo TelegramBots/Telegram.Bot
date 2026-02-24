@@ -219,6 +219,7 @@ namespace Telegram.Bot.Types
         public static BotCommandScopeChatMember ChatMember(ChatId chatId, long userId) => new() { ChatId = chatId, UserId = userId };
     }
 
+
     namespace Payments
     {
         public partial class LabeledPrice
