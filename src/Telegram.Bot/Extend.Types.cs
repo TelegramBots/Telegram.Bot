@@ -167,6 +167,10 @@ namespace Telegram.Bot.Types
         public static implicit operator ReactionType(long customEmojiId) => new ReactionTypeCustomEmoji { CustomEmojiId = customEmojiId.ToString(CultureInfo.InvariantCulture) };
     }
 
+    public partial class ReactionTypeEmoji { /**      <inheritdoc/>**/ public override string ToString() => Emoji; }
+    public partial class ReactionTypeCustomEmoji { /**<inheritdoc/>**/ public override string ToString() => CustomEmojiId; }
+    public partial class ReactionTypePaid { /**       <inheritdoc/>**/ public override string ToString() => "Paid"; }
+
     public partial class LinkPreviewOptions
     {
         /// <summary>To get the same behaviour as previous parameter <c>disableWebPagePreview:</c></summary>
