@@ -24,7 +24,7 @@ public partial class EditMessageChecklistRequest() : RequestBase<Message>("editM
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputChecklist Checklist { get; set; }
 
-    /// <summary>An object for the new inline keyboard for the message</summary>
+    /// <summary>An object for the new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a> for the message</summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 

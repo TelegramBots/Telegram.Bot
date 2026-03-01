@@ -42,4 +42,6 @@ public enum MessageEntityType
     Blockquote,
     /// <summary>Collapsed-by-default block quotation</summary>
     ExpandableBlockquote,
+    /// <summary>Formatted date and time</summary>
+    DateTime,
 }

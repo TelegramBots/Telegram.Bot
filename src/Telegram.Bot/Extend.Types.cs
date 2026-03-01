@@ -127,7 +127,8 @@ namespace Telegram.Bot.Types
         {
             CanSendMessages = CanSendAudios = CanSendDocuments = CanSendPhotos = defaultValue;
             CanSendVideos = CanSendVideoNotes = CanSendVoiceNotes = CanSendPolls = CanSendOtherMessages = defaultValue;
-            CanAddWebPagePreviews = CanChangeInfo = CanInviteUsers = CanPinMessages = CanManageTopics = defaultValue;
+            CanAddWebPagePreviews = CanChangeInfo = CanInviteUsers = CanPinMessages = CanEditTag = defaultValue;
+            CanManageTopics = defaultValue;
         }
     }
 
@@ -142,6 +143,7 @@ namespace Telegram.Bot.Types
             CanManageChat = CanDeleteMessages = CanManageVideoChats = CanRestrictMembers = CanPromoteMembers = defaultValue;
             CanChangeInfo = CanInviteUsers = CanPostStories = CanEditStories = CanDeleteStories = defaultValue;
             CanPostMessages = CanEditMessages = CanPinMessages = CanManageTopics = CanManageDirectMessages = defaultValue;
+            CanManageTags = defaultValue;
         }
     }
 

@@ -1198,7 +1198,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
     /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message</param>
     /// <param name="replyParameters">An object for description of the message to reply to</param>
-    /// <param name="replyMarkup">An object for an inline keyboard</param>
+    /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendChecklist(
@@ -1271,7 +1271,7 @@ public static partial class TelegramBotClientExtensions
         SuggestedPostParameters = suggestedPostParameters,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to stream a partial message to a user while the message is being generated; supported only for bots with forum topic mode enabled.</summary>
+    /// <summary>Use this method to stream a partial message to a user while the message is being generated.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target private chat</param>
     /// <param name="draftId">Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated</param>
@@ -1503,6 +1503,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canPinMessages">Pass <see langword="true"/> if the administrator can pin messages; for supergroups only</param>
     /// <param name="canManageTopics">Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</param>
     /// <param name="canManageDirectMessages">Pass <see langword="true"/> if the administrator can manage direct messages within the channel and decline suggested posts; for channels only</param>
+    /// <param name="canManageTags">Pass <see langword="true"/> if the administrator can edit the tags of regular members; for groups and supergroups only</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task PromoteChatMember(
         this ITelegramBotClient botClient,
@@ -1524,6 +1525,7 @@ public static partial class TelegramBotClientExtensions
         bool canPinMessages = default,
         bool canManageTopics = default,
         bool canManageDirectMessages = default,
+        bool canManageTags = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new PromoteChatMemberRequest
     {
@@ -1545,6 +1547,7 @@ public static partial class TelegramBotClientExtensions
         CanPinMessages = canPinMessages,
         CanManageTopics = canManageTopics,
         CanManageDirectMessages = canManageDirectMessages,
+        CanManageTags = canManageTags,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to set a custom title for an administrator in a supergroup promoted by the bot.</summary>
@@ -1564,6 +1567,25 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
         UserId = userId,
         CustomTitle = customTitle,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an administrator in the chat for this to work and must have the <em>CanManageTags</em> administrator right.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)</param>
+    /// <param name="userId">Unique identifier of the target user</param>
+    /// <param name="tag">New tag for the member; 0-16 characters, emoji are not allowed</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SetChatMemberTag(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        long userId,
+        string? tag = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SetChatMemberTagRequest
+    {
+        ChatId = chatId,
+        UserId = userId,
+        Tag = tag,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to ban a channel chat in a supergroup or a channel. Until the chat is <see cref="TelegramBotClientExtensions.UnbanChatSenderChat">unbanned</see>, the owner of the banned chat won't be able to send messages on behalf of <b>any of their channels</b>. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.</summary>
@@ -3385,7 +3407,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="messageId">Unique identifier for the target message</param>
     /// <param name="checklist">An object for the new checklist</param>
-    /// <param name="replyMarkup">An object for the new inline keyboard for the message</param>
+    /// <param name="replyMarkup">An object for the new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a> for the message</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The edited <see cref="Message"/> is returned.</returns>
     public static async Task<Message> EditMessageChecklist(

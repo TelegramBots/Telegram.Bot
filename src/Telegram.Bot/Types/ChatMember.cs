@@ -110,6 +110,10 @@ public partial class ChatMemberAdministrator : ChatMember
     [JsonPropertyName("can_manage_direct_messages")]
     public bool CanManageDirectMessages { get; set; }
 
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of <see cref="CanPinMessages">CanPinMessages</see>.</summary>
+    [JsonPropertyName("can_manage_tags")]
+    public bool? CanManageTags { get; set; }
+
     /// <summary><em>Optional</em>. Custom title for this user</summary>
     [JsonPropertyName("custom_title")]
     public string? CustomTitle { get; set; }
@@ -120,6 +124,9 @@ public partial class ChatMemberMember : ChatMember
 {
     /// <summary>The member's status in the chat, always <see cref="ChatMemberStatus.Member"/></summary>
     public override ChatMemberStatus Status => ChatMemberStatus.Member;
+
+    /// <summary><em>Optional</em>. Tag of the member</summary>
+    public string? Tag { get; set; }
 
     /// <summary><em>Optional</em>. Date when the user's subscription will expire; Unix time</summary>
     [JsonPropertyName("until_date")]
@@ -132,6 +139,9 @@ public partial class ChatMemberRestricted : ChatMember
 {
     /// <summary>The member's status in the chat, always <see cref="ChatMemberStatus.Restricted"/></summary>
     public override ChatMemberStatus Status => ChatMemberStatus.Restricted;
+
+    /// <summary><em>Optional</em>. Tag of the member</summary>
+    public string? Tag { get; set; }
 
     /// <summary><see langword="true"/>, if the user is a member of the chat at the moment of the request</summary>
     [JsonPropertyName("is_member")]
@@ -176,6 +186,10 @@ public partial class ChatMemberRestricted : ChatMember
     /// <summary><see langword="true"/>, if the user is allowed to add web page previews to their messages</summary>
     [JsonPropertyName("can_add_web_page_previews")]
     public bool CanAddWebPagePreviews { get; set; }
+
+    /// <summary><see langword="true"/>, if the user is allowed to edit their own tag</summary>
+    [JsonPropertyName("can_edit_tag")]
+    public bool CanEditTag { get; set; }
 
     /// <summary><see langword="true"/>, if the user is allowed to change the chat title, photo and other settings</summary>
     [JsonPropertyName("can_change_info")]

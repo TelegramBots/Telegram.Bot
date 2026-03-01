@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to stream a partial message to a user while the message is being generated; supported only for bots with forum topic mode enabled.</summary>
+/// <summary>Use this method to stream a partial message to a user while the message is being generated.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendMessageDraftRequest() : RequestBase<bool>("sendMessageDraft"), IChatTargetable
 {

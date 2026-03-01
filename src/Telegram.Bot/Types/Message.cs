@@ -32,6 +32,10 @@ public partial class Message
     [JsonPropertyName("sender_business_bot")]
     public User? SenderBusinessBot { get; set; }
 
+    /// <summary><em>Optional</em>. Tag or custom title of the sender of the message; for supergroups only</summary>
+    [JsonPropertyName("sender_tag")]
+    public string? SenderTag { get; set; }
+
     /// <summary>Date the message was sent. It is always a valid date.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
@@ -97,7 +101,7 @@ public partial class Message
     [JsonPropertyName("is_paid_post")]
     public bool IsPaidPost { get; set; }
 
-    /// <summary><em>Optional</em>. The unique identifier of a media message group this message belongs to</summary>
+    /// <summary><em>Optional</em>. The unique identifier inside this chat of a media message group this message belongs to</summary>
     [JsonPropertyName("media_group_id")]
     public string? MediaGroupId { get; set; }
 
@@ -400,7 +404,7 @@ public partial class Message
     [JsonPropertyName("web_app_data")]
     public WebAppData? WebAppData { get; set; }
 
-    /// <summary><em>Optional</em>. Inline keyboard attached to the message. <c>LoginUrl</c> buttons are represented as ordinary <c>url</c> buttons.</summary>
+    /// <summary><em>Optional</em>. <a href="https://core.telegram.org/bots/features#inline-keyboards">Inline keyboard</a> attached to the message. <c>LoginUrl</c> buttons are represented as ordinary <c>url</c> buttons.</summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 

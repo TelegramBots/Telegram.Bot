@@ -67,4 +67,8 @@ public partial class ChatAdministratorRights
     /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can manage direct messages of the channel and decline suggested posts; for channels only</summary>
     [JsonPropertyName("can_manage_direct_messages")]
     public bool CanManageDirectMessages { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted defaults to the value of <see cref="CanPinMessages">CanPinMessages</see>.</summary>
+    [JsonPropertyName("can_manage_tags")]
+    public bool? CanManageTags { get; set; }
 }

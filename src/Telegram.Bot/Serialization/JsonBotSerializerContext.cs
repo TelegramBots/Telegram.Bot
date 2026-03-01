@@ -44,6 +44,7 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(RestrictChatMemberRequest))]
 [JsonSerializable(typeof(PromoteChatMemberRequest))]
 [JsonSerializable(typeof(SetChatAdministratorCustomTitleRequest))]
+[JsonSerializable(typeof(SetChatMemberTagRequest))]
 [JsonSerializable(typeof(BanChatSenderChatRequest))]
 [JsonSerializable(typeof(UnbanChatSenderChatRequest))]
 [JsonSerializable(typeof(SetChatPermissionsRequest))]
