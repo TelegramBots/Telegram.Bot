@@ -58,6 +58,11 @@ public static class Markdown
                             closing.md = $"](tg://user?id={nextEntity.User?.Id})";
                         else if (nextEntity.Type is MessageEntityType.CustomEmoji)
                             closing.md = $"](tg://emoji?id={nextEntity.CustomEmojiId})";
+                        else if (nextEntity.Type is MessageEntityType.DateTime)
+                        {
+                            closing.md = string.IsNullOrEmpty(nextEntity.DateTimeFormat) ? "" : $"&format={nextEntity.DateTimeFormat}";
+                            closing.md = $"](tg://time?unix={((DateTimeOffset)nextEntity.UnixTime!).ToUnixTimeSeconds()}{closing.md})";
+                        }
                     }
                     else if (md[0] == '>')
                     { inBlockQuote = true; md = lastCh is not '\n' and not '\0' ? "\n>" : ">"; }
@@ -97,6 +102,7 @@ public static class Markdown
         [MessageEntityType.CustomEmoji] = "![",
         [MessageEntityType.Blockquote] = ">",
         [MessageEntityType.ExpandableBlockquote] = ">||",
+        [MessageEntityType.DateTime] = "![",
     };
 
     /// <summary>Insert backslashes in front of MarkdownV2 reserved characters</summary>
@@ -175,6 +181,11 @@ public static class HtmlText
                     }
                     else if (nextEntity.Type is MessageEntityType.ExpandableBlockquote)
                         tag = "<blockquote expandable>";
+                    else if (nextEntity.Type is MessageEntityType.DateTime)
+                    {
+                        tag = string.IsNullOrEmpty(nextEntity.DateTimeFormat) ? null : $" format=\"{nextEntity.DateTimeFormat}\"";
+                        tag = $"<tg-time unix=\"{((DateTimeOffset)nextEntity.UnixTime!).ToUnixTimeSeconds()}\"{tag}>";
+                    }
                     else
                         tag = $"<{tag}>";
                     int index = ~closings.BinarySearch(closing, Comparer<(int, string)>.Create((x, y) => x.Item1.CompareTo(y.Item1) | 1));
@@ -207,6 +218,7 @@ public static class HtmlText
         [MessageEntityType.CustomEmoji] = "tg-emoji",
         [MessageEntityType.Blockquote] = "blockquote",
         [MessageEntityType.ExpandableBlockquote] = "blockquote",
+        [MessageEntityType.DateTime] = "tg-time",
     };
 
     /// <summary>Replace special HTML characters with their &amp;xx; equivalent</summary>
