@@ -29,9 +29,10 @@ public partial class MessageEntity
     [JsonPropertyName("custom_emoji_id")]
     public string? CustomEmojiId { get; set; }
 
-    /// <summary><em>Optional</em>. For “DateTime” only, the Unix time associated with the entity</summary>
+    /// <summary><em>Optional</em>. For “DateTime” only, the DateTime associated with the entity</summary>
     [JsonPropertyName("unix_time")]
-    public int? UnixTime { get; set; }
+    [JsonConverter(typeof(UnixDateTimeConverter))]
+    public DateTime? UnixTime { get; set; }
 
     /// <summary><em>Optional</em>. For “DateTime” only, the string that defines the formatting of the date and time. See <a href="https://core.telegram.org/bots/api#date-time-entity-formatting">date-time entity formatting</a> for more details.</summary>
     [JsonPropertyName("date_time_format")]

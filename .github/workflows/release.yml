@@ -33,7 +33,7 @@ jobs:
       if: ${{ env.VERSION == '' }}
       run: |
         git fetch --depth=100 --tags
-        DESCR_TAG=$(git describe --tags)
+        DESCR_TAG=$(git describe --tags --long)
         DESCR_TAG=${DESCR_TAG#v}
         LAST_TAG=${DESCR_TAG%%-*}
         NEXT_VERSION=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))

@@ -25,7 +25,7 @@ jobs:
     - name: Determine version
       run: |
         git fetch --depth=30 --tags
-        DESCR_TAG=$(git describe --tags)
+        DESCR_TAG=$(git describe --tags --long)
         DESCR_TAG=${DESCR_TAG#v}
         COMMITS=${DESCR_TAG#*-}
         COMMITS=${COMMITS%-*}
