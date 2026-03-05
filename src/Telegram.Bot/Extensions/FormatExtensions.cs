@@ -588,20 +588,22 @@ public static class HtmlText
             else if (keyboard.StartsWith("</row>", StringComparison.OrdinalIgnoreCase)) { }
             else if (CheckHtmlArg(ref keyboard, "<button text=\"", out var text))
             {
+                IKeyboardButton button;
                 if (inline != null)
                 {
+                    InlineKeyboardButton ikb;
                     if (CheckHtmlArg(ref keyboard, "url=\"", out var url))
-                        inline.AddButton(InlineKeyboardButton.WithUrl(text, url));
+                        inline.AddButton(ikb = InlineKeyboardButton.WithUrl(text, url));
                     else if (CheckHtmlArg(ref keyboard, "callback=\"", out var data))
-                        inline.AddButton(InlineKeyboardButton.WithCallbackData(text, data));
+                        inline.AddButton(ikb = InlineKeyboardButton.WithCallbackData(text, data));
                     else if (CheckHtmlArg(ref keyboard, "app=\"", out var app))
-                        inline.AddButton(InlineKeyboardButton.WithWebApp(text, app));
+                        inline.AddButton(ikb = InlineKeyboardButton.WithWebApp(text, app));
                     else if (CheckHtmlArg(ref keyboard, "copy=\"", out var copy))
-                        inline.AddButton(InlineKeyboardButton.WithCopyText(text, copy));
+                        inline.AddButton(ikb = InlineKeyboardButton.WithCopyText(text, copy));
                     else if (CheckHtmlArg(ref keyboard, "switch_inline=\"", out var query))
                         if (CheckHtmlArg(ref keyboard, "target=\"", out var target))
                             if (Enum.TryParse<SwitchInlineTarget>(target, ignoreCase: true, out var targets))
-                                inline.AddButton(InlineKeyboardButton.WithSwitchInlineQueryChosenChat(text, new()
+                                inline.AddButton(ikb = InlineKeyboardButton.WithSwitchInlineQueryChosenChat(text, new()
                                 {
                                     Query = query,
                                     AllowUserChats = targets.HasFlag(SwitchInlineTarget.User),
@@ -610,27 +612,39 @@ public static class HtmlText
                                     AllowChannelChats = targets.HasFlag(SwitchInlineTarget.Channel),
                                 }));
                             else
-                                inline.AddButton(InlineKeyboardButton.WithSwitchInlineQuery(text, query));
+                                inline.AddButton(ikb = InlineKeyboardButton.WithSwitchInlineQuery(text, query));
                         else
-                            inline.AddButton(InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text, query));
+                            inline.AddButton(ikb = InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text, query));
                     else
                         throw new FormatException("Unrecognized inline <button> type");
+                    button = ikb;
                 }
                 else if (reply != null)
                 {
-                    if (keyboard[0] is '>' or '/')
-                        reply.AddButton(text);
-                    else if (CheckHtmlArg(ref keyboard, "request_contact", out _))
-                        reply.AddButton(KeyboardButton.WithRequestContact(text));
+                    KeyboardButton kb;
+                    if (CheckHtmlArg(ref keyboard, "request_contact", out _))
+                        reply.AddButton(kb = KeyboardButton.WithRequestContact(text));
                     else if (CheckHtmlArg(ref keyboard, "request_location", out _))
-                        reply.AddButton(KeyboardButton.WithRequestLocation(text));
+                        reply.AddButton(kb = KeyboardButton.WithRequestLocation(text));
                     else if (CheckHtmlArg(ref keyboard, "request_poll=\"", out var pollType))
-                        reply.AddButton(KeyboardButton.WithRequestPoll(text, pollType is "" or "any" ? (PollType?)null : Enum.Parse<PollType>(pollType, ignoreCase: true)));
+                        reply.AddButton(kb = KeyboardButton.WithRequestPoll(text, pollType is "" or "any" ? (PollType?)null : Enum.Parse<PollType>(pollType, ignoreCase: true)));
                     //TO-DO: support request_users and request_chat?
                     else if (CheckHtmlArg(ref keyboard, "app=\"", out var app))
-                        reply.AddButton(KeyboardButton.WithWebApp(text, app));
+                        reply.AddButton(kb = KeyboardButton.WithWebApp(text, app));
                     else
-                        throw new FormatException("Unrecognized reply <button> type");
+                        reply.AddButton(kb = new KeyboardButton(text));
+                    button = kb;
+                }
+                else
+                    throw new FormatException("Invalid keyboard");
+                while (true)
+                {
+                    if (CheckHtmlArg(ref keyboard, "style=\"", out var style))
+                        button.Style = Enum.Parse<KeyboardButtonStyle>(style, true);
+                    else if (CheckHtmlArg(ref keyboard, "icon=\"", out var emojiId))
+                        button.IconCustomEmojiId = emojiId;
+                    else
+                        break;
                 }
             }
             keyboard = keyboard[(keyboard.IndexOf('>') + 1)..].Trim();
