@@ -50,34 +50,46 @@ public partial class KeyboardButton : IKeyboardButton
     /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestUsers">If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</param>
-    public static KeyboardButton WithRequestUsers(string text, KeyboardButtonRequestUsers requestUsers) =>
-        new(text) { RequestUsers = requestUsers };
+    /// <param name="iconCustomEmojiId"><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    /// <param name="style"><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static KeyboardButton WithRequestUsers(string text, KeyboardButtonRequestUsers requestUsers, string? iconCustomEmojiId = default, KeyboardButtonStyle? style = default) =>
+        new(text) { RequestUsers = requestUsers, IconCustomEmojiId = iconCustomEmojiId, Style = style };
 
     /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestChat">If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</param>
-    public static KeyboardButton WithRequestChat(string text, KeyboardButtonRequestChat requestChat) =>
-        new(text) { RequestChat = requestChat };
+    /// <param name="iconCustomEmojiId"><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    /// <param name="style"><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static KeyboardButton WithRequestChat(string text, KeyboardButtonRequestChat requestChat, string? iconCustomEmojiId = default, KeyboardButtonStyle? style = default) =>
+        new(text) { RequestChat = requestChat, IconCustomEmojiId = iconCustomEmojiId, Style = style };
 
     /// <summary>Creates a keyboard button. The user's phone number will be sent as a contact when the button is pressed. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
-    public static KeyboardButton WithRequestContact(string text) =>
-        new(text) { RequestContact = true };
+    /// <param name="iconCustomEmojiId"><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    /// <param name="style"><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static KeyboardButton WithRequestContact(string text, string? iconCustomEmojiId = default, KeyboardButtonStyle? style = default) =>
+        new(text) { RequestContact = true, IconCustomEmojiId = iconCustomEmojiId, Style = style };
 
     /// <summary>Creates a keyboard button. The user's current location will be sent when the button is pressed. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
-    public static KeyboardButton WithRequestLocation(string text) =>
-        new(text) { RequestLocation = true };
+    /// <param name="iconCustomEmojiId"><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    /// <param name="style"><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static KeyboardButton WithRequestLocation(string text, string? iconCustomEmojiId = default, KeyboardButtonStyle? style = default) =>
+        new(text) { RequestLocation = true, IconCustomEmojiId = iconCustomEmojiId, Style = style };
 
     /// <summary>Creates a keyboard button. The user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestPoll">If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</param>
-    public static KeyboardButton WithRequestPoll(string text, KeyboardButtonPollType requestPoll) =>
-        new(text) { RequestPoll = requestPoll };
+    /// <param name="iconCustomEmojiId"><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    /// <param name="style"><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static KeyboardButton WithRequestPoll(string text, KeyboardButtonPollType requestPoll, string? iconCustomEmojiId = default, KeyboardButtonStyle? style = default) =>
+        new(text) { RequestPoll = requestPoll, IconCustomEmojiId = iconCustomEmojiId, Style = style };
 
     /// <summary>Creates a keyboard button. The described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="webApp">If specified, the described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</param>
-    public static KeyboardButton WithWebApp(string text, WebAppInfo webApp) =>
-        new(text) { WebApp = webApp };
+    /// <param name="iconCustomEmojiId"><em>Optional</em>. Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots that purchased additional usernames on <a href="https://fragment.com">Fragment</a> or in the messages directly sent by the bot to private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.</param>
+    /// <param name="style"><em>Optional</em>. Style of the button. Must be one of <see cref="KeyboardButtonStyle.Danger">Danger</see> (red), <see cref="KeyboardButtonStyle.Success">Success</see> (green) or <see cref="KeyboardButtonStyle.Primary">Primary</see> (blue). If omitted, then an app-specific style is used.</param>
+    public static KeyboardButton WithWebApp(string text, WebAppInfo webApp, string? iconCustomEmojiId = default, KeyboardButtonStyle? style = default) =>
+        new(text) { WebApp = webApp, IconCustomEmojiId = iconCustomEmojiId, Style = style };
 }
