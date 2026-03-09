@@ -36,6 +36,7 @@ jobs:
         DESCR_TAG=$(git describe --tags --long)
         DESCR_TAG=${DESCR_TAG#v}
         LAST_TAG=${DESCR_TAG%%-*}
+        if [[ $LAST_TAG =~ \.[0-9]+\.[0-9]+\. ]]; then LAST_TAG="${LAST_TAG%.*}"; fi
         NEXT_VERSION=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))
         RELEASE_VERSION=${{vars.RELEASE_VERSION}}
         if [[ "$RELEASE_VERSION" > "$NEXT_VERSION" ]] then VERSION=$RELEASE_VERSION; else VERSION=$NEXT_VERSION; fi

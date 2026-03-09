@@ -50,8 +50,20 @@ public partial class KeyboardButton : IKeyboardButton
     /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestUsers">If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</param>
+    [SetsRequiredMembers]
+    public KeyboardButton(string text, KeyboardButtonRequestUsers requestUsers) { Text = text; RequestUsers = requestUsers; }
+
+    /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestUsers">If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a <see cref="UsersShared"/> service message. Available in private chats only.</param>
     public static KeyboardButton WithRequestUsers(string text, KeyboardButtonRequestUsers requestUsers) =>
         new(text) { RequestUsers = requestUsers };
+
+    /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestChat">If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</param>
+    [SetsRequiredMembers]
+    public KeyboardButton(string text, KeyboardButtonRequestChat requestChat) { Text = text; RequestChat = requestChat; }
 
     /// <summary>Creates a keyboard button. Pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a <see cref="ChatShared"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
@@ -72,8 +84,20 @@ public partial class KeyboardButton : IKeyboardButton
     /// <summary>Creates a keyboard button. The user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestPoll">If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</param>
+    [SetsRequiredMembers]
+    public KeyboardButton(string text, KeyboardButtonPollType requestPoll) { Text = text; RequestPoll = requestPoll; }
+
+    /// <summary>Creates a keyboard button. The user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestPoll">If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.</param>
     public static KeyboardButton WithRequestPoll(string text, KeyboardButtonPollType requestPoll) =>
         new(text) { RequestPoll = requestPoll };
+
+    /// <summary>Creates a keyboard button. The described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="webApp">If specified, the described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</param>
+    [SetsRequiredMembers]
+    public KeyboardButton(string text, WebAppInfo webApp) { Text = text; WebApp = webApp; }
 
     /// <summary>Creates a keyboard button. The described <a href="https://core.telegram.org/bots/webapps">Web App</a> will be launched when the button is pressed. The Web App will be able to send a <see cref="WebAppData"/> service message. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>

@@ -452,6 +452,29 @@ namespace Telegram.Bot.Types
                     CallbackData = callbackDataOrUrl;
             }
 
+            /// <summary>Generate an inline keyboard button of the given type</summary>
+            /// <param name="text">Button's text</param>
+            /// <param name="type">Type of the button to be created. (there are other types with specific constructors)</param>
+            /// <param name="value">Url, Data or Text to be associated with the button. Meaning depends on the button <paramref name="type"/></param>
+            [SetsRequiredMembers]
+            public InlineKeyboardButton(string text, InlineButtonType type, string value = "")
+            {
+                Text = text;
+                switch (type)
+                {
+                    case InlineButtonType.Url: Url = value; break;
+                    case InlineButtonType.Callback: CallbackData = value; break;
+                    case InlineButtonType.WebApp: WebApp = value; break;
+                    case InlineButtonType.LoginUrl: LoginUrl = new LoginUrl { Url = value }; break;
+                    case InlineButtonType.SwitchInlineQuery: SwitchInlineQuery = value; break;
+                    case InlineButtonType.SwitchInlineQueryCurrentChat: SwitchInlineQueryCurrentChat = value; break;
+                    case InlineButtonType.CopyText: CopyText = value; break;
+                    case InlineButtonType.Game: CallbackGame = new(); break;
+                    case InlineButtonType.Pay: Pay = true; break;
+                    default: throw new NotSupportedException("Unrecognized type of inline button");
+                }
+            }
+
             /// <summary>Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/></summary>
             /// <param name="textAndCallbackDataOrUrl">Text serving as the label of the button, as well as the URL to be opened or the callback data to be sent</param>
             /// <returns>The result of the conversion.</returns>
@@ -472,6 +495,18 @@ namespace Telegram.Bot.Types
 
         public partial class KeyboardButton
         {
+            /// <summary>Generate a keyboard button from text, with one optional request</summary>
+            /// <param name="text">Button's text</param>
+            /// <param name="requestContact">Pass <see langword="true"/> to request the user's phone number, which will be sent as a contact when the button is pressed. Available in private chats only</param>
+            /// <param name="requestLocation">Pass <see langword="true"/> to request the user's current location, which will be sent as a location message when the button is pressed. Available in private chats only</param>
+            [SetsRequiredMembers]
+            public KeyboardButton(string text, bool requestContact = false, bool requestLocation = false)
+            {
+                Text = text;
+                RequestContact = requestContact;
+                RequestLocation = requestLocation;
+            }
+
             /// <summary>Generate a keyboard button from text</summary>
             /// <param name="text">Button's text</param>
             public static implicit operator KeyboardButton(string text)

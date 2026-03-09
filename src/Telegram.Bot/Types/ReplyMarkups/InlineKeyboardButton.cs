@@ -76,8 +76,20 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary>Creates an inline keyboard button with description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
     /// <param name="text">Label text on the button</param>
     /// <param name="webApp">Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</param>
+    [SetsRequiredMembers]
+    public InlineKeyboardButton(string text, WebAppInfo webApp) { Text = text; WebApp = webApp; }
+
+    /// <summary>Creates an inline keyboard button with description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="webApp">Description of the <a href="https://core.telegram.org/bots/webapps">Web App</a> that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method <see cref="TelegramBotClientExtensions.AnswerWebAppQuery">AnswerWebAppQuery</see>. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithWebApp(string text, WebAppInfo webApp) =>
         new(text) { WebApp = webApp };
+
+    /// <summary>Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="loginUrl">An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</param>
+    [SetsRequiredMembers]
+    public InlineKeyboardButton(string text, LoginUrl loginUrl) { Text = text; LoginUrl = loginUrl; }
 
     /// <summary>Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
     /// <param name="text">Label text on the button</param>
@@ -100,8 +112,20 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <summary>Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
     /// <param name="text">Label text on the button</param>
     /// <param name="switchInlineQueryChosenChat">If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</param>
+    [SetsRequiredMembers]
+    public InlineKeyboardButton(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) { Text = text; SwitchInlineQueryChosenChat = switchInlineQueryChosenChat; }
+
+    /// <summary>Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="switchInlineQueryChosenChat">If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.</param>
     public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) =>
         new(text) { SwitchInlineQueryChosenChat = switchInlineQueryChosenChat };
+
+    /// <summary>Creates an inline keyboard button with description of the button that copies the specified text to the clipboard.</summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="copyText">Description of the button that copies the specified text to the clipboard.</param>
+    [SetsRequiredMembers]
+    public InlineKeyboardButton(string text, CopyTextButton copyText) { Text = text; CopyText = copyText; }
 
     /// <summary>Creates an inline keyboard button with description of the button that copies the specified text to the clipboard.</summary>
     /// <param name="text">Label text on the button</param>

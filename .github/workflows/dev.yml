@@ -30,7 +30,12 @@ jobs:
         COMMITS=${DESCR_TAG#*-}
         COMMITS=${COMMITS%-*}
         LAST_TAG=${DESCR_TAG%%-*}
-        NEXT_VERSION=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))-dev.$COMMITS
+        if [[ $LAST_TAG =~ \.[0-9]+\.[0-9]+\. ]]; then # 4-numbers version
+                COMMITS=$((COMMITS + ${LAST_TAG##*.})); LAST_TAG="${LAST_TAG%.*}";
+                NEXT_VERSION=$LAST_TAG-dev.$COMMITS
+        else
+                NEXT_VERSION=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))-dev.$COMMITS
+        fi
         RELEASE_VERSION=${{vars.RELEASE_VERSION}}-dev.$COMMITS
         if [[ "$RELEASE_VERSION" > "$NEXT_VERSION" ]] then VERSION=$RELEASE_VERSION; else VERSION=$NEXT_VERSION; fi
         echo Last tag: $LAST_TAG · Next version: $NEXT_VERSION · Release version: $RELEASE_VERSION · Build version: $VERSION

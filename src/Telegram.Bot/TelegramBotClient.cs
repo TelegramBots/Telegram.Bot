@@ -136,23 +136,20 @@ public class TelegramBotClient : ITelegramBotClient
                     await OnApiResponseReceived.Invoke(this, responseEventArgs, cancellationToken).ConfigureAwait(false);
                 }
 
-                if (httpResponse.StatusCode != HttpStatusCode.OK)
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    var failedApiResponse = await DeserializeContent<ApiResponse>(httpResponse,
-                        response => response.ErrorCode != default && response.Description != null, cancellationToken).ConfigureAwait(false);
-
-                    if (failedApiResponse.ErrorCode == 429 && _options.RetryThreshold > 0 && attempt < _options.RetryCount &&
-                        failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold)
-                    {
-                        await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cancellationToken).ConfigureAwait(false);
-                        continue; // retry attempt
-                    }
-                    throw ExceptionsParser.Parse(failedApiResponse);
+                    var apiResponse = await DeserializeContent<ApiResponse<TResponse>>(httpResponse,
+                            response => response.Ok && response.Result != null, cancellationToken).ConfigureAwait(false);
+                    return apiResponse.Result!;
                 }
 
-                var apiResponse = await DeserializeContent<ApiResponse<TResponse>>(httpResponse,
-                        response => response.Ok && response.Result != null, cancellationToken).ConfigureAwait(false);
-                return apiResponse.Result!;
+                var failedApiResponse = await DeserializeContent<ApiResponse>(httpResponse,
+                        response => response.ErrorCode != default && response.Description != null, cancellationToken).ConfigureAwait(false);
+                if (failedApiResponse.ErrorCode != 429 || _options.RetryThreshold <= 0 || attempt >= _options.RetryCount ||
+                    !(failedApiResponse.Parameters?.RetryAfter <= _options.RetryThreshold))
+                    throw ExceptionsParser.Parse(failedApiResponse);
+                // 429 Too Many Requests => Retry After N seconds
+                await Task.Delay(failedApiResponse.Parameters.RetryAfter.Value * 1000, cancellationToken).ConfigureAwait(false);
             }
         }
     }
