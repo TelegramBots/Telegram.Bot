@@ -17,7 +17,7 @@ public partial class ReplyParameters
     [JsonPropertyName("allow_sending_without_reply")]
     public bool AllowSendingWithoutReply { get; set; }
 
-    /// <summary><em>Optional</em>. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, and <em>CustomEmoji</em> entities. The message will fail to send if the quote isn't found in the original message.</summary>
+    /// <summary><em>Optional</em>. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, <em>CustomEmoji</em>, and <em>DateTime</em> entities. The message will fail to send if the quote isn't found in the original message.</summary>
     public string? Quote { get; set; }
 
     /// <summary><em>Optional</em>. Mode for parsing entities in the quote. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
@@ -35,4 +35,8 @@ public partial class ReplyParameters
     /// <summary><em>Optional</em>. Identifier of the specific checklist task to be replied to</summary>
     [JsonPropertyName("checklist_task_id")]
     public int? ChecklistTaskId { get; set; }
+
+    /// <summary><em>Optional</em>. Persistent identifier of the specific poll option to be replied to</summary>
+    [JsonPropertyName("poll_option_id")]
+    public string? PollOptionId { get; set; }
 }

@@ -221,6 +221,17 @@ namespace Telegram.Bot.Types
         public static BotCommandScopeChatMember ChatMember(ChatId chatId, long userId) => new() { ChatId = chatId, UserId = userId };
     }
 
+    public partial class Poll
+    {
+        /// <summary><em>Optional</em>. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.</summary>
+        [Obsolete("Use CorrectOptionIds instead")]
+        public int? CorrectOptionId
+        {
+            get => CorrectOptionIds switch { null or [] => null, [int value] => value, _ => throw new InvalidOperationException("Multiple CorrectOptionIds") };
+            set => CorrectOptionIds = value.HasValue ? [value.Value] : null;
+        }
+    }
+
 
     namespace Payments
     {

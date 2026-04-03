@@ -24,7 +24,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture)
             options: ["One", "Ten", "Three"],
             isAnonymous: false,
             type: PollType.Quiz,
-            correctOptionId: 2, // "Three",
+            correctOptionIds: [2], // "Three",
             explanation: "Three [silmarils](https://en.wikipedia.org/wiki/Silmarils) were made",
             explanationParseMode: ParseMode.MarkdownV2
         );
@@ -36,7 +36,7 @@ public class QuizPollTests(QuizPollTestsFixture classFixture)
         Assert.False(message.Poll.IsAnonymous);
         Assert.Equal(PollType.Quiz, message.Poll.Type);
         Assert.False(message.Poll.AllowsMultipleAnswers);
-        Assert.Equal(2, message.Poll.CorrectOptionId);
+        Assert.Single(message.Poll.CorrectOptionIds, 2);
         Assert.Null(message.Poll.OpenPeriod);
         Assert.Null(message.Poll.CloseDate);
 

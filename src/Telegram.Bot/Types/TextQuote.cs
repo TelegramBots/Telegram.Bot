@@ -8,7 +8,7 @@ public partial class TextQuote
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Text { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. Special entities that appear in the quote. Currently, only <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, and <em>CustomEmoji</em> entities are kept in quotes.</summary>
+    /// <summary><em>Optional</em>. Special entities that appear in the quote. Currently, only <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, <em>CustomEmoji</em>, and <em>DateTime</em> entities are kept in quotes.</summary>
     public MessageEntity[]? Entities { get; set; }
 
     /// <summary>Approximate quote position in the original message in UTF-16 code units as specified by the sender</summary>

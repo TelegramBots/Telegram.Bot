@@ -23,11 +23,11 @@ public partial class GiftPremiumSubscriptionRequest() : RequestBase<bool>("giftP
     /// <summary>Text that will be shown along with the service message about the subscription; 0-128 characters</summary>
     public string? Text { get; set; }
 
-    /// <summary>Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Entities other than <see cref="MessageEntityType.Bold">Bold</see>, <see cref="MessageEntityType.Italic">Italic</see>, <see cref="MessageEntityType.Underline">Underline</see>, <see cref="MessageEntityType.Strikethrough">Strikethrough</see>, <see cref="MessageEntityType.Spoiler">Spoiler</see>, and <see cref="MessageEntityType.CustomEmoji">CustomEmoji</see> are ignored.</summary>
+    /// <summary>Mode for parsing entities in the text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Entities other than <see cref="MessageEntityType.Bold">Bold</see>, <see cref="MessageEntityType.Italic">Italic</see>, <see cref="MessageEntityType.Underline">Underline</see>, <see cref="MessageEntityType.Strikethrough">Strikethrough</see>, <see cref="MessageEntityType.Spoiler">Spoiler</see>, <see cref="MessageEntityType.CustomEmoji">CustomEmoji</see>, and <see cref="MessageEntityType.DateTime">DateTime</see> are ignored.</summary>
     [JsonPropertyName("text_parse_mode")]
     public ParseMode TextParseMode { get; set; }
 
-    /// <summary>A list of special entities that appear in the gift text. It can be specified instead of <see cref="TextParseMode">TextParseMode</see>. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and “CustomEmoji” are ignored.</summary>
+    /// <summary>A list of special entities that appear in the gift text. It can be specified instead of <see cref="TextParseMode">TextParseMode</see>. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “CustomEmoji”, and “DateTime” are ignored.</summary>
     [JsonPropertyName("text_entities")]
     public IEnumerable<MessageEntity>? TextEntities { get; set; }
 }

@@ -20,4 +20,9 @@ public partial class PollAnswer
     [JsonPropertyName("option_ids")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int[] OptionIds { get; set; } = default!;
+
+    /// <summary>Persistent identifiers of the chosen answer options. May be empty if the vote was retracted.</summary>
+    [JsonPropertyName("option_persistent_ids")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public string[] OptionPersistentIds { get; set; } = default!;
 }

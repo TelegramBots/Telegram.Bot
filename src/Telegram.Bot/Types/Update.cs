@@ -99,6 +99,10 @@ public partial class Update
     [JsonPropertyName("removed_chat_boost")]
     public ChatBoostRemoved? RemovedChatBoost { get; set; }
 
+    /// <summary><em>Optional</em>. A new bot was created to be managed by the bot or token of a bot was changed</summary>
+    [JsonPropertyName("managed_bot")]
+    public ManagedBotUpdated? ManagedBot { get; set; }
+
     /// <summary>Gets the <see cref="UpdateType">type</see> of the <see cref="Update"/></summary>
     /// <value>The <see cref="UpdateType">type</see> of the <see cref="Update"/></value>
     [JsonIgnore]
@@ -127,10 +131,11 @@ public partial class Update
         { ChatJoinRequest: not null }         => UpdateType.ChatJoinRequest,
         { ChatBoost: not null }               => UpdateType.ChatBoost,
         { RemovedChatBoost: not null }        => UpdateType.RemovedChatBoost,
+        { ManagedBot: not null }              => UpdateType.ManagedBot,
         _                                     => UpdateType.Unknown
     };
 
     /// <summary>All UpdateTypes, for use with <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see></summary>
     public static readonly UpdateType[] AllTypes =
-        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.PurchasedPaidMedia, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost];
+        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.PurchasedPaidMedia, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost, UpdateType.ManagedBot];
 }

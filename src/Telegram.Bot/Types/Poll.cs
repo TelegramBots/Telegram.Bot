@@ -41,9 +41,13 @@ public partial class Poll
     [JsonPropertyName("allows_multiple_answers")]
     public bool AllowsMultipleAnswers { get; set; }
 
-    /// <summary><em>Optional</em>. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.</summary>
-    [JsonPropertyName("correct_option_id")]
-    public int? CorrectOptionId { get; set; }
+    /// <summary><see langword="true"/>, if the poll allows to change the chosen answer options</summary>
+    [JsonPropertyName("allows_revoting")]
+    public bool AllowsRevoting { get; set; }
+
+    /// <summary><em>Optional</em>. Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.</summary>
+    [JsonPropertyName("correct_option_ids")]
+    public int[]? CorrectOptionIds { get; set; }
 
     /// <summary><em>Optional</em>. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters</summary>
     public string? Explanation { get; set; }
@@ -60,4 +64,11 @@ public partial class Poll
     [JsonPropertyName("close_date")]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? CloseDate { get; set; }
+
+    /// <summary><em>Optional</em>. Description of the poll; for polls inside the <see cref="Message"/> object only</summary>
+    public string? Description { get; set; }
+
+    /// <summary><em>Optional</em>. Special entities like usernames, URLs, bot commands, etc. that appear in the description</summary>
+    [JsonPropertyName("description_entities")]
+    public MessageEntity[]? DescriptionEntities { get; set; }
 }

@@ -63,4 +63,8 @@ public partial class User
     /// <summary><em>Optional</em>. <see langword="true"/>, if the bot allows users to create and delete topics in private chats. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     [JsonPropertyName("allows_users_to_create_topics")]
     public bool AllowsUsersToCreateTopics { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if other bots can be created to be controlled by the bot. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    [JsonPropertyName("can_manage_bots")]
+    public bool CanManageBots { get; set; }
 }

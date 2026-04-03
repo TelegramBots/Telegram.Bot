@@ -16,7 +16,7 @@ public partial class InputChecklistTask
     [JsonPropertyName("parse_mode")]
     public ParseMode ParseMode { get; set; }
 
-    /// <summary><em>Optional</em>. List of special entities that appear in the text, which can be specified instead of <see cref="ParseMode">ParseMode</see>. Currently, only <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, and <em>CustomEmoji</em> entities are allowed.</summary>
+    /// <summary><em>Optional</em>. List of special entities that appear in the text, which can be specified instead of <see cref="ParseMode">ParseMode</see>. Currently, only <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, <em>spoiler</em>, <em>CustomEmoji</em>, and <em>DateTime</em> entities are allowed.</summary>
     [JsonPropertyName("text_entities")]
     public MessageEntity[]? TextEntities { get; set; }
 }

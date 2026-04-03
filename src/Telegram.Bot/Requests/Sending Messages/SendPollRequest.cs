@@ -41,13 +41,29 @@ public partial class SendPollRequest() : RequestBase<Message>("sendPoll"), IChat
     /// <summary>Poll type, <see cref="PollType.Quiz">Quiz</see> or <see cref="PollType.Regular">Regular</see>, defaults to <see cref="PollType.Regular">Regular</see></summary>
     public PollType? Type { get; set; }
 
-    /// <summary><see langword="true"/>, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to <see langword="false"/></summary>
+    /// <summary>Pass <see langword="true"/>, if the poll allows multiple answers, defaults to <see langword="false"/></summary>
     [JsonPropertyName("allows_multiple_answers")]
     public bool AllowsMultipleAnswers { get; set; }
 
-    /// <summary>0-based identifier of the correct answer option, required for polls in quiz mode</summary>
-    [JsonPropertyName("correct_option_id")]
-    public int? CorrectOptionId { get; set; }
+    /// <summary>Pass <see langword="true"/>, if the poll allows to change chosen answer options, defaults to <see langword="false"/> for quizzes and to <see langword="true"/> for regular polls</summary>
+    [JsonPropertyName("allows_revoting")]
+    public bool AllowsRevoting { get; set; }
+
+    /// <summary>Pass <see langword="true"/>, if the poll options must be shown in random order</summary>
+    [JsonPropertyName("shuffle_options")]
+    public bool ShuffleOptions { get; set; }
+
+    /// <summary>Pass <see langword="true"/>, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes</summary>
+    [JsonPropertyName("allow_adding_options")]
+    public bool AllowAddingOptions { get; set; }
+
+    /// <summary>Pass <see langword="true"/>, if poll results must be shown only after the poll closes</summary>
+    [JsonPropertyName("hide_results_until_closes")]
+    public bool HideResultsUntilCloses { get; set; }
+
+    /// <summary>A list of monotonically increasing 0-based identifiers of the correct answer options, required for polls in quiz mode</summary>
+    [JsonPropertyName("correct_option_ids")]
+    public IEnumerable<int>? CorrectOptionIds { get; set; }
 
     /// <summary>Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing</summary>
     public string? Explanation { get; set; }
@@ -60,11 +76,11 @@ public partial class SendPollRequest() : RequestBase<Message>("sendPoll"), IChat
     [JsonPropertyName("explanation_entities")]
     public IEnumerable<MessageEntity>? ExplanationEntities { get; set; }
 
-    /// <summary>Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <see cref="CloseDate">CloseDate</see>.</summary>
+    /// <summary>Amount of time in seconds the poll will be active after creation, 5-2628000. Can't be used together with <see cref="CloseDate">CloseDate</see>.</summary>
     [JsonPropertyName("open_period")]
     public int? OpenPeriod { get; set; }
 
-    /// <summary>Point in time when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with <see cref="OpenPeriod">OpenPeriod</see>.</summary>
+    /// <summary>Point in time when the poll will be automatically closed. Must be at least 5 and no more than 2628000 seconds in the future. Can't be used together with <see cref="OpenPeriod">OpenPeriod</see>.</summary>
     [JsonPropertyName("close_date")]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? CloseDate { get; set; }
@@ -72,6 +88,17 @@ public partial class SendPollRequest() : RequestBase<Message>("sendPoll"), IChat
     /// <summary>Pass <see langword="true"/> if the poll needs to be immediately closed. This can be useful for poll preview.</summary>
     [JsonPropertyName("is_closed")]
     public bool IsClosed { get; set; }
+
+    /// <summary>Description of the poll to be sent, 0-1024 characters after entities parsing</summary>
+    public string? Description { get; set; }
+
+    /// <summary>Mode for parsing entities in the poll description. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
+    [JsonPropertyName("description_parse_mode")]
+    public ParseMode DescriptionParseMode { get; set; }
+
+    /// <summary>A list of special entities that appear in the poll description, which can be specified instead of <see cref="DescriptionParseMode">DescriptionParseMode</see></summary>
+    [JsonPropertyName("description_entities")]
+    public IEnumerable<MessageEntity>? DescriptionEntities { get; set; }
 
     /// <summary>Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
     [JsonPropertyName("disable_notification")]

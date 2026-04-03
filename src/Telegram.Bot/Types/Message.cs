@@ -80,6 +80,10 @@ public partial class Message
     [JsonPropertyName("reply_to_checklist_task_id")]
     public int? ReplyToChecklistTaskId { get; set; }
 
+    /// <summary><em>Optional</em>. Persistent identifier of the specific poll option that is being replied to</summary>
+    [JsonPropertyName("reply_to_poll_option_id")]
+    public string? ReplyToPollOptionId { get; set; }
+
     /// <summary><em>Optional</em>. Bot through which the message was sent</summary>
     [JsonPropertyName("via_bot")]
     public User? ViaBot { get; set; }
@@ -360,9 +364,21 @@ public partial class Message
     [JsonPropertyName("giveaway_completed")]
     public GiveawayCompleted? GiveawayCompleted { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: user created a bot that will be managed by the current bot</summary>
+    [JsonPropertyName("managed_bot_created")]
+    public ManagedBotCreated? ManagedBotCreated { get; set; }
+
     /// <summary><em>Optional</em>. Service message: the price for paid messages has changed in the chat</summary>
     [JsonPropertyName("paid_message_price_changed")]
     public PaidMessagePriceChanged? PaidMessagePriceChanged { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: answer option was added to a poll</summary>
+    [JsonPropertyName("poll_option_added")]
+    public PollOptionAdded? PollOptionAdded { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: answer option was deleted from a poll</summary>
+    [JsonPropertyName("poll_option_deleted")]
+    public PollOptionDeleted? PollOptionDeleted { get; set; }
 
     /// <summary><em>Optional</em>. Service message: a suggested post was approved</summary>
     [JsonPropertyName("suggested_post_approved")]
@@ -472,7 +488,10 @@ public partial class Message
         { Giveaway: not null }                          => MessageType.Giveaway,
         { GiveawayWinners: not null }                   => MessageType.GiveawayWinners,
         { GiveawayCompleted: not null }                 => MessageType.GiveawayCompleted,
+        { ManagedBotCreated: not null }                 => MessageType.ManagedBotCreated,
         { PaidMessagePriceChanged: not null }           => MessageType.PaidMessagePriceChanged,
+        { PollOptionAdded: not null }                   => MessageType.PollOptionAdded,
+        { PollOptionDeleted: not null }                 => MessageType.PollOptionDeleted,
         { SuggestedPostApproved: not null }             => MessageType.SuggestedPostApproved,
         { SuggestedPostApprovalFailed: not null }       => MessageType.SuggestedPostApprovalFailed,
         { SuggestedPostDeclined: not null }             => MessageType.SuggestedPostDeclined,

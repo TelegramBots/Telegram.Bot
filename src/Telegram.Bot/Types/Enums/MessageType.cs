@@ -147,4 +147,10 @@ public enum MessageType
     ChatOwnerLeft,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.ChatOwnerChanged"/></summary>
     ChatOwnerChanged,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.ManagedBotCreated"/></summary>
+    ManagedBotCreated,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.PollOptionAdded"/></summary>
+    PollOptionAdded,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.PollOptionDeleted"/></summary>
+    PollOptionDeleted,
 }

@@ -34,7 +34,7 @@ public class PublicPollTests(PublicPollTestsFixture classFixture)
         Assert.False(message.Poll.IsAnonymous);
         Assert.Equal(PollType.Regular, message.Poll.Type);
         Assert.True(message.Poll.AllowsMultipleAnswers);
-        Assert.Null(message.Poll.CorrectOptionId);
+        Assert.Null(message.Poll.CorrectOptionIds);
         Assert.Null(message.Poll.OpenPeriod);
         Assert.Null(message.Poll.CloseDate);
 

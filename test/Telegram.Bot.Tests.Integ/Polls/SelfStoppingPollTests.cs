@@ -31,7 +31,7 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
         Assert.True(message.Poll.IsAnonymous);
         Assert.Equal(PollType.Regular, message.Poll.Type);
         Assert.False(message.Poll.AllowsMultipleAnswers);
-        Assert.Null(message.Poll.CorrectOptionId);
+        Assert.Null(message.Poll.CorrectOptionIds);
         Assert.Equal(6, message.Poll.OpenPeriod);
         //Assert.Null(message.Poll.CloseDate);
 
@@ -86,7 +86,7 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
         Assert.True(message.Poll.IsAnonymous);
         Assert.Equal(PollType.Regular, message.Poll.Type);
         Assert.False(message.Poll.AllowsMultipleAnswers);
-        Assert.Null(message.Poll.CorrectOptionId);
+        Assert.Null(message.Poll.CorrectOptionIds);
         //Assert.Null(message.Poll.OpenPeriod);
         Assert.NotNull(message.Poll.CloseDate);
         // Telegram operates up to a second precision. As a result all time components
