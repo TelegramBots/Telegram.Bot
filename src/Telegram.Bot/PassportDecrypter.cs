@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-#pragma warning disable CA2208, MA0015
+#pragma warning disable CA2208, MA0015, MA0076
 #pragma warning disable CA1850, CA1835
 
 namespace Telegram.Bot.Types.Passport

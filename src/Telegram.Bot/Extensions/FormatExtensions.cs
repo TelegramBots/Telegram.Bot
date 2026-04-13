@@ -61,7 +61,7 @@ public static class Markdown
                         else if (nextEntity.Type is MessageEntityType.DateTime)
                         {
                             closing.md = string.IsNullOrEmpty(nextEntity.DateTimeFormat) ? "" : $"&format={nextEntity.DateTimeFormat}";
-                            closing.md = $"](tg://time?unix={((DateTimeOffset)nextEntity.UnixTime!).ToUnixTimeSeconds()}{closing.md})";
+                            closing.md = $"](tg://time?unix={((DateTimeOffset)nextEntity.UnixTime!.Value).ToUnixTimeSeconds()}{closing.md})";
                         }
                     }
                     else if (md[0] == '>')
@@ -184,7 +184,7 @@ public static class HtmlText
                     else if (nextEntity.Type is MessageEntityType.DateTime)
                     {
                         tag = string.IsNullOrEmpty(nextEntity.DateTimeFormat) ? null : $" format=\"{nextEntity.DateTimeFormat}\"";
-                        tag = $"<tg-time unix=\"{((DateTimeOffset)nextEntity.UnixTime!).ToUnixTimeSeconds()}\"{tag}>";
+                        tag = $"<tg-time unix=\"{((DateTimeOffset)nextEntity.UnixTime!.Value).ToUnixTimeSeconds()}\"{tag}>";
                     }
                     else
                         tag = $"<{tag}>";
@@ -640,7 +640,7 @@ public static class HtmlText
                 while (true)
                 {
                     if (CheckHtmlArg(ref keyboard, "style=\"", out var style))
-                        button.Style = Enum.Parse<KeyboardButtonStyle>(style, true);
+                        button.Style = Enum.Parse<KeyboardButtonStyle>(style, ignoreCase: true);
                     else if (CheckHtmlArg(ref keyboard, "icon=\"", out var emojiId))
                         button.IconCustomEmojiId = emojiId;
                     else
