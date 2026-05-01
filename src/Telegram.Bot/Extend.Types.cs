@@ -232,6 +232,14 @@ namespace Telegram.Bot.Types
         }
     }
 
+    public partial class LoginUrl
+    {
+        /// <summary>Implicit conversion to string (Url)</summary>
+        public static implicit operator string(LoginUrl self) => self.Url;
+        /// <summary>Implicit conversion from string (Url)</summary>
+        public static implicit operator LoginUrl(string url) => new() { Url = url };
+    }
+
 
     namespace Payments
     {
@@ -476,7 +484,7 @@ namespace Telegram.Bot.Types
                     case InlineButtonType.Url: Url = value; break;
                     case InlineButtonType.Callback: CallbackData = value; break;
                     case InlineButtonType.WebApp: WebApp = value; break;
-                    case InlineButtonType.LoginUrl: LoginUrl = new LoginUrl { Url = value }; break;
+                    case InlineButtonType.LoginUrl: LoginUrl = value; break;
                     case InlineButtonType.SwitchInlineQuery: SwitchInlineQuery = value; break;
                     case InlineButtonType.SwitchInlineQueryCurrentChat: SwitchInlineQueryCurrentChat = value; break;
                     case InlineButtonType.CopyText: CopyText = value; break;

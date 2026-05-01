@@ -14,6 +14,7 @@ public static class JsonBotAPI
     {
         options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+        options.NumberHandling = JsonNumberHandling.AllowReadingFromString;
 #if NET6_0_OR_GREATER
         if (!JsonSerializer.IsReflectionEnabledByDefault) options.TypeInfoResolverChain.Add(JsonBotSerializerContext.Default);
 #endif
