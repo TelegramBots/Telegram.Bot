@@ -465,7 +465,9 @@ namespace Telegram.Bot.Types
             public InlineKeyboardButton(string text, string callbackDataOrUrl)
             {
                 Text = text;
-                if (callbackDataOrUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || callbackDataOrUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                if (callbackDataOrUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ||
+                    callbackDataOrUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                    callbackDataOrUrl.StartsWith("tg://", StringComparison.OrdinalIgnoreCase))
                     Url = callbackDataOrUrl;
                 else
                     CallbackData = callbackDataOrUrl;
