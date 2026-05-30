@@ -9,6 +9,6 @@ custom_fields: []
 
 Please **DO NOT** post it! We don't provide support in GitHub issues any more.
 
-We would be happy if you join our group chat on Telegram [![@tgbots_dotnet](https://img.shields.io/badge/@tgbots__dotnet-Telegram-blue.svg)](https://t.me/tgbots_dotnet) and ask the community to help.
+We would be happy if you join our group chat on Telegram [![@tgbot_chat](https://img.shields.io/badge/@tgbot__chat-Telegram-blue.svg)](https://t.me/tgbot_chat) and ask the community to help.
 
 > If you open an issue asking for support, the issue would be closed without providing any answer.
