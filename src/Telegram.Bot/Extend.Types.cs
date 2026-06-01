@@ -460,7 +460,7 @@ namespace Telegram.Bot.Types
         {
             /// <summary>Creates an inline keyboard button for external URL or for data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when the button is pressed, 1-64 bytes</summary>
             /// <param name="text">Label text on the button</param>
-            /// <param name="callbackDataOrUrl">URL (starting with http:// or https://) to be opened, or data (1-64 characters) to be sent in a <see cref="CallbackQuery">callback query</see> to the bot, when the button is pressed</param>
+            /// <param name="callbackDataOrUrl">URL (starting with https:// or http:// or tg://) to be opened, or data (1-64 characters) to be sent in a <see cref="CallbackQuery">callback query</see> to the bot, when the button is pressed</param>
             [SetsRequiredMembers]
             public InlineKeyboardButton(string text, string callbackDataOrUrl)
             {

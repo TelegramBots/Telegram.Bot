@@ -67,6 +67,16 @@ public static partial class TelegramBotClientExtensions
 {
     /// <summary>Use this method to get basic info about a file and download it. For the moment, bots can download filesof up to 20MB in size.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="file">File to get info about (video, audio, document, sticker, etc...)</param>
+    /// <param name="destination">Destination stream to write file to</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>On success, a <see cref="TGFile"/> object is returned.</returns>
+    public static Task<TGFile> GetInfoAndDownloadFile(this ITelegramBotClient botClient, FileBase file, Stream destination,
+        CancellationToken cancellationToken = default)
+        => GetInfoAndDownloadFile(botClient, file.FileId, destination, cancellationToken);
+
+    /// <summary>Use this method to get basic info about a file and download it. For the moment, bots can download filesof up to 20MB in size.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="fileId">File identifier to get info about</param>
     /// <param name="destination">Destination stream to write file to</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
@@ -74,8 +84,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<TGFile> GetInfoAndDownloadFile(this ITelegramBotClient botClient, string fileId, Stream destination,
         CancellationToken cancellationToken = default)
     {
-        var file = await botClient.ThrowIfNull().SendRequest(new Requests.GetFileRequest { FileId = fileId },
-            cancellationToken).ConfigureAwait(false);
+        var file = await botClient.GetFile(fileId, cancellationToken).ConfigureAwait(false);
         await botClient.DownloadFile(filePath: file.FilePath!, destination, cancellationToken).ConfigureAwait(false);
         return file;
     }
