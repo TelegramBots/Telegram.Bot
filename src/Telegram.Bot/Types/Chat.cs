@@ -203,7 +203,11 @@ public partial class ChatFullInfo : Chat
     [JsonPropertyName("unique_gift_colors")]
     public UniqueGiftColors? UniqueGiftColors { get; set; }
 
-    /// <summary><em>Optional</em>. The number of Telegram Stars a general user have to pay to send a message to the chat</summary>
+    /// <summary><em>Optional</em>. The number of Telegram Stars a general user has to pay to send a message to the chat</summary>
     [JsonPropertyName("paid_message_star_count")]
     public long? PaidMessageStarCount { get; set; }
+
+    /// <summary><em>Optional</em>. The bot that processes join request queries in the chat. The field is only available to chat administrators.</summary>
+    [JsonPropertyName("guard_bot")]
+    public User? GuardBot { get; set; }
 }

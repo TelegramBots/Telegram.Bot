@@ -25,4 +25,6 @@ public enum PollMediaType
     Venue,
     /// <summary>The <see cref="PollMedia"/> contains a <see cref="PollMedia.Video"/></summary>
     Video,
+    /// <summary>The <see cref="PollMedia"/> contains a <see cref="PollMedia.Link"/></summary>
+    Link,
 }

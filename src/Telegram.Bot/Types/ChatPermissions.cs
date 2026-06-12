@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>Describes actions that a non-administrator user is allowed to take in a chat.</summary>
 public partial class ChatPermissions
 {
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues</summary>
     [JsonPropertyName("can_send_messages")]
     public bool CanSendMessages { get; set; }
 

@@ -1,10 +1,11 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.InlineQueryResults;
 
-/// <summary>This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:<br/><see cref="InputTextMessageContent"/>, <see cref="InputLocationMessageContent"/>, <see cref="InputVenueMessageContent"/>, <see cref="InputContactMessageContent"/>, <see cref="InputInvoiceMessageContent"/></summary>
+/// <summary>This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following types:<br/><see cref="InputTextMessageContent"/>, <see cref="InputRichMessageContent"/>, <see cref="InputLocationMessageContent"/>, <see cref="InputVenueMessageContent"/>, <see cref="InputContactMessageContent"/>, <see cref="InputInvoiceMessageContent"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<InputMessageContent>))]
 [CustomJsonPolymorphic()]
 [CustomJsonDerivedType(typeof(InputTextMessageContent))]
+[CustomJsonDerivedType(typeof(InputRichMessageContent))]
 [CustomJsonDerivedType(typeof(InputLocationMessageContent))]
 [CustomJsonDerivedType(typeof(InputVenueMessageContent))]
 [CustomJsonDerivedType(typeof(InputContactMessageContent))]
@@ -37,6 +38,23 @@ public partial class InputTextMessageContent : InputMessageContent
 
     /// <summary>Instantiates a new <see cref="InputTextMessageContent"/></summary>
     public InputTextMessageContent() { }
+}
+
+/// <summary>Represents the <see cref="InputMessageContent">content</see> of a rich message to be sent as the result of an inline query.</summary>
+public partial class InputRichMessageContent : InputMessageContent
+{
+    /// <summary>The message to be sent</summary>
+    [JsonPropertyName("rich_message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required InputRichMessage RichMessage { get; set; }
+
+    /// <summary>Initializes an instance of <see cref="InputRichMessageContent"/></summary>
+    /// <param name="richMessage">The message to be sent</param>
+    [SetsRequiredMembers]
+    public InputRichMessageContent(InputRichMessage richMessage) => RichMessage = richMessage;
+
+    /// <summary>Instantiates a new <see cref="InputRichMessageContent"/></summary>
+    public InputRichMessageContent() { }
 }
 
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of a location message to be sent as the result of an inline query.</summary>

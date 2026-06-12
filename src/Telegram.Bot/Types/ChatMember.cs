@@ -147,7 +147,7 @@ public partial class ChatMemberRestricted : ChatMember
     [JsonPropertyName("is_member")]
     public bool IsMember { get; set; }
 
-    /// <summary><see langword="true"/>, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues</summary>
+    /// <summary><see langword="true"/>, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway winners, invoices, locations and venues</summary>
     [JsonPropertyName("can_send_messages")]
     public bool CanSendMessages { get; set; }
 

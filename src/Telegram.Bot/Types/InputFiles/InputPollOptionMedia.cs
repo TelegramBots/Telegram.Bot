@@ -1,10 +1,11 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>This object represents the content of a poll option to be sent. It should be one of<br/><see cref="InputMediaAnimation"/>, <see cref="InputMediaLivePhoto"/>, <see cref="InputMediaLocation"/>, <see cref="InputMediaPhoto"/>, <see cref="InputMediaSticker"/>, <see cref="InputMediaVenue"/>, <see cref="InputMediaVideo"/></summary>
+/// <summary>This object represents the content of a poll option to be sent. It should be one of<br/><see cref="InputMediaAnimation"/>, <see cref="InputMediaLink"/>, <see cref="InputMediaLivePhoto"/>, <see cref="InputMediaLocation"/>, <see cref="InputMediaPhoto"/>, <see cref="InputMediaSticker"/>, <see cref="InputMediaVenue"/>, <see cref="InputMediaVideo"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<InputPollOptionMedia>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(InputMediaAnimation), "animation")]
+[CustomJsonDerivedType(typeof(InputMediaLink), "link")]
 [CustomJsonDerivedType(typeof(InputMediaLivePhoto), "live_photo")]
 [CustomJsonDerivedType(typeof(InputMediaLocation), "location")]
 [CustomJsonDerivedType(typeof(InputMediaPhoto), "photo")]

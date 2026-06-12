@@ -13,6 +13,9 @@ public partial class PollMedia
     /// <summary><em>Optional</em>. Media is a general file, information about the file; currently, can't be received in a poll option</summary>
     public Document? Document { get; set; }
 
+    /// <summary><em>Optional</em>. The HTTP link attached to the poll option</summary>
+    public Link? Link { get; set; }
+
     /// <summary><em>Optional</em>. Media is a live photo, information about the live photo</summary>
     [JsonPropertyName("live_photo")]
     public LivePhoto? LivePhoto { get; set; }
@@ -40,6 +43,7 @@ public partial class PollMedia
         { Animation: not null }               => PollMediaType.Animation,
         { Audio: not null }                   => PollMediaType.Audio,
         { Document: not null }                => PollMediaType.Document,
+        { Link: not null }                    => PollMediaType.Link,
         { LivePhoto: not null }               => PollMediaType.LivePhoto,
         { Location: not null }                => PollMediaType.Location,
         { Photo: not null }                   => PollMediaType.Photo,

@@ -1899,6 +1899,38 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to process a received chat join request query.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatJoinRequestQueryId">Unique identifier of the join request query</param>
+    /// <param name="result">Result of the query. Must be either “approve” to allow the user to join the chat, “decline” to disallow the user to join the chat, or “queue” to leave the decision to other administrators.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task AnswerChatJoinRequestQuery(
+        this ITelegramBotClient botClient,
+        string chatJoinRequestQueryId,
+        string result,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new AnswerChatJoinRequestQueryRequest
+    {
+        ChatJoinRequestQueryId = chatJoinRequestQueryId,
+        Result = result,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to process a received chat join request query by showing a Mini App to the user before deciding the outcome.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatJoinRequestQueryId">Unique identifier of the join request query</param>
+    /// <param name="webAppUrl">The URL of the Mini App to be opened</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SendChatJoinRequestWebApp(
+        this ITelegramBotClient botClient,
+        string chatJoinRequestQueryId,
+        string webAppUrl,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SendChatJoinRequestWebAppRequest
+    {
+        ChatJoinRequestQueryId = chatJoinRequestQueryId,
+        WebAppUrl = webAppUrl,
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel in the format <c>@username</c></param>
@@ -2638,7 +2670,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to change the bot's menu button in a private chat, or the default menu button.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target private chat. If not specified, default bot's menu button will be changed.</param>
+    /// <param name="chatId">Unique identifier for the target private chat. If not specified, the bot's default menu button will be changed.</param>
     /// <param name="menuButton">An object for the bot's new menu button. Defaults to <see cref="MenuButtonDefault"/>.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task SetChatMenuButton(
@@ -2654,7 +2686,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target private chat. If not specified, default bot's menu button will be returned.</param>
+    /// <param name="chatId">Unique identifier for the target private chat. If not specified, the bot's default menu button will be returned.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns><see cref="MenuButton"/> on success.</returns>
     public static async Task<MenuButton> GetChatMenuButton(
@@ -3360,15 +3392,16 @@ public static partial class TelegramBotClientExtensions
 
     #region Updating messages
 
-    /// <summary>Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
+    /// <summary>Use this method to edit text, rich and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
-    /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
+    /// <param name="text">New text of the message, 1-4096 characters after entity parsing; required if <paramref name="richMessage"/> isn't specified</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The edited <see cref="Message"/> is returned</returns>
@@ -3376,11 +3409,12 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         int messageId,
-        string text,
+        string? text,
         ParseMode parseMode = default,
         InlineKeyboardMarkup? replyMarkup = default,
         LinkPreviewOptions? linkPreviewOptions = default,
         IEnumerable<MessageEntity>? entities = default,
+        InputRichMessage? richMessage = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditMessageTextRequest
@@ -3392,27 +3426,30 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         LinkPreviewOptions = linkPreviewOptions,
         Entities = entities,
+        RichMessage = richMessage,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to edit text and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
+    /// <summary>Use this method to edit text, rich and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message.</param>
-    /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
+    /// <param name="text">New text of the message, 1-4096 characters after entity parsing; required if <paramref name="richMessage"/> isn't specified</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageText(
         this ITelegramBotClient botClient,
         string inlineMessageId,
-        string text,
+        string? text,
         ParseMode parseMode = default,
         InlineKeyboardMarkup? replyMarkup = default,
         LinkPreviewOptions? linkPreviewOptions = default,
         IEnumerable<MessageEntity>? entities = default,
+        InputRichMessage? richMessage = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditInlineMessageTextRequest
@@ -3423,6 +3460,7 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         LinkPreviewOptions = linkPreviewOptions,
         Entities = entities,
+        RichMessage = richMessage,
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
@@ -3492,7 +3530,7 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
+    /// <summary>Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
@@ -3518,7 +3556,7 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add media to text messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
+    /// <summary>Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message.</param>
     /// <param name="media">An object for a new media content of the message</param>
@@ -4175,6 +4213,75 @@ public static partial class TelegramBotClientExtensions
     ) => await botClient.ThrowIfNull().SendRequest(new DeleteStickerSetRequest
     {
         Name = name,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="richMessage">The message to be sent</param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
+    /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
+    /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
+    /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
+    /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
+    /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
+    /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>The sent <see cref="Message"/> is returned.</returns>
+    public static async Task<Message> SendRichMessage(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        InputRichMessage richMessage,
+        ReplyParameters? replyParameters = default,
+        ReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        string? messageEffectId = default,
+        string? businessConnectionId = default,
+        bool allowPaidBroadcast = default,
+        long? directMessagesTopicId = default,
+        SuggestedPostParameters? suggestedPostParameters = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SendRichMessageRequest
+    {
+        ChatId = chatId,
+        RichMessage = richMessage,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+        MessageThreadId = messageThreadId,
+        DisableNotification = disableNotification,
+        ProtectContent = protectContent,
+        MessageEffectId = messageEffectId,
+        BusinessConnectionId = businessConnectionId,
+        AllowPaidBroadcast = allowPaidBroadcast,
+        DirectMessagesTopicId = directMessagesTopicId,
+        SuggestedPostParameters = suggestedPostParameters,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you <b>must</b> call <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see> with the complete message to persist it in the user's chat.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target private chat</param>
+    /// <param name="draftId">Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.</param>
+    /// <param name="richMessage">The partial message to be streamed</param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SendRichMessageDraft(
+        this ITelegramBotClient botClient,
+        long chatId,
+        int draftId,
+        InputRichMessage richMessage,
+        int? messageThreadId = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SendRichMessageDraftRequest
+    {
+        ChatId = chatId,
+        DraftId = draftId,
+        RichMessage = richMessage,
+        MessageThreadId = messageThreadId,
     }, cancellationToken).ConfigureAwait(false);
 
     #endregion

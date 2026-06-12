@@ -19,4 +19,6 @@ public enum InputPollOptionMediaType
     Venue,
     /// <summary>Represents a video to be sent.<br/><br/><i>(<see cref="InputPollOptionMedia"/> can be cast into <see cref="InputMediaVideo"/>)</i></summary>
     Video,
+    /// <summary>Represents an HTTP link to be sent.<br/><br/><i>(<see cref="InputPollOptionMedia"/> can be cast into <see cref="InputMediaLink"/>)</i></summary>
+    Link,
 }

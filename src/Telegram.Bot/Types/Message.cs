@@ -147,6 +147,10 @@ public partial class Message
     [JsonPropertyName("effect_id")]
     public string? EffectId { get; set; }
 
+    /// <summary><em>Optional</em>. Message is a rich formatted message</summary>
+    [JsonPropertyName("rich_message")]
+    public RichMessage? RichMessage { get; set; }
+
     /// <summary><em>Optional</em>. Message is an animation, information about the animation. For backward compatibility, when this field is set, the <see cref="Document">Document</see> field will also be set.</summary>
     public Animation? Animation { get; set; }
 
@@ -446,6 +450,7 @@ public partial class Message
     public MessageType Type => this switch
     {
         { Text: not null }                              => MessageType.Text,
+        { RichMessage: not null }                       => MessageType.RichMessage,
         { Animation: not null }                         => MessageType.Animation,
         { Audio: not null }                             => MessageType.Audio,
         { Document: not null }                          => MessageType.Document,

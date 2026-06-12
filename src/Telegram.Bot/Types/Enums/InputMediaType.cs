@@ -23,4 +23,6 @@ public enum InputMediaType
     Sticker,
     /// <summary>Represents a venue to be sent.<br/><br/><i>(InputPoll*Media can be cast into <see cref="InputMediaVenue"/>)</i></summary>
     Venue,
+    /// <summary>Represents an HTTP link to be sent.<br/><br/><i>(InputPoll*Media can be cast into <see cref="InputMediaLink"/>)</i></summary>
+    Link,
 }

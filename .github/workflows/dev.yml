@@ -18,9 +18,9 @@ env:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
-    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
       with:

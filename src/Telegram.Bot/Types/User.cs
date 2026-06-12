@@ -71,4 +71,8 @@ public partial class User
     /// <summary><em>Optional</em>. <see langword="true"/>, if other bots can be created to be controlled by the bot. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
     [JsonPropertyName("can_manage_bots")]
     public bool CanManageBots { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot supports join request queries and can be assigned to process them. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    [JsonPropertyName("supports_join_request_queries")]
+    public bool SupportsJoinRequestQueries { get; set; }
 }

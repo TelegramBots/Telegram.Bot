@@ -155,4 +155,6 @@ public enum MessageType
     PollOptionDeleted,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.LivePhoto"/></summary>
     LivePhoto,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.RichMessage"/></summary>
+    RichMessage,
 }
