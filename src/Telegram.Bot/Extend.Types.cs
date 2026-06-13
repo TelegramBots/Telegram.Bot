@@ -60,7 +60,7 @@ namespace Telegram.Bot.Types
         public bool IsServiceMessage => this switch // see https://github.com/tdlib/td/blob/master/td/telegram/MessageContentType.cpp#L506
         {
             { Text: { } } or { Caption: { } } or { Photo: { } } or { Video: { } } or { Document: { } } or { Sticker: { } } or
-            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { Dice: { } } or { Checklist: { } } or
+            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { RichMessage: { } } or { Dice: { } } or { Checklist: { } } or
             { Game: { } } or { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or
             { Venue: { } } or { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } }
               => false,
@@ -175,8 +175,11 @@ namespace Telegram.Bot.Types
 
     public partial class LinkPreviewOptions
     {
+        /// <summary>Disable link preview</summary>
+        public static readonly LinkPreviewOptions Disabled = new() { IsDisabled = true };
         /// <summary>To get the same behaviour as previous parameter <c>disableWebPagePreview:</c></summary>
-        public static implicit operator LinkPreviewOptions(bool disabled) => new() { IsDisabled = disabled };
+        [Obsolete("Use LinkPreviewOptions.Disabled instead of 'true'")]
+        public static implicit operator LinkPreviewOptions?(bool disabled) => disabled ? Disabled : null;
         /// <summary>Simply pass a URL string to request a preview of that link</summary>
         public static implicit operator LinkPreviewOptions(string url) => new() { Url = url };
     }

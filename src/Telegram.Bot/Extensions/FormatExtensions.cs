@@ -713,6 +713,192 @@ public static class HtmlText
         }
         return html;
     }
+
+    /// <summary>Generate HTML from the given Rich Message</summary>
+    /// <param name="msg">The message containing a rich message to convert</param>
+    /// <returns>The HTML for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>),
+    /// or <see langword="null"/> if message is not a Rich Message</returns>
+    public static string? ToRichHtml(this Message? msg) => msg?.RichMessage?.ToHtml();
+
+    /// <summary>Generate HTML from the given Rich Message</summary>
+    /// <param name="richMsg">The rich message to convert</param>
+    /// <returns>The HTML for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>),
+    /// or <see langword="null"/> if <paramref name="richMsg"/> is <see langword="null"/></returns>
+    public static string? ToHtml(this RichMessage? richMsg) => richMsg?.Blocks.ToHtml();
+
+    /// <summary>Generate HTML from the given Rich Message Block</summary>
+    /// <param name="block">The rich message block to convert</param>
+    public static string ToHtml(this RichBlock block) => ToHtml([block]);
+
+    /// <summary>Generate HTML from the given Rich Message Blocks</summary>
+    /// <param name="blocks">The rich message blocks to convert</param>
+    public static string ToHtml(this RichBlock[] blocks)
+    {
+        var sb = new StringBuilder();
+        sb.AppendRich(blocks);
+        return sb.ToString();
+    }
+
+    static StringBuilder AppendRich(this StringBuilder sb, RichBlock[] blocks)
+    {
+        foreach (var block in blocks)
+            sb.AppendRich(block);
+        return sb;
+    }
+
+    static StringBuilder AppendRich(this StringBuilder sb, RichBlock block)
+    {
+        switch (block)
+        {
+            case RichBlockParagraph rb: sb.Append("<p>").AppendRich(rb.Text).Append("</p>\n"); break;
+            case RichBlockSectionHeading rb: sb.Append("<h").Append(rb.Size).Append('>').AppendRich(rb.Text).Append("</h").Append(rb.Size).Append(">\n"); break;
+            case RichBlockFooter rb: sb.Append("<footer>").AppendRich(rb.Text).Append("</footer>\n"); break;
+            case RichBlockThinking rb: sb.Append("<tg-thinking>").AppendRich(rb.Text).Append("</tg-thinking>\n"); break;
+            case RichBlockDivider: sb.Append("<hr/>\n"); break;
+            case RichBlockPreformatted rb:
+                sb.Append("<pre>");
+                if (rb.Language != null) sb.Append("<code class=\"language-").AppendHtml(rb.Language).Append("\">");
+                sb.AppendRich(rb.Text, false);
+                if (rb.Language != null) sb.Append("</code>");
+                sb.Append("</pre>\n");
+                break;
+            case RichBlockBlockQuotation rb:
+                sb.Append("<blockquote>").AppendRich(rb.Blocks);
+                if (rb.Credit != null) sb.Append("<cite>").AppendRich(rb.Credit).Append("</cite>");
+                else if (sb[^1] == '\n') sb.Length--;
+                sb.Append("</blockquote>\n");
+                break;
+            case RichBlockPullQuotation rb:
+                sb.Append("<aside>").AppendRich(rb.Text);
+                if (rb.Credit != null) sb.Append("<cite>").AppendRich(rb.Credit).Append("</cite>");
+                sb.Append("</aside>\n");
+                break;
+            case RichBlockCollage rb: sb.Append("<tg-collage>\n").AppendRich(rb.Blocks).AppendRich(rb.Caption).Append("</tg-collage>\n"); break;
+            case RichBlockSlideshow rb: sb.Append("<tg-slideshow>\n").AppendRich(rb.Blocks).AppendRich(rb.Caption).Append("</tg-slideshow>\n"); break;
+            case RichBlockDetails rb:
+                sb.Append("<details");
+                if (rb.IsOpen) sb.Append(" open");
+                sb.Append("><summary>").AppendRich(rb.Summary).Append("</summary>\n").AppendRich(rb.Blocks).Append("</details>\n");
+                break;
+            case RichBlockMathematicalExpression rb: sb.Append("<tg-math-block>").AppendHtml(rb.Expression).Append("</tg-math-block>\n"); break;
+            case RichBlockAnchor rb: sb.Append("<a name=\"").AppendHtml(rb.Name).Append("\"></a>"); break;
+            case RichBlockMap rb: sb.AppendMedia($"<tg-map lat=\"{rb.Location.Latitude}\" lon=\"{rb.Location.Longitude}\" zoom=\"{rb.Zoom}\" width=\"{rb.Width}\" height=\"{rb.Height}\"", rb.Caption); break;
+            case RichBlockPhoto rb: sb.AppendMedia($"<img src=\"{rb.Photo[^1].FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockVideo rb: sb.AppendMedia($"<video src=\"{rb.Video.FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockAnimation rb: sb.AppendMedia($"<video src=\"{rb.Animation.FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockAudio rb: sb.AppendMedia($"<audio src=\"{rb.Audio.FileId}\"", rb.Caption); break;
+            case RichBlockVoiceNote rb: sb.AppendMedia($"<audio src=\"{rb.VoiceNote.FileId}\"", rb.Caption); break;
+            case RichBlockList rb:
+                (int? value, string? type) = rb.Items.Length > 0 ? (rb.Items[0].Value, rb.Items[0].Type) : default;
+                if (value == null) sb.Append("<ul>");
+                else
+                {
+                    sb.Append("<ol");
+                    if (type is not null and not "1") sb.Append(" type=\"").AppendHtml(type).Append('"');
+                    if (value is not 1) sb.Append(" start=\"").Append(value).Append('"');
+                    sb.Append('>');
+                }
+                foreach (var item in rb.Items)
+                {
+                    sb.Append("\n<li");
+                    if (!string.Equals(item.Type, type, StringComparison.Ordinal)) sb.Append(" type=\"").AppendHtml(item.Type).Append('"');
+                    if (item.Value != value) sb.Append(" value=\"").Append(value = item.Value).Append('"');
+                    sb.Append('>');
+                    if (item.HasCheckbox) sb.Append(item.IsChecked ? "<input type=\"checkbox\" checked>" : "<input type=\"checkbox\">");
+                    sb.AppendRich(item.Blocks);
+                    if (sb[^1] == '\n') sb.Length--;
+                    sb.Append("</li>");
+                    value++;
+                }
+                sb.Append(value == null ? "\n</ul>\n" : "\n</ol>\n");
+                break;
+            case RichBlockTable rb:
+                sb.Append("<table");
+                if (rb.IsBordered) sb.Append(" bordered");
+                if (rb.IsStriped) sb.Append(" striped");
+                sb.Append('>');
+                if (rb.Caption != null) sb.Append("<caption>").AppendRich(rb.Caption).Append("</caption>");
+                sb.Append('\n');
+                foreach (var row in rb.Cells)
+                {
+                    sb.Append("<tr>");
+                    foreach (var cell in row)
+                    {
+                        sb.Append(cell.IsHeader ? "<th" : "<td");
+                        if (cell.Colspan > 1) sb.Append(" colspan=\"").Append(cell.Colspan).Append('"');
+                        if (cell.Rowspan > 1) sb.Append(" rowspan=\"").Append(cell.Rowspan).Append('"');
+                        if (cell.Align != (cell.IsHeader ? RichBlockTableCellAlign.Center : RichBlockTableCellAlign.Left)) sb.Append(" align=\"").Append(cell.Align).Append('"');
+                        if (cell.Valign != RichBlockTableCellValign.Middle) sb.Append(" valign=\"").Append(cell.Valign).Append('"');
+                        sb.Append('>');
+                        sb.AppendRich(cell.Text);
+                        sb.Append(cell.IsHeader ? "</th>" : "</td>");
+                    }
+                    sb.Append("</tr>\n");
+                }
+                break;
+        }
+        return sb;
+    }
+
+    static void AppendMedia(this StringBuilder sb, string tag, RichBlockCaption? caption, bool hasSpoiler = false)
+    {
+        if (caption != null) sb.Append("<figure>");
+        sb.Append(tag);
+        if (hasSpoiler) sb.Append(" tg-spoiler");
+        sb.Append("/>");
+        if (caption != null) sb.AppendRich(caption).Append("</figure>");
+        sb.Append('\n');
+    }
+
+    static StringBuilder AppendRich(this StringBuilder sb, RichText? text, bool escapeLF = true)
+    {
+        switch (text)
+        {
+            case RichTextArray rt: foreach (var t in rt.Array) sb.AppendRich(t, escapeLF); break;
+            case RichTextText rt: if (escapeLF) sb.AppendHtml(rt.Text); else sb.Append(Escape(rt.Text)); break;
+            case RichTextBold rt: sb.Append("<b>").AppendRich(rt.Text).Append("</b>"); break;
+            case RichTextItalic rt: sb.Append("<i>").AppendRich(rt.Text).Append("</i>"); break;
+            case RichTextUnderline rt: sb.Append("<u>").AppendRich(rt.Text).Append("</u>"); break;
+            case RichTextStrikethrough rt: sb.Append("<s>").AppendRich(rt.Text).Append("</s>"); break;
+            case RichTextSpoiler rt: sb.Append("<tg-spoiler>").AppendRich(rt.Text).Append("</tg-spoiler>"); break;
+            case RichTextSubscript rt: sb.Append("<sub>").AppendRich(rt.Text).Append("</sub>"); break;
+            case RichTextSuperscript rt: sb.Append("<sup>").AppendRich(rt.Text).Append("</sup>"); break;
+            case RichTextMarked rt: sb.Append("<mark>").AppendRich(rt.Text).Append("</mark>"); break;
+            case RichTextCode rt: sb.Append("<code>").AppendRich(rt.Text).Append("</code>"); break;
+            case RichTextDateTime rt:
+                sb.Append("<tg-time unix=\"").Append(((DateTimeOffset)rt.UnixTime).ToUnixTimeSeconds()).Append('"');
+                if (rt.DateTimeFormat is not null and not "") sb.Append(" format=\"").AppendHtml(rt.DateTimeFormat).Append('"');
+                sb.Append('>').AppendRich(rt.Text).Append("</tg-time>");
+                break;
+            case RichTextCustomEmoji rt: sb.Append("<tg-emoji emoji-id=\"").Append(rt.CustomEmojiId).Append("\">").AppendHtml(rt.AlternativeText).Append("</tg-emoji>"); break;
+            case RichTextMathematicalExpression rt: sb.Append("<tg-math>").AppendHtml(rt.Expression).Append("</tg-math>"); break;
+            case RichTextBankCardNumber rt: sb.AppendRich(rt.Text); break;
+            case RichTextMention rt: sb.AppendRich(rt.Text); break;
+            case RichTextHashtag rt: sb.AppendRich(rt.Text); break;
+            case RichTextCashtag rt: sb.AppendRich(rt.Text); break;
+            case RichTextBotCommand rt: sb.AppendRich(rt.Text); break;
+            case RichTextTextMention rt: sb.Append("<a href=\"tg://user?id=").Append(rt.User.Id).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
+            case RichTextUrl rt: sb.Append("<a href=\"").AppendHtml(rt.Url).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
+            case RichTextEmailAddress rt: sb.Append("<a href=\"mailto:").AppendHtml(rt.EmailAddress).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
+            case RichTextPhoneNumber rt: sb.Append("<a href=\"tel:").AppendHtml(rt.PhoneNumber).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
+            case RichTextAnchorLink rt: sb.Append("<a href=\"#").AppendHtml(rt.AnchorName).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
+            case RichTextReferenceLink rt: sb.Append("<a href=\"#").AppendHtml(rt.ReferenceName).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
+            case RichTextAnchor rt: sb.Append("<a name=\"").AppendHtml(rt.Name).Append("\"></a>"); break;
+            case RichTextReference rt: sb.Append("<tg-reference name=\"").AppendHtml(rt.Name).Append("\">").AppendRich(rt.Text).Append("</tg-reference>"); break;
+        }
+        return sb;
+    }
+
+    static StringBuilder AppendRich(this StringBuilder sb, RichBlockCaption? caption)
+    {
+        if (caption == null) return sb;
+        sb.Append("\n<figcaption>").AppendRich(caption.Text);
+        if (caption.Credit != null) sb.Append("<cite>").AppendRich(caption.Credit).Append("</cite>");
+        return sb.Append("</figcaption>");
+    }
+
+    static StringBuilder AppendHtml(this StringBuilder sb, string? html)
+        => sb.Append(Escape(html)?.Replace("\n", "<br/>"));
 #else //!NET6_0_OR_GREATER
 #pragma warning disable MA0028
     private static StringBuilder Append(this StringBuilder sb, ReadOnlySpan<char> value) => sb.Append(value.ToString());
