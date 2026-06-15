@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>Represents a location to be sent.</summary>
 public partial class InputMediaLocation : InputPollMedia, InputPollOptionMedia
 {
-    /// <summary>Type of the result, must be <em>location</em></summary>
+    /// <summary>Type of the media, must be <em>location</em></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public InputMediaType Type => InputMediaType.Location;
 

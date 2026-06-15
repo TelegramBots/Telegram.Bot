@@ -10,7 +10,7 @@ public partial class SendMessageDraftRequest() : RequestBase<bool>("sendMessageD
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
-    /// <summary>Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.</summary>
+    /// <summary>Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.</summary>
     [JsonPropertyName("draft_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int DraftId { get; set; }

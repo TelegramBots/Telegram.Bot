@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>Represents a sticker file to be sent.</summary>
 public partial class InputMediaSticker : InputPollOptionMedia
 {
-    /// <summary>Type of the result, must be <em>sticker</em></summary>
+    /// <summary>Type of the media, must be <em>sticker</em></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public InputMediaType Type => InputMediaType.Sticker;
 

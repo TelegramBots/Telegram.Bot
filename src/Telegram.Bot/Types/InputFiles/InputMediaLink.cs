@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>Represents an HTTP link to be sent.</summary>
 public partial class InputMediaLink : InputPollOptionMedia
 {
-    /// <summary>Type of the result, must be <em>link</em></summary>
+    /// <summary>Type of the media, must be <em>link</em></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public InputMediaType Type => InputMediaType.Link;
 

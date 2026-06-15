@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary>Type of the result</summary>
+/// <summary>Type of the media</summary>
 [JsonConverter(typeof(EnumConverter<InputMediaType>))]
 public enum InputMediaType
 {

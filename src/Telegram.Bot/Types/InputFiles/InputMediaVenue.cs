@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>Represents a venue to be sent.</summary>
 public partial class InputMediaVenue : InputPollMedia, InputPollOptionMedia
 {
-    /// <summary>Type of the result, must be <em>venue</em></summary>
+    /// <summary>Type of the media, must be <em>venue</em></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public InputMediaType Type => InputMediaType.Venue;
 
