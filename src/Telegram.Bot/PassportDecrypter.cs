@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Buffers;
 
 #pragma warning disable CA2208, MA0015, MA0076
 #pragma warning disable CA1850, CA1835
@@ -154,16 +155,26 @@ namespace Telegram.Bot.Passport
             using CryptoStream aesStream = new CryptoStream(data, decrypter, CryptoStreamMode.Read);
             using var sha256 = SHA256.Create();
             using CryptoStream shaStream = new CryptoStream(aesStream, sha256, CryptoStreamMode.Read);
-            byte[] paddingBuffer = new byte[256];
-            int read = await shaStream.ReadAsync(paddingBuffer, 0, 256, cancellationToken).ConfigureAwait(false);
 
-            byte paddingLength = paddingBuffer[0];
-            if (paddingLength < 32) throw new PassportDataDecryptionException($"Data padding length is invalid: {paddingLength}.");
+            byte[] paddingBuffer = ArrayPool<byte>.Shared.Rent(256);
+            try
+            {
+                int read = await shaStream.ReadAsync(paddingBuffer, 0, 256, cancellationToken).ConfigureAwait(false);
 
-            int actualDataLength = read - paddingLength;
-            if (actualDataLength < 1) throw new PassportDataDecryptionException($"Data length is invalid: {actualDataLength}.");
+                byte paddingLength = paddingBuffer[0];
+                if (paddingLength < 32)
+                    throw new PassportDataDecryptionException($"Data padding length is invalid: {paddingLength}.");
 
-            await destination.WriteAsync(paddingBuffer, paddingLength, actualDataLength, cancellationToken).ConfigureAwait(false);
+                int actualDataLength = read - paddingLength;
+                if (actualDataLength < 1)
+                    throw new PassportDataDecryptionException($"Data length is invalid: {actualDataLength}.");
+
+                await destination.WriteAsync(paddingBuffer, paddingLength, actualDataLength, cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(paddingBuffer, clearArray: true);
+            }
 
             // 81920 is the default Stream.CopyTo buffer size
             // The overload without the buffer size does not accept a cancellation token
@@ -221,20 +232,31 @@ namespace Telegram.Bot.Passport
 
         private static void FindDataKeyAndIv(byte[] secret, byte[] hash, out byte[] dataKey, out byte[] dataIv)
         {
-            byte[] dataSecretHash;
-            using (var sha512 = SHA512.Create())
-            {
-                byte[] secretAndHashBytes = new byte[secret.Length + hash.Length];
-                Array.Copy(secret, 0, secretAndHashBytes, 0, secret.Length);
-                Array.Copy(hash, 0, secretAndHashBytes, secret.Length, hash.Length);
-                dataSecretHash = sha512.ComputeHash(secretAndHashBytes);
-            }
+        #if NETSTANDARD2_0
+            // Резервный вариант для старых фреймворков (Оригинальный код Telegram.Bot)
+            byte[] secretAndHashBytes = new byte[secret.Length + hash.Length];
+            Buffer.BlockCopy(secret, 0, secretAndHashBytes, 0, secret.Length);
+            Buffer.BlockCopy(hash, 0, secretAndHashBytes, secret.Length, hash.Length);
+
+            using var sha512 = SHA512.Create();
+            byte[] dataSecretHash = sha512.ComputeHash(secretAndHashBytes);
 
             dataKey = new byte[32];
-            Array.Copy(dataSecretHash, 0, dataKey, 0, 32);
-
             dataIv = new byte[16];
-            Array.Copy(dataSecretHash, 32, dataIv, 0, 16);
+            Buffer.BlockCopy(dataSecretHash, 0, dataKey, 0, 32);
+            Buffer.BlockCopy(dataSecretHash, 32, dataIv, 0, 16);
+        #else
+            // Турбо-режим без аллокаций для современных версий .NET
+            Span<byte> dataSecretHash = stackalloc byte[64];
+
+            using var sha512 = IncrementalHash.CreateHash(HashAlgorithmName.SHA512);
+            sha512.AppendData(secret);
+            sha512.AppendData(hash);
+            sha512.GetHashAndReset(dataSecretHash);
+
+            dataKey = dataSecretHash[..32].ToArray();
+            dataIv = dataSecretHash.Slice(32, 16).ToArray();
+        #endif
         }
     }
 }
