@@ -782,7 +782,7 @@ public static class HtmlText
                 break;
             case RichBlockMathematicalExpression rb: sb.Append("<tg-math-block>").AppendHtml(rb.Expression).Append("</tg-math-block>\n"); break;
             case RichBlockAnchor rb: sb.Append("<a name=\"").AppendHtml(rb.Name).Append("\"></a>"); break;
-            case RichBlockMap rb: sb.AppendMedia($"<tg-map lat=\"{rb.Location.Latitude}\" lon=\"{rb.Location.Longitude}\" zoom=\"{rb.Zoom}\" width=\"{rb.Width}\" height=\"{rb.Height}\"", rb.Caption); break;
+            case RichBlockMap rb: sb.AppendMedia(FormattableString.Invariant($"<tg-map lat=\"{rb.Location.Latitude}\" long=\"{rb.Location.Longitude}\" zoom=\"{rb.Zoom}\" width=\"{rb.Width}\" height=\"{rb.Height}\""), rb.Caption); break;
             case RichBlockPhoto rb: sb.AppendMedia($"<img src=\"tg://photo?file_id={rb.Photo[^1].FileId}\"", rb.Caption, rb.HasSpoiler); break;
             case RichBlockVideo rb: sb.AppendMedia($"<video src=\"tg://video?file_id={rb.Video.FileId}\"", rb.Caption, rb.HasSpoiler); break;
             case RichBlockAnimation rb: sb.AppendMedia($"<video src=\"tg://video?file_id={rb.Animation.FileId}\"", rb.Caption, rb.HasSpoiler); break;
