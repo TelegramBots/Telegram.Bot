@@ -783,11 +783,11 @@ public static class HtmlText
             case RichBlockMathematicalExpression rb: sb.Append("<tg-math-block>").AppendHtml(rb.Expression).Append("</tg-math-block>\n"); break;
             case RichBlockAnchor rb: sb.Append("<a name=\"").AppendHtml(rb.Name).Append("\"></a>"); break;
             case RichBlockMap rb: sb.AppendMedia($"<tg-map lat=\"{rb.Location.Latitude}\" lon=\"{rb.Location.Longitude}\" zoom=\"{rb.Zoom}\" width=\"{rb.Width}\" height=\"{rb.Height}\"", rb.Caption); break;
-            case RichBlockPhoto rb: sb.AppendMedia($"<img src=\"{rb.Photo[^1].FileId}\"", rb.Caption, rb.HasSpoiler); break;
-            case RichBlockVideo rb: sb.AppendMedia($"<video src=\"{rb.Video.FileId}\"", rb.Caption, rb.HasSpoiler); break;
-            case RichBlockAnimation rb: sb.AppendMedia($"<video src=\"{rb.Animation.FileId}\"", rb.Caption, rb.HasSpoiler); break;
-            case RichBlockAudio rb: sb.AppendMedia($"<audio src=\"{rb.Audio.FileId}\"", rb.Caption); break;
-            case RichBlockVoiceNote rb: sb.AppendMedia($"<audio src=\"{rb.VoiceNote.FileId}\"", rb.Caption); break;
+            case RichBlockPhoto rb: sb.AppendMedia($"<img src=\"tg://photo?file_id={rb.Photo[^1].FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockVideo rb: sb.AppendMedia($"<video src=\"tg://video?file_id={rb.Video.FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockAnimation rb: sb.AppendMedia($"<video src=\"tg://video?file_id={rb.Animation.FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockAudio rb: sb.AppendMedia($"<audio src=\"tg://audio?file_id={rb.Audio.FileId}\"", rb.Caption); break;
+            case RichBlockVoiceNote rb: sb.AppendMedia($"<audio src=\"tg://audio?file_id={rb.VoiceNote.FileId}\"", rb.Caption); break;
             case RichBlockList rb:
                 (int? value, string? type) = rb.Items.Length > 0 ? (rb.Items[0].Value, rb.Items[0].Type) : default;
                 if (value == null) sb.Append("<ul>");
