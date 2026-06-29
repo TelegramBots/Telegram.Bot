@@ -379,6 +379,7 @@ public static class HtmlText
                 var imp = new InputMediaPhoto(ParseInputFile(src, streams));
                 if (captionAbove) imp.ShowCaptionAboveMedia = true;
                 if (CheckHtmlArg(ref span, "spoiler", out _)) imp.HasSpoiler = true;
+                if (CheckHtmlArg(ref span, "tg-spoiler", out _)) imp.HasSpoiler = true;
                 im = imp;
             }
             else if (index == iVid)
@@ -388,6 +389,7 @@ public static class HtmlText
                 var imv = new InputMediaVideo(ParseInputFile(src, streams)) { SupportsStreaming = true };
                 if (captionAbove) imv.ShowCaptionAboveMedia = true;
                 if (CheckHtmlArg(ref span, "spoiler", out _)) imv.HasSpoiler = true;
+                if (CheckHtmlArg(ref span, "tg-spoiler", out _)) imv.HasSpoiler = true;
                 im = imv;
             }
             else
@@ -676,9 +678,9 @@ public static class HtmlText
         {
             var media = msg switch
             {
-                { Photo: { } photo } => $"<img src=\"{photo[^1].FileId}\"{(msg.HasMediaSpoiler ? " spoiler>" : ">")}",
-                { Video: { } video } => $"<video src=\"{video.FileId}\"{(msg.HasMediaSpoiler ? " spoiler>" : ">")}",
-                { Animation: { } animation } => $"<video src=\"{animation.FileId}\"{(msg.HasMediaSpoiler ? " spoiler>" : ">")}",
+                { Photo: { } photo } => $"<img src=\"{photo[^1].FileId}\"{(msg.HasMediaSpoiler ? " tg-spoiler>" : ">")}",
+                { Video: { } video } => $"<video src=\"{video.FileId}\"{(msg.HasMediaSpoiler ? " tg-spoiler>" : ">")}",
+                { Animation: { } animation } => $"<video src=\"{animation.FileId}\"{(msg.HasMediaSpoiler ? " tg-spoiler>" : ">")}",
                 { Document: { } document } => $"<file src=\"{document.FileId}\">",
                 { Sticker: { } sticker } => $"<file src=\"{sticker.FileId}\">",
                 { Audio: { } audio } => $"<file src=\"{audio.FileId}\">",
