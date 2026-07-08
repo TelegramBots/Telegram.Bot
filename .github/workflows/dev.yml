@@ -22,7 +22,7 @@ jobs:
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 30
     - name: Determine version
@@ -41,7 +41,7 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     # - name: Setup .NET
-    #   uses: actions/setup-dotnet@v4
+    #   uses: actions/setup-dotnet@v5
     #   with:
     #     dotnet-version: 9.0.x
     # - name: Restore dependencies
@@ -58,7 +58,7 @@ jobs:
     # - name: Pack
     #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES"
     # - name: Upload artifact
-    #   uses: actions/upload-artifact@v4
+    #   uses: actions/upload-artifact@v5
     #   with:
     #     name: packages
     #     path: $PACKAGES_PATH/*.nupkg
