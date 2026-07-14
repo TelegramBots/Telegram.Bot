@@ -33,7 +33,7 @@ public partial class EditMessageTextRequest() : RequestBase<Message>("editMessag
     [JsonPropertyName("link_preview_options")]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
-    /// <summary>New rich content of the message; required if <see cref="Text">Text</see> isn't specified</summary>
+    /// <summary>New rich content of the message; required if <see cref="Text">Text</see> isn't specified. Direct upload of new files isn't supported when an inline message is edited.</summary>
     [JsonPropertyName("rich_message")]
     public InputRichMessage? RichMessage { get; set; }
 

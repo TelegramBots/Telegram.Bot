@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Polling;
 
-// ReSharper disable once CheckNamespace
 namespace Telegram.Bot;
 
 /// <summary>Provides extension methods for <see cref="ITelegramBotClient"/> that allow for <see cref="Update"/> polling</summary>
@@ -84,7 +83,6 @@ public static partial class TelegramBotClientExtensions
         if (botClient is null) { throw new ArgumentNullException(nameof(botClient)); }
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
-        // ReSharper disable once MethodSupportsCancellation
         _ = Task.Run(async () =>
         {
             try

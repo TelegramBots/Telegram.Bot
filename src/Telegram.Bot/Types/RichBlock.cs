@@ -278,7 +278,7 @@ public partial class RichBlockAudio : RichBlock
     public RichBlockCaption? Caption { get; set; }
 }
 
-/// <summary>A block with a photo, corresponding to the HTML tag <c>&lt;photo&gt;</c>.</summary>
+/// <summary>A block with a photo, corresponding to the HTML tag <c>&lt;img&gt;</c>.</summary>
 public partial class RichBlockPhoto : RichBlock
 {
     /// <summary>Type of the block, always <see cref="RichBlockType.Photo"/></summary>
@@ -329,13 +329,13 @@ public partial class RichBlockVoiceNote : RichBlock
     public RichBlockCaption? Caption { get; set; }
 }
 
-/// <summary>A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <c>&lt;tg-thinking&gt;</c>. The block may be used only in <see cref="TelegramBotClientExtensions.SendRichMessageDraft">SendRichMessageDraft</see>, therefore it can't be received in messages. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji, which are recommended for usage in the block.</summary>
+/// <summary>A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <c>&lt;tg-thinking&gt;</c>. The block may be used only in <see cref="TelegramBotClientExtensions.SendRichMessageDraft">SendRichMessageDraft</see>, therefore it can't be received in messages. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji that are recommended for usage in the block.</summary>
 public partial class RichBlockThinking : RichBlock
 {
     /// <summary>Type of the block, always <see cref="RichBlockType.Thinking"/></summary>
     public override RichBlockType Type => RichBlockType.Thinking;
 
-    /// <summary>Text of the block. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji, which are recommended for usage in the block.</summary>
+    /// <summary>Text of the block. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji that are recommended for usage in the block.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public RichText Text { get; set; } = default!;
 }

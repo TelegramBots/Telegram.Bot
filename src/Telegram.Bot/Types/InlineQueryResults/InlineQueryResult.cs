@@ -129,7 +129,7 @@ public partial class InlineQueryResultPhoto : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -198,7 +198,7 @@ public partial class InlineQueryResultGif : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -267,7 +267,7 @@ public partial class InlineQueryResultMpeg4Gif : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -327,7 +327,7 @@ public partial class InlineQueryResultVideo : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -780,7 +780,7 @@ public partial class InlineQueryResultCachedPhoto : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -823,7 +823,7 @@ public partial class InlineQueryResultCachedGif : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -866,7 +866,7 @@ public partial class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -986,7 +986,7 @@ public partial class InlineQueryResultCachedVideo : InlineQueryResult
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 

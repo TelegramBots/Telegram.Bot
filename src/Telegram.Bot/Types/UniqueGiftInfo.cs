@@ -12,11 +12,11 @@ public partial class UniqueGiftInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Origin { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.</summary>
+    /// <summary><em>Optional</em>. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.</summary>
     [JsonPropertyName("last_resale_currency")]
     public string? LastResaleCurrency { get; set; }
 
-    /// <summary><em>Optional</em>. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins</summary>
+    /// <summary><em>Optional</em>. For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanograms</summary>
     [JsonPropertyName("last_resale_amount")]
     public long? LastResaleAmount { get; set; }
 

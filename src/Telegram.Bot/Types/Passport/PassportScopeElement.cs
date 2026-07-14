@@ -23,7 +23,7 @@ public partial class PassportScopeElementOneOfSeveral : PassportScopeElement
     public bool Translation { get; set; }
 }
 
-/// <summary>This object represents one particular element that must be provided. If no options are needed, <em>String</em> can be used instead of this object to specify the type of the element.<br/>You can also use the special type "IdDocument" as an alias for one of "passport", "DriverLicense", "IdentityCard" and the special type "AddressDocument" as an alias for one of "UtilityBill", "BankStatement", "RentalAgreement". So <c>{"type":"IdDocument",selfie:true}</c> is equal to <c>{"OneOf":["passport","DriverLicense","IdentityCard"],selfie:true}</c>.</summary>
+/// <summary>This object represents one particular element that must be provided. If no options are needed, <em>String</em> can be used instead of this object to specify the type of the element.<br/>You can also use the special type "IdDocument" as an alias for one of "passport", "DriverLicense", "IdentityCard" and the special type "AddressDocument" as an alias for one of "UtilityBill", "BankStatement", "RentalAgreement".So <c>{"type":"IdDocument",selfie:true}</c> is equal to <c>{"OneOf":["passport","DriverLicense","IdentityCard"],selfie:true}</c>.</summary>
 public partial class PassportScopeElementOne : PassportScopeElement
 {
     /// <summary>Element type. One of "PersonalDetails", "passport", "DriverLicense", "IdentityCard", "InternalPassport", "address", "UtilityBill", "BankStatement", "RentalAgreement", "PassportRegistration", "TemporaryRegistration", "PhoneNumber", "email"</summary>

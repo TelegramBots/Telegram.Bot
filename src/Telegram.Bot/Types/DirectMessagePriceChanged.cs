@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>Describes a service message about a change in the price of direct messages sent to a channel chat.</summary>
 public partial class DirectMessagePriceChanged
 {
-    /// <summary><see langword="true"/>, if direct messages are enabled for the channel chat; false otherwise</summary>
+    /// <summary><see langword="true"/>, if direct messages are enabled for the channel chat; <see langword="false"/> otherwise</summary>
     [JsonPropertyName("are_direct_messages_enabled")]
     public bool AreDirectMessagesEnabled { get; set; }
 

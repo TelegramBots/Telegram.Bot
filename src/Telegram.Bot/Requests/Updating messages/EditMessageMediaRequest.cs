@@ -15,7 +15,7 @@ public partial class EditMessageMediaRequest() : FileRequestBase<Message>("editM
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; set; }
 
-    /// <summary>An object for a new media content of the message</summary>
+    /// <summary>An object for the new media content of the message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputMedia Media { get; set; }
 

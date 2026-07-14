@@ -10,7 +10,7 @@ public partial class SetBusinessAccountGiftSettingsRequest() : RequestBase<bool>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string BusinessConnectionId { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if a button for sending a gift to the user or by the business account must always be shown in the input field</summary>
+    /// <summary>Pass <see langword="true"/> if a button for sending a gift to the user or by the business account must always be shown in the input field</summary>
     [JsonPropertyName("show_gift_button")]
     public required bool ShowGiftButton { get; set; }
 

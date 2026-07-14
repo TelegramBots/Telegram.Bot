@@ -8,11 +8,11 @@ public partial class SuggestedPostPaid
     [JsonPropertyName("suggested_post_message")]
     public Message? SuggestedPostMessage { get; set; }
 
-    /// <summary>Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.</summary>
+    /// <summary>Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Currency { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. The amount of the currency that was received by the channel in nanotoncoins; for payments in toncoins only</summary>
+    /// <summary><em>Optional</em>. The amount of the currency that was received by the channel in nanograms; for payments in TON grams only</summary>
     public long? Amount { get; set; }
 
     /// <summary><em>Optional</em>. The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only</summary>

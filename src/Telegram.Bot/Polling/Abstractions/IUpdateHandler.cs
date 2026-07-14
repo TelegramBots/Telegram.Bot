@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Polling;
 
 /// <summary>Processes <see cref="Update"/>s and errors. <para>See <see cref="DefaultUpdateHandler"/> for a simple implementation</para></summary>

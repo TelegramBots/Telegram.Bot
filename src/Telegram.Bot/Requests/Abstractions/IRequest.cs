@@ -1,4 +1,3 @@
-// ReSharper disable once UnusedTypeParameter
 namespace Telegram.Bot.Requests.Abstractions;
 
 /// <summary>Represents a request to Bot API</summary>

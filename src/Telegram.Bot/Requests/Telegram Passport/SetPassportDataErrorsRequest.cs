@@ -10,7 +10,7 @@ public partial class SetPassportDataErrorsRequest() : RequestBase<bool>("setPass
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; set; }
 
-    /// <summary>A array describing the errors</summary>
+    /// <summary>A Array describing the errors</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<PassportElementError> Errors { get; set; }
 }

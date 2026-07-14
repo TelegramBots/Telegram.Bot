@@ -10,7 +10,7 @@ public partial class AnswerInlineQueryRequest() : RequestBase<bool>("answerInlin
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineQueryId { get; set; }
 
-    /// <summary>A array of results for the inline query</summary>
+    /// <summary>A Array of results for the inline query</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InlineQueryResult> Results { get; set; }
 

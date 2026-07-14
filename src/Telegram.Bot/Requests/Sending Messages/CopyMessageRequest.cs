@@ -43,7 +43,7 @@ public partial class CopyMessageRequest() : RequestBase<MessageId>("copyMessage"
     [JsonPropertyName("caption_entities")]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if the caption must be shown above the message media. Ignored if a new caption isn't specified.</summary>
+    /// <summary>Pass <see langword="true"/> if the caption must be shown above the message media. Ignored if a new caption isn't specified.</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 

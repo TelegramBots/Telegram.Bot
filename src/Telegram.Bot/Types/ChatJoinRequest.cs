@@ -29,7 +29,7 @@ public partial class ChatJoinRequest
     [JsonPropertyName("invite_link")]
     public ChatInviteLink? InviteLink { get; set; }
 
-    /// <summary><em>Optional</em>. Identifier of the join request query. If present, then the bot must call <see cref="TelegramBotClientExtensions.SendChatJoinRequestWebApp">SendChatJoinRequestWebApp</see> or directly call <see cref="TelegramBotClientExtensions.AnswerChatJoinRequestQuery">AnswerChatJoinRequestQuery</see> within 10 seconds.</summary>
+    /// <summary><em>Optional</em>. Identifier of the join request query; for bots assigned to process join requests only. If present, then the bot must call <see cref="TelegramBotClientExtensions.SendChatJoinRequestWebApp">SendChatJoinRequestWebApp</see> or directly call <see cref="TelegramBotClientExtensions.AnswerChatJoinRequestQuery">AnswerChatJoinRequestQuery</see> within 10 seconds.</summary>
     [JsonPropertyName("query_id")]
     public string? QueryId { get; set; }
 }

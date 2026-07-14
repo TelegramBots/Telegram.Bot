@@ -15,7 +15,7 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long StarCount { get; set; }
 
-    /// <summary>A array describing the media to be sent; up to 10 items</summary>
+    /// <summary>A Array describing the media to be sent; up to 10 items</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<InputPaidMedia> Media { get; set; }
 
@@ -45,7 +45,7 @@ public partial class SendPaidMediaRequest() : FileRequestBase<Message>("sendPaid
     [JsonPropertyName("caption_entities")]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary>Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 

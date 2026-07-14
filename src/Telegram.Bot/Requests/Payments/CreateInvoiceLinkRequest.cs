@@ -41,7 +41,7 @@ public partial class CreateInvoiceLinkRequest() : RequestBase<string>("createInv
     [JsonPropertyName("max_tip_amount")]
     public long? MaxTipAmount { get; set; }
 
-    /// <summary>A array of suggested amounts of tips in the <em>smallest units</em> of the currency (integer, <b>not</b> float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed <see cref="MaxTipAmount">MaxTipAmount</see>.</summary>
+    /// <summary>A Array of suggested amounts of tips in the <em>smallest units</em> of the currency (integer, <b>not</b> float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed <see cref="MaxTipAmount">MaxTipAmount</see>.</summary>
     [JsonPropertyName("suggested_tip_amounts")]
     public IEnumerable<int>? SuggestedTipAmounts { get; set; }
 

@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 
-// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Polling;
 
 /// <summary>Options to configure getUpdates requests</summary>

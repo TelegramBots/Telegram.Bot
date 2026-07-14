@@ -13,7 +13,6 @@ public class ChatId : IEquatable<ChatId>
 
     /// <summary>Create a <see cref="ChatId"/> using unique identifier for the chat</summary>
     /// <param name="identifier">Unique identifier for the chat</param>
-    // ReSharper disable once MemberCanBePrivate.Global
     public ChatId(long identifier) => Identifier = identifier;
 
 	/// <summary>Create a <see cref="ChatId"/> using unique identifier for the chat or username of the supergroup or channel (in the format @channelusername)</summary>

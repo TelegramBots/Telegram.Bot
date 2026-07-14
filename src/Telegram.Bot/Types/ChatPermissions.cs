@@ -64,7 +64,7 @@ public partial class ChatPermissions
     [JsonPropertyName("can_pin_messages")]
     public bool CanPinMessages { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to create forum topics. If omitted defaults to the value of <see cref="CanPinMessages">CanPinMessages</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the user is allowed to create forum topics. If omitted, defaults to the value of <see cref="CanPinMessages">CanPinMessages</see>.</summary>
     [JsonPropertyName("can_manage_topics")]
     public bool? CanManageTopics { get; set; }
 }

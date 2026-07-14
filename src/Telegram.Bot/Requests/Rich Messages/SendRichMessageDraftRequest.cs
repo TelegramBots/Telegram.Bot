@@ -15,7 +15,7 @@ public partial class SendRichMessageDraftRequest() : RequestBase<bool>("sendRich
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int DraftId { get; set; }
 
-    /// <summary>The partial message to be streamed</summary>
+    /// <summary>The partial message to be streamed. Direct upload of new files isn't supported.</summary>
     [JsonPropertyName("rich_message")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputRichMessage RichMessage { get; set; }

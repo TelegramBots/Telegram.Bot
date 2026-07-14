@@ -41,27 +41,27 @@ public partial class SendPollRequest() : RequestBase<Message>("sendPoll"), IChat
     /// <summary>Poll type, <see cref="PollType.Quiz">Quiz</see> or <see cref="PollType.Regular">Regular</see>, defaults to <see cref="PollType.Regular">Regular</see></summary>
     public PollType? Type { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if the poll allows multiple answers, defaults to <see langword="false"/></summary>
+    /// <summary>Pass <see langword="true"/> if the poll allows multiple answers, defaults to <see langword="false"/></summary>
     [JsonPropertyName("allows_multiple_answers")]
     public bool AllowsMultipleAnswers { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if the poll allows to change chosen answer options, defaults to <see langword="false"/> for quizzes and to <see langword="true"/> for regular polls</summary>
+    /// <summary>Pass <see langword="true"/> if the poll allows to change chosen answer options, defaults to <see langword="false"/> for quizzes and to <see langword="true"/> for regular polls</summary>
     [JsonPropertyName("allows_revoting")]
     public bool AllowsRevoting { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if the poll options must be shown in random order</summary>
+    /// <summary>Pass <see langword="true"/> if the poll options must be shown in random order</summary>
     [JsonPropertyName("shuffle_options")]
     public bool ShuffleOptions { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes</summary>
+    /// <summary>Pass <see langword="true"/> if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes</summary>
     [JsonPropertyName("allow_adding_options")]
     public bool AllowAddingOptions { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if poll results must be shown only after the poll closes</summary>
+    /// <summary>Pass <see langword="true"/> if poll results must be shown only after the poll closes</summary>
     [JsonPropertyName("hide_results_until_closes")]
     public bool HideResultsUntilCloses { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only</summary>
+    /// <summary>Pass <see langword="true"/> if voting is limited to users who have been members of the chat where the poll is being sent for more than 24 hours; for channel chats only</summary>
     [JsonPropertyName("members_only")]
     public bool MembersOnly { get; set; }
 

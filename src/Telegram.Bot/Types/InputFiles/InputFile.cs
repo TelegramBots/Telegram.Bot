@@ -1,7 +1,6 @@
 // This file is NOT auto-generated
 using JetBrains.Annotations;
 
-// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;
 
 /// <summary>A file to send</summary>

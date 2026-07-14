@@ -14,7 +14,7 @@ public partial class AnswerShippingQueryRequest() : RequestBase<bool>("answerShi
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required bool Ok { get; set; }
 
-    /// <summary>Required on success. A array of available shipping options.</summary>
+    /// <summary>Required on success. A Array of available shipping options.</summary>
     [JsonPropertyName("shipping_options")]
     public IEnumerable<ShippingOption>? ShippingOptions { get; set; }
 

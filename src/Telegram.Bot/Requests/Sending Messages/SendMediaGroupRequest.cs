@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.<para>Returns: An array of <see cref="Message"/> objects that were sent is returned.</para></summary>
+/// <summary>Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.<para>Returns: An Array of <see cref="Message"/> objects that were sent is returned.</para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendMediaGroupRequest() : FileRequestBase<Message[]>("sendMediaGroup"), IChatTargetable, IBusinessConnectable
 {
@@ -10,7 +10,7 @@ public partial class SendMediaGroupRequest() : FileRequestBase<Message[]>("sendM
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>A array describing messages to be sent, must include 2-10 items</summary>
+    /// <summary>A Array describing messages to be sent, must include 2-10 items</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IAlbumInputMedia> Media { get; set; }
 

@@ -30,7 +30,7 @@ public partial class EditMessageCaptionRequest() : RequestBase<Message>("editMes
     [JsonPropertyName("caption_entities")]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
-    /// <summary>Pass <see langword="true"/>, if the caption must be shown above the message media. Supported only for animation, photo and video messages.</summary>
+    /// <summary>Pass <see langword="true"/> if the caption must be shown above the message media. Supported only for animation, photo and video messages.</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 

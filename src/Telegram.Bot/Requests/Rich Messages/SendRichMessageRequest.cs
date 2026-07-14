@@ -15,7 +15,7 @@ public partial class SendRichMessageRequest() : RequestBase<Message>("sendRichMe
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputRichMessage RichMessage { get; set; }
 
-    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
+    /// <summary>Unique identifier of the business connection on behalf of which the message will be sent. Bot can send rich messages on behalf of a business account only if the corresponding user can send rich messages.</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
 

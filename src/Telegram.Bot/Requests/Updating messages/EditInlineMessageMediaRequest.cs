@@ -14,7 +14,7 @@ public partial class EditInlineMessageMediaRequest() : FileRequestBase<bool>("ed
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; set; }
 
-    /// <summary>An object for a new media content of the message</summary>
+    /// <summary>An object for the new media content of the message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputMedia Media { get; set; }
 

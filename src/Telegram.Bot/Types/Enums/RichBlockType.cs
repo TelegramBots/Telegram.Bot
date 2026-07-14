@@ -39,12 +39,12 @@ public enum RichBlockType
     Animation,
     /// <summary>A block with a music file, corresponding to the HTML tag <c>&lt;audio&gt;</c>.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockAudio"/>)</i></summary>
     Audio,
-    /// <summary>A block with a photo, corresponding to the HTML tag <c>&lt;photo&gt;</c>.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockPhoto"/>)</i></summary>
+    /// <summary>A block with a photo, corresponding to the HTML tag <c>&lt;img&gt;</c>.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockPhoto"/>)</i></summary>
     Photo,
     /// <summary>A block with a video, corresponding to the HTML tag <c>&lt;video&gt;</c>.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockVideo"/>)</i></summary>
     Video,
     /// <summary>A block with a voice note, corresponding to the HTML tag <c>&lt;audio&gt;</c>.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockVoiceNote"/>)</i></summary>
     VoiceNote,
-    /// <summary>A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <c>&lt;tg-thinking&gt;</c>. The block may be used only in <see cref="TelegramBotClientExtensions.SendRichMessageDraft">SendRichMessageDraft</see>, therefore it can't be received in messages. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji, which are recommended for usage in the block.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockThinking"/>)</i></summary>
+    /// <summary>A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <c>&lt;tg-thinking&gt;</c>. The block may be used only in <see cref="TelegramBotClientExtensions.SendRichMessageDraft">SendRichMessageDraft</see>, therefore it can't be received in messages. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji that are recommended for usage in the block.<br/><br/><i>(<see cref="RichBlock"/> can be cast into <see cref="RichBlockThinking"/>)</i></summary>
     Thinking,
 }

@@ -49,7 +49,7 @@ public partial class InputMediaAnimation : InputMedia, IInputMediaThumb, InputPo
     /// <summary><em>Optional</em>. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -134,7 +134,7 @@ public partial class InputMediaLivePhoto : InputMedia, IAlbumInputMedia, InputPo
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFile Photo { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -158,7 +158,7 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia, InputPollMe
     /// <summary>Type of the media, always <see cref="InputMediaType.Photo"/></summary>
     public override InputMediaType Type => InputMediaType.Photo;
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -191,7 +191,7 @@ public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInput
     [JsonPropertyName("start_timestamp")]
     public int? StartTimestamp { get; set; }
 
-    /// <summary><em>Optional</em>. Pass <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the message media</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
