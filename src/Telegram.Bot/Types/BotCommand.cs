@@ -11,4 +11,8 @@ public partial class BotCommand
     /// <summary>Description of the command; 1-256 characters</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Description { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the command sends an ephemeral message, which can be seen only by the sender of the message and the bot</summary>
+    [JsonPropertyName("is_ephemeral")]
+    public bool IsEphemeral { get; set; }
 }

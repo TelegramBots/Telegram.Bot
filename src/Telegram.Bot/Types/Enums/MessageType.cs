@@ -157,4 +157,8 @@ public enum MessageType
     LivePhoto,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.RichMessage"/></summary>
     RichMessage,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.CommunityChatAdded"/></summary>
+    CommunityChatAdded,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.CommunityChatRemoved"/></summary>
+    CommunityChatRemoved,
 }

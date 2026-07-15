@@ -760,7 +760,7 @@ public static class HtmlText
             case RichBlockPreformatted rb:
                 sb.Append("<pre>");
                 if (rb.Language != null) sb.Append("<code class=\"language-").AppendHtml(rb.Language).Append("\">");
-                sb.AppendRich(rb.Text, false);
+                sb.AppendRich(rb.Text, escapeLF: false);
                 if (rb.Language != null) sb.Append("</code>");
                 sb.Append("</pre>\n");
                 break;

@@ -36,6 +36,7 @@ jobs:
         DESCR_TAG=$(git describe --tags --long)   # get the last tag-commits_since-sha
         DESCR_TAG=${DESCR_TAG#v}                  # remove the eventual 'v' prefix
         LAST_TAG=${DESCR_TAG%%-*}                 # extract the last tag
+        if [[ $LAST_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then LAST_TAG=$LAST_TAG.0; fi   # turn 1.2.3 into 1.2.3.0
         NEXT_VERSION=${LAST_TAG%.*}.$((${LAST_TAG##*.} + 1))    # increment the last number
         RELEASE_VERSION=${{vars.RELEASE_VERSION}}   # construct the version if we were to respect the RELEASE_VERSION variable
         VERSION=`echo -e "$RELEASE_VERSION\n$NEXT_VERSION" | sort -V | tail -n1`  # pick the higher version among the two

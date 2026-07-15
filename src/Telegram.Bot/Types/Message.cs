@@ -4,7 +4,7 @@ namespace Telegram.Bot.Types;
 /// <summary>This object represents a message.</summary>
 public partial class Message
 {
-    /// <summary>Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.</summary>
+    /// <summary>Unique message identifier inside this chat; 0 for ephemeral messages. In specific instances (e.g., a message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent.</summary>
     [JsonPropertyName("message_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Id { get; set; }
@@ -36,6 +36,14 @@ public partial class Message
     [JsonPropertyName("sender_tag")]
     public string? SenderTag { get; set; }
 
+    /// <summary><em>Optional</em>. For ephemeral messages, the user who received the message</summary>
+    [JsonPropertyName("receiver_user")]
+    public User? ReceiverUser { get; set; }
+
+    /// <summary><em>Optional</em>. For ephemeral messages, identifier of the ephemeral message inside this chat. The identifier may be reused for another ephemeral message after the message is deleted or expires.</summary>
+    [JsonPropertyName("ephemeral_message_id")]
+    public int? EphemeralMessageId { get; set; }
+
     /// <summary>Date the message was sent. It is always a valid date.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
@@ -65,7 +73,7 @@ public partial class Message
     [JsonPropertyName("is_automatic_forward")]
     public bool IsAutomaticForward { get; set; }
 
-    /// <summary><em>Optional</em>. For replies in the same chat and message thread, the original message. Note that the <see cref="Message"/> object in this field will not contain further <see cref="ReplyToMessage">ReplyToMessage</see> fields even if it itself is a reply.</summary>
+    /// <summary><em>Optional</em>. For replies in the same chat and message thread, the original message. Note that the <see cref="Message"/> object in this field will not contain further <see cref="ReplyToMessage">ReplyToMessage</see> fields even if it itself is a reply. If the message is a reply to an ephemeral message, then this field may be omitted.</summary>
     [JsonPropertyName("reply_to_message")]
     public Message? ReplyToMessage { get; set; }
 
@@ -341,6 +349,14 @@ public partial class Message
     [JsonPropertyName("checklist_tasks_added")]
     public ChecklistTasksAdded? ChecklistTasksAdded { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: chat added to a <see cref="Community"/></summary>
+    [JsonPropertyName("community_chat_added")]
+    public CommunityChatAdded? CommunityChatAdded { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: chat removed from a <see cref="Community"/></summary>
+    [JsonPropertyName("community_chat_removed")]
+    public CommunityChatRemoved? CommunityChatRemoved { get; set; }
+
     /// <summary><em>Optional</em>. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed</summary>
     [JsonPropertyName("direct_message_price_changed")]
     public DirectMessagePriceChanged? DirectMessagePriceChanged { get; set; }
@@ -499,6 +515,8 @@ public partial class Message
         { ChatBackgroundSet: not null }                 => MessageType.ChatBackgroundSet,
         { ChecklistTasksDone: not null }                => MessageType.ChecklistTasksDone,
         { ChecklistTasksAdded: not null }               => MessageType.ChecklistTasksAdded,
+        { CommunityChatAdded: not null }                => MessageType.CommunityChatAdded,
+        { CommunityChatRemoved: not null }              => MessageType.CommunityChatRemoved,
         { DirectMessagePriceChanged: not null }         => MessageType.DirectMessagePriceChanged,
         { ForumTopicCreated: not null }                 => MessageType.ForumTopicCreated,
         { ForumTopicEdited: not null }                  => MessageType.ForumTopicEdited,

@@ -210,4 +210,7 @@ public partial class ChatFullInfo : Chat
     /// <summary><em>Optional</em>. The bot that processes join request queries in the chat. The field is only available to chat administrators.</summary>
     [JsonPropertyName("guard_bot")]
     public User? GuardBot { get; set; }
+
+    /// <summary><em>Optional</em>. The <see cref="Community"/> to which the chat belongs</summary>
+    public Community? Community { get; set; }
 }

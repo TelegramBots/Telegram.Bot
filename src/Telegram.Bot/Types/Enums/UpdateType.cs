@@ -57,4 +57,6 @@ public enum UpdateType
     ManagedBot,
     /// <summary>The <see cref="Update"/> contains a <see cref="Update.GuestMessage"/></summary>
     GuestMessage,
+    /// <summary>The <see cref="Update"/> contains a <see cref="Update.Subscription"/></summary>
+    Subscription,
 }

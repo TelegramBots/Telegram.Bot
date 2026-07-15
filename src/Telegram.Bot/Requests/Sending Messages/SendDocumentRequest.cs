@@ -27,6 +27,14 @@ public partial class SendDocumentRequest() : FileRequestBase<Message>("sendDocum
     [JsonPropertyName("direct_messages_topic_id")]
     public long? DirectMessagesTopicId { get; set; }
 
+    /// <summary>For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</summary>
+    [JsonPropertyName("receiver_user_id")]
+    public long? ReceiverUserId { get; set; }
+
+    /// <summary>For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any</summary>
+    [JsonPropertyName("callback_query_id")]
+    public string? CallbackQueryId { get; set; }
+
     /// <summary>Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using <see cref="InputFileStream"/>. Thumbnails can't be reused and can be only uploaded as a new file, so you can use <see cref="InputFileStream(Stream, string?)"/> with a specific filename. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     public InputFile? Thumbnail { get; set; }
 

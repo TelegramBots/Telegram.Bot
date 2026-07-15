@@ -25,4 +25,6 @@ public enum InputMediaType
     Venue,
     /// <summary>Represents an HTTP link to be sent.<br/><br/><i>(InputPoll*Media can be cast into <see cref="InputMediaLink"/>)</i></summary>
     Link,
+    /// <summary>Represents a voice message file to be sent.<br/><br/><i>(InputPoll*Media can be cast into <see cref="InputMediaVoiceNote"/>)</i></summary>
+    VoiceNote,
 }
