@@ -30,7 +30,7 @@ public partial class SendPhotoRequest() : FileRequestBase<Message>("sendPhoto"),
     [JsonPropertyName("receiver_user_id")]
     public long? ReceiverUserId { get; set; }
 
-    /// <summary>For outgoing ephemeral messages, identifier of the callback query which triggerred the message if any</summary>
+    /// <summary>For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</summary>
     [JsonPropertyName("callback_query_id")]
     public string? CallbackQueryId { get; set; }
 

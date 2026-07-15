@@ -732,7 +732,7 @@ public static class HtmlText
         return result;
     }
 
-    /// <summary>Generate valid HTML and Media list from HTML obtained via RichMessage.ToHtml() or RichBlock.ToHtml()</summary>
+    /// <summary>Generate valid HTML and Media list from HTML obtained via <see cref="ToHtml(RichMessage?)">msg.RichMessage.ToHtml()</see> or <see cref="ToHtml(RichBlock)">richBlock.ToHtml()</see></summary>
     /// <param name="html">The HTML to parse and convert (can contain <c>?file_id=</c> references)</param>
     /// <returns>The InputRichMessage structure (whose HTML contains <c>?id=</c> instead of <c>?file_id=</c> references)</returns>
     public static InputRichMessage ToInputRichMessage(string html)
@@ -759,8 +759,8 @@ public static class HtmlText
 
     /// <summary>Generate HTML from the given Rich Message</summary>
     /// <param name="richMsg">The rich message to convert</param>
-    /// <returns>The HTML for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>),
-    /// or <see langword="null"/> if <paramref name="richMsg"/> is <see langword="null"/></returns>
+    /// <returns>The HTML for this rich message, or <see langword="null"/> if <paramref name="richMsg"/> is <see langword="null"/></returns>
+    /// <remarks>HTML may contain <c>?file_id=</c> references that are only supported by <see cref="ToInputRichMessage(string)"/>.</remarks>
     [return: NotNullIfNotNull(nameof(richMsg))]
     public static string? ToHtml(this RichMessage? richMsg) => richMsg?.Blocks.ToHtml();
 

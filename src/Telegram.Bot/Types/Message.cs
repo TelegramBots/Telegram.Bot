@@ -329,7 +329,7 @@ public partial class Message
     [JsonPropertyName("passport_data")]
     public PassportData? PassportData { get; set; }
 
-    /// <summary><em>Optional</em>. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.</summary>
+    /// <summary><em>Optional</em>. Service message: a user in the chat triggered another user's proximity alert while sharing Live Location</summary>
     [JsonPropertyName("proximity_alert_triggered")]
     public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
 
