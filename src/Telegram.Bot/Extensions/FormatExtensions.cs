@@ -727,7 +727,16 @@ public static class HtmlText
     /// <returns>The InputRichMessage structure for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>)</returns>
     public static InputRichMessage ToInputRichMessage(this RichMessage richMsg)
     {
-        var html = richMsg.ToHtml()!;
+        var result = ToInputRichMessage(richMsg.ToHtml());
+        result.IsRtl = richMsg.IsRtl;
+        return result;
+    }
+
+    /// <summary>Generate valid HTML and Media list from HTML obtained via RichMessage.ToHtml() or RichBlock.ToHtml()</summary>
+    /// <param name="html">The HTML to parse and convert (can contain <c>?file_id=</c> references)</param>
+    /// <returns>The InputRichMessage structure (whose HTML contains <c>?id=</c> instead of <c>?file_id=</c> references)</returns>
+    public static InputRichMessage ToInputRichMessage(string html)
+    {
         List<InputRichMessageMedia>? files = null;
         for (int index = -1; (index = html.IndexOf("?file_id=", index + 1, StringComparison.Ordinal)) > 16;)
         {
@@ -739,19 +748,20 @@ public static class HtmlText
             var fileId = html[(index + 9)..end];
             //try { FromBase64(fileId); } catch (Exception) { continue; }
             files ??= [];
-            var newId = "file" + files.Count;
+            var newId = $"file{files.Count}";
             if (type is "photo") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaPhoto(fileId) });
             else if (type is "video") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaVideo(fileId) });
             else if (type is "audio") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaAudio(fileId) });
             html = $"{html[..(index + 1)]}id={newId}{html[end..]}";
         }
-        return new InputRichMessage { Html = html, Media = files?.ToArray(), IsRtl = richMsg.IsRtl };
+        return new InputRichMessage { Html = html, Media = files?.ToArray() };
     }
 
     /// <summary>Generate HTML from the given Rich Message</summary>
     /// <param name="richMsg">The rich message to convert</param>
     /// <returns>The HTML for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>),
     /// or <see langword="null"/> if <paramref name="richMsg"/> is <see langword="null"/></returns>
+    [return: NotNullIfNotNull(nameof(richMsg))]
     public static string? ToHtml(this RichMessage? richMsg) => richMsg?.Blocks.ToHtml();
 
     /// <summary>Generate HTML from the given Rich Message Block</summary>
