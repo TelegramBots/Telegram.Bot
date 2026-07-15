@@ -716,11 +716,37 @@ public static class HtmlText
         return html;
     }
 
-    /// <summary>Generate HTML from the given Rich Message</summary>
+    /// <summary>Generate HTML and Media list from the given Rich Message</summary>
     /// <param name="msg">The message containing a rich message to convert</param>
-    /// <returns>The HTML for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>),
+    /// <returns>The InputRichMessage structure for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>),
     /// or <see langword="null"/> if message is not a Rich Message</returns>
-    public static string? ToRichHtml(this Message? msg) => msg?.RichMessage?.ToHtml();
+    public static InputRichMessage? ToInputRichMessage(this Message? msg) => msg?.RichMessage?.ToInputRichMessage();
+
+    /// <summary>Generate HTML and Media list from the given Rich Message</summary>
+    /// <param name="richMsg">The rich message to convert</param>
+    /// <returns>The InputRichMessage structure for this rich message (usable with <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see>)</returns>
+    public static InputRichMessage ToInputRichMessage(this RichMessage richMsg)
+    {
+        var html = richMsg.ToHtml()!;
+        List<InputRichMessageMedia>? files = null;
+        for (int index = -1; (index = html.IndexOf("?file_id=", index + 1, StringComparison.Ordinal)) > 16;)
+        {
+            if (string.Compare(html, index - 16, " src=\"tg://", 0, 11, StringComparison.Ordinal) != 0) continue;
+            var type = html[(index - 5)..index];
+            if (type is not "photo" and not "video" and not "audio") continue;
+            var end = html.IndexOf('"', index + 9);
+            if (end < 0) continue;
+            var fileId = html[(index + 9)..end];
+            //try { FromBase64(fileId); } catch (Exception) { continue; }
+            files ??= [];
+            var newId = "file" + files.Count;
+            if (type is "photo") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaPhoto(fileId) });
+            else if (type is "video") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaVideo(fileId) });
+            else if (type is "audio") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaAudio(fileId) });
+            html = $"{html[..(index + 1)]}id={newId}{html[end..]}";
+        }
+        return new InputRichMessage { Html = html, Media = files?.ToArray(), IsRtl = richMsg.IsRtl };
+    }
 
     /// <summary>Generate HTML from the given Rich Message</summary>
     /// <param name="richMsg">The rich message to convert</param>
