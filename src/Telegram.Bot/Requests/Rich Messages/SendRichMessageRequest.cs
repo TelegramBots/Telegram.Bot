@@ -3,7 +3,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public partial class SendRichMessageRequest() : RequestBase<Message>("sendRichMessage"), IChatTargetable, IBusinessConnectable
+public partial class SendRichMessageRequest() : FileRequestBase<Message>("sendRichMessage"), IChatTargetable, IBusinessConnectable
 {
     /// <summary>Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></summary>
     [JsonPropertyName("chat_id")]

@@ -3,7 +3,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to edit text, rich and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public partial class EditInlineMessageTextRequest() : RequestBase<bool>("editMessageText"), IBusinessConnectable
+public partial class EditInlineMessageTextRequest() : FileRequestBase<bool>("editMessageText"), IBusinessConnectable
 {
     /// <summary>Unique identifier of the business connection on behalf of which the message to be edited was sent</summary>
     [JsonPropertyName("business_connection_id")]

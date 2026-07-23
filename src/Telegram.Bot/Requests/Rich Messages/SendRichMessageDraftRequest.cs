@@ -3,7 +3,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you <b>must</b> call <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see> with the complete message to persist it in the user's chat.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public partial class SendRichMessageDraftRequest() : RequestBase<bool>("sendRichMessageDraft"), IChatTargetable
+public partial class SendRichMessageDraftRequest() : FileRequestBase<bool>("sendRichMessageDraft"), IChatTargetable
 {
     /// <summary>Unique identifier for the target private chat</summary>
     [JsonPropertyName("chat_id")]
