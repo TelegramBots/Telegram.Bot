@@ -465,12 +465,12 @@ public static class HtmlText
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of the forum; for forum supergroups only</param>
     /// <param name="protectContent">Protects the contents of the sent messages from forwarding and saving</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
-    /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
     /// <param name="receiverUserId">Identifier of the user who will see this ephemeral message (not supported for media groups)</param>
+    /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
     /// <returns>Array of the sent <see cref="Message"/>s</returns>
     /// <exception cref="FormatException">Malformed HTML</exception>
     public static async Task<Message[]> SendHtml(this ITelegramBotClient botClient, ChatId chatId, string html,
-        ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, IList<Stream>? streams = null, long? receiverUserId = null)
+        ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, long? receiverUserId = null, IList<Stream>? streams = null)
     {
         var (replyMarkup, media, linkPreviewOptions) = PrepareHtml(streams, ref html);
         if (media == null)
