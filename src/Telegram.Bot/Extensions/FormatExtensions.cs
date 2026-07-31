@@ -466,17 +466,18 @@ public static class HtmlText
     /// <param name="protectContent">Protects the contents of the sent messages from forwarding and saving</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message will be sent</param>
     /// <param name="streams">Streams for uploaded media, can be referenced as src="<c>stream://N</c>" or <c>stream:N</c> or just <c>N</c><para/>N being the indice in the streams list (starting with 0), or the filename for <c>FileStream</c>s</param>
+    /// <param name="receiverUserId">Identifier of the user who will see this ephemeral message (not supported for media groups)</param>
     /// <returns>Array of the sent <see cref="Message"/>s</returns>
     /// <exception cref="FormatException">Malformed HTML</exception>
     public static async Task<Message[]> SendHtml(this ITelegramBotClient botClient, ChatId chatId, string html,
-        ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, IList<Stream>? streams = null)
+        ReplyParameters? replyParameters = null, int? messageThreadId = null, bool protectContent = false, string? businessConnectionId = null, IList<Stream>? streams = null, long? receiverUserId = null)
     {
         var (replyMarkup, media, linkPreviewOptions) = PrepareHtml(streams, ref html);
         if (media == null)
         {
             return [await botClient.SendMessage(chatId, html, ParseMode.Html, replyParameters,
                 replyMarkup, linkPreviewOptions: linkPreviewOptions, messageThreadId: messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId).ConfigureAwait(false)];
+                businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false)];
         }
         if (replyMarkup == null)
             return await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
@@ -487,12 +488,12 @@ public static class HtmlText
         {
             InputMediaPhoto p => await botClient.SendPhoto(chatId, p.Media, p.Caption, ParseMode.Html, replyParameters, replyMarkup,
                 messageThreadId: messageThreadId, showCaptionAboveMedia: p.ShowCaptionAboveMedia, hasSpoiler: p.HasSpoiler,
-                protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
+                protectContent: protectContent, businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false),
             InputMediaVideo v => await botClient.SendVideo(chatId, v.Media, v.Caption, ParseMode.Html, replyParameters, replyMarkup,
                 messageThreadId: messageThreadId, showCaptionAboveMedia: v.ShowCaptionAboveMedia, hasSpoiler: v.HasSpoiler, supportsStreaming: v.SupportsStreaming,
-                protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
+                protectContent: protectContent, businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false),
             InputMediaDocument d => await botClient.SendDocument(chatId, d.Media, d.Caption, ParseMode.Html, replyParameters, replyMarkup,
-                messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId).ConfigureAwait(false),
+                messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false),
             _ => throw new FormatException("Unsupported media type")
         }];
     }
