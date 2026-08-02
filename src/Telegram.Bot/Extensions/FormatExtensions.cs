@@ -479,11 +479,12 @@ public static class HtmlText
                 replyMarkup, linkPreviewOptions: linkPreviewOptions, messageThreadId: messageThreadId, protectContent: protectContent,
                 businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false)];
         }
-        if (replyMarkup == null)
-            return await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId).ConfigureAwait(false);
         if (media.Count > 1)
-            throw new FormatException("Cannot use keyboard with media group");
+            if (replyMarkup != null)
+                throw new FormatException("Cannot use keyboard with media group");
+            else
+                return await botClient.SendMediaGroup(chatId, media, replyParameters, messageThreadId, protectContent: protectContent,
+                    businessConnectionId: businessConnectionId).ConfigureAwait(false);
         return [media[0] switch
         {
             InputMediaPhoto p => await botClient.SendPhoto(chatId, p.Media, p.Caption, ParseMode.Html, replyParameters, replyMarkup,
