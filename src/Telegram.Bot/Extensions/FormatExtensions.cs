@@ -477,7 +477,7 @@ public static class HtmlText
         {
             return [await botClient.SendMessage(chatId, html, ParseMode.Html, replyParameters,
                 replyMarkup, linkPreviewOptions: linkPreviewOptions, messageThreadId: messageThreadId, protectContent: protectContent,
-                businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false)];
+                businessConnectionId: businessConnectionId, ephemeralMessageParameters: receiverUserId).ConfigureAwait(false)];
         }
         if (media.Count > 1)
             if (replyMarkup != null)
@@ -489,12 +489,12 @@ public static class HtmlText
         {
             InputMediaPhoto p => await botClient.SendPhoto(chatId, p.Media, p.Caption, ParseMode.Html, replyParameters, replyMarkup,
                 messageThreadId: messageThreadId, showCaptionAboveMedia: p.ShowCaptionAboveMedia, hasSpoiler: p.HasSpoiler,
-                protectContent: protectContent, businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false),
+                protectContent: protectContent, businessConnectionId: businessConnectionId, ephemeralMessageParameters: receiverUserId).ConfigureAwait(false),
             InputMediaVideo v => await botClient.SendVideo(chatId, v.Media, v.Caption, ParseMode.Html, replyParameters, replyMarkup,
                 messageThreadId: messageThreadId, showCaptionAboveMedia: v.ShowCaptionAboveMedia, hasSpoiler: v.HasSpoiler, supportsStreaming: v.SupportsStreaming,
-                protectContent: protectContent, businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false),
+                protectContent: protectContent, businessConnectionId: businessConnectionId, ephemeralMessageParameters: receiverUserId).ConfigureAwait(false),
             InputMediaDocument d => await botClient.SendDocument(chatId, d.Media, d.Caption, ParseMode.Html, replyParameters, replyMarkup,
-                messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId, receiverUserId: receiverUserId).ConfigureAwait(false),
+                messageThreadId: messageThreadId, protectContent: protectContent, businessConnectionId: businessConnectionId, ephemeralMessageParameters: receiverUserId).ConfigureAwait(false),
             _ => throw new FormatException("Unsupported media type")
         }];
     }
@@ -578,12 +578,12 @@ public static class HtmlText
     [Flags] enum SwitchInlineTarget { User, Bot, Group, Channel }
     private static ReplyMarkup ParseHtmlKeyboard(ReadOnlySpan<char> keyboard)
     {
-        var isReply = keyboard.StartsWith("reply", StringComparison.OrdinalIgnoreCase);
-        if (isReply)
-            if (keyboard.StartsWith("reply_remove", StringComparison.OrdinalIgnoreCase)) return new ReplyKeyboardRemove();
-            else if (CheckHtmlArg(ref keyboard, "reply_force=\"", out var placeholder)) return new ForceReplyMarkup { InputFieldPlaceholder = placeholder };
-        ReplyKeyboardMarkup? reply = isReply ? new(resizeKeyboard: true) : null;
-        InlineKeyboardMarkup? inline = isReply ? null : new();
+        if (CheckHtmlArg(ref keyboard, "reply_remove", out _)) return new ReplyKeyboardRemove();
+        if (CheckHtmlArg(ref keyboard, "reply_force=\"", out var placeholder)) return new ForceReplyMarkup { InputFieldPlaceholder = placeholder };
+        var isReply = CheckHtmlArg(ref keyboard, "reply", out _);
+        var forceReply = CheckHtmlArg(ref keyboard, "force_reply", out _);
+        ReplyKeyboardMarkup? reply = isReply ? new(resizeKeyboard: true) { ForceReply = forceReply } : null;
+        InlineKeyboardMarkup? inline = isReply ? null : new() { ForceReply = forceReply };
         keyboard = keyboard[(keyboard.IndexOf('>') + 1)..].Trim();
         while (keyboard.Length != 0 && keyboard[0] == '<')
         {
@@ -619,6 +619,8 @@ public static class HtmlText
                                 inline.AddButton(ikb = InlineKeyboardButton.WithSwitchInlineQuery(text, query));
                         else
                             inline.AddButton(ikb = InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text, query));
+                    else if (CheckHtmlArg(ref keyboard, "disabled", out _))
+                        inline.AddButton(ikb = InlineKeyboardButton.WithDisabled(text));
                     else
                         throw new FormatException("Unrecognized inline <button> type");
                     button = ikb;
@@ -711,9 +713,10 @@ public static class HtmlText
                     { SwitchInlineQueryChosenChat: { } siqcc } => $" switch_inline=\"{Escape(siqcc.Query)}\" target=\"{string.Join(',', new[]
                         { (siqcc.AllowUserChats, "user"), (siqcc.AllowBotChats, "bot"), (siqcc.AllowGroupChats, "group"), (siqcc.AllowChannelChats, "channel")
                         }.Where(t => t.Item1).Select(t => t.Item2))}\" />",
+                    { Disabled: { } } => " disabled />",
                     _ => "/>"
                 }}"))));
-            html = $"{html}\n<keyboard>{keyboard}\n</keyboard>";
+            html = $"{html}\n<keyboard{(ikm.ForceReply ? " force_reply" : "")}>{keyboard}\n</keyboard>";
         }
         return html;
     }
@@ -742,9 +745,10 @@ public static class HtmlText
         List<InputRichMessageMedia>? files = null;
         for (int index = -1; (index = html.IndexOf("?file_id=", index + 1, StringComparison.Ordinal)) > 16;)
         {
-            if (string.Compare(html, index - 16, " src=\"tg://", 0, 11, StringComparison.Ordinal) != 0) continue;
-            var type = html[(index - 5)..index];
-            if (type is not "photo" and not "video" and not "audio") continue;
+            int slash = html.LastIndexOf('/', index, 10);
+            if (slash < 14 || string.Compare(html, slash - 10, " src=\"tg://", 0, 11, StringComparison.Ordinal) != 0) continue;
+            var type = html[(slash + 1)..index];
+            if (type is not "photo" and not "video" and not "document" and not "audio") continue;
             var end = html.IndexOf('"', index + 9);
             if (end < 0) continue;
             var fileId = html[(index + 9)..end];
@@ -753,6 +757,7 @@ public static class HtmlText
             var newId = $"file{files.Count}";
             if (type is "photo") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaPhoto(fileId) });
             else if (type is "video") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaVideo(fileId) });
+            else if (type is "document") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaDocument(fileId) });
             else if (type is "audio") files.Add(new InputRichMessageMedia { Id = newId, Media = new InputMediaAudio(fileId) });
             html = $"{html[..(index + 1)]}id={newId}{html[end..]}";
         }
@@ -808,6 +813,12 @@ public static class HtmlText
                 else if (sb[^1] == '\n') sb.Length--;
                 sb.Append("</blockquote>\n");
                 break;
+            case RichBlockExpandableBlockQuotation rb:
+                sb.Append("<blockquote expandable>").AppendRich(rb.Text);
+                if (rb.Credit != null) sb.Append("<cite>").AppendRich(rb.Credit).Append("</cite>");
+                else if (sb[^1] == '\n') sb.Length--;
+                sb.Append("</blockquote>\n");
+                break;
             case RichBlockPullQuotation rb:
                 sb.Append("<aside>").AppendRich(rb.Text);
                 if (rb.Credit != null) sb.Append("<cite>").AppendRich(rb.Credit).Append("</cite>");
@@ -825,6 +836,7 @@ public static class HtmlText
             case RichBlockMap rb: sb.AppendMedia(FormattableString.Invariant($"<tg-map lat=\"{rb.Location.Latitude}\" long=\"{rb.Location.Longitude}\" zoom=\"{rb.Zoom}\" width=\"{rb.Width}\" height=\"{rb.Height}\""), rb.Caption); break;
             case RichBlockPhoto rb: sb.AppendMedia($"<img src=\"tg://photo?file_id={rb.Photo[^1].FileId}\"", rb.Caption, rb.HasSpoiler); break;
             case RichBlockVideo rb: sb.AppendMedia($"<video src=\"tg://video?file_id={rb.Video.FileId}\"", rb.Caption, rb.HasSpoiler); break;
+            case RichBlockDocument rb: sb.AppendMedia($"<tg-document src=\"tg://document?file_id={rb.Document.FileId}\"", rb.Caption); break;
             case RichBlockAnimation rb: sb.AppendMedia($"<video src=\"tg://video?file_id={rb.Animation.FileId}\"", rb.Caption, rb.HasSpoiler); break;
             case RichBlockAudio rb: sb.AppendMedia($"<audio src=\"tg://audio?file_id={rb.Audio.FileId}\"", rb.Caption); break;
             case RichBlockVoiceNote rb: sb.AppendMedia($"<audio src=\"tg://audio?file_id={rb.VoiceNote.FileId}\"", rb.Caption); break;
@@ -856,6 +868,7 @@ public static class HtmlText
                 sb.Append("<table");
                 if (rb.IsBordered) sb.Append(" bordered");
                 if (rb.IsStriped) sb.Append(" striped");
+                if (rb.IsCompact) sb.Append(" compact");
                 sb.Append('>');
                 if (rb.Caption != null) sb.Append("<caption>").AppendRich(rb.Caption).Append("</caption>");
                 sb.Append('\n');
@@ -875,6 +888,14 @@ public static class HtmlText
                     }
                     sb.Append("</tr>\n");
                 }
+                break;
+            case RichBlockButtons rb:
+                sb.Append("<tg-button-row");
+                if (rb.Align != null) sb.Append(" align=\"").Append(rb.Align.Value.ToString().ToLowerInvariant()).Append('"');
+                sb.Append(">\n");
+                foreach (var btn in rb.Buttons)
+                    sb.AppendRichBtn(btn);
+                sb.Append("</tg-button-row>\n");
                 break;
         }
         return sb;
@@ -925,6 +946,7 @@ public static class HtmlText
             case RichTextReferenceLink rt: sb.Append("<a href=\"#").AppendHtml(rt.ReferenceName).Append("\">").AppendRich(rt.Text).Append("</a>"); break;
             case RichTextAnchor rt: sb.Append("<a name=\"").AppendHtml(rt.Name).Append("\"></a>"); break;
             case RichTextReference rt: sb.Append("<tg-reference name=\"").AppendHtml(rt.Name).Append("\">").AppendRich(rt.Text).Append("</tg-reference>"); break;
+            case RichTextButton rt: sb.AppendRichBtn(rt.Button); break;
         }
         return sb;
     }
@@ -935,6 +957,31 @@ public static class HtmlText
         sb.Append("\n<figcaption>").AppendRich(caption.Text);
         if (caption.Credit != null) sb.Append("<cite>").AppendRich(caption.Credit).Append("</cite>");
         return sb.Append("</figcaption>");
+    }
+
+    static StringBuilder AppendRichBtn(this StringBuilder sb, RichMessageButton btn)
+    {
+        sb.Append("<tg-button");
+        sb.Append(btn switch
+        {
+            { Url: { } } => $" type=\"url\" url=\"{Escape(btn.Url)}\"",
+            { CallbackData: { } } => $" type=\"callback_data\" data=\"{Escape(btn.CallbackData)}\"",
+            { WebApp: { } } => $" type=\"web_app\" url=\"{Escape(btn.WebApp)}\"",
+            { LoginUrl: { } lu } => $" type=\"login_url\" url=\"{Escape(lu.Url)}\"{(lu.ForwardText == null ? "" : $" forward-text=\"{Escape(lu.ForwardText)}\"")}{(lu.RequestWriteAccess ? " request-write-access" : "")}",
+            { SwitchInlineQuery: { } } => $" type=\"switch_inline_query\" query=\"{Escape(btn.SwitchInlineQuery)}\"",
+            { SwitchInlineQueryCurrentChat: { } } => $" type=\"switch_inline_query_current_chat\" query=\"{Escape(btn.SwitchInlineQueryCurrentChat)}\"",
+            { SwitchInlineQueryChosenChat: { } siqcc } => $" type=\"switch_inline_query_chosen_chat\" query=\"{Escape(siqcc.Query)}\"{string.Concat(new[]
+                { (siqcc.AllowUserChats, "allow-user-chats"), (siqcc.AllowBotChats, "allow-bot-chats"), (siqcc.AllowGroupChats, "allow-group-chats"), (siqcc.AllowChannelChats, "allow-channel-chats")
+                            }.Where(t => t.Item1).Select(t => t.Item2))}\"",
+            { CopyText: { } } => $" type=\"copy_text\" text=\"{Escape(btn.CopyText)}\"",
+            { Disabled: { } } => " type=\"disabled\"",
+            _ => ""
+        });
+        if (btn.Style != null) sb.Append(" style=\"").Append(btn.Style.Value.ToString().ToLowerInvariant()).Append('"');
+        sb.Append('>');
+        sb.AppendRich(btn.Text);
+        sb.Append("</tg-button>\n");
+        return sb;
     }
 
     static StringBuilder AppendHtml(this StringBuilder sb, string? html)

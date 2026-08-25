@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>This object represents a block in a rich formatted message to be sent. Currently, it can be any of the following types:<br/><see cref="InputRichBlockParagraph"/>, <see cref="InputRichBlockSectionHeading"/>, <see cref="InputRichBlockPreformatted"/>, <see cref="InputRichBlockFooter"/>, <see cref="InputRichBlockDivider"/>, <see cref="InputRichBlockMathematicalExpression"/>, <see cref="InputRichBlockAnchor"/>, <see cref="InputRichBlockList"/>, <see cref="InputRichBlockBlockQuotation"/>, <see cref="InputRichBlockPullQuotation"/>, <see cref="InputRichBlockCollage"/>, <see cref="InputRichBlockSlideshow"/>, <see cref="InputRichBlockTable"/>, <see cref="InputRichBlockDetails"/>, <see cref="InputRichBlockMap"/>, <see cref="InputRichBlockAnimation"/>, <see cref="InputRichBlockAudio"/>, <see cref="InputRichBlockPhoto"/>, <see cref="InputRichBlockVideo"/>, <see cref="InputRichBlockVoiceNote"/>, <see cref="InputRichBlockThinking"/></summary>
+/// <summary>This object represents a block in a rich formatted message to be sent. Currently, it can be any of the following types:<br/><see cref="InputRichBlockParagraph"/>, <see cref="InputRichBlockSectionHeading"/>, <see cref="InputRichBlockPreformatted"/>, <see cref="InputRichBlockFooter"/>, <see cref="InputRichBlockDivider"/>, <see cref="InputRichBlockMathematicalExpression"/>, <see cref="InputRichBlockAnchor"/>, <see cref="InputRichBlockList"/>, <see cref="InputRichBlockBlockQuotation"/>, <see cref="InputRichBlockExpandableBlockQuotation"/>, <see cref="InputRichBlockPullQuotation"/>, <see cref="InputRichBlockCollage"/>, <see cref="InputRichBlockSlideshow"/>, <see cref="InputRichBlockTable"/>, <see cref="InputRichBlockDetails"/>, <see cref="InputRichBlockMap"/>, <see cref="InputRichBlockButtons"/>, <see cref="InputRichBlockAnimation"/>, <see cref="InputRichBlockAudio"/>, <see cref="InputRichBlockDocument"/>, <see cref="InputRichBlockPhoto"/>, <see cref="InputRichBlockVideo"/>, <see cref="InputRichBlockVoiceNote"/>, <see cref="InputRichBlockThinking"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<InputRichBlock>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(InputRichBlockParagraph), "paragraph")]
@@ -13,14 +13,17 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(InputRichBlockAnchor), "anchor")]
 [CustomJsonDerivedType(typeof(InputRichBlockList), "list")]
 [CustomJsonDerivedType(typeof(InputRichBlockBlockQuotation), "blockquote")]
+[CustomJsonDerivedType(typeof(InputRichBlockExpandableBlockQuotation), "expandable_blockquote")]
 [CustomJsonDerivedType(typeof(InputRichBlockPullQuotation), "pullquote")]
 [CustomJsonDerivedType(typeof(InputRichBlockCollage), "collage")]
 [CustomJsonDerivedType(typeof(InputRichBlockSlideshow), "slideshow")]
 [CustomJsonDerivedType(typeof(InputRichBlockTable), "table")]
 [CustomJsonDerivedType(typeof(InputRichBlockDetails), "details")]
 [CustomJsonDerivedType(typeof(InputRichBlockMap), "map")]
+[CustomJsonDerivedType(typeof(InputRichBlockButtons), "buttons")]
 [CustomJsonDerivedType(typeof(InputRichBlockAnimation), "animation")]
 [CustomJsonDerivedType(typeof(InputRichBlockAudio), "audio")]
+[CustomJsonDerivedType(typeof(InputRichBlockDocument), "document")]
 [CustomJsonDerivedType(typeof(InputRichBlockPhoto), "photo")]
 [CustomJsonDerivedType(typeof(InputRichBlockVideo), "video")]
 [CustomJsonDerivedType(typeof(InputRichBlockVoiceNote), "voice_note")]
@@ -137,6 +140,20 @@ public partial class InputRichBlockBlockQuotation : InputRichBlock
     public RichText? Credit { get; set; }
 }
 
+/// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"collapsed"</c>.</summary>
+public partial class InputRichBlockExpandableBlockQuotation : InputRichBlock
+{
+    /// <summary>Type of the block, always <see cref="InputRichBlockType.ExpandableBlockquote"/></summary>
+    public override InputRichBlockType Type => InputRichBlockType.ExpandableBlockquote;
+
+    /// <summary>Content of the block</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public RichText Text { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Credit of the block</summary>
+    public RichText? Credit { get; set; }
+}
+
 /// <summary>A quotation with centered text, loosely corresponding to the HTML tag <c>&lt;aside&gt;</c>.</summary>
 public partial class InputRichBlockPullQuotation : InputRichBlock
 {
@@ -197,6 +214,10 @@ public partial class InputRichBlockTable : InputRichBlock
     [JsonPropertyName("is_striped")]
     public bool IsStriped { get; set; }
 
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if table cells must have smaller indents</summary>
+    [JsonPropertyName("is_compact")]
+    public bool IsCompact { get; set; }
+
     /// <summary><em>Optional</em>. Caption of the table</summary>
     public RichText? Caption { get; set; }
 }
@@ -230,20 +251,31 @@ public partial class InputRichBlockMap : InputRichBlock
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Location Location { get; set; } = default!;
 
-    /// <summary>Map zoom level; 0-24</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int Zoom { get; set; }
+    /// <summary><em>Optional</em>. Map zoom level; 0-24</summary>
+    public int? Zoom { get; set; }
 
-    /// <summary>Map width; 0-10000</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    /// <summary><em>Optional</em>. Map width; 0-10000</summary>
     public int Width { get; set; }
 
-    /// <summary>Map height; 0-10000</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    /// <summary><em>Optional</em>. Map height; 0-10000</summary>
     public int Height { get; set; }
 
     /// <summary><em>Optional</em>. Caption of the block</summary>
     public RichBlockCaption? Caption { get; set; }
+}
+
+/// <summary>A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag <c>&lt;tg-button-row&gt;</c>.</summary>
+public partial class InputRichBlockButtons : InputRichBlock
+{
+    /// <summary>Type of the block, always <see cref="InputRichBlockType.Buttons"/></summary>
+    public override InputRichBlockType Type => InputRichBlockType.Buttons;
+
+    /// <summary>List of 1-8 buttons to send</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public IEnumerable<RichMessageButton> Buttons { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Horizontal alignment of the buttons. Currently, must be one of <see cref="RichBlockTableCellAlign.Left">Left</see>, <see cref="RichBlockTableCellAlign.Center">Center</see>, or <see cref="RichBlockTableCellAlign.Right">Right</see>.</summary>
+    public RichBlockTableCellAlign? Align { get; set; }
 }
 
 /// <summary>A block with an animation, corresponding to the HTML tag <c>&lt;video&gt;</c>.</summary>
@@ -269,6 +301,20 @@ public partial class InputRichBlockAudio : InputRichBlock
     /// <summary>The audio. Caption is ignored.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public InputMediaAudio Audio { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Caption of the block</summary>
+    public RichBlockCaption? Caption { get; set; }
+}
+
+/// <summary>A block with a general file, corresponding to the custom HTML tag <c>&lt;tg-document&gt;</c>.</summary>
+public partial class InputRichBlockDocument : InputRichBlock
+{
+    /// <summary>Type of the block, always <see cref="InputRichBlockType.Document"/></summary>
+    public override InputRichBlockType Type => InputRichBlockType.Document;
+
+    /// <summary>The document. Caption is ignored.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public InputMediaDocument Document { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Caption of the block</summary>
     public RichBlockCaption? Caption { get; set; }

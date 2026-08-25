@@ -21,4 +21,6 @@ public enum InlineButtonType
     Game,
     /// <summary><a href="https://core.telegram.org/bots/api#payments">Pay button</a>. Substrings “⭐” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row and can only be used in invoice messages.</summary>
     Pay,
+    /// <summary>Disabled button which does nothing.</summary>
+    Disabled,
 }

@@ -59,4 +59,6 @@ public enum RichTextType
     Reference,
     /// <summary>A link to a reference.<br/><br/><i>(<see cref="RichText"/> can be cast into <see cref="RichTextReferenceLink"/>)</i></summary>
     ReferenceLink,
+    /// <summary>A button.<br/><br/><i>(<see cref="RichText"/> can be cast into <see cref="RichTextButton"/>)</i></summary>
+    Button,
 }

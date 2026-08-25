@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
+/// <summary>Use this method to send a rounded square MPEG4 video of up to 1 minute long.<para>Returns: The sent <see cref="Message"/> is returned.</para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendVideoNoteRequest() : FileRequestBase<Message>("sendVideoNote"), IChatTargetable, IBusinessConnectable
 {
@@ -27,13 +27,9 @@ public partial class SendVideoNoteRequest() : FileRequestBase<Message>("sendVide
     [JsonPropertyName("direct_messages_topic_id")]
     public long? DirectMessagesTopicId { get; set; }
 
-    /// <summary>For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</summary>
-    [JsonPropertyName("receiver_user_id")]
-    public long? ReceiverUserId { get; set; }
-
-    /// <summary>For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</summary>
-    [JsonPropertyName("callback_query_id")]
-    public string? CallbackQueryId { get; set; }
+    /// <summary>An object containing the parameters of the ephemeral message to send</summary>
+    [JsonPropertyName("ephemeral_message_parameters")]
+    public EphemeralMessageParameters? EphemeralMessageParameters { get; set; }
 
     /// <summary>Duration of sent video in seconds</summary>
     public int? Duration { get; set; }

@@ -58,7 +58,7 @@ jobs:
     # - name: Pack
     #   run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION -p:ReleaseNotes="$RELEASE_NOTES"
     # - name: Upload artifact
-    #   uses: actions/upload-artifact@v5
+    #   uses: actions/upload-artifact@v6
     #   with:
     #     name: packages
     #     path: $PACKAGES_PATH/*.nupkg

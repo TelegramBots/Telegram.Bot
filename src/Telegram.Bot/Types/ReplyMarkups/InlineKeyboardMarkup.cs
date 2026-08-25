@@ -9,6 +9,10 @@ public partial class InlineKeyboardMarkup : ReplyMarkup
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; set; }
 
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the reply interface must be shown to the user, as if they had manually selected the bot's message and tapped 'Reply'. The value of the field can't be changed when the inline keyboard is edited.</summary>
+    [JsonPropertyName("force_reply")]
+    public new bool ForceReply { get; set; }
+
     /// <summary>Initializes an instance of <see cref="InlineKeyboardMarkup"/></summary>
     /// <param name="inlineKeyboard">Array of button rows, each represented by an Array of <see cref="InlineKeyboardButton"/> objects</param>
     [SetsRequiredMembers]

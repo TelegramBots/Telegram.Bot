@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>This object represents a rich formatted text. Currently, it can be either a String for plain text, an Array of <see cref="RichText"/>, or any of the following types:<br/><see cref="RichTextBold"/>, <see cref="RichTextItalic"/>, <see cref="RichTextUnderline"/>, <see cref="RichTextStrikethrough"/>, <see cref="RichTextSpoiler"/>, <see cref="RichTextDateTime"/>, <see cref="RichTextTextMention"/>, <see cref="RichTextSubscript"/>, <see cref="RichTextSuperscript"/>, <see cref="RichTextMarked"/>, <see cref="RichTextCode"/>, <see cref="RichTextCustomEmoji"/>, <see cref="RichTextMathematicalExpression"/>, <see cref="RichTextUrl"/>, <see cref="RichTextEmailAddress"/>, <see cref="RichTextPhoneNumber"/>, <see cref="RichTextBankCardNumber"/>, <see cref="RichTextMention"/>, <see cref="RichTextHashtag"/>, <see cref="RichTextCashtag"/>, <see cref="RichTextBotCommand"/>, <see cref="RichTextAnchor"/>, <see cref="RichTextAnchorLink"/>, <see cref="RichTextReference"/>, <see cref="RichTextReferenceLink"/></summary>
+/// <summary>This object represents a rich formatted text. Currently, it can be either a String for plain text, an Array of <see cref="RichText"/>, or any of the following types:<br/><see cref="RichTextBold"/>, <see cref="RichTextItalic"/>, <see cref="RichTextUnderline"/>, <see cref="RichTextStrikethrough"/>, <see cref="RichTextSpoiler"/>, <see cref="RichTextDateTime"/>, <see cref="RichTextTextMention"/>, <see cref="RichTextSubscript"/>, <see cref="RichTextSuperscript"/>, <see cref="RichTextMarked"/>, <see cref="RichTextCode"/>, <see cref="RichTextCustomEmoji"/>, <see cref="RichTextMathematicalExpression"/>, <see cref="RichTextUrl"/>, <see cref="RichTextEmailAddress"/>, <see cref="RichTextPhoneNumber"/>, <see cref="RichTextBankCardNumber"/>, <see cref="RichTextMention"/>, <see cref="RichTextHashtag"/>, <see cref="RichTextCashtag"/>, <see cref="RichTextBotCommand"/>, <see cref="RichTextButton"/>, <see cref="RichTextAnchor"/>, <see cref="RichTextAnchorLink"/>, <see cref="RichTextReference"/>, <see cref="RichTextReferenceLink"/></summary>
 [JsonConverter(typeof(RichTextConverter))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(RichTextArray))]
@@ -27,6 +27,7 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(RichTextHashtag), "hashtag")]
 [CustomJsonDerivedType(typeof(RichTextCashtag), "cashtag")]
 [CustomJsonDerivedType(typeof(RichTextBotCommand), "bot_command")]
+[CustomJsonDerivedType(typeof(RichTextButton), "button")]
 [CustomJsonDerivedType(typeof(RichTextAnchor), "anchor")]
 [CustomJsonDerivedType(typeof(RichTextAnchorLink), "anchor_link")]
 [CustomJsonDerivedType(typeof(RichTextReference), "reference")]
@@ -324,6 +325,17 @@ public partial class RichTextBotCommand : RichText
     [JsonPropertyName("bot_command")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string BotCommand { get; set; } = default!;
+}
+
+/// <summary>A button.</summary>
+public partial class RichTextButton : RichText
+{
+    /// <summary>Type of the rich text, always <see cref="RichTextType.Button"/></summary>
+    public override RichTextType Type => RichTextType.Button;
+
+    /// <summary>The button</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public RichMessageButton Button { get; set; } = default!;
 }
 
 /// <summary>An anchor.</summary>

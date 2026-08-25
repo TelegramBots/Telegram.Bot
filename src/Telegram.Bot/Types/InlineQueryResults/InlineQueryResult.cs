@@ -731,7 +731,7 @@ public partial class InlineQueryResultContact : InlineQueryResult
     public InlineQueryResultContact() { }
 }
 
-/// <summary>Represents a <a href="https://core.telegram.org/bots/api#games">Game</a>.</summary>
+/// <summary>Represents a <see cref="Game"/>.</summary>
 public partial class InlineQueryResultGame : InlineQueryResult
 {
     /// <summary>Type of the result, always <see cref="InlineQueryResultType.Game"/></summary>

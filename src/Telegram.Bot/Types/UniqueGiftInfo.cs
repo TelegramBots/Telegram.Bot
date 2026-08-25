@@ -12,6 +12,16 @@ public partial class UniqueGiftInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Origin { get; set; } = default!;
 
+    /// <summary><em>Optional</em>. Text of the message that was added to the gift</summary>
+    public string? Text { get; set; }
+
+    /// <summary><em>Optional</em>. Special entities that appear in the text</summary>
+    public MessageEntity[]? Entities { get; set; }
+
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them</summary>
+    [JsonPropertyName("is_private")]
+    public bool IsPrivate { get; set; }
+
     /// <summary><em>Optional</em>. For gifts bought from other users, the currency in which the payment for the gift was done. Currently, one of “XTR” for Telegram Stars or “TON” for TON grams.</summary>
     [JsonPropertyName("last_resale_currency")]
     public string? LastResaleCurrency { get; set; }

@@ -47,4 +47,10 @@ public enum InputRichBlockType
     VoiceNote,
     /// <summary>A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <c>&lt;tg-thinking&gt;</c>. The block may be used only in <see cref="TelegramBotClientExtensions.SendRichMessageDraft">SendRichMessageDraft</see>, therefore it can't be received in messages. See <a href="https://t.me/addemoji/AIActions">https://t.me/addemoji/AIActions</a> for examples of custom emoji that are recommended for usage in the block.<br/><br/><i>(<see cref="InputRichBlock"/> can be cast into <see cref="InputRichBlockThinking"/>)</i></summary>
     Thinking,
+    /// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"collapsed"</c>.<br/><br/><i>(<see cref="InputRichBlock"/> can be cast into <see cref="InputRichBlockExpandableBlockQuotation"/>)</i></summary>
+    ExpandableBlockquote,
+    /// <summary>A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag <c>&lt;tg-button-row&gt;</c>.<br/><br/><i>(<see cref="InputRichBlock"/> can be cast into <see cref="InputRichBlockButtons"/>)</i></summary>
+    Buttons,
+    /// <summary>A block with a general file, corresponding to the custom HTML tag <c>&lt;tg-document&gt;</c>.<br/><br/><i>(<see cref="InputRichBlock"/> can be cast into <see cref="InputRichBlockDocument"/>)</i></summary>
+    Document,
 }

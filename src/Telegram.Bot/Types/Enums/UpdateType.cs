@@ -59,4 +59,6 @@ public enum UpdateType
     GuestMessage,
     /// <summary>The <see cref="Update"/> contains a <see cref="Update.Subscription"/></summary>
     Subscription,
+    /// <summary>The <see cref="Update"/> contains a <see cref="Update.StoppedMessageGeneration"/></summary>
+    StoppedMessageGeneration,
 }

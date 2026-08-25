@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>This object represents a block in a rich formatted message. Currently, it can be any of the following types:<br/><see cref="RichBlockParagraph"/>, <see cref="RichBlockSectionHeading"/>, <see cref="RichBlockPreformatted"/>, <see cref="RichBlockFooter"/>, <see cref="RichBlockDivider"/>, <see cref="RichBlockMathematicalExpression"/>, <see cref="RichBlockAnchor"/>, <see cref="RichBlockList"/>, <see cref="RichBlockBlockQuotation"/>, <see cref="RichBlockPullQuotation"/>, <see cref="RichBlockCollage"/>, <see cref="RichBlockSlideshow"/>, <see cref="RichBlockTable"/>, <see cref="RichBlockDetails"/>, <see cref="RichBlockMap"/>, <see cref="RichBlockAnimation"/>, <see cref="RichBlockAudio"/>, <see cref="RichBlockPhoto"/>, <see cref="RichBlockVideo"/>, <see cref="RichBlockVoiceNote"/>, <see cref="RichBlockThinking"/></summary>
+/// <summary>This object represents a block in a rich formatted message. Currently, it can be any of the following types:<br/><see cref="RichBlockParagraph"/>, <see cref="RichBlockSectionHeading"/>, <see cref="RichBlockPreformatted"/>, <see cref="RichBlockFooter"/>, <see cref="RichBlockDivider"/>, <see cref="RichBlockMathematicalExpression"/>, <see cref="RichBlockAnchor"/>, <see cref="RichBlockList"/>, <see cref="RichBlockBlockQuotation"/>, <see cref="RichBlockExpandableBlockQuotation"/>, <see cref="RichBlockPullQuotation"/>, <see cref="RichBlockCollage"/>, <see cref="RichBlockSlideshow"/>, <see cref="RichBlockTable"/>, <see cref="RichBlockDetails"/>, <see cref="RichBlockMap"/>, <see cref="RichBlockButtons"/>, <see cref="RichBlockAnimation"/>, <see cref="RichBlockAudio"/>, <see cref="RichBlockDocument"/>, <see cref="RichBlockPhoto"/>, <see cref="RichBlockVideo"/>, <see cref="RichBlockVoiceNote"/>, <see cref="RichBlockThinking"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<RichBlock>))]
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(RichBlockParagraph), "paragraph")]
@@ -13,14 +13,17 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(RichBlockAnchor), "anchor")]
 [CustomJsonDerivedType(typeof(RichBlockList), "list")]
 [CustomJsonDerivedType(typeof(RichBlockBlockQuotation), "blockquote")]
+[CustomJsonDerivedType(typeof(RichBlockExpandableBlockQuotation), "expandable_blockquote")]
 [CustomJsonDerivedType(typeof(RichBlockPullQuotation), "pullquote")]
 [CustomJsonDerivedType(typeof(RichBlockCollage), "collage")]
 [CustomJsonDerivedType(typeof(RichBlockSlideshow), "slideshow")]
 [CustomJsonDerivedType(typeof(RichBlockTable), "table")]
 [CustomJsonDerivedType(typeof(RichBlockDetails), "details")]
 [CustomJsonDerivedType(typeof(RichBlockMap), "map")]
+[CustomJsonDerivedType(typeof(RichBlockButtons), "buttons")]
 [CustomJsonDerivedType(typeof(RichBlockAnimation), "animation")]
 [CustomJsonDerivedType(typeof(RichBlockAudio), "audio")]
+[CustomJsonDerivedType(typeof(RichBlockDocument), "document")]
 [CustomJsonDerivedType(typeof(RichBlockPhoto), "photo")]
 [CustomJsonDerivedType(typeof(RichBlockVideo), "video")]
 [CustomJsonDerivedType(typeof(RichBlockVoiceNote), "voice_note")]
@@ -137,6 +140,20 @@ public partial class RichBlockBlockQuotation : RichBlock
     public RichText? Credit { get; set; }
 }
 
+/// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"collapsed"</c>.</summary>
+public partial class RichBlockExpandableBlockQuotation : RichBlock
+{
+    /// <summary>Type of the block, always <see cref="RichBlockType.ExpandableBlockquote"/></summary>
+    public override RichBlockType Type => RichBlockType.ExpandableBlockquote;
+
+    /// <summary>Content of the block</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public RichText Text { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Credit of the block</summary>
+    public RichText? Credit { get; set; }
+}
+
 /// <summary>A quotation with centered text, loosely corresponding to the HTML tag <c>&lt;aside&gt;</c>.</summary>
 public partial class RichBlockPullQuotation : RichBlock
 {
@@ -197,6 +214,10 @@ public partial class RichBlockTable : RichBlock
     [JsonPropertyName("is_striped")]
     public bool IsStriped { get; set; }
 
+    /// <summary><em>Optional</em>. <see langword="true"/>, if table cells have smaller indents</summary>
+    [JsonPropertyName("is_compact")]
+    public bool IsCompact { get; set; }
+
     /// <summary><em>Optional</em>. Caption of the table</summary>
     public RichText? Caption { get; set; }
 }
@@ -230,7 +251,7 @@ public partial class RichBlockMap : RichBlock
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Location Location { get; set; } = default!;
 
-    /// <summary>Map zoom level; 13-20</summary>
+    /// <summary>Map zoom level</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Zoom { get; set; }
 
@@ -244,6 +265,20 @@ public partial class RichBlockMap : RichBlock
 
     /// <summary><em>Optional</em>. Caption of the block</summary>
     public RichBlockCaption? Caption { get; set; }
+}
+
+/// <summary>A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag <c>&lt;tg-button-row&gt;</c>.</summary>
+public partial class RichBlockButtons : RichBlock
+{
+    /// <summary>Type of the block, always <see cref="RichBlockType.Buttons"/></summary>
+    public override RichBlockType Type => RichBlockType.Buttons;
+
+    /// <summary>The buttons</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public RichMessageButton[] Buttons { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Horizontal alignment of the buttons. Currently, must be one of <see cref="RichBlockTableCellAlign.Left">Left</see>, <see cref="RichBlockTableCellAlign.Center">Center</see>, or <see cref="RichBlockTableCellAlign.Right">Right</see>.</summary>
+    public RichBlockTableCellAlign? Align { get; set; }
 }
 
 /// <summary>A block with an animation, corresponding to the HTML tag <c>&lt;video&gt;</c>.</summary>
@@ -273,6 +308,20 @@ public partial class RichBlockAudio : RichBlock
     /// <summary>The audio</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Audio Audio { get; set; } = default!;
+
+    /// <summary><em>Optional</em>. Caption of the block</summary>
+    public RichBlockCaption? Caption { get; set; }
+}
+
+/// <summary>A block with a general file, corresponding to the custom HTML tag <c>&lt;tg-document&gt;</c>.</summary>
+public partial class RichBlockDocument : RichBlock
+{
+    /// <summary>Type of the block, always <see cref="RichBlockType.Document"/></summary>
+    public override RichBlockType Type => RichBlockType.Document;
+
+    /// <summary>The document</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public Document Document { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Caption of the block</summary>
     public RichBlockCaption? Caption { get; set; }

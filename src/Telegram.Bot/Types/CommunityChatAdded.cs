@@ -1,10 +1,10 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>Describes a service message about a chat being added to a community.</summary>
+/// <summary>Describes a service message about a chat or a bot being added to a community.</summary>
 public partial class CommunityChatAdded
 {
-    /// <summary>The new community to which the chat belongs</summary>
+    /// <summary>The new community to which the chat or the bot belongs</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Community Community { get; set; } = default!;
 

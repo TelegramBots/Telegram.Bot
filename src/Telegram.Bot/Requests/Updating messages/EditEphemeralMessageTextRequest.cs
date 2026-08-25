@@ -1,9 +1,9 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to edit an ephemeral text message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline</summary>
+/// <summary>Use this method to edit an ephemeral text or rich message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public partial class EditEphemeralMessageTextRequest() : RequestBase<bool>("editEphemeralMessageText"), IChatTargetable
+public partial class EditEphemeralMessageTextRequest() : FileRequestBase<bool>("editEphemeralMessageText"), IChatTargetable
 {
     /// <summary>Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c></summary>
     [JsonPropertyName("chat_id")]
@@ -20,9 +20,8 @@ public partial class EditEphemeralMessageTextRequest() : RequestBase<bool>("edit
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int EphemeralMessageId { get; set; }
 
-    /// <summary>New text of the message, 1-4096 characters after entity parsing</summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string Text { get; set; }
+    /// <summary>New text of the message, 1-4096 characters after entity parsing; required if <see cref="RichMessage">RichMessage</see> isn't specified</summary>
+    public string? Text { get; set; }
 
     /// <summary>Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
     [JsonPropertyName("parse_mode")]
@@ -30,6 +29,10 @@ public partial class EditEphemeralMessageTextRequest() : RequestBase<bool>("edit
 
     /// <summary>A list of special entities that appear in message text, which can be specified instead of <see cref="ParseMode">ParseMode</see></summary>
     public IEnumerable<MessageEntity>? Entities { get; set; }
+
+    /// <summary>New rich content of the message; required if <see cref="Text">Text</see> isn't specified</summary>
+    [JsonPropertyName("rich_message")]
+    public InputRichMessage? RichMessage { get; set; }
 
     /// <summary>Link preview generation options for the message</summary>
     [JsonPropertyName("link_preview_options")]

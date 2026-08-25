@@ -31,6 +31,10 @@ public partial class EditEphemeralMessageCaptionRequest() : RequestBase<bool>("e
     [JsonPropertyName("caption_entities")]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
+    /// <summary>Pass <see langword="true"/> if the caption must be shown above the message media. Supported only for animation, photo and video messages.</summary>
+    [JsonPropertyName("show_caption_above_media")]
+    public bool ShowCaptionAboveMedia { get; set; }
+
     /// <summary>An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></summary>
     [JsonPropertyName("reply_markup")]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }

@@ -161,4 +161,6 @@ public enum MessageType
     CommunityChatAdded,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.CommunityChatRemoved"/></summary>
     CommunityChatRemoved,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.CommunityChatJoined"/></summary>
+    CommunityChatJoined,
 }

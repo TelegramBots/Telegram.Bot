@@ -28,7 +28,7 @@ public partial class CallbackQuery
     /// <summary><em>Optional</em>. Data associated with the callback button. Be aware that the message originated the query can contain no callback buttons with this data.</summary>
     public string? Data { get; set; }
 
-    /// <summary><em>Optional</em>. Short name of a <a href="https://core.telegram.org/bots/api#games">Game</a> to be returned, serves as the unique identifier for the game</summary>
+    /// <summary><em>Optional</em>. Short name of a <see cref="Game"/> to be returned, serves as the unique identifier for the game</summary>
     [JsonPropertyName("game_short_name")]
     public string? GameShortName { get; set; }
 }

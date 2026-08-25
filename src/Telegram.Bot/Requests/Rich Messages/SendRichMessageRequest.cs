@@ -27,6 +27,10 @@ public partial class SendRichMessageRequest() : FileRequestBase<Message>("sendRi
     [JsonPropertyName("direct_messages_topic_id")]
     public long? DirectMessagesTopicId { get; set; }
 
+    /// <summary>An object containing the parameters of the ephemeral message to send</summary>
+    [JsonPropertyName("ephemeral_message_parameters")]
+    public EphemeralMessageParameters? EphemeralMessageParameters { get; set; }
+
     /// <summary>Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</summary>
     [JsonPropertyName("disable_notification")]
     public bool DisableNotification { get; set; }

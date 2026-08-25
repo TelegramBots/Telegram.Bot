@@ -27,7 +27,7 @@ public enum InlineQueryResultType
     Venue,
     /// <summary>Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the the voice message.<br/><br/><i>(<see cref="InlineQueryResult"/> can be cast into <see cref="InlineQueryResultVoice"/> or <see cref="InlineQueryResultCachedVoice"/>)</i></summary>
     Voice,
-    /// <summary>Represents a <a href="https://core.telegram.org/bots/api#games">Game</a>.<br/><br/><i>(<see cref="InlineQueryResult"/> can be cast into <see cref="InlineQueryResultGame"/>)</i></summary>
+    /// <summary>Represents a <see cref="Game"/>.<br/><br/><i>(<see cref="InlineQueryResult"/> can be cast into <see cref="InlineQueryResultGame"/>)</i></summary>
     Game,
     /// <summary>Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use <see cref="InputMessageContent">InputMessageContent</see> to send a message with the specified content instead of the sticker.<br/><br/><i>(<see cref="InlineQueryResult"/> can be cast into <see cref="InlineQueryResultCachedSticker"/>)</i></summary>
     Sticker,

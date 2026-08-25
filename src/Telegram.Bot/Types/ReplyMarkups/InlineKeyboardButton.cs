@@ -26,7 +26,7 @@ public partial class InlineKeyboardButton : IKeyboardButton
     [JsonPropertyName("web_app")]
     public WebAppInfo? WebApp { get; set; }
 
-    /// <summary><em>Optional</em>. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
+    /// <summary><em>Optional</em>. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>. Not supported for ephemeral messages.</summary>
     [JsonPropertyName("login_url")]
     public LoginUrl? LoginUrl { get; set; }
 
@@ -52,6 +52,9 @@ public partial class InlineKeyboardButton : IKeyboardButton
 
     /// <summary><em>Optional</em>. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>. Substrings “⭐” and “XTR” in the buttons's text will be replaced with a Telegram Star icon.<br/><br/><b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row and can only be used in invoice messages.</summary>
     public bool Pay { get; set; }
+
+    /// <summary><em>Optional</em>. If set, then the button is disabled and does nothing</summary>
+    public DisabledButton? Disabled { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InlineKeyboardButton"/></summary>
     /// <param name="text">Label text on the button</param>
@@ -85,15 +88,15 @@ public partial class InlineKeyboardButton : IKeyboardButton
     public static InlineKeyboardButton WithWebApp(string text, WebAppInfo webApp) =>
         new(text) { WebApp = webApp };
 
-    /// <summary>Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
+    /// <summary>Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>. Not supported for ephemeral messages.</summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="loginUrl">An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</param>
+    /// <param name="loginUrl">An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>. Not supported for ephemeral messages.</param>
     [SetsRequiredMembers]
     public InlineKeyboardButton(string text, LoginUrl loginUrl) { Text = text; LoginUrl = loginUrl; }
 
-    /// <summary>Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</summary>
+    /// <summary>Creates an inline keyboard button with an HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>. Not supported for ephemeral messages.</summary>
     /// <param name="text">Label text on the button</param>
-    /// <param name="loginUrl">An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.</param>
+    /// <param name="loginUrl">An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>. Not supported for ephemeral messages.</param>
     public static InlineKeyboardButton WithLoginUrl(string text, LoginUrl loginUrl) =>
         new(text) { LoginUrl = loginUrl };
 
@@ -142,4 +145,9 @@ public partial class InlineKeyboardButton : IKeyboardButton
     /// <param name="text">Label text on the button</param>
     public static InlineKeyboardButton WithPay(string text) =>
         new(text) { Pay = true };
+
+    /// <summary>Creates an inline keyboard button. Then the button is disabled and does nothing</summary>
+    /// <param name="text">Label text on the button</param>
+    public static InlineKeyboardButton WithDisabled(string text) =>
+        new(text) { Disabled = new() };
 }

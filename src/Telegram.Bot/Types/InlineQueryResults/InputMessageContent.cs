@@ -43,13 +43,13 @@ public partial class InputTextMessageContent : InputMessageContent
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of a rich message to be sent as the result of an inline query.</summary>
 public partial class InputRichMessageContent : InputMessageContent
 {
-    /// <summary>The message to be sent</summary>
+    /// <summary>The message to be sent. Only previously uploaded files may be used in the message.</summary>
     [JsonPropertyName("rich_message")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputRichMessage RichMessage { get; set; }
 
     /// <summary>Initializes an instance of <see cref="InputRichMessageContent"/></summary>
-    /// <param name="richMessage">The message to be sent</param>
+    /// <param name="richMessage">The message to be sent. Only previously uploaded files may be used in the message.</param>
     [SetsRequiredMembers]
     public InputRichMessageContent(InputRichMessage richMessage) => RichMessage = richMessage;
 

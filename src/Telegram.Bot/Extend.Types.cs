@@ -143,7 +143,7 @@ namespace Telegram.Bot.Types
             CanManageChat = CanDeleteMessages = CanManageVideoChats = CanRestrictMembers = CanPromoteMembers = defaultValue;
             CanChangeInfo = CanInviteUsers = CanPostStories = CanEditStories = CanDeleteStories = defaultValue;
             CanPostMessages = CanEditMessages = CanPinMessages = CanManageTopics = CanManageDirectMessages = defaultValue;
-            CanManageTags = defaultValue;
+            CanManageTags = CanSendWelcomeMessages = defaultValue;
         }
     }
 
@@ -182,6 +182,12 @@ namespace Telegram.Bot.Types
         public static implicit operator LinkPreviewOptions?(bool disabled) => disabled ? Disabled : null;
         /// <summary>Simply pass a URL string to request a preview of that link</summary>
         public static implicit operator LinkPreviewOptions(string url) => new() { Url = url };
+    }
+
+    public partial class EphemeralMessageParameters
+    {
+        /// <summary>Implicit operator for when your ephemeral message is not related to a callback query</summary>
+        public static implicit operator EphemeralMessageParameters?(long? receiverUserId) => receiverUserId == null ? null : new() { ReceiverUserId = receiverUserId.Value };
     }
 
     public partial class InputPollOption
@@ -495,6 +501,7 @@ namespace Telegram.Bot.Types
                     case InlineButtonType.CopyText: CopyText = value; break;
                     case InlineButtonType.Game: CallbackGame = new(); break;
                     case InlineButtonType.Pay: Pay = true; break;
+                    case InlineButtonType.Disabled: Disabled = new(); break;
                     default: throw new NotSupportedException("Unrecognized type of inline button");
                 }
             }

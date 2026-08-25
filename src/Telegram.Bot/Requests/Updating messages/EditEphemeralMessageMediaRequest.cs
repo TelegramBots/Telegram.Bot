@@ -20,7 +20,7 @@ public partial class EditEphemeralMessageMediaRequest() : FileRequestBase<bool>(
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int EphemeralMessageId { get; set; }
 
-    /// <summary>An object for the new media content of the message. A new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
+    /// <summary>An object for the new media content of the message</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputMedia Media { get; set; }
 

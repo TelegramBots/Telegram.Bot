@@ -142,8 +142,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendMessage(
@@ -163,8 +162,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendMessageRequest
     {
@@ -183,8 +181,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded.</summary>
@@ -376,8 +373,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendPhoto(
@@ -399,8 +395,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendPhotoRequest
     {
@@ -421,8 +416,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send live photos.</summary>
@@ -445,8 +439,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendLivePhoto(
@@ -469,8 +462,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendLivePhotoRequest
     {
@@ -492,8 +484,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format.</summary>
@@ -518,8 +509,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendAudio(
@@ -543,8 +533,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendAudioRequest
     {
@@ -567,8 +556,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send general files.</summary>
@@ -591,8 +579,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendDocument(
@@ -614,8 +601,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendDocumentRequest
     {
@@ -636,8 +622,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as <see cref="Document"/>).</summary>
@@ -667,8 +652,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="startTimestamp">Start timestamp for the video in the message</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVideo(
@@ -697,8 +681,7 @@ public static partial class TelegramBotClientExtensions
         int? startTimestamp = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVideoRequest
     {
@@ -726,8 +709,7 @@ public static partial class TelegramBotClientExtensions
         StartTimestamp = startTimestamp,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).</summary>
@@ -754,8 +736,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendAnimation(
@@ -781,8 +762,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendAnimationRequest
     {
@@ -807,8 +787,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).</summary>
@@ -830,8 +809,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVoice(
@@ -852,8 +830,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVoiceRequest
     {
@@ -873,11 +850,10 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages.</summary>
+    /// <summary>Use this method to send a rounded square MPEG4 video of up to 1 minute long.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
     /// <param name="videoNote">Video note to send. Pass a FileId as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending video notes by a URL is currently unsupported.</param>
@@ -894,8 +870,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVideoNote(
@@ -915,8 +890,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVideoNoteRequest
     {
@@ -935,8 +909,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send paid media.</summary>
@@ -1061,8 +1034,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendLocation(
@@ -1084,8 +1056,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendLocationRequest
     {
@@ -1106,8 +1077,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send information about a venue.</summary>
@@ -1131,8 +1101,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVenue(
@@ -1156,8 +1125,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendVenueRequest
     {
@@ -1180,8 +1148,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send phone contacts.</summary>
@@ -1201,8 +1168,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendContact(
@@ -1222,8 +1188,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendContactRequest
     {
@@ -1242,8 +1207,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to send a native poll.</summary>
@@ -1444,11 +1408,13 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to stream a partial message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you <b>must</b> call <see cref="TelegramBotClientExtensions.SendMessage">SendMessage</see> with the complete message to persist it in the user's chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target private chat</param>
-    /// <param name="draftId">Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.</param>
+    /// <param name="draftId">Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated. Otherwise, the draft is replaced without animation.</param>
     /// <param name="text">Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread</param>
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="canStop">Pass <see langword="true"/> to show the user a button to stop further drafts. The bot will receive an <see cref="Update"/> “StoppedMessageGeneration” if the user presses the button.</param>
+    /// <param name="keepOnStop">Pass <see langword="true"/> to keep the draft in the chat when the button is pressed. The draft will still disappear after a short time or if the bot sends a message. To fully preserve the partial draft, the bot should send it as a new message.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task SendMessageDraft(
         this ITelegramBotClient botClient,
@@ -1458,6 +1424,8 @@ public static partial class TelegramBotClientExtensions
         ParseMode parseMode = default,
         int? messageThreadId = default,
         IEnumerable<MessageEntity>? entities = default,
+        bool canStop = default,
+        bool keepOnStop = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendMessageDraftRequest
     {
@@ -1467,6 +1435,8 @@ public static partial class TelegramBotClientExtensions
         ParseMode = parseMode,
         MessageThreadId = messageThreadId,
         Entities = entities,
+        CanStop = canStop,
+        KeepOnStop = keepOnStop,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).<br/>We only recommend using this method when a response from the bot will take a <b>noticeable</b> amount of time to arrive.</summary>
@@ -1674,6 +1644,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canManageTopics">Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only</param>
     /// <param name="canManageDirectMessages">Pass <see langword="true"/> if the administrator can manage direct messages within the channel and decline suggested posts; for channels only</param>
     /// <param name="canManageTags">Pass <see langword="true"/> if the administrator can edit the tags of regular members; for groups and supergroups only</param>
+    /// <param name="canSendWelcomeMessages">Pass <see langword="true"/> if the administrator can manage chat welcome messages or directly send them in the case of bots</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task PromoteChatMember(
         this ITelegramBotClient botClient,
@@ -1696,6 +1667,7 @@ public static partial class TelegramBotClientExtensions
         bool canManageTopics = default,
         bool canManageDirectMessages = default,
         bool canManageTags = default,
+        bool canSendWelcomeMessages = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new PromoteChatMemberRequest
     {
@@ -1718,6 +1690,7 @@ public static partial class TelegramBotClientExtensions
         CanManageTopics = canManageTopics,
         CanManageDirectMessages = canManageDirectMessages,
         CanManageTags = canManageTags,
+        CanSendWelcomeMessages = canSendWelcomeMessages,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to set a custom title for an administrator in a supergroup promoted by the bot.</summary>
@@ -2447,7 +2420,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="text">Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters.</param>
     /// <param name="showAlert">If <see langword="true"/>, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to <see langword="false"/>.</param>
     /// <param name="url">URL that will be opened by the user's client. If you have created a <see cref="Game"/> and accepted the conditions via <a href="https://t.me/botfather">@BotFather</a>, specify the URL that opens your game - note that this will only work if the query comes from a <see cref="InlineKeyboardButton"><em>CallbackGame</em></see> button.<br/><br/>Otherwise, you may use links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter.</param>
-    /// <param name="cacheTime">The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.</param>
+    /// <param name="cacheTime">The maximum amount of time in seconds that the result of the callback query may be cached client-side. Defaults to 0.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task AnswerCallbackQuery(
         this ITelegramBotClient botClient,
@@ -3473,7 +3446,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
-    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified. Direct upload of new files isn't supported when an inline message is edited.</param>
+    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified. Direct upload of new files and explicit upload of files by a URL isn't supported when an inline message is edited.</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The edited <see cref="Message"/> is returned</returns>
@@ -3510,7 +3483,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
-    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified. Direct upload of new files isn't supported when an inline message is edited.</param>
+    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified. Direct upload of new files and explicit upload of files by a URL isn't supported when an inline message is edited.</param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditMessageText(
@@ -3861,27 +3834,29 @@ public static partial class TelegramBotClientExtensions
         BusinessConnectionId = businessConnectionId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to edit an ephemeral text message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline</summary>
+    /// <summary>Use this method to edit an ephemeral text or rich message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c></param>
     /// <param name="receiverUserId">Identifier of the user who received the message</param>
     /// <param name="ephemeralMessageId">Identifier of the ephemeral message to edit</param>
-    /// <param name="text">New text of the message, 1-4096 characters after entity parsing</param>
+    /// <param name="text">New text of the message, 1-4096 characters after entity parsing; required if <paramref name="richMessage"/> isn't specified</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="entities">A list of special entities that appear in message text, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="richMessage">New rich content of the message; required if <paramref name="text"/> isn't specified</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditEphemeralMessageText(
         this ITelegramBotClient botClient,
         ChatId chatId,
         long receiverUserId,
         int ephemeralMessageId,
-        string text,
+        string? text,
         ParseMode parseMode = default,
         InlineKeyboardMarkup? replyMarkup = default,
         LinkPreviewOptions? linkPreviewOptions = default,
         IEnumerable<MessageEntity>? entities = default,
+        InputRichMessage? richMessage = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditEphemeralMessageTextRequest
     {
@@ -3893,6 +3868,7 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
         LinkPreviewOptions = linkPreviewOptions,
         Entities = entities,
+        RichMessage = richMessage,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to edit the media of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline</summary>
@@ -3900,7 +3876,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c></param>
     /// <param name="receiverUserId">Identifier of the user who received the message</param>
     /// <param name="ephemeralMessageId">Identifier of the ephemeral message to edit</param>
-    /// <param name="media">An object for the new media content of the message. A new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</param>
+    /// <param name="media">An object for the new media content of the message</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditEphemeralMessageMedia(
@@ -3929,6 +3905,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="parseMode">Mode for parsing entities in the message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="showCaptionAboveMedia">Pass <see langword="true"/> if the caption must be shown above the message media. Supported only for animation, photo and video messages.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task EditEphemeralMessageCaption(
         this ITelegramBotClient botClient,
@@ -3939,6 +3916,7 @@ public static partial class TelegramBotClientExtensions
         ParseMode parseMode = default,
         InlineKeyboardMarkup? replyMarkup = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new EditEphemeralMessageCaptionRequest
     {
@@ -3949,6 +3927,7 @@ public static partial class TelegramBotClientExtensions
         ParseMode = parseMode,
         ReplyMarkup = replyMarkup,
         CaptionEntities = captionEntities,
+        ShowCaptionAboveMedia = showCaptionAboveMedia,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to edit only the reply markup of an ephemeral message. Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline</summary>
@@ -4122,8 +4101,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
-    /// <param name="receiverUserId">For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</param>
-    /// <param name="callbackQueryId">For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendSticker(
@@ -4141,8 +4119,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
-        long? receiverUserId = default,
-        string? callbackQueryId = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendStickerRequest
     {
@@ -4159,8 +4136,7 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
-        ReceiverUserId = receiverUserId,
-        CallbackQueryId = callbackQueryId,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to get a sticker set.</summary>
@@ -4442,6 +4418,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
     /// <param name="directMessagesTopicId">Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat</param>
     /// <param name="suggestedPostParameters">An object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.</param>
+    /// <param name="ephemeralMessageParameters">An object containing the parameters of the ephemeral message to send</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendRichMessage(
@@ -4458,6 +4435,7 @@ public static partial class TelegramBotClientExtensions
         bool allowPaidBroadcast = default,
         long? directMessagesTopicId = default,
         SuggestedPostParameters? suggestedPostParameters = default,
+        EphemeralMessageParameters? ephemeralMessageParameters = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendRichMessageRequest
     {
@@ -4473,14 +4451,17 @@ public static partial class TelegramBotClientExtensions
         AllowPaidBroadcast = allowPaidBroadcast,
         DirectMessagesTopicId = directMessagesTopicId,
         SuggestedPostParameters = suggestedPostParameters,
+        EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to stream a partial rich message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you <b>must</b> call <see cref="TelegramBotClientExtensions.SendRichMessage">SendRichMessage</see> with the complete message to persist it in the user's chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target private chat</param>
-    /// <param name="draftId">Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.</param>
-    /// <param name="richMessage">The partial message to be streamed. Direct upload of new files isn't supported.</param>
+    /// <param name="draftId">Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated. Otherwise, the draft is replaced without animation.</param>
+    /// <param name="richMessage">The partial message to be streamed. Direct upload of new files and explicit upload of files by a URL isn't supported.</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread</param>
+    /// <param name="canStop">Pass <see langword="true"/> to show the user a button to stop further drafts. The bot will receive an <see cref="Update"/> “StoppedMessageGeneration” if the user presses the button.</param>
+    /// <param name="keepOnStop">Pass <see langword="true"/> to keep the draft in the chat when the button is pressed. The draft will still disappear after a short time or if the bot sends a message. To fully preserve the partial draft, the bot should send it as a new message.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task SendRichMessageDraft(
         this ITelegramBotClient botClient,
@@ -4488,6 +4469,8 @@ public static partial class TelegramBotClientExtensions
         int draftId,
         InputRichMessage richMessage,
         int? messageThreadId = default,
+        bool canStop = default,
+        bool keepOnStop = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new SendRichMessageDraftRequest
     {
@@ -4495,6 +4478,8 @@ public static partial class TelegramBotClientExtensions
         DraftId = draftId,
         RichMessage = richMessage,
         MessageThreadId = messageThreadId,
+        CanStop = canStop,
+        KeepOnStop = keepOnStop,
     }, cancellationToken).ConfigureAwait(false);
 
     #endregion Rich messages

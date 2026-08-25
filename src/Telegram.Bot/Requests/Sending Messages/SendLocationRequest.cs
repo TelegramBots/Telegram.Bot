@@ -30,13 +30,9 @@ public partial class SendLocationRequest() : RequestBase<Message>("sendLocation"
     [JsonPropertyName("direct_messages_topic_id")]
     public long? DirectMessagesTopicId { get; set; }
 
-    /// <summary>For outgoing ephemeral messages, unique identifier of the user who will receive the message; for group and supergroup chats only. It is not guaranteed that the user will receive the message, especially if they are offline. See <a href="https://core.telegram.org/bots/api#ephemeral-messages-and-commands">ephemeral message sending</a> for more details.</summary>
-    [JsonPropertyName("receiver_user_id")]
-    public long? ReceiverUserId { get; set; }
-
-    /// <summary>For outgoing ephemeral messages, identifier of the callback query which triggered the message if any</summary>
-    [JsonPropertyName("callback_query_id")]
-    public string? CallbackQueryId { get; set; }
+    /// <summary>An object containing the parameters of the ephemeral message to send</summary>
+    [JsonPropertyName("ephemeral_message_parameters")]
+    public EphemeralMessageParameters? EphemeralMessageParameters { get; set; }
 
     /// <summary>The radius of uncertainty for the location, measured in meters; 0-1500</summary>
     [JsonPropertyName("horizontal_accuracy")]

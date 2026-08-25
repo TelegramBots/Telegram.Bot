@@ -103,7 +103,7 @@ public partial class InputMediaAudio : InputMedia, IInputMediaThumb, IAlbumInput
 }
 
 /// <summary>Represents a general file to be sent.</summary>
-public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumInputMedia, InputPollMedia
+public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumInputMedia, IInputRichMedia, InputPollMedia
 {
     /// <summary>Type of the media, always <see cref="InputMediaType.Document"/></summary>
     public override InputMediaType Type => InputMediaType.Document;

@@ -110,9 +110,13 @@ public partial class ChatMemberAdministrator : ChatMember
     [JsonPropertyName("can_manage_direct_messages")]
     public bool CanManageDirectMessages { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can edit the tags of regular members; for groups and supergroups only. If omitted, defaults to the value of <see cref="CanPinMessages">CanPinMessages</see>.</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the administrator can edit the tags of regular members; for groups and supergroups only</summary>
     [JsonPropertyName("can_manage_tags")]
-    public bool? CanManageTags { get; set; }
+    public bool CanManageTags { get; set; }
+
+    /// <summary><see langword="true"/>, if the administrator can manage chat welcome messages or directly send them in the case of bots</summary>
+    [JsonPropertyName("can_send_welcome_messages")]
+    public bool CanSendWelcomeMessages { get; set; }
 
     /// <summary><em>Optional</em>. Custom title for this user</summary>
     [JsonPropertyName("custom_title")]

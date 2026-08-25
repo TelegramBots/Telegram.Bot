@@ -27,6 +27,10 @@ public partial class ReplyKeyboardMarkup : ReplyMarkup
     /// <summary><em>Optional</em>. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the <em>text</em> of the <see cref="Message"/> object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.<br/><br/><em>Example:</em> A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.</summary>
     public bool Selective { get; set; }
 
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the reply interface must be shown to the user, as if they had manually selected the bot's message and tapped 'Reply'</summary>
+    [JsonPropertyName("force_reply")]
+    public new bool ForceReply { get; set; }
+
     /// <summary>Initializes an instance of <see cref="ReplyKeyboardMarkup"/></summary>
     /// <param name="keyboard">Array of button rows, each represented by an Array of <see cref="KeyboardButton"/> objects</param>
     [SetsRequiredMembers]

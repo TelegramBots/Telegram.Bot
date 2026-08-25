@@ -10,12 +10,12 @@ public partial class SendRichMessageDraftRequest() : FileRequestBase<bool>("send
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long ChatId { get; set; }
 
-    /// <summary>Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated.</summary>
+    /// <summary>Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated. Otherwise, the draft is replaced without animation.</summary>
     [JsonPropertyName("draft_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int DraftId { get; set; }
 
-    /// <summary>The partial message to be streamed. Direct upload of new files isn't supported.</summary>
+    /// <summary>The partial message to be streamed. Direct upload of new files and explicit upload of files by a URL isn't supported.</summary>
     [JsonPropertyName("rich_message")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputRichMessage RichMessage { get; set; }
@@ -23,6 +23,14 @@ public partial class SendRichMessageDraftRequest() : FileRequestBase<bool>("send
     /// <summary>Unique identifier for the target message thread</summary>
     [JsonPropertyName("message_thread_id")]
     public int? MessageThreadId { get; set; }
+
+    /// <summary>Pass <see langword="true"/> to show the user a button to stop further drafts. The bot will receive an <see cref="Update"/> “StoppedMessageGeneration” if the user presses the button.</summary>
+    [JsonPropertyName("can_stop")]
+    public bool CanStop { get; set; }
+
+    /// <summary>Pass <see langword="true"/> to keep the draft in the chat when the button is pressed. The draft will still disappear after a short time or if the bot sends a message. To fully preserve the partial draft, the bot should send it as a new message.</summary>
+    [JsonPropertyName("keep_on_stop")]
+    public bool KeepOnStop { get; set; }
 
     /// <inheritdoc/>
     ChatId IChatTargetable.ChatId => ChatId;

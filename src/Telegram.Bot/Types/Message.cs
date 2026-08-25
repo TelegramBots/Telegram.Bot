@@ -349,11 +349,15 @@ public partial class Message
     [JsonPropertyName("checklist_tasks_added")]
     public ChecklistTasksAdded? ChecklistTasksAdded { get; set; }
 
-    /// <summary><em>Optional</em>. Service message: chat added to a <see cref="Community"/></summary>
+    /// <summary><em>Optional</em>. Service message: chat or bot added to a <see cref="Community"/></summary>
     [JsonPropertyName("community_chat_added")]
     public CommunityChatAdded? CommunityChatAdded { get; set; }
 
-    /// <summary><em>Optional</em>. Service message: chat removed from a <see cref="Community"/></summary>
+    /// <summary><em>Optional</em>. Service message: chat was joined by a user from a <see cref="Community"/></summary>
+    [JsonPropertyName("community_chat_joined")]
+    public CommunityChatJoined? CommunityChatJoined { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: chat or bot removed from a <see cref="Community"/></summary>
     [JsonPropertyName("community_chat_removed")]
     public CommunityChatRemoved? CommunityChatRemoved { get; set; }
 
@@ -516,6 +520,7 @@ public partial class Message
         { ChecklistTasksDone: not null }                => MessageType.ChecklistTasksDone,
         { ChecklistTasksAdded: not null }               => MessageType.ChecklistTasksAdded,
         { CommunityChatAdded: not null }                => MessageType.CommunityChatAdded,
+        { CommunityChatJoined: not null }               => MessageType.CommunityChatJoined,
         { CommunityChatRemoved: not null }              => MessageType.CommunityChatRemoved,
         { DirectMessagePriceChanged: not null }         => MessageType.DirectMessagePriceChanged,
         { ForumTopicCreated: not null }                 => MessageType.ForumTopicCreated,
