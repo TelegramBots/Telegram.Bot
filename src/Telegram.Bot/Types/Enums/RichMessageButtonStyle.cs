@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
-/// <summary><see cref="RichMessageButton"/>: <em>Optional</em>. Style of the button. Must be one of <see cref="Danger">Danger</see> (red), <see cref="Success">Success</see> (green), <see cref="Primary">Primary</see> (blue) or <see cref="Link">Link</see> (the button is shown as a regular link without borders). If omitted, then an app-specific style is used. The style <see cref="Link">Link</see> is allowed only for callback buttons.</summary>
+/// <summary><see cref="RichMessageButton"/>: <em>Optional</em>. Style of the button. Must be one of <see cref="Danger">Danger</see>, <see cref="Success">Success</see>, <see cref="Primary">Primary</see>, or <see cref="Link">Link</see> (the button is shown as a regular link without borders). Apps may use theme-specific colors for the button background and text based on the style. The style <see cref="Link">Link</see> is allowed only for callback buttons.</summary>
 [JsonConverter(typeof(EnumConverter<RichMessageButtonStyle>))]
 public enum RichMessageButtonStyle
 {

@@ -8,7 +8,7 @@ public partial class RichMessageButton
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public RichText Text { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. Style of the button. Must be one of <see cref="RichMessageButtonStyle.Danger">Danger</see> (red), <see cref="RichMessageButtonStyle.Success">Success</see> (green), <see cref="RichMessageButtonStyle.Primary">Primary</see> (blue) or <see cref="RichMessageButtonStyle.Link">Link</see> (the button is shown as a regular link without borders). If omitted, then an app-specific style is used. The style <see cref="RichMessageButtonStyle.Link">Link</see> is allowed only for callback buttons.</summary>
+    /// <summary><em>Optional</em>. Style of the button. Must be one of <see cref="RichMessageButtonStyle.Danger">Danger</see>, <see cref="RichMessageButtonStyle.Success">Success</see>, <see cref="RichMessageButtonStyle.Primary">Primary</see>, or <see cref="RichMessageButtonStyle.Link">Link</see> (the button is shown as a regular link without borders). Apps may use theme-specific colors for the button background and text based on the style. The style <see cref="RichMessageButtonStyle.Link">Link</see> is allowed only for callback buttons.</summary>
     public RichMessageButtonStyle? Style { get; set; }
 
     /// <summary><em>Optional</em>. HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;UserId&gt;</c> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.</summary>

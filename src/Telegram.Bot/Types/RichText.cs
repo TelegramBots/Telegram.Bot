@@ -3,7 +3,7 @@ namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a rich formatted text. Currently, it can be either a String for plain text, an Array of <see cref="RichText"/>, or any of the following types:<br/><see cref="RichTextBold"/>, <see cref="RichTextItalic"/>, <see cref="RichTextUnderline"/>, <see cref="RichTextStrikethrough"/>, <see cref="RichTextSpoiler"/>, <see cref="RichTextDateTime"/>, <see cref="RichTextTextMention"/>, <see cref="RichTextSubscript"/>, <see cref="RichTextSuperscript"/>, <see cref="RichTextMarked"/>, <see cref="RichTextCode"/>, <see cref="RichTextCustomEmoji"/>, <see cref="RichTextMathematicalExpression"/>, <see cref="RichTextUrl"/>, <see cref="RichTextEmailAddress"/>, <see cref="RichTextPhoneNumber"/>, <see cref="RichTextBankCardNumber"/>, <see cref="RichTextMention"/>, <see cref="RichTextHashtag"/>, <see cref="RichTextCashtag"/>, <see cref="RichTextBotCommand"/>, <see cref="RichTextButton"/>, <see cref="RichTextAnchor"/>, <see cref="RichTextAnchorLink"/>, <see cref="RichTextReference"/>, <see cref="RichTextReferenceLink"/></summary>
 [JsonConverter(typeof(RichTextConverter))]
-[CustomJsonPolymorphic("type")]
+[CustomJsonPolymorphic("type", typeof(RichTextUnsupported))]
 [CustomJsonDerivedType(typeof(RichTextArray))]
 [CustomJsonDerivedType(typeof(RichTextText))]
 [CustomJsonDerivedType(typeof(RichTextBold), "bold")]

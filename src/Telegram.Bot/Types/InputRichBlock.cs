@@ -140,7 +140,7 @@ public partial class InputRichBlockBlockQuotation : InputRichBlock
     public RichText? Credit { get; set; }
 }
 
-/// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"collapsed"</c>.</summary>
+/// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"expandable"</c>.</summary>
 public partial class InputRichBlockExpandableBlockQuotation : InputRichBlock
 {
     /// <summary>Type of the block, always <see cref="InputRichBlockType.ExpandableBlockquote"/></summary>

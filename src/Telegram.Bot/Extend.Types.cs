@@ -249,6 +249,33 @@ namespace Telegram.Bot.Types
         public static implicit operator LoginUrl(string url) => new() { Url = url };
     }
 
+    public partial class RichText
+    {
+        /// <summary>Implicit conversion from string (RichTextText)</summary>
+        public static implicit operator RichText(string text) => new RichTextText() { Text = text };
+    }
+
+    /// <summary>An unsupported rich block</summary>
+    public class RichBlockUnsupported(string typeString, JsonDocument json) : RichBlock
+    {
+        /// <summary>Type of the block, always 0</summary>
+        public override RichBlockType Type => (RichBlockType)0;
+        /// <summary>Type of the block in string format</summary>
+        public string TypeString { get; set; } = typeString;
+        /// <summary>Deserialized Json</summary>
+        public JsonDocument Json { get; set; } = json;
+    }
+
+    /// <summary>An unsupported rich block</summary>
+    public class RichTextUnsupported(string typeString, JsonDocument json) : RichText
+    {
+        /// <summary>Type of the rich text, always -2</summary>
+        public override RichTextType Type => (RichTextType)(-2);
+        /// <summary>Type of the rich text in string format</summary>
+        public string TypeString { get; set; } = typeString;
+        /// <summary>Deserialized Json</summary>
+        public JsonDocument Json { get; set; } = json;
+    }
 
     namespace Payments
     {

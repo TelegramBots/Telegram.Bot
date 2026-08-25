@@ -3,7 +3,7 @@ namespace Telegram.Bot.Types;
 
 /// <summary>This object represents a block in a rich formatted message. Currently, it can be any of the following types:<br/><see cref="RichBlockParagraph"/>, <see cref="RichBlockSectionHeading"/>, <see cref="RichBlockPreformatted"/>, <see cref="RichBlockFooter"/>, <see cref="RichBlockDivider"/>, <see cref="RichBlockMathematicalExpression"/>, <see cref="RichBlockAnchor"/>, <see cref="RichBlockList"/>, <see cref="RichBlockBlockQuotation"/>, <see cref="RichBlockExpandableBlockQuotation"/>, <see cref="RichBlockPullQuotation"/>, <see cref="RichBlockCollage"/>, <see cref="RichBlockSlideshow"/>, <see cref="RichBlockTable"/>, <see cref="RichBlockDetails"/>, <see cref="RichBlockMap"/>, <see cref="RichBlockButtons"/>, <see cref="RichBlockAnimation"/>, <see cref="RichBlockAudio"/>, <see cref="RichBlockDocument"/>, <see cref="RichBlockPhoto"/>, <see cref="RichBlockVideo"/>, <see cref="RichBlockVoiceNote"/>, <see cref="RichBlockThinking"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<RichBlock>))]
-[CustomJsonPolymorphic("type")]
+[CustomJsonPolymorphic("type", typeof(RichBlockUnsupported))]
 [CustomJsonDerivedType(typeof(RichBlockParagraph), "paragraph")]
 [CustomJsonDerivedType(typeof(RichBlockSectionHeading), "heading")]
 [CustomJsonDerivedType(typeof(RichBlockPreformatted), "pre")]
@@ -140,7 +140,7 @@ public partial class RichBlockBlockQuotation : RichBlock
     public RichText? Credit { get; set; }
 }
 
-/// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"collapsed"</c>.</summary>
+/// <summary>A block quotation, corresponding to the HTML tag <c>&lt;blockquote&gt;</c> with custom attribute <c>"expandable"</c>.</summary>
 public partial class RichBlockExpandableBlockQuotation : RichBlock
 {
     /// <summary>Type of the block, always <see cref="RichBlockType.ExpandableBlockquote"/></summary>
