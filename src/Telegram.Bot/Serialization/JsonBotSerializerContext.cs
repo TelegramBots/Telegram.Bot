@@ -429,7 +429,6 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(IdDocumentData))]
 [JsonSerializable(typeof(Credentials))]
 [JsonSerializable(typeof(FileBase))]
-[JsonSerializable(typeof(RichTextArray))]
-[JsonSerializable(typeof(RichTextText))]
+[JsonSerializable(typeof(RichText[]))]
 public partial class JsonBotSerializerContext : JsonSerializerContext;
 #endif
