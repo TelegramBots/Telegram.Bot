@@ -1419,7 +1419,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task SendMessageDraft(
         this ITelegramBotClient botClient,
         long chatId,
-        int draftId,
+        long draftId,
         string? text,
         ParseMode parseMode = default,
         int? messageThreadId = default,
@@ -4466,7 +4466,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task SendRichMessageDraft(
         this ITelegramBotClient botClient,
         long chatId,
-        int draftId,
+        long draftId,
         InputRichMessage richMessage,
         int? messageThreadId = default,
         bool canStop = default,

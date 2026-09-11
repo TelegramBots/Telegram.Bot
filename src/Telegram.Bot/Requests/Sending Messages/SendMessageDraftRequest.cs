@@ -13,7 +13,7 @@ public partial class SendMessageDraftRequest() : RequestBase<bool>("sendMessageD
     /// <summary>Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated. Otherwise, the draft is replaced without animation.</summary>
     [JsonPropertyName("draft_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int DraftId { get; set; }
+    public required long DraftId { get; set; }
 
     /// <summary>Unique identifier for the target message thread</summary>
     [JsonPropertyName("message_thread_id")]

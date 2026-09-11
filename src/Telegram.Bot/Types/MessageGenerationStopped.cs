@@ -15,5 +15,5 @@ public partial class MessageGenerationStopped
     /// <summary>Unique identifier of the message draft which was stopped</summary>
     [JsonPropertyName("draft_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public int DraftId { get; set; }
+    public long DraftId { get; set; }
 }

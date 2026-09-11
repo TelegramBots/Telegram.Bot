@@ -13,7 +13,7 @@ public partial class SendRichMessageDraftRequest() : FileRequestBase<bool>("send
     /// <summary>Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier are animated. Otherwise, the draft is replaced without animation.</summary>
     [JsonPropertyName("draft_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required int DraftId { get; set; }
+    public required long DraftId { get; set; }
 
     /// <summary>The partial message to be streamed. Direct upload of new files and explicit upload of files by a URL isn't supported.</summary>
     [JsonPropertyName("rich_message")]
