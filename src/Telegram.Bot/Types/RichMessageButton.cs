@@ -6,7 +6,7 @@ public partial class RichMessageButton
 {
     /// <summary>Text of the button. May contain only plain text, <see cref="RichTextCustomEmoji"/> and <see cref="RichTextDateTime"/> entities.</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public RichText Text { get; set; } = default!;
+    public required RichText Text { get; set; }
 
     /// <summary><em>Optional</em>. Style of the button. Must be one of <see cref="RichMessageButtonStyle.Danger">Danger</see>, <see cref="RichMessageButtonStyle.Success">Success</see>, <see cref="RichMessageButtonStyle.Primary">Primary</see>, or <see cref="RichMessageButtonStyle.Link">Link</see> (the button is shown as a regular link without borders). Apps may use theme-specific colors for the button background and text based on the style. The style <see cref="RichMessageButtonStyle.Link">Link</see> is allowed only for callback buttons.</summary>
     public RichMessageButtonStyle? Style { get; set; }
@@ -44,4 +44,12 @@ public partial class RichMessageButton
 
     /// <summary><em>Optional</em>. If set, then the button is disabled and does nothing</summary>
     public DisabledButton? Disabled { get; set; }
+
+    /// <summary>Initializes an instance of <see cref="RichMessageButton"/></summary>
+    /// <param name="text">Text of the button. May contain only plain text, <see cref="RichTextCustomEmoji"/> and <see cref="RichTextDateTime"/> entities.</param>
+    [SetsRequiredMembers]
+    public RichMessageButton(RichText text) => Text = text;
+
+    /// <summary>Instantiates a new <see cref="RichMessageButton"/></summary>
+    public RichMessageButton() { }
 }
