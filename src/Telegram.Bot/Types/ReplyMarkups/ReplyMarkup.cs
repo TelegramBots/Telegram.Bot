@@ -3,6 +3,7 @@ using System.Linq;
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>Common abstract class for reply markups that define how a <see cref="User"/> can reply to the sent <see cref="Message"/></summary>
+[JsonConverter(typeof(ReplyMarkupConverter))]
 [JsonPolymorphic(TypeDiscriminatorPropertyName = null)]
 [JsonDerivedType(typeof(ForceReplyMarkup))]
 [JsonDerivedType(typeof(ReplyKeyboardMarkup))]
