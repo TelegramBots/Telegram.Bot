@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
 
 namespace Telegram.Bot.Polling;
@@ -82,7 +83,8 @@ public class DefaultUpdateReceiver(ITelegramBotClient botClient, ReceiverOptions
                 {
                     try
                     {
-                        await updateHandler.HandleErrorAsync(botClient, ex, HandleErrorSource.HandleUpdateError, cancellationToken).ConfigureAwait(false);
+                        var updateHandlingException = new UpdateHandlingException("Exception while handling an update", update, ex);
+                        await updateHandler.HandleErrorAsync(botClient, updateHandlingException, HandleErrorSource.HandleUpdateError, cancellationToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
                     {

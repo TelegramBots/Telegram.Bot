@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Xunit;
@@ -111,8 +112,9 @@ public class ReceiveAsyncTests
         }
         catch (Exception ex)
         {
-            Assert.IsAssignableFrom<InvalidOperationException>(ex);
-            Assert.Contains("Oops", ex.Message);
+            Assert.IsAssignableFrom<UpdateHandlingException>(ex);
+            Assert.IsAssignableFrom<InvalidOperationException>(ex.InnerException);
+            Assert.Contains("Oops", ex.InnerException!.Message);
         }
 
         Assert.Equal(3, updateCount);
@@ -150,8 +152,52 @@ public class ReceiveAsyncTests
 
         Assert.True(cts.IsCancellationRequested);
         Assert.NotNull(gotException);
-        Assert.IsAssignableFrom<InvalidOperationException>(gotException);
-        Assert.Contains("Oops", gotException.Message);
+        Assert.IsAssignableFrom<UpdateHandlingException>(gotException);
+        Assert.IsAssignableFrom<InvalidOperationException>(gotException.InnerException);
+        Assert.Contains("Oops", gotException.InnerException!.Message);
+        Assert.Equal(4, updateCount);
+        Assert.Equal(0, bot.MessageGroupsLeft);
+    }
+
+    [Fact]
+    public async Task UserExceptionContainsUpdateThatCausedIt()
+    {
+        using CancellationTokenSource cts = new();
+        MockTelegramBotClient bot = new("foo-bar", "throw", "stop");
+
+        int updateCount = 0;
+        Update? failingUpdate = null;
+        async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        {
+            updateCount++;
+            await Task.Delay(10, cancellationToken);
+            if (update.Message?.Text is "throw")
+            {
+                failingUpdate = update;
+                throw new InvalidOperationException("Oops");
+            }
+            else if (update.Message?.Text is "stop")
+            {
+                cts.Cancel();
+            }
+        }
+
+        Update? gotUpdate = null;
+        DefaultUpdateHandler updateHandler = new(
+            updateHandler: HandleUpdate,
+            errorHandler: async (_, ex, source, token) =>
+            {
+                if (ex is UpdateHandlingException updateHandlingException)
+                    gotUpdate = updateHandlingException.Update;
+                await Task.Delay(10, token);
+            });
+
+        await bot.ReceiveAsync(updateHandler, cancellationToken: cts.Token);
+
+        Assert.True(cts.IsCancellationRequested);
+        Assert.NotNull(gotUpdate);
+        Assert.Same(failingUpdate, gotUpdate);
+        Assert.Equal("throw", gotUpdate.Message!.Text);
         Assert.Equal(4, updateCount);
         Assert.Equal(0, bot.MessageGroupsLeft);
     }
