@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#createforumtopic
 namespace Telegram.Bot.Types;
 
 /// <summary>Standard Telegram colors</summary>

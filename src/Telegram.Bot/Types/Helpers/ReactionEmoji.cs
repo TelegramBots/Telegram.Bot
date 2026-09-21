@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#reactiontypeemoji
 using JetBrains.Annotations;
 
 namespace Telegram.Bot.Types.Enums;

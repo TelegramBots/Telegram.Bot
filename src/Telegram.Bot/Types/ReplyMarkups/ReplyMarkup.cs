@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#senddice (reply_markup)
 using System.Linq;
 
 namespace Telegram.Bot.Types.ReplyMarkups;

@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#chat
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of the <see cref="Chat"/>, from which the inline query was sent</summary>

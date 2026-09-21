@@ -1,3 +1,4 @@
+// This file is NOT auto-generated
 using System.Diagnostics;
 
 namespace Telegram.Bot.Types;

@@ -1,3 +1,4 @@
+// This file is NOT auto-generated
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>The enum is for use with <see cref="KeyboardButton"/> or <see cref="InlineKeyboardButton"/> constructors</summary>

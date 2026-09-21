@@ -1,3 +1,4 @@
+// This file is NOT auto-generated
 namespace Telegram.Bot.Types.Enums;
 
 #pragma warning disable CS1591

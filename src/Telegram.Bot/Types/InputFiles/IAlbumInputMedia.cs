@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#sendmediagroup
 namespace Telegram.Bot.Types;
 
 /// <summary>A marker for input media types that can be used in sendMediaGroup method.</summary>

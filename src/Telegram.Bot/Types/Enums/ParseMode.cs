@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#formatting-options
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Text parsing mode. See <a href="https://core.telegram.org/bots/api#formatting-options"/>

@@ -41,7 +41,7 @@ public abstract partial class InputMedia
 }
 
 /// <summary>Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.</summary>
-public partial class InputMediaAnimation : InputMedia, IInputMediaThumb, IInputRichMedia, InputPollMedia, InputPollOptionMedia
+public partial class InputMediaAnimation : InputMedia, IInputMediaThumb, IInputMediaSettings, IInputRichMedia, InputPollMedia, InputPollOptionMedia
 {
     /// <summary>Type of the media, always <see cref="InputMediaType.Animation"/></summary>
     public override InputMediaType Type => InputMediaType.Animation;
@@ -125,7 +125,7 @@ public partial class InputMediaDocument : InputMedia, IInputMediaThumb, IAlbumIn
 }
 
 /// <summary>Represents a live photo to be sent.</summary>
-public partial class InputMediaLivePhoto : InputMedia, IAlbumInputMedia, InputPollMedia, InputPollOptionMedia
+public partial class InputMediaLivePhoto : InputMedia, IInputMediaSettings, IAlbumInputMedia, InputPollMedia, InputPollOptionMedia
 {
     /// <summary>Type of the media, always <see cref="InputMediaType.LivePhoto"/></summary>
     public override InputMediaType Type => InputMediaType.LivePhoto;
@@ -153,7 +153,7 @@ public partial class InputMediaLivePhoto : InputMedia, IAlbumInputMedia, InputPo
 }
 
 /// <summary>Represents a photo to be sent.</summary>
-public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia, IInputRichMedia, InputPollMedia, InputPollOptionMedia
+public partial class InputMediaPhoto : InputMedia, IInputMediaSettings, IAlbumInputMedia, IInputRichMedia, InputPollMedia, InputPollOptionMedia
 {
     /// <summary>Type of the media, always <see cref="InputMediaType.Photo"/></summary>
     public override InputMediaType Type => InputMediaType.Photo;
@@ -176,7 +176,7 @@ public partial class InputMediaPhoto : InputMedia, IAlbumInputMedia, IInputRichM
 }
 
 /// <summary>Represents a video to be sent.</summary>
-public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IAlbumInputMedia, IInputRichMedia, InputPollMedia, InputPollOptionMedia
+public partial class InputMediaVideo : InputMedia, IInputMediaThumb, IInputMediaSettings, IAlbumInputMedia, IInputRichMedia, InputPollMedia, InputPollOptionMedia
 {
     /// <summary>Type of the media, always <see cref="InputMediaType.Video"/></summary>
     public override InputMediaType Type => InputMediaType.Video;

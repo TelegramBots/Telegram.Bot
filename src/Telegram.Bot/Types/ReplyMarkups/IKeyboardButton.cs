@@ -1,4 +1,4 @@
-
+// This file is NOT auto-generated
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>Marker interface for a regular or inline button of the reply keyboard</summary>

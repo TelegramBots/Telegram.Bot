@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#sendchataction
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of action to broadcast</summary>

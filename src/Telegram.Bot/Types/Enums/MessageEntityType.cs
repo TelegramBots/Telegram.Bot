@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#messageentity
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of a <see cref="MessageEntity"/></summary>

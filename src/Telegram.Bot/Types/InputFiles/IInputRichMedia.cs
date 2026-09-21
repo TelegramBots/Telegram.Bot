@@ -1,3 +1,4 @@
+// This file is NOT auto-generated - check https://core.telegram.org/bots/api#inputrichmessagemedia
 namespace Telegram.Bot.Types;
 
 /// <summary>A marker for input media types that can be used as <see cref="InputRichMessageMedia.Media">Media</see> for the <see cref="InputRichMessage.Media"/> entries.</summary>
