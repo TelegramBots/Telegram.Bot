@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types;
 [CustomJsonPolymorphic("type")]
 [CustomJsonDerivedType(typeof(InputMediaAnimation), "animation")]
 [CustomJsonDerivedType(typeof(InputMediaAudio), "audio")]
+[CustomJsonDerivedType(typeof(InputMediaDocument), "document")]
 [CustomJsonDerivedType(typeof(InputMediaPhoto), "photo")]
 [CustomJsonDerivedType(typeof(InputMediaVideo), "video")]
 [CustomJsonDerivedType(typeof(InputMediaVoiceNote), "voice_note")]
