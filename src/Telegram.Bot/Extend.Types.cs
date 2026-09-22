@@ -612,6 +612,14 @@ namespace Telegram.Bot.Types
         }
     }
 
+    public partial class InputRichMessage
+    {
+#if NET6_0_OR_GREATER
+        /// <summary>Implicit operator from HTML string (can contain <c>?file_id=</c> references)</summary>
+        public static implicit operator InputRichMessage(string html) => HtmlText.ToInputRichMessage(html);
+#endif
+    }
+
     namespace Passport
     {
         public partial class IdDocumentData
