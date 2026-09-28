@@ -249,6 +249,28 @@ namespace Telegram.Bot.Types
         public static implicit operator LoginUrl(string url) => new() { Url = url };
     }
 
+    public partial class InputRichMessage
+    {
+#if NET6_0_OR_GREATER
+        /// <summary>Implicit operator from HTML string (can contain <c>?file_id=</c> references)</summary>
+        public static implicit operator InputRichMessage(string html) => HtmlText.ToInputRichMessage(html);
+#endif
+        /// <summary>Implicit operator from an array of <see cref="RichBlock"/></summary>
+        public static implicit operator InputRichMessage(InputRichBlock[] blocks) => new() { Blocks = blocks };
+    }
+
+    public partial class InputRichBlock
+    {
+        /// <summary>Implicit conversion from RichText (InputRichBlockParagraph)</summary>
+        public static implicit operator InputRichBlock(RichText text) => new InputRichBlockParagraph() { Text = text };
+    }
+
+    public partial class RichBlock
+    {
+        /// <summary>Implicit conversion from RichText (RichBlockParagraph)</summary>
+        public static implicit operator RichBlock(RichText text) => new RichBlockParagraph() { Text = text };
+    }
+
     public partial class RichText
     {
         /// <summary>Implicit conversion from string (RichTextText)</summary>
@@ -610,14 +632,6 @@ namespace Telegram.Bot.Types
             public static KeyboardButton WithRequestChat(string text, int requestId, bool chatIsChannel)
                 => new(text) { RequestChat = new(requestId, chatIsChannel) };
         }
-    }
-
-    public partial class InputRichMessage
-    {
-#if NET6_0_OR_GREATER
-        /// <summary>Implicit operator from HTML string (can contain <c>?file_id=</c> references)</summary>
-        public static implicit operator InputRichMessage(string html) => HtmlText.ToInputRichMessage(html);
-#endif
     }
 
     namespace Passport
