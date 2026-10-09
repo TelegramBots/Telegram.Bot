@@ -230,22 +230,28 @@ public static class HtmlText
 
     /// <summary>Calculate the length of the plain text (excluding the &lt;tags&gt;) from the HTML text</summary>
     /// <param name="html">HTML text</param>
-    /// <returns>Number of characters (HTML &amp;entities; are counted as 1)</returns>
+    /// <returns>Number of Unicode characters (HTML &amp;entities; are counted as 1)</returns>
     public static int PlainLength(string html)
     {
-        var span = html.AsSpan();
-        int len = 0, index;
-        while ((index = span.IndexOfAny('&', '<')) != -1)
+        int len = 0;
+        for (int i = 0; i < html.Length; i++)
         {
-            len += index;
-            var c = span[index];
-            if (c == '<') c = '>'; else { c = ';'; len++; }
-            span = span[(index + 1)..];
-            index = span.IndexOf(c);
-            if (index < 0) { span = default; break; }
-            span = span[(index + 1)..];
+            char c = html[i];
+            if (c == '<')
+            {
+                int end = html.IndexOf('>', i + 1);
+                if (end >= 0) { i = end; continue; }
+            }
+            else if (c == '&')
+            {
+                int end = html.IndexOf(';', i + 1);
+                if (end >= 0) i = end;
+            }
+            else if (char.IsLowSurrogate(c))
+                continue;
+            len++;
         }
-        return len + span.Length;
+        return len;
     }
 
     /// <summary>Convert the HTML text to plain text (excluding the &lt;tags&gt;)</summary>
