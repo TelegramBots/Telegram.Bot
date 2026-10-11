@@ -48,17 +48,7 @@ Console.ReadLine();
 
 async Task OnMessage(Message msg, UpdateType type)
 {
-    try
-    {
-        await bot.ForwardMessage(
-            chatId: msg.Chat.Id,
-            fromChatId: msg.Chat.Id,
-            messageId: msg.MessageId);
-
-        Console.WriteLine($"Forwarded {type} message from chat {msg.Chat}");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error forwarding message: {ex.Message}");
-    }
+    if (msg.Text is null) return;
+    Console.WriteLine($"Received {type} '{msg.Text}' in {msg.Chat}");
+    await bot.SendMessage(msg.Chat, $"{msg.From} said: {msg.Text}");
 }
