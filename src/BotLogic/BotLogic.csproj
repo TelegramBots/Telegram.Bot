@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
+    <PackageReference Include="Npgsql" Version="8.0.5" />
     <PackageReference Include="Telegram.Bot" Version="22.10.3.3" />
   </ItemGroup>
 
