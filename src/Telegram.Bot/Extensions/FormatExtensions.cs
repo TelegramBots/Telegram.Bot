@@ -291,18 +291,17 @@ public static class HtmlText
     {
         int len = html.Length;
         if (len <= count) return html;
-        count -= suffix.Length;
         if (count < 0) throw new ArgumentException("Invalid count", nameof(count));
         var closingTags = new StringBuilder();
-        int index = 0;
-        for (; count > 0 && index < len; index++)
+        int index = 0, truncIndex = -1, truncClosing = -1;
+        for (; index < len; index++)
         {
             var c = html[index];
-			if (c == '&' && index + 1 < len && html[index + 1] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or '#')
-			{
-				int end = html.IndexOf(';', index + 1);
-				if (end > 0 && end - index < 10) index = end;
-			}
+            if (c == '&' && index + 1 < len && html[index + 1] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or '#')
+            {
+                int end = html.IndexOf(';', index + 1);
+                if (end > 0 && end - index < 10) index = end;
+            }
             else if (c == '<')
             {
                 int end = html.IndexOf('>', index + 1);
@@ -310,10 +309,11 @@ public static class HtmlText
                 {
                     int idx = 3;
                     while (closingTags[idx++] != '>') { }
-                    closingTags.Remove(0, idx);
+                    if (truncClosing < 0 || closingTags.Length > truncClosing) closingTags.Remove(0, idx);
                 }
                 else if (html[end - 1] != '/')
                 {
+                    if (count == 0) break;
                     int gap = html.IndexOf(' ', index + 2, end - index - 2);
                     var tag = html.AsSpan()[(index == 0 ? 0 : index - 1)..(gap < 0 ? end + 1 : gap + 1)];
                     closingTags.Insert(0, tag);
@@ -327,9 +327,12 @@ public static class HtmlText
             }
             else if (char.IsLowSurrogate(c)) // surrogate pairs are counted as 1
                 continue;
+            if (count == 0) break;
+            if (count == suffix.Length) (truncIndex, truncClosing) = (index, closingTags.Length);
             count--;
         }
-        return index == len ? html : html[..index] + suffix + closingTags.ToString();
+        return index == len ? html : html[..(truncIndex < 0 ? index : truncIndex)] + suffix +
+            (truncClosing < 0 ? closingTags.ToString() : closingTags.ToString(closingTags.Length - truncClosing, truncClosing));
     }
 
 #if NET6_0_OR_GREATER
