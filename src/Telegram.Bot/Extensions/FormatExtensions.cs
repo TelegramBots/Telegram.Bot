@@ -291,18 +291,13 @@ public static class HtmlText
     {
         int len = html.Length;
         if (len <= count) return html;
-        if (count < 0) throw new ArgumentException("Invalid count", nameof(count));
+        if (count - suffix.Length < 0) throw new ArgumentException("Invalid count", nameof(count));
         var closingTags = new StringBuilder();
         int index = 0, truncIndex = -1, truncClosing = -1;
         for (; index < len; index++)
         {
             var c = html[index];
-            if (c == '&' && index + 1 < len && html[index + 1] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or '#')
-            {
-                int end = html.IndexOf(';', index + 1);
-                if (end > 0 && end - index < 10) index = end;
-            }
-            else if (c == '<')
+            if (c == '<')
             {
                 int end = html.IndexOf('>', index + 1);
                 if (html[index + 1] == '/')
@@ -329,6 +324,11 @@ public static class HtmlText
                 continue;
             if (count == 0) break;
             if (count == suffix.Length) (truncIndex, truncClosing) = (index, closingTags.Length);
+            if (c == '&' && index + 1 < len && html[index + 1] is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or '#')
+            {
+                int end = html.IndexOf(';', index + 1);
+                if (end > 0 && end - index < 10) index = end;
+            }
             count--;
         }
         return index == len ? html : html[..(truncIndex < 0 ? index : truncIndex)] + suffix +
