@@ -1,9 +1,8 @@
-// This file is NOT auto-generated
+// This file is NOT auto-generated - check https://github.com/tdlib/td/blob/master/td/telegram/files/FileType.h#L17
 namespace Telegram.Bot.Types.Enums;
 
 #pragma warning disable CS1591
 
-// Imported from https://github.com/tdlib/td/blob/master/td/telegram/files/FileType.h#L17
 /// <summary>Type of file referenced by a FileId string</summary>
 [JsonConverter(typeof(EnumConverter<FileIdType>))]
 public enum FileIdType
@@ -34,5 +33,8 @@ public enum FileIdType
     SelfDestructingVideo,
     SelfDestructingVideoNote,
     SelfDestructingVoiceNote,
+    LivePhoto,
+    SelfDestructingLivePhoto,
+    SpeechRecognitionAudio,
 }
 

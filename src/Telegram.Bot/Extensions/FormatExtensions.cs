@@ -945,6 +945,7 @@ public static class HtmlText
             case RichTextCustomEmoji rt: sb.Append("<tg-emoji emoji-id=\"").Append(rt.CustomEmojiId).Append("\">").AppendHtml(rt.AlternativeText).Append("</tg-emoji>"); break;
             case RichTextMathematicalExpression rt: sb.Append("<tg-math>").AppendHtml(rt.Expression).Append("</tg-math>"); break;
             case RichTextBankCardNumber rt: sb.AppendRich(rt.Text); break;
+            case RichTextTonAddress rt: sb.AppendRich(rt.Text); break;
             case RichTextMention rt: sb.AppendRich(rt.Text); break;
             case RichTextHashtag rt: sb.AppendRich(rt.Text); break;
             case RichTextCashtag rt: sb.AppendRich(rt.Text); break;
