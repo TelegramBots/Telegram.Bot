@@ -60,8 +60,8 @@ namespace Telegram.Bot.Types
         public bool IsServiceMessage => this switch // see https://github.com/tdlib/td/blob/master/td/telegram/MessageContentType.cpp#L506
         {
             { Text: { } } or { Caption: { } } or { Photo: { } } or { Video: { } } or { Document: { } } or { Sticker: { } } or
-            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { RichMessage: { } } or { Dice: { } } or { Checklist: { } } or
-            { Game: { } } or { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or
+            { Animation: { } } or { Audio: { } } or { Voice: { } } or { Poll: { } } or { RichMessage: { } } or { Widget: { } } or { Dice: { } } or
+            { Checklist: { } } or { Game: { } } or { Location: { } } or { PaidMedia: { } } or { Story: { } } or { VideoNote: { } } or { Contact: { } } or
             { Venue: { } } or { Invoice: { } } or { Giveaway: { } } or { GiveawayWinners: { } }
               => false,
             _ => true

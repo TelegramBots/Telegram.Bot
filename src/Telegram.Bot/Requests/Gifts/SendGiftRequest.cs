@@ -3,7 +3,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public partial class SendGiftRequest() : RequestBase<bool>("sendGift")
+public partial class SendGiftRequest() : RequestBase<bool>("sendGift"), IChatTargetable
 {
     /// <summary>Identifier of the gift; limited gifts can't be sent to channel chats</summary>
     [JsonPropertyName("gift_id")]
@@ -14,7 +14,7 @@ public partial class SendGiftRequest() : RequestBase<bool>("sendGift")
     [JsonPropertyName("user_id")]
     public long? UserId { get; set; }
 
-    /// <summary>Required if <see cref="UserId">UserId</see> is not specified. Unique identifier for the chat or username of the channel (in the format <c>@username</c>) that will receive the gift.</summary>
+    /// <summary>Required if <see cref="UserId">UserId</see> is not specified. Unique identifier for the chat that will receive the gift or username of the channel in the format <c>@username</c>.</summary>
     [JsonPropertyName("chat_id")]
     public ChatId? ChatId { get; set; }
 

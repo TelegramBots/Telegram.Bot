@@ -5,11 +5,6 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendVideoNoteRequest() : FileRequestBase<Message>("sendVideoNote"), IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></summary>
-    [JsonPropertyName("chat_id")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; set; }
-
     /// <summary>Video note to send. Pass a FileId as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending video notes by a URL is currently unsupported.</summary>
     [JsonPropertyName("video_note")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -18,6 +13,10 @@ public partial class SendVideoNoteRequest() : FileRequestBase<Message>("sendVide
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
+
+    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</summary>
+    [JsonPropertyName("chat_id")]
+    public ChatId? ChatId { get; set; }
 
     /// <summary>Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</summary>
     [JsonPropertyName("message_thread_id")]

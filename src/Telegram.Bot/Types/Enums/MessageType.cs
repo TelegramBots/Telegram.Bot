@@ -163,4 +163,10 @@ public enum MessageType
     CommunityChatRemoved,
     /// <summary>The <see cref="Message"/> contains a <see cref="Message.CommunityChatJoined"/></summary>
     CommunityChatJoined,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.Widget"/></summary>
+    Widget,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.PaidMessagesWaived"/></summary>
+    PaidMessagesWaived,
+    /// <summary>The <see cref="Message"/> contains a <see cref="Message.TonWalletTransfer"/></summary>
+    TonWalletTransfer,
 }

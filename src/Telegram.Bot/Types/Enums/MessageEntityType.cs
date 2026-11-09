@@ -45,4 +45,8 @@ public enum MessageEntityType
     ExpandableBlockquote,
     /// <summary>Formatted date and time</summary>
     DateTime,
+    /// <summary>Bank card number</summary>
+    BankCardNumber,
+    /// <summary>Address in the TON blockchain</summary>
+    TonAddress,
 }

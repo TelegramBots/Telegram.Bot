@@ -127,7 +127,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send text messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
@@ -147,7 +147,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendMessage(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         string text,
         ParseMode parseMode = default,
         ReplyParameters? replyParameters = default,
@@ -186,8 +186,8 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
-    /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or username of the target bot, supergroup or channel in the format <c>@username</c>)</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
+    /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or username of the target bot, supergroup, or channel in the format <c>@username</c>)</param>
     /// <param name="messageId">Message identifier in the chat specified in <paramref name="fromChatId"/></param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
     /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
@@ -227,8 +227,8 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
-    /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup or channel in the format <c>@username</c>)</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
+    /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup, or channel in the format <c>@username</c>)</param>
     /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <paramref name="fromChatId"/> to forward. The identifiers must be specified in a strictly increasing order.</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
     /// <param name="disableNotification">Sends the messages <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
@@ -257,10 +257,10 @@ public static partial class TelegramBotClientExtensions
         DirectMessagesTopicId = directMessagesTopicId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionIds</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessage">ForwardMessage</see>, but the copied message doesn't have a link to the original message.</summary>
+    /// <summary>Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, invoice messages, and widget messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionIds</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessage">ForwardMessage</see>, but the copied message doesn't have a link to the original message.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
-    /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or username of the target bot, supergroup or channel in the format <c>@username</c>)</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
+    /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or username of the target bot, supergroup, or channel in the format <c>@username</c>)</param>
     /// <param name="messageId">Message identifier in the chat specified in <paramref name="fromChatId"/></param>
     /// <param name="caption">New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept.</param>
     /// <param name="parseMode">Mode for parsing entities in the new caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -319,10 +319,10 @@ public static partial class TelegramBotClientExtensions
         MessageEffectId = messageEffectId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionIds</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessages">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.</summary>
+    /// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, invoice messages, and widget messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionIds</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessages">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
-    /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup or channel in the format <c>@username</c>)</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
+    /// <param name="fromChatId">Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup, or channel in the format <c>@username</c>)</param>
     /// <param name="messageIds">A list of 1-100 identifiers of messages in the chat <paramref name="fromChatId"/> to copy. The identifiers must be specified in a strictly increasing order.</param>
     /// <param name="removeCaption">Pass <see langword="true"/> to copy the messages without their captions</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
@@ -356,7 +356,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send photos.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="photo">Photo to send. Pass a FileId as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using <see cref="InputFileStream"/>. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="caption">Photo caption (may also be used when resending photos by <em>FileId</em>), 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the photo caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -378,7 +378,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendPhoto(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile photo,
         string? caption = default,
         ParseMode parseMode = default,
@@ -421,7 +421,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send live photos.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="livePhoto">Live photo video to send. The video must be no longer than 10 seconds and must not exceed 10 MB in size. Pass a FileId as String to send a video that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending live photos by a URL is currently unsupported.</param>
     /// <param name="photo">The static photo to send. Pass a FileId as String to send a photo that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending live photos by a URL is currently unsupported.</param>
     /// <param name="caption">Video caption (may also be used when resending videos by <em>FileId</em>), 0-1024 characters after entities parsing</param>
@@ -444,7 +444,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendLivePhoto(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile livePhoto,
         InputFile photo,
         string? caption = default,
@@ -490,7 +490,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format.</summary>
     /// <remarks>Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.<br/>For sending voice messages, use the <see cref="TelegramBotClientExtensions.SendVoice">SendVoice</see> method instead.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="audio">Audio file to send. Pass a FileId as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="caption">Audio caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the audio caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -514,7 +514,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendAudio(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile audio,
         string? caption = default,
         ParseMode parseMode = default,
@@ -562,7 +562,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to send general files.</summary>
     /// <remarks>Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="document">File to send. Pass a FileId as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="caption">Document caption (may also be used when resending documents by <em>FileId</em>), 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the document caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -584,7 +584,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendDocument(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile document,
         string? caption = default,
         ParseMode parseMode = default,
@@ -628,7 +628,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as <see cref="Document"/>).</summary>
     /// <remarks>Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="video">Video to send. Pass a FileId as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="caption">Video caption (may also be used when resending videos by <em>FileId</em>), 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the video caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -657,7 +657,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVideo(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile video,
         string? caption = default,
         ParseMode parseMode = default,
@@ -715,7 +715,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound).</summary>
     /// <remarks>Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="animation">Animation to send. Pass a FileId as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="caption">Animation caption (may also be used when resending animation by <em>FileId</em>), 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the animation caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -741,7 +741,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendAnimation(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile animation,
         string? caption = default,
         ParseMode parseMode = default,
@@ -793,7 +793,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).</summary>
     /// <remarks>Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="voice">Audio file to send. Pass a FileId as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></param>
     /// <param name="caption">Voice message caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the voice message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -814,7 +814,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVoice(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile voice,
         string? caption = default,
         ParseMode parseMode = default,
@@ -855,7 +855,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send a rounded square MPEG4 video of up to 1 minute long.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="videoNote">Video note to send. Pass a FileId as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Sending video notes by a URL is currently unsupported.</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
@@ -875,7 +875,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVideoNote(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile videoNote,
         ReplyParameters? replyParameters = default,
         ReplyMarkup? replyMarkup = default,
@@ -912,9 +912,130 @@ public static partial class TelegramBotClientExtensions
         EphemeralMessageParameters = ephemeralMessageParameters,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to send a message with an <a href="https://core.telegram.org/bots/widgets">HTML widget</a>. Currently, in the production environment, widgets can be sent only to private chats, and sent widgets automatically have protected content and therefore can't be forwarded.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c></param>
+    /// <param name="html">HTML code of the widget, 1-32768 bytes. The code must not exceed 4096 bytes when compressed by zlib with the maximum compression level.</param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
+    /// <param name="width">Width of the widget in logical pixels; omit if the widget must occupy the whole width of the message bubble. The width is clamped by the app to the range from 200 to the maximum width of the message bubble.</param>
+    /// <param name="height">Height of the widget in logical pixels; omit if the height of the widget isn't fixed. The height is clamped by the app to the range 50-600.</param>
+    /// <param name="publicData">Public data of the widget, 0-1024 bytes, which will be available wherever the widget is shown. If the widget is shared, then all messages with it will have the same public data.</param>
+    /// <param name="chatData">Data of the widget, which is specific to the message, 0-1024 bytes</param>
+    /// <param name="caption">Widget caption, 0-1024 characters after entities parsing</param>
+    /// <param name="parseMode">Mode for parsing entities in the widget caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
+    /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="showCaptionAboveMedia">Pass <see langword="true"/> if the caption must be shown above the widget</param>
+    /// <param name="allowQueries">Pass <see langword="true"/> to allow the widget to send queries to the bot</param>
+    /// <param name="isShared">Pass <see langword="true"/> to create a shared widget, which can be sent again using the method <see cref="TelegramBotClientExtensions.SendSharedWidget">SendSharedWidget</see></param>
+    /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
+    /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
+    /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
+    /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>The sent <see cref="Message"/> is returned.</returns>
+    public static async Task<Message> SendWidget(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string html,
+        int? messageThreadId = default,
+        int? width = default,
+        int? height = default,
+        string? publicData = default,
+        string? chatData = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool allowQueries = default,
+        bool isShared = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        bool allowPaidBroadcast = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        ReplyMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SendWidgetRequest
+    {
+        ChatId = chatId,
+        Html = html,
+        MessageThreadId = messageThreadId,
+        Width = width,
+        Height = height,
+        PublicData = publicData,
+        ChatData = chatData,
+        Caption = caption,
+        ParseMode = parseMode,
+        CaptionEntities = captionEntities,
+        ShowCaptionAboveMedia = showCaptionAboveMedia,
+        AllowQueries = allowQueries,
+        IsShared = isShared,
+        DisableNotification = disableNotification,
+        ProtectContent = protectContent,
+        AllowPaidBroadcast = allowPaidBroadcast,
+        MessageEffectId = messageEffectId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to send again a shared widget created by the bot. Currently, in the production environment, widgets can be sent only to private chats, and sent widgets automatically have protected content and therefore can't be forwarded.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c></param>
+    /// <param name="widgetId">Unique identifier of the shared widget</param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
+    /// <param name="chatData">Data of the widget, which is specific to the message, 0-1024 bytes</param>
+    /// <param name="caption">Widget caption, 0-1024 characters after entities parsing</param>
+    /// <param name="parseMode">Mode for parsing entities in the widget caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
+    /// <param name="captionEntities">A list of special entities that appear in the caption, which can be specified instead of <paramref name="parseMode"/></param>
+    /// <param name="showCaptionAboveMedia">Pass <see langword="true"/> if the caption must be shown above the widget</param>
+    /// <param name="disableNotification">Sends the message <a href="https://telegram.org/blog/channels-2-0#silent-messages">silently</a>. Users will receive a notification with no sound.</param>
+    /// <param name="protectContent">Protects the contents of the sent message from forwarding and saving</param>
+    /// <param name="allowPaidBroadcast">Pass <see langword="true"/> to allow up to 1000 messages per second, ignoring <a href="https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once">broadcasting limits</a> for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.</param>
+    /// <param name="messageEffectId">Unique identifier of the message effect to be added to the message; for private chats only</param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
+    /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>The sent <see cref="Message"/> is returned.</returns>
+    public static async Task<Message> SendSharedWidget(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string widgetId,
+        int? messageThreadId = default,
+        string? chatData = default,
+        string? caption = default,
+        ParseMode parseMode = default,
+        IEnumerable<MessageEntity>? captionEntities = default,
+        bool showCaptionAboveMedia = default,
+        bool disableNotification = default,
+        bool protectContent = default,
+        bool allowPaidBroadcast = default,
+        string? messageEffectId = default,
+        ReplyParameters? replyParameters = default,
+        ReplyMarkup? replyMarkup = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SendSharedWidgetRequest
+    {
+        ChatId = chatId,
+        WidgetId = widgetId,
+        MessageThreadId = messageThreadId,
+        ChatData = chatData,
+        Caption = caption,
+        ParseMode = parseMode,
+        CaptionEntities = captionEntities,
+        ShowCaptionAboveMedia = showCaptionAboveMedia,
+        DisableNotification = disableNotification,
+        ProtectContent = protectContent,
+        AllowPaidBroadcast = allowPaidBroadcast,
+        MessageEffectId = messageEffectId,
+        ReplyParameters = replyParameters,
+        ReplyMarkup = replyMarkup,
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Use this method to send paid media.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>. If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>. If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.</param>
     /// <param name="starCount">The number of Telegram Stars that must be paid to buy access to the media; 1-25000</param>
     /// <param name="media">A Array describing the media to be sent; up to 10 items</param>
     /// <param name="caption">Media caption, 0-1024 characters after entities parsing</param>
@@ -976,7 +1097,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send a group of photos, live photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="media">A Array describing messages to be sent, must include 2-10 items</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</param>
@@ -1017,7 +1138,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send point on the map.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="latitude">Latitude of the location</param>
     /// <param name="longitude">Longitude of the location</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
@@ -1039,7 +1160,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendLocation(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         double latitude,
         double longitude,
         ReplyParameters? replyParameters = default,
@@ -1082,7 +1203,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send information about a venue.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="latitude">Latitude of the venue</param>
     /// <param name="longitude">Longitude of the venue</param>
     /// <param name="title">Name of the venue</param>
@@ -1106,7 +1227,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendVenue(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         double latitude,
         double longitude,
         string title,
@@ -1153,7 +1274,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send phone contacts.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
     /// <param name="lastName">Contact's last name</param>
@@ -1173,7 +1294,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendContact(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         string phoneNumber,
         string firstName,
         string? lastName = default,
@@ -1212,7 +1333,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send a native poll.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>. Polls can't be sent to channel direct messages chats.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>. Polls can't be sent to channel direct messages chats.</param>
     /// <param name="question">Poll question, 1-300 characters</param>
     /// <param name="options">A list of 1-12 answer options</param>
     /// <param name="isAnonymous"><see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/></param>
@@ -1360,7 +1481,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send an animated emoji that will display a random value.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="emoji">Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”.</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
@@ -1464,7 +1585,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to change the chosen reactions on a message. Service messages of some types can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Bots can't use paid reactions.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="messageId">Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.</param>
     /// <param name="reaction">A list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.</param>
     /// <param name="isBig">Pass <see langword="true"/> to set the reaction with a big animation</param>
@@ -2166,6 +2287,17 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to get the list of backdrops, which can be used as the background of a theme of the screen for sharing a link to a user or a chat.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>A <see cref="ChatShareThemeBackdrops"/> object.</returns>
+    public static async Task<ChatShareThemeBackdrops> GetChatShareThemeBackdrops(
+        this ITelegramBotClient botClient,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new GetChatShareThemeBackdropsRequest
+    {
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Use this method to get the last messages from the personal chat (i.e., the chat currently added to their profile) of a given user.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Unique identifier for the target user</param>
@@ -2223,7 +2355,7 @@ public static partial class TelegramBotClientExtensions
     {
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator right.</summary>
+    /// <summary>Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the <em>CanManageTopics</em> administrator right. In the case of a private chat, a link to the topic can be created in the format <c>https://t.me/&lt;BotUsername&gt;/&lt;MessageThreadId&gt;</c>; the link opens the topic only for the user.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c></param>
     /// <param name="name">Topic name, 1-128 characters</param>
@@ -2437,6 +2569,22 @@ public static partial class TelegramBotClientExtensions
         ShowAlert = showAlert,
         Url = url,
         CacheTime = cacheTime,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to send an answer to a query from a widget. The query must be answered within 15 seconds. The answer is received only by the widget that sent the query and doesn't change data of the widget; use <see cref="TelegramBotClientExtensions.EditMessageWidgetData">EditMessageWidgetData</see> or <see cref="TelegramBotClientExtensions.EditSharedWidgetData">EditSharedWidgetData</see> to change it</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="widgetQueryId">Unique identifier for the query to be answered</param>
+    /// <param name="data">Data to be returned to the widget, 0-1024 bytes</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task AnswerWidgetQuery(
+        this ITelegramBotClient botClient,
+        string widgetQueryId,
+        string? data = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new AnswerWidgetQueryRequest
+    {
+        WidgetQueryId = widgetQueryId,
+        Data = data,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to reply to a received guest message.</summary>
@@ -2845,32 +2993,44 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="customDescription">Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</param>
+    /// <param name="customDescriptionParseMode">Mode for parsing entities in the custom description. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Only <see cref="MessageEntityType.TextLink">TextLink</see> entities are supported.</param>
+    /// <param name="customDescriptionEntities">A list of special entities that appear in the custom description, which can be specified instead of <paramref name="customDescriptionParseMode"/>. Only “TextLink” entities are supported.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task VerifyUser(
         this ITelegramBotClient botClient,
         long userId,
         string? customDescription = default,
+        ParseMode customDescriptionParseMode = default,
+        IEnumerable<MessageEntity>? customDescriptionEntities = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new VerifyUserRequest
     {
         UserId = userId,
         CustomDescription = customDescription,
+        CustomDescriptionParseMode = customDescriptionParseMode,
+        CustomDescriptionEntities = customDescriptionEntities,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Verifies a chat <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> which is represented by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>. Channel direct messages chats can't be verified.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>. Channel direct messages chats can't be verified.</param>
     /// <param name="customDescription">Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.</param>
+    /// <param name="customDescriptionParseMode">Mode for parsing entities in the custom description. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details. Only <see cref="MessageEntityType.TextLink">TextLink</see> entities are supported.</param>
+    /// <param name="customDescriptionEntities">A list of special entities that appear in the custom description, which can be specified instead of <paramref name="customDescriptionParseMode"/>. Only “TextLink” entities are supported.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task VerifyChat(
         this ITelegramBotClient botClient,
         ChatId chatId,
         string? customDescription = default,
+        ParseMode customDescriptionParseMode = default,
+        IEnumerable<MessageEntity>? customDescriptionEntities = default,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new VerifyChatRequest
     {
         ChatId = chatId,
         CustomDescription = customDescription,
+        CustomDescriptionParseMode = customDescriptionParseMode,
+        CustomDescriptionEntities = customDescriptionEntities,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Removes verification from a user who is currently verified <a href="https://telegram.org/verify#third-party-verification">on behalf of the organization</a> represented by the bot.</summary>
@@ -3195,6 +3355,20 @@ public static partial class TelegramBotClientExtensions
         Limit = limit,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to get information about a unique gift by its name.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="name">Unique name of the gift</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    /// <returns>A <see cref="UniqueGift"/> object on success.</returns>
+    public static async Task<UniqueGift> GetUniqueGift(
+        this ITelegramBotClient botClient,
+        string name,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new GetUniqueGiftRequest
+    {
+        Name = name,
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Converts a given regular gift to Telegram Stars. Requires the <em>CanConvertGiftsToStars</em> business bot right.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection</param>
@@ -3253,6 +3427,22 @@ public static partial class TelegramBotClientExtensions
         OwnedGiftId = ownedGiftId,
         NewOwnerChatId = newOwnerChatId,
         StarCount = starCount,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Deletes a regular gift owned by a managed business account without receiving Telegram Stars for it. Requires the <em>CanConvertGiftsToStars</em> business bot right. The gift can be deleted only if it isn't limited (the field <em>TotalCount</em> of the <see cref="Gift"/> is omitted) and wasn't refunded.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="businessConnectionId">Unique identifier of the business connection</param>
+    /// <param name="ownedGiftId">Unique identifier of the regular gift that should be deleted</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task DeleteBusinessAccountGift(
+        this ITelegramBotClient botClient,
+        string businessConnectionId,
+        string ownedGiftId,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new DeleteBusinessAccountGiftRequest
+    {
+        BusinessConnectionId = businessConnectionId,
+        OwnedGiftId = ownedGiftId,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Posts a story on behalf of a managed business account. Requires the <em>CanManageStories</em> business bot right.</summary>
@@ -3439,7 +3629,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to edit text, rich and <a href="https://core.telegram.org/bots/api#games">game</a> messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
     /// <param name="text">New text of the message, 1-4096 characters after entity parsing; required if <paramref name="richMessage"/> isn't specified</param>
     /// <param name="parseMode">Mode for parsing entities in the message text. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -3511,7 +3701,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to edit captions of messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">Mode for parsing entities in the message caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</param>
@@ -3577,7 +3767,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to edit animation, audio, document, live photo, photo, or video messages, or to replace a text or a rich message with a media. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo, a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its FileId or specify a URL.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
     /// <param name="media">An object for the new media content of the message</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
@@ -3625,7 +3815,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to edit live location messages. A location can be edited until its <paramref name="livePeriod"/> expires or editing is explicitly disabled by a call to <see cref="TelegramBotClientExtensions.StopMessageLiveLocation">StopMessageLiveLocation</see>.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
@@ -3703,7 +3893,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to stop updating a live location message before <em>LivePeriod</em> expires.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message with live location to stop.</param>
     /// <param name="replyMarkup">An object for a new <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
@@ -3769,9 +3959,69 @@ public static partial class TelegramBotClientExtensions
         ReplyMarkup = replyMarkup,
     }, cancellationToken).ConfigureAwait(false);
 
+    /// <summary>Use this method to edit data of a widget in a message sent by the bot or via the bot (for inline bots). Public data of a shared widget can be changed at most once per second</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup in the format <c>@username</c>.</param>
+    /// <param name="messageId">Identifier of the message with the widget.</param>
+    /// <param name="publicData">New public data of the widget, 0-1024 bytes; pass an empty string to remove the public data. If omitted, then the public data isn't changed.</param>
+    /// <param name="chatData">New data of the widget, which is specific to the message, 0-1024 bytes; pass an empty string to remove the data. If omitted, then the data isn't changed.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task EditMessageWidgetData(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        string? publicData = default,
+        string? chatData = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new EditMessageWidgetDataRequest
+    {
+        ChatId = chatId,
+        MessageId = messageId,
+        PublicData = publicData,
+        ChatData = chatData,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to edit data of a widget in a message sent by the bot or via the bot (for inline bots). Public data of a shared widget can be changed at most once per second</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="inlineMessageId">Identifier of the inline message.</param>
+    /// <param name="publicData">New public data of the widget, 0-1024 bytes; pass an empty string to remove the public data. If omitted, then the public data isn't changed.</param>
+    /// <param name="chatData">New data of the widget, which is specific to the message, 0-1024 bytes; pass an empty string to remove the data. If omitted, then the data isn't changed.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task EditMessageWidgetData(
+        this ITelegramBotClient botClient,
+        string inlineMessageId,
+        string? publicData = default,
+        string? chatData = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new EditInlineMessageWidgetDataRequest
+    {
+        InlineMessageId = inlineMessageId,
+        PublicData = publicData,
+        ChatData = chatData,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to edit public data of a shared widget created by the bot. A shared widget can be edited at most once per second</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="widgetId">Unique identifier of the shared widget</param>
+    /// <param name="publicData">New public data of the widget, 0-1024 bytes; pass an empty string to remove the public data</param>
+    /// <param name="cacheTime">The maximum amount of time in seconds that the public data of the widget may be cached client-side; 5-3600. If omitted, then the current value is kept, which is 30 by default.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task EditSharedWidgetData(
+        this ITelegramBotClient botClient,
+        string widgetId,
+        string publicData,
+        int? cacheTime = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new EditSharedWidgetDataRequest
+    {
+        WidgetId = widgetId,
+        PublicData = publicData,
+        CacheTime = cacheTime,
+    }, cancellationToken).ConfigureAwait(false);
+
     /// <summary>Use this method to edit only the reply markup of messages.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c>.</param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>.</param>
     /// <param name="messageId">Identifier of the message to edit.</param>
     /// <param name="replyMarkup">An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
@@ -3813,7 +4063,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to stop a poll which was sent by the bot.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="messageId">Identifier of the original message with the poll</param>
     /// <param name="replyMarkup">An object for a new message <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a></param>
     /// <param name="businessConnectionId">Unique identifier of the business connection on behalf of which the message to be edited was sent</param>
@@ -3992,7 +4242,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to delete a message, including service messages, with the following limitations:<br/>- A message can only be deleted if it was sent less than 48 hours ago.<br/>- Service messages about a supergroup, channel, or forum topic creation can't be deleted.<br/>- A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.<br/>- Bots can delete outgoing messages in private chats, groups, and supergroups.<br/>- Bots can delete incoming messages in private chats.<br/>- Bots granted <em>CanPostMessages</em> permissions can delete outgoing messages in channels.<br/>- If the bot is an administrator of a group, it can delete any message there.<br/>- If the bot has <em>CanDeleteMessages</em> administrator right in a supergroup or a channel, it can delete any message there.<br/>- If the bot has <em>CanManageDirectMessages</em> administrator right in a channel, it can delete any message in the corresponding direct messages chat.<br/>Returns <em>True</em> on success.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="messageId">Identifier of the message to delete</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task DeleteMessage(
@@ -4008,7 +4258,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="messageIds">A list of 1-100 identifiers of messages to delete. See <see cref="TelegramBotClientExtensions.DeleteMessage">DeleteMessage</see> for limitations on which messages can be deleted.</param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
     public static async Task DeleteMessages(
@@ -4088,7 +4338,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send static .WEBP, <a href="https://telegram.org/blog/animated-stickers">animated</a> .TGS, or <a href="https://telegram.org/blog/video-stickers-better-reactions">video</a> .WEBM stickers.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="sticker">Sticker to send. Pass a FileId as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP, .TGS, or .WEBM sticker using <see cref="InputFileStream"/>. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a>. Video and animated stickers can't be sent via an HTTP URL.</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
@@ -4106,7 +4356,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendSticker(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputFile sticker,
         ReplyParameters? replyParameters = default,
         ReplyMarkup? replyMarkup = default,
@@ -4406,7 +4656,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send rich messages. If the message contains a block with a media element, then the bot must have the right to send the media to the chat.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</param>
     /// <param name="richMessage">The message to be sent</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">Additional interface options. An object for an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>, <a href="https://core.telegram.org/bots/features#keyboards">custom reply keyboard</a>, instructions to remove a reply keyboard or to force a reply from the user.</param>
@@ -4423,7 +4673,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>The sent <see cref="Message"/> is returned.</returns>
     public static async Task<Message> SendRichMessage(
         this ITelegramBotClient botClient,
-        ChatId chatId,
+        ChatId? chatId,
         InputRichMessage richMessage,
         ReplyParameters? replyParameters = default,
         ReplyMarkup? replyMarkup = default,
@@ -4520,7 +4770,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>Use this method to send invoices.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></param>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></param>
     /// <param name="title">Product name, 1-32 characters</param>
     /// <param name="description">Product description, 1-255 characters</param>
     /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.</param>

@@ -64,6 +64,14 @@ public partial class Update
     [JsonPropertyName("callback_query")]
     public CallbackQuery? CallbackQuery { get; set; }
 
+    /// <summary><em>Optional</em>. New incoming query from a widget in a message sent by the bot or via the bot</summary>
+    [JsonPropertyName("widget_query")]
+    public WidgetQuery? WidgetQuery { get; set; }
+
+    /// <summary><em>Optional</em>. New incoming query from a forwarded message with a shared widget</summary>
+    [JsonPropertyName("shared_widget_query")]
+    public SharedWidgetQuery? SharedWidgetQuery { get; set; }
+
     /// <summary><em>Optional</em>. New incoming shipping query. Only for invoices with flexible price.</summary>
     [JsonPropertyName("shipping_query")]
     public ShippingQuery? ShippingQuery { get; set; }
@@ -133,6 +141,8 @@ public partial class Update
         { InlineQuery: not null }             => UpdateType.InlineQuery,
         { ChosenInlineResult: not null }      => UpdateType.ChosenInlineResult,
         { CallbackQuery: not null }           => UpdateType.CallbackQuery,
+        { WidgetQuery: not null }             => UpdateType.WidgetQuery,
+        { SharedWidgetQuery: not null }       => UpdateType.SharedWidgetQuery,
         { ShippingQuery: not null }           => UpdateType.ShippingQuery,
         { PreCheckoutQuery: not null }        => UpdateType.PreCheckoutQuery,
         { PurchasedPaidMedia: not null }      => UpdateType.PurchasedPaidMedia,
@@ -151,5 +161,5 @@ public partial class Update
 
     /// <summary>All UpdateTypes, for use with <see cref="TelegramBotClientExtensions.GetUpdates">GetUpdates</see></summary>
     public static readonly UpdateType[] AllTypes =
-        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.GuestMessage, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.PurchasedPaidMedia, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost, UpdateType.ManagedBot, UpdateType.Subscription, UpdateType.StoppedMessageGeneration];
+        [UpdateType.Message, UpdateType.EditedMessage, UpdateType.ChannelPost, UpdateType.EditedChannelPost, UpdateType.BusinessConnection, UpdateType.BusinessMessage, UpdateType.EditedBusinessMessage, UpdateType.DeletedBusinessMessages, UpdateType.GuestMessage, UpdateType.MessageReaction, UpdateType.MessageReactionCount, UpdateType.InlineQuery, UpdateType.ChosenInlineResult, UpdateType.CallbackQuery, UpdateType.WidgetQuery, UpdateType.SharedWidgetQuery, UpdateType.ShippingQuery, UpdateType.PreCheckoutQuery, UpdateType.PurchasedPaidMedia, UpdateType.Poll, UpdateType.PollAnswer, UpdateType.MyChatMember, UpdateType.ChatMember, UpdateType.ChatJoinRequest, UpdateType.ChatBoost, UpdateType.RemovedChatBoost, UpdateType.ManagedBot, UpdateType.Subscription, UpdateType.StoppedMessageGeneration];
 }

@@ -5,11 +5,6 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendPhotoRequest() : FileRequestBase<Message>("sendPhoto"), IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></summary>
-    [JsonPropertyName("chat_id")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; set; }
-
     /// <summary>Photo to send. Pass a FileId as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using <see cref="InputFileStream"/>. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. <a href="https://core.telegram.org/bots/api#sending-files">More information on Sending Files »</a></summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFile Photo { get; set; }
@@ -17,6 +12,10 @@ public partial class SendPhotoRequest() : FileRequestBase<Message>("sendPhoto"),
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
+
+    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</summary>
+    [JsonPropertyName("chat_id")]
+    public ChatId? ChatId { get; set; }
 
     /// <summary>Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</summary>
     [JsonPropertyName("message_thread_id")]

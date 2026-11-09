@@ -1,16 +1,16 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Requests;
 
-/// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionIds</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessages">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.<para>Returns: An Array of <see cref="MessageId"/> of the sent messages is returned.</para></summary>
+/// <summary>Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, invoice messages, and widget messages can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field <em>CorrectOptionIds</em> is known to the bot. The method is analogous to the method <see cref="TelegramBotClientExtensions.ForwardMessages">ForwardMessages</see>, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.<para>Returns: An Array of <see cref="MessageId"/> of the sent messages is returned.</para></summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class CopyMessagesRequest() : RequestBase<MessageId[]>("copyMessages"), IChatTargetable
 {
-    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></summary>
+    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup or channel in the format <c>@username</c>)</summary>
+    /// <summary>Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup, or channel in the format <c>@username</c>)</summary>
     [JsonPropertyName("from_chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId FromChatId { get; set; }

@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.InlineQueryResults;
 
-/// <summary>This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following types:<br/><see cref="InputTextMessageContent"/>, <see cref="InputRichMessageContent"/>, <see cref="InputLocationMessageContent"/>, <see cref="InputVenueMessageContent"/>, <see cref="InputContactMessageContent"/>, <see cref="InputInvoiceMessageContent"/></summary>
+/// <summary>This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following types:<br/><see cref="InputTextMessageContent"/>, <see cref="InputRichMessageContent"/>, <see cref="InputLocationMessageContent"/>, <see cref="InputVenueMessageContent"/>, <see cref="InputContactMessageContent"/>, <see cref="InputInvoiceMessageContent"/>, <see cref="InputWidgetMessageContent"/>, <see cref="InputSharedWidgetMessageContent"/></summary>
 [JsonConverter(typeof(PolymorphicJsonConverter<InputMessageContent>))]
 [CustomJsonPolymorphic()]
 [CustomJsonDerivedType(typeof(InputTextMessageContent))]
@@ -10,6 +10,8 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 [CustomJsonDerivedType(typeof(InputVenueMessageContent))]
 [CustomJsonDerivedType(typeof(InputContactMessageContent))]
 [CustomJsonDerivedType(typeof(InputInvoiceMessageContent))]
+[CustomJsonDerivedType(typeof(InputWidgetMessageContent))]
+[CustomJsonDerivedType(typeof(InputSharedWidgetMessageContent))]
 public abstract partial class InputMessageContent;
 
 /// <summary>Represents the <see cref="InputMessageContent">content</see> of a text message to be sent as the result of an inline query.</summary>
@@ -285,4 +287,93 @@ public partial class InputInvoiceMessageContent : InputMessageContent
 
     /// <summary>Instantiates a new <see cref="InputInvoiceMessageContent"/></summary>
     public InputInvoiceMessageContent() { }
+}
+
+/// <summary>Represents the <see cref="InputMessageContent">content</see> of a message with an <a href="https://core.telegram.org/bots/widgets">HTML widget</a> to be sent as the result of an inline query. Currently, widgets can't be sent in response to inline queries in the production environment.</summary>
+public partial class InputWidgetMessageContent : InputMessageContent
+{
+    /// <summary>HTML code of the widget, 1-32768 bytes. The code must not exceed 4096 bytes when compressed by zlib with the maximum compression level.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string Html { get; set; }
+
+    /// <summary><em>Optional</em>. Width of the widget in logical pixels; omit if the widget must occupy the whole width of the message bubble. The width is clamped by the app to the range from 200 to the maximum width of the message bubble.</summary>
+    public int Width { get; set; }
+
+    /// <summary><em>Optional</em>. Height of the widget in logical pixels; omit if the height of the widget isn't fixed. The height is clamped by the app to the range 50-600.</summary>
+    public int Height { get; set; }
+
+    /// <summary><em>Optional</em>. Public data of the widget, 0-1024 bytes, which will be available wherever the widget is shown. If the widget is shared, then all messages with it will have the same public data.</summary>
+    [JsonPropertyName("public_data")]
+    public string? PublicData { get; set; }
+
+    /// <summary><em>Optional</em>. Data of the widget, which is specific to the message, 0-1024 bytes</summary>
+    [JsonPropertyName("chat_data")]
+    public string? ChatData { get; set; }
+
+    /// <summary><em>Optional</em>. Widget caption, 0-1024 characters after entities parsing</summary>
+    public string? Caption { get; set; }
+
+    /// <summary><em>Optional</em>. Mode for parsing entities in the widget caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
+    [JsonPropertyName("parse_mode")]
+    public ParseMode ParseMode { get; set; }
+
+    /// <summary><em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see></summary>
+    [JsonPropertyName("caption_entities")]
+    public MessageEntity[]? CaptionEntities { get; set; }
+
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the widget</summary>
+    [JsonPropertyName("show_caption_above_media")]
+    public bool ShowCaptionAboveMedia { get; set; }
+
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> to allow the widget to send queries to the bot</summary>
+    [JsonPropertyName("allow_queries")]
+    public bool AllowQueries { get; set; }
+
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> to create a shared widget. Each message sent from the result creates a separate shared widget, whose identifier is received by the bot only in the field <em>WidgetId</em> of queries from the widget. To send an existing shared widget in response to an inline query, use <see cref="InputSharedWidgetMessageContent"/> instead.</summary>
+    [JsonPropertyName("is_shared")]
+    public bool IsShared { get; set; }
+
+    /// <summary>Initializes an instance of <see cref="InputWidgetMessageContent"/></summary>
+    /// <param name="html">HTML code of the widget, 1-32768 bytes. The code must not exceed 4096 bytes when compressed by zlib with the maximum compression level.</param>
+    [SetsRequiredMembers]
+    public InputWidgetMessageContent(string html) => Html = html;
+
+    /// <summary>Instantiates a new <see cref="InputWidgetMessageContent"/></summary>
+    public InputWidgetMessageContent() { }
+}
+
+/// <summary>Represents the <see cref="InputMessageContent">content</see> of a message with a shared widget to be sent as the result of an inline query. Currently, widgets can't be sent in response to inline queries in the production environment.</summary>
+public partial class InputSharedWidgetMessageContent : InputMessageContent
+{
+    /// <summary>Unique identifier of the shared widget created by the bot</summary>
+    [JsonPropertyName("widget_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public required string WidgetId { get; set; }
+
+    /// <summary><em>Optional</em>. Data of the widget, which is specific to the message, 0-1024 bytes</summary>
+    [JsonPropertyName("chat_data")]
+    public string? ChatData { get; set; }
+
+    /// <summary><em>Optional</em>. Widget caption, 0-1024 characters after entities parsing</summary>
+    public string? Caption { get; set; }
+
+    /// <summary><em>Optional</em>. Mode for parsing entities in the widget caption. See <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.</summary>
+    [JsonPropertyName("parse_mode")]
+    public ParseMode ParseMode { get; set; }
+
+    /// <summary><em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <see cref="ParseMode">ParseMode</see></summary>
+    [JsonPropertyName("caption_entities")]
+    public MessageEntity[]? CaptionEntities { get; set; }
+
+    /// <summary><em>Optional</em>. Pass <see langword="true"/> if the caption must be shown above the widget</summary>
+    [JsonPropertyName("show_caption_above_media")]
+    public bool ShowCaptionAboveMedia { get; set; }
+
+    /// <summary>Initializes an instance of <see cref="InputSharedWidgetMessageContent"/></summary>
+    /// <param name="widgetId">Unique identifier of the shared widget created by the bot</param>
+    [SetsRequiredMembers]
+    public InputSharedWidgetMessageContent(string widgetId) => WidgetId = widgetId;
+
+    /// <summary>Instantiates a new <see cref="InputSharedWidgetMessageContent"/></summary>
+    public InputSharedWidgetMessageContent() { }
 }

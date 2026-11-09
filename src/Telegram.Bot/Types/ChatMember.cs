@@ -183,7 +183,7 @@ public partial class ChatMemberRestricted : ChatMember
     [JsonPropertyName("can_send_polls")]
     public bool CanSendPolls { get; set; }
 
-    /// <summary><see langword="true"/>, if the user is allowed to send animations, games, stickers and use inline bots</summary>
+    /// <summary><see langword="true"/>, if the user is allowed to send animations, games, stickers, widgets and use inline bots</summary>
     [JsonPropertyName("can_send_other_messages")]
     public bool CanSendOtherMessages { get; set; }
 

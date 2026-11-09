@@ -195,14 +195,17 @@ public partial class Message
     /// <summary><em>Optional</em>. Message is a voice message, information about the file</summary>
     public Voice? Voice { get; set; }
 
-    /// <summary><em>Optional</em>. Caption for the animation, audio, document, paid media, photo, video or voice</summary>
+    /// <summary><em>Optional</em>. Message is an HTML widget, information about the widget</summary>
+    public Widget? Widget { get; set; }
+
+    /// <summary><em>Optional</em>. Caption for the animation, audio, document, live photo, paid media, photo, video, voice, or widget</summary>
     public string? Caption { get; set; }
 
     /// <summary><em>Optional</em>. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption</summary>
     [JsonPropertyName("caption_entities")]
     public MessageEntity[]? CaptionEntities { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the caption must be shown above the message media</summary>
+    /// <summary><em>Optional</em>. <see langword="true"/>, if the caption must be shown above the message media or the widget</summary>
     [JsonPropertyName("show_caption_above_media")]
     public bool ShowCaptionAboveMedia { get; set; }
 
@@ -412,6 +415,10 @@ public partial class Message
     [JsonPropertyName("paid_message_price_changed")]
     public PaidMessagePriceChanged? PaidMessagePriceChanged { get; set; }
 
+    /// <summary><em>Optional</em>. Service message: the sender of the message used a link of the other user, which allows sending messages to the user without paying Telegram Stars</summary>
+    [JsonPropertyName("paid_messages_waived")]
+    public PaidMessagesWaived? PaidMessagesWaived { get; set; }
+
     /// <summary><em>Optional</em>. Service message: answer option was added to a poll</summary>
     [JsonPropertyName("poll_option_added")]
     public PollOptionAdded? PollOptionAdded { get; set; }
@@ -439,6 +446,10 @@ public partial class Message
     /// <summary><em>Optional</em>. Service message: payment for a suggested post was refunded</summary>
     [JsonPropertyName("suggested_post_refunded")]
     public SuggestedPostRefunded? SuggestedPostRefunded { get; set; }
+
+    /// <summary><em>Optional</em>. Service message: a transfer with a TON wallet</summary>
+    [JsonPropertyName("ton_wallet_transfer")]
+    public TonWalletTransfer? TonWalletTransfer { get; set; }
 
     /// <summary><em>Optional</em>. Service message: video chat scheduled</summary>
     [JsonPropertyName("video_chat_scheduled")]
@@ -482,6 +493,7 @@ public partial class Message
         { Video: not null }                             => MessageType.Video,
         { VideoNote: not null }                         => MessageType.VideoNote,
         { Voice: not null }                             => MessageType.Voice,
+        { Widget: not null }                            => MessageType.Widget,
         { Checklist: not null }                         => MessageType.Checklist,
         { Contact: not null }                           => MessageType.Contact,
         { Dice: not null }                              => MessageType.Dice,
@@ -535,6 +547,7 @@ public partial class Message
         { GiveawayCompleted: not null }                 => MessageType.GiveawayCompleted,
         { ManagedBotCreated: not null }                 => MessageType.ManagedBotCreated,
         { PaidMessagePriceChanged: not null }           => MessageType.PaidMessagePriceChanged,
+        { PaidMessagesWaived: not null }                => MessageType.PaidMessagesWaived,
         { PollOptionAdded: not null }                   => MessageType.PollOptionAdded,
         { PollOptionDeleted: not null }                 => MessageType.PollOptionDeleted,
         { SuggestedPostApproved: not null }             => MessageType.SuggestedPostApproved,
@@ -542,6 +555,7 @@ public partial class Message
         { SuggestedPostDeclined: not null }             => MessageType.SuggestedPostDeclined,
         { SuggestedPostPaid: not null }                 => MessageType.SuggestedPostPaid,
         { SuggestedPostRefunded: not null }             => MessageType.SuggestedPostRefunded,
+        { TonWalletTransfer: not null }                 => MessageType.TonWalletTransfer,
         { VideoChatScheduled: not null }                => MessageType.VideoChatScheduled,
         { VideoChatStarted: not null }                  => MessageType.VideoChatStarted,
         { VideoChatEnded: not null }                    => MessageType.VideoChatEnded,

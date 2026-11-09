@@ -5,11 +5,6 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class SendMessageRequest() : RequestBase<Message>("sendMessage"), IChatTargetable, IBusinessConnectable
 {
-    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></summary>
-    [JsonPropertyName("chat_id")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; set; }
-
     /// <summary>Text of the message to be sent, 1-4096 characters after entities parsing</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; set; }
@@ -17,6 +12,10 @@ public partial class SendMessageRequest() : RequestBase<Message>("sendMessage"),
     /// <summary>Unique identifier of the business connection on behalf of which the message will be sent</summary>
     [JsonPropertyName("business_connection_id")]
     public string? BusinessConnectionId { get; set; }
+
+    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c>; required unless the message is sent as an ephemeral reply to a callback query</summary>
+    [JsonPropertyName("chat_id")]
+    public ChatId? ChatId { get; set; }
 
     /// <summary>Unique identifier for the target message thread (topic) of a forum; for forum supergroups and private chats of bots with forum topic mode enabled only</summary>
     [JsonPropertyName("message_thread_id")]

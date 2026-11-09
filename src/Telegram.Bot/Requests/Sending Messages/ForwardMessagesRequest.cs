@@ -5,12 +5,12 @@ namespace Telegram.Bot.Requests;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public partial class ForwardMessagesRequest() : RequestBase<MessageId[]>("forwardMessages"), IChatTargetable
 {
-    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup or channel in the format <c>@username</c></summary>
+    /// <summary>Unique identifier for the target chat or username of the target bot, supergroup, or channel in the format <c>@username</c></summary>
     [JsonPropertyName("chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; set; }
 
-    /// <summary>Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup or channel in the format <c>@username</c>)</summary>
+    /// <summary>Unique identifier for the chat where the original messages were sent (or username of the target bot, supergroup, or channel in the format <c>@username</c>)</summary>
     [JsonPropertyName("from_chat_id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId FromChatId { get; set; }

@@ -213,4 +213,12 @@ public partial class ChatFullInfo : Chat
 
     /// <summary><em>Optional</em>. The <see cref="Community"/> to which the chat belongs</summary>
     public Community? Community { get; set; }
+
+    /// <summary><em>Optional</em>. For private chats, the TON wallet card of the user, which is shown on their profile page</summary>
+    [JsonPropertyName("ton_wallet_card")]
+    public TonWalletCard? TonWalletCard { get; set; }
+
+    /// <summary><em>Optional</em>. For private chats, supergroups and channels, the theme of the screen for sharing a link to the user or the chat; omitted if the default theme is used</summary>
+    [JsonPropertyName("share_theme")]
+    public ChatShareTheme? ShareTheme { get; set; }
 }

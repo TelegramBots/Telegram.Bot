@@ -61,4 +61,6 @@ public enum RichTextType
     ReferenceLink,
     /// <summary>A button.<br/><br/><i>(<see cref="RichText"/> can be cast into <see cref="RichTextButton"/>)</i></summary>
     Button,
+    /// <summary>An address in the TON blockchain.<br/><br/><i>(<see cref="RichText"/> can be cast into <see cref="RichTextTonAddress"/>)</i></summary>
+    TonAddress,
 }

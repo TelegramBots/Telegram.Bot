@@ -55,6 +55,9 @@ public partial class ExternalReplyInfo
     /// <summary><em>Optional</em>. Message is a voice message, information about the file</summary>
     public Voice? Voice { get; set; }
 
+    /// <summary><em>Optional</em>. Message is an HTML widget, information about the widget</summary>
+    public Widget? Widget { get; set; }
+
     /// <summary><em>Optional</em>. <see langword="true"/>, if the message media is covered by a spoiler animation</summary>
     [JsonPropertyName("has_media_spoiler")]
     public bool HasMediaSpoiler { get; set; }

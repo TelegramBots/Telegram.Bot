@@ -61,4 +61,8 @@ public enum UpdateType
     Subscription,
     /// <summary>The <see cref="Update"/> contains a <see cref="Update.StoppedMessageGeneration"/></summary>
     StoppedMessageGeneration,
+    /// <summary>The <see cref="Update"/> contains a <see cref="Update.WidgetQuery"/></summary>
+    WidgetQuery,
+    /// <summary>The <see cref="Update"/> contains a <see cref="Update.SharedWidgetQuery"/></summary>
+    SharedWidgetQuery,
 }
