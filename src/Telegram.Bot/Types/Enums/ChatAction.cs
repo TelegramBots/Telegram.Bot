@@ -1,30 +1,30 @@
-// This file is NOT auto-generated - check https://core.telegram.org/bots/api#sendchataction
+// GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>Type of action to broadcast</summary>
 [JsonConverter(typeof(EnumConverter<ChatAction>))]
 public enum ChatAction
 {
-    /// <summary>Typing some text</summary>
+    /// <summary>Typing <see cref="TelegramBotClientExtensions.SendMessage">text messages</see></summary>
     Typing = 1,
-    /// <summary>Uploading a <see cref="PhotoSize"/></summary>
+    /// <summary>Uploading <see cref="TelegramBotClientExtensions.SendPhoto">photos</see></summary>
     UploadPhoto,
-    /// <summary>Recording a <see cref="Video"/></summary>
+    /// <summary>Recording <see cref="TelegramBotClientExtensions.SendVideo">videos</see></summary>
     RecordVideo,
-    /// <summary>Uploading a <see cref="Video"/></summary>
+    /// <summary>Uploading <see cref="TelegramBotClientExtensions.SendVideo">videos</see></summary>
     UploadVideo,
-    /// <summary>Recording a <see cref="Voice"/></summary>
+    /// <summary>Recording <see cref="TelegramBotClientExtensions.SendVoice">voice notes</see></summary>
     RecordVoice,
-    /// <summary>Uploading a <see cref="Voice"/></summary>
+    /// <summary>Uploading <see cref="TelegramBotClientExtensions.SendVoice">voice notes</see></summary>
     UploadVoice,
-    /// <summary>Uploading a <see cref="Document"/></summary>
+    /// <summary>Uploading <see cref="TelegramBotClientExtensions.SendDocument">general files</see></summary>
     UploadDocument,
-    /// <summary>Finding a <see cref="Location"/></summary>
+    /// <summary>Finding <see cref="TelegramBotClientExtensions.SendLocation">location data</see></summary>
     FindLocation,
-    /// <summary>Recording a <see cref="VideoNote"/></summary>
+    /// <summary>Recording <see cref="TelegramBotClientExtensions.SendVideoNote">video notes</see>.</summary>
     RecordVideoNote,
-    /// <summary>Uploading a <see cref="VideoNote"/></summary>
+    /// <summary>Uploading <see cref="TelegramBotClientExtensions.SendVideoNote">video notes</see>.</summary>
     UploadVideoNote,
-    /// <summary>Choosing a <see cref="Sticker"/></summary>
+    /// <summary>Choosing <a href="https://core.telegram.org/bots/api#sendsticker">stickers</a></summary>
     ChooseSticker,
 }

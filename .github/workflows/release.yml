@@ -32,7 +32,7 @@ jobs:
     - name: Determine version
       if: ${{ env.VERSION == '' }}
       run: |
-        git fetch --depth=100 --tags
+        git fetch --depth=100 --tags | grep v22\.1
         DESCR_TAG=$(git describe --tags --long)   # get the last tag-commits_since-sha
         DESCR_TAG=${DESCR_TAG#v}                  # remove the eventual 'v' prefix
         LAST_TAG=${DESCR_TAG%%-*}                 # extract the last tag

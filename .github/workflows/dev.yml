@@ -27,7 +27,7 @@ jobs:
         fetch-depth: 30
     - name: Determine version
       run: |
-        git fetch --depth=30 --tags
+        git fetch --depth=30 --tags | grep v22\.1
         DESCR_TAG=$(git describe --tags --long)   # get the last tag-commits_since-sha
         DESCR_TAG=${DESCR_TAG#v}                  # remove the eventual 'v' prefix
         COMMITS=${DESCR_TAG#*-}
