@@ -56,7 +56,7 @@ public partial class Update
     [JsonPropertyName("inline_query")]
     public InlineQuery? InlineQuery { get; set; }
 
-    /// <summary><em>Optional</em>. The result of an <a href="https://core.telegram.org/bots/api#inline-mode">inline</a> query that was chosen by a user and sent to their chat partner. Please see our documentation on the <a href="https://core.telegram.org/bots/inline#collecting-feedback">feedback collecting</a> for details on how to enable these updates for your bot.</summary>
+    /// <summary><em>Optional</em>. The result of an <a href="https://core.telegram.org/bots/api#inline-mode">inline</a> query that was chosen by a user and sent to their chat partner. Please see our documentation on the <a href="https://core.telegram.org/bots/inline#collecting-feedback">feedback collecting</a> for details on how to enable these updates for your bot. The updates can also be enabled using the parameter <em>InlineFeedbackShareDenominator</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>.</summary>
     [JsonPropertyName("chosen_inline_result")]
     public ChosenInlineResult? ChosenInlineResult { get; set; }
 

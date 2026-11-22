@@ -24,6 +24,6 @@ public partial class InlineQuery
     [JsonPropertyName("chat_type")]
     public ChatType? ChatType { get; set; }
 
-    /// <summary><em>Optional</em>. Sender location, only for bots that request user location</summary>
+    /// <summary><em>Optional</em>. Sender location, only for bots that enabled user location requests via <a href="https://t.me/botfather">@BotFather</a> or using the parameter <em>NeedsInlineQueryLocation</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see></summary>
     public Location? Location { get; set; }
 }

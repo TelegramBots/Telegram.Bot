@@ -148,7 +148,7 @@ public partial class RichBlockExpandableBlockQuotation : RichBlock
 
     /// <summary>Content of the block</summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public RichText Text { get; set; } = default!;
+    public RichBlock[] Blocks { get; set; } = default!;
 
     /// <summary><em>Optional</em>. Credit of the block</summary>
     public RichText? Credit { get; set; }

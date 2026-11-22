@@ -23,7 +23,7 @@ public partial class KeyboardButton : IKeyboardButton
     [JsonPropertyName("request_chat")]
     public KeyboardButtonRequestChat? RequestChat { get; set; }
 
-    /// <summary><em>Optional</em>. If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App. Available in private chats only.</summary>
+    /// <summary><em>Optional</em>. If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App or using the parameter <em>CanManageBots</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>. Available in private chats only.</summary>
     [JsonPropertyName("request_managed_bot")]
     public KeyboardButtonRequestManagedBot? RequestManagedBot { get; set; }
 
@@ -75,15 +75,15 @@ public partial class KeyboardButton : IKeyboardButton
     public static KeyboardButton WithRequestChat(string text, KeyboardButtonRequestChat requestChat) =>
         new(text) { RequestChat = requestChat };
 
-    /// <summary>Creates a keyboard button. Pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App. Available in private chats only.</summary>
+    /// <summary>Creates a keyboard button. Pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App or using the parameter <em>CanManageBots</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
-    /// <param name="requestManagedBot">If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App. Available in private chats only.</param>
+    /// <param name="requestManagedBot">If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App or using the parameter <em>CanManageBots</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>. Available in private chats only.</param>
     [SetsRequiredMembers]
     public KeyboardButton(string text, KeyboardButtonRequestManagedBot requestManagedBot) { Text = text; RequestManagedBot = requestManagedBot; }
 
-    /// <summary>Creates a keyboard button. Pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App. Available in private chats only.</summary>
+    /// <summary>Creates a keyboard button. Pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App or using the parameter <em>CanManageBots</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>. Available in private chats only.</summary>
     /// <param name="text">Button's text</param>
-    /// <param name="requestManagedBot">If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App. Available in private chats only.</param>
+    /// <param name="requestManagedBot">If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the <a href="https://t.me/BotFather">@BotFather</a> Mini App or using the parameter <em>CanManageBots</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>. Available in private chats only.</param>
     public static KeyboardButton WithRequestManagedBot(string text, KeyboardButtonRequestManagedBot requestManagedBot) =>
         new(text) { RequestManagedBot = requestManagedBot };
 

@@ -97,8 +97,8 @@ public static partial class TelegramBotClientExtensions
     /// <summary>A simple method for testing your bot's authentication token.</summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
-    /// <returns>Basic information about the bot in form of a <see cref="User"/> object.</returns>
-    public static async Task<User> GetMe(
+    /// <returns>Information about the bot in form of a <see cref="BotFullInfo"/> object.</returns>
+    public static async Task<BotFullInfo> GetMe(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) => await botClient.ThrowIfNull().SendRequest(new GetMeRequest
@@ -2545,7 +2545,7 @@ public static partial class TelegramBotClientExtensions
         ChatId = chatId,
     }, cancellationToken).ConfigureAwait(false);
 
-    /// <summary>Use this method to send answers to callback queries sent from <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboards</a>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert</summary>
+    /// <summary>Use this method to send answers to callback queries sent from <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboards</a> or <see cref="RichMessage">rich messages</see>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert</summary>
     /// <remarks>Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via <a href="https://t.me/botfather">@BotFather</a> and accept the terms. Otherwise, you may use links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter.</remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
@@ -2694,6 +2694,61 @@ public static partial class TelegramBotClientExtensions
         UserId = userId,
         IsAccessRestricted = isAccessRestricted,
         AddedUserIds = addedUserIds,
+    }, cancellationToken).ConfigureAwait(false);
+
+    /// <summary>Use this method to change settings of the bot. Settings that aren't specified remain unchanged.</summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="supportsInlineQueries">Pass <see langword="true"/> to enable <a href="https://core.telegram.org/bots/api#inline-mode">inline mode</a> for the bot or <see langword="false"/> to disable it</param>
+    /// <param name="inlineQueryPlaceholder">New placeholder for inline queries, which is shown in the input field after the bot's username. Pass an empty string to use the default placeholder.</param>
+    /// <param name="needsInlineQueryLocation">Pass <see langword="true"/> to request the location of the user with every inline query to the bot or <see langword="false"/> to stop requesting it</param>
+    /// <param name="inlineFeedbackShareDenominator">Denominator of the share of <see cref="ChosenInlineResult">chosen inline results</see> received by the bot; the bot receives 1 out of <paramref name="inlineFeedbackShareDenominator"/> chosen results. Must be one of 1, 10, 100, or 1000. Pass 0 to stop receiving chosen inline results.</param>
+    /// <param name="canJoinGroups">Pass <see langword="true"/> to allow adding the bot to groups or <see langword="false"/> to disallow it</param>
+    /// <param name="canReadAllGroupMessages">Pass <see langword="true"/> to disable <a href="https://core.telegram.org/bots/features#privacy-mode">privacy mode</a> for the bot or <see langword="false"/> to enable it</param>
+    /// <param name="canConnectToBusiness">Pass <see langword="true"/> to allow connecting the bot to user accounts to manage them or <see langword="false"/> to disallow it</param>
+    /// <param name="canManageBots">Pass <see langword="true"/> to allow creating other bots that will be controlled by the bot or <see langword="false"/> to disallow it</param>
+    /// <param name="supportsGuestQueries">Pass <see langword="true"/> to allow guest queries to the bot from chats it isn't a member of or <see langword="false"/> to disallow them</param>
+    /// <param name="supportsJoinRequestQueries">Pass <see langword="true"/> to allow assigning the bot to process join request queries or <see langword="false"/> to disallow it</param>
+    /// <param name="hasTopicsEnabled">Pass <see langword="true"/> to enable forum topic mode in private chats with the bot or <see langword="false"/> to disable it</param>
+    /// <param name="allowsUsersToCreateTopics">Pass <see langword="true"/> to allow users to create and delete topics in private chats with the bot or <see langword="false"/> to disallow it</param>
+    /// <param name="hasTopicSidebar">Pass <see langword="true"/> to show topics in private chats with the bot in a sidebar or <see langword="false"/> to stop showing them in a sidebar</param>
+    /// <param name="canCommunicateWithBots">Pass <see langword="true"/> to allow the bot to communicate with other bots in groups, private chats, and through business accounts or <see langword="false"/> to disallow it</param>
+    /// <param name="callbackQueryMode">Mode in which the bot receives <see cref="CallbackQuery">callback queries</see> from buttons in messages sent by the bot. Must be one of <see cref="SetMySettingsCallbackQueryMode.Default">Default</see> (the field <em>message</em> is always used and contains an <a href="https://core.telegram.org/bots/api#inaccessiblemessage">InaccessibleMessage</a> if the message is inaccessible to the bot), <see cref="SetMySettingsCallbackQueryMode.Auto">Auto</see> (the field <em>InlineMessageId</em> is used instead of the field <em>message</em> if the message is inaccessible to the bot; the field <em>message</em> can still contain an inaccessible message if the message has just been deleted), or <see cref="SetMySettingsCallbackQueryMode.Inline">Inline</see> (the field <em>InlineMessageId</em> is always used instead of the field <em>message</em>).</param>
+    /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+    public static async Task SetMySettings(
+        this ITelegramBotClient botClient,
+        bool supportsInlineQueries = default,
+        string? inlineQueryPlaceholder = default,
+        bool needsInlineQueryLocation = default,
+        int? inlineFeedbackShareDenominator = default,
+        bool canJoinGroups = default,
+        bool canReadAllGroupMessages = default,
+        bool canConnectToBusiness = default,
+        bool canManageBots = default,
+        bool supportsGuestQueries = default,
+        bool supportsJoinRequestQueries = default,
+        bool hasTopicsEnabled = default,
+        bool allowsUsersToCreateTopics = default,
+        bool hasTopicSidebar = default,
+        bool canCommunicateWithBots = default,
+        SetMySettingsCallbackQueryMode? callbackQueryMode = default,
+        CancellationToken cancellationToken = default
+    ) => await botClient.ThrowIfNull().SendRequest(new SetMySettingsRequest
+    {
+        SupportsInlineQueries = supportsInlineQueries,
+        InlineQueryPlaceholder = inlineQueryPlaceholder,
+        NeedsInlineQueryLocation = needsInlineQueryLocation,
+        InlineFeedbackShareDenominator = inlineFeedbackShareDenominator,
+        CanJoinGroups = canJoinGroups,
+        CanReadAllGroupMessages = canReadAllGroupMessages,
+        CanConnectToBusiness = canConnectToBusiness,
+        CanManageBots = canManageBots,
+        SupportsGuestQueries = supportsGuestQueries,
+        SupportsJoinRequestQueries = supportsJoinRequestQueries,
+        HasTopicsEnabled = hasTopicsEnabled,
+        AllowsUsersToCreateTopics = allowsUsersToCreateTopics,
+        HasTopicSidebar = hasTopicSidebar,
+        CanCommunicateWithBots = canCommunicateWithBots,
+        CallbackQueryMode = callbackQueryMode,
     }, cancellationToken).ConfigureAwait(false);
 
     /// <summary>Use this method to change the list of the bot's commands. See <a href="https://core.telegram.org/bots/features#commands">this manual</a> for more details about bot commands.</summary>

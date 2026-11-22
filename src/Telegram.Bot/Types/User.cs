@@ -35,44 +35,64 @@ public partial class User
     /// <summary><em>Optional</em>. <see langword="true"/>, if this user added the bot to the attachment menu</summary>
     [JsonPropertyName("added_to_attachment_menu")]
     public bool AddedToAttachmentMenu { get; set; }
+}
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be invited to groups. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+/// <summary>This object contains full information about the bot itself.</summary>
+public partial class BotFullInfo : User
+{
+    /// <summary><em>Optional</em>. If non-empty, the list of all <a href="https://telegram.org/blog/topics-in-groups-collectible-usernames#collectible-usernames">active usernames</a> of the bot</summary>
+    [JsonPropertyName("active_usernames")]
+    public string[]? ActiveUsernames { get; set; }
+
+    /// <summary><see langword="true"/>, if the bot can be added to groups</summary>
     [JsonPropertyName("can_join_groups")]
     public bool CanJoinGroups { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if <a href="https://core.telegram.org/bots/features#privacy-mode">privacy mode</a> is disabled for the bot. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if <a href="https://core.telegram.org/bots/features#privacy-mode">privacy mode</a> is disabled for the bot</summary>
     [JsonPropertyName("can_read_all_group_messages")]
     public bool CanReadAllGroupMessages { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot supports guest queries from chats it is not a member of. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if the bot supports guest queries from chats it is not a member of</summary>
     [JsonPropertyName("supports_guest_queries")]
     public bool SupportsGuestQueries { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot supports inline queries. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if the bot supports inline queries</summary>
     [JsonPropertyName("supports_inline_queries")]
     public bool SupportsInlineQueries { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot can be connected to a user account to manage it. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><em>Optional</em>. Placeholder for inline queries, which is shown in the input field after the bot's username; omitted if the default placeholder is used</summary>
+    [JsonPropertyName("inline_query_placeholder")]
+    public string? InlineQueryPlaceholder { get; set; }
+
+    /// <summary><see langword="true"/>, if the bot requests the location of the user with every inline query</summary>
+    [JsonPropertyName("needs_inline_query_location")]
+    public bool NeedsInlineQueryLocation { get; set; }
+
+    /// <summary><see langword="true"/>, if the bot can be connected to a user account to manage it</summary>
     [JsonPropertyName("can_connect_to_business")]
     public bool CanConnectToBusiness { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has a main Web App. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if the bot has a main Web App</summary>
     [JsonPropertyName("has_main_web_app")]
     public bool HasMainWebApp { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot has forum topic mode enabled in private chats. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if the bot has forum topic mode enabled in private chats</summary>
     [JsonPropertyName("has_topics_enabled")]
     public bool HasTopicsEnabled { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot allows users to create and delete topics in private chats. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if the bot allows users to create and delete topics in private chats</summary>
     [JsonPropertyName("allows_users_to_create_topics")]
     public bool AllowsUsersToCreateTopics { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if other bots can be created to be controlled by the bot. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if topics in private chats with the bot are shown in a sidebar</summary>
+    [JsonPropertyName("has_topic_sidebar")]
+    public bool HasTopicSidebar { get; set; }
+
+    /// <summary><see langword="true"/>, if other bots can be created to be controlled by the bot</summary>
     [JsonPropertyName("can_manage_bots")]
     public bool CanManageBots { get; set; }
 
-    /// <summary><em>Optional</em>. <see langword="true"/>, if the bot supports join request queries and can be assigned to process them. Returned only in <see cref="TelegramBotClientExtensions.GetMe">GetMe</see>.</summary>
+    /// <summary><see langword="true"/>, if the bot supports join request queries and can be assigned to process them</summary>
     [JsonPropertyName("supports_join_request_queries")]
     public bool SupportsJoinRequestQueries { get; set; }
 }

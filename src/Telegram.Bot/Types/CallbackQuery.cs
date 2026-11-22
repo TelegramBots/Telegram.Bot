@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>This object represents an incoming callback query from a callback button in an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a>. If the button that originated the query was attached to a message sent by the bot, the field <see cref="Message">Message</see> will be present. If the button was attached to a message sent via the bot (in <a href="https://core.telegram.org/bots/api#inline-mode">inline mode</a>), the field <see cref="InlineMessageId">InlineMessageId</see> will be present. Exactly one of the fields <see cref="Data">Data</see> or <see cref="GameShortName">GameShortName</see> will be present.</summary>
+/// <summary>This object represents an incoming callback query from a callback button in an <a href="https://core.telegram.org/bots/features#inline-keyboards">inline keyboard</a> or in a <see cref="RichMessage">rich message</see>. If the button that originated the query belongs to a message sent by the bot, the field <see cref="Message">Message</see> will be present, unless the field <see cref="InlineMessageId">InlineMessageId</see> is used instead as specified by the parameter <em>CallbackQueryMode</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>. If the button belongs to a message sent via the bot (in <a href="https://core.telegram.org/bots/api#inline-mode">inline mode</a>), the field <see cref="InlineMessageId">InlineMessageId</see> will be present. Exactly one of the fields <see cref="Data">Data</see> or <see cref="GameShortName">GameShortName</see> will be present.</summary>
 /// <remarks><b>NOTE:</b> After the user presses a callback button, Telegram clients will display a progress bar until you call <see cref="TelegramBotClientExtensions.AnswerCallbackQuery">AnswerCallbackQuery</see>. It is, therefore, necessary to react by calling <see cref="TelegramBotClientExtensions.AnswerCallbackQuery">AnswerCallbackQuery</see> even if no notification to the user is needed (e.g., without specifying any of the optional parameters).</remarks>
 public partial class CallbackQuery
 {
@@ -16,7 +16,7 @@ public partial class CallbackQuery
     /// <summary><em>Optional</em>. Message sent by the bot with the callback button that originated the query</summary>
     public Message? Message { get; set; }
 
-    /// <summary><em>Optional</em>. Identifier of the message sent via the bot in inline mode, that originated the query</summary>
+    /// <summary><em>Optional</em>. Identifier of the message sent via the bot in inline mode, that originated the query. Can also be present for messages sent by the bot, depending on the parameter <em>CallbackQueryMode</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see>.</summary>
     [JsonPropertyName("inline_message_id")]
     public string? InlineMessageId { get; set; }
 

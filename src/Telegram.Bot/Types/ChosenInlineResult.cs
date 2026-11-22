@@ -1,7 +1,7 @@
 // GENERATED FILE - DO NOT MODIFY MANUALLY
 namespace Telegram.Bot.Types;
 
-/// <summary>Represents a <see cref="InlineQueryResult">result</see> of an inline query that was chosen by the user and sent to their chat partner.<br/><b>Note:</b> It is necessary to enable <a href="https://core.telegram.org/bots/inline#collecting-feedback">inline feedback</a> via <a href="https://t.me/botfather">@BotFather</a> in order to receive these objects in updates.</summary>
+/// <summary>Represents a <see cref="InlineQueryResult">result</see> of an inline query that was chosen by the user and sent to their chat partner.<br/><b>Note:</b> It is necessary to enable <a href="https://core.telegram.org/bots/inline#collecting-feedback">inline feedback</a> via <a href="https://t.me/botfather">@BotFather</a> or using the parameter <em>InlineFeedbackShareDenominator</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see> in order to receive these objects in updates.</summary>
 public partial class ChosenInlineResult
 {
     /// <summary>The unique identifier for the result that was chosen</summary>
@@ -13,7 +13,7 @@ public partial class ChosenInlineResult
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
-    /// <summary><em>Optional</em>. Sender location, only for bots that require user location</summary>
+    /// <summary><em>Optional</em>. Sender location, only for bots that enabled user location requests via <a href="https://t.me/botfather">@BotFather</a> or using the parameter <em>NeedsInlineQueryLocation</em> of the method <see cref="TelegramBotClientExtensions.SetMySettings">SetMySettings</see></summary>
     public Location? Location { get; set; }
 
     /// <summary><em>Optional</em>. Identifier of the sent inline message. Available only if there is an <see cref="InlineKeyboardMarkup">inline keyboard</see> attached to the message. Will be also received in <see cref="CallbackQuery">callback queries</see> and can be used to <a href="https://core.telegram.org/bots/api#updating-messages">edit</a> the message.</summary>

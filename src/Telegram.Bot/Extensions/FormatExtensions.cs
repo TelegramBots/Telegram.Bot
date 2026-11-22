@@ -825,7 +825,7 @@ public static class HtmlText
                 sb.Append("</blockquote>\n");
                 break;
             case RichBlockExpandableBlockQuotation rb:
-                sb.Append("<blockquote expandable>").AppendRich(rb.Text);
+                sb.Append("<blockquote expandable>").AppendRich(rb.Blocks);
                 if (rb.Credit != null) sb.Append("<cite>").AppendRich(rb.Credit).Append("</cite>");
                 else if (sb[^1] == '\n') sb.Length--;
                 sb.Append("</blockquote>\n");

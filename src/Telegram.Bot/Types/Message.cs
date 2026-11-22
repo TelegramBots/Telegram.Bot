@@ -324,7 +324,7 @@ public partial class Message
     [JsonPropertyName("connected_website")]
     public string? ConnectedWebsite { get; set; }
 
-    /// <summary><em>Optional</em>. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">requestWriteAccess</a></summary>
+    /// <summary><em>Optional</em>. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">requestWriteAccess</a>, or the user was invited to the private chat with the bot by the owner of the bot</summary>
     [JsonPropertyName("write_access_allowed")]
     public WriteAccessAllowed? WriteAccessAllowed { get; set; }
 
